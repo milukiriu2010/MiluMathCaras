@@ -22,6 +22,9 @@ class CurveDrawFragment : Fragment() {
     // 描画するビュー
     private lateinit var imageView: ImageView
 
+    // 描画するDrawable
+    private lateinit var drawable: MyDrawable
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -38,14 +41,21 @@ class CurveDrawFragment : Fragment() {
 
         // 描画するビュー
         imageView = view.findViewById(R.id.imageView)
-        val drawable = MyDrawableFactory.createInstance(drawData.id)
+        drawable = MyDrawableFactory.createInstance(drawData.id)
         imageView.setImageDrawable(drawable)
 
         // 描画
-        drawable.cal(0)
+        drawable.cal()
         drawable.invalidateSelf()
 
         return view
+    }
+
+    override fun onDetach() {
+        // 描画に使うスレッドを解放する
+        drawable.postProc()
+
+        super.onDetach()
     }
 
     companion object {

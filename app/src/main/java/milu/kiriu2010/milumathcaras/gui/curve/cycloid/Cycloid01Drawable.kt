@@ -1,6 +1,8 @@
 package milu.kiriu2010.milumathcaras.gui.curve.cycloid
 
 import android.graphics.*
+import android.os.Handler
+import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.milumathcaras.gui.main.MyDrawable
 import kotlin.math.PI
@@ -27,6 +29,11 @@ class Cycloid01Drawable: MyDrawable() {
     // 描画する円の半径
     // -------------------------------
     private val r = 100f
+
+    // -------------------------------
+    // サイクロイド曲線の媒介変数(度)
+    // -------------------------------
+    private var angle = 0f
 
     // -------------------------------
     // サイクロイド曲線の描画点リスト
@@ -64,11 +71,99 @@ class Cycloid01Drawable: MyDrawable() {
         strokeWidth = 3f
     }
 
+    // ---------------------------------------
+    // サイクロイド曲線に沿う円を描くペイント
+    // ---------------------------------------
+    private val circlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.BLUE
+        style = Paint.Style.STROKE
+        strokeWidth = 3f
+    }
+
+    // ---------------------------------------
+    // 別スレッドで描画するためのハンドラ
+    // ---------------------------------------
+    val handler = Handler()
+
+    // ---------------------------------------
+    // 描画に使うスレッド
+    // ---------------------------------------
+    private lateinit var runnable: Runnable
+
     // -------------------------------
     // CalculationCallback
     // 描画に使うデータを計算する
     // -------------------------------
     override fun cal(n: Int) {
+
+        // サイクロイド曲線の描画点を追加
+        addPoint()
+        // ビットマップに描画
+        drawBitmap()
+        // 描画
+        invalidateSelf()
+
+        // 100msごとに描画
+        val delayMills: Long = 100
+
+        // 描画に使うスレッド
+        runnable = Runnable {
+            // サイクロイド曲線の描画点を追加
+            addPoint()
+            // ビットマップに描画
+            drawBitmap()
+            // 描画
+            invalidateSelf()
+            // サイクロイド曲線の描画点を移動
+            movePoint()
+
+            handler.postDelayed(runnable,delayMills)
+        }
+        handler.postDelayed(runnable,delayMills)
+    }
+
+    // -------------------------------------
+    // CalculationCallback
+    // 描画ビューを閉じる際,呼び出す後処理
+    // -------------------------------------
+    override fun postProc() {
+        // 描画に使うスレッドを解放する
+        handler.removeCallbacks(runnable)
+    }
+
+    // -------------------------------
+    // サイクロイド曲線の描画点を追加
+    // -------------------------------
+    private fun addPoint() {
+        // サイクロイド曲線の描画点リストに現在の描画点
+        val x = r*(angle*PI/180f-sin(angle*PI/180f)).toFloat()
+        val y = r*(1-cos(angle*PI/180f)).toFloat()
+        val pointNow = MyPointF(x,y)
+        // サイクロイド曲線の描画点リストに現在の描画点を加える
+        pointLst.add(pointNow)
+    }
+
+    // -------------------------------
+    // サイクロイド曲線の描画点を移動
+    // -------------------------------
+    private fun movePoint() {
+        // 10度ずつ移動する
+        angle = angle + 10f
+        Log.d(javaClass.simpleName,"angle[{$angle}]")
+
+        // 2周したら
+        // ・元の位置に戻す
+        // ・サイクロイド曲線の描画点リストをクリアする
+        if ( angle > 720 ) {
+            angle = 0f
+            pointLst.clear()
+        }
+    }
+
+    // -------------------------------
+    // ビットマップに描画
+    // -------------------------------
+    private fun drawBitmap() {
         val canvas = Canvas(imageBitmap)
         // バックグランドを描画
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),backPaint)
@@ -76,26 +171,30 @@ class Cycloid01Drawable: MyDrawable() {
         // 枠を描画
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
-        // X軸を描画
+        // 原点(0,0)の位置
+        // = (マージン+半径分,中央)
+        val x0 = margin+r
+        val y0 = (intrinsicHeight/2).toFloat()
+
+        // X軸を描画(中央)
         canvas.save()
-        canvas.translate(0f,(intrinsicHeight/2).toFloat())
+        canvas.translate(0f,y0)
         canvas.drawLine(0f,0f,intrinsicWidth.toFloat(),0f, framePaint)
         canvas.restore()
 
-        // Y軸を描画
+        // Y軸を描画("マージン＋半径分"右に移動)
         canvas.save()
-        canvas.translate(margin+r,0f)
+        canvas.translate(x0,0f)
         canvas.drawLine(0f,0f,0f,intrinsicHeight.toFloat(), framePaint)
         canvas.restore()
 
-        // サイクロイド曲線の描画点リストに現在の描画点
-        val x = r*(n.toFloat()*PI/180f-sin(n.toFloat()*PI/180f)).toFloat()
-        val y = r*(1-cos(n.toFloat()*PI/180f)).toFloat()
-        val pointNow = MyPointF(x,y)
-        // サイクロイド曲線の描画点リストに現在の描画点を加える
-        pointLst.add(pointNow)
-
-
+        // サイクロイド曲線に沿う円を描画
+        // 初期    の中心座標  (0    ,r)
+        // 円一周後の中心座標  (2r*PI,r)
+        canvas.save()
+        canvas.translate(x0,y0)
+        canvas.drawCircle(2f*r*PI.toFloat()*angle/360f,r,r,circlePaint)
+        canvas.restore()
     }
 
     // -------------------------------
