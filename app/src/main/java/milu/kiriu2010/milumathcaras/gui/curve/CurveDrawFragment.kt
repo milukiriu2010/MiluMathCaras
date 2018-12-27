@@ -7,15 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 
 import milu.kiriu2010.milumathcaras.R
 import milu.kiriu2010.milumathcaras.entity.DrawData
 import milu.kiriu2010.milumathcaras.gui.main.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.MyDrawableFactory
+import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 private const val ARG_PARAM1 = "drawdata"
 
-class CurveDrawFragment : Fragment() {
+class CurveDrawFragment : Fragment()
+    , NotifyCallback {
+
     // 描画データ
     private lateinit var drawData: DrawData
 
@@ -24,6 +28,9 @@ class CurveDrawFragment : Fragment() {
 
     // 描画するDrawable
     private lateinit var drawable: MyDrawable
+
+    // 描画に使っている媒介変数の値を表示するビュー
+    private lateinit var textView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,21 +48,35 @@ class CurveDrawFragment : Fragment() {
 
         // 描画するビュー
         imageView = view.findViewById(R.id.imageView)
-        drawable = MyDrawableFactory.createInstance(drawData.id)
+        drawable = MyDrawableFactory.createInstance(drawData.id,this)
         imageView.setImageDrawable(drawable)
 
-        // 描画
-        drawable.cal()
-        drawable.invalidateSelf()
+        // 描画に使っている媒介変数の値を表示するビュー
+        textView = view.findViewById(R.id.textView)
 
         return view
     }
 
-    override fun onDetach() {
-        // 描画に使うスレッドを解放する
-        drawable.postProc()
+    override fun onResume() {
+        // 描画
+        drawable.cal()
+        drawable.invalidateSelf()
+        super.onResume()
+    }
 
-        super.onDetach()
+    override fun onPause() {
+        // 描画に使うスレッドを解放する
+        // 画面を消したときスレッドが止まるようにするためonPauseで呼び出している
+        drawable.postProc()
+        super.onPause()
+    }
+
+    // ---------------------------------
+    // 通知データを受信する
+    // ---------------------------------
+    override fun receive(data: Float) {
+        // 媒介変数の値をビューに表示する
+        textView.text = data.toString()
     }
 
     companion object {

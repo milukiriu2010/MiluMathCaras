@@ -7,6 +7,11 @@ interface CalculationCallback {
     fun cal(n: Int = 0)
 
     // -------------------------------------
+    // 描画中に呼び出すコールバックを設定
+    // -------------------------------------
+    fun setNotifyCallback(notifyCallback: NotifyCallback)
+
+    // -------------------------------------
     // 描画ビューを閉じる際,呼び出す後処理
     // -------------------------------------
     fun postProc()
