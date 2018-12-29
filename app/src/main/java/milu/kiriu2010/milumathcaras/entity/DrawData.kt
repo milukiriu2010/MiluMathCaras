@@ -13,8 +13,10 @@ import android.os.Parcelable
 // https://qiita.com/hkusu/items/bf0029283c1032054119
 // ---------------------------------------------------
 enum class DrawDataID(val id: Int): Parcelable {
-    // サイクロイド
-    ID_CYCLOID_01(1);
+    // サイクロイド曲線
+    ID_CYCLOID_01(1),
+    // ハイポサイクロイド曲線
+    ID_HYPO_CYCLOID_02(2);
 
     constructor(parcel: Parcel) : this(parcel.readInt()) {
     }
@@ -47,15 +49,17 @@ data class DrawData(
     // 描画データの識別子
     val id: DrawDataID,
     // タイトル
-    val title: String
-    // サムネイル
-    //var thumbNail: Drawable
+    val title: String,
+    // 静止画のときの初期位置
+    val initPos: Float
 ):  Parcelable {
     constructor(parcel: Parcel) : this(
         // 描画データの識別子
         parcel.readParcelable(DrawDataID::class.java.classLoader),
         // タイトル
-        parcel.readString()
+        parcel.readString(),
+        // 静止画のときの初期位置
+        parcel.readFloat()
     ) {
     }
 
@@ -65,12 +69,12 @@ data class DrawData(
             it.writeParcelable(id,flags)
             // タイトル
             it.writeString(title)
+            // 静止画のときの初期位置
+            it.writeFloat(initPos)
         }
     }
 
-    override fun describeContents(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun describeContents(): Int = 0
 
     companion object CREATOR : Parcelable.Creator<DrawData> {
         override fun createFromParcel(parcel: Parcel): DrawData {

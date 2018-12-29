@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.list_row_draw_data.view.*
 import milu.kiriu2010.milumathcaras.R
@@ -43,10 +44,16 @@ class DrawDataAdapter(
         val drawData = drawDataLst[pos]
         // タイトル
         viewHolder.dataTitle.text = drawData.title
+        // サムネイル
+        val drawable = MyDrawableFactory.createInstance(drawData.id)
+        drawable.cal(false,drawData.initPos)
+        viewHolder.imaveViewThumbNail.setImageDrawable(drawable)
     }
 
     class DrawDataViewHolder(view: View): RecyclerView.ViewHolder(view) {
         // タイトル
         val dataTitle = view.findViewById<TextView>(R.id.dataTitle)
+        // サムネイル
+        val imaveViewThumbNail = view.findViewById<ImageView>(R.id.imageViewThumbNail)
     }
 }

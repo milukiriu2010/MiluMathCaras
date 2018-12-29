@@ -29,7 +29,7 @@ class Cycloid01Drawable: MyDrawable() {
     // ---------------------------------
     // サイクロイド曲線に接する円の半径
     // ---------------------------------
-    private val r = 60f
+    private val r = 70f
 
     // -------------------------------
     // 現在地として描画する円の半径
@@ -125,36 +125,50 @@ class Cycloid01Drawable: MyDrawable() {
     // CalculationCallback
     // 描画に使うデータを計算する
     // -------------------------------
-    override fun cal(n: Int) {
+    override fun cal(isKickThread: Boolean, vararg values: Float) {
+        // 初期位置
+        var angleInit = 0f
+        if ( values.size > 0 ) {
+            angleInit = values[0]
+        }
 
         // サイクロイド曲線の描画点を追加
         addPoint()
+        // 初期位置に車で描画点を追加する
+        while ( angle < angleInit )  {
+            // サイクロイド曲線の描画点を移動
+            movePoint()
+            // サイクロイド曲線の描画点を追加
+            addPoint()
+        }
         // ビットマップに描画
         drawBitmap()
         // 描画
         invalidateSelf()
 
         // 描画に使うスレッド
-        runnable = Runnable {
-            // サイクロイド曲線の描画点を追加
-            addPoint()
-            // ビットマップに描画
-            drawBitmap()
-            // 描画
-            invalidateSelf()
+        if ( isKickThread ) {
+            runnable = Runnable {
+                // サイクロイド曲線の描画点を移動
+                movePoint()
+                // サイクロイド曲線の描画点を追加
+                addPoint()
+                // ビットマップに描画
+                drawBitmap()
+                // 描画
+                invalidateSelf()
 
-            // 最初と最後は1秒後に描画
-            if (angle == angleMax || angle == 0f ) {
-                handler.postDelayed(runnable,1000)
+                // 最初と最後は1秒後に描画
+                if (angle == angleMax || angle == 0f) {
+                    handler.postDelayed(runnable, 1000)
+                }
+                // 100msごとに描画
+                else {
+                    handler.postDelayed(runnable, 100)
+                }
             }
-            // 100msごとに描画
-            else {
-                handler.postDelayed(runnable, 100)
-            }
-            // サイクロイド曲線の描画点を移動
-            movePoint()
+            handler.postDelayed(runnable, 1000)
         }
-        handler.postDelayed(runnable,1000)
     }
 
     // -------------------------------------
@@ -210,8 +224,6 @@ class Cycloid01Drawable: MyDrawable() {
     // ビットマップに描画
     // -------------------------------
     private fun drawBitmap() {
-
-        //val canvas = Canvas(imageBitmap)
         val canvas = Canvas(tmpBitmap)
         // バックグランドを描画
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),backPaint)
@@ -266,10 +278,10 @@ class Cycloid01Drawable: MyDrawable() {
         }
         canvas.drawPath(path,linePaint)
 
-        // サイクロイド曲線に沿う円の現在値を描く
+        // サイクロイド曲線に沿う円の中心の現在値をドットで描く
         canvas.drawCircle(2f*r*PI.toFloat()*angle/360f,r,nr,circleNowPaint)
 
-        // サイクロイド曲線の現在値を描く
+        // サイクロイド曲線の現在値をドットで描く
         canvas.drawCircle(nowPointF.x,nowPointF.y,nr,lineNowPaint)
 
         canvas.restore()
@@ -310,7 +322,13 @@ class Cycloid01Drawable: MyDrawable() {
         linePaint.colorFilter = colorFilter
     }
 
+    // -------------------------------
+    // Drawable
+    // -------------------------------
     override fun getIntrinsicWidth(): Int = (side+margin*2).toInt()
 
+    // -------------------------------
+    // Drawable
+    // -------------------------------
     override fun getIntrinsicHeight(): Int = (side+margin*2).toInt()
 }

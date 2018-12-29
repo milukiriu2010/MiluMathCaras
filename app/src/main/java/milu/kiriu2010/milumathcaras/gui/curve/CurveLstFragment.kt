@@ -71,7 +71,9 @@ class CurveLstFragment : Fragment() {
         val drawDataLst = mutableListOf<DrawData>()
 
         // サイクロイド曲線
-        drawDataLst.add(DrawData(DrawDataID.ID_CYCLOID_01,resources.getString(R.string.draw_curve_cycloid01)))
+        drawDataLst.add(DrawData(DrawDataID.ID_CYCLOID_01,resources.getString(R.string.draw_curve_cycloid01),720f))
+        // ハイポサイクロイド曲線
+        drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_02,"Hypocycloid",360f))
 
         return drawDataLst
     }

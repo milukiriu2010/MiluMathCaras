@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-
 import milu.kiriu2010.milumathcaras.R
+
 import milu.kiriu2010.milumathcaras.entity.DrawData
 import milu.kiriu2010.milumathcaras.gui.main.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.MyDrawableFactory
@@ -60,7 +60,6 @@ class CurveDrawFragment : Fragment()
     override fun onResume() {
         // 描画
         drawable.cal()
-        drawable.invalidateSelf()
         super.onResume()
     }
 
