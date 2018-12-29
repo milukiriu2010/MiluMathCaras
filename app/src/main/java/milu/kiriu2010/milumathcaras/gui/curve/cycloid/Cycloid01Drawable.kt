@@ -40,6 +40,7 @@ class Cycloid01Drawable: MyDrawable() {
     // サイクロイド曲線の媒介変数(度)
     // -------------------------------
     private var angle = 0f
+    private var angleMax = 720f
 
     // -------------------------------
     // サイクロイド曲線の描画点リスト
@@ -51,8 +52,8 @@ class Cycloid01Drawable: MyDrawable() {
     // ---------------------------------------------------------------------
     // 画面にタッチするとdrawが呼び出されるようなのでビットマップに描画する
     // ---------------------------------------------------------------------
-    //private val imageBitmap = Bitmap.createBitmap(intrinsicWidth,intrinsicHeight, Bitmap.Config.ARGB_8888)
     private lateinit var imageBitmap: Bitmap
+    private val tmpBitmap = Bitmap.createBitmap(intrinsicWidth,intrinsicHeight, Bitmap.Config.ARGB_8888)
 
     // -------------------------------
     // 枠に使うペイント
@@ -133,9 +134,6 @@ class Cycloid01Drawable: MyDrawable() {
         // 描画
         invalidateSelf()
 
-        // 100msごとに描画
-        val delayMills: Long = 100
-
         // 描画に使うスレッド
         runnable = Runnable {
             // サイクロイド曲線の描画点を追加
@@ -144,12 +142,19 @@ class Cycloid01Drawable: MyDrawable() {
             drawBitmap()
             // 描画
             invalidateSelf()
+
+            // 最初と最後は1秒後に描画
+            if (angle == angleMax || angle == 0f ) {
+                handler.postDelayed(runnable,1000)
+            }
+            // 100msごとに描画
+            else {
+                handler.postDelayed(runnable, 100)
+            }
             // サイクロイド曲線の描画点を移動
             movePoint()
-
-            handler.postDelayed(runnable,delayMills)
         }
-        handler.postDelayed(runnable,delayMills)
+        handler.postDelayed(runnable,1000)
     }
 
     // -------------------------------------
@@ -179,6 +184,9 @@ class Cycloid01Drawable: MyDrawable() {
         // サイクロイド曲線の描画点リストに現在の描画点を加える
         val pointNow = MyPointF(x,y)
         pointLst.add(pointNow)
+
+        // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
+        notifyCallback?.receive(angle)
     }
 
     // -------------------------------
@@ -192,21 +200,16 @@ class Cycloid01Drawable: MyDrawable() {
         // 2周したら
         // ・元の位置に戻す
         // ・サイクロイド曲線の描画点リストをクリアする
-        if ( angle > 720 ) {
+        if ( angle > angleMax ) {
             angle = 0f
             pointLst.clear()
         }
-
-        // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
-        notifyCallback?.receive(angle)
     }
 
     // -------------------------------
     // ビットマップに描画
     // -------------------------------
     private fun drawBitmap() {
-        // 描画に使うビットマップ
-        val tmpBitmap = Bitmap.createBitmap(intrinsicWidth,intrinsicHeight, Bitmap.Config.ARGB_8888)
 
         //val canvas = Canvas(imageBitmap)
         val canvas = Canvas(tmpBitmap)
