@@ -8,10 +8,14 @@ class MyDrawableFactory {
     companion object {
         fun createInstance(id: DrawDataID,notifyCallback: NotifyCallback? = null): MyDrawable {
             val myDrawable = when ( id ) {
-                // サイクロイド曲線
+                // サイクロイド曲線(cycloid)
                 DrawDataID.ID_CYCLOID_01 -> Cycloid01Drawable()
+                // 三芒形/三尖形(deltoid)
+                DrawDataID.ID_DELTOID_02 -> Hypocycloid01Drawable()
+                // アステロイド曲線(asteroid)
+                DrawDataID.ID_ASTROID_03 -> Hypocycloid01Drawable()
                 // ハイポサイクロイド曲線
-                DrawDataID.ID_HYPO_CYCLOID_02 -> Hypocycloid01Drawable()
+                DrawDataID.ID_HYPO_CYCLOID_04 -> Hypocycloid01Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")
             }
 

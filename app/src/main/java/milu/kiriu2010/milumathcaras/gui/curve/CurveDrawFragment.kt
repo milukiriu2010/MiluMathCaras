@@ -3,6 +3,7 @@ package milu.kiriu2010.milumathcaras.gui.curve
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,15 +59,17 @@ class CurveDrawFragment : Fragment()
     }
 
     override fun onResume() {
-        // 描画
-        drawable.cal()
+        //Log.d(javaClass.simpleName,"motionImageParam.size[${drawData.motionImageParam.size}]")
+
+        // アニメーション描画開始
+        drawable.calStart(true,*drawData.motionImageParam)
         super.onResume()
     }
 
     override fun onPause() {
         // 描画に使うスレッドを解放する
         // 画面を消したときスレッドが止まるようにするためonPauseで呼び出している
-        drawable.postProc()
+        drawable.calStop()
         super.onPause()
     }
 

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,6 +53,8 @@ class CurveLstFragment : Fragment() {
 
         // 描画データのリサイクラービューのアダプタ
         adapter = DrawDataAdapter(ctx, createDrawDataLst()) { drawData ->
+            //Log.d(javaClass.simpleName,"motionImageParam.size[${drawData.motionImageParam.size}]")
+
             // 描画データをクリックすると、描画するようコールバックを呼び出す
             drawDataCallback?.draw(drawData)
         }
@@ -70,10 +73,14 @@ class CurveLstFragment : Fragment() {
     private fun createDrawDataLst(): MutableList<DrawData> {
         val drawDataLst = mutableListOf<DrawData>()
 
-        // サイクロイド曲線
-        drawDataLst.add(DrawData(DrawDataID.ID_CYCLOID_01,resources.getString(R.string.draw_curve_cycloid01),720f))
-        // ハイポサイクロイド曲線
-        drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_02,"Hypocycloid",360f))
+        // サイクロイド曲線(cycloid)
+        drawDataLst.add(DrawData(DrawDataID.ID_CYCLOID_01,resources.getString(R.string.draw_curve_cycloid01),floatArrayOf(720f)))
+        // 三芒形/三尖形(deltoid)
+        drawDataLst.add(DrawData(DrawDataID.ID_DELTOID_02,"Deltoid", floatArrayOf(360f,3f),floatArrayOf(0f,3f)))
+        // アステロイド曲線(asteroid)
+        drawDataLst.add(DrawData(DrawDataID.ID_ASTROID_03,"Astroid", floatArrayOf(360f,4f),floatArrayOf(0f,4f)))
+        // ハイポサイクロイド曲線(hypocycloid)
+        drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_04,"Hypocycloid", floatArrayOf(720f,5.5f,720f),floatArrayOf(0f,5.5f,720f)))
 
         return drawDataLst
     }

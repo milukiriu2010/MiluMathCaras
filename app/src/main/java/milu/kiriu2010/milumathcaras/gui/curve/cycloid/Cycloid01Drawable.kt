@@ -121,15 +121,22 @@ class Cycloid01Drawable: MyDrawable() {
     // ---------------------------------------
     private lateinit var runnable: Runnable
 
-    // -------------------------------
+    // --------------------------------------
     // CalculationCallback
     // 描画に使うデータを計算する
-    // -------------------------------
-    override fun cal(isKickThread: Boolean, vararg values: Float) {
-        // 初期位置
+    // --------------------------------------
+    // values
+    // 第１引数:媒介変数の初期位置(通常は0度)
+    // --------------------------------------
+    override fun calStart(isKickThread: Boolean, vararg values: Float) {
+        // 媒介変数の初期位置
         var angleInit = 0f
-        if ( values.size > 0 ) {
-            angleInit = values[0]
+        values.forEachIndexed { index, fl ->
+            Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
+            when (index) {
+                // 媒介変数の初期位置
+                0 -> angleInit = fl
+            }
         }
 
         // サイクロイド曲線の描画点を追加
@@ -183,7 +190,7 @@ class Cycloid01Drawable: MyDrawable() {
     // CalculationCallback
     // 描画ビューを閉じる際,呼び出す後処理
     // -------------------------------------
-    override fun postProc() {
+    override fun calStop() {
         // 描画に使うスレッドを解放する
         handler.removeCallbacks(runnable)
     }
@@ -209,7 +216,7 @@ class Cycloid01Drawable: MyDrawable() {
     private fun movePoint() {
         // 10度ずつ移動する
         angle = angle + 10f
-        Log.d(javaClass.simpleName,"angle[{$angle}]")
+        //Log.d(javaClass.simpleName,"angle[{$angle}]")
 
         // 2周したら
         // ・元の位置に戻す

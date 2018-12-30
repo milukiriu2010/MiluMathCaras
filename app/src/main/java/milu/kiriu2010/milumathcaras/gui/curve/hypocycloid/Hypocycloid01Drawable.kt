@@ -16,6 +16,9 @@ import kotlin.math.sin
 //   x = r * (k-1) * cos(t) + r * cos((k-1)*t)
 //   y = r * (k-1) * sin(t) - r * sin((k-1)*t)
 // -------------------------------------------------------------------------------------
+//   k = 3.0 => 三芒形/三尖形(deltoid)
+//   k = 4.0 => アステロイド(asteroid)
+// -------------------------------------------------------------------------------------
 // https://en.wikipedia.org/wiki/Hypocycloid
 // -------------------------------------------------------------------------------------
 class Hypocycloid01Drawable: MyDrawable() {
@@ -126,15 +129,28 @@ class Hypocycloid01Drawable: MyDrawable() {
     // ---------------------------------------
     private lateinit var runnable: Runnable
 
-    // -------------------------------
+    // -------------------------------------------------------
     // CalculationCallback
     // 描画に使うデータを計算する
-    // -------------------------------
-    override fun cal(isKickThread: Boolean, vararg values: Float) {
-        // 初期位置
+    // -------------------------------------------------------
+    // vararg values
+    // 第１引数:媒介変数の初期位置(通常は0度)
+    // 第２引数:ハイポサイクロイド曲線描画に使う内円の計数
+    // 第３引数:ハイポサイクロイド曲線の媒介変数(度)の最大値
+    // -------------------------------------------------------
+    override fun calStart(isKickThread: Boolean, vararg values: Float) {
+        // 媒介変数の初期位置
         var angleInit = 0f
-        if ( values.size > 0 ) {
-            angleInit = values[0]
+        values.forEachIndexed { index, fl ->
+            //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
+            when (index) {
+                // 媒介変数の初期位置
+                0 -> angleInit = fl
+                // ハイポサイクロイド曲線描画に使う内円の計数
+                1 -> k = fl
+                // ハイポサイクロイド曲線の媒介変数(度)の最大値
+                2 -> angleMax = fl
+            }
         }
 
         // ハイポサイクロイド曲線の描画点を追加
@@ -200,7 +216,7 @@ class Hypocycloid01Drawable: MyDrawable() {
     private fun movePoint() {
         // 5度ずつ移動する
         angle = angle + 5f
-        Log.d(javaClass.simpleName,"angle[{$angle}]")
+        //Log.d(javaClass.simpleName,"angle[{$angle}]")
 
         // 最大値を超えたら
         // ・元の位置に戻す
@@ -305,7 +321,7 @@ class Hypocycloid01Drawable: MyDrawable() {
     // CalculationCallback
     // 描画ビューを閉じる際,呼び出す後処理
     // -------------------------------------
-    override fun postProc() {
+    override fun calStop() {
         // 描画に使うスレッドを解放する
         handler.removeCallbacks(runnable)
     }

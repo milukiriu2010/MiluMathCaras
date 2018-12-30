@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import kotlinx.android.synthetic.main.list_row_draw_data.view.*
 import milu.kiriu2010.milumathcaras.R
 import milu.kiriu2010.milumathcaras.entity.DrawData
 
@@ -46,7 +45,7 @@ class DrawDataAdapter(
         viewHolder.dataTitle.text = drawData.title
         // サムネイル
         val drawable = MyDrawableFactory.createInstance(drawData.id)
-        drawable.cal(false,drawData.initPos)
+        drawable.calStart(false,*drawData.stillImageParam)
         viewHolder.imaveViewThumbNail.setImageDrawable(drawable)
     }
 
