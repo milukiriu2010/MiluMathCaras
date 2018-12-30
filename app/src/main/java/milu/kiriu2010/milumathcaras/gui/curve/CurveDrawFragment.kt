@@ -18,6 +18,9 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 private const val ARG_PARAM1 = "drawdata"
 
+// ----------------------------------------
+// アニメーション描画をするフラグメント
+// ----------------------------------------
 class CurveDrawFragment : Fragment()
     , NotifyCallback {
 

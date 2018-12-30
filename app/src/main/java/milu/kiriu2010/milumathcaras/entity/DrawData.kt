@@ -1,6 +1,5 @@
 package milu.kiriu2010.milumathcaras.entity
 
-import android.os.Parcel
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
@@ -18,8 +17,14 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_DELTOID_02(2),
     // アステロイド曲線(astroid)
     ID_ASTROID_03(3),
-    // ハイポサイクロイド曲線
-    ID_HYPO_CYCLOID_04(4);
+    // ハイポサイクロイド曲線(hypocycloid)(k=2.1)
+    ID_HYPO_CYCLOID_04(4),
+    // ハイポサイクロイド曲線(hypocycloid)(k=3.8)
+    ID_HYPO_CYCLOID_05(5),
+    // ハイポサイクロイド曲線(hypocycloid)(k=5.5)
+    ID_HYPO_CYCLOID_06(6),
+    // ハイポサイクロイド曲線(hypocycloid)(k=7.2)
+    ID_HYPO_CYCLOID_07(7)
 }
 
 // ------------------

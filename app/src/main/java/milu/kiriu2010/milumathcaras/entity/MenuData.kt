@@ -1,0 +1,41 @@
+package milu.kiriu2010.milumathcaras.entity
+
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+import milu.kiriu2010.milumathcaras.id.FragmentID
+
+// --------------------------------------------------------
+// ドロワーレイアウトで表示を切り替えに使うメニュータイプ
+// --------------------------------------------------------
+@Parcelize
+enum class MenuType(val viewType: Int): Parcelable {
+    TYPE_MAIN(0),
+    TYPE_SUB(1)
+}
+
+// ------------------------------------
+// 描画データ一覧を生成に使う項目
+// ------------------------------------
+@Parcelize
+enum class MenuItem(val title: String): Parcelable {
+    // 曲線を描画するメニュー
+    MENU_CURVE("Curve"),
+    // フラクタルを描画するメニュー
+    MENU_FRACTAL("Fractal")
+}
+
+// ------------------------------------
+// メニューデータ
+// ------------------------------------
+@Parcelize
+data class MenuData(
+    // ドロワーレイアウトで表示を切り替えに使うメニュータイプ
+    val menuType: MenuType,
+    // 描画データ一覧を生成に使う項目
+    val menuItem: MenuItem,
+    // クリック時に呼び出されるフラグメント
+    val fragmentID: FragmentID,
+    // メニューのタイトル
+    var title: String
+): Parcelable
+

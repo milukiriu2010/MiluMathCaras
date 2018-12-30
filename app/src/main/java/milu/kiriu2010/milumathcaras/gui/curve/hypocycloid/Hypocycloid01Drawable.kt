@@ -4,10 +4,12 @@ import android.graphics.*
 import android.os.Handler
 import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
+import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.main.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.PI
 import kotlin.math.cos
+import kotlin.math.pow
 import kotlin.math.sin
 
 // -------------------------------------------------------------------------------------
@@ -35,7 +37,7 @@ class Hypocycloid01Drawable: MyDrawable() {
     private val rR = 500f
 
     // -------------------------------------------
-    // ハイポサイクロイド曲線描画に使う内円の計数
+    // ハイポサイクロイド曲線描画に使う内円の係数
     // -------------------------------------------
     private var k = 4.0f
 
@@ -133,25 +135,27 @@ class Hypocycloid01Drawable: MyDrawable() {
     // CalculationCallback
     // 描画に使うデータを計算する
     // -------------------------------------------------------
-    // vararg values
+    // 可変変数 values の引数位置による意味合い
+    //
     // 第１引数:媒介変数の初期位置(通常は0度)
-    // 第２引数:ハイポサイクロイド曲線描画に使う内円の計数
-    // 第３引数:ハイポサイクロイド曲線の媒介変数(度)の最大値
+    // 第２引数:ハイポサイクロイド曲線描画に使う内円の係数
     // -------------------------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
         // 媒介変数の初期位置
         var angleInit = 0f
+        // 可変変数 values を初期値として、このクラスで使う変数に当てはめる
         values.forEachIndexed { index, fl ->
             //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
             when (index) {
                 // 媒介変数の初期位置
                 0 -> angleInit = fl
-                // ハイポサイクロイド曲線描画に使う内円の計数
+                // ハイポサイクロイド曲線描画に使う内円の係数
                 1 -> k = fl
-                // ハイポサイクロイド曲線の媒介変数(度)の最大値
-                2 -> angleMax = fl
             }
         }
+
+        // ハイポサイクロイド曲線の媒介変数(度)の最大値を求める
+        calAngleMax()
 
         // ハイポサイクロイド曲線の描画点を追加
         addPoint()
@@ -190,6 +194,47 @@ class Hypocycloid01Drawable: MyDrawable() {
             }
             handler.postDelayed(runnable, 1000)
         }
+    }
+
+    // -----------------------------------------------------
+    // ハイポサイクロイド曲線の媒介変数(度)の最大値を求める
+    // -----------------------------------------------------
+    private fun calAngleMax() {
+        // ハイポサイクロイド曲線描画に使う内円の係数の小数点以下の桁数
+        val numOfDecimals = MyMathUtil.getNumberOfDecimals(k)
+        Log.d(javaClass.simpleName,"numOfDecimals[$numOfDecimals]")
+
+        // "ハイポサイクロイド曲線描画に使う内円の係数"が整数となるよう補正する値(分母)
+        val kD = 10f.pow(numOfDecimals).toInt()
+        var kd = kD
+
+        // "ハイポサイクロイド曲線描画に使う内円の係数"が整数となるよう補正された値(分子)
+        val kN = (k * kD).toInt()
+        var kn = kN
+
+        // ----------------------------------------------------------------------------
+        // k=2.1 => kD=10,kN=21
+        // k=3.8 => kD=10,kN=38 => kd=5,kn=19
+        // k=5.5 => kD=10,kN=55 => kd=2,kn=11
+        // k=7.2 => kD=10,kN=72 => kd=5,kn=36
+        //   kd:ハイポサイクロイド曲線を描く点が元の位置に戻るために外円を周回する回数
+        //   kn:ハイポサイクロイド曲線を描く点が外円と接する回数
+        // ----------------------------------------------------------------------------
+        (1..numOfDecimals).forEach {
+            // 分母・分子ともに2で割り切れれば、2で割る
+            if ( (kd%2 == 0) and (kn%2 == 0) ) {
+                kd=kd/2
+                kn=kn/2
+            }
+            // 分母・分子ともに5で割り切れれば、5で割る
+            if ( (kd%5 == 0) and (kn%5 == 0) ) {
+                kd=kd/5
+                kn=kn/5
+            }
+        }
+
+        angleMax = 360f * kd.toFloat()
+        Log.d(javaClass.simpleName,"angleMax[$angleMax]")
     }
 
     // ------------------------------------
