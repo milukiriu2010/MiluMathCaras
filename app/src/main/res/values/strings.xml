@@ -3,13 +3,15 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="menu_curve">Curve</string>
-    <string name="menu_fractal">Fractal</string>
-    <string name="draw_curve_cycloid01">Cycloid</string>
-    <string name="draw_curve_deltoid02">Deltoid</string>
-    <string name="draw_curve_astroid03">Astroid</string>
-    <string name="draw_curve_hypocycloid04">Hypocycloid(k=2.1)</string>
-    <string name="draw_curve_hypocycloid05">Hypocycloid(k=3.8)</string>
-    <string name="draw_curve_hypocycloid06">Hypocycloid(k=5.5)</string>
-    <string name="draw_curve_hypocycloid07">Hypocycloid(k=7.2)</string>
+    <string name="menu_main_drawlst">Draw List</string>
+    <string name="menu_sub_curve">Curve</string>
+    <string name="menu_sub_fractal">Fractal</string>
+    <string name="draw_curve_cycloid_001">Cycloid</string>
+    <string name="draw_curve_deltoid_002">Deltoid</string>
+    <string name="draw_curve_astroid_003">Astroid</string>
+    <string name="draw_curve_hypocycloid_004">Hypocycloid(k=2.1)</string>
+    <string name="draw_curve_hypocycloid_005">Hypocycloid(k=3.8)</string>
+    <string name="draw_curve_hypocycloid_006">Hypocycloid(k=5.5)</string>
+    <string name="draw_curve_hypocycloid_007">Hypocycloid(k=7.2)</string>
+    <string name="draw_fractal_takagi_curve_101">Takagi Curve</string>
 </resources>

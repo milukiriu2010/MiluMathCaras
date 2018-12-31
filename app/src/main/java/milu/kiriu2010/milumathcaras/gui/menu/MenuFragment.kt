@@ -2,6 +2,7 @@ package milu.kiriu2010.milumathcaras.gui.menu
 
 
 import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
@@ -52,29 +53,17 @@ class MenuFragment : Fragment() {
         recyclerViewMenu.layoutManager = layoutManager
 
         // メニューを表示するリサイクラービューのアダプタ
-        adapter = MenuAdapter(ctx, createMenuDataLst() ) {
-
+        adapter = MenuAdapter(ctx, createMenuDataLst(resources) ) {
+            // 描画データ一覧を表示する
+            drawDataCallback?.showLst(it)
         }
+        recyclerViewMenu.adapter = adapter
 
         // 描画データのリサイクラービューの区切り線
         val itemDecoration = DividerItemDecoration(ctx, DividerItemDecoration.VERTICAL)
         recyclerViewMenu.addItemDecoration(itemDecoration)
 
         return view
-    }
-
-    // ------------------------------------------------------
-    // ドロワーレイアウトに表示するメニューの一覧
-    // ------------------------------------------------------
-    private fun createMenuDataLst(): MutableList<MenuData> {
-        val menuDataLst = mutableListOf<MenuData>()
-
-        // 曲線一覧を表示するメニュー
-        menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE, FragmentID.ID_CURVE_LST,resources.getString(R.string.menu_curve)))
-        // フラクタル一覧を表示するメニュー
-        menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL, FragmentID.ID_CURVE_LST,resources.getString(R.string.menu_fractal)))
-
-        return menuDataLst
     }
 
     override fun onAttach(context: Context?) {
@@ -97,5 +86,24 @@ class MenuFragment : Fragment() {
                 arguments = Bundle().apply {
                 }
             }
+
+        // ------------------------------------------------------
+        // ドロワーレイアウトに表示するメニューの一覧
+        // ------------------------------------------------------
+        public fun createMenuDataLst(resources: Resources): MutableList<MenuData> {
+            val menuDataLst = mutableListOf<MenuData>()
+
+            // [メインメニュー]
+            // 描画リスト
+            menuDataLst.add(MenuData(MenuType.TYPE_MAIN, MenuItem.MENU_DUMMY, FragmentID.ID_DUMMY,resources.getString(R.string.menu_main_drawlst)))
+            // [サブメニュー]
+            // 曲線一覧を表示するメニュー
+            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE, FragmentID.ID_CURVE_LST,resources.getString(R.string.menu_sub_curve)))
+            // [サブメニュー]
+            // フラクタル一覧を表示するメニュー
+            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL, FragmentID.ID_CURVE_LST,resources.getString(R.string.menu_sub_fractal)))
+
+            return menuDataLst
+        }
     }
 }

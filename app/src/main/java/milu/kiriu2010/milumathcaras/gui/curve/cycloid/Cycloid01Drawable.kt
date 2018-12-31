@@ -132,7 +132,7 @@ class Cycloid01Drawable: MyDrawable() {
         // 媒介変数の初期位置
         var angleInit = 0f
         values.forEachIndexed { index, fl ->
-            Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
+            //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
             when (index) {
                 // 媒介変数の初期位置
                 0 -> angleInit = fl
@@ -291,6 +291,7 @@ class Cycloid01Drawable: MyDrawable() {
         // サイクロイド曲線の現在値をドットで描く
         canvas.drawCircle(nowPointF.x,nowPointF.y,nr,lineNowPaint)
 
+        // 座標を元に戻す
         canvas.restore()
 
         // これまでの描画は上下逆なので反転する

@@ -202,7 +202,7 @@ class Hypocycloid01Drawable: MyDrawable() {
     private fun calAngleMax() {
         // ハイポサイクロイド曲線描画に使う内円の係数の小数点以下の桁数
         val numOfDecimals = MyMathUtil.getNumberOfDecimals(k)
-        Log.d(javaClass.simpleName,"numOfDecimals[$numOfDecimals]")
+        //Log.d(javaClass.simpleName,"numOfDecimals[$numOfDecimals]")
 
         // "ハイポサイクロイド曲線描画に使う内円の係数"が整数となるよう補正する値(分母)
         val kD = 10f.pow(numOfDecimals).toInt()
@@ -234,7 +234,7 @@ class Hypocycloid01Drawable: MyDrawable() {
         }
 
         angleMax = 360f * kd.toFloat()
-        Log.d(javaClass.simpleName,"angleMax[$angleMax]")
+        //Log.d(javaClass.simpleName,"angleMax[$angleMax]")
     }
 
     // ------------------------------------
@@ -345,6 +345,7 @@ class Hypocycloid01Drawable: MyDrawable() {
         // ハイポサイクロイド曲線の現在値をドットで描く
         canvas.drawCircle(nowPointF.x,nowPointF.y,nr,lineNowPaint)
 
+        // 座標を元に戻す
         canvas.restore()
 
         // これまでの描画は上下逆なので反転する

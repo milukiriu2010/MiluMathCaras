@@ -7,6 +7,8 @@ import kotlinx.android.parcel.Parcelize
 enum class FragmentID(val id: String): Parcelable {
     // ドロワーレイアウトのメニューを表示するフラグメント
     ID_DRAWER_LAYOUT("fragmentDrawerLayout"),
+    // ドロワーレイアウト―メインメニュー用のダミー
+    ID_DUMMY("fragmentDummy"),
     // 曲線一覧を表示するフラグメント
     ID_CURVE_LST("fragmentCurveLst"),
     // フラクタル一覧を表示するフラグメント

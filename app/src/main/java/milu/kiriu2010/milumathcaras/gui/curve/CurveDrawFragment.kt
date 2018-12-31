@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.R
 
 import milu.kiriu2010.milumathcaras.entity.DrawData
@@ -80,8 +81,14 @@ class CurveDrawFragment : Fragment()
     // 通知データを受信する
     // ---------------------------------
     override fun receive(data: Float) {
+        // 小数点以下の桁数
+        val numOfDecimals = MyMathUtil.getNumberOfDecimals(data)
+
         // 媒介変数の値をビューに表示する
-        textView.text = data.toString()
+        textView.text = when (numOfDecimals) {
+            0 -> data.toInt().toString()
+            else -> data.toString()
+        }
     }
 
     companion object {

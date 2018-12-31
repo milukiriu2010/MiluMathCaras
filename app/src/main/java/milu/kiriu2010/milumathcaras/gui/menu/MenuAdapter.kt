@@ -3,6 +3,7 @@ package milu.kiriu2010.milumathcaras.gui.menu
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.text.Layout
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,11 +30,13 @@ class MenuAdapter(
         when (viewType) {
             // メインメニュー
             MenuType.TYPE_MAIN.viewType -> {
+                //Log.d(javaClass.simpleName,"onCreateViewHolder:MenuMainViewHolder")
                 view = LayoutInflater.from(parent.context).inflate(R.layout.list_row_menu_main,parent,false)
                 viewHolder = MenuMainViewHolder(view)
             }
             // サブメニュー
             MenuType.TYPE_SUB.viewType -> {
+                //Log.d(javaClass.simpleName,"onCreateViewHolder:MenuSubViewHolder")
                 view = LayoutInflater.from(parent.context).inflate(R.layout.list_row_menu_sub,parent,false)
                 viewHolder = MenuSubViewHolder(view)
                 // アイテムをクリックしたら
@@ -60,15 +63,27 @@ class MenuAdapter(
         when (viewHolder) {
             // メインメニュー
             is MenuMainViewHolder -> {
+                //Log.d(javaClass.simpleName,"onBindViewHolder:MenuMainViewHolder[${menuData.title}]")
                 // タイトルを設定
                 viewHolder.textViewMenuMain.text = menuData.title
             }
             // サブメニュー
             is MenuSubViewHolder -> {
+                //Log.d(javaClass.simpleName,"onBindViewHolder:MenuSubViewHolder[${menuData.title}]")
                 // タイトルを設定
                 viewHolder.textViewMenuSub.text = menuData.title
             }
         }
+    }
+
+    // -----------------------------------------------------
+    // セルを表示するときのXMLリソースを切り替えるために
+    // ビュータイプを返す
+    // -----------------------------------------------------
+    override fun getItemViewType(position: Int): Int {
+        //return super.getItemViewType(position)
+        val menuData = menuDataLst[position]
+        return menuData.menuType.viewType
     }
 
     // メインメニュー

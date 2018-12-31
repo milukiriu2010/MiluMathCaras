@@ -18,6 +18,8 @@ enum class MenuType(val viewType: Int): Parcelable {
 // ------------------------------------
 @Parcelize
 enum class MenuItem(val title: String): Parcelable {
+    // ダミーメニュー
+    MENU_DUMMY("Dummy"),
     // 曲線を描画するメニュー
     MENU_CURVE("Curve"),
     // フラクタルを描画するメニュー
