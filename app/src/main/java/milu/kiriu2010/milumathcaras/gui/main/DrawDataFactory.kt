@@ -37,7 +37,12 @@ class DrawDataFactory {
                     // 高木曲線
                     drawDataLst.add(DrawData(DrawDataID.ID_TAKAGI_CURVE_101,resources.getString(R.string.draw_fractal_takagi_curve_101), floatArrayOf(6f), floatArrayOf(0f) ))
                     // コッホ雪片
-                    drawDataLst.add(DrawData(DrawDataID.ID_KOCH_SNOWFLAKE_102,resources.getString(R.string.draw_fractal_koch_snowflake_102), floatArrayOf(6f), floatArrayOf(0f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_KOCH_SNOWFLAKE_102,resources.getString(R.string.draw_fractal_koch_snowflake_102), floatArrayOf(4f), floatArrayOf(0f) ))
+                }
+                // フラクタル(複素数)を選択したときの描画データの一覧
+                MenuItem.MENU_COMPLEX -> {
+                    // マンデルブロ―集合
+                    drawDataLst.add(DrawData(DrawDataID.ID_MANDELBRO_SET_201,resources.getString(R.string.draw_complex_mandelbrot_set_201), floatArrayOf(0.1f), floatArrayOf(0.001f) ))
                 }
             }
             return drawDataLst

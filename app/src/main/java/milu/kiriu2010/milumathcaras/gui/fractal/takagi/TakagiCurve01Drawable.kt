@@ -214,7 +214,9 @@ class TakagiCurve01Drawable: MyDrawable() {
     //   = x0を挟む座標x1,x2の高さの1/2
     // -------------------------------------
     private fun getCorrectY(x0: Float): Float {
+        // x1: x0の1つ左側の描画点
         val x1 = pointMap.keys.filter { it < x0 }.sorted().last()
+        // x1: x0の1つ右側の描画点
         val x2 = pointMap.keys.filter { it > x0 }.sorted().first()
 
         val y1 = pointMap.get(x1) ?: 0f

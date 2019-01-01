@@ -16,5 +16,7 @@ enum class FragmentID(val id: String): Parcelable {
     // 描画データを描画するフラグメント
     ID_DRAW_DATA("fragmentDrawData"),
     // アプリについて表示するフラグメント
-    ID_ABOUT("fragmentAbout")
+    ID_ABOUT("fragmentAbout"),
+    // Exceptionの内容を表示するフラグメント
+    ID_EXCEPTION("fragmentException")
 }

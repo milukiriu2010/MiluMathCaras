@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.view.WindowManager
 import kotlinx.android.synthetic.main.activity_main.*
+import milu.kiriu2010.gui.common.ExceptionFragment
 import milu.kiriu2010.gui.drawer.DrawerActivity
 import milu.kiriu2010.milumathcaras.R
 import milu.kiriu2010.milumathcaras.entity.DrawData
@@ -14,6 +15,7 @@ import milu.kiriu2010.milumathcaras.gui.curve.CurveDrawFragment
 import milu.kiriu2010.milumathcaras.gui.curve.CurveLstFragment
 import milu.kiriu2010.milumathcaras.gui.menu.MenuFragment
 import milu.kiriu2010.milumathcaras.id.FragmentID
+import kotlin.Exception
 
 class MainActivity : DrawerActivity()
     , DrawDataCallback {
@@ -33,32 +35,29 @@ class MainActivity : DrawerActivity()
         // ドロワーレイアウトを表示する
         setupDrawLayout()
 
-        if ( savedInstanceState == null ) {
-            // メニューフラグメントに表示するメニューデータ一覧を取得
-            val menuDataLst = MenuFragment.createMenuDataLst(resources).filter { it.menuType == MenuType.TYPE_SUB }
-            if ( menuDataLst.size > 0 ) {
-                // メニューの先頭を選択
-                selectedMenuData = menuDataLst[0]
+        try {
+            if ( savedInstanceState == null ) {
+                // メニューフラグメントに表示するメニューデータ一覧を取得
+                val menuDataLst = MenuFragment.createMenuDataLst(resources).filter { it.menuType == MenuType.TYPE_SUB }
+                if ( menuDataLst.size > 0 ) {
+                    // メニューの先頭を選択
+                    selectedMenuData = menuDataLst[0]
 
-                // 描画データ一覧を表示するフラグメントを追加
-                addFragment(selectedMenuData)
-                /*
-                if ( supportFragmentManager.findFragmentByTag(selectedMenuData.fragmentID.id) == null ) {
-                    // メニューデータ一覧の先頭に付随する描画データ一覧を表示する
+                    // 描画データ一覧を表示するフラグメントを追加
+                    addFragment(selectedMenuData)
+                }
+                // ドロワーレイアウトを表示するフラグメントを追加
+                if ( supportFragmentManager.findFragmentByTag(FragmentID.ID_DRAWER_LAYOUT.id) == null ) {
+                    fragmentDrawer = MenuFragment.newInstance()
+
                     supportFragmentManager.beginTransaction()
-                        .add(R.id.frameMain, CurveLstFragment.newInstance(selectedMenuData), selectedMenuData.fragmentID.id)
+                        .add(R.id.frameMenu,fragmentDrawer, FragmentID.ID_DRAWER_LAYOUT.id)
                         .commit()
                 }
-                */
             }
-            // ドロワーレイアウトを表示するフラグメントを追加
-            if ( supportFragmentManager.findFragmentByTag(FragmentID.ID_DRAWER_LAYOUT.id) == null ) {
-                fragmentDrawer = MenuFragment.newInstance()
-
-                supportFragmentManager.beginTransaction()
-                    .add(R.id.frameMenu,fragmentDrawer, FragmentID.ID_DRAWER_LAYOUT.id)
-                    .commit()
-            }
+        } catch (ex: Exception) {
+            // Exceptionの内容を表示
+            showException(ex)
         }
     }
 
@@ -67,11 +66,16 @@ class MainActivity : DrawerActivity()
     // 描画データを描画する
     // -----------------------------------
     override fun draw(drawData: DrawData) {
-        // 描画データを描画するフラグメントを追加
-        if ( supportFragmentManager.findFragmentByTag(FragmentID.ID_DRAW_DATA.id) == null ) {
-            supportFragmentManager.beginTransaction()
-                .add(R.id.frameMain, CurveDrawFragment.newInstance(drawData), FragmentID.ID_DRAW_DATA.id)
-                .commit()
+        try {
+            // 描画データを描画するフラグメントを追加
+            if (supportFragmentManager.findFragmentByTag(FragmentID.ID_DRAW_DATA.id) == null) {
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.frameMain, CurveDrawFragment.newInstance(drawData), FragmentID.ID_DRAW_DATA.id)
+                    .commit()
+            }
+        } catch (ex: Exception) {
+            // Exceptionの内容を表示
+            showException(ex)
         }
     }
 
@@ -79,42 +83,56 @@ class MainActivity : DrawerActivity()
     // 描画データ一覧を表示する
     // -------------------------------------
     override fun showLst(menuData: MenuData) {
-        // タップ時にドロワーを閉じる
-        if ( drawerLayout != null ) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        }
-
-        //  現在選択されているメニューと同じメニューが選択された場合、何もしない
-        if ( menuData == selectedMenuData ) return
-
-        // 全てのフラグメントを削除
-        //   ・ドロワーレイアウトを表示するフラグメントは除く
-        supportFragmentManager.fragments.forEach {
-            if ( it != fragmentDrawer ) {
-                supportFragmentManager.beginTransaction()
-                    .remove(it)
-                    .commit()
+        try {
+            // タップ時にドロワーを閉じる
+            if ( drawerLayout != null ) {
+                drawerLayout.closeDrawer(GravityCompat.START)
             }
-        }
 
-        selectedMenuData = menuData
-        // 選択したメニューに対応する描画データ一覧を表示するフラグメントを追加
-        addFragment(selectedMenuData)
-        /*
-        supportFragmentManager.beginTransaction()
-            .add(R.id.frameMain, CurveLstFragment.newInstance(menuData), menuData.fragmentID.id)
-            .commit()
-            */
+            //  現在選択されているメニューと同じメニューが選択された場合、何もしない
+            if ( menuData == selectedMenuData ) return
+
+            // 全てのフラグメントを削除
+            //   ・ドロワーレイアウトを表示するフラグメントは除く
+            supportFragmentManager.fragments.forEach {
+                if ( it != fragmentDrawer ) {
+                    supportFragmentManager.beginTransaction()
+                        .remove(it)
+                        .commit()
+                }
+            }
+
+            selectedMenuData = menuData
+            // 選択したメニューに対応する描画データ一覧を表示するフラグメントを追加
+            addFragment(selectedMenuData)
+        } catch (ex: Exception) {
+            // Exceptionの内容を表示
+            showException(ex)
+        }
     }
 
     // ------------------------------------------------
     // メニューに対応するフラグメントを生成＆追加する
     // ------------------------------------------------
     private fun addFragment(menuData: MenuData) {
-        val fragment = FragmentFactory.createFragment(menuData)
+        try {
+            val fragment = FragmentFactory.createFragment(menuData)
 
+            supportFragmentManager.beginTransaction()
+                .add(R.id.frameMain, fragment, menuData.fragmentID.id)
+                .commit()
+        } catch (ex: Exception) {
+            // Exceptionの内容を表示
+            showException(ex)
+        }
+    }
+
+    // ----------------------------------------
+    // Exceptionの内容を表示
+    // ----------------------------------------
+    private fun showException(ex: Exception) {
         supportFragmentManager.beginTransaction()
-            .add(R.id.frameMain, fragment, menuData.fragmentID.id)
+            .add(R.id.frameMain, ExceptionFragment.newInstance(ex.message!!,ex), FragmentID.ID_EXCEPTION.id)
             .commit()
     }
 

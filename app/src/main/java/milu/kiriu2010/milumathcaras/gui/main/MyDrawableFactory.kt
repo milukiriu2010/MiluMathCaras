@@ -1,6 +1,7 @@
 package milu.kiriu2010.milumathcaras.gui.main
 
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
+import milu.kiriu2010.milumathcaras.gui.complex.mandelbrot.Mandelbrot01Drawable
 import milu.kiriu2010.milumathcaras.gui.curve.cycloid.Cycloid01Drawable
 import milu.kiriu2010.milumathcaras.gui.curve.hypocycloid.Hypocycloid01Drawable
 import milu.kiriu2010.milumathcaras.gui.fractal.koch.KochSnowflake01Drawable
@@ -28,6 +29,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_TAKAGI_CURVE_101 -> TakagiCurve01Drawable()
                 // コッホ雪片
                 DrawDataID.ID_KOCH_SNOWFLAKE_102 -> KochSnowflake01Drawable()
+                // マンデルブロ―集合
+                DrawDataID.ID_MANDELBRO_SET_201 -> Mandelbrot01Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")
             }
 
