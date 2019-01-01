@@ -26,7 +26,9 @@ enum class DrawDataID(val id: Int): Parcelable {
     // ハイポサイクロイド曲線(hypocycloid)(k=7.2)
     ID_HYPO_CYCLOID_007(7),
     // 高木曲線
-    ID_TAKAGI_CURVE_101(101)
+    ID_TAKAGI_CURVE_101(101),
+    // コッホ雪片
+    ID_KOCH_SNOWFLAKE_102(102)
 }
 
 // ------------------

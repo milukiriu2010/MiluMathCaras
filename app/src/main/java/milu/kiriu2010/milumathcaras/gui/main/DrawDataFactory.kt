@@ -36,6 +36,8 @@ class DrawDataFactory {
                 MenuItem.MENU_FRACTAL -> {
                     // 高木曲線
                     drawDataLst.add(DrawData(DrawDataID.ID_TAKAGI_CURVE_101,resources.getString(R.string.draw_fractal_takagi_curve_101), floatArrayOf(6f), floatArrayOf(0f) ))
+                    // コッホ雪片
+                    drawDataLst.add(DrawData(DrawDataID.ID_KOCH_SNOWFLAKE_102,resources.getString(R.string.draw_fractal_koch_snowflake_102), floatArrayOf(6f), floatArrayOf(0f) ))
                 }
             }
             return drawDataLst

@@ -41,12 +41,15 @@ class MainActivity : DrawerActivity()
                 selectedMenuData = menuDataLst[0]
 
                 // 描画データ一覧を表示するフラグメントを追加
+                addFragment(selectedMenuData)
+                /*
                 if ( supportFragmentManager.findFragmentByTag(selectedMenuData.fragmentID.id) == null ) {
                     // メニューデータ一覧の先頭に付随する描画データ一覧を表示する
                     supportFragmentManager.beginTransaction()
                         .add(R.id.frameMain, CurveLstFragment.newInstance(selectedMenuData), selectedMenuData.fragmentID.id)
                         .commit()
                 }
+                */
             }
             // ドロワーレイアウトを表示するフラグメントを追加
             if ( supportFragmentManager.findFragmentByTag(FragmentID.ID_DRAWER_LAYOUT.id) == null ) {
@@ -96,8 +99,22 @@ class MainActivity : DrawerActivity()
 
         selectedMenuData = menuData
         // 選択したメニューに対応する描画データ一覧を表示するフラグメントを追加
+        addFragment(selectedMenuData)
+        /*
         supportFragmentManager.beginTransaction()
             .add(R.id.frameMain, CurveLstFragment.newInstance(menuData), menuData.fragmentID.id)
+            .commit()
+            */
+    }
+
+    // ------------------------------------------------
+    // メニューに対応するフラグメントを生成＆追加する
+    // ------------------------------------------------
+    private fun addFragment(menuData: MenuData) {
+        val fragment = FragmentFactory.createFragment(menuData)
+
+        supportFragmentManager.beginTransaction()
+            .add(R.id.frameMain, fragment, menuData.fragmentID.id)
             .commit()
     }
 

@@ -14,5 +14,7 @@ enum class FragmentID(val id: String): Parcelable {
     // フラクタル一覧を表示するフラグメント
     //ID_FRACTAL_LST("fragmentFractalLst"),
     // 描画データを描画するフラグメント
-    ID_DRAW_DATA("fragmentDrawData")
+    ID_DRAW_DATA("fragmentDrawData"),
+    // アプリについて表示するフラグメント
+    ID_ABOUT("fragmentAbout")
 }
