@@ -38,6 +38,8 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_TAKAGI_CURVE_101,resources.getString(R.string.draw_fractal_takagi_curve_101), floatArrayOf(6f), floatArrayOf(0f) ))
                     // コッホ雪片
                     drawDataLst.add(DrawData(DrawDataID.ID_KOCH_SNOWFLAKE_102,resources.getString(R.string.draw_fractal_koch_snowflake_102), floatArrayOf(4f), floatArrayOf(0f) ))
+                    // 樹木曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_TREE_CURVE_103,resources.getString(R.string.draw_fractal_tree_103), floatArrayOf(4f), floatArrayOf(0f) ))
                 }
                 // フラクタル(複素数)を選択したときの描画データの一覧
                 MenuItem.MENU_COMPLEX -> {

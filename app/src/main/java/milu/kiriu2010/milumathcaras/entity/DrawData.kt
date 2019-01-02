@@ -29,6 +29,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_TAKAGI_CURVE_101(101),
     // コッホ雪片
     ID_KOCH_SNOWFLAKE_102(102),
+    // 樹木曲線
+    ID_TREE_CURVE_103(103),
     // マンデルブロ―集合
     ID_MANDELBRO_SET_201(201)
 }

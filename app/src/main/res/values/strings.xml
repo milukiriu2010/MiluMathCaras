@@ -22,5 +22,6 @@
     <string name="draw_curve_hypocycloid_007">Hypocycloid(k=7.2)</string>
     <string name="draw_fractal_takagi_curve_101">Takagi Curve</string>
     <string name="draw_fractal_koch_snowflake_102">Koch Snowflake</string>
+    <string name="draw_fractal_tree_103">Tree Curve</string>
     <string name="draw_complex_mandelbrot_set_201">Mandelbrot Set</string>
 </resources>

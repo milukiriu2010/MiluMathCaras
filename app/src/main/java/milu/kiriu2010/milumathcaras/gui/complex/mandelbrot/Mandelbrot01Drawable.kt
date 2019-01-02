@@ -2,6 +2,8 @@ package milu.kiriu2010.milumathcaras.gui.complex.mandelbrot
 
 import android.graphics.*
 import android.os.Handler
+import android.util.Log
+import milu.kiriu2010.math.Complex
 import milu.kiriu2010.milumathcaras.gui.main.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
@@ -15,13 +17,63 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 // Z0 = 0
 // n=>無限大で発散しないという条件を満たす複素数c全体が作る集合
 // ---------------------------------------------------------------------
+// X軸:実数 -1.5～0.5
+// Y軸:虚数 -1.5～1.5
+// の描画例をよくみかける
+// ---------------------------------------------------------------------
+// 描画領域を正方形にしたいので、
+// ここでは、
+// X軸:実数 -1.5～0.5
+// Y軸:虚数 -1.0～1.0
+// とする
+// ---------------------------------------------------------------------
+// 計算に時間がかかるので、
+// "X軸 1pixelに対し Y軸 2000 pixelスキャン"
+// を1スレッドの単位とする
+// ---------------------------------------------------------------------
 class Mandelbrot01Drawable: MyDrawable() {
     // -------------------------------
     // 描画領域
     // -------------------------------
-    private val side = 1000f
+    //  1 pixel = 0.001単位で描画
+    // -------------------------------
+    private val side = 2000f
     private val margin = 50f
 
+    // -------------------------------------
+    // 複素数の描画レンジ
+    // -------------------------------------
+    // 実数部最小値
+    private var xrMin = -1.5f
+    // 実数部最大値
+    private var xrMax = 0.5f
+    // 虚数部最小値
+    private var yiMin = -1.0f
+    // 虚数部最大値
+    private var yiMax = 1.0f
+
+    // -------------------------------
+    // 複素数を計算する際の粒度
+    // -------------------------------
+    private var psU = 0.001f
+    // ----------------------------------
+    // 描画の粒度
+    // ----------------------------------
+    //  psU=0.1   => 100 pixelずつ描画
+    //  psU=0.01  =>  10 pixelずつ描画
+    //  psU=0.001 =>   1 pixelずつ描画
+    // ----------------------------------
+    //private var nU = side/((xrMax-xrMin)/psU)
+    private var nU = side*psU/(xrMax-xrMin)
+    // ----------------------------------
+    // X軸の現在描画位置
+    // ----------------------------------
+    private var nX = 0f
+
+    // -------------------------------------
+    // 発散と判断するまでの計算回数(最大値)
+    // -------------------------------------
+    private var nMax = 100
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -52,10 +104,24 @@ class Mandelbrot01Drawable: MyDrawable() {
     // マンデルブロ―集合を描くペイント
     // ---------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.RED
-        style = Paint.Style.STROKE
-        strokeWidth = 5f
+        color = Color.BLACK
+        style = Paint.Style.FILL_AND_STROKE
+        strokeWidth = 1f
     }
+
+    // ------------------------------------
+    // 描画に使う色一覧
+    // 発散に達した回数によって色を変える
+    // ------------------------------------
+    val colorLst = intArrayOf(
+        Color.parseColor("#ffff0000"),
+        Color.parseColor("#ff00ff00"),
+        Color.parseColor("#ff0000ff"),
+        Color.parseColor("#ffffff00"),
+        Color.parseColor("#ffff00ff"),
+        Color.parseColor("#ff00ffff"),
+        Color.parseColor("#ffffffff")
+    )
 
     // -------------------------------------
     // 描画中に呼び出すコールバックを設定
@@ -72,12 +138,73 @@ class Mandelbrot01Drawable: MyDrawable() {
     // ---------------------------------------
     private lateinit var runnable: Runnable
 
+    // ----------------------------------------
+    // CalculationCallback
+    // 描画に使うデータを計算する
+    // ----------------------------------------
+    // values
+    // 第１引数:複素数を計算する際の粒度
+    //          1未満の小数を計算するが
+    //          描画領域が1000x1000なので
+    //          0.1,0.01,0.001を想定
+    // ----------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
+        // 複素数を計算する際の粒度
+        psU = 0.001f
+        values.forEachIndexed { index, fl ->
+            //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
+            when (index) {
+                // 複素数を計算する際の粒度
+                0 -> psU = fl
+            }
+        }
+        // ----------------------------------
+        // 描画の粒度
+        // ----------------------------------
+        //  psU=0.1   => 100 pixelずつ描画
+        //  psU=0.01  =>  10 pixelずつ描画
+        //  psU=0.001 =>   1 pixelずつ描画
+        // ----------------------------------
+        //nU = side/((xrMax-xrMin)/psU)
+        nU = side*psU/(xrMax-xrMin)
+        // ----------------------------------
+        // X軸の現在描画位置
+        // ----------------------------------
+        nX = 0f
+
+        // -------------------------------
+        // ビットマップに枠のみ描画
+        // -------------------------------
+        initBitmap()
+
+        // 計算に時間がかかるため、常にスレッドを起動することとする
+        runnable = Runnable {
+            // 虚数部をスキャン
+            scanImagenary()
+            // 描画
+            invalidateSelf()
+
+            // X軸を全スキャンしていない場合は、スレッドを起動する
+            if ( nX <= side ) {
+                handler.postDelayed(runnable, 10)
+            }
+            // X軸を全スキャンしたら、スレッドを解放する
+            else {
+                // 描画に使うスレッドを解放する
+                handler.removeCallbacks(runnable)
+            }
+        }
+        handler.postDelayed(runnable, 10)
 
     }
 
+    // -------------------------------------
+    // CalculationCallback
+    // 描画ビューを閉じる際,呼び出す後処理
+    // -------------------------------------
     override fun calStop() {
-
+        // 描画に使うスレッドを解放する
+        handler.removeCallbacks(runnable)
     }
 
     // -------------------------------------
@@ -86,6 +213,106 @@ class Mandelbrot01Drawable: MyDrawable() {
     // -------------------------------------
     override fun setNotifyCallback(notifyCallback: NotifyCallback) {
         this.notifyCallback = notifyCallback
+    }
+
+    // -------------------------------
+    // ビットマップに枠のみ描画
+    // -------------------------------
+    private fun initBitmap() {
+        val canvas = Canvas(tmpBitmap)
+        // バックグランドを描画
+        canvas.drawRect(RectF(0f, 0f, intrinsicWidth.toFloat(), intrinsicHeight.toFloat()), backPaint)
+
+        // 枠を描画
+        canvas.drawRect(RectF(0f, 0f, intrinsicWidth.toFloat(), intrinsicHeight.toFloat()), framePaint)
+
+        // これまでの描画は上下逆なので反転する
+        val matrix = Matrix()
+        matrix.postScale(1f,-1f)
+        imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
+        canvas.drawBitmap(tmpBitmap,0f,0f,backPaint)
+    }
+
+    // -------------------------------
+    // 虚数部を１列スキャン
+    // -------------------------------
+    private fun scanImagenary() {
+        //Log.d(javaClass.simpleName,"=== nX[$nX] ==================================")
+
+        val canvas = Canvas(tmpBitmap)
+        canvas.save()
+        // 原点(0,0)を移動する
+        //   = (マージン+Xの描画点,マージン)
+        canvas.translate(margin+nX.toFloat(),margin)
+        // 色の数
+        val cntColor = colorLst.size
+        // -------------------------------------------------------
+        // 実数部
+        // -------------------------------------------------------
+        //   0.001単位で計算すると、
+        //   doubleの掛け算が影響して0.5000001など、
+        //   きれいな数字になってくれないが、
+        //   1/1000以下なので、とりあえず誤差とみなしほっておく
+        // -------------------------------------------------------
+        val x0 = xrMin.toDouble() + psU.toDouble()*nX.toDouble()/nU.toDouble()
+        (0..side.toInt() step nU.toInt()).forEach {
+            // 虚数部
+            val y0 = yiMin.toDouble() + psU.toDouble()*it.toDouble()/nU.toDouble()
+            // 複素数
+            val z0 = Complex(x0,y0)
+            // "複素数の２乗+c"が発散するかチェック
+            val n = chkDiverge(z0)
+            // 描画点の色を設定する
+            linePaint.color = when {
+                // 発散に達した回数によって色を変える
+                (n >= 0) -> colorLst[n%cntColor]
+                // 発散しない場合、黒
+                else -> Color.BLACK
+            }
+            // -------------------------------------------
+            // 原点(0,0)を描画点の位置に移動する
+            // X座標は,既に移動しているので0のままでよい
+            // -------------------------------------------
+            canvas.translate(0f,nU.toFloat())
+            // ---------------------------------------------------
+            // 1 pixel単位のときはdrawPointがよいが
+            // サムネイルは粒度が荒いので、四角形で書くこととした
+            // ---------------------------------------------------
+            canvas.drawRect(RectF(0f,0f,nU.toFloat(),nU.toFloat()),linePaint)
+        }
+        // 座標を元に戻す
+        canvas.restore()
+
+        // これまでの描画は上下逆なので反転する
+        val matrix = Matrix()
+        matrix.postScale(1f,-1f)
+        imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
+        canvas.drawBitmap(tmpBitmap,0f,0f,backPaint)
+
+        //　スキャンが完了したX座標を通知する
+        notifyCallback?.receive(x0.toFloat())
+
+        // スキャンが終わったら、次にスキャンするX座標を１つ右に移動
+        nX += nU
+    }
+
+    // -------------------------------------
+    // "複素数の２乗+c"が発散するかチェック
+    // -------------------------------------
+    // return
+    //   発散したときの計算回数を返す
+    //   発散しない場合-1を返す
+    // -------------------------------------
+    private fun chkDiverge(z0: Complex): Int {
+        var z = z0
+        (0 until nMax).forEach { t ->
+            // -------------------------------------------
+            // 絶対値が2を超える場合は、発散するとみなす。
+            // -------------------------------------------
+            if (z.abs() > 2.0) return t
+            z = z.times(z).plus(z0)
+        }
+        return -1
     }
 
     // -------------------------------
