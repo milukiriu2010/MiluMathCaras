@@ -98,13 +98,16 @@ class MenuFragment : Fragment() {
             menuDataLst.add(MenuData(MenuType.TYPE_MAIN, MenuItem.MENU_DUMMY, FragmentID.ID_DUMMY,resources.getString(R.string.menu_main_drawlst)))
             // [サブメニュー]
             // 曲線一覧を表示するメニュー
-            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE, FragmentID.ID_CURVE_LST,resources.getString(R.string.menu_sub_curve)))
+            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve)))
+            // [サブメニュー]
+            // エピサイクロイドを表示するメニュー
+            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_EPICYCLOID, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_epicycloid)))
             // [サブメニュー]
             // フラクタル一覧を表示するメニュー
-            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL, FragmentID.ID_CURVE_LST,resources.getString(R.string.menu_sub_fractal)))
+            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal)))
             // [サブメニュー]
             // フラクタル(複素数)一覧を表示するメニュー
-            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_COMPLEX, FragmentID.ID_CURVE_LST,resources.getString(R.string.menu_sub_complex)))
+            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_COMPLEX, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_complex)))
             // [メインメニュー]
             // ヘルプ
             menuDataLst.add(MenuData(MenuType.TYPE_MAIN, MenuItem.MENU_DUMMY,FragmentID.ID_DUMMY,resources.getString(R.string.menu_main_help)))

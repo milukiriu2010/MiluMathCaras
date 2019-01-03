@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import milu.kiriu2010.milumathcaras.R
 import milu.kiriu2010.milumathcaras.entity.DrawData
+import milu.kiriu2010.milumathcaras.gui.draw.MyDrawableFactory
 
 class DrawDataAdapter(
     val context: Context,

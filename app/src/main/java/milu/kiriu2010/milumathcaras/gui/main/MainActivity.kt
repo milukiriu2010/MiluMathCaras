@@ -11,8 +11,6 @@ import milu.kiriu2010.milumathcaras.R
 import milu.kiriu2010.milumathcaras.entity.DrawData
 import milu.kiriu2010.milumathcaras.entity.MenuData
 import milu.kiriu2010.milumathcaras.entity.MenuType
-import milu.kiriu2010.milumathcaras.gui.curve.CurveDrawFragment
-import milu.kiriu2010.milumathcaras.gui.curve.CurveLstFragment
 import milu.kiriu2010.milumathcaras.gui.menu.MenuFragment
 import milu.kiriu2010.milumathcaras.id.FragmentID
 import kotlin.Exception

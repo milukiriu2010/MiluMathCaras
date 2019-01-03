@@ -1,29 +1,23 @@
-package milu.kiriu2010.milumathcaras.gui.fractal.koch
+package milu.kiriu2010.milumathcaras.gui.draw.fractal.tree
 
 import android.graphics.*
 import android.os.Handler
-import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
-import milu.kiriu2010.milumathcaras.gui.main.MyDrawable
+import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.*
 
-// -----------------------------------------------
-// コッホ雪片
-// -----------------------------------------------
-// https://en.wikipedia.org/wiki/Koch_snowflake
-// https://codezine.jp/article/detail/73
-// -----------------------------------------------
-class KochSnowflake01Drawable: MyDrawable() {
+// ----------------------------------------------------
+// 樹木曲線
+// ----------------------------------------------------
+// https://qiita.com/kmtoki/items/b94892771132e30aa1a2
+// ----------------------------------------------------
+class TreeCurve01Drawable: MyDrawable() {
     // -------------------------------
-    // 描画領域 = 1296 = 6^4
+    // 描画領域
     // -------------------------------
-    private val side = 1296f
-    // ----------------------------------------------
-    // コッホ雪片のレベル１の高さ分マージンをとる
-    //   = side/2/sqrt(3)
-    // ----------------------------------------------
-    private val margin = side/2f/sqrt(3f)
+    private val side = 1024f
+    private val margin = 50f
 
     // ----------------------------------------
     // 再帰レベル
@@ -33,10 +27,20 @@ class KochSnowflake01Drawable: MyDrawable() {
     // 再帰レベルの最大値
     //  4回描くと、それ以降は違いがわからないので6回としている
     // --------------------------------------------------------
-    private val nMax = 6
+    private val nMax = 10
 
     // ----------------------------------------
-    // コッホ雪片の描画点リスト
+    // 現在の枝の長さ：次の枝の長さの比率
+    // ----------------------------------------
+    private var lenRatio = 0.7f
+
+    // ----------------------------------------
+    // 現在の枝に対し、次の枝の角度
+    // ----------------------------------------
+    private var angleN = 60f
+
+    // ----------------------------------------
+    // 樹木曲線の描画点リスト
     // ----------------------------------------
     private val pointLst = mutableListOf<MyPointF>()
 
@@ -66,7 +70,7 @@ class KochSnowflake01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // コッホ雪片を描くペイント
+    // 樹木曲線を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
@@ -107,7 +111,7 @@ class KochSnowflake01Drawable: MyDrawable() {
             }
         }
 
-        // コッホ雪片を構築
+        // 樹木曲線を構築
         createPath()
         // ビットマップに描画
         drawBitmap()
@@ -120,7 +124,7 @@ class KochSnowflake01Drawable: MyDrawable() {
             runnable = Runnable {
                 // 再帰レベルを１つ増やす
                 incrementLevel()
-                // 三角波を構築
+                // 樹木曲線を構築
                 createPath()
                 // ビットマップに描画
                 drawBitmap()
@@ -157,64 +161,55 @@ class KochSnowflake01Drawable: MyDrawable() {
         this.notifyCallback = notifyCallback
     }
 
-    // コッホ雪片を構築
+    // 樹木曲線を構築
     private fun createPath() {
-        // コッホ雪片の描画点リストをクリアする
+        // 樹木曲線の描画点リストをクリアする
         pointLst.clear()
 
-        // ------------------------------
-        // コッホ雪片の頂点
-        // 正三角形の時の初期位置
-        // ------------------------------
-        // a:左,b:右,c:真ん中
-        // ------------------------------
-        val a = MyPointF(0f,0f)
-        val b = MyPointF(side,0f)
-        val c = MyPointF(side/2,side*sqrt(3f)/2f)
+        // -------------------------
+        // 樹木曲線の頂点
+        // -------------------------
+        val a = MyPointF(side/2f,0f)
+        val b = MyPointF(side/2f,side/4f)
 
-        // 次レベルのコッホ雪片の描画点を求める
+        // 次レベルの樹木曲線の描画点を求める
         calNextLevel(a,b,nNow)
-        calNextLevel(b,c,nNow)
-        calNextLevel(c,a,nNow)
 
         // 描画中に呼び出すコールバックをキックし、現在の再帰レベルを通知する
         notifyCallback?.receive(nNow.toFloat())
     }
 
+
     // -------------------------------------
-    // 次レベルのコッホ雪片の描画点を求める
+    // 次レベルの樹木曲線の描画点を求める
     // -------------------------------------
     private fun calNextLevel(a: MyPointF, b: MyPointF, n: Int) {
+        pointLst.add(a)
+        pointLst.add(b)
+
         // -----------------------------------------------------
         // 再帰呼び出しの際、nを減らしていき0以下になったら終了
         // -----------------------------------------------------
-        if ( n <= 0 ) {
-            pointLst.add(a)
+        if (n <= 0) {
             return
         }
 
-        // 描画点C => 描画点Aと描画点Bの1/3地点
-        val c = MyPointF(a.x+(b.x-a.x)/3f,a.y+(b.y-a.y)/3f)
-        // 描画点D => 描画点Aと描画点Bの2/3地点
-        val d = MyPointF(a.x+(b.x-a.x)*2f/3f,a.y+(b.y-a.y)*2f/3f)
-        // -------------------------------------------------
-        // 描画点E
-        // -------------------------------------------------
-        //   "A-E"の長さ: "A-B"の長さ/sqrt(3)
-        //   "A-E"の角度: "A-B"の角度-30度
-        //                図示では+30度となっているが
-        //                Y座標の向きが逆なので-30度になる
-        // -------------------------------------------------
-        // "A-E"の長さ
-        val lenAE = sqrt((b.x-a.x)*(b.x-a.x)+(b.y-a.y)*(b.y-a.y))/sqrt(3f)
-        // "A-B"の角度
+        // -----------------------------------------------------
+        // 次の枝の長さ"B-C" = 現在の枝"A-B"の長さ×lenRatio
+        // 次の枝の長さ"B-D" = 現在の枝"A-B"の長さ×lenRatio
+        // -----------------------------------------------------
+        val lenNext = sqrt((b.x-a.x)*(b.x-a.x)+(b.y-a.y)*(b.y-a.y))*lenRatio
+
+        // -----------------------------------------------------
+        // 現在の枝"A-B"の角度
+        // -----------------------------------------------------
         val angleAB = when {
             // -------------------------
             // BがAより右下(正:正)
             // 0 ～ 90度
             // -------------------------
             (b.x >= a.x) and (b.y >= a.y) -> {
-                atan((b.y-a.y)/(b.x-a.x))*180f/PI
+                atan((b.y-a.y)/(b.x-a.x)) *180f/ PI
             }
             // -----------------------------------------------------------------------
             // BがAより左下(負:正)
@@ -224,7 +219,7 @@ class KochSnowflake01Drawable: MyDrawable() {
             // 360度形式にしたいのと、左右が反転しているので180度からマイナスしている
             // -----------------------------------------------------------------------
             (b.x < a.x) and (b.y >= a.y) -> {
-                180f - atan((b.y-a.y)/(a.x-b.x))*180f/PI
+                180f - atan((b.y-a.y)/(a.x-b.x)) *180f/ PI
             }
             // -----------------------------------------------------------------------
             // BがAより左上(負:負)
@@ -234,7 +229,7 @@ class KochSnowflake01Drawable: MyDrawable() {
             // 360度形式にしたいのと、上下左右が反転しているので180度を加算している
             // -----------------------------------------------------------------------
             (b.x < a.x) and (b.y < a.y) -> {
-                atan((a.y-b.y)/(a.x-b.x))*180f/PI + 180f
+                atan((a.y-b.y)/(a.x-b.x)) *180f/ PI + 180f
             }
             // ------------------------------------------------------------------
             // BがAより右上(正:負)
@@ -243,23 +238,33 @@ class KochSnowflake01Drawable: MyDrawable() {
             // atanは"-π/2 ～+π/2"を返すが360度形式にしたいので360度足している
             // ------------------------------------------------------------------
             else -> {
-                atan((b.y-a.y)/(b.x-a.x))*180f/PI + 360f
+                atan((b.y-a.y)/(b.x-a.x)) *180f/ PI + 360f
             }
         }
-        // "A-E"の角度: "A-B"の角度-30度
-        val angleAE = angleAB - 30f
-        // 描画点EのX座標
-        val ex = a.x + (lenAE * cos(angleAE*PI/180f)).toFloat()
-        // 描画点EのY座標
-        val ey = a.y + (lenAE * sin(angleAE*PI/180f)).toFloat()
-        // 描画点E
-        val e = MyPointF(ex,ey)
 
-        // 次レベルのコッホ雪片を描画
-        calNextLevel(a,c,n-1)
-        calNextLevel(c,e,n-1)
-        calNextLevel(e,d,n-1)
-        calNextLevel(d,b,n-1)
+        // -----------------------------------------------------
+        // 次の枝の角度"B-C" = 現在の枝"A-B"の角度 - angleN
+        // -----------------------------------------------------
+        val angleBC = angleAB - angleN
+
+        // -----------------------------------------------------
+        // 次の枝の角度"B-D" = 現在の枝"A-B"の角度 + angleN
+        // -----------------------------------------------------
+        val angleBD = angleAB + angleN
+
+        // 描画点C
+        val cx = b.x + lenNext*cos(angleBC*PI/180f).toFloat()
+        val cy = b.y + lenNext*sin(angleBC*PI/180f).toFloat()
+        val c = MyPointF(cx,cy)
+
+        // 描画点D
+        val dx = b.x + lenNext*cos(angleBD*PI/180f).toFloat()
+        val dy = b.y + lenNext*sin(angleBD*PI/180f).toFloat()
+        val d = MyPointF(dx,dy)
+
+        // 次レベルの樹木曲線を描画
+        calNextLevel(b,c,n-1)
+        calNextLevel(b,d,n-1)
     }
 
     // -------------------------------------
@@ -284,43 +289,28 @@ class KochSnowflake01Drawable: MyDrawable() {
         // 枠を描画
         canvas.drawRect(RectF(0f, 0f, intrinsicWidth.toFloat(), intrinsicHeight.toFloat()), framePaint)
 
-        // ---------------------------------------------------------------------
-        // 原点(0,0)の位置 => 正三角形が中央にくるようにする
-        //  = (マージン,マージン+"領域の高さ-正三角形の高さ"/2)
-        // ---------------------------------------------------------------------
-        // val ymargin = margin+(side-side*sqrt(3f)/2f)/2f
-        // ---------------------------------------------------------------------
-        // 原点(0,0)の位置 => コッホ曲線が中央に来るようにしたい
-        //   よって、
-        //   "描画領域の高さ－コッホ曲線の高さ"/2＋再帰レベル１の正三角形の高さ
-        //   をY座標のマージンとする
-        //
-        //   コッホ曲線の高さ=正三角形の高さ＋再帰レベル１の正三角形の高さ
-        // ---------------------------------------------------------------------
-        val kochH = side*sqrt(3f)/2f + side/2f/sqrt(3f)
-        val ymargin = (intrinsicHeight - kochH)/2f + side/2f/sqrt(3f)
-
         canvas.save()
-        //Log.d(javaClass.simpleName, "ymargin[$ymargin]kochH[$kochH]intrinsicHeight[$intrinsicHeight]")
-        canvas.translate(margin, ymargin)
+        // ---------------------------------------------------------------------
+        // 原点(0,0)の位置
+        //  = (マージン,マージン)
+        // ---------------------------------------------------------------------
+        canvas.translate(margin,margin)
 
-        //Log.d(javaClass.simpleName,"===============================")
-        // コッホ雪片を描画
+        // 樹木曲線を描画
         val path = Path()
         pointLst.forEachIndexed { index, myPointF ->
-            //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
-            if ( index == 0 ) {
+            if ( index%2 == 0 ) {
                 path.moveTo(myPointF.x,myPointF.y)
             }
             else {
                 path.lineTo(myPointF.x,myPointF.y)
             }
         }
-        path.close()
         canvas.drawPath(path,linePaint)
 
         // 座標を元に戻す
         canvas.restore()
+
 
         // これまでの描画は上下逆なので反転する
         val matrix = Matrix()

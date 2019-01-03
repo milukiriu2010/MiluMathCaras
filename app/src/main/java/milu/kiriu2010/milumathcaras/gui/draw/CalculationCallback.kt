@@ -1,4 +1,6 @@
-package milu.kiriu2010.milumathcaras.gui.main
+package milu.kiriu2010.milumathcaras.gui.draw
+
+import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 interface CalculationCallback {
     // -------------------------------------

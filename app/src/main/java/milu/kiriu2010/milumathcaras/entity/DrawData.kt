@@ -13,18 +13,20 @@ import kotlinx.android.parcel.Parcelize
 enum class DrawDataID(val id: Int): Parcelable {
     // サイクロイド曲線
     ID_CYCLOID_001(1),
+    // カージオイド曲線
+    ID_CARDIOID_021(21),
     // 三芒形/三尖形(deltoid)
-    ID_DELTOID_002(2),
+    ID_DELTOID_032(32),
     // アステロイド曲線(astroid)
-    ID_ASTROID_003(3),
+    ID_ASTROID_033(33),
     // ハイポサイクロイド曲線(hypocycloid)(k=2.1)
-    ID_HYPO_CYCLOID_004(4),
+    ID_HYPO_CYCLOID_034(34),
     // ハイポサイクロイド曲線(hypocycloid)(k=3.8)
-    ID_HYPO_CYCLOID_005(5),
+    ID_HYPO_CYCLOID_035(35),
     // ハイポサイクロイド曲線(hypocycloid)(k=5.5)
-    ID_HYPO_CYCLOID_006(6),
+    ID_HYPO_CYCLOID_036(36),
     // ハイポサイクロイド曲線(hypocycloid)(k=7.2)
-    ID_HYPO_CYCLOID_007(7),
+    ID_HYPO_CYCLOID_037(37),
     // 高木曲線
     ID_TAKAGI_CURVE_101(101),
     // コッホ雪片

@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.main
+package milu.kiriu2010.milumathcaras.gui.draw
 
 import android.graphics.drawable.Drawable
 

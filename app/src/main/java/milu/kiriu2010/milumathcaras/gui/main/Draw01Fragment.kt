@@ -1,9 +1,8 @@
-package milu.kiriu2010.milumathcaras.gui.curve
+package milu.kiriu2010.milumathcaras.gui.main
 
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,8 @@ import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.R
 
 import milu.kiriu2010.milumathcaras.entity.DrawData
-import milu.kiriu2010.milumathcaras.gui.main.MyDrawable
-import milu.kiriu2010.milumathcaras.gui.main.MyDrawableFactory
-import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
+import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
+import milu.kiriu2010.milumathcaras.gui.draw.MyDrawableFactory
 
 private const val ARG_PARAM1 = "drawdata"
 
@@ -49,7 +47,7 @@ class CurveDrawFragment : Fragment()
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_curve_draw, container, false)
+        val view = inflater.inflate(R.layout.fragment_draw_01, container, false)
 
         // 描画するビュー
         imageView = view.findViewById(R.id.imageView)

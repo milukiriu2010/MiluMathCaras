@@ -1,10 +1,9 @@
-package milu.kiriu2010.milumathcaras.gui.complex.mandelbrot
+package milu.kiriu2010.milumathcaras.gui.draw.complex.mandelbrot
 
 import android.graphics.*
 import android.os.Handler
-import android.util.Log
 import milu.kiriu2010.math.Complex
-import milu.kiriu2010.milumathcaras.gui.main.MyDrawable
+import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 // ---------------------------------------------------------------------

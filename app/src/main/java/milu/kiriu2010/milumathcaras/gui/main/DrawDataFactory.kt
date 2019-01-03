@@ -6,6 +6,7 @@ import milu.kiriu2010.milumathcaras.entity.DrawData
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
 import milu.kiriu2010.milumathcaras.entity.MenuData
 import milu.kiriu2010.milumathcaras.entity.MenuItem
+import java.lang.RuntimeException
 
 // ------------------------------------------------------
 // 描画データの一覧を生成する
@@ -20,17 +21,17 @@ class DrawDataFactory {
                     // サイクロイド曲線(cycloid)
                     drawDataLst.add(DrawData(DrawDataID.ID_CYCLOID_001,resources.getString(R.string.draw_curve_cycloid_001), floatArrayOf(720f) ))
                     // 三芒形/三尖形(deltoid)
-                    drawDataLst.add(DrawData(DrawDataID.ID_DELTOID_002,resources.getString(R.string.draw_curve_deltoid_002), floatArrayOf(360f,3f),floatArrayOf(0f,3f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_DELTOID_032,resources.getString(R.string.draw_curve_deltoid_002), floatArrayOf(360f,3f),floatArrayOf(0f,3f) ))
                     // アステロイド曲線(asteroid)
-                    drawDataLst.add(DrawData(DrawDataID.ID_ASTROID_003,resources.getString(R.string.draw_curve_astroid_003), floatArrayOf(360f,4f),floatArrayOf(0f,4f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_ASTROID_033,resources.getString(R.string.draw_curve_astroid_003), floatArrayOf(360f,4f),floatArrayOf(0f,4f) ))
                     // ハイポサイクロイド曲線(hypocycloid)(k=2.1)
-                    drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_004,resources.getString(R.string.draw_curve_hypocycloid_004), floatArrayOf(3600f,2.1f),floatArrayOf(0f,2.1f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_034,resources.getString(R.string.draw_curve_hypocycloid_004), floatArrayOf(3600f,2.1f),floatArrayOf(0f,2.1f) ))
                     // ハイポサイクロイド曲線(hypocycloid)(k=3.8)
-                    drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_005,resources.getString(R.string.draw_curve_hypocycloid_005), floatArrayOf(1800f,3.8f),floatArrayOf(0f,3.8f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_035,resources.getString(R.string.draw_curve_hypocycloid_005), floatArrayOf(1800f,3.8f),floatArrayOf(0f,3.8f) ))
                     // ハイポサイクロイド曲線(hypocycloid)(k=5.5)
-                    drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_006,resources.getString(R.string.draw_curve_hypocycloid_006), floatArrayOf(720f,5.5f),floatArrayOf(0f,5.5f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_036,resources.getString(R.string.draw_curve_hypocycloid_006), floatArrayOf(720f,5.5f),floatArrayOf(0f,5.5f) ))
                     // ハイポサイクロイド曲線(hypocycloid)(k=7.2)
-                    drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_007,resources.getString(R.string.draw_curve_hypocycloid_007), floatArrayOf(1800f,7.2f),floatArrayOf(0f,7.2f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_037,resources.getString(R.string.draw_curve_hypocycloid_007), floatArrayOf(1800f,7.2f),floatArrayOf(0f,7.2f) ))
                 }
                 // フラクタルを選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL -> {
@@ -39,12 +40,15 @@ class DrawDataFactory {
                     // コッホ雪片
                     drawDataLst.add(DrawData(DrawDataID.ID_KOCH_SNOWFLAKE_102,resources.getString(R.string.draw_fractal_koch_snowflake_102), floatArrayOf(4f), floatArrayOf(0f) ))
                     // 樹木曲線
-                    drawDataLst.add(DrawData(DrawDataID.ID_TREE_CURVE_103,resources.getString(R.string.draw_fractal_tree_103), floatArrayOf(4f), floatArrayOf(0f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_TREE_CURVE_103,resources.getString(R.string.draw_fractal_tree_103), floatArrayOf(6f), floatArrayOf(0f) ))
                 }
                 // フラクタル(複素数)を選択したときの描画データの一覧
                 MenuItem.MENU_COMPLEX -> {
                     // マンデルブロ―集合
                     drawDataLst.add(DrawData(DrawDataID.ID_MANDELBRO_SET_201,resources.getString(R.string.draw_complex_mandelbrot_set_201), floatArrayOf(0.1f), floatArrayOf(0.001f) ))
+                }
+                else -> {
+                    throw RuntimeException("No Draw List for ${menuData.menuItem.title}")
                 }
             }
             return drawDataLst

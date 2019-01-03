@@ -1,9 +1,9 @@
-package milu.kiriu2010.milumathcaras.gui.fractal.takagi
+package milu.kiriu2010.milumathcaras.gui.draw.fractal.takagi
 
 import android.graphics.*
 import android.os.Handler
 import milu.kiriu2010.gui.basic.MyPointF
-import milu.kiriu2010.milumathcaras.gui.main.MyDrawable
+import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 // ---------------------------------------------------------------------

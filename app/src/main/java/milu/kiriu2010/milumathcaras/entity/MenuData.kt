@@ -22,6 +22,10 @@ enum class MenuItem(val title: String): Parcelable {
     MENU_DUMMY("Dummy"),
     // 曲線を描画するメニュー
     MENU_CURVE("Curve"),
+    // エピサイクロイドを描画するメニュー
+    MENU_EPICYCLOID("Epicycloid"),
+    // ハイポサイクロイドを描画するメニュー
+    MENU_HYPOCYCLOID("Hypocycloid"),
     // フラクタルを描画するメニュー
     MENU_FRACTAL("Fractal"),
     // フラクタル(複素数)を描画するメニュー
