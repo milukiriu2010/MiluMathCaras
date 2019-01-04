@@ -97,7 +97,8 @@ class TreeCurve01Drawable: MyDrawable() {
     // CalculationCallback
     // 描画に使うデータを計算する
     // ----------------------------------------
-    // values
+    // 可変変数 values の引数位置による意味合い
+    //
     // 第１引数:再帰レベル(整数)
     // ----------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
