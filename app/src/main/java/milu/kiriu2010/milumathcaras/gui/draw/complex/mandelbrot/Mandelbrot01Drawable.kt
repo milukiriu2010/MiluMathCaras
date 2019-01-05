@@ -112,13 +112,26 @@ class Mandelbrot01Drawable: MyDrawable() {
     // 描画に使う色一覧
     // 発散に達した回数によって色を変える
     // ------------------------------------
+    // とりえあずレインボーカラー+白にしている
+    // ------------------------------------
     val colorLst = intArrayOf(
+        // 0:red
         Color.parseColor("#ffff0000"),
-        Color.parseColor("#ff00ff00"),
-        Color.parseColor("#ff0000ff"),
+        // 1:orange
+        Color.parseColor("#ffff7f00"),
+        // 2:yellow
         Color.parseColor("#ffffff00"),
-        Color.parseColor("#ffff00ff"),
+        // 3:green
+        Color.parseColor("#ff00ff00"),
+        // 4:blue
+        Color.parseColor("#ff0000ff"),
+        // 5:cyan
         Color.parseColor("#ff00ffff"),
+        // 6:indigo
+        Color.parseColor("#ff6f00ff"),
+        // 7:violet
+        Color.parseColor("#ffff00ff"),
+        // 8:white
         Color.parseColor("#ffffffff")
     )
 
@@ -249,17 +262,18 @@ class Mandelbrot01Drawable: MyDrawable() {
         // -------------------------------------------------------
         // 実数部
         // -------------------------------------------------------
-        //   0.001単位で計算すると、
-        //   doubleの掛け算が影響して0.5000001など、
-        //   きれいな数字になってくれないが、
-        //   1/1000以下なので、とりあえず誤差とみなしほっておく
+        //   Doubleの場合、0.001単位で計算すると、
+        //   0.5000001など、きれいな数字になってくれないので、
+        //   BigDecimalにしている。
         // -------------------------------------------------------
-        val x0 = xrMin.toDouble() + psU.toDouble()*nX.toDouble()/nU.toDouble()
+        //val x0 = xrMin.toDouble() + psU.toDouble()*nX.toDouble()/nU.toDouble()
+        val x0 = xrMin.toBigDecimal() + psU.toBigDecimal()*nX.toBigDecimal()/nU.toBigDecimal()
         (0..side.toInt() step nU.toInt()).forEach {
             // 虚数部
-            val y0 = yiMin.toDouble() + psU.toDouble()*it.toDouble()/nU.toDouble()
+            //val y0 = yiMin.toDouble() + psU.toDouble()*it.toDouble()/nU.toDouble()
+            val y0 = yiMin.toBigDecimal() + psU.toBigDecimal()*it.toBigDecimal()/nU.toBigDecimal()
             // 複素数
-            val z0 = Complex(x0,y0)
+            val z0 = Complex(x0.toDouble(),y0.toDouble())
             // "複素数の２乗+c"が発散するかチェック
             val n = chkDiverge(z0)
             // 描画点の色を設定する
@@ -305,7 +319,7 @@ class Mandelbrot01Drawable: MyDrawable() {
     // -------------------------------------
     private fun chkDiverge(z0: Complex): Int {
         var z = z0
-        (0 until nMax).forEach { t ->
+        (1..nMax).forEach { t ->
             // -------------------------------------------
             // 絶対値が2を超える場合は、発散するとみなす。
             // -------------------------------------------

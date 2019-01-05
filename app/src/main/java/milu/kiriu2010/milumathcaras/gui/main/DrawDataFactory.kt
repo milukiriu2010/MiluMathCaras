@@ -20,18 +20,36 @@ class DrawDataFactory {
                 MenuItem.MENU_CURVE -> {
                     // サイクロイド曲線(cycloid)
                     drawDataLst.add(DrawData(DrawDataID.ID_CYCLOID_001,resources.getString(R.string.draw_curve_cycloid_001), floatArrayOf(720f) ))
+                }
+                // エピサイクロイドを選択したときの描画データの一覧
+                MenuItem.MENU_EPICYCLOID -> {
+                    // カージオイド曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_CARDIOID_021,resources.getString(R.string.draw_curve_cardioid_021), floatArrayOf(360f,1f),floatArrayOf(0f,1f) ))
+                    // エピサイクロイド曲線(k=4.0)
+                    drawDataLst.add(DrawData(DrawDataID.ID_EPICYCLOID_022,resources.getString(R.string.draw_curve_epicycloid_022), floatArrayOf(360f,4f),floatArrayOf(0f,4f) ))
+                    // エピサイクロイド曲線(k=2.1)
+                    drawDataLst.add(DrawData(DrawDataID.ID_EPICYCLOID_023,resources.getString(R.string.draw_curve_epicycloid_023), floatArrayOf(3600f,2.1f),floatArrayOf(0f,2.1f) ))
+                    // エピサイクロイド曲線(k=3.8)
+                    drawDataLst.add(DrawData(DrawDataID.ID_EPICYCLOID_024,resources.getString(R.string.draw_curve_epicycloid_024), floatArrayOf(1800f,3.8f),floatArrayOf(0f,3.8f) ))
+                    // エピサイクロイド曲線(k=5.5)
+                    drawDataLst.add(DrawData(DrawDataID.ID_EPICYCLOID_025,resources.getString(R.string.draw_curve_epicycloid_025), floatArrayOf(720f,5.5f),floatArrayOf(0f,5.5f) ))
+                    // エピサイクロイド曲線(k=7.2)
+                    drawDataLst.add(DrawData(DrawDataID.ID_EPICYCLOID_026,resources.getString(R.string.draw_curve_epicycloid_026), floatArrayOf(1800f,7.2f),floatArrayOf(0f,7.2f) ))
+                }
+                // ハイポサイクロイドを選択したときの描画データの一覧
+                MenuItem.MENU_HYPOCYCLOID -> {
                     // 三芒形/三尖形(deltoid)
-                    drawDataLst.add(DrawData(DrawDataID.ID_DELTOID_032,resources.getString(R.string.draw_curve_deltoid_002), floatArrayOf(360f,3f),floatArrayOf(0f,3f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_DELTOID_031,resources.getString(R.string.draw_curve_deltoid_031), floatArrayOf(360f,3f),floatArrayOf(0f,3f) ))
                     // アステロイド曲線(asteroid)
-                    drawDataLst.add(DrawData(DrawDataID.ID_ASTROID_033,resources.getString(R.string.draw_curve_astroid_003), floatArrayOf(360f,4f),floatArrayOf(0f,4f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_ASTROID_032,resources.getString(R.string.draw_curve_astroid_032), floatArrayOf(360f,4f),floatArrayOf(0f,4f) ))
                     // ハイポサイクロイド曲線(hypocycloid)(k=2.1)
-                    drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_034,resources.getString(R.string.draw_curve_hypocycloid_004), floatArrayOf(3600f,2.1f),floatArrayOf(0f,2.1f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_033,resources.getString(R.string.draw_curve_hypocycloid_033), floatArrayOf(3600f,2.1f),floatArrayOf(0f,2.1f) ))
                     // ハイポサイクロイド曲線(hypocycloid)(k=3.8)
-                    drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_035,resources.getString(R.string.draw_curve_hypocycloid_005), floatArrayOf(1800f,3.8f),floatArrayOf(0f,3.8f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_034,resources.getString(R.string.draw_curve_hypocycloid_034), floatArrayOf(1800f,3.8f),floatArrayOf(0f,3.8f) ))
                     // ハイポサイクロイド曲線(hypocycloid)(k=5.5)
-                    drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_036,resources.getString(R.string.draw_curve_hypocycloid_006), floatArrayOf(720f,5.5f),floatArrayOf(0f,5.5f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_035,resources.getString(R.string.draw_curve_hypocycloid_035), floatArrayOf(720f,5.5f),floatArrayOf(0f,5.5f) ))
                     // ハイポサイクロイド曲線(hypocycloid)(k=7.2)
-                    drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_037,resources.getString(R.string.draw_curve_hypocycloid_007), floatArrayOf(1800f,7.2f),floatArrayOf(0f,7.2f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_036,resources.getString(R.string.draw_curve_hypocycloid_036), floatArrayOf(1800f,7.2f),floatArrayOf(0f,7.2f) ))
                 }
                 // フラクタルを選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL -> {
@@ -40,7 +58,13 @@ class DrawDataFactory {
                     // コッホ雪片
                     drawDataLst.add(DrawData(DrawDataID.ID_KOCH_SNOWFLAKE_102,resources.getString(R.string.draw_fractal_koch_snowflake_102), floatArrayOf(4f), floatArrayOf(0f) ))
                     // 樹木曲線
-                    drawDataLst.add(DrawData(DrawDataID.ID_TREE_CURVE_103,resources.getString(R.string.draw_fractal_tree_103), floatArrayOf(6f), floatArrayOf(0f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_TREE_CURVE_103,resources.getString(R.string.draw_fractal_tree_curve_103), floatArrayOf(6f), floatArrayOf(0f) ))
+                    // ドラゴン曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_DRAGON_CURVE_104,resources.getString(R.string.draw_fractal_dragon_curve_104), floatArrayOf(6f), floatArrayOf(0f) ))
+                    // シェルピンスキーの三角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_SIERPINSKI_TRIANGLE_105,resources.getString(R.string.draw_fractal_sierpinski_triangle_105), floatArrayOf(2f), floatArrayOf(0f) ))
+                    // シェルピンスキーのカーペット
+                    drawDataLst.add(DrawData(DrawDataID.ID_SIERPINSKI_CARPET_106,resources.getString(R.string.draw_fractal_sierpinski_carpet_106), floatArrayOf(2f), floatArrayOf(0f) ))
                 }
                 // フラクタル(複素数)を選択したときの描画データの一覧
                 MenuItem.MENU_COMPLEX -> {

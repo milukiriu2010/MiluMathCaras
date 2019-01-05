@@ -11,18 +11,28 @@
     <string name="menu_main_help">Help</string>
     <string name="menu_sub_curve">Curve</string>
     <string name="menu_sub_epicycloid">Epicycloid</string>
+    <string name="menu_sub_hypocycloid">Hypocycloid</string>
     <string name="menu_sub_fractal">Fractal</string>
     <string name="menu_sub_complex">Complex</string>
     <string name="menu_sub_about">About Me</string>
     <string name="draw_curve_cycloid_001">Cycloid</string>
-    <string name="draw_curve_deltoid_002">Deltoid</string>
-    <string name="draw_curve_astroid_003">Astroid</string>
-    <string name="draw_curve_hypocycloid_004">Hypocycloid(k=2.1)</string>
-    <string name="draw_curve_hypocycloid_005">Hypocycloid(k=3.8)</string>
-    <string name="draw_curve_hypocycloid_006">Hypocycloid(k=5.5)</string>
-    <string name="draw_curve_hypocycloid_007">Hypocycloid(k=7.2)</string>
+    <string name="draw_curve_cardioid_021">Cardioid</string>
+    <string name="draw_curve_epicycloid_022">Epicycloid(k=4.0)</string>
+    <string name="draw_curve_epicycloid_023">Epicycloid(k=2.1)</string>
+    <string name="draw_curve_epicycloid_024">Epicycloid(k=3.8)</string>
+    <string name="draw_curve_epicycloid_025">Epicycloid(k=5.5)</string>
+    <string name="draw_curve_epicycloid_026">Epicycloid(k=7.2)</string>
+    <string name="draw_curve_deltoid_031">Deltoid</string>
+    <string name="draw_curve_astroid_032">Astroid</string>
+    <string name="draw_curve_hypocycloid_033">Hypocycloid(k=2.1)</string>
+    <string name="draw_curve_hypocycloid_034">Hypocycloid(k=3.8)</string>
+    <string name="draw_curve_hypocycloid_035">Hypocycloid(k=5.5)</string>
+    <string name="draw_curve_hypocycloid_036">Hypocycloid(k=7.2)</string>
     <string name="draw_fractal_takagi_curve_101">Takagi Curve</string>
     <string name="draw_fractal_koch_snowflake_102">Koch Snowflake</string>
-    <string name="draw_fractal_tree_103">Tree Curve</string>
+    <string name="draw_fractal_tree_curve_103">Tree Curve</string>
+    <string name="draw_fractal_dragon_curve_104">Dragon Curve</string>
+    <string name="draw_fractal_sierpinski_triangle_105">Sierpinski Triangle</string>
+    <string name="draw_fractal_sierpinski_carpet_106">Sierpinski Carpet</string>
     <string name="draw_complex_mandelbrot_set_201">Mandelbrot Set</string>
 </resources>

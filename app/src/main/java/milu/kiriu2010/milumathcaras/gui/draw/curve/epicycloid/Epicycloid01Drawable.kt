@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.curve.hypocycloid
+package milu.kiriu2010.milumathcaras.gui.draw.curve.epicycloid
 
 import android.graphics.*
 import android.os.Handler
@@ -12,17 +12,16 @@ import kotlin.math.pow
 import kotlin.math.sin
 
 // -------------------------------------------------------------------------------------
-// ハイポサイクロイド曲線
+// エピサイクロイド曲線
 // -------------------------------------------------------------------------------------
-//   x = r * (k-1) * cos(t) + r * cos((k-1)*t)
-//   y = r * (k-1) * sin(t) - r * sin((k-1)*t)
+//   x = r * (k+1) * cos(t) - r * cos((k+1)*t)
+//   y = r * (k+1) * sin(t) - r * sin((k+1)*t)
 // -------------------------------------------------------------------------------------
-//   k = 3.0 => 三芒形/三尖形(deltoid)
-//   k = 4.0 => アステロイド(astroid)
+//   k = 1.0 => カージオイド(cardioid)
 // -------------------------------------------------------------------------------------
-// https://en.wikipedia.org/wiki/Hypocycloid
+// https://en.wikipedia.org/wiki/Epicycloid
 // -------------------------------------------------------------------------------------
-class Hypocycloid01Drawable: MyDrawable() {
+class Epicycloid01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -31,14 +30,19 @@ class Hypocycloid01Drawable: MyDrawable() {
     private val margin = 50f
 
     // -------------------------------------------
-    // ハイポサイクロイド曲線描画に使う外円の半径
+    // エピサイクロイド曲線描画に使う外円の半径
     // -------------------------------------------
-    private val rR = 500f
+    // とりあえず、k=1.0のとき
+    // 外周する円の全体が描かれるようにすると、
+    // 1000f/2/(外円の半径+外周する円の直径)
+    //  = 1000f/2/3
+    // -------------------------------------------
+    private val rR = side/6f
 
     // -------------------------------------------
-    // ハイポサイクロイド曲線描画に使う内円の係数
+    // エピサイクロイド曲線描画に使う外周する円の係数
     // -------------------------------------------
-    private var k = 4.0f
+    private var k = 1.0f
 
     // -------------------------------
     // 現在値として描画する円の半径
@@ -46,13 +50,13 @@ class Hypocycloid01Drawable: MyDrawable() {
     private val nr = 10f
 
     // ------------------------------------
-    // ハイポサイクロイド曲線の媒介変数(度)
+    // エピサイクロイド曲線の媒介変数(度)
     // ------------------------------------
     private var angle = 0f
     private var angleMax = 360f
 
     // ------------------------------------
-    // ハイポサイクロイド曲線の描画点リスト
+    // エピサイクロイド曲線の描画点リスト
     // ------------------------------------
     val pointLst = mutableListOf<MyPointF>()
 
@@ -82,7 +86,7 @@ class Hypocycloid01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // ハイポサイクロイド曲線を描くペイント
+    // エピサイクロイド曲線を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
@@ -91,7 +95,7 @@ class Hypocycloid01Drawable: MyDrawable() {
     }
 
     // ---------------------------------------
-    // ハイポサイクロイド曲線の現在値を描くペイント
+    // エピサイクロイド曲線の現在値を描くペイント
     // ---------------------------------------
     private val lineNowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
@@ -99,7 +103,7 @@ class Hypocycloid01Drawable: MyDrawable() {
     }
 
     // ---------------------------------------
-    // ハイポサイクロイド曲線に沿う円を描くペイント
+    // エピサイクロイド曲線に沿う円を描くペイント
     // ---------------------------------------
     private val circlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLUE
@@ -108,7 +112,7 @@ class Hypocycloid01Drawable: MyDrawable() {
     }
 
     // -----------------------------------------------
-    // ハイポサイクロイド曲線に沿う円の現在値を描くペイント
+    // エピサイクロイド曲線に沿う円の現在値を描くペイント
     // -----------------------------------------------
     private val circleNowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLUE
@@ -137,7 +141,7 @@ class Hypocycloid01Drawable: MyDrawable() {
     // 可変変数 values の引数位置による意味合い
     //
     // 第１引数:媒介変数の初期位置(通常は0度)
-    // 第２引数:ハイポサイクロイド曲線描画に使う内円の係数
+    // 第２引数:エピサイクロイド曲線描画に使う外周する円の係数
     // -------------------------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
         // 媒介変数の初期位置
@@ -148,21 +152,21 @@ class Hypocycloid01Drawable: MyDrawable() {
             when (index) {
                 // 媒介変数の初期位置
                 0 -> angleInit = fl
-                // ハイポサイクロイド曲線描画に使う内円の係数
+                // エピサイクロイド曲線描画に使う外周する円の係数
                 1 -> k = fl
             }
         }
 
-        // ハイポサイクロイド曲線の媒介変数(度)の最大値を求める
+        // エピサイクロイド曲線の媒介変数(度)の最大値を求める
         calAngleMax()
 
-        // ハイポサイクロイド曲線の描画点を追加
+        // エピサイクロイド曲線の描画点を追加
         addPoint()
         // 初期位置に車で描画点を追加する
         while ( angle < angleInit )  {
-            // ハイポサイクロイド曲線の描画点を移動
+            // エピサイクロイド曲線の描画点を移動
             movePoint()
-            // ハイポサイクロイド曲線の描画点を追加
+            // エピサイクロイド曲線の描画点を追加
             addPoint()
         }
         // ビットマップに描画
@@ -173,9 +177,9 @@ class Hypocycloid01Drawable: MyDrawable() {
         // 描画に使うスレッド
         if ( isKickThread ) {
             runnable = Runnable {
-                // ハイポサイクロイド曲線の描画点を移動
+                // エピサイクロイド曲線の描画点を移動
                 movePoint()
-                // ハイポサイクロイド曲線の描画点を追加
+                // エピサイクロイド曲線の描画点を追加
                 addPoint()
                 // ビットマップに描画
                 drawBitmap()
@@ -196,20 +200,20 @@ class Hypocycloid01Drawable: MyDrawable() {
     }
 
     // -----------------------------------------------------
-    // ハイポサイクロイド曲線の媒介変数(度)の最大値を求める
+    // エピサイクロイド曲線の媒介変数(度)の最大値を求める
     // -----------------------------------------------------
     private fun calAngleMax() {
-        // ハイポサイクロイド曲線描画に使う内円の係数の小数点以下の桁数
+        // エピサイクロイド曲線描画に使う外周する円の係数の小数点以下の桁数
         val numOfDecimals = MyMathUtil.getNumberOfDecimals(k)
         //Log.d(javaClass.simpleName,"numOfDecimals[$numOfDecimals]")
 
-        // "ハイポサイクロイド曲線描画に使う内円の係数"が整数となるよう補正する値(分母)
+        // "エピサイクロイド曲線描画に使う外周する円の係数"が整数となるよう補正する値(分母)
         // kが整数になるように10の倍数を掛けた値
         val kD = 10f.pow(numOfDecimals).toInt()
         // kDを"kDとkNの最大公約数"で割った値
         var kd = kD
 
-        // "ハイポサイクロイド曲線描画に使う内円の係数"が整数となるよう補正された値(分子)
+        // "エピサイクロイド曲線描画に使う外周する円の係数"が整数となるよう補正された値(分子)
         // kが整数になるように掛けた値(10の倍数)
         val kN = (k * kD).toInt()
         // kNを"kDとkNの最大公約数"で割った値
@@ -222,12 +226,12 @@ class Hypocycloid01Drawable: MyDrawable() {
         // k=3.8 => kD=10,kN=38 => kd= 5,kn=19
         // k=5.5 => kD=10,kN=55 => kd= 2,kn=11
         // k=7.2 => kD=10,kN=72 => kd= 5,kn=36
-        //   kd:ハイポサイクロイド曲線を描く点が元の位置に戻るために外円を周回する回数
-        //   kn:ハイポサイクロイド曲線を描く点が外円と接する回数(内円が回転する回数)
+        //   kd:エピサイクロイド曲線を描く点が元の位置に戻るために外円を周回する回数
+        //   kn:エピサイクロイド曲線を描く点が外円と接する回数(外周する円が回転する回数)
         // ----------------------------------------------------------------------------
         // 少しわかりづらいので、書き直すと、
-        // k=3.0の場合、内円が外円内を1周する間に、内円自身は 3周自転している
-        // k=5.5の場合、内円が外円内を2周する間に、内円自身は11周自転している
+        // k=3.0の場合、外周する円が外円を1周する間に、外周する円自身は 3周自転している
+        // k=5.5の場合、外周する円が外円を2周する間に、外周する円自身は11周自転している
         // ----------------------------------------------------------------------------
         // kdとknは、kDとkNそれぞれに10の倍数を掛けた値なので、
         // 2 or 5で割り切れる可能性がある
@@ -250,16 +254,16 @@ class Hypocycloid01Drawable: MyDrawable() {
     }
 
     // ------------------------------------
-    // ハイポサイクロイド曲線の描画点を追加
+    // エピサイクロイド曲線の描画点を追加
     // ------------------------------------
     private fun addPoint() {
-        // ハイポサイクロイド曲線を描く内円の半径
+        // エピサイクロイド曲線を描く外周する円の半径
         val rR1 = rR/k
 
-        // ハイポサイクロイド曲線の描画点リストに現在の描画点
-        val x = (rR - rR1) * cos(angle*PI/180f).toFloat() + rR1 * cos((k-1)*angle*PI/180f).toFloat()
-        val y = (rR - rR1) * sin(angle*PI/180f).toFloat() - rR1 * sin((k-1)*angle*PI/180f).toFloat()
-        // ハイポサイクロイド曲線の描画点リストに現在の描画点を加える
+        // エピサイクロイド曲線の描画点リストに現在の描画点
+        val x = (rR + rR1) * cos(angle*PI/180f).toFloat() - rR1 * cos((k+1)*angle*PI/180f).toFloat()
+        val y = (rR + rR1) * sin(angle*PI/180f).toFloat() - rR1 * sin((k+1)*angle*PI/180f).toFloat()
+        // エピサイクロイド曲線の描画点リストに現在の描画点を加える
         val pointNow = MyPointF(x,y)
         pointLst.add(pointNow)
 
@@ -268,7 +272,7 @@ class Hypocycloid01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // ハイポサイクロイド曲線の描画点を移動
+    // エピサイクロイド曲線の描画点を移動
     // -------------------------------
     private fun movePoint() {
         // 5度ずつ移動する
@@ -277,7 +281,7 @@ class Hypocycloid01Drawable: MyDrawable() {
 
         // 最大値を超えたら
         // ・元の位置に戻す
-        // ・ハイポサイクロイド曲線の描画点リストをクリアする
+        // ・エピサイクロイド曲線の描画点リストをクリアする
         if ( angle > angleMax ) {
             angle = 0f
             pointLst.clear()
@@ -312,34 +316,35 @@ class Hypocycloid01Drawable: MyDrawable() {
         canvas.drawLine(0f,0f,0f,intrinsicHeight.toFloat(), framePaint)
         canvas.restore()
 
-        // 原点(x0,y0)を中心に円・ハイポサイクロイド曲線を描く
+        // 原点(x0,y0)を中心に円・エピサイクロイド曲線を描く
         canvas.save()
         canvas.translate(x0,y0)
 
-        // ハイポサイクロイド曲線を描く外円を描画
+        // エピサイクロイド曲線を描く外円を描画
+        //canvas.drawCircle(0f,0f,rR,backPaint)
         canvas.drawCircle(0f,0f,rR,framePaint)
 
-        // ハイポサイクロイド曲線を描く内円の半径
+        // エピサイクロイド曲線を描く外周する円の半径
         val rR1 = rR/k
-        // ハイポサイクロイド曲線を描く内円の中心が軌道を描く円の半径
-        val rR2 = rR - rR1
-        // ハイポサイクロイド曲線を描く内円の中心が軌道を描く円の媒介変数
+        // エピサイクロイド曲線を描く外周する円の中心が軌道を描く円の半径
+        val rR2 = rR + rR1
+        // エピサイクロイド曲線を描く外周する円の中心が軌道を描く円の媒介変数
         val t2 = angle*PI.toFloat()/180f
-        // ハイポサイクロイド曲線を描く内円を描画
-        // 初期    の中心座標  (rR - rR/k,0)
+        // エピサイクロイド曲線を描く外周する円を描画
+        // 初期    の中心座標  (rR + rR/k,0)
         canvas.drawCircle(rR2*cos(t2),rR2*sin(t2),rR1,backPaint)
         canvas.drawCircle(rR2*cos(t2),rR2*sin(t2),rR1,circlePaint)
 
-        // ハイポサイクロイド曲線の現在値を取得
+        // エピサイクロイド曲線の現在値を取得
         val nowPointF = when ( pointLst.size ) {
             0 -> MyPointF(0f,0f)
             else -> pointLst[pointLst.size-1]
         }
 
-        // "内円の中心"と"ハイポサイクロイド曲線の現在値"を結ぶ
+        // "外周する円の中心"と"エピサイクロイド曲線の現在値"を結ぶ
         canvas.drawLine(rR2*cos(t2),rR2*sin(t2),nowPointF.x,nowPointF.y,circlePaint)
 
-        // ハイポサイクロイド曲線を描く
+        // エピサイクロイド曲線を描く
         val path = Path()
         pointLst.forEachIndexed { index, myPointF ->
             if ( index == 0 ) {
@@ -351,10 +356,10 @@ class Hypocycloid01Drawable: MyDrawable() {
         }
         canvas.drawPath(path,linePaint)
 
-        // ハイポサイクロイド曲線を描く内円の中心の現在値をドットで描く
+        // エピサイクロイド曲線を描く外周する円の中心の現在値をドットで描く
         canvas.drawCircle(rR2*cos(t2),rR2*sin(t2),nr,circleNowPaint)
 
-        // ハイポサイクロイド曲線の現在値をドットで描く
+        // エピサイクロイド曲線の現在値をドットで描く
         canvas.drawCircle(nowPointF.x,nowPointF.y,nr,lineNowPaint)
 
         // 座標を元に戻す

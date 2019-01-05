@@ -103,6 +103,9 @@ class MenuFragment : Fragment() {
             // エピサイクロイドを表示するメニュー
             menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_EPICYCLOID, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_epicycloid)))
             // [サブメニュー]
+            // ハイポサイクロイドを表示するメニュー
+            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_HYPOCYCLOID, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_hypocycloid)))
+            // [サブメニュー]
             // フラクタル一覧を表示するメニュー
             menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal)))
             // [サブメニュー]
