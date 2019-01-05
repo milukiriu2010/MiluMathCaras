@@ -30,9 +30,9 @@ class SierpinskiCarpet01Drawable: MyDrawable() {
     private var nNow = 0
     // --------------------------------------------------------
     // 再帰レベルの最大値
-    //  7回描くと、それ以降は違いがわからないので8回としている
+    //  6回描くと、それ以降は違いがわからないので6回としている
     // --------------------------------------------------------
-    private val nMax = 3
+    private val nMax = 6
 
     // ----------------------------------------
     // シェルピンスキーのカーペットの描画点リスト
@@ -248,7 +248,7 @@ class SierpinskiCarpet01Drawable: MyDrawable() {
         // d0,d1,d2,d3を頂点とするカーペット
         calNextLevel(d0,d1,d2,d3,n-1)
         // d1,c0,c3,d2を頂点とするカーペット
-        calNextLevel(d1,c0,c3,d1,n-1)
+        calNextLevel(d1,c0,c3,d2,n-1)
         // c0,c1,c2,c3を頂点とするカーペット
         calNextLevel(c0,c1,c2,c3,n-1)
     }
