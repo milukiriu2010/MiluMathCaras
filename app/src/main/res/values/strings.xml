@@ -16,6 +16,7 @@
     <string name="menu_sub_complex">Complex</string>
     <string name="menu_sub_about">About Me</string>
     <string name="draw_curve_cycloid_001">Cycloid</string>
+    <string name="draw_curve_logarithmic_spiral_002">Logarithmic Spiral</string>
     <string name="draw_curve_cardioid_021">Cardioid</string>
     <string name="draw_curve_epicycloid_022">Epicycloid(k=4.0)</string>
     <string name="draw_curve_epicycloid_023">Epicycloid(k=2.1)</string>

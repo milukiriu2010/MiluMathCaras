@@ -6,6 +6,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.complex.mandelbrot.Mandelbrot01Draw
 import milu.kiriu2010.milumathcaras.gui.draw.curve.cycloid.Cycloid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.epicycloid.Epicycloid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.hypocycloid.Hypocycloid01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiral01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.dragon.DragonCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.hilbert.HilbertCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.koch.KochSnowflake01Drawable
@@ -21,6 +22,8 @@ class MyDrawableFactory {
             val myDrawable = when ( id ) {
                 // サイクロイド曲線(cycloid)
                 DrawDataID.ID_CYCLOID_001 -> Cycloid01Drawable()
+                // 対数螺旋
+                DrawDataID.ID_LOGARITHMIC_SPIRAL_002 -> LogarithmicSpiral01Drawable()
                 // カージオイド曲線(cardioid)
                 DrawDataID.ID_CARDIOID_021 -> Epicycloid01Drawable()
                 // エピサイクロイド曲線(k=4.0)
