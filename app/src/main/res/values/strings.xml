@@ -34,5 +34,7 @@
     <string name="draw_fractal_dragon_curve_104">Dragon Curve</string>
     <string name="draw_fractal_sierpinski_triangle_105">Sierpinski Triangle</string>
     <string name="draw_fractal_sierpinski_carpet_106">Sierpinski Carpet</string>
+    <string name="draw_fractal_hilbert_curve_107">Hilbert Curve</string>
     <string name="draw_complex_mandelbrot_set_201">Mandelbrot Set</string>
+    <string name="draw_complex_julia_set_251">Julia Set</string>
 </resources>

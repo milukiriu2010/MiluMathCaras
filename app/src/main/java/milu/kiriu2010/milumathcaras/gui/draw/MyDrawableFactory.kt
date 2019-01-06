@@ -1,11 +1,13 @@
 package milu.kiriu2010.milumathcaras.gui.draw
 
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
+import milu.kiriu2010.milumathcaras.gui.draw.complex.julia.Julia01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.complex.mandelbrot.Mandelbrot01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.cycloid.Cycloid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.epicycloid.Epicycloid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.hypocycloid.Hypocycloid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.dragon.DragonCurve01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.fractal.hilbert.HilbertCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.koch.KochSnowflake01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.sierpinski.SierpinskiCarpet01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.sierpinski.SierpinskiTriangle01Drawable
@@ -55,8 +57,12 @@ class MyDrawableFactory {
                 DrawDataID.ID_SIERPINSKI_TRIANGLE_105 -> SierpinskiTriangle01Drawable()
                 // シェルピンスキーのカーペット
                 DrawDataID.ID_SIERPINSKI_CARPET_106 -> SierpinskiCarpet01Drawable()
+                // ヒルベルト曲線
+                DrawDataID.ID_HILBERT_CURVE_107 -> HilbertCurve01Drawable()
                 // マンデルブロ―集合
                 DrawDataID.ID_MANDELBRO_SET_201 -> Mandelbrot01Drawable()
+                // ジュリア集合
+                DrawDataID.ID_JULIA_SET_251 -> Julia01Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")
             }
 

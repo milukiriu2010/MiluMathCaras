@@ -319,12 +319,12 @@ class Mandelbrot01Drawable: MyDrawable() {
     // -------------------------------------
     private fun chkDiverge(z0: Complex): Int {
         var z = z0
-        (1..nMax).forEach { t ->
+        (0 until nMax).forEach { t ->
+            z = z.times(z).plus(z0)
             // -------------------------------------------
             // 絶対値が2を超える場合は、発散するとみなす。
             // -------------------------------------------
             if (z.abs() > 2.0) return t
-            z = z.times(z).plus(z0)
         }
         return -1
     }

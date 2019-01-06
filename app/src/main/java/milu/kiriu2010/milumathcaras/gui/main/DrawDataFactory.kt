@@ -65,11 +65,15 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_SIERPINSKI_TRIANGLE_105,resources.getString(R.string.draw_fractal_sierpinski_triangle_105), floatArrayOf(2f), floatArrayOf(0f) ))
                     // シェルピンスキーのカーペット
                     drawDataLst.add(DrawData(DrawDataID.ID_SIERPINSKI_CARPET_106,resources.getString(R.string.draw_fractal_sierpinski_carpet_106), floatArrayOf(2f), floatArrayOf(0f) ))
+                    // ヒルベルト曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_HILBERT_CURVE_107,resources.getString(R.string.draw_fractal_hilbert_curve_107), floatArrayOf(2f), floatArrayOf(0f) ))
                 }
                 // フラクタル(複素数)を選択したときの描画データの一覧
                 MenuItem.MENU_COMPLEX -> {
                     // マンデルブロ―集合
                     drawDataLst.add(DrawData(DrawDataID.ID_MANDELBRO_SET_201,resources.getString(R.string.draw_complex_mandelbrot_set_201), floatArrayOf(0.1f), floatArrayOf(0.001f) ))
+                    // ジュリア集合
+                    drawDataLst.add(DrawData(DrawDataID.ID_JULIA_SET_251,resources.getString(R.string.draw_complex_julia_set_251), floatArrayOf(0.1f), floatArrayOf(0.001f) ))
                 }
                 else -> {
                     throw RuntimeException("No Draw List for ${menuData.menuItem.title}")
