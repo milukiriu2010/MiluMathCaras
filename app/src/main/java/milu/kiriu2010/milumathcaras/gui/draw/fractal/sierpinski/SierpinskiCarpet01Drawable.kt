@@ -30,9 +30,9 @@ class SierpinskiCarpet01Drawable: MyDrawable() {
     private var nNow = 0
     // --------------------------------------------------------
     // 再帰レベルの最大値
-    //  6回描くと、それ以降は違いがわからないので6回としている
+    //  5回描くと遅いので、5回までとしている
     // --------------------------------------------------------
-    private val nMax = 6
+    private val nMax = 5
 
     // ----------------------------------------
     // シェルピンスキーのカーペットの描画点リスト
@@ -201,36 +201,45 @@ class SierpinskiCarpet01Drawable: MyDrawable() {
         // a3,a2,b3,b2
         // a0,a1,b0,b1
         // -----------------------------------
+        // "A-B"のX座標の"左:右=1:3"
+        val l1r3 = (2f*a.x+b.x)/3f
+        // "A-B"のX座標の"左:右=3:1"
+        val l3r1 = (a.x+2f*b.x)/3f
+        // "D-A"のY座標の"上:下=1:3"
+        val u1d3 = (2f*d.y+a.y)/3f
+        // "D-A"のY座標の"上:下=3:1"
+        val u3d1 = (d.y+2f*a.y)/3f
+
         // a0:A
         val a0 = a
-        // a1:("A-B"の1/3,"A-B"の1/3)
-        val a1 = MyPointF(a.x+(b.x-a.x)/3f,a.y)
+        // a1:("A-B"の1/3,A)
+        val a1 = MyPointF(l1r3,a.y)
         // a2:("A-B"の1/3,"D-A"の2/3)
-        val a2 = MyPointF(a.x+(b.x-a.x)/3f,d.y+(a.y-d.y)*2f/3f)
+        val a2 = MyPointF(l1r3,u3d1)
         // a3:(A,"D-A"の2/3)
-        val a3 = MyPointF(a.x,d.y+(a.y-d.y)*2f/3f)
+        val a3 = MyPointF(a.x,u3d1)
         // b0:("A-B"の2/3,B)
-        val b0 = MyPointF(a.x+(b.x-a.x)*2f/3f,b.y)
+        val b0 = MyPointF(l3r1,b.y)
         // b1:B
         val b1 = b
-        // b2:(B,"B-C"の1/3)
-        val b2 = MyPointF(b.x,b.y+(c.y-b.y)/3f)
-        // b3:("A-B"の2/3,"B-C"の1/3)
-        val b3 = MyPointF(a.x+(b.x-a.x)*2f/3f,b.y+(c.y-b.y)/3f)
-        // c0:("A-B"の2/3,"B-C"の2/3)
-        val c0 = MyPointF(a.x+(b.x-a.x)*2f/3f,b.y+(c.y-b.y)*2f/3f)
-        // c1:(C,"B-C"の2/3)
-        val c1 = MyPointF(c.x,b.y+(c.y-b.y)*2f/3f)
+        // b2:(B,"D-A"の2/3)
+        val b2 = MyPointF(b.x,u3d1)
+        // b3:("A-B"の2/3,"D-A"の2/3)
+        val b3 = MyPointF(l3r1,u3d1)
+        // c0:("A-B"の2/3,"D-A"の1/3)
+        val c0 = MyPointF(l3r1,u1d3)
+        // c1:(C,"D-A"の1/3)
+        val c1 = MyPointF(c.x,u1d3)
         // c2:C
         val c2 = c
         // c3:("A-B"の2/3,C)
-        val c3 = MyPointF(a.x+(b.x-a.x)*2f/3f,c.y)
+        val c3 = MyPointF(l3r1,c.y)
         // d0:(D,"D-A"の1/3)
-        val d0 = MyPointF(d.x,d.y+(a.y-d.y)/3f)
+        val d0 = MyPointF(d.x,u1d3)
         // d1:("A-B"の1/3,"D-A"の1/3)
-        val d1 = MyPointF(a.x+(b.x-a.x)/3f,d.y+(a.y-d.y)/3f)
+        val d1 = MyPointF(l1r3,u1d3)
         // d2:("A-B"の1/3,D)
-        val d2 = MyPointF(a.x+(b.x-a.x)/3f,d.y)
+        val d2 = MyPointF(l1r3,d.y)
         // d3:D
         val d3 = d
 
