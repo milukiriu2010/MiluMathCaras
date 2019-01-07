@@ -38,7 +38,15 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
     // 対数螺旋の回転角度
     // -------------------------------
     private var angle = 0f
-    private var angleMax = 360f
+    private var angleMax = 1800f
+
+    // -------------------------------
+    // 対数螺旋の回転方向
+    // -------------------------------
+    // +1:内に収束するようにみえる
+    // -1:外に広がるようにみえる
+    // -------------------------------
+    private var sign = +1f
 
     // -------------------------------
     // 対数螺旋の描画点リスト
@@ -129,8 +137,14 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
                 // 描画
                 invalidateSelf()
 
+                // 最初と最後は1秒後に描画
+                if (angle == angleMax || angle == 0f) {
+                    handler.postDelayed(runnable, 1000)
+                }
                 // 100msごとに描画
-                handler.postDelayed(runnable, 100)
+                else {
+                    handler.postDelayed(runnable, 100)
+                }
             }
             handler.postDelayed(runnable, 1000)
         }
@@ -174,9 +188,12 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
     private fun rotatePath() {
         angle += 20f
 
-        // １周したら、元の角度に戻す
+        // ５周したら、
+        // ・元の角度に戻す
+        // ・回転方向を変更する
         if ( angle >= angleMax ) {
             angle = 0f
+            sign = -1f*sign
         }
         // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
         notifyCallback?.receive(angle)
@@ -216,8 +233,8 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
             // angleに+1をかけると、内に収束するようにみえる
             // angleに-1をかけると、外に広がるようにみえる
             // ------------------------------------------------------------------------
-            val x0 = lenXY * cos((+1f*angle+angleXY)*PI/180f)
-            val y0 = lenXY * sin((+1f*angle+angleXY)*PI/180f)
+            val x0 = lenXY * cos((sign*angle+angleXY)*PI/180f)
+            val y0 = lenXY * sin((sign*angle+angleXY)*PI/180f)
             if ( index == 0 ) {
                 path.moveTo(x0.toFloat(),y0.toFloat())
             }

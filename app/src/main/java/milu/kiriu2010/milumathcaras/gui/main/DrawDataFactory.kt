@@ -21,7 +21,7 @@ class DrawDataFactory {
                     // サイクロイド曲線(cycloid)
                     drawDataLst.add(DrawData(DrawDataID.ID_CYCLOID_001,resources.getString(R.string.draw_curve_cycloid_001), floatArrayOf(720f) ))
                     // 対数螺旋
-                    drawDataLst.add(DrawData(DrawDataID.ID_LOGARITHMIC_SPIRAL_002,resources.getString(R.string.draw_curve_logarithmic_spiral_002), floatArrayOf(720f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_LOGARITHMIC_SPIRAL_002,resources.getString(R.string.draw_curve_logarithmic_spiral_002), floatArrayOf(0f) ))
                 }
                 // エピサイクロイドを選択したときの描画データの一覧
                 MenuItem.MENU_EPICYCLOID -> {
