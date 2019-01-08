@@ -249,7 +249,6 @@ class Julia01Drawable: MyDrawable() {
         val matrix = Matrix()
         matrix.postScale(1f,-1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
-        canvas.drawBitmap(tmpBitmap,0f,0f,backPaint)
     }
 
     // -------------------------------
@@ -325,7 +324,7 @@ class Julia01Drawable: MyDrawable() {
     // -------------------------------------
     private fun chkDiverge(z0: Complex): Int {
         var z = z0
-        (0 until nMax).forEach { t ->
+        (1..nMax).forEach { t ->
             z = z.times(z).plus(complex)
             // -------------------------------------------
             // 絶対値が2を超える場合は、発散するとみなす。

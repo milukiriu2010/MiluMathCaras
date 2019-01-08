@@ -1,23 +1,27 @@
-package milu.kiriu2010.milumathcaras.gui.draw.curve.spiral
+package milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid
 
 import android.graphics.*
 import android.os.Handler
 import milu.kiriu2010.gui.basic.MyPointF
-import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
-import kotlin.math.*
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
 // -------------------------------------------------------------------------------------
-// 対数螺旋/ベルヌーイの螺旋
+// トロコイド曲線
 // -------------------------------------------------------------------------------------
-//   x = r * cos(t) = a * exp(b*t) * cos(t)
-//   y = r * sin(t) = a * exp(b*t) * sin(t)
+//   x = a * t - b * sin(t)
+//   y = a     - b * cos(t)
 // -------------------------------------------------------------------------------------
-// https://en.wikipedia.org/wiki/Logarithmic_spiral
-// https://www.mathcurve.com/courbes2d.gb/logarithmic/logarithmic.shtml
+// "a<b" ⇒ 螺旋を描く
+// "a=b" ⇒ サイクロイド曲線
+// "a>b" ⇒ 緩やかな波
 // -------------------------------------------------------------------------------------
-class LogarithmicSpiral01Drawable: MyDrawable() {
+// https://en.wikipedia.org/wiki/Trochoid
+// -------------------------------------------------------------------------------------
+class Trochoid01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -26,30 +30,32 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
     private val margin = 50f
 
     // ---------------------------------
-    // 対数螺旋の変数a
+    // トロコイド曲線に接する円の半径
     // ---------------------------------
-    private val a = 2f
+    private val r = 70f
+
     // ---------------------------------
-    // 対数螺旋の変数b
+    // トロコイド曲線の係数b/a
     // ---------------------------------
-    private val b = 0.14f
+    // "b/a>1" ⇒ 螺旋を描く
+    // "b/a=1" ⇒ サイクロイド曲線
+    // "b/a<1" ⇒ 緩やかな波
+    // ---------------------------------
+    private var b_a = 1.5f
 
     // -------------------------------
-    // 対数螺旋の回転角度
+    // 現在地として描画する円の半径
+    // -------------------------------
+    private val nr = 10f
+
+    // -------------------------------
+    // トロコイド曲線の媒介変数(度)
     // -------------------------------
     private var angle = 0f
-    private var angleMax = 1080f
+    private var angleMax = 720f
 
     // -------------------------------
-    // 対数螺旋の回転方向
-    // -------------------------------
-    // +1:内に収束するようにみえる
-    // -1:外に広がるようにみえる
-    // -------------------------------
-    private var sign = +1f
-
-    // -------------------------------
-    // 対数螺旋の描画点リスト
+    // トロコイド曲線の描画点リスト
     // -------------------------------
     val pointLst = mutableListOf<MyPointF>()
 
@@ -79,12 +85,37 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 対数螺旋を描くペイント
+    // トロコイド曲線を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
         style = Paint.Style.STROKE
         strokeWidth = 5f
+    }
+
+    // ---------------------------------------
+    // トロコイド曲線の現在値を描くペイント
+    // ---------------------------------------
+    private val lineNowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.RED
+        style = Paint.Style.FILL
+    }
+
+    // ---------------------------------------
+    // トロコイド曲線に沿う円を描くペイント
+    // ---------------------------------------
+    private val circlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.BLUE
+        style = Paint.Style.STROKE
+        strokeWidth = 3f
+    }
+
+    // -----------------------------------------------
+    // トロコイド曲線に沿う円の現在値を描くペイント
+    // -----------------------------------------------
+    private val circleNowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.BLUE
+        style = Paint.Style.FILL
     }
 
     // -------------------------------------
@@ -107,21 +138,28 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
     // 描画に使うデータを計算する
     // --------------------------------------
     // values
-    // 第１引数:対数螺旋の回転角度
+    // 第１引数:媒介変数の初期位置(通常は0度)
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
-        // 対数螺旋の回転角度
-        angle = 0f
+        // 媒介変数の初期位置
+        var angleInit = 0f
         values.forEachIndexed { index, fl ->
             //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
             when (index) {
-                // 対数螺旋の回転角度
-                0 -> angle = fl
+                // 媒介変数の初期位置
+                0 -> angleInit = fl
             }
         }
 
-        // 対数螺旋の描画点リストを生成
-        createPath()
+        // サイクロイド曲線の描画点を追加
+        addPoint()
+        // 初期位置に車で描画点を追加する
+        while ( angle < angleInit )  {
+            // サイクロイド曲線の描画点を移動
+            movePoint()
+            // サイクロイド曲線の描画点を追加
+            addPoint()
+        }
         // ビットマップに描画
         drawBitmap()
         // 描画
@@ -130,8 +168,10 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
         // 描画に使うスレッド
         if ( isKickThread ) {
             runnable = Runnable {
-                // 対数螺旋を回転する
-                rotatePath()
+                // サイクロイド曲線の描画点を移動
+                movePoint()
+                // サイクロイド曲線の描画点を追加
+                addPoint()
                 // ビットマップに描画
                 drawBitmap()
                 // 描画
@@ -168,35 +208,35 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 対数螺旋の描画点リストを生成
+    // トロコイド曲線の描画点を追加
     // -------------------------------
-    private fun createPath() {
-        // 描画点リストをクリア
-        pointLst.clear()
-
-        (0..2240 step 5).forEach {
-            val x = a*exp(b*it.toFloat()*PI/180f)*cos(it.toFloat()*PI/180f)
-            val y = a*exp(b*it.toFloat()*PI/180f)*sin(it.toFloat()*PI/180f)
-            pointLst.add(MyPointF(x.toFloat(),y.toFloat()))
-        }
+    private fun addPoint() {
+        // トロコイド曲線の描画点リストに現在の描画点
+        val x = r*(angle*PI/180f-b_a*sin(angle*PI/180f)).toFloat()
+        val y = r*(1-b_a*cos(angle*PI/180f)).toFloat()
+        // トロコイド曲線の描画点リストに現在の描画点を加える
+        val pointNow = MyPointF(x,y)
+        pointLst.add(pointNow)
 
         // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
         notifyCallback?.receive(angle)
     }
 
-    // 対数螺旋を回転する
-    private fun rotatePath() {
-        angle += 20f
+    // -------------------------------
+    // トロコイド曲線の描画点を移動
+    // -------------------------------
+    private fun movePoint() {
+        // 10度ずつ移動する
+        angle = angle + 10f
+        //Log.d(javaClass.simpleName,"angle[{$angle}]")
 
-        // ３周したら、
-        // ・元の角度に戻す
-        // ・回転方向を変更する
+        // 2周したら
+        // ・元の位置に戻す
+        // ・トロコイド曲線の描画点リストをクリアする
         if ( angle > angleMax ) {
             angle = 0f
-            sign = -1f*sign
+            pointLst.clear()
         }
-        // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
-        notifyCallback?.receive(angle)
     }
 
     // -------------------------------
@@ -211,38 +251,57 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
         // 原点(0,0)の位置
-        // = (左右中央,上下中央)
-        val x0 = intrinsicWidth/2f
-        val y0 = intrinsicHeight/2f
+        // = (マージン+半径分,上下中央)
+        val x0 = margin+r
+        val y0 = (intrinsicHeight/2).toFloat()
 
-        // 原点(x0,y0)を中心に対数螺旋を描く
+        // X軸を描画(上下中央)
+        canvas.save()
+        canvas.translate(0f,y0)
+        canvas.drawLine(0f,0f,intrinsicWidth.toFloat(),0f, framePaint)
+        canvas.restore()
+
+        // Y軸を描画("マージン＋半径分"右に移動)
+        canvas.save()
+        canvas.translate(x0,0f)
+        canvas.drawLine(0f,0f,0f,intrinsicHeight.toFloat(), framePaint)
+        canvas.restore()
+
+        // 原点(x0,y0)を中心に円・サイクロイド曲線を描く
         canvas.save()
         canvas.translate(x0,y0)
+        // トロコイド曲線に沿う円を描画
+        // 初期    の中心座標  (0    ,r)
+        // 円一周後の中心座標  (2r*PI,r)
+        canvas.drawCircle(2f*r*PI.toFloat()*angle/360f,r,r,backPaint)
+        canvas.drawCircle(2f*r*PI.toFloat()*angle/360f,r,r,circlePaint)
 
-        // 対数螺旋を描く
+        // トロコイド曲線の現在値を取得
+        val nowPointF = when ( pointLst.size ) {
+            0 -> MyPointF(0f,0f)
+            else -> pointLst[pointLst.size-1]
+        }
+
+        // "円の中心"と"サイクロイド曲線の現在値"を結ぶ
+        canvas.drawLine(2f*r*PI.toFloat()*angle/360f,r,nowPointF.x,nowPointF.y,circlePaint)
+
+        // トロコイド曲線を描く
         val path = Path()
         pointLst.forEachIndexed { index, myPointF ->
-            // 描画点の原点からの距離
-            val lenXY = sqrt(myPointF.x*myPointF.x+myPointF.y*myPointF.y)
-            // 描画点のX軸に対する角度
-            val angleXY = MyMathUtil.getAngle(MyPointF(0f,0f),myPointF)
-
-            // ------------------------------------------------------------------------
-            // 対数螺旋が回転しているようにみえるするために、描画点をangle度回転させる
-            // ------------------------------------------------------------------------
-            // angleに+1をかけると、内に収束するようにみえる
-            // angleに-1をかけると、外に広がるようにみえる
-            // ------------------------------------------------------------------------
-            val x1 = lenXY * cos((sign*angle+angleXY)*PI/180f)
-            val y1 = lenXY * sin((sign*angle+angleXY)*PI/180f)
             if ( index == 0 ) {
-                path.moveTo(x1.toFloat(),y1.toFloat())
+                path.moveTo(myPointF.x,myPointF.y)
             }
             else {
-                path.lineTo(x1.toFloat(),y1.toFloat())
+                path.lineTo(myPointF.x,myPointF.y)
             }
         }
         canvas.drawPath(path,linePaint)
+
+        // トロコイド曲線に沿う円の中心の現在値をドットで描く
+        canvas.drawCircle(2f*r*PI.toFloat()*angle/360f,r,nr,circleNowPaint)
+
+        // トロコイド曲線の現在値をドットで描く
+        canvas.drawCircle(nowPointF.x,nowPointF.y,nr,lineNowPaint)
 
         // 座標を元に戻す
         canvas.restore()

@@ -322,7 +322,6 @@ class SierpinskiCarpet01Drawable: MyDrawable() {
         val matrix = Matrix()
         matrix.postScale(1f,-1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
-        canvas.drawBitmap(tmpBitmap,0f,0f,backPaint)
     }
 
     // -------------------------------

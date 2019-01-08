@@ -3,10 +3,11 @@ package milu.kiriu2010.milumathcaras.gui.draw
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
 import milu.kiriu2010.milumathcaras.gui.draw.complex.julia.Julia01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.complex.mandelbrot.Mandelbrot01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.curve.cycloid.Cycloid01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid.Cycloid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.epicycloid.Epicycloid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.hypocycloid.Hypocycloid01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiral01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiral02Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid.Trochoid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.dragon.DragonCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.hilbert.HilbertCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.koch.KochSnowflake01Drawable
@@ -22,8 +23,12 @@ class MyDrawableFactory {
             val myDrawable = when ( id ) {
                 // サイクロイド曲線(cycloid)
                 DrawDataID.ID_CYCLOID_001 -> Cycloid01Drawable()
-                // 対数螺旋
-                DrawDataID.ID_LOGARITHMIC_SPIRAL_002 -> LogarithmicSpiral01Drawable()
+                // トロコイド曲線(trochoid)
+                DrawDataID.ID_TROCHOID_002 -> Trochoid01Drawable()
+                // 対数螺旋(描画点を回転させる方法)
+                //DrawDataID.ID_LOGARITHMIC_SPIRAL_010 -> LogarithmicSpiral01Drawable()
+                // 対数螺旋(画像を回転させる方法)
+                DrawDataID.ID_LOGARITHMIC_SPIRAL_010 -> LogarithmicSpiral02Drawable()
                 // カージオイド曲線(cardioid)
                 DrawDataID.ID_CARDIOID_021 -> Epicycloid01Drawable()
                 // エピサイクロイド曲線(k=4.0)

@@ -17,7 +17,7 @@ import kotlin.math.*
 // https://en.wikipedia.org/wiki/Logarithmic_spiral
 // https://www.mathcurve.com/courbes2d.gb/logarithmic/logarithmic.shtml
 // -------------------------------------------------------------------------------------
-class LogarithmicSpiral01Drawable: MyDrawable() {
+class LogarithmicSpiral02Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -207,8 +207,6 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
         // バックグランドを描画
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),backPaint)
 
-        // 枠を描画
-        canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
         // 原点(0,0)の位置
         // = (左右中央,上下中央)
@@ -222,19 +220,8 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
         // 対数螺旋を描く
         val path = Path()
         pointLst.forEachIndexed { index, myPointF ->
-            // 描画点の原点からの距離
-            val lenXY = sqrt(myPointF.x*myPointF.x+myPointF.y*myPointF.y)
-            // 描画点のX軸に対する角度
-            val angleXY = MyMathUtil.getAngle(MyPointF(0f,0f),myPointF)
-
-            // ------------------------------------------------------------------------
-            // 対数螺旋が回転しているようにみえるするために、描画点をangle度回転させる
-            // ------------------------------------------------------------------------
-            // angleに+1をかけると、内に収束するようにみえる
-            // angleに-1をかけると、外に広がるようにみえる
-            // ------------------------------------------------------------------------
-            val x1 = lenXY * cos((sign*angle+angleXY)*PI/180f)
-            val y1 = lenXY * sin((sign*angle+angleXY)*PI/180f)
+            val x1 = myPointF.x
+            val y1 = myPointF.y
             if ( index == 0 ) {
                 path.moveTo(x1.toFloat(),y1.toFloat())
             }
@@ -247,10 +234,16 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
         // 座標を元に戻す
         canvas.restore()
 
-        // これまでの描画は上下逆なので反転する
+        // 描画点を回転させるのではなく、
+        // 画像を回転させてみる方法
         val matrix = Matrix()
-        matrix.postScale(1f,-1f)
-        imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
+        matrix.postRotate(sign*angle,x0,y0)
+        imageBitmap = Bitmap.createBitmap(intrinsicWidth,intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val canvas2 = Canvas(imageBitmap)
+        canvas2.drawBitmap(tmpBitmap,matrix,backPaint)
+
+        // 枠を描画(画像を回転させるので、回転してから枠を描くこととした
+        canvas2.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
     }
 
     // -------------------------------
