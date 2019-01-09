@@ -11,13 +11,17 @@ import kotlinx.android.parcel.Parcelize
 // ---------------------------------------------------
 @Parcelize
 enum class DrawDataID(val id: Int): Parcelable {
-    // サイクロイド曲線
+    // サイクロイド曲線(k=1.0)
     ID_CYCLOID_001(1),
-    // トロコイド曲線
+    // トロコイド曲線(k=2.0)
     ID_TROCHOID_002(2),
+    // トロコイド曲線(k=3.0)
+    ID_TROCHOID_003(3),
+    // トロコイド曲線(k=4.0)
+    ID_TROCHOID_004(4),
     // 対数螺旋
     ID_LOGARITHMIC_SPIRAL_010(10),
-    // カージオイド曲線
+    // カージオイド曲線(k=1.0)
     ID_CARDIOID_021(21),
     // エピサイクロイド曲線(k=4.0)
     ID_EPICYCLOID_022(22),
@@ -29,9 +33,9 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_EPICYCLOID_025(25),
     // エピサイクロイド曲線(k=7.2)
     ID_EPICYCLOID_026(26),
-    // 三芒形/三尖形(deltoid)
+    // 三芒形/三尖形(deltoid)(k=3.0)
     ID_DELTOID_031(31),
-    // アステロイド曲線(astroid)
+    // アステロイド曲線(astroid)(k=4.0)
     ID_ASTROID_032(32),
     // ハイポサイクロイド曲線(hypocycloid)(k=2.1)
     ID_HYPO_CYCLOID_033(33),
@@ -41,6 +45,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_HYPO_CYCLOID_035(35),
     // ハイポサイクロイド曲線(hypocycloid)(k=7.2)
     ID_HYPO_CYCLOID_036(36),
+    // サイン波
+    ID_SINE_WAVE_040(40),
     // 高木曲線
     ID_TAKAGI_CURVE_101(101),
     // コッホ雪片

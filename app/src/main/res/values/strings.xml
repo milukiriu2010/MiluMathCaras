@@ -13,23 +13,27 @@
     <string name="menu_sub_epicycloid">Epicycloid</string>
     <string name="menu_sub_hypocycloid">Hypocycloid</string>
     <string name="menu_sub_fractal">Fractal</string>
-    <string name="menu_sub_complex">Complex</string>
+    <string name="menu_sub_complex">Complex Num</string>
+    <string name="menu_sub_wave">Wave</string>
     <string name="menu_sub_about">About Me</string>
-    <string name="draw_curve_cycloid_001">Cycloid</string>
-    <string name="draw_curve_trochoid_002">Trochoid(a:b=2:3)</string>
+    <string name="draw_curve_cycloid_001">Cycloid(k=1.0)</string>
+    <string name="draw_curve_trochoid_002">Trochoid(k=2.0)</string>
+    <string name="draw_curve_trochoid_003">Trochoid(k=-2.0)</string>
+    <string name="draw_curve_trochoid_004">Trochoid(k=0.5)</string>
     <string name="draw_curve_logarithmic_spiral_010">Logarithmic Spiral</string>
-    <string name="draw_curve_cardioid_021">Cardioid</string>
+    <string name="draw_curve_cardioid_021">Cardioid(k=1.0)</string>
     <string name="draw_curve_epicycloid_022">Epicycloid(k=4.0)</string>
     <string name="draw_curve_epicycloid_023">Epicycloid(k=2.1)</string>
     <string name="draw_curve_epicycloid_024">Epicycloid(k=3.8)</string>
     <string name="draw_curve_epicycloid_025">Epicycloid(k=5.5)</string>
     <string name="draw_curve_epicycloid_026">Epicycloid(k=7.2)</string>
-    <string name="draw_curve_deltoid_031">Deltoid</string>
-    <string name="draw_curve_astroid_032">Astroid</string>
+    <string name="draw_curve_deltoid_031">Deltoid(k=3.0)</string>
+    <string name="draw_curve_astroid_032">Astroid(k=4.0)</string>
     <string name="draw_curve_hypocycloid_033">Hypocycloid(k=2.1)</string>
     <string name="draw_curve_hypocycloid_034">Hypocycloid(k=3.8)</string>
     <string name="draw_curve_hypocycloid_035">Hypocycloid(k=5.5)</string>
     <string name="draw_curve_hypocycloid_036">Hypocycloid(k=7.2)</string>
+    <string name="draw_wave_sine_040">Sine Wave</string>
     <string name="draw_fractal_takagi_curve_101">Takagi Curve</string>
     <string name="draw_fractal_koch_snowflake_102">Koch Snowflake</string>
     <string name="draw_fractal_tree_curve_103">Tree Curve</string>

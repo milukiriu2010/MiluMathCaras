@@ -18,16 +18,20 @@ class DrawDataFactory {
             when (menuData.menuItem) {
                 // 曲線を選択したときの描画データの一覧
                 MenuItem.MENU_CURVE -> {
-                    // サイクロイド曲線(cycloid)
+                    // サイクロイド曲線(cycloid)(k=1.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_CYCLOID_001,resources.getString(R.string.draw_curve_cycloid_001), floatArrayOf(720f) ))
-                    // トロコイド曲線(trochoid)
-                    drawDataLst.add(DrawData(DrawDataID.ID_TROCHOID_002,resources.getString(R.string.draw_curve_trochoid_002), floatArrayOf(720f) ))
+                    // トロコイド曲線(trochoid)(k=2.0)
+                    drawDataLst.add(DrawData(DrawDataID.ID_TROCHOID_002,resources.getString(R.string.draw_curve_trochoid_002), floatArrayOf(720f,2.0f), floatArrayOf(0f,2.0f) ))
+                    // トロコイド曲線(trochoid)(k=-2.0)
+                    drawDataLst.add(DrawData(DrawDataID.ID_TROCHOID_003,resources.getString(R.string.draw_curve_trochoid_003), floatArrayOf(720f,-2.0f), floatArrayOf(0f,-2.0f) ))
+                    // トロコイド曲線(trochoid)(k=2.0)
+                    drawDataLst.add(DrawData(DrawDataID.ID_TROCHOID_004,resources.getString(R.string.draw_curve_trochoid_004), floatArrayOf(720f,0.5f), floatArrayOf(0f,0.5f) ))
                     // 対数螺旋
                     drawDataLst.add(DrawData(DrawDataID.ID_LOGARITHMIC_SPIRAL_010,resources.getString(R.string.draw_curve_logarithmic_spiral_010), floatArrayOf(0f) ))
                 }
                 // エピサイクロイドを選択したときの描画データの一覧
                 MenuItem.MENU_EPICYCLOID -> {
-                    // カージオイド曲線
+                    // カージオイド曲線(k=1.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_CARDIOID_021,resources.getString(R.string.draw_curve_cardioid_021), floatArrayOf(360f,1f),floatArrayOf(0f,1f) ))
                     // エピサイクロイド曲線(k=4.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_EPICYCLOID_022,resources.getString(R.string.draw_curve_epicycloid_022), floatArrayOf(360f,4f),floatArrayOf(0f,4f) ))
@@ -42,9 +46,9 @@ class DrawDataFactory {
                 }
                 // ハイポサイクロイドを選択したときの描画データの一覧
                 MenuItem.MENU_HYPOCYCLOID -> {
-                    // 三芒形/三尖形(deltoid)
+                    // 三芒形/三尖形(deltoid)(k=3.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_DELTOID_031,resources.getString(R.string.draw_curve_deltoid_031), floatArrayOf(360f,3f),floatArrayOf(0f,3f) ))
-                    // アステロイド曲線(asteroid)
+                    // アステロイド曲線(asteroid)(k=4.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_ASTROID_032,resources.getString(R.string.draw_curve_astroid_032), floatArrayOf(360f,4f),floatArrayOf(0f,4f) ))
                     // ハイポサイクロイド曲線(hypocycloid)(k=2.1)
                     drawDataLst.add(DrawData(DrawDataID.ID_HYPO_CYCLOID_033,resources.getString(R.string.draw_curve_hypocycloid_033), floatArrayOf(3600f,2.1f),floatArrayOf(0f,2.1f) ))
@@ -78,6 +82,11 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_MANDELBRO_SET_201,resources.getString(R.string.draw_complex_mandelbrot_set_201), floatArrayOf(0.1f), floatArrayOf(0.001f) ))
                     // ジュリア集合
                     drawDataLst.add(DrawData(DrawDataID.ID_JULIA_SET_251,resources.getString(R.string.draw_complex_julia_set_251), floatArrayOf(0.1f), floatArrayOf(0.001f) ))
+                }
+                // 波を選択したときの描画データの一覧
+                MenuItem.MENU_WAVE -> {
+                    // サイン波
+                    drawDataLst.add(DrawData(DrawDataID.ID_SINE_WAVE_040,resources.getString(R.string.draw_wave_sine_040), floatArrayOf(180f), floatArrayOf(180f) ))
                 }
                 else -> {
                     throw RuntimeException("No Draw List for ${menuData.menuItem.title}")

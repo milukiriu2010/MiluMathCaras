@@ -29,7 +29,9 @@ enum class MenuItem(val title: String): Parcelable {
     // フラクタルを描画するメニュー
     MENU_FRACTAL("Fractal"),
     // フラクタル(複素数)を描画するメニュー
-    MENU_COMPLEX("Complex")
+    MENU_COMPLEX("Complex"),
+    // 波を描画するメニュー
+    MENU_WAVE("Wave")
 }
 
 // ------------------------------------

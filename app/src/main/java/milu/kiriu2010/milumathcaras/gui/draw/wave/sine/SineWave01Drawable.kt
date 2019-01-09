@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid
+package milu.kiriu2010.milumathcaras.gui.draw.wave.sine
 
 import android.graphics.*
 import android.os.Handler
@@ -10,56 +10,39 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 // -------------------------------------------------------------------------------------
-// トロコイド曲線
+// サイン波
 // -------------------------------------------------------------------------------------
-//   x = r * (t - k * sin(t))
-//   y = r * (1 - k * cos(t))
+//   y = k * sin(t)
 // -------------------------------------------------------------------------------------
-// "|k|>1" ⇒ 螺旋を描く
-// "|k|=1" ⇒ サイクロイド曲線
-// "|k|<1" ⇒ 緩やかな波
-// kの符号の違いは、位相が90度？異なるだけで、絶対値が同じであれば同じ形を描く
+// https://en.wikipedia.org/wiki/Sine_wave
 // -------------------------------------------------------------------------------------
-// https://en.wikipedia.org/wiki/Trochoid
-// http://aau-square.hatenablog.jp/entry/2016/07/21/%E3%83%88%E3%83%AD%E3%82%B3%E3%82%A4%E3%83%89%E3%81%AE%E8%A9%B1
-// -------------------------------------------------------------------------------------
-class Trochoid01Drawable: MyDrawable() {
+class SineWave01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
     // -------------------------------
-    private val side = 1000f
+    private val side = 720f
     private val margin = 50f
 
     // ---------------------------------
-    // トロコイド曲線に接する円の半径
+    // サイン波の係数k
     // ---------------------------------
-    private val r = 70f
-
-    // ---------------------------------
-    // トロコイド曲線の係数k
-    // ---------------------------------
-    // "|k|>1" ⇒ 螺旋を描く
-    // "|k|=1" ⇒ サイクロイド曲線
-    // "|k|<1" ⇒ 緩やかな波
-    // ---------------------------------
-    private var k = 2.0f
-    //private var k = -1.0f
-    //private var k = -2.0f
+    private var k = 180.0f
 
     // -------------------------------
-    // 現在地として描画する円の半径
-    // -------------------------------
-    private val nr = 10f
-
-    // -------------------------------
-    // トロコイド曲線の媒介変数(度)
+    // サイン波の媒介変数
     // -------------------------------
     private var angle = 0f
-    private var angleMax = 720f
+    private var angleMax = side
 
     // -------------------------------
-    // トロコイド曲線の描画点リスト
+    // サイン波の位相
+    // -------------------------------
+    private var anglePhase = 0f
+    private var anglePhaseMax = 360f
+
+    // -------------------------------
+    // サイン波の描画点リスト
     // -------------------------------
     val pointLst = mutableListOf<MyPointF>()
 
@@ -89,7 +72,7 @@ class Trochoid01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // トロコイド曲線を描くペイント
+    // サイン波を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
@@ -98,7 +81,7 @@ class Trochoid01Drawable: MyDrawable() {
     }
 
     // ---------------------------------------
-    // トロコイド曲線の現在値を描くペイント
+    // サイン波の現在値を描くペイント
     // ---------------------------------------
     private val lineNowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
@@ -106,7 +89,7 @@ class Trochoid01Drawable: MyDrawable() {
     }
 
     // ---------------------------------------
-    // トロコイド曲線に沿う円を描くペイント
+    // サイン波に沿う円を描くペイント
     // ---------------------------------------
     private val circlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLUE
@@ -115,7 +98,7 @@ class Trochoid01Drawable: MyDrawable() {
     }
 
     // -----------------------------------------------
-    // トロコイド曲線に沿う円の現在値を描くペイント
+    // サイン波に沿う円の現在値を描くペイント
     // -----------------------------------------------
     private val circleNowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLUE
@@ -142,29 +125,24 @@ class Trochoid01Drawable: MyDrawable() {
     // 描画に使うデータを計算する
     // --------------------------------------
     // values
-    // 第１引数:媒介変数の初期位置(通常は0度)
-    // 第２引数:トロコイド曲線の係数k
+    // 第１引数:サイン波の係数k
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
-        // 媒介変数の初期位置
-        var angleInit = 0f
         values.forEachIndexed { index, fl ->
             //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
             when (index) {
-                // 媒介変数の初期位置
-                0 -> angleInit = fl
-                // トロコイド曲線の係数k
-                1 -> k = fl
+                // サイン波の係数k
+                0 -> k = fl
             }
         }
 
-        // トロコイド曲線の描画点を追加
+        // サイクロイド曲線の描画点を追加
         addPoint()
         // 初期位置に車で描画点を追加する
-        while ( angle < angleInit )  {
-            // トロコイド曲線の描画点を移動
+        while ( angle < angleMax )  {
+            // サイン波の描画点を移動
             movePoint()
-            // トロコイド曲線の描画点を追加
+            // サイン波の描画点を追加
             addPoint()
         }
         // ビットマップに描画
@@ -175,15 +153,20 @@ class Trochoid01Drawable: MyDrawable() {
         // 描画に使うスレッド
         if ( isKickThread ) {
             runnable = Runnable {
-                // トロコイド曲線の描画点を移動
+                /*
+                // サイン波の描画点を移動
                 movePoint()
-                // トロコイド曲線の描画点を追加
+                // サイン波の描画点を追加
                 addPoint()
+                */
+                // サイン波の位相を移動
+                movePhase()
                 // ビットマップに描画
                 drawBitmap()
                 // 描画
                 invalidateSelf()
 
+                /*
                 // 最初と最後は1秒後に描画
                 if (angle == angleMax || angle == 0f) {
                     handler.postDelayed(runnable, 1000)
@@ -192,6 +175,8 @@ class Trochoid01Drawable: MyDrawable() {
                 else {
                     handler.postDelayed(runnable, 100)
                 }
+                */
+                handler.postDelayed(runnable, 100)
             }
             handler.postDelayed(runnable, 1000)
         }
@@ -215,13 +200,13 @@ class Trochoid01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // トロコイド曲線の描画点を追加
+    // サイン波の描画点を追加
     // -------------------------------
     private fun addPoint() {
-        // トロコイド曲線の描画点リストに現在の描画点
-        val x = r*(angle*PI/180f-k*sin(angle*PI/180f)).toFloat()
-        val y = r*(1-k*cos(angle*PI/180f)).toFloat()
-        // トロコイド曲線の描画点リストに現在の描画点を加える
+        // サイン波の描画点リストに現在の描画点
+        val x = angle
+        val y = k * sin(angle*PI/180f).toFloat()
+        // サイン波の描画点リストに現在の描画点を加える
         val pointNow = MyPointF(x,y)
         pointLst.add(pointNow)
 
@@ -230,7 +215,7 @@ class Trochoid01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // トロコイド曲線の描画点を移動
+    // サイン波の描画点を移動
     // -------------------------------
     private fun movePoint() {
         // 10度ずつ移動する
@@ -239,12 +224,22 @@ class Trochoid01Drawable: MyDrawable() {
 
         // 2周したら
         // ・元の位置に戻す
-        // ・トロコイド曲線の描画点リストをクリアする
         if ( angle > angleMax ) {
             angle = 0f
-            pointLst.clear()
         }
     }
+
+    // -------------------------------
+    // サイン波の位相を移動
+    // -------------------------------
+    private fun movePhase() {
+        anglePhase = anglePhase + 1f
+        // ・元の位置に戻す
+        if ( anglePhase > anglePhaseMax ) {
+            anglePhase = 0f
+        }
+    }
+
 
     // -------------------------------
     // ビットマップに描画
@@ -258,10 +253,11 @@ class Trochoid01Drawable: MyDrawable() {
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
         // 原点(0,0)の位置
-        // = (マージン+半径分,上下中央)
-        val x0 = margin+r
+        // = (マージン,上下中央)
+        val x0 = margin
         val y0 = (intrinsicHeight/2).toFloat()
 
+        /*
         // X軸を描画(上下中央)
         canvas.save()
         canvas.translate(0f,y0)
@@ -273,42 +269,26 @@ class Trochoid01Drawable: MyDrawable() {
         canvas.translate(x0,0f)
         canvas.drawLine(0f,0f,0f,intrinsicHeight.toFloat(), framePaint)
         canvas.restore()
+        */
 
-        // 原点(x0,y0)を中心に円・トロコイド曲線を描く
+        // 原点(x0,y0)を中心に円・サイクロイド曲線を描く
         canvas.save()
         canvas.translate(x0,y0)
-        // トロコイド曲線に沿う円を描画
-        // 初期    の中心座標  (0    ,r)
-        // 円一周後の中心座標  (2r*PI,r)
-        canvas.drawCircle(2f*r*PI.toFloat()*angle/360f,r,r,backPaint)
-        canvas.drawCircle(2f*r*PI.toFloat()*angle/360f,r,r,circlePaint)
 
-        // トロコイド曲線の現在値を取得
-        val nowPointF = when ( pointLst.size ) {
-            0 -> MyPointF(0f,0f)
-            else -> pointLst[pointLst.size-1]
-        }
-
-        // "円の中心"と"トロコイド曲線の現在値"を結ぶ
-        canvas.drawLine(2f*r*PI.toFloat()*angle/360f,r,nowPointF.x,nowPointF.y,circlePaint)
-
-        // トロコイド曲線を描く
+        // サイン波を描く
         val path = Path()
         pointLst.forEachIndexed { index, myPointF ->
+            val x1 = myPointF.x
+            val y1 = myPointF.y * cos(anglePhase)
+
             if ( index == 0 ) {
-                path.moveTo(myPointF.x,myPointF.y)
+                path.moveTo(x1,y1)
             }
             else {
-                path.lineTo(myPointF.x,myPointF.y)
+                path.lineTo(x1,y1)
             }
         }
         canvas.drawPath(path,linePaint)
-
-        // トロコイド曲線に沿う円の中心の現在値をドットで描く
-        canvas.drawCircle(2f*r*PI.toFloat()*angle/360f,r,nr,circleNowPaint)
-
-        // トロコイド曲線の現在値をドットで描く
-        canvas.drawCircle(nowPointF.x,nowPointF.y,nr,lineNowPaint)
 
         // 座標を元に戻す
         canvas.restore()

@@ -111,6 +111,9 @@ class MenuFragment : Fragment() {
             // [サブメニュー]
             // フラクタル(複素数)一覧を表示するメニュー
             menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_COMPLEX, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_complex)))
+            // [サブメニュー]
+            // 波一覧を表示するメニュー
+            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_WAVE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_wave)))
             // [メインメニュー]
             // ヘルプ
             menuDataLst.add(MenuData(MenuType.TYPE_MAIN, MenuItem.MENU_DUMMY,FragmentID.ID_DUMMY,resources.getString(R.string.menu_main_help)))

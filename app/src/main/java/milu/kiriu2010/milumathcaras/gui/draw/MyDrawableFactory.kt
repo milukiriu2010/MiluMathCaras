@@ -15,21 +15,26 @@ import milu.kiriu2010.milumathcaras.gui.draw.fractal.sierpinski.SierpinskiCarpet
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.sierpinski.SierpinskiTriangle01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.takagi.TakagiCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.tree.TreeCurve01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWave01Drawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 class MyDrawableFactory {
     companion object {
         fun createInstance(id: DrawDataID,notifyCallback: NotifyCallback? = null): MyDrawable {
             val myDrawable = when ( id ) {
-                // サイクロイド曲線(cycloid)
+                // サイクロイド曲線(cycloid)(k=1.0)
                 DrawDataID.ID_CYCLOID_001 -> Cycloid01Drawable()
-                // トロコイド曲線(trochoid)
+                // トロコイド曲線(trochoid)(k=2.0)
                 DrawDataID.ID_TROCHOID_002 -> Trochoid01Drawable()
+                // トロコイド曲線(trochoid)(k=-2.0)
+                DrawDataID.ID_TROCHOID_003 -> Trochoid01Drawable()
+                // トロコイド曲線(trochoid)(k=0.5)
+                DrawDataID.ID_TROCHOID_004 -> Trochoid01Drawable()
                 // 対数螺旋(描画点を回転させる方法)
                 //DrawDataID.ID_LOGARITHMIC_SPIRAL_010 -> LogarithmicSpiral01Drawable()
                 // 対数螺旋(画像を回転させる方法)
                 DrawDataID.ID_LOGARITHMIC_SPIRAL_010 -> LogarithmicSpiral02Drawable()
-                // カージオイド曲線(cardioid)
+                // カージオイド曲線(cardioid)(k=1.0)
                 DrawDataID.ID_CARDIOID_021 -> Epicycloid01Drawable()
                 // エピサイクロイド曲線(k=4.0)
                 DrawDataID.ID_EPICYCLOID_022 -> Epicycloid01Drawable()
@@ -41,9 +46,9 @@ class MyDrawableFactory {
                 DrawDataID.ID_EPICYCLOID_025 -> Epicycloid01Drawable()
                 // エピサイクロイド曲線(k=7.2)
                 DrawDataID.ID_EPICYCLOID_026 -> Epicycloid01Drawable()
-                // 三芒形/三尖形(deltoid)
+                // 三芒形/三尖形(deltoid)(k=3.0)
                 DrawDataID.ID_DELTOID_031 -> Hypocycloid01Drawable()
-                // アステロイド曲線(asteroid)
+                // アステロイド曲線(asteroid)(k=4.0)
                 DrawDataID.ID_ASTROID_032 -> Hypocycloid01Drawable()
                 // ハイポサイクロイド曲線(hypocycloid)(k=2.1)
                 DrawDataID.ID_HYPO_CYCLOID_033 -> Hypocycloid01Drawable()
@@ -53,6 +58,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_HYPO_CYCLOID_035 -> Hypocycloid01Drawable()
                 // ハイポサイクロイド曲線(hypocycloid)(k=7.2)
                 DrawDataID.ID_HYPO_CYCLOID_036 -> Hypocycloid01Drawable()
+                // サイン波
+                DrawDataID.ID_SINE_WAVE_040 -> SineWave01Drawable()
                 // 高木曲線
                 DrawDataID.ID_TAKAGI_CURVE_101 -> TakagiCurve01Drawable()
                 // コッホ雪片
