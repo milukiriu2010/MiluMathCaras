@@ -115,24 +115,26 @@ class Mandelbrot01Drawable: MyDrawable() {
     // とりえあずレインボーカラー+白にしている
     // ------------------------------------
     val colorLst = intArrayOf(
-        // 0:red
+        // 0:white
+        Color.parseColor("#ffffffff"),
+        // 1:red
         Color.parseColor("#ffff0000"),
-        // 1:orange
+        // 2:pink
+        Color.parseColor("#ffffcccc"),
+        // 3:orange
         Color.parseColor("#ffff7f00"),
-        // 2:yellow
+        // 4:yellow
         Color.parseColor("#ffffff00"),
-        // 3:green
+        // 5:green
         Color.parseColor("#ff00ff00"),
-        // 4:blue
+        // 6:blue
         Color.parseColor("#ff0000ff"),
-        // 5:cyan
+        // 7:cyan
         Color.parseColor("#ff00ffff"),
-        // 6:indigo
+        // 8:indigo
         Color.parseColor("#ff6f00ff"),
-        // 7:violet
-        Color.parseColor("#ffff00ff"),
-        // 8:white
-        Color.parseColor("#ffffffff")
+        // 9:violet
+        Color.parseColor("#ffff00ff")
     )
 
     // -------------------------------------

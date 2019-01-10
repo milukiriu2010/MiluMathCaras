@@ -86,7 +86,7 @@ class DrawDataFactory {
                 // 波を選択したときの描画データの一覧
                 MenuItem.MENU_WAVE -> {
                     // サイン波
-                    drawDataLst.add(DrawData(DrawDataID.ID_SINE_WAVE_040,resources.getString(R.string.draw_wave_sine_040), floatArrayOf(180f), floatArrayOf(180f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_SINE_WAVE_040,resources.getString(R.string.draw_wave_sine_040) ))
                 }
                 else -> {
                     throw RuntimeException("No Draw List for ${menuData.menuItem.title}")

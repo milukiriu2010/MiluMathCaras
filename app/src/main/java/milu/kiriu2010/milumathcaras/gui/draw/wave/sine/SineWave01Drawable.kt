@@ -2,17 +2,23 @@ package milu.kiriu2010.milumathcaras.gui.draw.wave.sine
 
 import android.graphics.*
 import android.os.Handler
+import android.support.v4.math.MathUtils
 import milu.kiriu2010.gui.basic.MyPointF
+import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlin.math.sqrt
 
 // -------------------------------------------------------------------------------------
 // サイン波
 // -------------------------------------------------------------------------------------
 //   y = k * sin(t)
+// -------------------------------------------------------------------------------------
+// 加法定理
+// sin(a+b) = sin(a)cos(b) + cos(a)sin(b)
 // -------------------------------------------------------------------------------------
 // https://en.wikipedia.org/wiki/Sine_wave
 // -------------------------------------------------------------------------------------
@@ -21,19 +27,15 @@ class SineWave01Drawable: MyDrawable() {
     // -------------------------------
     // 描画領域
     // -------------------------------
-    private val side = 720f
+    //private val side = 720f
+    private val side = 1080f
     private val margin = 50f
 
     // ---------------------------------
     // サイン波の係数k
     // ---------------------------------
-    private var k = 180.0f
-
-    // -------------------------------
-    // サイン波の媒介変数
-    // -------------------------------
-    private var angle = 0f
-    private var angleMax = side
+    //private var k = 180.0f
+    private var k = 360f/(1080f/360f)
 
     // -------------------------------
     // サイン波の位相
@@ -45,6 +47,12 @@ class SineWave01Drawable: MyDrawable() {
     // サイン波の描画点リスト
     // -------------------------------
     val pointLst = mutableListOf<MyPointF>()
+
+    // -----------------------------------
+    // サイン波の回転角度
+    // リストに加えた数だけサイン波を描く
+    // -----------------------------------
+    val angleRotateLst = floatArrayOf(0f,60f,120f)
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -71,6 +79,11 @@ class SineWave01Drawable: MyDrawable() {
         style = Paint.Style.FILL
     }
 
+    //
+    private val circlePath = Path().apply {
+        addCircle(10f,10f,10f,Path.Direction.CCW)
+    }
+
     // -------------------------------
     // サイン波を描くペイント
     // -------------------------------
@@ -78,32 +91,18 @@ class SineWave01Drawable: MyDrawable() {
         color = Color.RED
         style = Paint.Style.STROKE
         strokeWidth = 5f
+        // 円を30ごとに描く
+        pathEffect = PathDashPathEffect(circlePath,30f,0f,PathDashPathEffect.Style.ROTATE)
     }
 
-    // ---------------------------------------
-    // サイン波の現在値を描くペイント
-    // ---------------------------------------
-    private val lineNowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.RED
-        style = Paint.Style.FILL
-    }
-
-    // ---------------------------------------
-    // サイン波に沿う円を描くペイント
-    // ---------------------------------------
-    private val circlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.BLUE
-        style = Paint.Style.STROKE
-        strokeWidth = 3f
-    }
-
-    // -----------------------------------------------
-    // サイン波に沿う円の現在値を描くペイント
-    // -----------------------------------------------
-    private val circleNowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.BLUE
-        style = Paint.Style.FILL
-    }
+    // -------------------------------
+    // サイン波を描くときの色リスト
+    // -------------------------------
+    private val colorLst = intArrayOf(
+        0xffff0000.toInt(),
+        0xff00ff00.toInt(),
+        0xff0000ff.toInt()
+    )
 
     // -------------------------------------
     // 描画中に呼び出すコールバックを設定
@@ -125,26 +124,11 @@ class SineWave01Drawable: MyDrawable() {
     // 描画に使うデータを計算する
     // --------------------------------------
     // values
-    // 第１引数:サイン波の係数k
+    // 使わない
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
-        values.forEachIndexed { index, fl ->
-            //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
-            when (index) {
-                // サイン波の係数k
-                0 -> k = fl
-            }
-        }
-
-        // サイクロイド曲線の描画点を追加
-        addPoint()
-        // 初期位置に車で描画点を追加する
-        while ( angle < angleMax )  {
-            // サイン波の描画点を移動
-            movePoint()
-            // サイン波の描画点を追加
-            addPoint()
-        }
+        // サイン波の描画点を生成
+        createPath()
         // ビットマップに描画
         drawBitmap()
         // 描画
@@ -153,29 +137,15 @@ class SineWave01Drawable: MyDrawable() {
         // 描画に使うスレッド
         if ( isKickThread ) {
             runnable = Runnable {
-                /*
-                // サイン波の描画点を移動
-                movePoint()
-                // サイン波の描画点を追加
-                addPoint()
-                */
                 // サイン波の位相を移動
                 movePhase()
+                // サイン波の描画点を生成
+                createPath()
                 // ビットマップに描画
                 drawBitmap()
                 // 描画
                 invalidateSelf()
 
-                /*
-                // 最初と最後は1秒後に描画
-                if (angle == angleMax || angle == 0f) {
-                    handler.postDelayed(runnable, 1000)
-                }
-                // 100msごとに描画
-                else {
-                    handler.postDelayed(runnable, 100)
-                }
-                */
                 handler.postDelayed(runnable, 100)
             }
             handler.postDelayed(runnable, 1000)
@@ -200,32 +170,31 @@ class SineWave01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // サイン波の描画点を追加
+    // サイン波の描画点を生成
     // -------------------------------
-    private fun addPoint() {
-        // サイン波の描画点リストに現在の描画点
-        val x = angle
-        val y = k * sin(angle*PI/180f).toFloat()
-        // サイン波の描画点リストに現在の描画点を加える
-        val pointNow = MyPointF(x,y)
-        pointLst.add(pointNow)
+    private fun createPath() {
+        pointLst.clear()
 
-        // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
-        notifyCallback?.receive(angle)
-    }
+        // サイン波を回転させるときの中心点
+        val mX = side/2f
+        val mY = 0f
 
-    // -------------------------------
-    // サイン波の描画点を移動
-    // -------------------------------
-    private fun movePoint() {
-        // 10度ずつ移動する
-        angle = angle + 10f
-        //Log.d(javaClass.simpleName,"angle[{$angle}]")
+        angleRotateLst.forEach { angleRotate ->
+            (0..side.toInt() step 10).forEach {
+                // 回転前の描画点
+                val x0 = it.toFloat()
+                val y0 = (k * sin((x0+anglePhase)*PI/180f)).toFloat()
 
-        // 2周したら
-        // ・元の位置に戻す
-        if ( angle > angleMax ) {
-            angle = 0f
+                // 中心点と"回転前の描画点"の距離・角度
+                val len = sqrt((x0-mX)*(x0-mX)+(y0-mY)*(y0-mY))
+                val angle = MyMathUtil.getAngle(MyPointF(mX,mY), MyPointF(x0,y0))
+
+                // 回転後の描画点
+                val x1 = len * cos((angle+angleRotate)*PI/180f)+mX
+                val y1 = len * sin((angle+angleRotate)*PI/180f)
+
+                pointLst.add(MyPointF(x1.toFloat(),y1.toFloat()))
+            }
         }
     }
 
@@ -233,13 +202,12 @@ class SineWave01Drawable: MyDrawable() {
     // サイン波の位相を移動
     // -------------------------------
     private fun movePhase() {
-        anglePhase = anglePhase + 1f
+        anglePhase = anglePhase + 30f
         // ・元の位置に戻す
         if ( anglePhase > anglePhaseMax ) {
             anglePhase = 0f
         }
     }
-
 
     // -------------------------------
     // ビットマップに描画
@@ -257,38 +225,34 @@ class SineWave01Drawable: MyDrawable() {
         val x0 = margin
         val y0 = (intrinsicHeight/2).toFloat()
 
-        /*
-        // X軸を描画(上下中央)
-        canvas.save()
-        canvas.translate(0f,y0)
-        canvas.drawLine(0f,0f,intrinsicWidth.toFloat(),0f, framePaint)
-        canvas.restore()
-
-        // Y軸を描画("マージン＋半径分"右に移動)
-        canvas.save()
-        canvas.translate(x0,0f)
-        canvas.drawLine(0f,0f,0f,intrinsicHeight.toFloat(), framePaint)
-        canvas.restore()
-        */
-
         // 原点(x0,y0)を中心に円・サイクロイド曲線を描く
         canvas.save()
         canvas.translate(x0,y0)
 
-        // サイン波を描く
-        val path = Path()
-        pointLst.forEachIndexed { index, myPointF ->
-            val x1 = myPointF.x
-            val y1 = myPointF.y * cos(anglePhase)
+        // 描画点の数
+        val cnt = pointLst.size/angleRotateLst.size
 
-            if ( index == 0 ) {
-                path.moveTo(x1,y1)
-            }
-            else {
-                path.lineTo(x1,y1)
+        // サイン波を描く時の色
+        var n = 0
+
+        // サイン波を描く
+        var path = Path()
+        pointLst.forEachIndexed { index, myPointF ->
+            when (index%cnt) {
+                0 -> {
+                    path = Path()
+                    path.moveTo(myPointF.x,myPointF.y)
+                }
+                cnt-1 -> {
+                    path.lineTo(myPointF.x,myPointF.y)
+                    linePaint.color = colorLst[(n++%3)]
+                    canvas.drawPath(path,linePaint)
+                }
+                else -> {
+                    path.lineTo(myPointF.x,myPointF.y)
+                }
             }
         }
-        canvas.drawPath(path,linePaint)
 
         // 座標を元に戻す
         canvas.restore()
