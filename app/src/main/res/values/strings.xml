@@ -10,11 +10,13 @@
     <string name="menu_main_drawlst">Draw List</string>
     <string name="menu_main_help">Help</string>
     <string name="menu_sub_curve">Curve</string>
+    <string name="menu_sub_trochoid">Trochoid</string>
     <string name="menu_sub_epicycloid">Epicycloid</string>
     <string name="menu_sub_hypocycloid">Hypocycloid</string>
     <string name="menu_sub_fractal">Fractal</string>
-    <string name="menu_sub_complex">Complex Num</string>
+    <string name="menu_sub_complex">Complex Number</string>
     <string name="menu_sub_wave">Wave</string>
+    <string name="menu_sub_polygon">Polygon</string>
     <string name="menu_sub_about">About Me</string>
     <string name="draw_curve_cycloid_001">Cycloid(k=1.0)</string>
     <string name="draw_curve_trochoid_002">Trochoid(k=2.0)</string>
@@ -43,4 +45,5 @@
     <string name="draw_fractal_hilbert_curve_107">Hilbert Curve</string>
     <string name="draw_complex_mandelbrot_set_201">Mandelbrot Set</string>
     <string name="draw_complex_julia_set_251">Julia Set</string>
+    <string name="draw_polygon_triangle_exile_301">Triangle Exile</string>
 </resources>

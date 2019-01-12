@@ -64,7 +64,9 @@ enum class DrawDataID(val id: Int): Parcelable {
     // マンデルブロ―集合
     ID_MANDELBRO_SET_201(201),
     // ジュリア集合
-    ID_JULIA_SET_251(251)
+    ID_JULIA_SET_251(251),
+    // 三角形でEXILE
+    ID_TRIANGLE_EXILE_301(301)
 }
 
 // ------------------

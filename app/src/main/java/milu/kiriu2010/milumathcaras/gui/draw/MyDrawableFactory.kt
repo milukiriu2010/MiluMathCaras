@@ -15,6 +15,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.fractal.sierpinski.SierpinskiCarpet
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.sierpinski.SierpinskiTriangle01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.takagi.TakagiCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.tree.TreeCurve01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.TriangleExile01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWave01Drawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
@@ -78,6 +79,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_MANDELBRO_SET_201 -> Mandelbrot01Drawable()
                 // ジュリア集合
                 DrawDataID.ID_JULIA_SET_251 -> Julia01Drawable()
+                // 三角形でEXILE
+                DrawDataID.ID_TRIANGLE_EXILE_301 -> TriangleExile01Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")
             }
 

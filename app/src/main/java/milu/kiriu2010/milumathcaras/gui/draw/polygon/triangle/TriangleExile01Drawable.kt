@@ -1,91 +1,42 @@
-package milu.kiriu2010.milumathcaras.gui.draw.wave.sine
+package milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle
 
 import android.graphics.*
 import android.os.Handler
+import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
-import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
-import kotlin.math.sqrt
 
-// -------------------------------------------------------------------------------------
-// サイン波
-// -------------------------------------------------------------------------------------
-//   y = k * sin(t)
-// -------------------------------------------------------------------------------------
-// 加法定理
-// sin(a+b) = sin(a)cos(b) + cos(a)sin(b)
-// -------------------------------------------------------------------------------------
-// https://en.wikipedia.org/wiki/Sine_wave
-// -------------------------------------------------------------------------------------
-class SineWave01Drawable: MyDrawable() {
+// -------------------------------------------
+// 三角形でEXILE
+// -------------------------------------------
+// 三角形を円内で回転させる
+// -------------------------------------------
+class TriangleExile01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
     // -------------------------------
-    //private val side = 720f
-    private val side = 1080f
+    private val side = 1000f
     private val margin = 50f
 
     // ---------------------------------
-    // サイン波の係数k
+    // 円の半径
     // ---------------------------------
-    //private var k = 180.0f
-    private var k = 360f/(side/360f)
+    private val r = side/2f
 
     // -------------------------------
-    // サイン波の位相
+    // 描画する三角形のリスト
     // -------------------------------
-    private var anglePhase = 0f
-    private var anglePhaseMax = 360f
+    private val polygonLst = mutableListOf<Triangle>()
 
     // -------------------------------
-    // 描画するサイン波のリスト
+    // 三角形の回転角度
     // -------------------------------
-    private val waveLst: List<SineWave> = listOf(
-        SineWave().apply {
-            angleRotate = 0f
-            linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                color = 0xffff0000.toInt()
-                style = Paint.Style.STROKE
-                // 円
-                pathEffect =
-                        PathDashPathEffect(Path().apply {
-                            addCircle(10f, 10f, 10f, Path.Direction.CCW)
-                        }, 30f, 0f, PathDashPathEffect.Style.ROTATE)
-            }
-        },
-        SineWave().apply {
-            angleRotate = 60f
-            linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                color = 0xff00ff00.toInt()
-                style = Paint.Style.STROKE
-                // 四角
-                pathEffect =
-                        PathDashPathEffect(Path().apply {
-                            addRect(0f, 0f, 20f, 20f, Path.Direction.CCW)
-                        }, 30f, 0f, PathDashPathEffect.Style.ROTATE)
-            }
-        },
-        SineWave().apply {
-            angleRotate = 120f
-            linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                color = 0xff0000ff.toInt()
-                style = Paint.Style.STROKE
-                // 正三角形
-                pathEffect =
-                        PathDashPathEffect(Path().apply {
-                            moveTo(0f, 0f)
-                            lineTo(20f, 0f)
-                            lineTo(10f, 10f * sqrt(3f))
-                            close()
-                        }, 30f, 0f, PathDashPathEffect.Style.ROTATE)
-            }
-        }
-    )
+    private var angleMax = 1080f
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -112,6 +63,19 @@ class SineWave01Drawable: MyDrawable() {
         style = Paint.Style.FILL
     }
 
+    // -------------------------------
+    // 三角形を描くペイント
+    // -------------------------------
+    private val linePaintFrame = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.BLACK
+        style = Paint.Style.STROKE
+        strokeWidth = 10f
+    }
+    private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.BLACK
+        style = Paint.Style.FILL_AND_STROKE
+    }
+
     // -------------------------------------
     // 描画中に呼び出すコールバックを設定
     // -------------------------------------
@@ -127,16 +91,41 @@ class SineWave01Drawable: MyDrawable() {
     // ---------------------------------------
     private lateinit var runnable: Runnable
 
+    // ---------------------------------------
+    // 描画する三角形のリストを生成
+    // ---------------------------------------
+    init {
+        val a0 = MyPointF(r*cos(0f*PI/180f).toFloat(),r*sin(0f*PI/180f).toFloat())
+        val b0 = MyPointF(r*cos(120f*PI/180f).toFloat(),r*sin(120f*PI/180f).toFloat())
+        val c0 = MyPointF(r*cos(240f*PI/180f).toFloat(),r*sin(240f*PI/180f).toFloat())
+        val d0 = MyPointF(r*cos(180f*PI/180f).toFloat(),r*sin(180f*PI/180f).toFloat())
+
+        val colorLst = intArrayOf(
+            0xffffffff.toInt(),
+            0xffff0000.toInt(),
+            0xff00ff00.toInt(),
+            0xff0000ff.toInt()
+        )
+
+
+        colorLst.forEachIndexed { index, color0 ->
+            polygonLst.add(Triangle().apply {
+                a = a0
+                b = b0
+                c = c0
+                if ( index == 1 ) c = d0
+                color = color0
+            })
+        }
+    }
+
     // --------------------------------------
     // CalculationCallback
     // 描画に使うデータを計算する
     // --------------------------------------
     // values
-    // 使わない
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
-        // サイン波の描画点を生成
-        createPath()
         // ビットマップに描画
         drawBitmap()
         // 描画
@@ -145,15 +134,23 @@ class SineWave01Drawable: MyDrawable() {
         // 描画に使うスレッド
         if ( isKickThread ) {
             runnable = Runnable {
-                // サイン波の位相を移動
-                movePhase()
-                // サイン波の描画点を生成
-                createPath()
+                // 三角形頂点Aを移動
+                movePoint()
                 // ビットマップに描画
                 drawBitmap()
                 // 描画
                 invalidateSelf()
 
+                /*
+                // 最初と最後は1秒後に描画
+                if (angle == angleMax || angle == 0f) {
+                    handler.postDelayed(runnable, 1000)
+                }
+                // 100msごとに描画
+                else {
+                    handler.postDelayed(runnable, 100)
+                }
+                */
                 handler.postDelayed(runnable, 100)
             }
             handler.postDelayed(runnable, 1000)
@@ -178,44 +175,27 @@ class SineWave01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // サイン波の描画点を生成
+    // 三角形頂点Aを移動
     // -------------------------------
-    private fun createPath() {
-        // サイン波を回転させるときの中心点
-        val mX = side/2f
-        val mY = 0f
+    private fun movePoint() {
+        val cnt = polygonLst.size
+        val phase = 20f
 
-        // サイン波の描画点を生成
-        waveLst.forEach { wave ->
-            // 描画点をクリア
-            wave.pointLst.clear()
-
-            (0..side.toInt() step 10).forEach {
-                // 回転前の描画点
-                val x0 = it.toFloat()
-                val y0 = (k * sin((x0+anglePhase)*PI/180f)).toFloat()
-
-                // 中心点と"回転前の描画点"の距離・角度
-                val len = sqrt((x0-mX)*(x0-mX)+(y0-mY)*(y0-mY))
-                val angle = MyMathUtil.getAngle(MyPointF(mX,mY), MyPointF(x0,y0))
-
-                // 回転後の描画点
-                val x1 = len * cos((angle+wave.angleRotate)*PI/180f)+mX
-                val y1 = len * sin((angle+wave.angleRotate)*PI/180f)
-
-                wave.pointLst.add(MyPointF(x1.toFloat(),y1.toFloat()))
+        //Log.d(javaClass.simpleName,"================================")
+        polygonLst.forEachIndexed { index, polygon ->
+            when (index) {
+                0 -> polygon.angle += phase
+                else -> {
+                    if ( polygonLst[index-1].angle > (polygon.angle+phase) ) {
+                        polygon.angle += phase
+                    }
+                }
             }
-        }
-    }
+            //Log.d(javaClass.simpleName,"index[$index]angle[${polygon.angle}]")
 
-    // -------------------------------
-    // サイン波の位相を移動
-    // -------------------------------
-    private fun movePhase() {
-        anglePhase = anglePhase + 30f
-        // ・元の位置に戻す
-        if ( anglePhase > anglePhaseMax ) {
-            anglePhase = 0f
+            polygon.a.x = r*cos(polygon.angle*PI/180f).toFloat()
+            polygon.a.y = r*sin(polygon.angle*PI/180f).toFloat()
+            Log.d(javaClass.simpleName,"id[$index]a[${polygon.a}]angle[${polygon.angle}]")
         }
     }
 
@@ -231,36 +211,41 @@ class SineWave01Drawable: MyDrawable() {
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
         // 原点(0,0)の位置
-        // = (マージン,上下中央)
-        val x0 = margin
+        // = (左右中央,上下中央)
+        val x0 = (intrinsicWidth/2).toFloat()
         val y0 = (intrinsicHeight/2).toFloat()
 
-        // 原点(x0,y0)を中心に円・サイクロイド曲線を描く
+        // 原点(x0,y0)を中心に円・三角形を描く
         canvas.save()
         canvas.translate(x0,y0)
 
-        // サイン波を描く
-        waveLst.forEach { wave ->
-            var path = Path()
-            wave.pointLst.forEachIndexed { index, myPointF ->
-                when (index) {
-                    0 -> {
-                        path.moveTo(myPointF.x,myPointF.y)
-                    }
-                    else -> {
-                        path.lineTo(myPointF.x,myPointF.y)
-                    }
-                }
-            }
-            canvas.drawPath(path,wave.linePaint)
+        // 円を描く
+        canvas.drawCircle(0f,0f,r,linePaintFrame)
+
+        // 三角形を描く
+        //Log.d(javaClass.simpleName,"================================")
+        polygonLst.reversed().forEach { polygon ->
+            val path = Path()
+            path.moveTo(polygon.a.x,polygon.a.y)
+            path.lineTo(polygon.b.x,polygon.b.y)
+            path.lineTo(polygon.c.x,polygon.c.y)
+            path.close()
+
+            //Log.d(javaClass.simpleName,"angle[${polygon.angle}]color[${polygon.color}]")
+            //Log.d(javaClass.simpleName,"a[${polygon.a}]angle[${polygon.angle}]")
+
+            linePaint.color = polygon.color
+            canvas.drawPath(path,linePaint)
+            canvas.drawPath(path,linePaintFrame)
         }
+
 
         // 座標を元に戻す
         canvas.restore()
 
-        // これまでの描画は上下逆なので反転する
+        // 頂点Aを真上にする
         val matrix = Matrix()
-        matrix.postScale(1f,-1f)
+        matrix.setRotate(-90f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
     }
 
@@ -278,7 +263,7 @@ class SineWave01Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun setAlpha(alpha: Int) {
-        framePaint.alpha = alpha
+        linePaint.alpha = alpha
     }
 
     // -------------------------------
@@ -290,7 +275,7 @@ class SineWave01Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun setColorFilter(colorFilter: ColorFilter?) {
-        framePaint.colorFilter = colorFilter
+        linePaint.colorFilter = colorFilter
     }
 
     // -------------------------------
@@ -303,18 +288,16 @@ class SineWave01Drawable: MyDrawable() {
     // -------------------------------
     override fun getIntrinsicHeight(): Int = (side+margin*2).toInt()
 
-    private class SineWave() {
-        // -------------------------------
-        // サイン波の描画点リスト
-        // -------------------------------
-        val pointLst: MutableList<MyPointF> = mutableListOf()
-        // -----------------------------------
-        // サイン波の回転角度
-        // -----------------------------------
-        var angleRotate: Float = 0f
-        // -----------------------------------
-        // サイン波のペイント
-        // -----------------------------------
-        lateinit var linePaint: Paint
+    private class Triangle{
+        // 三角形の頂点A
+        lateinit var a: MyPointF
+        // 三角形の頂点B
+        lateinit var b: MyPointF
+        // 三角形の頂点C
+        lateinit var c: MyPointF
+        // 三角形の色
+        var color: Int = 0xff000000.toInt()
+        // 三角形の頂点Aの回転角度
+        var angle: Float = 0f
     }
 }

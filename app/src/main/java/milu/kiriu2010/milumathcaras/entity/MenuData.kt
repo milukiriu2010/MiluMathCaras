@@ -22,6 +22,8 @@ enum class MenuItem(val title: String): Parcelable {
     MENU_DUMMY("Dummy"),
     // 曲線を描画するメニュー
     MENU_CURVE("Curve"),
+    // トロコイドを描画するメニュー
+    MENU_TROCHOID("Trochoid"),
     // エピサイクロイドを描画するメニュー
     MENU_EPICYCLOID("Epicycloid"),
     // ハイポサイクロイドを描画するメニュー
@@ -31,7 +33,9 @@ enum class MenuItem(val title: String): Parcelable {
     // フラクタル(複素数)を描画するメニュー
     MENU_COMPLEX("Complex"),
     // 波を描画するメニュー
-    MENU_WAVE("Wave")
+    MENU_WAVE("Wave"),
+    // 多角形を描画するメニュー
+    MENU_POLYGON("Polygon")
 }
 
 // ------------------------------------

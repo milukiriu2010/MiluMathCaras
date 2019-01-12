@@ -100,6 +100,9 @@ class MenuFragment : Fragment() {
             // 曲線一覧を表示するメニュー
             menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve)))
             // [サブメニュー]
+            // トロコイドを表示するメニュー
+            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_TROCHOID, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_trochoid)))
+            // [サブメニュー]
             // エピサイクロイドを表示するメニュー
             menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_EPICYCLOID, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_epicycloid)))
             // [サブメニュー]
@@ -114,6 +117,9 @@ class MenuFragment : Fragment() {
             // [サブメニュー]
             // 波一覧を表示するメニュー
             menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_WAVE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_wave)))
+            // [サブメニュー]
+            // 多角形一覧を表示するメニュー
+            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon)))
             // [メインメニュー]
             // ヘルプ
             menuDataLst.add(MenuData(MenuType.TYPE_MAIN, MenuItem.MENU_DUMMY,FragmentID.ID_DUMMY,resources.getString(R.string.menu_main_help)))

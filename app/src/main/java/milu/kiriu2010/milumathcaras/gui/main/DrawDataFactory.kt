@@ -18,6 +18,11 @@ class DrawDataFactory {
             when (menuData.menuItem) {
                 // 曲線を選択したときの描画データの一覧
                 MenuItem.MENU_CURVE -> {
+                    // 対数螺旋
+                    drawDataLst.add(DrawData(DrawDataID.ID_LOGARITHMIC_SPIRAL_010,resources.getString(R.string.draw_curve_logarithmic_spiral_010), floatArrayOf(0f) ))
+                }
+                // トロコイドを選択したときの描画データの一覧
+                MenuItem.MENU_TROCHOID -> {
                     // サイクロイド曲線(cycloid)(k=1.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_CYCLOID_001,resources.getString(R.string.draw_curve_cycloid_001), floatArrayOf(720f) ))
                     // トロコイド曲線(trochoid)(k=2.0)
@@ -26,8 +31,6 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_TROCHOID_003,resources.getString(R.string.draw_curve_trochoid_003), floatArrayOf(720f,-2.0f), floatArrayOf(0f,-2.0f) ))
                     // トロコイド曲線(trochoid)(k=2.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_TROCHOID_004,resources.getString(R.string.draw_curve_trochoid_004), floatArrayOf(720f,0.5f), floatArrayOf(0f,0.5f) ))
-                    // 対数螺旋
-                    drawDataLst.add(DrawData(DrawDataID.ID_LOGARITHMIC_SPIRAL_010,resources.getString(R.string.draw_curve_logarithmic_spiral_010), floatArrayOf(0f) ))
                 }
                 // エピサイクロイドを選択したときの描画データの一覧
                 MenuItem.MENU_EPICYCLOID -> {
@@ -87,6 +90,11 @@ class DrawDataFactory {
                 MenuItem.MENU_WAVE -> {
                     // サイン波
                     drawDataLst.add(DrawData(DrawDataID.ID_SINE_WAVE_040,resources.getString(R.string.draw_wave_sine_040) ))
+                }
+                // 多角形を選択したときの描画データの一覧
+                MenuItem.MENU_POLYGON -> {
+                    // 三角形でEXILE
+                    drawDataLst.add(DrawData(DrawDataID.ID_TRIANGLE_EXILE_301,resources.getString(R.string.draw_polygon_triangle_exile_301) ))
                 }
                 else -> {
                     throw RuntimeException("No Draw List for ${menuData.menuItem.title}")
