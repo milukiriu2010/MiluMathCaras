@@ -98,22 +98,25 @@ class TriangleExile01Drawable: MyDrawable() {
         val a0 = MyPointF(r*cos(0f*PI/180f).toFloat(),r*sin(0f*PI/180f).toFloat())
         val b0 = MyPointF(r*cos(120f*PI/180f).toFloat(),r*sin(120f*PI/180f).toFloat())
         val c0 = MyPointF(r*cos(240f*PI/180f).toFloat(),r*sin(240f*PI/180f).toFloat())
-        val d0 = MyPointF(r*cos(180f*PI/180f).toFloat(),r*sin(180f*PI/180f).toFloat())
 
         val colorLst = intArrayOf(
             0xffffffff.toInt(),
             0xffff0000.toInt(),
+            0xffffcccc.toInt(),
+            0xffff7f00.toInt(),
+            0xffffff00.toInt(),
             0xff00ff00.toInt(),
-            0xff0000ff.toInt()
+            0xff0000ff.toInt(),
+            0xff00ffff.toInt(),
+            0xff7f00ff.toInt(),
+            0xffff00ff.toInt()
         )
-
 
         colorLst.forEachIndexed { index, color0 ->
             polygonLst.add(Triangle().apply {
                 a = a0
                 b = b0
                 c = c0
-                if ( index == 1 ) c = d0
                 color = color0
             })
         }
@@ -141,17 +144,14 @@ class TriangleExile01Drawable: MyDrawable() {
                 // 描画
                 invalidateSelf()
 
-                /*
-                // 最初と最後は1秒後に描画
-                if (angle == angleMax || angle == 0f) {
+                // すべての三角形が動作完了したら1秒後に描画
+                if ( checkAllDone() ) {
                     handler.postDelayed(runnable, 1000)
                 }
                 // 100msごとに描画
                 else {
                     handler.postDelayed(runnable, 100)
                 }
-                */
-                handler.postDelayed(runnable, 100)
             }
             handler.postDelayed(runnable, 1000)
         }
@@ -179,24 +179,49 @@ class TriangleExile01Drawable: MyDrawable() {
     // -------------------------------
     private fun movePoint() {
         val cnt = polygonLst.size
-        val phase = 20f
+        val phase = 10f
 
         //Log.d(javaClass.simpleName,"================================")
         polygonLst.forEachIndexed { index, polygon ->
-            when (index) {
-                0 -> polygon.angle += phase
-                else -> {
-                    if ( polygonLst[index-1].angle > (polygon.angle+phase) ) {
-                        polygon.angle += phase
+            // 動き始めは、前が動いたら、次が動くようにする
+            if (polygon.angle == 0f) {
+                when (index) {
+                    0 -> polygon.angle += phase
+                    else -> {
+                        if ( polygonLst[index-1].angle > (polygon.angle+phase) ) {
+                            polygon.angle += phase
+                        }
                     }
                 }
             }
+            // ３回回ったら、最後尾が追いつくのを待つ
+            // 最後尾が回り終わったら、初期値に戻す
+            else if (polygon.angle == angleMax) {
+                if (index == (cnt-1)) {
+                    polygonLst.forEach { it.angle = 0f }
+                }
+            }
+            // 途中は、全てが動く
+            else {
+                polygon.angle += phase
+            }
             //Log.d(javaClass.simpleName,"index[$index]angle[${polygon.angle}]")
 
-            polygon.a.x = r*cos(polygon.angle*PI/180f).toFloat()
-            polygon.a.y = r*sin(polygon.angle*PI/180f).toFloat()
-            Log.d(javaClass.simpleName,"id[$index]a[${polygon.a}]angle[${polygon.angle}]")
+            // 何故か、位置を動かくだけでは、うまくいかないので、MyPointFをnewすることにした
+            //polygon.a.x = r*cos(polygon.angle*PI/180f).toFloat()
+            //polygon.a.y = r*sin(polygon.angle*PI/180f).toFloat()
+            val x0 = r*cos(polygon.angle*PI/180f).toFloat()
+            val y0 = r*sin(polygon.angle*PI/180f).toFloat()
+            polygon.a = MyPointF(x0,y0)
+            //Log.d(javaClass.simpleName,"id[$index]a[${polygon.a}]angle[${polygon.angle}]")
         }
+    }
+
+    // -------------------------------
+    // 全ての三角形が動作を終了したか判断
+    // -------------------------------
+    private fun checkAllDone(): Boolean {
+        return (polygonLst.first().angle == polygonLst.last().angle)
     }
 
     // -------------------------------
@@ -223,8 +248,8 @@ class TriangleExile01Drawable: MyDrawable() {
         canvas.drawCircle(0f,0f,r,linePaintFrame)
 
         // 三角形を描く
-        //Log.d(javaClass.simpleName,"================================")
-        polygonLst.reversed().forEach { polygon ->
+        //Log.d(javaClass.simpleName,"********************************")
+        polygonLst.reversed().forEachIndexed { index, polygon ->
             val path = Path()
             path.moveTo(polygon.a.x,polygon.a.y)
             path.lineTo(polygon.b.x,polygon.b.y)
@@ -232,18 +257,18 @@ class TriangleExile01Drawable: MyDrawable() {
             path.close()
 
             //Log.d(javaClass.simpleName,"angle[${polygon.angle}]color[${polygon.color}]")
-            //Log.d(javaClass.simpleName,"a[${polygon.a}]angle[${polygon.angle}]")
+            //Log.d(javaClass.simpleName,"id[$index]a[${polygon.a}]angle[${polygon.angle}]")
 
             linePaint.color = polygon.color
             canvas.drawPath(path,linePaint)
             canvas.drawPath(path,linePaintFrame)
         }
 
-
         // 座標を元に戻す
         canvas.restore()
 
-        // 頂点Aを真上にする
+        // 初期の描画では頂点Aは一番右なので、
+        // 頂点Aが真上にくるよう90度左に回転する
         val matrix = Matrix()
         matrix.setRotate(-90f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
