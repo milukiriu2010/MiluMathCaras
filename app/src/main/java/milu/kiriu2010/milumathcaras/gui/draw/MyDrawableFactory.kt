@@ -15,6 +15,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.fractal.sierpinski.SierpinskiCarpet
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.sierpinski.SierpinskiTriangle01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.takagi.TakagiCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.tree.TreeCurve01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.PolygonInPolygon01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.TriangleExile01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWave01Drawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
@@ -81,6 +82,26 @@ class MyDrawableFactory {
                 DrawDataID.ID_JULIA_SET_251 -> Julia01Drawable()
                 // 三角形でEXILE
                 DrawDataID.ID_TRIANGLE_EXILE_301 -> TriangleExile01Drawable()
+                // 三角形in四角形
+                DrawDataID.ID_3_IN_4_302 -> PolygonInPolygon01Drawable()
+                // 三角形in五角形
+                DrawDataID.ID_3_IN_5_303 -> PolygonInPolygon01Drawable()
+                // 三角形in六角形
+                DrawDataID.ID_3_IN_6_304 -> PolygonInPolygon01Drawable()
+                // 三角形in七角形
+                DrawDataID.ID_3_IN_7_305 -> PolygonInPolygon01Drawable()
+                // 三角形in八角形
+                DrawDataID.ID_3_IN_8_306 -> PolygonInPolygon01Drawable()
+                // 三角形in九角形
+                DrawDataID.ID_3_IN_9_307 -> PolygonInPolygon01Drawable()
+                // 三角形in十角形
+                DrawDataID.ID_3_IN_10_308 -> PolygonInPolygon01Drawable()
+                // 四角形in五角形
+                DrawDataID.ID_4_IN_5_309 -> PolygonInPolygon01Drawable()
+                // 四角形in六角形
+                DrawDataID.ID_4_IN_6_310 -> PolygonInPolygon01Drawable()
+                // 四角形in七角形
+                DrawDataID.ID_4_IN_7_311 -> PolygonInPolygon01Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")
             }
 

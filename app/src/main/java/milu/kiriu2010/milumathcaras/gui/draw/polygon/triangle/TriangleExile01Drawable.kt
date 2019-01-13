@@ -186,7 +186,9 @@ class TriangleExile01Drawable: MyDrawable() {
             // 動き始めは、前が動いたら、次が動くようにする
             if (polygon.angle == 0f) {
                 when (index) {
+                    // 最初の三角形は、制限なくすすめる
                     0 -> polygon.angle += phase
+                    // ２番目以降の三角形は、前が動いたら、動くようにする
                     else -> {
                         if ( polygonLst[index-1].angle > (polygon.angle+phase) ) {
                             polygon.angle += phase

@@ -46,4 +46,14 @@
     <string name="draw_complex_mandelbrot_set_201">Mandelbrot Set</string>
     <string name="draw_complex_julia_set_251">Julia Set</string>
     <string name="draw_polygon_triangle_exile_301">Triangle Exile</string>
+    <string name="draw_polygon_3_in_4_302">3 in 4</string>
+    <string name="draw_polygon_3_in_5_303">3 in 5</string>
+    <string name="draw_polygon_3_in_6_304">3 in 6</string>
+    <string name="draw_polygon_3_in_7_305">3 in 7</string>
+    <string name="draw_polygon_3_in_8_306">3 in 8</string>
+    <string name="draw_polygon_3_in_9_307">3 in 9</string>
+    <string name="draw_polygon_3_in_10_308">3 in 10</string>
+    <string name="draw_polygon_4_in_5_309">4 in 5</string>
+    <string name="draw_polygon_4_in_6_310">4 in 6</string>
+    <string name="draw_polygon_4_in_7_311">4 in 7</string>
 </resources>

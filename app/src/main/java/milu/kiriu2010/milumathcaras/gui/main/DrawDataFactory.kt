@@ -95,6 +95,26 @@ class DrawDataFactory {
                 MenuItem.MENU_POLYGON -> {
                     // 三角形でEXILE
                     drawDataLst.add(DrawData(DrawDataID.ID_TRIANGLE_EXILE_301,resources.getString(R.string.draw_polygon_triangle_exile_301) ))
+                    // 三角形in四角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_3_IN_4_302,resources.getString(R.string.draw_polygon_3_in_4_302), floatArrayOf(4f,3f), floatArrayOf(4f,3f) ))
+                    // 三角形in五角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_3_IN_5_303,resources.getString(R.string.draw_polygon_3_in_5_303), floatArrayOf(5f,3f), floatArrayOf(5f,3f) ))
+                    // 三角形in六角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_3_IN_6_304,resources.getString(R.string.draw_polygon_3_in_6_304), floatArrayOf(6f,3f), floatArrayOf(6f,3f) ))
+                    // 三角形in七角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_3_IN_7_305,resources.getString(R.string.draw_polygon_3_in_7_305), floatArrayOf(7f,3f), floatArrayOf(7f,3f) ))
+                    // 三角形in八角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_3_IN_8_306,resources.getString(R.string.draw_polygon_3_in_8_306), floatArrayOf(8f,3f), floatArrayOf(8f,3f) ))
+                    // 三角形in九角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_3_IN_9_307,resources.getString(R.string.draw_polygon_3_in_9_307), floatArrayOf(9f,3f), floatArrayOf(9f,3f) ))
+                    // 三角形in十角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_3_IN_10_308,resources.getString(R.string.draw_polygon_3_in_10_308), floatArrayOf(10f,3f), floatArrayOf(10f,3f) ))
+                    // 四角形in五角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_4_IN_5_309,resources.getString(R.string.draw_polygon_4_in_5_309), floatArrayOf(5f,4f), floatArrayOf(5f,4f) ))
+                    // 四角形in六角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_4_IN_6_310,resources.getString(R.string.draw_polygon_4_in_6_310), floatArrayOf(6f,4f), floatArrayOf(6f,4f) ))
+                    // 四角形in七角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_4_IN_7_311,resources.getString(R.string.draw_polygon_4_in_7_311), floatArrayOf(7f,4f), floatArrayOf(7f,4f) ))
                 }
                 else -> {
                     throw RuntimeException("No Draw List for ${menuData.menuItem.title}")
