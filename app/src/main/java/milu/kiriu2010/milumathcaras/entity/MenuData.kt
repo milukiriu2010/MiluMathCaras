@@ -35,7 +35,10 @@ enum class MenuItem(val title: String): Parcelable {
     // 波を描画するメニュー
     MENU_WAVE("Wave"),
     // 多角形を描画するメニュー
-    MENU_POLYGON("Polygon")
+    MENU_POLYGON("Polygon"),
+    // The Nature of Code
+    // https://natureofcode.com/book/chapter-1-vectors/
+    MENU_NATURE_OF_CODE( "Nature of Code")
 }
 
 // ------------------------------------

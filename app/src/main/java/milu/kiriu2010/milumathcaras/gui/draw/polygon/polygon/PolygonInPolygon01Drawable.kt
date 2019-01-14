@@ -312,7 +312,9 @@ class PolygonInPolygon01Drawable: MyDrawable() {
             vertexC = (vertexC+1)%polygonB.vertexCnt
             angle = 0f
             vertexLCMn = (vertexLCMn+1)%vertexLCM
-            // 頂点が接するパターンが全て完了したら、軌跡をクリアする
+            // 回転する多角形の頂点が
+            // 回転しない多角形の頂点に接するパターンが
+            // 全て完了したら、軌跡をクリアする
             if (vertexLCMn == 0) {
                 trackLst.forEach { track ->
                     track.pointLst.clear()

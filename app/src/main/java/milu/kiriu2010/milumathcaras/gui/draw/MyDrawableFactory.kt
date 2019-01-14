@@ -81,27 +81,63 @@ class MyDrawableFactory {
                 // ジュリア集合
                 DrawDataID.ID_JULIA_SET_251 -> Julia01Drawable()
                 // 三角形でEXILE
-                DrawDataID.ID_TRIANGLE_EXILE_301 -> TriangleExile01Drawable()
+                DrawDataID.ID_300_TRIANGLE_EXILE -> TriangleExile01Drawable()
                 // 三角形in四角形
-                DrawDataID.ID_3_IN_4_302 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_301_3_IN_4 -> PolygonInPolygon01Drawable()
                 // 三角形in五角形
-                DrawDataID.ID_3_IN_5_303 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_302_3_IN_5 -> PolygonInPolygon01Drawable()
                 // 三角形in六角形
-                DrawDataID.ID_3_IN_6_304 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_303_3_IN_6 -> PolygonInPolygon01Drawable()
                 // 三角形in七角形
-                DrawDataID.ID_3_IN_7_305 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_304_3_IN_7 -> PolygonInPolygon01Drawable()
                 // 三角形in八角形
-                DrawDataID.ID_3_IN_8_306 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_305_3_IN_8 -> PolygonInPolygon01Drawable()
                 // 三角形in九角形
-                DrawDataID.ID_3_IN_9_307 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_306_3_IN_9 -> PolygonInPolygon01Drawable()
                 // 三角形in十角形
-                DrawDataID.ID_3_IN_10_308 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_307_3_IN_10 -> PolygonInPolygon01Drawable()
                 // 四角形in五角形
-                DrawDataID.ID_4_IN_5_309 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_311_4_IN_5 -> PolygonInPolygon01Drawable()
                 // 四角形in六角形
-                DrawDataID.ID_4_IN_6_310 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_312_4_IN_6 -> PolygonInPolygon01Drawable()
                 // 四角形in七角形
-                DrawDataID.ID_4_IN_7_311 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_313_4_IN_7 -> PolygonInPolygon01Drawable()
+                // 四角形in八角形
+                DrawDataID.ID_314_4_IN_8 -> PolygonInPolygon01Drawable()
+                // 四角形in九角形
+                DrawDataID.ID_315_4_IN_9 -> PolygonInPolygon01Drawable()
+                // 四角形in十角形
+                DrawDataID.ID_316_4_IN_10 -> PolygonInPolygon01Drawable()
+                // 五角形in六角形
+                DrawDataID.ID_321_5_IN_6 -> PolygonInPolygon01Drawable()
+                // 五角形in七角形
+                DrawDataID.ID_322_5_IN_7 -> PolygonInPolygon01Drawable()
+                // 五角形in八角形
+                DrawDataID.ID_323_5_IN_8 -> PolygonInPolygon01Drawable()
+                // 五角形in九角形
+                DrawDataID.ID_324_5_IN_9 -> PolygonInPolygon01Drawable()
+                // 五角形in十角形
+                DrawDataID.ID_325_5_IN_10 -> PolygonInPolygon01Drawable()
+                // 六角形in七角形
+                DrawDataID.ID_331_6_IN_7 -> PolygonInPolygon01Drawable()
+                // 六角形in八角形
+                DrawDataID.ID_332_6_IN_8 -> PolygonInPolygon01Drawable()
+                // 六角形in九角形
+                DrawDataID.ID_333_6_IN_9 -> PolygonInPolygon01Drawable()
+                // 六角形in十角形
+                DrawDataID.ID_334_6_IN_10 -> PolygonInPolygon01Drawable()
+                // 七角形in八角形
+                DrawDataID.ID_341_7_IN_8 -> PolygonInPolygon01Drawable()
+                // 七角形in九角形
+                DrawDataID.ID_342_7_IN_9 -> PolygonInPolygon01Drawable()
+                // 七角形in十角形
+                DrawDataID.ID_343_7_IN_10 -> PolygonInPolygon01Drawable()
+                // 八角形in九角形
+                DrawDataID.ID_351_8_IN_9 -> PolygonInPolygon01Drawable()
+                // 八角形in十角形
+                DrawDataID.ID_352_8_IN_10 -> PolygonInPolygon01Drawable()
+                // 九角形in十角形
+                DrawDataID.ID_361_9_IN_10 -> PolygonInPolygon01Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")
             }
 

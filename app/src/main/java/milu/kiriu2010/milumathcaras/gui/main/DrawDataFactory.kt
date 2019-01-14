@@ -94,27 +94,63 @@ class DrawDataFactory {
                 // 多角形を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON -> {
                     // 三角形でEXILE
-                    drawDataLst.add(DrawData(DrawDataID.ID_TRIANGLE_EXILE_301,resources.getString(R.string.draw_polygon_triangle_exile_301) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_300_TRIANGLE_EXILE,resources.getString(R.string.draw_300_polygon_triangle_exile) ))
                     // 三角形in四角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_3_IN_4_302,resources.getString(R.string.draw_polygon_3_in_4_302), floatArrayOf(4f,3f), floatArrayOf(4f,3f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_301_3_IN_4,resources.getString(R.string.draw_301_polygon_3_in_4), floatArrayOf(4f,3f), floatArrayOf(4f,3f) ))
                     // 三角形in五角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_3_IN_5_303,resources.getString(R.string.draw_polygon_3_in_5_303), floatArrayOf(5f,3f), floatArrayOf(5f,3f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_302_3_IN_5,resources.getString(R.string.draw_302_polygon_3_in_5), floatArrayOf(5f,3f), floatArrayOf(5f,3f) ))
                     // 三角形in六角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_3_IN_6_304,resources.getString(R.string.draw_polygon_3_in_6_304), floatArrayOf(6f,3f), floatArrayOf(6f,3f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_303_3_IN_6,resources.getString(R.string.draw_303_polygon_3_in_6), floatArrayOf(6f,3f), floatArrayOf(6f,3f) ))
                     // 三角形in七角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_3_IN_7_305,resources.getString(R.string.draw_polygon_3_in_7_305), floatArrayOf(7f,3f), floatArrayOf(7f,3f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_304_3_IN_7,resources.getString(R.string.draw_304_polygon_3_in_7), floatArrayOf(7f,3f), floatArrayOf(7f,3f) ))
                     // 三角形in八角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_3_IN_8_306,resources.getString(R.string.draw_polygon_3_in_8_306), floatArrayOf(8f,3f), floatArrayOf(8f,3f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_305_3_IN_8,resources.getString(R.string.draw_305_polygon_3_in_8), floatArrayOf(8f,3f), floatArrayOf(8f,3f) ))
                     // 三角形in九角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_3_IN_9_307,resources.getString(R.string.draw_polygon_3_in_9_307), floatArrayOf(9f,3f), floatArrayOf(9f,3f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_306_3_IN_9,resources.getString(R.string.draw_306_polygon_3_in_9), floatArrayOf(9f,3f), floatArrayOf(9f,3f) ))
                     // 三角形in十角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_3_IN_10_308,resources.getString(R.string.draw_polygon_3_in_10_308), floatArrayOf(10f,3f), floatArrayOf(10f,3f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_307_3_IN_10,resources.getString(R.string.draw_307_polygon_3_in_10), floatArrayOf(10f,3f), floatArrayOf(10f,3f) ))
                     // 四角形in五角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_4_IN_5_309,resources.getString(R.string.draw_polygon_4_in_5_309), floatArrayOf(5f,4f), floatArrayOf(5f,4f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_311_4_IN_5,resources.getString(R.string.draw_311_polygon_4_in_5), floatArrayOf(5f,4f), floatArrayOf(5f,4f) ))
                     // 四角形in六角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_4_IN_6_310,resources.getString(R.string.draw_polygon_4_in_6_310), floatArrayOf(6f,4f), floatArrayOf(6f,4f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_312_4_IN_6,resources.getString(R.string.draw_312_polygon_4_in_6), floatArrayOf(6f,4f), floatArrayOf(6f,4f) ))
                     // 四角形in七角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_4_IN_7_311,resources.getString(R.string.draw_polygon_4_in_7_311), floatArrayOf(7f,4f), floatArrayOf(7f,4f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_313_4_IN_7,resources.getString(R.string.draw_313_polygon_4_in_7), floatArrayOf(7f,4f), floatArrayOf(7f,4f) ))
+                    // 四角形in八角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_314_4_IN_8,resources.getString(R.string.draw_314_polygon_4_in_8), floatArrayOf(8f,4f), floatArrayOf(8f,4f) ))
+                    // 四角形in九角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_315_4_IN_9,resources.getString(R.string.draw_315_polygon_4_in_9), floatArrayOf(9f,4f), floatArrayOf(9f,4f) ))
+                    // 四角形in十角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_316_4_IN_10,resources.getString(R.string.draw_316_polygon_4_in_10), floatArrayOf(10f,4f), floatArrayOf(10f,4f) ))
+                    // 五角形in六角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_321_5_IN_6,resources.getString(R.string.draw_321_polygon_5_in_6), floatArrayOf(6f,5f), floatArrayOf(6f,5f) ))
+                    // 五角形in七角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_322_5_IN_7,resources.getString(R.string.draw_322_polygon_5_in_7), floatArrayOf(7f,5f), floatArrayOf(7f,5f) ))
+                    // 五角形in八角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_323_5_IN_8,resources.getString(R.string.draw_323_polygon_5_in_8), floatArrayOf(8f,5f), floatArrayOf(8f,5f) ))
+                    // 五角形in九角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_324_5_IN_9,resources.getString(R.string.draw_324_polygon_5_in_9), floatArrayOf(9f,5f), floatArrayOf(9f,5f) ))
+                    // 五角形in十角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_325_5_IN_10,resources.getString(R.string.draw_325_polygon_5_in_10), floatArrayOf(10f,5f), floatArrayOf(10f,5f) ))
+                    // 六角形in七角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_331_6_IN_7,resources.getString(R.string.draw_331_polygon_6_in_7), floatArrayOf(7f,6f), floatArrayOf(7f,6f) ))
+                    // 六角形in八角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_332_6_IN_8,resources.getString(R.string.draw_332_polygon_6_in_8), floatArrayOf(8f,6f), floatArrayOf(8f,6f) ))
+                    // 六角形in九角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_333_6_IN_9,resources.getString(R.string.draw_333_polygon_6_in_9), floatArrayOf(9f,6f), floatArrayOf(9f,6f) ))
+                    // 六角形in十角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_334_6_IN_10,resources.getString(R.string.draw_334_polygon_6_in_10), floatArrayOf(10f,6f), floatArrayOf(10f,6f) ))
+                    // 七角形in八角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_341_7_IN_8,resources.getString(R.string.draw_341_polygon_7_in_8), floatArrayOf(8f,7f), floatArrayOf(8f,7f) ))
+                    // 七角形in九角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_342_7_IN_9,resources.getString(R.string.draw_342_polygon_7_in_9), floatArrayOf(9f,7f), floatArrayOf(9f,7f) ))
+                    // 七角形in十角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_343_7_IN_10,resources.getString(R.string.draw_343_polygon_7_in_10), floatArrayOf(10f,7f), floatArrayOf(10f,7f) ))
+                    // 八角形in九角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_351_8_IN_9,resources.getString(R.string.draw_351_polygon_8_in_9), floatArrayOf(9f,8f), floatArrayOf(9f,8f) ))
+                    // 八角形in十角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_352_8_IN_10,resources.getString(R.string.draw_352_polygon_8_in_10), floatArrayOf(10f,8f), floatArrayOf(10f,8f) ))
+                    // 九角形in十角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_361_9_IN_10,resources.getString(R.string.draw_361_polygon_9_in_10), floatArrayOf(10f,9f), floatArrayOf(10f,9f) ))
                 }
                 else -> {
                     throw RuntimeException("No Draw List for ${menuData.menuItem.title}")
