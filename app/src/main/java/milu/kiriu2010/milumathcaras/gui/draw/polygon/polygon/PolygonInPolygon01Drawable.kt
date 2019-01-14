@@ -186,7 +186,7 @@ class PolygonInPolygon01Drawable: MyDrawable() {
             polygonA.pointLst.add(MyPointF(xA,yA))
         }
         // ---------------------------
-        // 回転する多角形の１辺の長さ
+        // 回転しない多角形の１辺の長さ
         // ---------------------------
         polygonA.calLen()
 
@@ -194,6 +194,10 @@ class PolygonInPolygon01Drawable: MyDrawable() {
         // 回転しない多角形の内角を設定
         // ---------------------------
         polygonB.calInternalAngle()
+        // ---------------------------
+        // 回転する多角形の１辺の長さ
+        // ---------------------------
+        polygonB.len = polygonA.len
         // 回転する多角形の辺同士の角度
         //val t = 180f-(360f/polygonB.vertexCnt.toFloat())
         // ---------------------------
@@ -201,8 +205,8 @@ class PolygonInPolygon01Drawable: MyDrawable() {
         // １番めと２番めは
         // 回転しない多角形の頂点と同一
         // ---------------------------
-        polygonB.pointLst.add(polygonA.pointLst[0])
-        polygonB.pointLst.add(polygonA.pointLst[1])
+        polygonB.pointLst.add(polygonA.pointLst[0].copy())
+        polygonB.pointLst.add(polygonA.pointLst[1].copy())
         // ---------------------------
         // 回転する多角形の頂点を設定
         // ---------------------------
@@ -237,11 +241,26 @@ class PolygonInPolygon01Drawable: MyDrawable() {
         // 回転の中心となる頂点
         val c = polygonB.pointLst[vertexC]
 
+        polygonB.pointLst.forEachIndexed label@{ index, myPointF ->
+            if (index == vertexC) return@label
 
+            val x0 = myPointF.x - c.x
+            val y0 = myPointF.y - c.y
+            //val len0 = polygonB.len
+            val len0 = sqrt(x0*x0+y0*y0)
+            val angle0 = MyMathUtil.getAngle(c,myPointF)
+
+            //val angle1 = ((360f-polygonB.internalAngle)+angle0-angle)*2f*PI/180f
+            val angle1 = (angle0-angle)*PI/180f
+            val x1 = c.x + len0 * cos(angle1).toFloat()
+            val y1 = c.y + len0 * sin(angle1).toFloat()
+            myPointF.x = x1
+            myPointF.y = y1
+        }
 
         // 最大角度まで達したら、回転に使う頂点を隣に移す
         if ( angle == angleMax ) {
-            vertexC = (vertexC+1)%polygonA.vertexCnt
+            vertexC = (vertexC+1)%polygonB.vertexCnt
             angle = 0f
         }
     }
