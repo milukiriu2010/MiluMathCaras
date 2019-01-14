@@ -35,12 +35,25 @@ class PolygonInPolygon01Drawable: MyDrawable() {
         vertexCnt = 4
     }
 
-    // ---------------------------------
+    // -------------------------------------
     // 頂点が少ない多角形(回転する方の多角形)
-    // ---------------------------------
+    // -------------------------------------
     private val polygonB = Polygon().apply {
         vertexCnt = 3
     }
+
+    // ---------------------------------
+    // 回転する多角形が描く軌跡リスト
+    // ---------------------------------
+    private val trackLst: MutableList<Track> = mutableListOf()
+
+    // ---------------------------
+    // 回転しない多角形の頂点の数
+    // 回転する  多角形の頂点の数
+    // の最小公倍数を求める
+    // ---------------------------
+    private var vertexLCM = 0
+    private var vertexLCMn = 0
 
     // ---------------------------------
     // 回転の中心となる頂点のインデックス
@@ -86,6 +99,16 @@ class PolygonInPolygon01Drawable: MyDrawable() {
         color = Color.BLACK
         style = Paint.Style.STROKE
         strokeWidth = 5f
+    }
+
+    // -------------------------------
+    // 多角形の頂点の軌跡を描くペイント
+    // -------------------------------
+    private val trackPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.RED
+        style = Paint.Style.STROKE
+        strokeWidth = 5f
+        //pathEffect = CornerPathEffect(10f)
     }
 
     // -------------------------------------
@@ -170,6 +193,17 @@ class PolygonInPolygon01Drawable: MyDrawable() {
     private fun createPath() {
         polygonA.pointLst.clear()
         polygonB.pointLst.clear()
+        trackLst.clear()
+
+        // ---------------------------
+        // 回転しない多角形の頂点の数
+        // 回転する  多角形の頂点の数
+        // の最小公倍数を求める
+        // ---------------------------
+        vertexLCM = MyMathUtil.lcm(listOf(polygonA.vertexCnt,polygonB.vertexCnt))
+        //Log.d(javaClass.simpleName,"vertexLCM[$vertexLCM]")
+        // 最小公倍数が"回転しない多角形の頂点の数"と同一の場合は、2倍する
+        if (vertexLCM == polygonA.vertexCnt) vertexLCM = vertexLCM*2
 
         // ---------------------------
         // 回転しない多角形の内角を設定
@@ -201,16 +235,24 @@ class PolygonInPolygon01Drawable: MyDrawable() {
         // 回転する多角形の辺同士の角度
         //val t = 180f-(360f/polygonB.vertexCnt.toFloat())
         // ---------------------------
-        // 回転する多角形の頂点の
-        // １番めと２番めは
-        // 回転しない多角形の頂点と同一
-        // ---------------------------
-        polygonB.pointLst.add(polygonA.pointLst[0].copy())
-        polygonB.pointLst.add(polygonA.pointLst[1].copy())
-        // ---------------------------
         // 回転する多角形の頂点を設定
         // ---------------------------
-        (2 until polygonB.vertexCnt).forEach {
+        (0 until polygonB.vertexCnt).forEach labelB@{
+            // 回転する多角形が描く軌跡リスト
+            val track = Track()
+            trackLst.add(track)
+            if (it < 2) {
+                // ---------------------------
+                // 回転する多角形の頂点の
+                // １番めと２番めは
+                // 回転しない多角形の頂点と同一
+                // ---------------------------
+                polygonB.pointLst.add(polygonA.pointLst[it].copy())
+                // 軌跡の描画点リストにも加える
+                track.pointLst.add(polygonA.pointLst[it].copy())
+                return@labelB
+            }
+
             // 2つ前の頂点
             val v0 = polygonB.pointLst[it-2]
             // 1つ前の頂点
@@ -223,6 +265,8 @@ class PolygonInPolygon01Drawable: MyDrawable() {
             val x2 = v1.x + polygonA.len*cos(tB).toFloat()
             val y2 = v1.y + polygonA.len*sin(tB).toFloat()
             polygonB.pointLst.add(MyPointF(x2,y2))
+            // 軌跡の描画点リストにも加える
+            track.pointLst.add(MyPointF(x2,y2))
         }
 
         // 回転の最大角度
@@ -241,8 +285,11 @@ class PolygonInPolygon01Drawable: MyDrawable() {
         // 回転の中心となる頂点
         val c = polygonB.pointLst[vertexC]
 
-        polygonB.pointLst.forEachIndexed label@{ index, myPointF ->
-            if (index == vertexC) return@label
+        //Log.d(javaClass.simpleName,"****************************")
+        //Log.d(javaClass.simpleName,"vertexC[$vertexC]angle[$angle]angleDiv[$angleDiv]")
+
+        polygonB.pointLst.forEachIndexed labelB@{ index, myPointF ->
+            if (index == vertexC) return@labelB
 
             val x0 = myPointF.x - c.x
             val y0 = myPointF.y - c.y
@@ -250,18 +297,27 @@ class PolygonInPolygon01Drawable: MyDrawable() {
             val len0 = sqrt(x0*x0+y0*y0)
             val angle0 = MyMathUtil.getAngle(c,myPointF)
 
-            //val angle1 = ((360f-polygonB.internalAngle)+angle0-angle)*2f*PI/180f
-            val angle1 = (angle0-angle)*PI/180f
+            val angle1 = (angle0-angleDiv)*PI/180f
             val x1 = c.x + len0 * cos(angle1).toFloat()
             val y1 = c.y + len0 * sin(angle1).toFloat()
             myPointF.x = x1
             myPointF.y = y1
+
+            trackLst[index].pointLst.add(myPointF.copy())
+            //Log.d(javaClass.simpleName,"id[$index]angle0[$angle0]angle1[$angle1]")
         }
 
         // 最大角度まで達したら、回転に使う頂点を隣に移す
         if ( angle == angleMax ) {
             vertexC = (vertexC+1)%polygonB.vertexCnt
             angle = 0f
+            vertexLCMn = (vertexLCMn+1)%vertexLCM
+            // 頂点が接するパターンが全て完了したら、軌跡をクリアする
+            if (vertexLCMn == 0) {
+                trackLst.forEach { track ->
+                    track.pointLst.clear()
+                }
+            }
         }
     }
 
@@ -304,10 +360,21 @@ class PolygonInPolygon01Drawable: MyDrawable() {
                 0 -> pathB.moveTo(myPointF.x,myPointF.y)
                 else -> pathB.lineTo(myPointF.x,myPointF.y)
             }
-
         }
         pathB.close()
         canvas.drawPath(pathB,linePaint)
+
+        // 回転する多角形が描く軌跡を描画
+        trackLst.forEach { track ->
+            val pathTrack = Path()
+            track.pointLst.forEachIndexed { index, myPointF ->
+                when (index) {
+                    0 -> pathTrack.moveTo(myPointF.x,myPointF.y)
+                    else -> pathTrack.lineTo(myPointF.x,myPointF.y)
+                }
+            }
+            canvas.drawPath(pathTrack,trackPaint)
+        }
 
         // 座標を元に戻す
         canvas.restore()
@@ -380,5 +447,10 @@ class PolygonInPolygon01Drawable: MyDrawable() {
             val y1 = pointLst[1].y
             len = sqrt((x1-x0)*(x1-x0)+(y1-y0)*(y1-y0))
         }
+    }
+
+    private class Track {
+        // 描画点リスト
+        val pointLst: MutableList<MyPointF> = mutableListOf()
     }
 }
