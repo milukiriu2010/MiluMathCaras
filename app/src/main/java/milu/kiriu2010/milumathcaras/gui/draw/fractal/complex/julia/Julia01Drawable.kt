@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.complex.julia
+package milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.julia
 
 import android.graphics.*
 import android.os.Handler

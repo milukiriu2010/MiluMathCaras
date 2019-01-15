@@ -19,7 +19,13 @@ import milu.kiriu2010.milumathcaras.entity.MenuType
 import milu.kiriu2010.milumathcaras.gui.main.DrawDataCallback
 import milu.kiriu2010.milumathcaras.id.FragmentID
 
+private const val ARG_PARAM1 = "MenuData"
+
 class MenuFragment : Fragment() {
+    // 表示するメニューリスト
+    private lateinit var menuDataLst: MutableList<MenuData>
+    // 親メニュー
+    private var menuDataParent: MenuData? = null
 
     // メニューを表示するリサイクラービュー
     private lateinit var recyclerViewMenu: RecyclerView
@@ -33,6 +39,7 @@ class MenuFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+            menuDataParent = it.getParcelable(ARG_PARAM1)
         }
     }
 
@@ -52,8 +59,11 @@ class MenuFragment : Fragment() {
         val layoutManager = LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL,false)
         recyclerViewMenu.layoutManager = layoutManager
 
+        // メニュー一覧として表示するデータを取り込む
+        menuDataLst = createMenuDataLst(resources,menuDataParent)
+
         // メニューを表示するリサイクラービューのアダプタ
-        adapter = MenuAdapter(ctx, createMenuDataLst(resources) ) {
+        adapter = MenuAdapter(ctx, menuDataLst ) {
             // 描画データ一覧を表示する
             drawDataCallback?.showLst(it)
         }
@@ -87,45 +97,87 @@ class MenuFragment : Fragment() {
                 }
             }
 
+        @JvmStatic
+        fun newInstance(menuData: MenuData) =
+            MenuFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(ARG_PARAM1,menuData)
+                }
+            }
+
         // ------------------------------------------------------
         // ドロワーレイアウトに表示するメニューの一覧
         // ------------------------------------------------------
-        public fun createMenuDataLst(resources: Resources): MutableList<MenuData> {
+        public fun createMenuDataLst(resources: Resources, menuDataParent: MenuData? = null): MutableList<MenuData> {
             val menuDataLst = mutableListOf<MenuData>()
 
-            // [メインメニュー]
-            // 描画リスト
-            menuDataLst.add(MenuData(MenuType.TYPE_MAIN, MenuItem.MENU_DUMMY, FragmentID.ID_DUMMY,resources.getString(R.string.menu_main_drawlst)))
-            // [サブメニュー]
-            // 曲線一覧を表示するメニュー
-            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve)))
-            // [サブメニュー]
-            // トロコイドを表示するメニュー
-            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_TROCHOID, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_trochoid)))
-            // [サブメニュー]
-            // エピサイクロイドを表示するメニュー
-            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_EPICYCLOID, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_epicycloid)))
-            // [サブメニュー]
-            // ハイポサイクロイドを表示するメニュー
-            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_HYPOCYCLOID, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_hypocycloid)))
-            // [サブメニュー]
-            // フラクタル一覧を表示するメニュー
-            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal)))
-            // [サブメニュー]
-            // フラクタル(複素数)一覧を表示するメニュー
-            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_COMPLEX, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_complex)))
-            // [サブメニュー]
-            // 波一覧を表示するメニュー
-            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_WAVE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_wave)))
-            // [サブメニュー]
-            // 多角形一覧を表示するメニュー
-            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon)))
-            // [メインメニュー]
-            // ヘルプ
-            menuDataLst.add(MenuData(MenuType.TYPE_MAIN, MenuItem.MENU_DUMMY,FragmentID.ID_DUMMY,resources.getString(R.string.menu_main_help)))
-            // [サブメニュー]
-            // このアプリについて
-            menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_DUMMY,FragmentID.ID_ABOUT,resources.getString(R.string.menu_sub_about)))
+            when (menuDataParent?.menuItem){
+                 null -> {
+                    // [メインメニュー]
+                    // 描画リスト
+                    menuDataLst.add(MenuData(MenuType.TYPE_MAIN, MenuItem.MENU_DUMMY, FragmentID.ID_DUMMY,resources.getString(R.string.menu_main_drawlst),false))
+                    // [サブメニュー]
+                    // 曲線一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve),true))
+                    // [サブメニュー]
+                    // フラクタル一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal),true))
+                    // [サブメニュー]
+                    // 波一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_WAVE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_wave),false))
+                    // [サブメニュー]
+                    // 多角形一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon),true))
+                    // [サブメニュー]
+                    // "Nature of Code"一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_NATURE_OF_CODE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_nature_of_code),false))
+                    // [メインメニュー]
+                    // ヘルプ
+                    menuDataLst.add(MenuData(MenuType.TYPE_MAIN, MenuItem.MENU_DUMMY,FragmentID.ID_DUMMY,resources.getString(R.string.menu_main_help),false))
+                    // [サブメニュー]
+                    // このアプリについて
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_DUMMY,FragmentID.ID_ABOUT,resources.getString(R.string.menu_sub_about),false))
+                }
+                // 曲線一覧を表示するメニュー
+                MenuItem.MENU_CURVE -> {
+                    // [サブメニュー]
+                    // トロコイドを表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE_TROCHOID, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve_trochoid),false))
+                    // [サブメニュー]
+                    // エピサイクロイドを表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE_EPICYCLOID, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve_epicycloid),false))
+                    // [サブメニュー]
+                    // ハイポサイクロイドを表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE_HYPOCYCLOID, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve_hypocycloid),false))
+                    // [サブメニュー]
+                    // スパイラル一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE_SPIRAL, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve_spiral),false))
+                    // [戻るメニュー]
+                    menuDataLst.add(MenuData(MenuType.TYPE_BACK, MenuItem.MENU_BACK, FragmentID.ID_DUMMY,resources.getString(R.string.menu_back),false))
+                }
+                // フラクタル一覧を表示するメニュー
+                MenuItem.MENU_FRACTAL -> {
+                    // [サブメニュー]
+                    // フラクタル(再帰)一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL_RECURSION, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal_recursion),false))
+                    // [サブメニュー]
+                    // フラクタル(複素数)一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL_COMPLEX, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal_complex),false))
+                    // [戻るメニュー]
+                    menuDataLst.add(MenuData(MenuType.TYPE_BACK, MenuItem.MENU_BACK, FragmentID.ID_DUMMY,resources.getString(R.string.menu_back),false))
+                }
+                // 多角形一覧を表示するメニュー
+                MenuItem.MENU_POLYGON -> {
+                    // [サブメニュー]
+                    // "多角形with円"一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_CIRCLE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_circle),false))
+                    // [サブメニュー]
+                    // "多角形in多角形"一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_PINP, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_pinp),false))
+                    // [戻るメニュー]
+                    menuDataLst.add(MenuData(MenuType.TYPE_BACK, MenuItem.MENU_BACK, FragmentID.ID_DUMMY,resources.getString(R.string.menu_back),false))
+                }
+            }
 
             return menuDataLst
         }

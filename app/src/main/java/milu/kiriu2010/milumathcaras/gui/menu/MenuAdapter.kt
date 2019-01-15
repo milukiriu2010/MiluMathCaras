@@ -43,6 +43,19 @@ class MenuAdapter(
                     onItemClick(menuData)
                 }
             }
+            // サブメニュー
+            MenuType.TYPE_BACK.viewType -> {
+                //Log.d(javaClass.simpleName,"onCreateViewHolder:MenuBackViewHolder")
+                view = LayoutInflater.from(parent.context).inflate(R.layout.list_row_menu_back,parent,false)
+                viewHolder = MenuBackViewHolder(view)
+                // アイテムをクリックしたら
+                // 当該のMenuDataをコールバックに渡す
+                view.setOnClickListener {
+                    val pos = viewHolder.adapterPosition
+                    val menuData = menuDataLst[pos]
+                    onItemClick(menuData)
+                }
+            }
             // 該当なし
             else -> {
                 throw RuntimeException("No match for viewType[$viewType]")
@@ -69,6 +82,11 @@ class MenuAdapter(
                 // タイトルを設定
                 viewHolder.textViewMenuSub.text = menuData.title
             }
+            // 戻るメニュー
+            is MenuBackViewHolder -> {
+                // タイトルを設定
+                viewHolder.textViewMenuBack.text = menuData.title
+            }
         }
     }
 
@@ -92,5 +110,11 @@ class MenuAdapter(
     class MenuSubViewHolder(view: View): RecyclerView.ViewHolder(view) {
         // タイトル
         val textViewMenuSub = view.findViewById<TextView>(R.id.textViewMenuSub)
+    }
+
+    // 戻るメニュー
+    class MenuBackViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        // タイトル
+        val textViewMenuBack = view.findViewById<TextView>(R.id.textViewMenuBack)
     }
 }

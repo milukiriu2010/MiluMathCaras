@@ -1,27 +1,22 @@
-package milu.kiriu2010.milumathcaras.gui.draw.fractal.hilbert
+package milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.dragon
 
 import android.graphics.*
 import android.os.Handler
-import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.*
 
-// --------------------------------------------------
-// ヒルベルト曲線
-// --------------------------------------------------
-// https://en.wikipedia.org/wiki/Hilbert_curve
-// --------------------------------------------------
-class HilbertCurve01Drawable: MyDrawable() {
-    // -------------------------------------
+// -----------------------------------------------
+// ドラゴン曲線
+// -----------------------------------------------
+// https://en.wikipedia.org/wiki/Dragon_curve
+// -----------------------------------------------
+class DragonCurve01Drawable: MyDrawable() {
+    // ---------------------------------
     // 描画領域
-    // -------------------------------------
-    // ヒルベルト曲線は
-    // 正方形を２分割するので２の階乗を選ぶ
-    //   = 1024 = 2^10
-    // -------------------------------------
+    // ---------------------------------
     private val side = 1024f
     private val margin = 50f
 
@@ -31,12 +26,12 @@ class HilbertCurve01Drawable: MyDrawable() {
     private var nNow = 0
     // --------------------------------------------------------
     // 再帰レベルの最大値
-    //  7回以上描くと、塗りつぶされていしまうので6回としている
+    //  13回描くと、それ以降は違いがわからないので15回としている
     // --------------------------------------------------------
-    private val nMax = 6
+    private val nMax = 15
 
     // ----------------------------------------
-    // ヒルベルト曲線の描画点リスト
+    // ドラゴン曲線の描画点リスト
     // ----------------------------------------
     private val pointLst = mutableListOf<MyPointF>()
 
@@ -65,9 +60,9 @@ class HilbertCurve01Drawable: MyDrawable() {
         style = Paint.Style.FILL
     }
 
-    // -------------------------------------
-    // ヒルベルト曲線を描くペイント
-    // -------------------------------------
+    // -------------------------------
+    // ドラゴン曲線を描くペイント
+    // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
         style = Paint.Style.STROKE
@@ -90,13 +85,11 @@ class HilbertCurve01Drawable: MyDrawable() {
     private lateinit var runnable: Runnable
 
     // ---------------------------------------
-    // ヒルベルト曲線"コ"の開いている向き
+    // ドラゴン曲線を描く方向
     // ---------------------------------------
     private enum class Direction {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT
+        PLUS,
+        MINUS
     }
 
     // ----------------------------------------
@@ -118,7 +111,7 @@ class HilbertCurve01Drawable: MyDrawable() {
             }
         }
 
-        // ヒルベルト曲線を構築
+        // ドラゴン曲線を構築
         createPath()
         // ビットマップに描画
         drawBitmap()
@@ -168,206 +161,68 @@ class HilbertCurve01Drawable: MyDrawable() {
         this.notifyCallback = notifyCallback
     }
 
-    // ヒルベルト曲線を構築
+    // ドラゴン曲線を構築
     private fun createPath() {
-        // ヒルベルト曲線の描画点リストをクリアする
+        // ドラゴン曲線の描画点リストをクリアする
         pointLst.clear()
 
         // ------------------------------
-        // ヒルベルト曲線の頂点を描く
-        // 正方形の頂点のリスト
+        // ドラゴン曲線の頂点
         // ------------------------------
-        // a:左上,b:左下,c:右下,d:右上,
+        // a:左,b:右
         // ------------------------------
-        val a = MyPointF(0f,side)
-        val b = MyPointF(0f,0f)
-        val c = MyPointF(side,0f)
-        val d = MyPointF(side,side)
+        val a = MyPointF(side/4f,side/2f)
+        val b = MyPointF(side*3f/4f,side/2f)
 
-        // 次レベルのヒルベルト曲線の描画点を求める
-        // 初期は上が開いている"コ"を描く
-        calNextLevel(a,b,c,d,Direction.UP,nNow)
+        // 次レベルのドラゴン曲線の描画点を求める
+        calNextLevel(a,b,Direction.MINUS,nNow)
+        pointLst.add(b)
 
         // 描画中に呼び出すコールバックをキックし、現在の再帰レベルを通知する
         notifyCallback?.receive(nNow.toFloat())
     }
 
-    // -----------------------------------------------
-    // 次レベルのヒルベルト曲線の描画点を求める
-    // -----------------------------------------------
-    private fun calNextLevel(a: MyPointF, b: MyPointF, c: MyPointF, d: MyPointF, direction: Direction, n: Int) {
+    // -------------------------------------
+    // 次レベルのドラゴン曲線の描画点を求める
+    // -------------------------------------
+    // direction
+    //   PLUS :"A-B"の向きに対し、+90度側にCを描画
+    //   MINUS:"A-B"の向きに対し、-90度側にCを描画
+    // -------------------------------------
+    private fun calNextLevel(a: MyPointF, b: MyPointF, direction: Direction, n: Int) {
         // -----------------------------------------------------
         // 再帰呼び出しの際、nを減らしていき0以下になったら終了
         // -----------------------------------------------------
         if ( n <= 0 ) {
-            // ---------------------------------------------------
-            // AD
-            // BC
-            // ---------------------------------------------------
-            // a3a2d3d2
-            // a0a1d0d2
-            // b3b2c3c2
-            // b0b1c0c1
-            // ---------------------------------------------------
-            // ヒルベルト曲線は、a1,b2,c3,d0を頂点とした線を描く
-            // "a2-a1"の長さ="A-B"の1/4
-            // "a1-b2"の長さ="A-B"の1/2
-            // "b2-b1"の長さ="A-B"の1/4
-            // ---------------------------------------------------
-            // "A-D"間の"左:右=1:3"の位置
-            val l1r3 =(3f*a.x+d.x)/4f
-            // "A-D"間の"左:右=3:1"の位置
-            val l3r1 =(a.x+3f*d.x)/4f
-            // "A-B"間の"上:下=1:3"の位置
-            val u1d3 =(3f*a.y+b.y)/4f
-            // "A-B"間の"上:下=3:1"の位置
-            val u3d1 =(a.y+3f*b.y)/4f
-
-            // a1の位置
-            val a1 = MyPointF(l1r3,u1d3)
-            // b2の位置
-            val b2 = MyPointF(l1r3,u3d1)
-            // c3の位置
-            val c3 = MyPointF(l3r1,u3d1)
-            // d0の位置
-            val d0 = MyPointF(l3r1,u1d3)
-
-            when (direction) {
-                // 上が開いている"コ"を描く
-                Direction.UP -> {
-                    pointLst.add(a1)
-                    pointLst.add(b2)
-                    pointLst.add(c3)
-                    pointLst.add(d0)
-                }
-                // 下が開いている"コ"を描く
-                Direction.DOWN -> {
-                    pointLst.add(c3)
-                    pointLst.add(d0)
-                    pointLst.add(a1)
-                    pointLst.add(b2)
-                }
-                // 左が開いている"コ"を描く
-                Direction.LEFT -> {
-                    pointLst.add(a1)
-                    pointLst.add(d0)
-                    pointLst.add(c3)
-                    pointLst.add(b2)
-                }
-                // 右が開いている"コ"を描く
-                else -> {
-                    pointLst.add(c3)
-                    pointLst.add(b2)
-                    pointLst.add(a1)
-                    pointLst.add(d0)
-                }
-            }
+            pointLst.add(a)
             return
         }
 
-        // 次のレベルのヒルベルト曲線を描くための
-        // 正方形の頂点を求める
-        // ---------------------------------------
-        // AD
-        // BC
-        // ---------------------------------------
-        // AED
-        // FGH
-        // BIC
-        // ---------------------------------------
-        // Gは、正方形ABCDの中央
-        // ---------------------------------------
-        // "A-D"のX座標の中央値
-        val a1d1 = (a.x+d.x)/2f
-        // "A-B"のY座標の中央値
-        val a1b1 = (a.y+b.y)/2f
-        // E
-        val e = MyPointF(a1d1,a.y)
-        // F
-        val f = MyPointF(a.x,a1b1)
-        // G
-        val g = MyPointF(a1d1,a1b1)
-        // H
-        val h = MyPointF(d.x,a1b1)
-        // I
-        val i = MyPointF(a1d1,b.y)
+        // -------------------------------------------------
+        // 描画点C
+        // -------------------------------------------------
+        //   "A-C"の長さ: "A-B"の長さ×sqrt(2)/2
+        //   "A-C"の角度:
+        //      direction=+1 => "A-B"の角度+45度
+        //      direction=-1 => "A-B"の角度-45度
+        // -------------------------------------------------
+        // "A-B"の長さ
+        val lenAB = sqrt((b.x-a.x)*(b.x-a.x)+(b.y-a.y)*(b.y-a.y))*sqrt(2f)/2f
+        // "A-B"の角度
+        val angleAB = MyMathUtil.getAngle(a,b)
+        // "A-C"の角度: "A-B"の角度-30度
+        val angleAC = if ( direction == Direction.PLUS ) angleAB + 45.0 else angleAB-45.0
 
-        // 次レベルのヒルベルト曲線を描画
-        when (direction) {
-            // -------------------------------
-            // 前レベルが上向き
-            // -------------------------------
-            // 左上:左向き
-            // 左下:上向き
-            // 右下:上向き
-            // 右上:右向き
-            // -------------------------------
-            Direction.UP -> {
-                // 左上:左向き
-                calNextLevel(a,f,g,e,Direction.LEFT,n-1)
-                // 左下:上向き
-                calNextLevel(f,b,i,g,Direction.UP,n-1)
-                // 右下:上向き
-                calNextLevel(g,i,c,h,Direction.UP,n-1)
-                // 右上:右向き
-                calNextLevel(e,g,h,d,Direction.RIGHT,n-1)
-            }
-            // -------------------------------
-            // 前レベルが下向き
-            // -------------------------------
-            // 右下:右向き
-            // 右上:下向き
-            // 左上:下向き
-            // 左下:左向き
-            // -------------------------------
-            Direction.DOWN -> {
-                // 右下:右向き
-                calNextLevel(g,i,c,h,Direction.RIGHT,n-1)
-                // 右上:下向き
-                calNextLevel(e,g,h,d,Direction.DOWN,n-1)
-                // 左上:下向き
-                calNextLevel(a,f,g,e,Direction.DOWN,n-1)
-                // 左下:左向き
-                calNextLevel(f,b,i,g,Direction.LEFT,n-1)
-            }
-            // -------------------------------
-            // 前レベルが左向き
-            // -------------------------------
-            // 左上:上向き
-            // 右上:左向き
-            // 右下:左向き
-            // 左下:下向き
-            // -------------------------------
-            Direction.LEFT -> {
-                // 左上:上向き
-                calNextLevel(a,f,g,e,Direction.UP,n-1)
-                // 右上:左向き
-                calNextLevel(e,g,h,d,Direction.LEFT,n-1)
-                // 右下:左向き
-                calNextLevel(g,i,c,h,Direction.LEFT,n-1)
-                // 左下:下向き
-                calNextLevel(f,b,i,g,Direction.DOWN,n-1)
-            }
-            // -------------------------------
-            // 前レベルが右向き
-            // -------------------------------
-            // 右下:下向き
-            // 左下:右向き
-            // 左上:右向き
-            // 右上:上向き
-            // -------------------------------
-            else -> {
-                // 右下:下向き
-                calNextLevel(g,i,c,h,Direction.DOWN,n-1)
-                // 左下:右向き
-                calNextLevel(f,b,i,g,Direction.RIGHT,n-1)
-                // 左上:右向き
-                calNextLevel(a,f,g,e,Direction.RIGHT,n-1)
-                // 右上:上向き
-                calNextLevel(e,g,h,d,Direction.UP,n-1)
-            }
-        }
+        // 描画点CのX座標
+        val cx = a.x + (lenAB * cos(angleAC*PI/180f)).toFloat()
+        // 描画点EのY座標
+        val cy = a.y + (lenAB * sin(angleAC*PI/180f)).toFloat()
+        // 描画点E
+        val c = MyPointF(cx,cy)
 
+        // 次レベルのドラゴン曲線を描画
+        calNextLevel(a,c,Direction.MINUS,n-1)
+        calNextLevel(c,b,Direction.PLUS ,n-1)
     }
 
     // -------------------------------------
@@ -397,14 +252,15 @@ class HilbertCurve01Drawable: MyDrawable() {
         //  = (マージン,マージン)
         // ---------------------------------------------------------------------
         canvas.save()
+        //Log.d(javaClass.simpleName, "ymargin[$ymargin]kochH[$kochH]intrinsicHeight[$intrinsicHeight]")
         canvas.translate(margin, margin)
 
         //Log.d(javaClass.simpleName,"===============================")
-        // ヒルベルト曲線を描画
-        val path: Path = Path()
+        // ドラゴン曲線を描画
+        val path = Path()
         pointLst.forEachIndexed { index, myPointF ->
             //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
-            if (index == 0) {
+            if ( index == 0 ) {
                 path.moveTo(myPointF.x,myPointF.y)
             }
             else {

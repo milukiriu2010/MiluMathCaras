@@ -10,9 +10,11 @@ import milu.kiriu2010.gui.drawer.DrawerActivity
 import milu.kiriu2010.milumathcaras.R
 import milu.kiriu2010.milumathcaras.entity.DrawData
 import milu.kiriu2010.milumathcaras.entity.MenuData
+import milu.kiriu2010.milumathcaras.entity.MenuItem
 import milu.kiriu2010.milumathcaras.entity.MenuType
 import milu.kiriu2010.milumathcaras.gui.menu.MenuFragment
 import milu.kiriu2010.milumathcaras.id.FragmentID
+import java.util.*
 import kotlin.Exception
 
 class MainActivity : DrawerActivity()
@@ -23,6 +25,9 @@ class MainActivity : DrawerActivity()
 
     // 選択されたメニューデータ
     private lateinit var selectedMenuData: MenuData
+
+    // メニューとして表示するフラグメントのスタック
+    private val menuFragmentStack: Stack<Fragment> = Stack()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,13 +41,23 @@ class MainActivity : DrawerActivity()
         try {
             if ( savedInstanceState == null ) {
                 // メニューフラグメントに表示するメニューデータ一覧を取得
-                val menuDataLst = MenuFragment.createMenuDataLst(resources).filter { it.menuType == MenuType.TYPE_SUB }
+                var menuDataLst = MenuFragment.createMenuDataLst(resources).filter { it.menuType == MenuType.TYPE_SUB }
+                // -----------------------------------------------------------------
+                // ここの処理は、
+                // 描画データ一覧を表示するフラグメントを取得するため実施してる
+                // あとで、入れ替える予定
+                // -----------------------------------------------------------------
+                // 子メニューがあったら、子メニュー一覧を取得する
+                while (menuDataLst[0].hasChildMenu) {
+                    menuDataLst = MenuFragment.createMenuDataLst(resources,menuDataLst[0]).filter { it.menuType == MenuType.TYPE_SUB }
+                }
+                // 描画データ一覧を表示するフラグメントを追加
                 if ( menuDataLst.size > 0 ) {
                     // メニューの先頭を選択
                     selectedMenuData = menuDataLst[0]
 
                     // 描画データ一覧を表示するフラグメントを追加
-                    addFragment(selectedMenuData)
+                    addDrawFragment(selectedMenuData)
                 }
                 // ドロワーレイアウトを表示するフラグメントを追加
                 if ( supportFragmentManager.findFragmentByTag(FragmentID.ID_DRAWER_LAYOUT.id) == null ) {
@@ -82,42 +97,91 @@ class MainActivity : DrawerActivity()
     // -------------------------------------
     override fun showLst(menuData: MenuData) {
         try {
-            // タップ時にドロワーを閉じる
-            if ( drawerLayout != null ) {
-                drawerLayout.closeDrawer(GravityCompat.START)
-            }
-
-            //  現在選択されているメニューと同じメニューが選択された場合、何もしない
-            if ( menuData == selectedMenuData ) return
-
-            // 全てのフラグメントを削除
-            //   ・ドロワーレイアウトを表示するフラグメントは除く
-            supportFragmentManager.fragments.forEach {
-                if ( it != fragmentDrawer ) {
+            // "戻る"メニュー
+            when (menuData.menuItem) {
+                MenuItem.MENU_BACK -> {
+                    val menuFragment = menuFragmentStack.pop()
                     supportFragmentManager.beginTransaction()
-                        .remove(it)
+                        .remove(menuFragment)
                         .commit()
+                    return
                 }
             }
 
-            selectedMenuData = menuData
-            // 選択したメニューに対応する描画データ一覧を表示するフラグメントを追加
-            addFragment(selectedMenuData)
+            when (menuData.hasChildMenu) {
+                // 子メニューがない場合
+                false -> {
+                    // タップ時にドロワーを閉じる
+                    if ( drawerLayout != null ) {
+                        drawerLayout.closeDrawer(GravityCompat.START)
+                    }
+
+                    //  現在選択されているメニューと同じメニューが選択された場合、何もしない
+                    if ( menuData == selectedMenuData ) return
+
+                    // 全てのフラグメントを削除
+                    //   ・ドロワーレイアウトを表示するフラグメントは除く
+                    supportFragmentManager.fragments.forEach {
+                        /*
+                        if ( it != fragmentDrawer ) {
+                            supportFragmentManager.beginTransaction()
+                                .remove(it)
+                                .commit()
+                        }
+                        */
+                        if ( it !is MenuFragment ) {
+                            supportFragmentManager.beginTransaction()
+                                .remove(it)
+                                .commit()
+                        }
+                    }
+
+                    selectedMenuData = menuData
+                    // 選択したメニューに対応する描画データ一覧を表示するフラグメントを追加
+                    addDrawFragment(selectedMenuData)
+                }
+                // 子メニューがある場合
+                true -> {
+                    selectedMenuData = menuData
+
+                    // ---------------------------------------------------------
+                    // 子メニューに対応するメニューフラグメントを生成＆追加する
+                    // ---------------------------------------------------------
+                    addMenuFragment(selectedMenuData)                }
+            }
         } catch (ex: Exception) {
             // Exceptionの内容を表示
             showException(ex)
         }
     }
 
-    // ------------------------------------------------
-    // メニューに対応するフラグメントを生成＆追加する
-    // ------------------------------------------------
-    private fun addFragment(menuData: MenuData) {
+    // ---------------------------------------------------
+    // メニューに対応する描画フラグメントを生成＆追加する
+    // ---------------------------------------------------
+    private fun addDrawFragment(menuData: MenuData) {
         try {
             val fragment = FragmentFactory.createFragment(menuData)
 
             supportFragmentManager.beginTransaction()
                 .add(R.id.frameMain, fragment, menuData.fragmentID.id)
+                .commit()
+        } catch (ex: Exception) {
+            // Exceptionの内容を表示
+            showException(ex)
+        }
+    }
+
+    // ---------------------------------------------------------
+    // 子メニューに対応するメニューフラグメントを生成＆追加する
+    // ---------------------------------------------------------
+    private fun addMenuFragment(menuData: MenuData) {
+        try {
+            val fragment = MenuFragment.newInstance(menuData)
+
+            menuFragmentStack.push(fragment)
+
+            supportFragmentManager.beginTransaction()
+                .add(R.id.frameMenu, fragment, menuData.fragmentID.id)
                 .commit()
         } catch (ex: Exception) {
             // Exceptionの内容を表示

@@ -10,7 +10,8 @@ import milu.kiriu2010.milumathcaras.id.FragmentID
 @Parcelize
 enum class MenuType(val viewType: Int): Parcelable {
     TYPE_MAIN(0),
-    TYPE_SUB(1)
+    TYPE_SUB(1),
+    TYPE_BACK(2)
 }
 
 // ------------------------------------
@@ -20,22 +21,32 @@ enum class MenuType(val viewType: Int): Parcelable {
 enum class MenuItem(val title: String): Parcelable {
     // ダミーメニュー
     MENU_DUMMY("Dummy"),
+    // 戻る
+    MENU_BACK("Back"),
     // 曲線を描画するメニュー
     MENU_CURVE("Curve"),
     // トロコイドを描画するメニュー
-    MENU_TROCHOID("Trochoid"),
+    MENU_CURVE_TROCHOID("Trochoid"),
     // エピサイクロイドを描画するメニュー
-    MENU_EPICYCLOID("Epicycloid"),
+    MENU_CURVE_EPICYCLOID("Epicycloid"),
     // ハイポサイクロイドを描画するメニュー
-    MENU_HYPOCYCLOID("Hypocycloid"),
+    MENU_CURVE_HYPOCYCLOID("Hypocycloid"),
+    // スパイラルを描画するメニュー
+    MENU_CURVE_SPIRAL("Spiral"),
     // フラクタルを描画するメニュー
     MENU_FRACTAL("Fractal"),
+    // フラクタル(再帰)を描画するメニュー
+    MENU_FRACTAL_RECURSION("Recursion"),
     // フラクタル(複素数)を描画するメニュー
-    MENU_COMPLEX("Complex"),
+    MENU_FRACTAL_COMPLEX("Complex"),
     // 波を描画するメニュー
     MENU_WAVE("Wave"),
     // 多角形を描画するメニュー
     MENU_POLYGON("Polygon"),
+    // "多角形with円"を描画するメニュー
+    MENU_POLYGON_CIRCLE("P with Circle"),
+    // "多角形in多角形"を描画するメニュー
+    MENU_POLYGON_PINP("P in P"),
     // The Nature of Code
     // https://natureofcode.com/book/chapter-1-vectors/
     MENU_NATURE_OF_CODE( "Nature of Code")
@@ -53,6 +64,8 @@ data class MenuData(
     // クリック時に呼び出されるフラグメント
     val fragmentID: FragmentID,
     // メニューのタイトル
-    var title: String
+    var title: String,
+    // 子メニューがあるかどうか
+    val hasChildMenu: Boolean
 ): Parcelable
 
