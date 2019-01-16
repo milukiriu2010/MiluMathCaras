@@ -123,6 +123,19 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_352_8_IN_10(352),
     // 九角形in十角形
     ID_361_9_IN_10(361),
+    // 等加速度運動
+    ID_401_NATURE_UNFORM_MOTION(401)
+}
+
+// ------------------------------
+// 描画に使うフラグメントの種類
+// ------------------------------
+@Parcelize
+enum class DrawFragmentType: Parcelable {
+    // 正方形領域に描画する
+    FT_SQUARE_01,
+    // 長方形領域に描画する
+    FT_RECTANGLE_01
 }
 
 // ------------------
@@ -132,6 +145,8 @@ enum class DrawDataID(val id: Int): Parcelable {
 data class DrawData(
     // 描画データの識別子
     val id: DrawDataID,
+    // 描画に使うフラグメントの種類
+    val drawFragmentType: DrawFragmentType,
     // タイトル
     val title: String,
     // 静止画の初期パラメータ

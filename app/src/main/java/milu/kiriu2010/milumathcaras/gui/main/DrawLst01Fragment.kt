@@ -19,7 +19,7 @@ private const val ARG_PARAM1 = "menudata"
 // ----------------------------------------
 // 描画データの一覧を表示するフラグメント
 // ----------------------------------------
-class CurveLstFragment : Fragment() {
+class DrawLst01Fragment : Fragment() {
 
     // メニューデータ
     private lateinit var menuData: MenuData
@@ -88,7 +88,7 @@ class CurveLstFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(menuData: MenuData) =
-            CurveLstFragment().apply {
+            DrawLst01Fragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_PARAM1,menuData)
                 }

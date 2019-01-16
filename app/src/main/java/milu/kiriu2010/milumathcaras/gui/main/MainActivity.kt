@@ -3,6 +3,7 @@ package milu.kiriu2010.milumathcaras.gui.main
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
+import android.util.Log
 import android.view.WindowManager
 import kotlinx.android.synthetic.main.activity_main.*
 import milu.kiriu2010.gui.common.ExceptionFragment
@@ -12,6 +13,7 @@ import milu.kiriu2010.milumathcaras.entity.DrawData
 import milu.kiriu2010.milumathcaras.entity.MenuData
 import milu.kiriu2010.milumathcaras.entity.MenuItem
 import milu.kiriu2010.milumathcaras.entity.MenuType
+import milu.kiriu2010.milumathcaras.gui.drawfragment.Square01Fragment
 import milu.kiriu2010.milumathcaras.gui.menu.MenuFragment
 import milu.kiriu2010.milumathcaras.id.FragmentID
 import java.util.*
@@ -82,8 +84,11 @@ class MainActivity : DrawerActivity()
         try {
             // 描画データを描画するフラグメントを追加
             if (supportFragmentManager.findFragmentByTag(FragmentID.ID_DRAW_DATA.id) == null) {
+                val fragment = FragmentFactory.createFragment(drawData)
+                Log.d(javaClass.simpleName,"FragmentType[${drawData.drawFragmentType}]Fragment[${fragment}]")
+
                 supportFragmentManager.beginTransaction()
-                    .add(R.id.frameMain, CurveDrawFragment.newInstance(drawData), FragmentID.ID_DRAW_DATA.id)
+                    .add(R.id.frameMain, fragment, FragmentID.ID_DRAW_DATA.id)
                     .commit()
             }
         } catch (ex: Exception) {

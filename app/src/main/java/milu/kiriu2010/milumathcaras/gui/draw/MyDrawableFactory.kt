@@ -15,6 +15,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski.Sierpi
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski.SierpinskiTriangle01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.takagi.TakagiCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.nature.UniformMotion01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.PolygonInPolygon01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.TriangleExile01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWave01Drawable
@@ -138,6 +139,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_352_8_IN_10 -> PolygonInPolygon01Drawable()
                 // 九角形in十角形
                 DrawDataID.ID_361_9_IN_10 -> PolygonInPolygon01Drawable()
+                // 等速度運動
+                DrawDataID.ID_401_NATURE_UNFORM_MOTION -> UniformMotion01Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")
             }
 
