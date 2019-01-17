@@ -85,7 +85,6 @@ class MainActivity : DrawerActivity()
             // 描画データを描画するフラグメントを追加
             if (supportFragmentManager.findFragmentByTag(FragmentID.ID_DRAW_DATA.id) == null) {
                 val fragment = FragmentFactory.createFragment(drawData)
-                Log.d(javaClass.simpleName,"FragmentType[${drawData.drawFragmentType}]Fragment[${fragment}]")
 
                 supportFragmentManager.beginTransaction()
                     .add(R.id.frameMain, fragment, FragmentID.ID_DRAW_DATA.id)

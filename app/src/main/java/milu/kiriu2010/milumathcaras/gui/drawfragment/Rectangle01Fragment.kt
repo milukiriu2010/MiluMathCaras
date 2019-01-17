@@ -73,7 +73,7 @@ class Rectangle01Fragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(drawData: DrawData) =
-            Square01Fragment().apply {
+            Rectangle01Fragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_PARAM1,drawData)
                 }

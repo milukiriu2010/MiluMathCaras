@@ -1,6 +1,7 @@
 package milu.kiriu2010.milumathcaras.gui.main
 
 import android.support.v4.app.Fragment
+import android.util.Log
 import milu.kiriu2010.milucal.gui.misc.AboutFragment
 import milu.kiriu2010.milumathcaras.entity.DrawData
 import milu.kiriu2010.milumathcaras.entity.DrawFragmentType

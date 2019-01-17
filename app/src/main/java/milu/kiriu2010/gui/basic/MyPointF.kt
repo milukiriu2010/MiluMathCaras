@@ -1,10 +1,6 @@
 package milu.kiriu2010.gui.basic
 
-data class MyPoint(
-        var x: Int,
-        var y: Int
-)
-
+// X,Y座標
 data class MyPointF(
         var x: Float,
         var y: Float
