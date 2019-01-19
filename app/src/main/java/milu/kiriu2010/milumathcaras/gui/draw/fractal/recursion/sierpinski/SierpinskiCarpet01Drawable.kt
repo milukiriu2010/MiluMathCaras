@@ -9,16 +9,16 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 // --------------------------------------------------
 // シェルピンスキーのカーペット
 // --------------------------------------------------
-// https://en.wikipedia.org/wiki/Sierpinski_triangle
+// https://en.wikipedia.org/wiki/Sierpinski_carpet
 // --------------------------------------------------
 class SierpinskiCarpet01Drawable: MyDrawable() {
-    // ---------------------------------
+    // -------------------------------------
     // 描画領域
-    // ---------------------------------
+    // -------------------------------------
     // シェルピンスキーのカーペットは
     // 正方形を３分割するので３の階乗を選ぶ
     //   = 729 = 3^6
-    // ---------------------------------
+    // -------------------------------------
     private val side = 729f
     private val margin = 50f
 
@@ -192,52 +192,53 @@ class SierpinskiCarpet01Drawable: MyDrawable() {
             return
         }
 
+        // -------------------------------------
         // 次のレベルのカーペットの頂点を求める
-        // -----------------------------------
+        // -------------------------------------
         // d3,d2,c3,c2
         // d0,d1,c0,c1
         // a3,a2,b3,b2
         // a0,a1,b0,b1
-        // -----------------------------------
-        // "A-B"のX座標の"左:右=1:3"
-        val l1r3 = (2f*a.x+b.x)/3f
-        // "A-B"のX座標の"左:右=3:1"
-        val l3r1 = (a.x+2f*b.x)/3f
-        // "D-A"のY座標の"上:下=1:3"
-        val u1d3 = (2f*d.y+a.y)/3f
-        // "D-A"のY座標の"上:下=3:1"
-        val u3d1 = (d.y+2f*a.y)/3f
+        // -------------------------------------
+        // "A-B"のX座標の"左:右=1:2"
+        val l1r2 = (2f*a.x+b.x)/3f
+        // "A-B"のX座標の"左:右=2:1"
+        val l2r1 = (a.x+2f*b.x)/3f
+        // "D-A"のY座標の"上:下=1:2"
+        val u1d2 = (2f*d.y+a.y)/3f
+        // "D-A"のY座標の"上:下=2:1"
+        val u2d1 = (d.y+2f*a.y)/3f
 
         // a0:A
         val a0 = a
         // a1:("A-B"の1/3,A)
-        val a1 = MyPointF(l1r3,a.y)
+        val a1 = MyPointF(l1r2,a.y)
         // a2:("A-B"の1/3,"D-A"の2/3)
-        val a2 = MyPointF(l1r3,u3d1)
+        val a2 = MyPointF(l1r2,u2d1)
         // a3:(A,"D-A"の2/3)
-        val a3 = MyPointF(a.x,u3d1)
+        val a3 = MyPointF(a.x,u2d1)
         // b0:("A-B"の2/3,B)
-        val b0 = MyPointF(l3r1,b.y)
+        val b0 = MyPointF(l2r1,b.y)
         // b1:B
         val b1 = b
         // b2:(B,"D-A"の2/3)
-        val b2 = MyPointF(b.x,u3d1)
+        val b2 = MyPointF(b.x,u2d1)
         // b3:("A-B"の2/3,"D-A"の2/3)
-        val b3 = MyPointF(l3r1,u3d1)
+        val b3 = MyPointF(l2r1,u2d1)
         // c0:("A-B"の2/3,"D-A"の1/3)
-        val c0 = MyPointF(l3r1,u1d3)
+        val c0 = MyPointF(l2r1,u1d2)
         // c1:(C,"D-A"の1/3)
-        val c1 = MyPointF(c.x,u1d3)
+        val c1 = MyPointF(c.x,u1d2)
         // c2:C
         val c2 = c
         // c3:("A-B"の2/3,C)
-        val c3 = MyPointF(l3r1,c.y)
+        val c3 = MyPointF(l2r1,c.y)
         // d0:(D,"D-A"の1/3)
-        val d0 = MyPointF(d.x,u1d3)
+        val d0 = MyPointF(d.x,u1d2)
         // d1:("A-B"の1/3,"D-A"の1/3)
-        val d1 = MyPointF(l1r3,u1d3)
+        val d1 = MyPointF(l1r2,u1d2)
         // d2:("A-B"の1/3,D)
-        val d2 = MyPointF(l1r3,d.y)
+        val d2 = MyPointF(l1r2,d.y)
         // d3:D
         val d3 = d
 

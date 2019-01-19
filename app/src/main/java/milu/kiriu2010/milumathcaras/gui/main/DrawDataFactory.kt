@@ -155,7 +155,7 @@ class DrawDataFactory {
                 // "Nature of Code"を選択したときの描画データの一覧
                 MenuItem.MENU_NATURE_OF_CODE -> {
                     // 等速度運動
-                    drawDataLst.add(DrawData(DrawDataID.ID_401_NATURE_UNFORM_MOTION,DrawFragmentType.FT_RECTANGLE_01,resources.getString(R.string.draw_401_uniform_motion) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_401_NATURE_UNFORM_MOTION,DrawFragmentType.FT_RECTANGLE_01,resources.getString(R.string.draw_401_uniform_motion),floatArrayOf(5f)))
                 }
                 else -> {
                     throw RuntimeException("No Draw List for ${menuData.menuItem.title}")

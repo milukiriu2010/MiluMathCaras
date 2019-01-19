@@ -22,12 +22,17 @@ class UniformMotion01Drawable: MyDrawable() {
     // -------------------------------
     private val sideW = 1000f
     private val sideH = 1500f
-    private val margin = 50f
+    private val margin = 0f
 
     // ---------------------------------
     // 等速度運動する円の最大数
     // ---------------------------------
     private var nMax = 10
+
+    // ---------------------------------
+    // 等速度運動する円の半径
+    // ---------------------------------
+    private val r = 50f
 
     // ---------------------------------
     // 等速度運動する円リスト
@@ -78,9 +83,9 @@ class UniformMotion01Drawable: MyDrawable() {
         0xffffcccc.toInt(),
         // 2:orange
         0xffff7f00.toInt(),
-        // 3:yellow
-        0xffffff00.toInt(),
-        // 4:green
+        // 3:maroon
+        0xff800000.toInt(),
+        // 4:green(lime)
         0xff00ff00.toInt(),
         // 5:blue
         0xff0000ff.toInt(),
@@ -89,8 +94,9 @@ class UniformMotion01Drawable: MyDrawable() {
         // 7:indigo
         0xff6f00ff.toInt(),
         // 8:violet
-        0xffff00ff.toInt()
-
+        0xffff00ff.toInt(),
+        // 9:green
+        0xff008000.toInt()
     )
 
     // -------------------------------------
@@ -127,7 +133,7 @@ class UniformMotion01Drawable: MyDrawable() {
         }
 
         // 等速度運動する円を生成
-        createMover()
+        while (createMover())
         // ビットマップに描画
         drawBitmap()
         // 描画
@@ -136,8 +142,6 @@ class UniformMotion01Drawable: MyDrawable() {
         // 描画に使うスレッド
         if ( isKickThread ) {
             runnable = Runnable {
-                // 等速度運動する円を生成
-                createMover()
                 // 円を移動する
                 moveMover()
                 // ビットマップに描画
@@ -145,9 +149,10 @@ class UniformMotion01Drawable: MyDrawable() {
                 // 描画
                 invalidateSelf()
 
-                handler.postDelayed(runnable, 100)
+                // 10msごとに描画
+                handler.postDelayed(runnable, 10)
             }
-            handler.postDelayed(runnable, 1000)
+            handler.postDelayed(runnable, 100)
         }
     }
 
@@ -171,13 +176,13 @@ class UniformMotion01Drawable: MyDrawable() {
     // -------------------------------
     // 等速度運動する円を生成
     // -------------------------------
-    private fun createMover() {
+    private fun createMover(): Boolean {
         // 既に最大数を超えていたら何もしない
-        if ( circleLst.size >= nMax ) return
+        if ( circleLst.size >= nMax ) return false
 
         // 円の初期位置を描画領域内でランダムに設定
-        val x = (0..sideW.toInt()).shuffled()[0].toFloat()
-        val y = (0..sideH.toInt()).shuffled()[0].toFloat()
+        val x = (r.toInt()..(sideW-r).toInt()).shuffled()[0].toFloat()
+        val y = (r.toInt()..(sideH-r).toInt()).shuffled()[0].toFloat()
 
         // 初期速度の候補リスト
         // -45,-35,-25,-15,-5,5,15,25,35,45
@@ -189,17 +194,27 @@ class UniformMotion01Drawable: MyDrawable() {
         val vy = v.random().toFloat()
 
         // 円を生成し、リストに加える
-        circleLst.add(MyCircleF(MyPointF(x,y),50f,MyVectorF(vx,vy)))
+        circleLst.add(MyCircleF(MyPointF(x,y),r,MyVectorF(vx,vy)))
+
+        return true
     }
 
     // -------------------------------
     // 円を移動する
     // -------------------------------
     private fun moveMover() {
+        circleLst.forEachIndexed labelA@{ index1, myCircleF1 ->
+            // 円を移動する
+            myCircleF1.move()
+            // 境界に達していたら、反射する
+            myCircleF1.checkBorder(0f,0f,sideW,sideH)
 
+            circleLst.forEachIndexed labelB@{ index2, myCircleF2 ->
+                if (index1 == index2) return@labelB
 
-        circleLst.forEach {
-            it.move()
+                // 衝突していたら、進行方向を変える
+                myCircleF1.checkCollision(myCircleF2)
+            }
         }
     }
 
