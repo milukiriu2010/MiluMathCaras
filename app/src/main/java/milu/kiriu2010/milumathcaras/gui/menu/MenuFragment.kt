@@ -130,7 +130,7 @@ class MenuFragment : Fragment() {
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon),true))
                     // [サブメニュー]
                     // "Nature of Code"一覧を表示するメニュー
-                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_NATURE_OF_CODE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_nature_of_code),false))
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_NATURE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_nature),false))
                     // [メインメニュー]
                     // ヘルプ
                     menuDataLst.add(MenuData(MenuType.TYPE_MAIN, MenuItem.MENU_DUMMY,FragmentID.ID_DUMMY,resources.getString(R.string.menu_main_help),false))
@@ -152,6 +152,9 @@ class MenuFragment : Fragment() {
                     // [サブメニュー]
                     // スパイラル一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE_SPIRAL, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve_spiral),false))
+                    // [サブメニュー]
+                    // リサージュ曲線を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE_LISSAJOUS, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve_lissajous),false))
                     // [戻るメニュー]
                     menuDataLst.add(MenuData(MenuType.TYPE_BACK, MenuItem.MENU_BACK, FragmentID.ID_DUMMY,resources.getString(R.string.menu_back),false))
                 }

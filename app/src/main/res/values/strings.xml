@@ -14,6 +14,7 @@
     <string name="menu_sub_curve_epicycloid">Epicycloid</string>
     <string name="menu_sub_curve_hypocycloid">Hypocycloid</string>
     <string name="menu_sub_curve_spiral">Spiral</string>
+    <string name="menu_sub_curve_lissajous">Lissajous</string>
     <string name="menu_sub_fractal">Fractal</string>
     <string name="menu_sub_fractal_recursion">Recursion</string>
     <string name="menu_sub_fractal_complex">Complex Number</string>
@@ -21,7 +22,7 @@
     <string name="menu_sub_polygon">Polygon</string>
     <string name="menu_sub_polygon_circle">Polygon with Circle</string>
     <string name="menu_sub_polygon_pinp">Polygon in Polygon</string>
-    <string name="menu_sub_nature_of_code">Nature of Code</string>
+    <string name="menu_sub_nature">Nature</string>
     <string name="menu_sub_about">About Me</string>
     <string name="menu_back">Back</string>
     <string name="draw_001_curve_cycloid">Cycloid(k=1.0)</string>
@@ -42,6 +43,7 @@
     <string name="draw_035_curve_hypocycloid">Hypocycloid(k=5.5)</string>
     <string name="draw_036_curve_hypocycloid">Hypocycloid(k=7.2)</string>
     <string name="draw_040_wave_sine">Sine Wave</string>
+    <string name="draw_050_curve_lissajous">Lissajous Curve</string>
     <string name="draw_101_fractal_recursion_takagi_curve">Takagi Curve</string>
     <string name="draw_102_fractal_recursion_koch_snowflake">Koch Snowflake</string>
     <string name="draw_103_fractal_recursion_tree_curve">Tree Curve</string>

@@ -6,6 +6,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.mandelbrot.Mandelbr
 import milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid.Cycloid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.epicycloid.Epicycloid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.hypocycloid.Hypocycloid01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.lissajous.Lissajous01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiral02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid.Trochoid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.dragon.DragonCurve01Drawable
@@ -63,6 +64,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_036_HYPO_CYCLOID -> Hypocycloid01Drawable()
                 // サイン波
                 DrawDataID.ID_040_SINE_WAVE -> SineWave01Drawable()
+                // リサージュ曲線
+                DrawDataID.ID_050_LISSAJOUS_CURVE -> Lissajous01Drawable()
                 // 高木曲線
                 DrawDataID.ID_101_TAKAGI_CURVE -> TakagiCurve01Drawable()
                 // コッホ雪片

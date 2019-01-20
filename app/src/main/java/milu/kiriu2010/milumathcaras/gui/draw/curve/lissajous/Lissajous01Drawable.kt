@@ -1,43 +1,59 @@
-package milu.kiriu2010.milumathcaras.gui.draw.nature
+package milu.kiriu2010.milumathcaras.gui.draw.curve.lissajous
 
 import android.graphics.*
 import android.os.Handler
-import android.util.Log
-import milu.kiriu2010.gui.basic.MyCircleF
 import milu.kiriu2010.gui.basic.MyPointF
-import milu.kiriu2010.gui.basic.MyVectorF
+import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
+import kotlin.math.*
 
-// ------------------------------------------------------------------
-// 等速度運動
-// ------------------------------------------------------------------
-// http://www.wakariyasui.sakura.ne.jp/p/mech/henni/toukasokudo.html
-// https://natureofcode.com/book/chapter-1-vectors/
-// ------------------------------------------------------------------
-class UniformMotion01Drawable: MyDrawable() {
+// -------------------------------------------------------------------------------------
+// リサージュ曲線
+// -------------------------------------------------------------------------------------
+//   x = a * sin(p*t+s)
+//   y = b * sin(q*t)
+// -------------------------------------------------------------------------------------
+// https://en.wikipedia.org/wiki/Lissajous_curve
+// https://www.mathcurve.com/courbes2d.gb/lissajous/lissajous.shtml
+// -------------------------------------------------------------------------------------
+class Lissajous01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
     // -------------------------------
-    private val sideW = 1000f
-    private val sideH = 1500f
-    private val margin = 0f
+    private val side = 1000f
+    private val margin = 50f
 
     // ---------------------------------
-    // 等速度運動する円の最大数
+    // リサージュ曲線の変数a
     // ---------------------------------
-    private var nMax = 10
+    private var a = side/2f
+    // ---------------------------------
+    // リサージュ曲線の変数b
+    // ---------------------------------
+    private var b = side/2f
+    // ---------------------------------
+    // リサージュ曲線の変数p
+    // ---------------------------------
+    private var p = 2f
+    // ---------------------------------
+    // リサージュ曲線の変数q
+    // ---------------------------------
+    private var q = 3f
 
-    // ---------------------------------
-    // 等速度運動する円の半径
-    // ---------------------------------
-    private val r = 50f
+    /*
+    // -------------------------------
+    // 対数螺旋の回転角度
+    // -------------------------------
+    private var angle = 0f
+    private var angleMax = 360f
+    */
 
-    // ---------------------------------
-    // 等速度運動する円リスト
-    // ---------------------------------
-    private val circleLst: MutableList<MyCircleF> = mutableListOf()
+    // -------------------------------
+    // リサージュ曲線の描画点リスト
+    // -------------------------------
+    val pointLst = mutableListOf<MyPointF>()
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -65,39 +81,13 @@ class UniformMotion01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 等速度運動する円を描くペイント
+    // 対数螺旋を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.BLACK
-        style = Paint.Style.FILL_AND_STROKE
+        color = Color.RED
+        style = Paint.Style.STROKE
         strokeWidth = 5f
     }
-
-    // -------------------------------
-    // 等速度運動する円を描く色リスト
-    // -------------------------------
-    private val colorLst = arrayOf(
-        // 0:red
-        0xffff0000.toInt(),
-        // 1:pink
-        0xffffcccc.toInt(),
-        // 2:orange
-        0xffff7f00.toInt(),
-        // 3:maroon
-        0xff800000.toInt(),
-        // 4:green(lime)
-        0xff00ff00.toInt(),
-        // 5:blue
-        0xff0000ff.toInt(),
-        // 6:cyan
-        0xff00ffff.toInt(),
-        // 7:indigo
-        0xff6f00ff.toInt(),
-        // 8:violet
-        0xffff00ff.toInt(),
-        // 9:green
-        0xff008000.toInt()
-    )
 
     // -------------------------------------
     // 描画中に呼び出すコールバックを設定
@@ -118,42 +108,52 @@ class UniformMotion01Drawable: MyDrawable() {
     // CalculationCallback
     // 描画に使うデータを計算する
     // --------------------------------------
-    // 可変変数 values の引数位置による意味合い
-    //
-    // 第１引数:等速度運動する円の最大数
+    // values
+    // 第１引数:対数螺旋の回転角度
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
-        // 可変変数 values を初期値として、このクラスで使う変数に当てはめる
+        /*
+        // 対数螺旋の回転角度
+        angle = 0f
         values.forEachIndexed { index, fl ->
             //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
             when (index) {
-                // 等速度運動する円の最大数
-                0 -> nMax = fl.toInt()
+                // 対数螺旋の回転角度
+                0 -> angle = fl
             }
         }
+        */
 
-        // 等速度運動する円を生成
-        while (createMover())
+        // リサージュ曲線の描画点リストを生成
+        createPath()
         // ビットマップに描画
         drawBitmap()
         // 描画
         invalidateSelf()
 
+        /*
         // 描画に使うスレッド
         if ( isKickThread ) {
             runnable = Runnable {
-                // 円を移動する
-                moveMover()
+                // 対数螺旋を回転する
+                rotatePath()
                 // ビットマップに描画
                 drawBitmap()
                 // 描画
                 invalidateSelf()
 
-                // 10msごとに描画
-                handler.postDelayed(runnable, 10)
+                // 最初と最後は1秒後に描画
+                if (angle == angleMax || angle == 0f) {
+                    handler.postDelayed(runnable, 1000)
+                }
+                // 100msごとに描画
+                else {
+                    handler.postDelayed(runnable, 100)
+                }
             }
-            handler.postDelayed(runnable, 100)
+            handler.postDelayed(runnable, 1000)
         }
+        */
     }
 
     // -------------------------------------
@@ -174,49 +174,38 @@ class UniformMotion01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 等速度運動する円を生成
+    // 対数螺旋の描画点リストを生成
     // -------------------------------
-    private fun createMover(): Boolean {
-        // 既に最大数を超えていたら何もしない
-        if ( circleLst.size >= nMax ) return false
+    private fun createPath() {
+        // 描画点リストをクリア
+        pointLst.clear()
 
-        // 円の初期位置を描画領域内でランダムに設定
-        val x = (r.toInt()..(sideW-r).toInt()).shuffled()[0].toFloat()
-        val y = (r.toInt()..(sideH-r).toInt()).shuffled()[0].toFloat()
-
-        // 初期速度の候補リスト
-        // -45,-35,-25,-15,-5,5,15,25,35,45
-        //val v = IntArray(10,{ i -> i*10-45} )
-        // -95,-75,-55,-35,-15,15,35,55,75,95
-        val v = IntArray(10,{ i -> i*20-95} )
-        // 円の初期速度をランダムに設定
-        val vx = v.random().toFloat()
-        val vy = v.random().toFloat()
-
-        // 円を生成し、リストに加える
-        circleLst.add(MyCircleF(MyVectorF(x,y),r,MyVectorF(vx,vy)))
-
-        return true
-    }
-
-    // -------------------------------
-    // 円を移動する
-    // -------------------------------
-    private fun moveMover() {
-        circleLst.forEachIndexed labelA@{ index1, myCircleF1 ->
-            // 円を移動する
-            myCircleF1.move()
-            // 境界に達していたら、反射する
-            myCircleF1.checkBorder(0f,0f,sideW,sideH)
-
-            circleLst.forEachIndexed labelB@{ index2, myCircleF2 ->
-                if (index1 == index2) return@labelB
-
-                // 衝突していたら、進行方向を変える
-                myCircleF1.checkCollision(myCircleF2)
-            }
+        (0..2240 step 5).forEach {
+            val x = a*exp(b*it.toFloat()*PI/180f)*cos(it.toFloat()*PI/180f)
+            val y = a*exp(b*it.toFloat()*PI/180f)*sin(it.toFloat()*PI/180f)
+            pointLst.add(MyPointF(x.toFloat(),y.toFloat()))
         }
+
+        // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
+        //notifyCallback?.receive(angle)
     }
+
+    /*
+    // 対数螺旋を回転する
+    private fun rotatePath() {
+        angle += 20f
+
+        // ３周したら、
+        // ・元の角度に戻す
+        // ・回転方向を変更する
+        if ( angle > angleMax ) {
+            angle = 0f
+            sign = -1f*sign
+        }
+        // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
+        notifyCallback?.receive(angle)
+    }
+    */
 
     // -------------------------------
     // ビットマップに描画
@@ -231,19 +220,46 @@ class UniformMotion01Drawable: MyDrawable() {
 
         // 原点(0,0)の位置
         // = (左右中央,上下中央)
-        val x0 = (intrinsicWidth/2).toFloat()
-        val y0 = (intrinsicHeight/2).toFloat()
+        val x0 = intrinsicWidth/2f
+        val y0 = intrinsicHeight/2f
 
-        // 等速度運動をする円を描画
-        val colorCnt = colorLst.size
-        circleLst.forEachIndexed { index, myCircleF ->
-            linePaint.color = colorLst[index%colorCnt]
-            canvas.drawCircle(myCircleF.p.x,myCircleF.p.y,myCircleF.r,linePaint)
+        // 原点(x0,y0)を中心に対数螺旋を描く
+        canvas.save()
+        canvas.translate(x0,y0)
+
+        /*
+        // 対数螺旋を描く
+        val path = Path()
+        pointLst.forEachIndexed { index, myPointF ->
+            // 描画点の原点からの距離
+            val lenXY = sqrt(myPointF.x*myPointF.x+myPointF.y*myPointF.y)
+            // 描画点のX軸に対する角度
+            val angleXY = MyMathUtil.getAngle(MyPointF(0f,0f),myPointF)
+
+            // ------------------------------------------------------------------------
+            // 対数螺旋が回転しているようにみえるするために、描画点をangle度回転させる
+            // ------------------------------------------------------------------------
+            // angleに+1をかけると、内に収束するようにみえる
+            // angleに-1をかけると、外に広がるようにみえる
+            // ------------------------------------------------------------------------
+            val x1 = lenXY * cos((sign*angle+angleXY)*PI/180f)
+            val y1 = lenXY * sin((sign*angle+angleXY)*PI/180f)
+            if ( index == 0 ) {
+                path.moveTo(x1.toFloat(),y1.toFloat())
+            }
+            else {
+                path.lineTo(x1.toFloat(),y1.toFloat())
+            }
         }
+        canvas.drawPath(path,linePaint)
+        */
+
+        // 座標を元に戻す
+        canvas.restore()
 
         // これまでの描画は上下逆なので反転する
         val matrix = Matrix()
-        matrix.setScale(1f,-1f)
+        matrix.postScale(1f,-1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
     }
 
@@ -279,11 +295,10 @@ class UniformMotion01Drawable: MyDrawable() {
     // -------------------------------
     // Drawable
     // -------------------------------
-    override fun getIntrinsicWidth(): Int = (sideW+margin*2).toInt()
+    override fun getIntrinsicWidth(): Int = (side+margin*2).toInt()
 
     // -------------------------------
     // Drawable
     // -------------------------------
-    override fun getIntrinsicHeight(): Int = (sideH+margin*2).toInt()
-
+    override fun getIntrinsicHeight(): Int = (side+margin*2).toInt()
 }

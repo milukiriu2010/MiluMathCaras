@@ -6,7 +6,7 @@ import kotlin.math.acos
 // 円
 data class MyCircleF(
     // 位置
-    var p: MyPointF,
+    var p: MyVectorF,
     // 半径
     var r: Float,
     // 速度
@@ -58,21 +58,23 @@ data class MyCircleF(
     // 衝突していたら、進行方向を変える
     // ---------------------------------------------------------------
     fun checkCollision( obj: MyCircleF ): MyCircleF {
+        // objからみた自身の位置ベクトル(円の中心同士の差分ベクトル)
+        val obj2selfV = MyVectorF(p.x - obj.p.x,p.y - obj.p.y)
         // "円の中心同士の距離"の２乗
-        val lenC = (p.x-obj.p.x)*(p.x-obj.p.x)+(p.y-obj.p.y)*(p.y-obj.p.y)
+        val lenC = obj2selfV.magnitude2()
         // "円の半径を足し合わせた距離"の２乗
         val lenR = (r+obj.r)*(r+obj.r)
 
         // 衝突していない場合、何もしない
         if ( lenC > lenR ) return this
 
-        // objからみた自身の位置ベクトルの単位ベクトル(反射の法線ベクトル)
-        val vn = MyVectorF(p.x - obj.p.x,p.y - obj.p.y).normalize()
+        // "objからみた自身の位置ベクトル"の単位ベクトル(反射の法線ベクトル)
+        val vn = obj2selfV.normalized()
 
         // 法線ベクトルの長さ
-        val lenVN = vn.mag()
+        val lenVN = vn.magnitude()
         // 自身の速度
-        val lenV = v.mag()
+        val lenV = v.magnitude()
         // "法線ベクトル"と"自身の速度ベクトル"の内積
         val dot = v.dot(vn)
         // "法線ベクトル"と"自身の速度ベクトル"のなす角度
@@ -89,7 +91,8 @@ data class MyCircleF(
         // 反射ベクトル
         // R = F + 2(-F*N)*N
         // -----------------------------------------
-        v.sum(vn.multiply(-2f*dot))
+        //v.plus(vn.multiply(-2f*dot))
+        v.reflect(vn)
 
         return this
     }

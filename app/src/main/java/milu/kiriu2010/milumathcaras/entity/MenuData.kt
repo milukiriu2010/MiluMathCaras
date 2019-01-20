@@ -33,6 +33,8 @@ enum class MenuItem(val title: String): Parcelable {
     MENU_CURVE_HYPOCYCLOID("Hypocycloid"),
     // スパイラルを描画するメニュー
     MENU_CURVE_SPIRAL("Spiral"),
+    // リサージュ曲線を描画するメニュー
+    MENU_CURVE_LISSAJOUS("Lissajous"),
     // フラクタルを描画するメニュー
     MENU_FRACTAL("Fractal"),
     // フラクタル(再帰)を描画するメニュー
@@ -49,7 +51,7 @@ enum class MenuItem(val title: String): Parcelable {
     MENU_POLYGON_PINP("P in P"),
     // The Nature of Code
     // https://natureofcode.com/book/chapter-1-vectors/
-    MENU_NATURE_OF_CODE( "Nature of Code")
+    MENU_NATURE( "Nature")
 }
 
 // ------------------------------------

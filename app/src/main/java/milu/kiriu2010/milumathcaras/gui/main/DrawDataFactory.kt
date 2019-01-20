@@ -59,6 +59,11 @@ class DrawDataFactory {
                     // 対数螺旋
                     drawDataLst.add(DrawData(DrawDataID.ID_010_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_010_curve_logarithmic_spiral), floatArrayOf(0f) ))
                 }
+                // リサージュ曲線を選択したときの描画データの一覧
+                MenuItem.MENU_CURVE_LISSAJOUS -> {
+                    // リサージュ曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_050_LISSAJOUS_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_050_curve_lissajous), floatArrayOf(0f) ))
+                }
                 // フラクタル(再帰)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_RECURSION -> {
                     // 高木曲線
@@ -153,7 +158,7 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_361_9_IN_10,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_361_polygon_9_in_10), floatArrayOf(10f,9f), floatArrayOf(10f,9f) ))
                 }
                 // "Nature of Code"を選択したときの描画データの一覧
-                MenuItem.MENU_NATURE_OF_CODE -> {
+                MenuItem.MENU_NATURE -> {
                     // 等速度運動
                     drawDataLst.add(DrawData(DrawDataID.ID_401_NATURE_UNFORM_MOTION,DrawFragmentType.FT_RECTANGLE_01,resources.getString(R.string.draw_401_uniform_motion),floatArrayOf(5f)))
                 }
