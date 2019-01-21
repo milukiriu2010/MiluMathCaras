@@ -47,8 +47,12 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_036_HYPO_CYCLOID(36),
     // サイン波
     ID_040_SINE_WAVE(40),
-    // リサージュ曲線
-    ID_050_LISSAJOUS_CURVE(50),
+    // リサージュ曲線(p:q=1:2)
+    ID_050_LISSAJOUS_CURVE_1_2(50),
+    // リサージュ曲線(p:q=3:2)
+    ID_051_LISSAJOUS_CURVE_3_2(51),
+    // リサージュ曲線(p:q=3:4)
+    ID_052_LISSAJOUS_CURVE_3_4(52),
     // 高木曲線
     ID_101_TAKAGI_CURVE(101),
     // コッホ雪片
@@ -63,8 +67,12 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_106_SIERPINSKI_CARPET(106),
     // ヒルベルト曲線
     ID_107_HILBERT_CURVE(107),
-    // マンデルブロ―集合
+    // マンデルブロ―集合(白黒)
+    ID_200_MANDELBRO_SET(200),
+    // マンデルブロ―集合(-1.5-1.0i～+0.5+1.0i)
     ID_201_MANDELBRO_SET(201),
+    // マンデルブロ―集合(-1.3+0.0i～-1.1+0.2i)
+    ID_202_MANDELBRO_SET(202),
     // ジュリア集合
     ID_251_JULIA_SET(251),
     // 三角形でEXILE

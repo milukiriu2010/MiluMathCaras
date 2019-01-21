@@ -43,7 +43,9 @@
     <string name="draw_035_curve_hypocycloid">Hypocycloid(k=5.5)</string>
     <string name="draw_036_curve_hypocycloid">Hypocycloid(k=7.2)</string>
     <string name="draw_040_wave_sine">Sine Wave</string>
-    <string name="draw_050_curve_lissajous">Lissajous Curve</string>
+    <string name="draw_050_curve_lissajous_1_2">Lissajous(p:q=1:2)</string>
+    <string name="draw_051_curve_lissajous_3_2">Lissajous(p:q=3:2)</string>
+    <string name="draw_052_curve_lissajous_3_4">Lissajous(p:q=3:4)</string>
     <string name="draw_101_fractal_recursion_takagi_curve">Takagi Curve</string>
     <string name="draw_102_fractal_recursion_koch_snowflake">Koch Snowflake</string>
     <string name="draw_103_fractal_recursion_tree_curve">Tree Curve</string>
@@ -51,7 +53,9 @@
     <string name="draw_105_fractal_recursion_sierpinski_triangle">Sierpinski Triangle</string>
     <string name="draw_106_fractal_recursion_sierpinski_carpet">Sierpinski Carpet</string>
     <string name="draw_107_fractal_recursion_hilbert_curve">Hilbert Curve</string>
+    <string name="draw_200_fractal_complex_mandelbrot_set">Mandelbrot Set</string>
     <string name="draw_201_fractal_complex_mandelbrot_set">Mandelbrot Set</string>
+    <string name="draw_202_fractal_complex_mandelbrot_set">Mandelbrot Set</string>
     <string name="draw_251_fractal_complex_julia_set">Julia Set</string>
     <string name="draw_300_polygon_triangle_exile">Triangle Exile</string>
     <string name="draw_301_polygon_3_in_4">3 in 4</string>

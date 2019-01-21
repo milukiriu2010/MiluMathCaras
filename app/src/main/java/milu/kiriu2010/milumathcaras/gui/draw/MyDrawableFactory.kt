@@ -9,6 +9,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.hypocycloid.Hypocycloid01Draw
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lissajous.Lissajous01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiral02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid.Trochoid01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.mandelbrot.Mandelbrot02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.dragon.DragonCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.HilbertCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.koch.KochSnowflake01Drawable
@@ -64,8 +65,12 @@ class MyDrawableFactory {
                 DrawDataID.ID_036_HYPO_CYCLOID -> Hypocycloid01Drawable()
                 // サイン波
                 DrawDataID.ID_040_SINE_WAVE -> SineWave01Drawable()
-                // リサージュ曲線
-                DrawDataID.ID_050_LISSAJOUS_CURVE -> Lissajous01Drawable()
+                // リサージュ曲線(p:q=1:2)
+                DrawDataID.ID_050_LISSAJOUS_CURVE_1_2 -> Lissajous01Drawable()
+                // リサージュ曲線(p:q=3:2)
+                DrawDataID.ID_051_LISSAJOUS_CURVE_3_2 -> Lissajous01Drawable()
+                // リサージュ曲線(p:q=3:4)
+                DrawDataID.ID_052_LISSAJOUS_CURVE_3_4 -> Lissajous01Drawable()
                 // 高木曲線
                 DrawDataID.ID_101_TAKAGI_CURVE -> TakagiCurve01Drawable()
                 // コッホ雪片
@@ -80,8 +85,12 @@ class MyDrawableFactory {
                 DrawDataID.ID_106_SIERPINSKI_CARPET -> SierpinskiCarpet01Drawable()
                 // ヒルベルト曲線
                 DrawDataID.ID_107_HILBERT_CURVE -> HilbertCurve01Drawable()
+                // マンデルブロ―集合(白黒)
+                DrawDataID.ID_200_MANDELBRO_SET -> Mandelbrot02Drawable()
                 // マンデルブロ―集合
                 DrawDataID.ID_201_MANDELBRO_SET -> Mandelbrot01Drawable()
+                // マンデルブロ―集合
+                DrawDataID.ID_202_MANDELBRO_SET -> Mandelbrot01Drawable()
                 // ジュリア集合
                 DrawDataID.ID_251_JULIA_SET -> Julia01Drawable()
                 // 三角形でEXILE
