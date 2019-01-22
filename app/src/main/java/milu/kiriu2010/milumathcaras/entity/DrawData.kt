@@ -73,6 +73,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_201_MANDELBRO_SET(201),
     // マンデルブロ―集合(-1.3+0.0i～-1.1+0.2i)
     ID_202_MANDELBRO_SET(202),
+    // マンデルブロ―集合(-1.28+0.18i～-1.26+0.20i)
+    ID_203_MANDELBRO_SET(203),
     // ジュリア集合
     ID_251_JULIA_SET(251),
     // 三角形でEXILE

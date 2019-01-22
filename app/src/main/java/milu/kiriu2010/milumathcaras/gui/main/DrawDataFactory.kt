@@ -85,14 +85,36 @@ class DrawDataFactory {
                     // ヒルベルト曲線
                     drawDataLst.add(DrawData(DrawDataID.ID_107_HILBERT_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_107_fractal_recursion_hilbert_curve), floatArrayOf(2f), floatArrayOf(0f) ))
                 }
+                /*
                 // フラクタル(複素数)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_COMPLEX -> {
                     // マンデルブロ―集合(白黒)
                     drawDataLst.add(DrawData(DrawDataID.ID_200_MANDELBRO_SET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_200_fractal_complex_mandelbrot_set), floatArrayOf(0.1f), floatArrayOf(0.001f) ))
-                    // マンデルブロ―集合
+                    //drawDataLst.add(DrawData(DrawDataID.ID_200_MANDELBRO_SET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_200_fractal_complex_mandelbrot_set), floatArrayOf(0.01f,-1.3f,-1.1f,0f,0.2f), floatArrayOf(0.0001f,-1.3f,-1.1f,0f,0.2f) ))
+                    // マンデルブロ―集合(-1.5-1.0i～+1.5+1.0i)
                     drawDataLst.add(DrawData(DrawDataID.ID_201_MANDELBRO_SET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_201_fractal_complex_mandelbrot_set), floatArrayOf(0.1f), floatArrayOf(0.001f) ))
-                    // マンデルブロ―集合
-                    drawDataLst.add(DrawData(DrawDataID.ID_202_MANDELBRO_SET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_202_fractal_complex_mandelbrot_set), floatArrayOf(0.1f), floatArrayOf(0.001f) ))
+                    // マンデルブロ―集合(-1.3+0.0i～-1.1+0.2i)
+                    drawDataLst.add(DrawData(DrawDataID.ID_202_MANDELBRO_SET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_202_fractal_complex_mandelbrot_set), floatArrayOf(0.01f,-1.3f,-1.1f,0f,0.2f), floatArrayOf(0.0001f,-1.3f,-1.1f,0f,0.2f) ))
+                    // マンデルブロ―集合(-1.28+0.18i～-1.26+0.20i)
+                    drawDataLst.add(DrawData(DrawDataID.ID_203_MANDELBRO_SET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_203_fractal_complex_mandelbrot_set), floatArrayOf(0.001f,-1.28f,-1.26f,0.18f,0.2f), floatArrayOf(0.00001f,-1.28f,-1.26f,0.18f,0.2f) ))
+                    // ジュリア集合
+                    drawDataLst.add(DrawData(DrawDataID.ID_251_JULIA_SET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_251_fractal_complex_julia_set), floatArrayOf(0.1f), floatArrayOf(0.001f) ))
+                }
+                */
+                // フラクタル(マンデルブロ―集合)を選択したときの描画データの一覧
+                MenuItem.MENU_FRACTAL_MANDELBROT -> {
+                    // マンデルブロ―集合(白黒)
+                    drawDataLst.add(DrawData(DrawDataID.ID_200_MANDELBRO_SET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_200_fractal_complex_mandelbrot_set), floatArrayOf(0.1f), floatArrayOf(0.001f) ))
+                    //drawDataLst.add(DrawData(DrawDataID.ID_200_MANDELBRO_SET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_200_fractal_complex_mandelbrot_set), floatArrayOf(0.01f,-1.3f,-1.1f,0f,0.2f), floatArrayOf(0.0001f,-1.3f,-1.1f,0f,0.2f) ))
+                    // マンデルブロ―集合(-1.5-1.0i～+1.5+1.0i)
+                    drawDataLst.add(DrawData(DrawDataID.ID_201_MANDELBRO_SET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_201_fractal_complex_mandelbrot_set), floatArrayOf(0.1f), floatArrayOf(0.001f) ))
+                    // マンデルブロ―集合(-1.3+0.0i～-1.1+0.2i)
+                    drawDataLst.add(DrawData(DrawDataID.ID_202_MANDELBRO_SET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_202_fractal_complex_mandelbrot_set), floatArrayOf(0.01f,-1.3f,-1.1f,0f,0.2f), floatArrayOf(0.0001f,-1.3f,-1.1f,0f,0.2f) ))
+                    // マンデルブロ―集合(-1.28+0.18i～-1.26+0.20i)
+                    drawDataLst.add(DrawData(DrawDataID.ID_203_MANDELBRO_SET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_203_fractal_complex_mandelbrot_set), floatArrayOf(0.001f,-1.28f,-1.26f,0.18f,0.2f), floatArrayOf(0.00001f,-1.28f,-1.26f,0.18f,0.2f) ))
+                }
+                // フラクタル(ジュリア集合)を選択したときの描画データの一覧
+                MenuItem.MENU_FRACTAL_JULIA -> {
                     // ジュリア集合
                     drawDataLst.add(DrawData(DrawDataID.ID_251_JULIA_SET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_251_fractal_complex_julia_set), floatArrayOf(0.1f), floatArrayOf(0.001f) ))
                 }

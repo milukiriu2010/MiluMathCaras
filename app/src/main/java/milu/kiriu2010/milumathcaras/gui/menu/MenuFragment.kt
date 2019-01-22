@@ -165,7 +165,13 @@ class MenuFragment : Fragment() {
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL_RECURSION, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal_recursion),false))
                     // [サブメニュー]
                     // フラクタル(複素数)一覧を表示するメニュー
-                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL_COMPLEX, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal_complex),false))
+                    //menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL_COMPLEX, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal_complex),false))
+                    // [サブメニュー]
+                    // フラクタル(マンデルブロ―集合)一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL_MANDELBROT, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal_mandelbrot),false))
+                    // [サブメニュー]
+                    // フラクタル(ジュリア集合)一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL_JULIA, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal_julia),false))
                     // [戻るメニュー]
                     menuDataLst.add(MenuData(MenuType.TYPE_BACK, MenuItem.MENU_BACK, FragmentID.ID_DUMMY,resources.getString(R.string.menu_back),false))
                 }

@@ -33,7 +33,7 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 // "X軸 1pixelに対し Y軸 2000 pixelスキャン"
 // を1スレッドの単位とする
 // ---------------------------------------------------------------------
-class Mandelbrot02Drawable: MyDrawable() {
+class Mandelbrot00Drawable: MyDrawable() {
     // -------------------------------
     // 描画領域
     // -------------------------------
@@ -108,7 +108,7 @@ class Mandelbrot02Drawable: MyDrawable() {
     private val scalePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
         style = Paint.Style.STROKE
-        strokeWidth = 1f
+        strokeWidth = 2f
         pathEffect = DashPathEffect(floatArrayOf(10f,10f),0f)
     }
 
@@ -159,6 +159,10 @@ class Mandelbrot02Drawable: MyDrawable() {
     //          1未満の小数を計算するが
     //          描画領域が1000x1000なので
     //          0.1,0.01,0.001を想定
+    // 第２引数:実数部最小値
+    // 第３引数:実数部最大値
+    // 第４引数:虚数部最小値
+    // 第５引数:虚数部最大値
     // ----------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
         // 複素数を計算する際の粒度
@@ -168,6 +172,14 @@ class Mandelbrot02Drawable: MyDrawable() {
             when (index) {
                 // 複素数を計算する際の粒度
                 0 -> psU = fl
+                // 実数部最小値
+                1 -> xrMin = fl
+                // 実数部最大値
+                2 -> xrMax = fl
+                // 虚数部最小値
+                3 -> yiMin = fl
+                // 虚数部最大値
+                4 -> yiMax = fl
             }
         }
         // ----------------------------------

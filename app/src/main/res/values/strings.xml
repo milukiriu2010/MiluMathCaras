@@ -18,6 +18,8 @@
     <string name="menu_sub_fractal">Fractal</string>
     <string name="menu_sub_fractal_recursion">Recursion</string>
     <string name="menu_sub_fractal_complex">Complex Number</string>
+    <string name="menu_sub_fractal_mandelbrot">Mandelbrot Set</string>
+    <string name="menu_sub_fractal_julia">Julia Set</string>
     <string name="menu_sub_wave">Wave</string>
     <string name="menu_sub_polygon">Polygon</string>
     <string name="menu_sub_polygon_circle">Polygon with Circle</string>
@@ -53,9 +55,10 @@
     <string name="draw_105_fractal_recursion_sierpinski_triangle">Sierpinski Triangle</string>
     <string name="draw_106_fractal_recursion_sierpinski_carpet">Sierpinski Carpet</string>
     <string name="draw_107_fractal_recursion_hilbert_curve">Hilbert Curve</string>
-    <string name="draw_200_fractal_complex_mandelbrot_set">Mandelbrot Set</string>
-    <string name="draw_201_fractal_complex_mandelbrot_set">Mandelbrot Set</string>
-    <string name="draw_202_fractal_complex_mandelbrot_set">Mandelbrot Set</string>
+    <string name="draw_200_fractal_complex_mandelbrot_set">Mandelbrot</string>
+    <string name="draw_201_fractal_complex_mandelbrot_set">-1.5-1.0i～+1.5+1.0i</string>
+    <string name="draw_202_fractal_complex_mandelbrot_set">-1.3+0.0i～-1.1+0.2i</string>
+    <string name="draw_203_fractal_complex_mandelbrot_set">-1.28+0.18i～-1.26+0.20i</string>
     <string name="draw_251_fractal_complex_julia_set">Julia Set</string>
     <string name="draw_300_polygon_triangle_exile">Triangle Exile</string>
     <string name="draw_301_polygon_3_in_4">3 in 4</string>

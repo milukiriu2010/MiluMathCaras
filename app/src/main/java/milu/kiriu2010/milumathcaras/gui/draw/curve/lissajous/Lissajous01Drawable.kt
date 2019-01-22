@@ -2,6 +2,7 @@ package milu.kiriu2010.milumathcaras.gui.draw.curve.lissajous
 
 import android.graphics.*
 import android.os.Handler
+import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
@@ -44,14 +45,10 @@ class Lissajous01Drawable: MyDrawable() {
     // リサージュ曲線の変数q
     // ---------------------------------
     private var q = 4f
-    // ---------------------------------
-    // リサージュ曲線の変数d
-    // ---------------------------------
-    private var d = 0f
 
-    // -------------------------------
-    // リサージュ曲線の位相
-    // -------------------------------
+    // ----------------------------------
+    // リサージュ曲線の位相(変数dに相当)
+    // ----------------------------------
     private var angle = 0f
     private var angleMax = 720f
 
@@ -91,8 +88,38 @@ class Lissajous01Drawable: MyDrawable() {
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
         style = Paint.Style.STROKE
-        strokeWidth = 5f
+        strokeWidth = 10f
     }
+
+    // -------------------------------
+    // リサージュ曲線を描く色リスト
+    // -------------------------------
+    private val colorLst = arrayOf(
+        // 0:red
+        0xffff0000.toInt(),
+        // 1:pink
+        0xffffcccc.toInt(),
+        // 2:orange
+        0xffff7f00.toInt(),
+        // 3:maroon
+        0xff800000.toInt(),
+        // 4:yellow
+        0xffffff00.toInt(),
+        // 5:green(lime)
+        0xff00ff00.toInt(),
+        // 6:green
+        0xff008000.toInt(),
+        // 7:naby
+        0xff000080.toInt(),
+        // 8:blue
+        0xff0000ff.toInt(),
+        // 9:cyan
+        0xff00ffff.toInt(),
+        // 10:indigo
+        0xff6f00ff.toInt(),
+        // 11:violet
+        0xffff00ff.toInt()
+    )
 
     // -------------------------------------
     // 描画中に呼び出すコールバックを設定
@@ -184,7 +211,7 @@ class Lissajous01Drawable: MyDrawable() {
         pointLst.clear()
 
         (0..360 step 1).forEach {
-            val x = a*sin((p*it.toFloat()+d+angle)*PI/180f)
+            val x = a*sin((p*it.toFloat()+angle)*PI/180f)
             val y = b*sin(q*it.toFloat()*PI/180f)
             pointLst.add(MyPointF(x.toFloat(),y.toFloat()))
         }
@@ -227,6 +254,7 @@ class Lissajous01Drawable: MyDrawable() {
         canvas.translate(x0,y0)
 
         // リサージュ曲線を描く
+        /*
         val path = Path()
         pointLst.forEachIndexed { index, myPointF ->
             when (index) {
@@ -236,6 +264,28 @@ class Lissajous01Drawable: MyDrawable() {
         }
         path.close()
         canvas.drawPath(path,linePaint)
+        */
+
+        // リサージュ曲線を描く
+        // 30度ずつ色を変える
+        val bunchSize = pointLst.size/colorLst.size
+        var colorPos = -1
+        var path = Path()
+        pointLst.forEachIndexed { index, myPointF ->
+            when (index%bunchSize) {
+                0 -> {
+                    if ( colorPos >= 0) {
+                        linePaint.color = colorLst[colorPos%colorLst.size]
+                        path.lineTo(myPointF.x,myPointF.y)
+                        canvas.drawPath(path,linePaint)
+                    }
+                    colorPos++
+                    path = Path()
+                    path.moveTo(myPointF.x,myPointF.y)
+                }
+                else -> path.lineTo(myPointF.x,myPointF.y)
+            }
+        }
 
         // 座標を元に戻す
         canvas.restore()

@@ -9,7 +9,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.hypocycloid.Hypocycloid01Draw
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lissajous.Lissajous01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiral02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid.Trochoid01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.mandelbrot.Mandelbrot02Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.mandelbrot.Mandelbrot00Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.dragon.DragonCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.HilbertCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.koch.KochSnowflake01Drawable
@@ -86,11 +86,13 @@ class MyDrawableFactory {
                 // ヒルベルト曲線
                 DrawDataID.ID_107_HILBERT_CURVE -> HilbertCurve01Drawable()
                 // マンデルブロ―集合(白黒)
-                DrawDataID.ID_200_MANDELBRO_SET -> Mandelbrot02Drawable()
-                // マンデルブロ―集合
+                DrawDataID.ID_200_MANDELBRO_SET -> Mandelbrot00Drawable()
+                // マンデルブロ―集合(-1.5-1.0i～+0.5+1.0i)
                 DrawDataID.ID_201_MANDELBRO_SET -> Mandelbrot01Drawable()
-                // マンデルブロ―集合
+                // マンデルブロ―集合(-1.3+0.0i～-1.1+0.2i)
                 DrawDataID.ID_202_MANDELBRO_SET -> Mandelbrot01Drawable()
+                // マンデルブロ―集合(-1.28+0.18i～-1.26+0.20i)
+                DrawDataID.ID_203_MANDELBRO_SET -> Mandelbrot01Drawable()
                 // ジュリア集合
                 DrawDataID.ID_251_JULIA_SET -> Julia01Drawable()
                 // 三角形でEXILE
