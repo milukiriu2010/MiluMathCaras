@@ -163,6 +163,8 @@ class Trochoid01Drawable: MyDrawable() {
             }
         }
 
+        // トロコイド曲線の描画点リストをクリア
+        //pointLst.clear()
         // トロコイド曲線の描画点を追加
         addPoint()
         // 初期位置に車で描画点を追加する

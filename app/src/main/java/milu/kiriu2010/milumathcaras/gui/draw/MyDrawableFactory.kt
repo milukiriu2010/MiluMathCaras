@@ -28,7 +28,9 @@ class MyDrawableFactory {
         fun createInstance(id: DrawDataID,notifyCallback: NotifyCallback? = null): MyDrawable {
             val myDrawable = when ( id ) {
                 // サイクロイド曲線(cycloid)(k=1.0)
-                DrawDataID.ID_001_CYCLOID -> Cycloid01Drawable()
+                //DrawDataID.ID_001_CYCLOID -> Cycloid01Drawable()
+                // サイクロイド曲線(cycloid)(k=1.0)
+                DrawDataID.ID_001_CYCLOID -> Trochoid01Drawable()
                 // トロコイド曲線(trochoid)(k=2.0)
                 DrawDataID.ID_002_TROCHOID -> Trochoid01Drawable()
                 // トロコイド曲線(trochoid)(k=-2.0)

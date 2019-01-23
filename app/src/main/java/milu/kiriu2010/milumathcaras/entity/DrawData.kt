@@ -146,6 +146,8 @@ enum class DrawDataID(val id: Int): Parcelable {
 enum class DrawFragmentType: Parcelable {
     // 正方形領域に描画する
     FT_SQUARE_01,
+    // 正方形領域に描画する(SeekBarつき)
+    FT_SQUARE_02,
     // 長方形領域に描画する
     FT_RECTANGLE_01
 }
@@ -164,5 +166,14 @@ data class DrawData(
     // 静止画の初期パラメータ
     val stillImageParam: FloatArray = floatArrayOf(),
     // 動画用の初期パラメータ
-    val motionImageParam: FloatArray = floatArrayOf()
+    val motionImageParam: FloatArray = floatArrayOf(),
+    // ---------------------------------------------
+    // 編集用パラメータ
+    // ---------------------------------------------
+    // Square02Fragmentで利用している引数の意味
+    // １番目：最小値
+    // ２番目：最大値
+    // ３番目：動画用の初期パラメータから採用する位置
+    // ---------------------------------------------
+    val editParam: FloatArray = floatArrayOf()
 ):  Parcelable
