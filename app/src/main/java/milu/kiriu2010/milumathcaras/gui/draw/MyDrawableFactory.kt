@@ -7,6 +7,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid.Cycloid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.epicycloid.Epicycloid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.hypocycloid.Hypocycloid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lissajous.Lissajous01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiral01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiral02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid.Trochoid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.mandelbrot.Mandelbrot00Drawable
@@ -38,9 +39,9 @@ class MyDrawableFactory {
                 // トロコイド曲線(trochoid)(k=0.5)
                 DrawDataID.ID_004_TROCHOID -> Trochoid01Drawable()
                 // 対数螺旋(描画点を回転させる方法)
-                //DrawDataID.ID_010_LOGARITHMIC_SPIRAL -> LogarithmicSpiral01Drawable()
+                DrawDataID.ID_010_LOGARITHMIC_SPIRAL -> LogarithmicSpiral01Drawable()
                 // 対数螺旋(画像を回転させる方法)
-                DrawDataID.ID_010_LOGARITHMIC_SPIRAL -> LogarithmicSpiral02Drawable()
+                //DrawDataID.ID_010_LOGARITHMIC_SPIRAL -> LogarithmicSpiral02Drawable()
                 // カージオイド曲線(cardioid)(k=1.0)
                 DrawDataID.ID_021_CARDIOID -> Epicycloid01Drawable()
                 // エピサイクロイド曲線(k=4.0)

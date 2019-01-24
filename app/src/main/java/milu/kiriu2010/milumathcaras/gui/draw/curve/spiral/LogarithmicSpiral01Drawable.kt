@@ -17,6 +17,8 @@ import kotlin.math.*
 // https://en.wikipedia.org/wiki/Logarithmic_spiral
 // https://www.mathcurve.com/courbes2d.gb/logarithmic/logarithmic.shtml
 // -------------------------------------------------------------------------------------
+// 描画点を回転することで螺旋を回転
+// -------------------------------------------------------------------------------------
 class LogarithmicSpiral01Drawable: MyDrawable() {
 
     // -------------------------------
@@ -28,14 +30,14 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
     // ---------------------------------
     // 対数螺旋の変数a
     // ---------------------------------
-    private val a = 2f
+    private var a = 2f
     // ---------------------------------
     // 対数螺旋の変数b
     // ---------------------------------
-    private val b = 0.14f
+    private var b = 0.14f
 
     // -------------------------------
-    // 対数螺旋の回転角度
+    // 対数螺旋の回転角度(変数tに相当)
     // -------------------------------
     private var angle = 0f
     private var angleMax = 1080f
@@ -108,6 +110,8 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
     // --------------------------------------
     // values
     // 第１引数:対数螺旋の回転角度
+    // 第２引数:対数螺旋の変数a
+    // 第３引数:対数螺旋の変数b
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
         // 対数螺旋の回転角度
@@ -117,6 +121,10 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
             when (index) {
                 // 対数螺旋の回転角度
                 0 -> angle = fl
+                // 対数螺旋の変数a
+                1 -> a = fl
+                // 対数螺旋の変数b
+                2 -> b = fl
             }
         }
 
@@ -174,6 +182,7 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
         // 描画点リストをクリア
         pointLst.clear()
 
+        // 448(=2240/5)点描画する
         (0..2240 step 5).forEach {
             val x = a*exp(b*it.toFloat()*PI/180f)*cos(it.toFloat()*PI/180f)
             val y = a*exp(b*it.toFloat()*PI/180f)*sin(it.toFloat()*PI/180f)
@@ -183,7 +192,6 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
         // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
         notifyCallback?.receive(angle)
     }
-
     // 対数螺旋を回転する
     private fun rotatePath() {
         angle += 20f

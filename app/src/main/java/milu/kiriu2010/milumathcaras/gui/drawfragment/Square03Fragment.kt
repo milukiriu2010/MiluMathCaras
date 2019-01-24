@@ -27,10 +27,10 @@ private const val ARG_PARAM1 = "drawdata"
 // ----------------------------------------------
 // ・描画用のImageView１つ
 // ・通知用のTextView １つ
-// ・媒介変数を変更するSeekBar １つ
-// ・変更した媒介変数の値を表示するTextView １つ
+// ・媒介変数を変更するSeekBar ２つ
+// ・変更した媒介変数の値を表示するTextView ２つ
 // ----------------------------------------------
-class Square02Fragment : Fragment()
+class Square03Fragment : Fragment()
     , NotifyCallback {
 
     // 描画データ
@@ -45,18 +45,24 @@ class Square02Fragment : Fragment()
     // 描画に使っている媒介変数の値を表示するビュー
     private lateinit var textView: TextView
 
-    // 描画に使っている媒介変数の値を変更するシークバー
-    private lateinit var seekBar: SeekBar
+    // 描画に使っている媒介変数の値を変更するシークバーA
+    private lateinit var seekBarA: SeekBar
 
-    // シークバーの値を表示するビュー
-    private lateinit var seekText: TextView
+    // シークバーAの値を表示するビュー
+    private lateinit var seekTextA: TextView
+
+    // 描画に使っている媒介変数の値を変更するシークバーB
+    private lateinit var seekBarB: SeekBar
+
+    // シークバーBの値を表示するビュー
+    private lateinit var seekTextB: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             drawData = it.getParcelable(ARG_PARAM1)
-            if ( drawData.editParam.size < 3 ) {
-                throw RuntimeException("Short of editParam size. 3 params are required, at least.")
+            if ( drawData.editParam.size < 6 ) {
+                throw RuntimeException("Short of editParam size. 6 params are required, at least.")
             }
         }
     }
@@ -66,7 +72,7 @@ class Square02Fragment : Fragment()
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_square_02, container, false)
+        val view = inflater.inflate(R.layout.fragment_square_03, container, false)
 
         // 描画するビュー
         imageView = view.findViewById(R.id.imageView)
@@ -76,18 +82,41 @@ class Square02Fragment : Fragment()
         // 描画に使っている媒介変数の値を表示するビュー
         textView = view.findViewById(R.id.textView)
 
-        // 描画に使っている媒介変数の値を変更するシークバー
-        seekBar = view.findViewById(R.id.seekBarA)
+        // 描画に使っている媒介変数の値を変更するシークバーA
+        seekBarA = view.findViewById(R.id.seekBarA)
 
-        // シークバーの値を表示するビュー
-        seekText = view.findViewById(R.id.seekTextA)
+        // シークバーAの値を表示するビュー
+        seekTextA = view.findViewById(R.id.seekTextA)
+
+        // 描画に使っている媒介変数の値を変更するシークバーB
+        seekBarB = view.findViewById(R.id.seekBarB)
+
+        // シークバーBの値を表示するビュー
+        seekTextB = view.findViewById(R.id.seekTextB)
+
         // "実際の値"をシークバーの仮想位置に反映
-        value2seekBar()
+        value2seekBar(seekBarA,seekTextA, intArrayOf(0,1,2))
+        value2seekBar(seekBarB,seekTextB, intArrayOf(3,4,5))
 
-        seekBar.setOnSeekBarChangeListener( object: SeekBar.OnSeekBarChangeListener{
+        seekBarA.setOnSeekBarChangeListener( object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 // シークバーの位置から"実際の値"を取得
-                seekBar2Value()
+                seekBar2Value(seekBarA,seekTextA, intArrayOf(0,1,2))
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            // アニメーションをリスタート
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                drawRestart()
+            }
+        })
+
+        seekBarB.setOnSeekBarChangeListener( object: SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                // シークバーの位置から"実際の値"を取得
+                seekBar2Value(seekBarB,seekTextB, intArrayOf(3,4,5))
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -102,14 +131,19 @@ class Square02Fragment : Fragment()
         return view
     }
 
+    // ----------------------------------------------
     // "実際の値"をシークバーの仮想位置に反映
-    private fun value2seekBar() {
+    // ----------------------------------------------
+    // seekBarAの場合 ⇒ idArray = intArrayOf(0,1,2)
+    // seekBarBの場合 ⇒ idArray = intArrayOf(3,4,5)
+    // ----------------------------------------------
+    private fun value2seekBar(seekBar: SeekBar, seekText: TextView, idArray: IntArray ) {
         // 編集可能な媒介変数の最小値
-        val min = drawData.editParam[0]
+        val min = drawData.editParam[idArray[0]]
         // 編集可能な媒介変数の最大値
-        val max = drawData.editParam[1]
+        val max = drawData.editParam[idArray[1]]
         // 実際の値=動画用パラメータから"編集可能な媒介変数の現在値"を取得
-        val now = drawData.motionImageParam[drawData.editParam[2].toInt()]
+        val now = drawData.motionImageParam[drawData.editParam[idArray[2]].toInt()]
         // シークバーの実際の可動範囲
         val size = max-min
         // 実際の値に対応するシークバーの仮想位置
@@ -121,10 +155,15 @@ class Square02Fragment : Fragment()
 
     }
 
+    // ----------------------------------------------
     // シークバーの位置から"実際の値"を取得
-    private fun seekBar2Value(): Float {
-        val min = drawData.editParam[0]
-        val max = drawData.editParam[1]
+    // ----------------------------------------------
+    // seekBarAの場合 ⇒ idArray = intArrayOf(0,1,2)
+    // seekBarBの場合 ⇒ idArray = intArrayOf(3,4,5)
+    // ----------------------------------------------
+    private fun seekBar2Value(seekBar: SeekBar, seekText: TextView, idArray: IntArray ): Float {
+        val min = drawData.editParam[idArray[0]]
+        val max = drawData.editParam[idArray[1]]
         val pos = seekBar.progress
         // シークバーの位置から"実際の値"を取得
         val now = min.toBigDecimal()+pos.toBigDecimal()*(max.toBigDecimal()-min.toBigDecimal())/seekBar.max.toBigDecimal()
@@ -136,12 +175,15 @@ class Square02Fragment : Fragment()
 
     // アニメーションをリスタート
     private fun drawRestart() {
-        // シークバーの位置から"実際の値"を取得
-        val now = seekBar2Value()
+        // シークバーAの位置から"実際の値"を取得
+        val nowA = seekBar2Value(seekBarA,seekTextA, intArrayOf(0,1,2))
+        // シークバーBの位置から"実際の値"を取得
+        val nowB = seekBar2Value(seekBarB,seekTextB, intArrayOf(3,4,5))
         // アニメーションをリスタート
         drawable.calStop()
         val param = drawData.motionImageParam.clone()
-        param.set(drawData.editParam[2].toInt(),now)
+        param.set(drawData.editParam[2].toInt(),nowA)
+        param.set(drawData.editParam[5].toInt(),nowB)
         drawable.calStart(true,*param)
     }
 
@@ -177,7 +219,7 @@ class Square02Fragment : Fragment()
     companion object {
         @JvmStatic
         fun newInstance(drawData: DrawData) =
-            Square02Fragment().apply {
+            Square03Fragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_PARAM1,drawData)
                 }

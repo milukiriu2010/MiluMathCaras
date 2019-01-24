@@ -17,6 +17,8 @@ import kotlin.math.*
 // https://en.wikipedia.org/wiki/Logarithmic_spiral
 // https://www.mathcurve.com/courbes2d.gb/logarithmic/logarithmic.shtml
 // -------------------------------------------------------------------------------------
+// 画像を回転させることで螺旋を回転する
+// -------------------------------------------------------------------------------------
 class LogarithmicSpiral02Drawable: MyDrawable() {
 
     // -------------------------------
@@ -28,14 +30,14 @@ class LogarithmicSpiral02Drawable: MyDrawable() {
     // ---------------------------------
     // 対数螺旋の変数a
     // ---------------------------------
-    private val a = 2f
+    private var a = 2f
     // ---------------------------------
     // 対数螺旋の変数b
     // ---------------------------------
-    private val b = 0.14f
+    private var b = 0.14f
 
     // -------------------------------
-    // 対数螺旋の回転角度
+    // 対数螺旋の回転角度(変数tに相当)
     // -------------------------------
     private var angle = 0f
     private var angleMax = 1080f
@@ -108,6 +110,8 @@ class LogarithmicSpiral02Drawable: MyDrawable() {
     // --------------------------------------
     // values
     // 第１引数:対数螺旋の回転角度
+    // 第２引数:対数螺旋の変数a
+    // 第３引数:対数螺旋の変数b
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
         // 対数螺旋の回転角度
@@ -117,6 +121,10 @@ class LogarithmicSpiral02Drawable: MyDrawable() {
             when (index) {
                 // 対数螺旋の回転角度
                 0 -> angle = fl
+                // 対数螺旋の変数a
+                1 -> a = fl
+                // 対数螺旋の変数b
+                2 -> b = fl
             }
         }
 

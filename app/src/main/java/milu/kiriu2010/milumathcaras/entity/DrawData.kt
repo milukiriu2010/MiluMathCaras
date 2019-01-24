@@ -146,8 +146,10 @@ enum class DrawDataID(val id: Int): Parcelable {
 enum class DrawFragmentType: Parcelable {
     // 正方形領域に描画する
     FT_SQUARE_01,
-    // 正方形領域に描画する(SeekBarつき)
+    // 正方形領域に描画する(媒介変数の値を変更するSeekBar１つ)
     FT_SQUARE_02,
+    // 正方形領域に描画する(媒介変数の値を変更するSeekBar２つ)
+    FT_SQUARE_03,
     // 長方形領域に描画する
     FT_RECTANGLE_01
 }
