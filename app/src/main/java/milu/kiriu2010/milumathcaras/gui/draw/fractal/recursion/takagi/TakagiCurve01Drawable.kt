@@ -3,6 +3,8 @@ package milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.takagi
 import android.graphics.*
 import android.os.Handler
 import milu.kiriu2010.gui.basic.MyPointF
+import milu.kiriu2010.gui.color.ColorType
+import milu.kiriu2010.gui.color.MyColorFactory
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
@@ -277,6 +279,7 @@ class TakagiCurve01Drawable: MyDrawable() {
         canvas.save()
         canvas.translate(margin,margin)
 
+        /*
         // 高木曲線を描く
         val path = Path()
         pointMap.keys.sorted().forEachIndexed { index, x ->
@@ -286,6 +289,23 @@ class TakagiCurve01Drawable: MyDrawable() {
             }
         }
         canvas.drawPath(path,linePaint)
+        */
+
+        // 色インスタンス作成
+        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
+        // サイン波を描く
+        // 1536色のグラデーション
+        val bunchSize = pointMap.size
+        val xLst = pointMap.keys.sorted()
+        xLst.forEachIndexed { index, x1 ->
+            val color = myColor.create(index,bunchSize)
+            linePaint.color = color.toInt()
+            val x2 = when (index) {
+                bunchSize-1 -> x1
+                else -> xLst[index+1]
+            }
+            canvas.drawLine(x1,pointMap.get(x1) ?: 0f,x2,pointMap.get(x2) ?: 0f,linePaint)
+        }
 
         // 座標を元に戻す
         canvas.restore()

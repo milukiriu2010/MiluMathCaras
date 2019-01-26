@@ -3,6 +3,8 @@ package milu.kiriu2010.milumathcaras.gui.draw.wave.sine
 import android.graphics.*
 import android.os.Handler
 import milu.kiriu2010.gui.basic.MyPointF
+import milu.kiriu2010.gui.color.ColorType
+import milu.kiriu2010.gui.color.MyColorFactory
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
@@ -239,6 +241,7 @@ class SineWave01Drawable: MyDrawable() {
         canvas.save()
         canvas.translate(x0,y0)
 
+        /*
         // サイン波を描く
         waveLst.forEach { wave ->
             var path = Path()
@@ -253,6 +256,24 @@ class SineWave01Drawable: MyDrawable() {
                 }
             }
             canvas.drawPath(path,wave.linePaint)
+        }
+        */
+
+        // 色インスタンス作成
+        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
+        // サイン波を描く
+        // 1536色のグラデーション
+        waveLst.forEach { wave ->
+            val bunchSize = wave.pointLst.size
+            wave.pointLst.forEachIndexed { index, myPointF1 ->
+                val color = myColor.create(index,bunchSize)
+                wave.linePaint.color = color.toInt()
+                val myPointF2 = when (index) {
+                    bunchSize-1 -> myPointF1
+                    else -> wave.pointLst[index+1]
+                }
+                canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2.x,myPointF2.y,wave.linePaint)
+            }
         }
 
         // 座標を元に戻す

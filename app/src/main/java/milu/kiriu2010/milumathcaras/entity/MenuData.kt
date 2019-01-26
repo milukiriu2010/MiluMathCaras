@@ -55,7 +55,8 @@ enum class MenuItem(val title: String): Parcelable {
     MENU_POLYGON_PINP("P in P"),
     // The Nature of Code
     // https://natureofcode.com/book/chapter-1-vectors/
-    MENU_NATURE( "Nature")
+    MENU_NATURE( "Nature"),
+    MENU_COLOR("Color")
 }
 
 // ------------------------------------

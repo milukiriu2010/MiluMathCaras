@@ -4,6 +4,8 @@ import android.graphics.*
 import android.os.Handler
 import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
+import milu.kiriu2010.gui.color.ColorType
+import milu.kiriu2010.gui.color.MyColorFactory
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
@@ -266,6 +268,7 @@ class Lissajous01Drawable: MyDrawable() {
         canvas.drawPath(path,linePaint)
         */
 
+        /*
         // リサージュ曲線を描く
         // 30度ずつ色を変える
         val bunchSize = pointLst.size/colorLst.size
@@ -285,6 +288,24 @@ class Lissajous01Drawable: MyDrawable() {
                 }
                 else -> path.lineTo(myPointF.x,myPointF.y)
             }
+        }
+        */
+
+        // 色インスタンス作成
+        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
+
+        // リサージュ曲線を描く
+        // 1536色のグラデーション
+        val bunchSize = pointLst.size
+        pointLst.forEachIndexed { index, myPointF1 ->
+            val color = myColor.create(index,bunchSize)
+            //Log.d(javaClass.simpleName,"index[$index]bunchSize[$bunchSize]color[${"0x%08x".format(color)}]")
+            linePaint.color = color.toInt()
+            val myPointF2 = when (index) {
+                bunchSize-1 -> pointLst[0]
+                else -> pointLst[index+1]
+            }
+            canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2.x,myPointF2.y,linePaint)
         }
 
         // 座標を元に戻す

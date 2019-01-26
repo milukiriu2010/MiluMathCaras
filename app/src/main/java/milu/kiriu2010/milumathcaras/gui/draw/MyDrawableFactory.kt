@@ -1,6 +1,7 @@
 package milu.kiriu2010.milumathcaras.gui.draw
 
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
+import milu.kiriu2010.milumathcaras.gui.draw.color.Color1536Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.julia.Julia01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.mandelbrot.Mandelbrot01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid.Cycloid01Drawable
@@ -158,6 +159,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_361_9_IN_10 -> PolygonInPolygon01Drawable()
                 // 等速度運動
                 DrawDataID.ID_401_NATURE_UNFORM_MOTION -> UniformMotion01Drawable()
+                // 1536色
+                DrawDataID.ID_500_COLOR_1536 -> Color1536Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")
             }
 
