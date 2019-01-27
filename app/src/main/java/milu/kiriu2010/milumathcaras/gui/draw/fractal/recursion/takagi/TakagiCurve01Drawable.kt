@@ -281,6 +281,7 @@ class TakagiCurve01Drawable: MyDrawable() {
 
         /*
         // 高木曲線を描く
+        // 赤色で描く
         val path = Path()
         pointMap.keys.sorted().forEachIndexed { index, x ->
             when (index) {
@@ -293,18 +294,19 @@ class TakagiCurve01Drawable: MyDrawable() {
 
         // 色インスタンス作成
         val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
-        // サイン波を描く
+
+        // 高木曲線を描く
         // 1536色のグラデーション
         val bunchSize = pointMap.size
         val xLst = pointMap.keys.sorted()
+        var x2 = -1f
         xLst.forEachIndexed { index, x1 ->
-            val color = myColor.create(index,bunchSize)
-            linePaint.color = color.toInt()
-            val x2 = when (index) {
-                bunchSize-1 -> x1
-                else -> xLst[index+1]
+            if ( x2 >= 0f ) {
+                val color = myColor.create(index,bunchSize)
+                linePaint.color = color.toInt()
+                canvas.drawLine(x1,pointMap.get(x1) ?: 0f,x2,pointMap.get(x2) ?: 0f,linePaint)
             }
-            canvas.drawLine(x1,pointMap.get(x1) ?: 0f,x2,pointMap.get(x2) ?: 0f,linePaint)
+            x2 = x1
         }
 
         // 座標を元に戻す

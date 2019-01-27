@@ -3,6 +3,7 @@ package milu.kiriu2010.milumathcaras.gui.drawfragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -131,6 +132,7 @@ class Square03Fragment : Fragment()
         return view
     }
 
+    /*
     // ----------------------------------------------
     // "実際の値"をシークバーの仮想位置に反映
     // ----------------------------------------------
@@ -167,6 +169,51 @@ class Square03Fragment : Fragment()
         val pos = seekBar.progress
         // シークバーの位置から"実際の値"を取得
         val now = min.toBigDecimal()+pos.toBigDecimal()*(max.toBigDecimal()-min.toBigDecimal())/seekBar.max.toBigDecimal()
+        // 実際の値をテキストに反映
+        seekText.text = now.toString()
+
+        return now.toFloat()
+    }
+    */
+
+    // ----------------------------------------------
+    // "実際の値"をシークバーの仮想位置に反映
+    // ----------------------------------------------
+    // seekBarAの場合 ⇒ idArray = intArrayOf(0,1,2)
+    // seekBarBの場合 ⇒ idArray = intArrayOf(3,4,5)
+    // ----------------------------------------------
+    private fun value2seekBar(seekBar: SeekBar, seekText: TextView, idArray: IntArray ) {
+        // 編集可能な媒介変数の最小値
+        val min = drawData.editParam[idArray[0]].toBigDecimal()
+        // 編集可能な媒介変数の最大値
+        val max = drawData.editParam[idArray[1]].toBigDecimal()
+        // 実際の値=動画用パラメータから"編集可能な媒介変数の現在値"を取得
+        val now = drawData.motionImageParam[drawData.editParam[idArray[2]].toInt()].toBigDecimal()
+        // シークバーの実際の可動範囲
+        val size = max-min
+        // 実際の値に対応するシークバーの仮想位置
+        val pos = ((now-min)*seekBar.max.toBigDecimal()/(max-min)).toInt()
+        // 仮想位置をシークバーに反映
+        seekBar.progress = pos
+        // 実際の値をテキストに反映
+        seekText.text = now.toString()
+
+        Log.d(javaClass.simpleName,"1:pos[$pos]min[$min]max[$max]now[$now]")
+    }
+
+    // ----------------------------------------------
+    // シークバーの位置から"実際の値"を取得
+    // ----------------------------------------------
+    // seekBarAの場合 ⇒ idArray = intArrayOf(0,1,2)
+    // seekBarBの場合 ⇒ idArray = intArrayOf(3,4,5)
+    // ----------------------------------------------
+    private fun seekBar2Value(seekBar: SeekBar, seekText: TextView, idArray: IntArray ): Float {
+        val min = drawData.editParam[idArray[0]].toBigDecimal()
+        val max = drawData.editParam[idArray[1]].toBigDecimal()
+        val pos = seekBar.progress
+        val mag = max-min
+        // シークバーの位置から"実際の値"を取得
+        val now = min+(pos.toBigDecimal()*100.0.toBigDecimal())*mag/(seekBar.max.toBigDecimal()*100.0.toBigDecimal())
         // 実際の値をテキストに反映
         seekText.text = now.toString()
 

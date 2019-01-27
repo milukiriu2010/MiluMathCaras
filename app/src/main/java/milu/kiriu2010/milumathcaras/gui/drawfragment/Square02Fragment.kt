@@ -105,15 +105,15 @@ class Square02Fragment : Fragment()
     // "実際の値"をシークバーの仮想位置に反映
     private fun value2seekBar() {
         // 編集可能な媒介変数の最小値
-        val min = drawData.editParam[0]
+        val min = drawData.editParam[0].toBigDecimal()
         // 編集可能な媒介変数の最大値
-        val max = drawData.editParam[1]
+        val max = drawData.editParam[1].toBigDecimal()
         // 実際の値=動画用パラメータから"編集可能な媒介変数の現在値"を取得
-        val now = drawData.motionImageParam[drawData.editParam[2].toInt()]
+        val now = drawData.motionImageParam[drawData.editParam[2].toInt()].toBigDecimal()
         // シークバーの実際の可動範囲
         val size = max-min
         // 実際の値に対応するシークバーの仮想位置
-        val pos = ((now-min)*seekBar.max/(max-min)).toInt()
+        val pos = ((now-min)*seekBar.max.toBigDecimal()/(max-min)).toInt()
         // 仮想位置をシークバーに反映
         seekBar.progress = pos
         // 実際の値をテキストに反映
@@ -123,11 +123,12 @@ class Square02Fragment : Fragment()
 
     // シークバーの位置から"実際の値"を取得
     private fun seekBar2Value(): Float {
-        val min = drawData.editParam[0]
-        val max = drawData.editParam[1]
+        val min = drawData.editParam[0].toBigDecimal()
+        val max = drawData.editParam[1].toBigDecimal()
         val pos = seekBar.progress
+        val mag = max - min
         // シークバーの位置から"実際の値"を取得
-        val now = min.toBigDecimal()+pos.toBigDecimal()*(max.toBigDecimal()-min.toBigDecimal())/seekBar.max.toBigDecimal()
+        val now = min+(pos.toBigDecimal()*100.0.toBigDecimal())*mag/(seekBar.max.toBigDecimal()*100.0.toBigDecimal())
         // 実際の値をテキストに反映
         seekText.text = now.toString()
 

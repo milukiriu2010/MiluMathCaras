@@ -3,6 +3,8 @@ package milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree
 import android.graphics.*
 import android.os.Handler
 import milu.kiriu2010.gui.basic.MyPointF
+import milu.kiriu2010.gui.color.ColorType
+import milu.kiriu2010.gui.color.MyColorFactory
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.*
@@ -297,6 +299,7 @@ class TreeCurve01Drawable: MyDrawable() {
         // ---------------------------------------------------------------------
         canvas.translate(margin,margin)
 
+        /*
         // 樹木曲線を描画
         val path = Path()
         pointLst.forEachIndexed { index, myPointF ->
@@ -308,6 +311,28 @@ class TreeCurve01Drawable: MyDrawable() {
             }
         }
         canvas.drawPath(path,linePaint)
+        */
+
+        // 色インスタンス作成
+        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
+
+        // 樹木曲線を描画
+        // 1536色のグラデーション
+        val bunchSize = pointLst.size
+        var path = Path()
+        pointLst.forEachIndexed { index, myPointF ->
+            if ( index%2 == 0 ) {
+                path.reset()
+                path = Path()
+                path.moveTo(myPointF.x,myPointF.y)
+            }
+            else {
+                path.lineTo(myPointF.x,myPointF.y)
+                val color = myColor.create(index,bunchSize)
+                linePaint.color = color.toInt()
+                canvas.drawPath(path,linePaint)
+            }
+        }
 
         // 座標を元に戻す
         canvas.restore()

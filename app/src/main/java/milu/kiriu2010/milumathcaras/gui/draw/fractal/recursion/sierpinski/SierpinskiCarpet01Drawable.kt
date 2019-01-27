@@ -3,6 +3,8 @@ package milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski
 import android.graphics.*
 import android.os.Handler
 import milu.kiriu2010.gui.basic.MyPointF
+import milu.kiriu2010.gui.color.ColorType
+import milu.kiriu2010.gui.color.MyColorFactory
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
@@ -290,6 +292,7 @@ class SierpinskiCarpet01Drawable: MyDrawable() {
         canvas.save()
         canvas.translate(margin, margin)
 
+        /*
         //Log.d(javaClass.simpleName,"===============================")
         // シェルピンスキーのカーペットを描画
         var path: Path = Path()
@@ -309,6 +312,37 @@ class SierpinskiCarpet01Drawable: MyDrawable() {
                 else -> {
                     path.lineTo(myPointF.x,myPointF.y)
                     path.close()
+                    canvas.drawPath(path,linePaint)
+                }
+            }
+        }
+        */
+
+        // 色インスタンス作成
+        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
+
+        // シェルピンスキーのカーペットを描画
+        // 1536色のグラデーション
+        val bunchSize = pointLst.size
+        var path: Path = Path()
+        pointLst.forEachIndexed { index, myPointF ->
+            //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
+            when ( index%4 ) {
+                0 -> {
+                    path = Path()
+                    path.moveTo(myPointF.x,myPointF.y)
+                }
+                1 -> {
+                    path.lineTo(myPointF.x,myPointF.y)
+                }
+                2 -> {
+                    path.lineTo(myPointF.x,myPointF.y)
+                }
+                else -> {
+                    path.lineTo(myPointF.x,myPointF.y)
+                    path.close()
+                    val color = myColor.create(index,bunchSize)
+                    linePaint.color = color.toInt()
                     canvas.drawPath(path,linePaint)
                 }
             }

@@ -61,7 +61,9 @@ class DrawDataFactory {
                     // 対数螺旋
                     //drawDataLst.add(DrawData(DrawDataID.ID_010_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_010_curve_logarithmic_spiral), floatArrayOf(0f) ))
                     // 対数螺旋
-                    drawDataLst.add(DrawData(DrawDataID.ID_010_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_03,resources.getString(R.string.draw_010_curve_logarithmic_spiral), floatArrayOf(0f,2f,0.2f), floatArrayOf(0f,2f,0.2f), floatArrayOf(0f,100f,1f,-0.5f,0.5f,2f) ))
+                    //drawDataLst.add(DrawData(DrawDataID.ID_010_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_03,resources.getString(R.string.draw_010_curve_logarithmic_spiral), floatArrayOf(0f,2f,0.2f), floatArrayOf(0f,2f,0.2f), floatArrayOf(0f,100f,1f,-0.5f,0.5f,2f) ))
+                    // 対数螺旋
+                    drawDataLst.add(DrawData(DrawDataID.ID_010_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_03,resources.getString(R.string.draw_010_curve_logarithmic_spiral), floatArrayOf(0f,2f,0.14f), floatArrayOf(0f,2f,0.14f), floatArrayOf(0f,500f,1f,-1.0f,1.0f,2f) ))
                 }
                 // リサージュ曲線を選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_LISSAJOUS -> {

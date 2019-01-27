@@ -3,6 +3,8 @@ package milu.kiriu2010.milumathcaras.gui.draw.curve.spiral
 import android.graphics.*
 import android.os.Handler
 import milu.kiriu2010.gui.basic.MyPointF
+import milu.kiriu2010.gui.color.ColorType
+import milu.kiriu2010.gui.color.MyColorFactory
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
@@ -227,6 +229,7 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
         canvas.save()
         canvas.translate(x0,y0)
 
+        /*
         // 対数螺旋を描く
         val path = Path()
         pointLst.forEachIndexed { index, myPointF ->
@@ -251,6 +254,36 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
             }
         }
         canvas.drawPath(path,linePaint)
+        */
+
+        // 色インスタンス作成
+        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
+
+        // 対数螺旋を描く
+        // 1536色のグラデーション
+        val bunchSize = pointLst.size
+        var myPointF2: MyPointF? = null
+        pointLst.forEachIndexed { index, myPointF1 ->
+            // 描画点の原点からの距離
+            val lenXY = sqrt(myPointF1.x*myPointF1.x+myPointF1.y*myPointF1.y)
+            // 描画点のX軸に対する角度
+            val angleXY = MyMathUtil.getAngle(MyPointF(0f,0f),myPointF1)
+
+            // ------------------------------------------------------------------------
+            // 対数螺旋が回転しているようにみえるするために、描画点をangle度回転させる
+            // ------------------------------------------------------------------------
+            // angleに+1をかけると、内に収束するようにみえる
+            // angleに-1をかけると、外に広がるようにみえる
+            // ------------------------------------------------------------------------
+            val x1 = lenXY * cos((sign*angle+angleXY)*PI/180f)
+            val y1 = lenXY * sin((sign*angle+angleXY)*PI/180f)
+            if ( myPointF2 != null ) {
+                val color = myColor.create(index,bunchSize)
+                linePaint.color = color.toInt()
+                canvas.drawLine(x1.toFloat(),y1.toFloat(),myPointF2?.x!!,myPointF2?.y!!,linePaint)
+            }
+            myPointF2 = MyPointF(x1.toFloat(),y1.toFloat())
+        }
 
         // 座標を元に戻す
         canvas.restore()

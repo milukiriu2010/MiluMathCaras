@@ -3,6 +3,8 @@ package milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.dragon
 import android.graphics.*
 import android.os.Handler
 import milu.kiriu2010.gui.basic.MyPointF
+import milu.kiriu2010.gui.color.ColorType
+import milu.kiriu2010.gui.color.MyColorFactory
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
@@ -255,6 +257,7 @@ class DragonCurve01Drawable: MyDrawable() {
         //Log.d(javaClass.simpleName, "ymargin[$ymargin]kochH[$kochH]intrinsicHeight[$intrinsicHeight]")
         canvas.translate(margin, margin)
 
+        /*
         //Log.d(javaClass.simpleName,"===============================")
         // ドラゴン曲線を描画
         val path = Path()
@@ -268,6 +271,23 @@ class DragonCurve01Drawable: MyDrawable() {
             }
         }
         canvas.drawPath(path,linePaint)
+        */
+
+        // 色インスタンス作成
+        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
+
+        // ドラゴン曲線を描画
+        // 1536色のグラデーション
+        val bunchSize = pointLst.size
+        var myPointF2: MyPointF? = null
+        pointLst.forEachIndexed { index, myPointF1 ->
+            if ( myPointF2 != null ) {
+                val color = myColor.create(index,bunchSize)
+                linePaint.color = color.toInt()
+                canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaint)
+            }
+            myPointF2 = myPointF1
+        }
 
         // 座標を元に戻す
         canvas.restore()

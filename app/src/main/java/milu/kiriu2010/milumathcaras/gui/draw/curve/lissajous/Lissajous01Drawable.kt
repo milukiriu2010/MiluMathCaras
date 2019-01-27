@@ -255,8 +255,9 @@ class Lissajous01Drawable: MyDrawable() {
         canvas.save()
         canvas.translate(x0,y0)
 
-        // リサージュ曲線を描く
         /*
+        // リサージュ曲線を描く
+        // 赤色で線を描く
         val path = Path()
         pointLst.forEachIndexed { index, myPointF ->
             when (index) {
@@ -297,15 +298,15 @@ class Lissajous01Drawable: MyDrawable() {
         // リサージュ曲線を描く
         // 1536色のグラデーション
         val bunchSize = pointLst.size
+        var myPointF2: MyPointF? = null
         pointLst.forEachIndexed { index, myPointF1 ->
-            val color = myColor.create(index,bunchSize)
-            //Log.d(javaClass.simpleName,"index[$index]bunchSize[$bunchSize]color[${"0x%08x".format(color)}]")
-            linePaint.color = color.toInt()
-            val myPointF2 = when (index) {
-                bunchSize-1 -> pointLst[0]
-                else -> pointLst[index+1]
+            if ( myPointF2 != null ) {
+                val color = myColor.create(index,bunchSize)
+                //Log.d(javaClass.simpleName,"index[$index]bunchSize[$bunchSize]color[${"0x%08x".format(color)}]")
+                linePaint.color = color.toInt()
+                canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaint)
             }
-            canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2.x,myPointF2.y,linePaint)
+            myPointF2 = myPointF1
         }
 
         // 座標を元に戻す
