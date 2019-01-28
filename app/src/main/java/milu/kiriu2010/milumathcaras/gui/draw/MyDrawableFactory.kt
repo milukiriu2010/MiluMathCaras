@@ -23,6 +23,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.nature.UniformMotion01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.PolygonInPolygon01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.TriangleExile01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWave01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWaveCircle01Drawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 class MyDrawableFactory {
@@ -69,6 +70,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_036_HYPO_CYCLOID -> Hypocycloid01Drawable()
                 // サイン波
                 DrawDataID.ID_040_SINE_WAVE -> SineWave01Drawable()
+                // 円の周りを回転するサイン波
+                DrawDataID.ID_041_SINE_WAVE_CIRCLE -> SineWaveCircle01Drawable()
                 // リサージュ曲線(p:q=1:2)
                 DrawDataID.ID_050_LISSAJOUS_CURVE_1_2 -> Lissajous01Drawable()
                 // リサージュ曲線(p:q=3:2)

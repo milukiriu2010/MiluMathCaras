@@ -46,6 +46,7 @@
     <string name="draw_035_curve_hypocycloid">Hypocycloid(k=5.5)</string>
     <string name="draw_036_curve_hypocycloid">Hypocycloid(k=7.2)</string>
     <string name="draw_040_wave_sine">Sine Wave</string>
+    <string name="draw_041_wave_sine_circle">Sine Wave around Circle</string>
     <string name="draw_050_curve_lissajous_1_2">Lissajous(p:q=1:2)</string>
     <string name="draw_051_curve_lissajous_3_2">Lissajous(p:q=3:2)</string>
     <string name="draw_052_curve_lissajous_3_4">Lissajous(p:q=3:4)</string>

@@ -14,7 +14,7 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 // -------------------------------------------------------------------------------------
-// サイン波
+// 円の周りを回転するサイン波
 // -------------------------------------------------------------------------------------
 //   y = k * sin(t)
 // -------------------------------------------------------------------------------------
@@ -23,23 +23,32 @@ import kotlin.math.sqrt
 // -------------------------------------------------------------------------------------
 // https://en.wikipedia.org/wiki/Sine_wave
 // -------------------------------------------------------------------------------------
-class SineWave01Drawable: MyDrawable() {
+class SineWaveCircle01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
     // -------------------------------
-    //private val side = 720f
     private val side = 1080f
     private val margin = 50f
 
     // ---------------------------------
-    // サイン波の係数k
+    // サイン波が回転する円の半径
     // ---------------------------------
-    //private var k = 180.0f
-    private var k = 360f/(side/360f)
+    private var r = side/3f
+
+    // ---------------------------------
+    // サイン波の係数k(波の大きさ)
+    // ---------------------------------
+    private var k = side/6f
+
+    // ---------------------------------
+    // サイン波を描画する全体の角度
+    // ---------------------------------
+    //private val d = 120
+    private val d = 360
 
     // -------------------------------
-    // サイン波の位相
+    // サイン波の位相(係数tに相当)
     // -------------------------------
     private var anglePhase = 0f
     private var anglePhaseMax = 360f
@@ -47,6 +56,7 @@ class SineWave01Drawable: MyDrawable() {
     // -------------------------------
     // 描画するサイン波のリスト
     // -------------------------------
+    /*
     private val waveLst: List<SineWave> = listOf(
         SineWave().apply {
             angleRotate = 0f
@@ -85,6 +95,22 @@ class SineWave01Drawable: MyDrawable() {
                             lineTo(10f, 10f * sqrt(3f))
                             close()
                         }, 30f, 0f, PathDashPathEffect.Style.ROTATE)
+            }
+        }
+    )
+    */
+    private val waveLst: List<SineWave> = listOf(
+        SineWave().apply {
+            angleRotate = 0f
+            linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                color = 0xffff0000.toInt()
+                style = Paint.Style.STROKE
+                strokeWidth = 5f
+                // 円
+                pathEffect =
+                    PathDashPathEffect(Path().apply {
+                        addCircle(10f, 10f, 10f, Path.Direction.CCW)
+                    }, 30f, 0f, PathDashPathEffect.Style.ROTATE)
             }
         }
     )
@@ -185,8 +211,9 @@ class SineWave01Drawable: MyDrawable() {
     private fun createPath() {
         // サイン波を回転させるときの中心点
         val mX = side/2f
-        val mY = 0f
+        val mY = side/2f
 
+        /*
         // サイン波の描画点を生成
         waveLst.forEach { wave ->
             // 描画点をクリア
@@ -208,13 +235,57 @@ class SineWave01Drawable: MyDrawable() {
                 wave.pointLst.add(MyPointF(x1.toFloat(),y1.toFloat()))
             }
         }
+        */
+
+        /* トロコロイド
+        // d = 120
+        val dv = 1080f/d
+        // サイン波の描画点を生成
+        waveLst.forEach { wave ->
+            // 描画点をクリア
+            wave.pointLst.clear()
+
+            (0..d).forEach {
+                // "円の中心"に対する"描画線"の角度
+                val t0 = it.toFloat() + anglePhase - d.toFloat()
+
+                val h = k*sin(it.toFloat()*dv*PI/180f).toFloat()
+
+                // 描画点
+                val x0 = r*cos(t0*PI/180f)+h*cos(it.toFloat()*dv*PI/180f)
+                val y0 = r*sin(t0*PI/180f)+h*sin(it.toFloat()*dv*PI/180f)
+
+                wave.pointLst.add(MyPointF(x0.toFloat(),y0.toFloat()))
+            }
+        }
+        */
+
+        val dv = 1080f/d
+        // サイン波の描画点を生成
+        waveLst.forEach { wave ->
+            // 描画点をクリア
+            wave.pointLst.clear()
+
+            (0..d).forEach {
+                // "円の中心"に対する"描画線"の角度
+                val t0 = it.toFloat() + anglePhase - d.toFloat()
+
+                val h = k*sin(it.toFloat()*dv*PI/180f).toFloat()
+
+                // 描画点
+                val x0 = r*cos(t0*PI/180f)+h
+                val y0 = r*sin(t0*PI/180f)+h*sin(it.toFloat()*dv*PI/180f)
+
+                wave.pointLst.add(MyPointF(x0.toFloat(),y0.toFloat()))
+            }
+        }
     }
 
     // -------------------------------
     // サイン波の位相を移動
     // -------------------------------
     private fun movePhase() {
-        anglePhase = anglePhase + 30f
+        anglePhase = anglePhase + 5f
         // ・元の位置に戻す
         if ( anglePhase > anglePhaseMax ) {
             anglePhase = 0f
@@ -233,8 +304,8 @@ class SineWave01Drawable: MyDrawable() {
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
         // 原点(0,0)の位置
-        // = (マージン,上下中央)
-        val x0 = margin
+        // = (左右中央,上下中央)
+        val x0 = (intrinsicWidth/2).toFloat()
         val y0 = (intrinsicHeight/2).toFloat()
 
         // 原点(x0,y0)を中心に円・サイクロイド曲線を描く
@@ -259,6 +330,7 @@ class SineWave01Drawable: MyDrawable() {
         }
         */
 
+        /**/
         // 色インスタンス作成
         val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
         // サイン波を描く
@@ -275,6 +347,7 @@ class SineWave01Drawable: MyDrawable() {
                 myPointF2 = myPointF1
             }
         }
+        /**/
 
         // 座標を元に戻す
         canvas.restore()

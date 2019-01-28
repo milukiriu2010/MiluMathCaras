@@ -128,6 +128,8 @@ class DrawDataFactory {
                 MenuItem.MENU_WAVE -> {
                     // サイン波
                     drawDataLst.add(DrawData(DrawDataID.ID_040_SINE_WAVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_040_wave_sine) ))
+                    // 円の周りを回転するサイン波
+                    drawDataLst.add(DrawData(DrawDataID.ID_041_SINE_WAVE_CIRCLE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_041_wave_sine_circle) ))
                 }
                 // "多角形with円"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_CIRCLE -> {
