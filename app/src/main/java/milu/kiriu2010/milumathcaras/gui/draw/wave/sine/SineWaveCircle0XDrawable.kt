@@ -22,7 +22,7 @@ import kotlin.math.sqrt
 // -------------------------------------------------------------------------------------
 // https://en.wikipedia.org/wiki/Sine_wave
 // -------------------------------------------------------------------------------------
-class SineWaveCircle01Drawable: MyDrawable() {
+class SineWaveCircle0XDrawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -54,26 +54,77 @@ class SineWaveCircle01Drawable: MyDrawable() {
     private var anglePhase = 0f
     private var anglePhaseMax = 360f
 
+    // -------------------------------
+    // 描画するサイン波のリスト
+    // -------------------------------
+    /*
+    private val waveLst: List<SineWave> = listOf(
+        SineWave().apply {
+            angleRotate = 0f
+            linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                color = 0xffff0000.toInt()
+                style = Paint.Style.STROKE
+                // 円
+                pathEffect =
+                        PathDashPathEffect(Path().apply {
+                            addCircle(10f, 10f, 10f, Path.Direction.CCW)
+                        }, 30f, 0f, PathDashPathEffect.Style.ROTATE)
+            }
+        },
+        SineWave().apply {
+            angleRotate = 60f
+            linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                color = 0xff00ff00.toInt()
+                style = Paint.Style.STROKE
+                // 四角
+                pathEffect =
+                        PathDashPathEffect(Path().apply {
+                            addRect(0f, 0f, 20f, 20f, Path.Direction.CCW)
+                        }, 30f, 0f, PathDashPathEffect.Style.ROTATE)
+            }
+        },
+        SineWave().apply {
+            angleRotate = 120f
+            linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                color = 0xff0000ff.toInt()
+                style = Paint.Style.STROKE
+                // 正三角形
+                pathEffect =
+                        PathDashPathEffect(Path().apply {
+                            moveTo(0f, 0f)
+                            lineTo(20f, 0f)
+                            lineTo(10f, 10f * sqrt(3f))
+                            close()
+                        }, 30f, 0f, PathDashPathEffect.Style.ROTATE)
+            }
+        }
+    )
+    */
+
     // 描画点を描く間隔(5度)
     private val interval = 5
 
-    // 描画するサイン波
-    private val wave =
+    private val waveLst: List<SineWave> = listOf(
         SineWave().apply {
             angleRotate = 0f
             linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
                 color = 0xffff0000.toInt()
                 style = Paint.Style.STROKE
                 strokeWidth = 5f
+                // 円
+                pathEffect =
+                    PathDashPathEffect(Path().apply {
+                        addCircle(10f, 10f, 10f, Path.Direction.CCW)
+                    }, 30f, 0f, PathDashPathEffect.Style.ROTATE)
             }
         }
+    )
 
     // PathEffectのインデックス
     private var effectId0 = 0
     // PathEffectのインデックス(境界を超えていない場合は、前のPathEffectを使う)
     private var effectId1 = 0
 
-    // 描画に使うPathEffectのリスト
     private val pathEffectLst: List<PathEffect> = listOf(
         // 円
         PathDashPathEffect(Path().apply {
@@ -218,21 +269,22 @@ class SineWaveCircle01Drawable: MyDrawable() {
         // d = 120
         val dv = 1080f/d
         // サイン波の描画点を生成
-        // 描画点をクリア
-        wave.pointLst.clear()
+        waveLst.forEach { wave ->
+            // 描画点をクリア
+            wave.pointLst.clear()
 
-        (0..d).forEach {
-            // "円の中心"に対する"描画線"の角度
-            val t0 = it.toFloat() + anglePhase - d.toFloat()
+            (0..d).forEach {
+                // "円の中心"に対する"描画線"の角度
+                val t0 = it.toFloat() + anglePhase - d.toFloat()
 
-            //val h = k*sin(it.toFloat()*dv*PI/180f).toFloat()
-            val h = k*sin((it.toFloat()*dv+anglePhase)*PI/180f).toFloat()
+                val h = k*sin(it.toFloat()*dv*PI/180f).toFloat()
 
-            // 描画点
-            val x0 = r*cos(t0*PI/180f)+h*cos(it.toFloat()*dv*PI/180f)
-            val y0 = r*sin(t0*PI/180f)+h*sin(it.toFloat()*dv*PI/180f)
+                // 描画点
+                val x0 = r*cos(t0*PI/180f)+h*cos(it.toFloat()*dv*PI/180f)
+                val y0 = r*sin(t0*PI/180f)+h*sin(it.toFloat()*dv*PI/180f)
 
-            wave.pointLst.add(MyPointF(x0.toFloat(),y0.toFloat()))
+                wave.pointLst.add(MyPointF(x0.toFloat(),y0.toFloat()))
+            }
         }
         */
 
@@ -282,33 +334,30 @@ class SineWaveCircle01Drawable: MyDrawable() {
             }
         }
         */
-
-        /**/
-        // 長さdを描く間にサイン波を2周する
         val dv = 720f/d
-        //val dv = 1080f/d
         // サイン波の描画点を生成
-        // 描画点をクリア
-        wave.pointLst.clear()
-        (0..d step interval).forEach {
-            // "円の中心"に対する"描画線"の角度
-            val t0 = it.toFloat() + anglePhase
+        waveLst.forEach { wave ->
+            // 描画点をクリア
+            wave.pointLst.clear()
 
-            //val r0 = k*sin(it.toFloat()*dv*PI/180f).toFloat()
-            //val r0 = k*sin((it.toFloat()*dv+anglePhase)*2f*PI/180f).toFloat()
-            val r0 = k*sin((it.toFloat()*dv+anglePhase)*PI/180f).toFloat()
-            //val r0 = k*sin((it.toFloat()/d)*2f*PI*r/3f).toFloat()
-            //val r0 = k*(it%2)
-            //val r0 = k*(it%3)
+            (0..d step interval).forEach {
+                // "円の中心"に対する"描画線"の角度
+                val t0 = it.toFloat() + anglePhase
 
-            // 描画点
-            val x0 = (r+r0)*cos(t0*PI/180f)
-            val y0 = (r+r0)*sin(t0*PI/180f)
+                //val r0 = k*sin(it.toFloat()*dv*PI/180f).toFloat()
+                //val r0 = k*sin((it.toFloat()*dv+anglePhase)*2f*PI/180f).toFloat()
+                val r0 = k*sin((it.toFloat()*dv+anglePhase)*PI/180f).toFloat()
+                //val r0 = k*sin((it.toFloat()/d)*2f*PI*r/3f).toFloat()
+                //val r0 = k*(it%2)
+                //val r0 = k*(it%3)
 
-            wave.pointLst.add(MyPointF(x0.toFloat(),y0.toFloat()))
+                // 描画点
+                val x0 = (r+r0)*cos(t0*PI/180f)
+                val y0 = (r+r0)*sin(t0*PI/180f)
+
+                wave.pointLst.add(MyPointF(x0.toFloat(),y0.toFloat()))
+            }
         }
-        /**/
-
 
     }
 
@@ -316,7 +365,7 @@ class SineWaveCircle01Drawable: MyDrawable() {
     // サイン波の位相を移動
     // -------------------------------
     private fun movePhase() {
-        anglePhase = anglePhase + 6f
+        anglePhase = anglePhase + 5f
         // ・元の位置に戻す
         if ( anglePhase > anglePhaseMax ) {
             anglePhase = 0f
@@ -349,27 +398,49 @@ class SineWaveCircle01Drawable: MyDrawable() {
         canvas.save()
         canvas.translate(x0,y0)
 
+        /*
+        // サイン波を描く
+        waveLst.forEach { wave ->
+            var path = Path()
+            wave.pointLst.forEachIndexed { index, myPointF ->
+                when (index) {
+                    0 -> {
+                        path.moveTo(myPointF.x,myPointF.y)
+                    }
+                    else -> {
+                        path.lineTo(myPointF.x,myPointF.y)
+                    }
+                }
+            }
+            canvas.drawPath(path,wave.linePaint)
+        }
+        */
+
+        /**/
         // 色インスタンス作成
         val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
         // サイン波を描く
         // 1536色のグラデーション
-        val bunchSize = wave.pointLst.size
-        var myPointF2: MyPointF? = null
-        wave.pointLst.forEachIndexed { index, myPointF1 ->
-            val color = myColor.create((index+anglePhase.toInt())%bunchSize,bunchSize)
-            //val color = myColor.create(index,bunchSize)
-            wave.linePaint.color = color.toInt()
-            if ( anglePhase+(index*interval) > d ) {
-                wave.linePaint.pathEffect = pathEffectLst[effectId0]
+        waveLst.forEach { wave ->
+            val bunchSize = wave.pointLst.size
+            var myPointF2: MyPointF? = null
+            wave.pointLst.forEachIndexed { index, myPointF1 ->
+                //val color = myColor.create((index+anglePhase.toInt())%bunchSize,bunchSize)
+                val color = myColor.create(index,bunchSize)
+                wave.linePaint.color = color.toInt()
+                if ( anglePhase+(index*interval) > d ) {
+                    wave.linePaint.pathEffect = pathEffectLst[effectId0]
+                }
+                else {
+                    wave.linePaint.pathEffect = pathEffectLst[effectId1]
+                }
+                if ( myPointF2 != null ) {
+                    canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,wave.linePaint)
+                }
+                myPointF2 = myPointF1
             }
-            else {
-                wave.linePaint.pathEffect = pathEffectLst[effectId1]
-            }
-            if ( myPointF2 != null ) {
-                canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,wave.linePaint)
-            }
-            myPointF2 = myPointF1
         }
+        /**/
 
         // 座標を元に戻す
         canvas.restore()
