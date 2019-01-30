@@ -199,11 +199,15 @@ class DrawDataFactory {
                 MenuItem.MENU_NATURE -> {
                     // 等速度運動
                     drawDataLst.add(DrawData(DrawDataID.ID_401_NATURE_UNFORM_MOTION,DrawFragmentType.FT_RECTANGLE_01,resources.getString(R.string.draw_401_uniform_motion),floatArrayOf(5f)))
+                    // 噴水
+                    drawDataLst.add(DrawData(DrawDataID.ID_402_NATURE_FOUNTAIN,DrawFragmentType.FT_RECTANGLE_01,resources.getString(R.string.draw_402_fountain),floatArrayOf(5f),floatArrayOf(1f)))
                 }
                 // 色を選択したときの描画データの一覧
                 MenuItem.MENU_COLOR -> {
                     // 1536色
                     drawDataLst.add(DrawData(DrawDataID.ID_500_COLOR_1536,DrawFragmentType.FT_RECTANGLE_01,resources.getString(R.string.draw_500_color_1536)))
+                    // 768色(暗色)
+                    drawDataLst.add(DrawData(DrawDataID.ID_501_COLOR_768_DARK,DrawFragmentType.FT_RECTANGLE_01,resources.getString(R.string.draw_501_color_768_dark)))
                 }
                 else -> {
                     throw RuntimeException("No Draw List for ${menuData.menuItem.title}")

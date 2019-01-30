@@ -10,22 +10,22 @@ import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 // -------------------------------------------------------------------------------------
-// 1536色
+// 768色(暗色)
 // -------------------------------------------------------------------------------------
-//   0xff0000 => 0xffff00
-//   0xffff00 => 0x00ff00
-//   0x00ff00 => 0x00ffff
-//   0x00ffff => 0x0000ff
-//   0x0000ff => 0xff00ff
-//   0xff00ff => 0xff0000
+//   0x7f0000 => 0x7f7f00
+//   0x7f7f00 => 0x007f00
+//   0x007f00 => 0x007f7f
+//   0x007f7f => 0x00007f
+//   0x00007f => 0x7f007f
+//   0x7f007f => 0x7f0000
 // -------------------------------------------------------------------------------------
-class Color1536Drawable: MyDrawable() {
+class Color768DarkDrawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
     // -------------------------------
-    private val sideW = 1024f
-    private val sideH = 1536f
+    private val sideW = 512f
+    private val sideH = 768f
     private val margin = 50f
 
     // --------------------------------
@@ -161,7 +161,7 @@ class Color1536Drawable: MyDrawable() {
         canvas.translate(x0,y0)
 
         // 色インスタンス作成
-        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
+        val myColor = MyColorFactory.createInstance(ColorType.COLOR_768_DARK)
 
         // 色を描く
         (0 until sideH.toInt()).forEach {

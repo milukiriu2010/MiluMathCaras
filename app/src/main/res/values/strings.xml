@@ -92,5 +92,7 @@
     <string name="draw_352_polygon_8_in_10">8 in 10</string>
     <string name="draw_361_polygon_9_in_10">9 in 10</string>
     <string name="draw_401_uniform_motion">Uniform Motion</string>
+    <string name="draw_402_fountain">Fountain</string>
     <string name="draw_500_color_1536">color 1536</string>
+    <string name="draw_501_color_768_dark">color 768 dark</string>
 </resources>

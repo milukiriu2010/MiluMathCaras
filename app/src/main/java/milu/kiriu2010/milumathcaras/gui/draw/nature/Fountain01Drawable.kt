@@ -1,38 +1,43 @@
-package milu.kiriu2010.milumathcaras.gui.draw.color
+package milu.kiriu2010.milumathcaras.gui.draw.nature
 
 import android.graphics.*
 import android.os.Handler
 import android.util.Log
+import milu.kiriu2010.gui.basic.MyCircleF
 import milu.kiriu2010.gui.basic.MyPointF
-import milu.kiriu2010.gui.color.ColorType
-import milu.kiriu2010.gui.color.MyColorFactory
+import milu.kiriu2010.gui.basic.MyVectorF
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
+import kotlin.math.absoluteValue
 
-// -------------------------------------------------------------------------------------
-// 1536色
-// -------------------------------------------------------------------------------------
-//   0xff0000 => 0xffff00
-//   0xffff00 => 0x00ff00
-//   0x00ff00 => 0x00ffff
-//   0x00ffff => 0x0000ff
-//   0x0000ff => 0xff00ff
-//   0xff00ff => 0xff0000
-// -------------------------------------------------------------------------------------
-class Color1536Drawable: MyDrawable() {
+// ------------------------------------------------------------------
+// 噴水
+// ------------------------------------------------------------------
+// https://natureofcode.com/book/chapter-1-vectors/
+// ------------------------------------------------------------------
+class Fountain01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
     // -------------------------------
-    private val sideW = 1024f
-    private val sideH = 1536f
-    private val margin = 50f
+    private val sideW = 1000f
+    private val sideH = 1500f
+    private val margin = 0f
 
-    // --------------------------------
-    // 最初の色を描画する位置
-    // --------------------------------
-    private var k = 0f
-    private val kMax = sideH
+    // ---------------------------------
+    // 噴水粒子の最大数
+    // ---------------------------------
+    private var nMax = 20
+
+    // ---------------------------------
+    // 噴水粒子の半径
+    // ---------------------------------
+    private val r = 50f
+
+    // ---------------------------------
+    // 噴水粒子のリスト
+    // ---------------------------------
+    private val circleLst: MutableList<MyCircleF> = mutableListOf()
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -60,13 +65,39 @@ class Color1536Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 色を描くペイント
+    // 噴水粒子を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLACK
-        style = Paint.Style.STROKE
+        style = Paint.Style.FILL_AND_STROKE
         strokeWidth = 5f
     }
+
+    // -------------------------------
+    // 等速度運動する円を描く色リスト
+    // -------------------------------
+    private val colorLst = arrayOf(
+        // 0:red
+        0xffff0000.toInt(),
+        // 1:pink
+        0xffffcccc.toInt(),
+        // 2:orange
+        0xffff7f00.toInt(),
+        // 3:maroon
+        0xff800000.toInt(),
+        // 4:green(lime)
+        0xff00ff00.toInt(),
+        // 5:blue
+        0xff0000ff.toInt(),
+        // 6:cyan
+        0xff00ffff.toInt(),
+        // 7:indigo
+        0xff6f00ff.toInt(),
+        // 8:violet
+        0xffff00ff.toInt(),
+        // 9:green
+        0xff008000.toInt()
+    )
 
     // -------------------------------------
     // 描画中に呼び出すコールバックを設定
@@ -87,10 +118,25 @@ class Color1536Drawable: MyDrawable() {
     // CalculationCallback
     // 描画に使うデータを計算する
     // --------------------------------------
-    // values
-    // 使わない
+    // 可変変数 values の引数位置による意味合い
+    //
+    // 第１引数:噴水粒子の初期数
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
+        var n = nMax
+        // 可変変数 values を初期値として、このクラスで使う変数に当てはめる
+        values.forEachIndexed { index, fl ->
+            //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
+            when (index) {
+                // 噴水粒子の初期数
+                0 -> n = fl.toInt()
+            }
+        }
+
+        // 噴水粒子を生成
+        while (circleLst.size<n) {
+            createMover()
+        }
         // ビットマップに描画
         drawBitmap()
         // 描画
@@ -99,16 +145,19 @@ class Color1536Drawable: MyDrawable() {
         // 描画に使うスレッド
         if ( isKickThread ) {
             runnable = Runnable {
-                // 最初の色を描画する位置
-                movePos()
+                // 噴水粒子を生成
+                createMover()
+                // 円を移動する
+                moveMover()
                 // ビットマップに描画
                 drawBitmap()
                 // 描画
                 invalidateSelf()
 
-                handler.postDelayed(runnable, 100)
+                // 10msごとに描画
+                handler.postDelayed(runnable, 10)
             }
-            handler.postDelayed(runnable, 1000)
+            handler.postDelayed(runnable, 100)
         }
     }
 
@@ -130,14 +179,64 @@ class Color1536Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 最初の色を描画する位置
+    // 噴水粒子を生成
     // -------------------------------
-    private fun movePos() {
-        k += 64
+    private fun createMover(): Boolean {
+        // 既に最大数を超えていたら何もしない
+        if ( circleLst.size >= nMax ) return false
 
-        if ( k >= kMax ) {
-            k = 0f
+        // 噴水粒子の初期位置をランダムに設定
+        //   左右中央付近
+        //   上下1:3付近
+        val x = ((sideW/2-r).toInt()..(sideW/2+r).toInt()).shuffled()[0].toFloat()
+        val y = ((3*sideH/4-r).toInt()..(3*sideH/4+r).toInt()).shuffled()[0].toFloat()
+
+        // 初期速度の候補リスト
+        // -45,-35,-25,-15,-5,5,15,25,35,45
+        val v = IntArray(10,{ i -> i*10-45} )
+        // 噴水粒子の初期速度をランダムに設定
+        val vx = v.random().toFloat()
+        val vy = v.random().absoluteValue.toFloat()
+
+        // 噴水粒子の加速度
+        val a = MyVectorF(0f,-10f)
+
+        // 円を生成し、リストに加える
+        circleLst.add(MyCircleF(MyVectorF(x,y),r,MyVectorF(vx,vy),a))
+
+        return true
+    }
+
+    // -------------------------------
+    // 噴水粒子を移動する
+    // -------------------------------
+    private fun moveMover() {
+        val iterator = circleLst.iterator()
+
+        while (iterator.hasNext()) {
+            val myCircleF1 = iterator.next()
+            // 噴水粒子を移動する
+            myCircleF1.move()
+            // 境界を超えていたら、噴水粒子のリストから削除する
+            if ( myCircleF1.overBorder(0f,0f,sideW,sideH) < 0 ) {
+                iterator.remove()
+            }
         }
+
+        // ---------------------------------------------
+        // java.util.ConcurrentModificationException
+        // が発生する
+        // ---------------------------------------------
+        /*
+        circleLst.iterator().forEach { myCircleF1 ->
+            // 噴水粒子を移動する
+            myCircleF1.move()
+            // 境界を超えていたら、噴水粒子のリストから削除する
+            if ( myCircleF1.overBorder(0f,0f,sideW,sideH) < 0 ) {
+                circleLst.remove(myCircleF1)
+            }
+        }
+        */
     }
 
     // -------------------------------
@@ -152,32 +251,20 @@ class Color1536Drawable: MyDrawable() {
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
         // 原点(0,0)の位置
-        // = (マージン,マージン)
-        val x0 = margin
-        val y0 = margin
+        // = (左右中央,上下中央)
+        val x0 = (intrinsicWidth/2).toFloat()
+        val y0 = (intrinsicHeight/2).toFloat()
 
-        // 原点(x0,y0)を中心に円・サイクロイド曲線を描く
-        canvas.save()
-        canvas.translate(x0,y0)
-
-        // 色インスタンス作成
-        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
-
-        // 色を描く
-        (0 until sideH.toInt()).forEach {
-            val y = ((k+it).toInt()%sideH.toInt()).toFloat()
-            val color = myColor.create(it,sideH.toInt())
-            //Log.d(javaClass.simpleName,"it[$it]y[$y]color[${"0x%08x".format(color)}]")
-            linePaint.color = color.toInt()
-            canvas.drawLine(0f,y,sideW,y,linePaint)
+        // 等速度運動をする円を描画
+        val colorCnt = colorLst.size
+        circleLst.forEachIndexed { index, myCircleF ->
+            linePaint.color = colorLst[index%colorCnt]
+            canvas.drawCircle(myCircleF.p.x,myCircleF.p.y,myCircleF.r,linePaint)
         }
-
-        // 座標を元に戻す
-        canvas.restore()
 
         // これまでの描画は上下逆なので反転する
         val matrix = Matrix()
-        matrix.postScale(1f,-1f)
+        matrix.setScale(1f,-1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
     }
 
@@ -195,7 +282,7 @@ class Color1536Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun setAlpha(alpha: Int) {
-        framePaint.alpha = alpha
+        linePaint.alpha = alpha
     }
 
     // -------------------------------
@@ -207,7 +294,7 @@ class Color1536Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun setColorFilter(colorFilter: ColorFilter?) {
-        framePaint.colorFilter = colorFilter
+        linePaint.colorFilter = colorFilter
     }
 
     // -------------------------------
@@ -219,4 +306,5 @@ class Color1536Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun getIntrinsicHeight(): Int = (sideH+margin*2).toInt()
+
 }

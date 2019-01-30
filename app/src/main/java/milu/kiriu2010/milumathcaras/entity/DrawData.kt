@@ -139,8 +139,12 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_361_9_IN_10(361),
     // 等加速度運動
     ID_401_NATURE_UNFORM_MOTION(401),
+    // 噴水
+    ID_402_NATURE_FOUNTAIN(402),
     // 1536色
-    ID_500_COLOR_1536(500)
+    ID_500_COLOR_1536(500),
+    // 768色(暗色)
+    ID_501_COLOR_768_DARK(501)
 }
 
 // ------------------------------

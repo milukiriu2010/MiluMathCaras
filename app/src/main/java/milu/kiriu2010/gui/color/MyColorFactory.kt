@@ -4,7 +4,9 @@ import java.lang.RuntimeException
 
 enum class ColorType {
     // 1536色
-    COLOR_1536
+    COLOR_1536,
+    // 768色(暗色系)
+    COLOR_768_DARK
 }
 
 class MyColorFactory {
@@ -13,6 +15,8 @@ class MyColorFactory {
             return when (colorType) {
                 // 1536色
                 ColorType.COLOR_1536 -> MyColor1536()
+                // 768色(暗色系)
+                ColorType.COLOR_768_DARK -> MyColor768Dark()
                 else -> throw RuntimeException("Not Found ColorType")
             }
         }
