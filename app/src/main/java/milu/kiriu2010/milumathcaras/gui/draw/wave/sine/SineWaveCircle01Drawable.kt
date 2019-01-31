@@ -54,15 +54,16 @@ class SineWaveCircle01Drawable: MyDrawable() {
     // 1080 => 波３つ
     // ---------------------------------
     //private var kc = 720f
-    private var kc = 1080f
+    //private var kc = 1080f
+    private var kc = 2160f
 
 
     // ---------------------------------
     // サイン波を描画する全体の角度
     // ---------------------------------
-    private val d = 120
+    //private val d = 120
     //private val d = 180
-    //private val d = 360
+    private val d = 359
 
     // -------------------------------
     // 円の位相(係数tに相当)
@@ -106,16 +107,17 @@ class SineWaveCircle01Drawable: MyDrawable() {
         // 正三角形
         PathDashPathEffect(Path().apply {
             moveTo(0f, 0f)
-            lineTo(20f, 0f)
-            lineTo(10f, 10f * sqrt(3f))
+            lineTo(30f, 0f)
+            lineTo(15f, 15f * sqrt(3f))
             close()
         }, 30f, 0f, PathDashPathEffect.Style.ROTATE)
     )
 
     // 色インスタンス作成
-    val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
+    //val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
+    val myColor = MyColorFactory.createInstance(ColorType.COLOR_768_DARK)
     // 色数
-    val colorSize = 1536
+    val colorSize = myColor.getColorSize()
 
     // 色インデックス(境界を超えた場合に使う)
     private var colorId0 = 0
@@ -189,7 +191,7 @@ class SineWaveCircle01Drawable: MyDrawable() {
                 // 描画
                 invalidateSelf()
 
-                handler.postDelayed(runnable, 100)
+                handler.postDelayed(runnable, 10)
             }
             handler.postDelayed(runnable, 1000)
         }
@@ -321,7 +323,9 @@ class SineWaveCircle01Drawable: MyDrawable() {
         wave.pointLst.clear()
         (0..d step interval).forEach {
             // "円の中心"に対する"描画線"の角度
-            val t0 = it.toFloat() + anglePhaseC
+            //val t0 = it.toFloat() + anglePhaseC
+            // anglePhaseCに係数をかけることで全体の回転スピードを増す
+            val t0 = it.toFloat() + anglePhaseC*3f
 
             val r0 = kr*r*sin((it.toFloat()*dv+anglePhaseS)*PI/180f).toFloat()
 
@@ -340,7 +344,7 @@ class SineWaveCircle01Drawable: MyDrawable() {
     // サイン波の位相を移動
     // -------------------------------
     private fun movePhase() {
-        val dv = 6f
+        val dv = 10f
         anglePhaseC = anglePhaseC + dv
         // サイン波の周期は円の周期の６倍にする
         anglePhaseS = anglePhaseS + dv*6f
@@ -354,7 +358,7 @@ class SineWaveCircle01Drawable: MyDrawable() {
             colorId0 = colorId0%colorSize
         }
         // ・元の位置に戻す
-        if ( anglePhaseS > anglePhaseMax ) {
+        if ( anglePhaseS >= anglePhaseMax ) {
             anglePhaseS = 0f
         }
         // サイン波すべてが境界を超えたらPathEffectと色を合わせる

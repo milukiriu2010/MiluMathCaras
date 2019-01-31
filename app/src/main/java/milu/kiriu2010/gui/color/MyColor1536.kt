@@ -1,7 +1,10 @@
 package milu.kiriu2010.gui.color
 
 class MyColor1536: MyColor {
+
     private val max = 1536
+
+    override fun getColorSize(): Int = max
 
     override fun create(p: Int, size: Int): Long {
         val dv = max.toFloat()/size.toFloat()

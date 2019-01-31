@@ -3,6 +3,8 @@ package milu.kiriu2010.gui.color
 class MyColor768Dark: MyColor {
     private val max = 768
 
+    override fun getColorSize(): Int = max
+
     override fun create(p: Int, size: Int): Long {
         val dv = max.toFloat()/size.toFloat()
         val pdv = p*dv

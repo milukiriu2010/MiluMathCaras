@@ -68,4 +68,20 @@ data class MyVectorF(
         y *= d
         return this
     }
+
+    // リミット
+    fun limit(mag: Float): MyVectorF {
+        val magOrg = magnitude()
+
+        if (magOrg <= mag) {
+            return this
+        }
+        else if ( magOrg == 0f ) {
+            return this
+        }
+        else {
+            multiply(mag/magOrg)
+            return this
+        }
+    }
 }

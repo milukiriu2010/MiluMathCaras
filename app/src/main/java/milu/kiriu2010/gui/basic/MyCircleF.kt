@@ -15,16 +15,17 @@ data class MyCircleF(
     var a: MyVectorF = MyVectorF(0f,0f)
 ) {
     // 次の地点へ移動
-    fun move(): MyCircleF {
+    fun move(limit: Float = -1f): MyCircleF {
         // 位置を変更
         p.plus(v)
-        /*
-        p.x += v.x
-        p.y += v.y
-        */
 
         // 速度を変更
         v.plus(a)
+
+        // 速度制限を設ける
+        if ( limit >= 0f ) {
+            v.limit(limit)
+        }
 
         return this
     }

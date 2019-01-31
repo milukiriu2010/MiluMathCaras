@@ -81,8 +81,8 @@ class SineWave01Drawable: MyDrawable() {
                 pathEffect =
                         PathDashPathEffect(Path().apply {
                             moveTo(0f, 0f)
-                            lineTo(20f, 0f)
-                            lineTo(10f, 10f * sqrt(3f))
+                            lineTo(30f, 0f)
+                            lineTo(15f, 15f * sqrt(3f))
                             close()
                         }, 30f, 0f, PathDashPathEffect.Style.ROTATE)
             }
