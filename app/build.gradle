@@ -10,8 +10,8 @@ android {
         applicationId "milu.kiriu2010.milumathcaras"
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 1
-        versionName "2019.01.07"
+        versionCode 2
+        versionName "2019.02.01"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
