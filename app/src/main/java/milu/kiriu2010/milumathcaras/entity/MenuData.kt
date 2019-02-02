@@ -49,8 +49,8 @@ enum class MenuItem(val title: String): Parcelable {
     MENU_WAVE("Wave"),
     // 多角形を描画するメニュー
     MENU_POLYGON("Polygon"),
-    // "多角形with円"を描画するメニュー
-    MENU_POLYGON_CIRCLE("P with Circle"),
+    // "多角形のMIX"を描画するメニュー
+    MENU_POLYGON_MIX("Polygon Mix"),
     // "多角形in多角形"を描画するメニュー
     MENU_POLYGON_PINP("P in P"),
     // The Nature of Code

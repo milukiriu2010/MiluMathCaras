@@ -181,8 +181,8 @@ class MenuFragment : Fragment() {
                 // 多角形一覧を表示するメニュー
                 MenuItem.MENU_POLYGON -> {
                     // [サブメニュー]
-                    // "多角形with円"一覧を表示するメニュー
-                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_CIRCLE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_circle),false))
+                    // "多角形のMix"一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_MIX, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_mix),false))
                     // [サブメニュー]
                     // "多角形in多角形"一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_PINP, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_pinp),false))

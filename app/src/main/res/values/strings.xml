@@ -22,7 +22,7 @@
     <string name="menu_sub_fractal_julia">Julia Set</string>
     <string name="menu_sub_wave">Wave</string>
     <string name="menu_sub_polygon">Polygon</string>
-    <string name="menu_sub_polygon_circle">Polygon with Circle</string>
+    <string name="menu_sub_polygon_mix">Polygon Mix</string>
     <string name="menu_sub_polygon_pinp">Polygon in Polygon</string>
     <string name="menu_sub_nature">Nature</string>
     <string name="menu_sub_color">Color</string>
@@ -62,7 +62,6 @@
     <string name="draw_000202_fractal_complex_mandelbrot_set">-1.3+0.0i～-1.1+0.2i</string>
     <string name="draw_000203_fractal_complex_mandelbrot_set">-1.28+0.18i～-1.26+0.20i</string>
     <string name="draw_000251_fractal_complex_julia_set">Julia Set</string>
-    <string name="draw_000300_polygon_triangle_exile">Triangle Exile</string>
     <string name="draw_000301_polygon_3_in_4">3 in 4</string>
     <string name="draw_000302_polygon_3_in_5">3 in 5</string>
     <string name="draw_000303_polygon_3_in_6">3 in 6</string>
@@ -96,4 +95,6 @@
     <string name="draw_000403_nature_random_walk">Random Walk</string>
     <string name="draw_000500_color_1536">color 1536</string>
     <string name="draw_000501_color_768_dark">color 768 dark</string>
+    <string name="draw_000600_polygon_triangle_exile">Triangle Exile</string>
+    <string name="draw_000601_polygon_lap">Polygon Lap</string>
 </resources>

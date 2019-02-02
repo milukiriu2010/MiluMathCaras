@@ -79,8 +79,6 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000203_MANDELBRO_SET(203),
     // ジュリア集合
     ID_000251_JULIA_SET(251),
-    // 三角形でEXILE
-    ID_000300_TRIANGLE_EXILE(300),
     // 三角形in四角形
     ID_000301_3_IN_4(301),
     // 三角形in五角形
@@ -146,7 +144,11 @@ enum class DrawDataID(val id: Int): Parcelable {
     // 1536色
     ID_000500_COLOR_1536(500),
     // 768色(暗色)
-    ID_000501_COLOR_768_DARK(501)
+    ID_000501_COLOR_768_DARK(501),
+    // 三角形でEXILE
+    ID_000600_TRIANGLE_EXILE(600),
+    // 多角形のラップ
+    ID_000601_POLYGON_LAP(601),
 }
 
 // ------------------------------

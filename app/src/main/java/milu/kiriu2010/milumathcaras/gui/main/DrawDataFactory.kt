@@ -132,9 +132,11 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_000041_SINE_WAVE_CIRCLE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000041_wave_sine_circle) ))
                 }
                 // "多角形with円"を選択したときの描画データの一覧
-                MenuItem.MENU_POLYGON_CIRCLE -> {
+                MenuItem.MENU_POLYGON_MIX -> {
                     // 三角形でEXILE
-                    drawDataLst.add(DrawData(DrawDataID.ID_000300_TRIANGLE_EXILE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000300_polygon_triangle_exile) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000600_TRIANGLE_EXILE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000600_polygon_triangle_exile) ))
+                    // 多角形のラップ
+                    drawDataLst.add(DrawData(DrawDataID.ID_000601_POLYGON_LAP,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000601_polygon_lap) ))
                 }
                 // "多角形in多角形"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_PINP -> {

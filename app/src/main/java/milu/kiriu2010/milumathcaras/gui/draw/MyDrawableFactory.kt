@@ -22,6 +22,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.nature.Fountain01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.RandomWalk01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.UniformMotion01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.PolygonInPolygon01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.PolygonLap01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.TriangleExile01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWave01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWaveCircle01Drawable
@@ -103,8 +104,6 @@ class MyDrawableFactory {
                 DrawDataID.ID_000203_MANDELBRO_SET -> Mandelbrot01Drawable()
                 // ジュリア集合
                 DrawDataID.ID_000251_JULIA_SET -> Julia01Drawable()
-                // 三角形でEXILE
-                DrawDataID.ID_000300_TRIANGLE_EXILE -> TriangleExile01Drawable()
                 // 三角形in四角形
                 DrawDataID.ID_000301_3_IN_4 -> PolygonInPolygon01Drawable()
                 // 三角形in五角形
@@ -171,6 +170,10 @@ class MyDrawableFactory {
                 DrawDataID.ID_000500_COLOR_1536 -> Color1536Drawable()
                 // 768色(暗色)
                 DrawDataID.ID_000501_COLOR_768_DARK -> Color768DarkDrawable()
+                // 三角形でEXILE
+                DrawDataID.ID_000600_TRIANGLE_EXILE -> TriangleExile01Drawable()
+                // 多角形のラップ
+                DrawDataID.ID_000601_POLYGON_LAP -> PolygonLap01Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")
             }
 
