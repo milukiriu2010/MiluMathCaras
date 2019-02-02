@@ -62,6 +62,13 @@ data class MyVectorF(
         return this
     }
 
+    // ベクトル同士を引く
+    fun subtract(v: MyVectorF): MyVectorF {
+        x -= v.x
+        y -= v.y
+        return this
+    }
+
     // ベクトルの大きさを変える
     fun multiply(d: Float): MyVectorF {
         x *= d

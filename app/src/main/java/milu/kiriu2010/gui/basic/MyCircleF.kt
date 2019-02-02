@@ -12,7 +12,9 @@ data class MyCircleF(
     // 速度
     var v: MyVectorF,
     // 加速度
-    var a: MyVectorF = MyVectorF(0f,0f)
+    var a: MyVectorF = MyVectorF(0f,0f),
+    // 色
+    var color: Int = 0xff000000.toInt()
 ) {
     // 次の地点へ移動
     fun move(limit: Float = -1f): MyCircleF {

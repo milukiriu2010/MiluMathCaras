@@ -141,6 +141,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000402_NATURE_FOUNTAIN(402),
     // ランダムウォーク
     ID_000403_NATURE_RANDOM_WALK(403),
+    // 加速度
+    ID_000404_NATURE_ACCELERATE_TOWARDS_TOUCH_POINT(404),
     // 1536色
     ID_000500_COLOR_1536(500),
     // 768色(暗色)
@@ -156,6 +158,8 @@ enum class DrawDataID(val id: Int): Parcelable {
 // ------------------------------
 @Parcelize
 enum class DrawFragmentType: Parcelable {
+    // 製作者名を表示する
+    FT_CREDIT_01,
     // 正方形領域に描画する
     FT_SQUARE_01,
     // 正方形領域に描画する(媒介変数の値を変更するSeekBar１つ)
@@ -163,7 +167,9 @@ enum class DrawFragmentType: Parcelable {
     // 正方形領域に描画する(媒介変数の値を変更するSeekBar２つ)
     FT_SQUARE_03,
     // 長方形領域に描画する
-    FT_RECTANGLE_01
+    FT_RECTANGLE_01,
+    // タッチイベントを受け付ける
+    FT_TOUCH_01
 }
 
 // ------------------
@@ -177,6 +183,9 @@ data class DrawData(
     val drawFragmentType: DrawFragmentType,
     // タイトル
     val title: String,
+    // クレジット
+    //val credit: Array<String> = arrayOf(),
+    val creditMap: MutableMap<String,String> = mutableMapOf(),
     // 静止画の初期パラメータ
     val stillImageParam: FloatArray = floatArrayOf(),
     // 動画用の初期パラメータ

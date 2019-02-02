@@ -10,11 +10,12 @@ import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 // ------------------------------------------------------------------
-// ランダムウォーク
+// リリース⇒ランダムウォーク
+// タッチ  ⇒タッチ点に向かって加速
 // ------------------------------------------------------------------
 // https://natureofcode.com/book/chapter-1-vectors/
 // ------------------------------------------------------------------
-class RandomWalk01Drawable: MyDrawable() {
+class AccelerateTowardsTouchPoint01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -37,6 +38,11 @@ class RandomWalk01Drawable: MyDrawable() {
     // ランダムウォークする円リスト
     // ---------------------------------
     private val circleLst: MutableList<MyCircleF> = mutableListOf()
+
+    // ---------------------------------
+    // タッチ点
+    // ---------------------------------
+    private val touchPoint = MyVectorF(-1f,-1f)
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -141,6 +147,8 @@ class RandomWalk01Drawable: MyDrawable() {
         // 描画に使うスレッド
         if ( isKickThread ) {
             runnable = Runnable {
+                // ランダムウォークする円を生成
+                createMover()
                 // 円を移動する
                 moveMover()
                 // ビットマップに描画
@@ -164,7 +172,7 @@ class RandomWalk01Drawable: MyDrawable() {
     }
 
     // -------------------------------------
-    // CalculationCallback
+    // TouchCallback
     // 描画ビューを閉じる際,呼び出す後処理
     // -------------------------------------
     override fun calStop() {
@@ -172,8 +180,17 @@ class RandomWalk01Drawable: MyDrawable() {
         handler.removeCallbacks(runnable)
     }
 
+    // -------------------------------------
+    // タッチしたポイントを受け取る
+    // -------------------------------------
+    override fun receiveTouchPoint(x: Float, y: Float) {
+        Log.d(javaClass.simpleName,"Touch:x[${x}]y[${y}]" )
+        touchPoint.x = x
+        touchPoint.y = y
+    }
+
     // -------------------------------
-    // ランダムウォークする円を生成
+    // 等速度運動する円を生成
     // -------------------------------
     private fun createMover(): Boolean {
         // 既に最大数を超えていたら何もしない
@@ -194,8 +211,20 @@ class RandomWalk01Drawable: MyDrawable() {
         val vx = v.random().toFloat()
         val vy = v.random().toFloat()
 
+        // 加速度を変更する
+        // -45,-35,-25,-15,-5,5,15,25,35,45
+        //val a = IntArray(10, { i -> i*10-45})
+        // -5,-4,-3,-2,-1,0,1,2,3,4,5
+        val a = IntArray(11, { i -> i-5})
+        // 円の初期加速度をランダムに設定
+        val ax = a.random().toFloat()
+        val ay = a.random().toFloat()
+
+        // 色
+        val colorId = (0 until colorLst.size).random()
+
         // 円を生成し、リストに加える
-        circleLst.add(MyCircleF(MyVectorF(x,y),r,MyVectorF(vx,vy)))
+        circleLst.add(MyCircleF(MyVectorF(x,y),r,MyVectorF(vx,vy), MyVectorF(ax,ay),colorLst[colorId]))
 
         return true
     }
@@ -204,24 +233,27 @@ class RandomWalk01Drawable: MyDrawable() {
     // 円を移動する
     // -------------------------------
     private fun moveMover() {
-        circleLst.forEachIndexed labelA@{ index1, myCircleF1 ->
-            // 加速度を変更する
-            // -45,-35,-25,-15,-5,5,15,25,35,45
-            //val a = IntArray(10, { i -> i*10-45})
-            // -5,-4,-3,-2,-1,0,1,2,3,4,5
-            val a = IntArray(11, { i -> i-5})
-            myCircleF1.a = MyVectorF(a.random().toFloat(),a.random().toFloat())
+        val iterator = circleLst.iterator()
+
+        while (iterator.hasNext()) {
+            val myCircleF1 = iterator.next()
+
+            if ( touchPoint != MyVectorF(-1f,-1f)) {
+
+                // 円の位置からみたタッチ点のベクトル
+                val dir = touchPoint.copy().subtract(myCircleF1.p)
+                // 円の加速度を"円の位置からみたタッチ点のベクトル"を元に生成
+                val a = dir.multiply(0.1f)
+                myCircleF1.a = a
+
+                //Log.d(javaClass.simpleName,"ax[${a.x}]ay[${a.y}]")
+            }
 
             // 円を移動する(速度制限付き)
             myCircleF1.move(20f)
-            // 境界に達していたら、反射する
-            myCircleF1.checkBorder(0f,0f,sideW,sideH)
-
-            circleLst.forEachIndexed labelB@{ index2, myCircleF2 ->
-                if (index1 == index2) return@labelB
-
-                // 衝突していたら、進行方向を変える
-                myCircleF1.checkCollision(myCircleF2)
+            // 境界を超えていたら、円のリストから削除する
+            if ( myCircleF1.overBorder(0f,0f,sideW,sideH) < 0 ) {
+                iterator.remove()
             }
         }
     }
@@ -245,15 +277,17 @@ class RandomWalk01Drawable: MyDrawable() {
         // 等速度運動をする円を描画
         val colorCnt = colorLst.size
         circleLst.forEachIndexed { index, myCircleF ->
-            linePaint.color = colorLst[index%colorCnt]
+            //linePaint.color = colorLst[index%colorCnt]
+            linePaint.color = myCircleF.color
             canvas.drawCircle(myCircleF.p.x,myCircleF.p.y,myCircleF.r,linePaint)
         }
 
-        // これまでの描画は上下逆なので反転する
+        // これまでの描画はテンポラリなので、実際の描画に使うビットマップにコピーする
         val matrix = Matrix()
-        matrix.setScale(1f,-1f)
+        matrix.setScale(1f,1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
     }
+
 
     // -------------------------------
     // Drawable
@@ -293,5 +327,4 @@ class RandomWalk01Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun getIntrinsicHeight(): Int = (sideH+margin*2).toInt()
-
 }

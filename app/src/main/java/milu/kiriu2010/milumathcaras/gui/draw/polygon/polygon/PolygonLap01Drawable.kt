@@ -42,19 +42,19 @@ class PolygonLap01Drawable: MyDrawable() {
         }
         */
     private val polygons = listOf(
-        Polygon(15, 0xffe84c65.toInt(), 362f, 2, intrinsicWidth/2, intrinsicHeight/2),
-        Polygon(14, 0xffe84c65.toInt(), 338f, 3, intrinsicWidth/2, intrinsicHeight/2),
-        Polygon(13, 0xffd554d9.toInt(), 314f, 4, intrinsicWidth/2, intrinsicHeight/2),
-        Polygon(12, 0xffaf6eee.toInt(), 292f, 5, intrinsicWidth/2, intrinsicHeight/2),
-        Polygon(11, 0xff4a4ae6.toInt(), 268f, 6, intrinsicWidth/2, intrinsicHeight/2),
-        Polygon(10, 0xff4294e7.toInt(), 244f, 7, intrinsicWidth/2, intrinsicHeight/2),
-        Polygon(9, 0xff6beeee.toInt(), 220f, 8, intrinsicWidth/2, intrinsicHeight/2),
-        Polygon(8, 0xff42e794.toInt(), 196f, 9, intrinsicWidth/2, intrinsicHeight/2),
-        Polygon(7, 0xff5ae75a.toInt(), 172f, 10, intrinsicWidth/2, intrinsicHeight/2),
-        Polygon(6, 0xffade76b.toInt(), 148f, 11, intrinsicWidth/2, intrinsicHeight/2),
-        Polygon(5, 0xffefefbb.toInt(), 128f, 12, intrinsicWidth/2, intrinsicHeight/2),
-        Polygon(4, 0xffe79442.toInt(), 106f, 13, intrinsicWidth/2, intrinsicHeight/2),
-        Polygon(3, 0xffe84c65.toInt(), 90f, 14, intrinsicWidth/2, intrinsicHeight/2)
+        Polygon(15, 0xffe84c65.toInt(), 362f, 2),
+        Polygon(14, 0xffe84c65.toInt(), 338f, 3),
+        Polygon(13, 0xffd554d9.toInt(), 314f, 4),
+        Polygon(12, 0xffaf6eee.toInt(), 292f, 5),
+        Polygon(11, 0xff4a4ae6.toInt(), 268f, 6),
+        Polygon(10, 0xff4294e7.toInt(), 244f, 7),
+        Polygon(9, 0xff6beeee.toInt(), 220f, 8),
+        Polygon(8, 0xff42e794.toInt(), 196f, 9),
+        Polygon(7, 0xff5ae75a.toInt(), 172f, 10),
+        Polygon(6, 0xffade76b.toInt(), 148f, 11),
+        Polygon(5, 0xffefefbb.toInt(), 128f, 12),
+        Polygon(4, 0xffe79442.toInt(), 106f, 13),
+        Polygon(3, 0xffe84c65.toInt(), 90f, 14)
     )
 
     // ---------------------------------------------------------------------
@@ -192,9 +192,9 @@ class PolygonLap01Drawable: MyDrawable() {
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
         // 原点(0,0)の位置
-        // = (マージン,マージン)
+        // = (左右中央,上下中央)
         canvas.save()
-        canvas.translate(margin,margin)
+        canvas.translate(intrinsicWidth/2f,intrinsicHeight/2f)
 
         // 多角形を描く
         polygons.forEach { polygon ->
@@ -283,7 +283,7 @@ class PolygonLap01Drawable: MyDrawable() {
     // -------------------------------
     override fun getIntrinsicHeight(): Int = (side+margin*2).toInt()
 
-    private class Polygon(val sides: Int, val color: Int, radius: Float, val laps: Int,val width: Int, val height: Int) {
+    private class Polygon(val sides: Int, val color: Int, radius: Float, val laps: Int) {
         private val pathMeasure = PathMeasure()
         val path = createPath(sides, radius)
         // ----------------------------------------------
@@ -335,14 +335,14 @@ class PolygonLap01Drawable: MyDrawable() {
 
             // 下ちょい左を描画スタート地点とするっぽい
             path.moveTo(
-                width + (radius * Math.cos(startAngle)).toFloat(),
-                height + (radius * Math.sin(startAngle)).toFloat())
+                (radius * Math.cos(startAngle)).toFloat(),
+                (radius * Math.sin(startAngle)).toFloat())
 
             // 左回りに描いていく
             for (i in 1 until sides) {
                 path.lineTo(
-                    width + (radius * Math.cos(startAngle - angle * i)).toFloat(),
-                    height + (radius * Math.sin(startAngle - angle * i)).toFloat())
+                    (radius * Math.cos(startAngle - angle * i)).toFloat(),
+                    (radius * Math.sin(startAngle - angle * i)).toFloat())
             }
             path.close()
             return path

@@ -39,6 +39,8 @@ enum class MenuItem(val title: String): Parcelable {
     MENU_FRACTAL("Fractal"),
     // フラクタル(再帰)を描画するメニュー
     MENU_FRACTAL_RECURSION("Recursion"),
+    // フラクタル(樹木曲線)を描画するメニュー
+    MENU_FRACTAL_TREE_CURVE("Tree Curve"),
     // フラクタル(複素数)を描画するメニュー
     MENU_FRACTAL_COMPLEX("Complex"),
     // フラクタル(マンデルブロ―集合)を描画するメニュー

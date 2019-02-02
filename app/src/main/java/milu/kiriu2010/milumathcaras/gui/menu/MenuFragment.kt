@@ -167,6 +167,9 @@ class MenuFragment : Fragment() {
                     // フラクタル(再帰)一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL_RECURSION, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal_recursion),false))
                     // [サブメニュー]
+                    // フラクタル(樹木曲線)一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL_TREE_CURVE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal_tree_curve),false))
+                    // [サブメニュー]
                     // フラクタル(複素数)一覧を表示するメニュー
                     //menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL_COMPLEX, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal_complex),false))
                     // [サブメニュー]

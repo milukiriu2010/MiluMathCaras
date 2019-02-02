@@ -6,10 +6,7 @@ import milu.kiriu2010.milucal.gui.misc.AboutFragment
 import milu.kiriu2010.milumathcaras.entity.DrawData
 import milu.kiriu2010.milumathcaras.entity.DrawFragmentType
 import milu.kiriu2010.milumathcaras.entity.MenuData
-import milu.kiriu2010.milumathcaras.gui.drawfragment.Rectangle01Fragment
-import milu.kiriu2010.milumathcaras.gui.drawfragment.Square01Fragment
-import milu.kiriu2010.milumathcaras.gui.drawfragment.Square02Fragment
-import milu.kiriu2010.milumathcaras.gui.drawfragment.Square03Fragment
+import milu.kiriu2010.milumathcaras.gui.drawfragment.*
 import milu.kiriu2010.milumathcaras.id.FragmentID
 import java.lang.RuntimeException
 
@@ -33,6 +30,8 @@ class FragmentFactory {
         // ------------------------------------------------
         fun createFragment(drawData: DrawData): Fragment {
             return when (drawData.drawFragmentType) {
+                // 製作者名を表示するフラグメントを生成
+                DrawFragmentType.FT_CREDIT_01 -> Credit01Fragment.newInstance(drawData)
                 // 正方形領域に描画データを表示するフラグメントを生成
                 DrawFragmentType.FT_SQUARE_01 -> Square01Fragment.newInstance(drawData)
                 // 正方形領域に描画データを表示するフラグメントを生成(媒介変数の値を変更するシークバー１つ)
@@ -41,6 +40,8 @@ class FragmentFactory {
                 DrawFragmentType.FT_SQUARE_03 -> Square03Fragment.newInstance(drawData)
                 // 長方形領域に描画データを表示するフラグメントを生成
                 DrawFragmentType.FT_RECTANGLE_01 -> Rectangle01Fragment.newInstance(drawData)
+                // タッチイベントを受け付けるフラグメントを生成
+                DrawFragmentType.FT_TOUCH_01 -> Touch01Fragment.newInstance(drawData)
                 else -> throw RuntimeException("Not Found Fragment[${drawData.drawFragmentType}]")
             }
         }
