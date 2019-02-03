@@ -18,10 +18,13 @@ import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski.Sierpi
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski.SierpinskiTriangle01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.takagi.TakagiCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve02Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve03Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.AccelerateTowardsTouchPoint01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.Fountain01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.RandomWalk01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.UniformMotion01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.Circle2SqaureMorph01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.PolygonInPolygon01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.PolygonLap01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.TriangleExile01Drawable
@@ -85,8 +88,6 @@ class MyDrawableFactory {
                 DrawDataID.ID_000101_TAKAGI_CURVE -> TakagiCurve01Drawable()
                 // コッホ雪片
                 DrawDataID.ID_000102_KOCH_SNOWFLAKE -> KochSnowflake01Drawable()
-                // 樹木曲線
-                DrawDataID.ID_000103_TREE_CURVE -> TreeCurve01Drawable()
                 // ドラゴン曲線
                 DrawDataID.ID_000104_DRAGON_CURVE -> DragonCurve01Drawable()
                 // シェルピンスキーの三角形
@@ -95,6 +96,12 @@ class MyDrawableFactory {
                 DrawDataID.ID_000106_SIERPINSKI_CARPET -> SierpinskiCarpet01Drawable()
                 // ヒルベルト曲線
                 DrawDataID.ID_000107_HILBERT_CURVE -> HilbertCurve01Drawable()
+                // 樹木曲線
+                DrawDataID.ID_000111_TREE_CURVE -> TreeCurve01Drawable()
+                // 樹木曲線
+                DrawDataID.ID_000112_TREE_CURVE -> TreeCurve02Drawable()
+                // 樹木曲線
+                DrawDataID.ID_000113_TREE_CURVE -> TreeCurve03Drawable()
                 // マンデルブロ―集合(白黒)
                 DrawDataID.ID_000200_MANDELBRO_SET -> Mandelbrot00Drawable()
                 // マンデルブロ―集合(-1.5-1.0i～+0.5+1.0i)
@@ -169,7 +176,6 @@ class MyDrawableFactory {
                 DrawDataID.ID_000403_NATURE_RANDOM_WALK -> RandomWalk01Drawable()
                 // タッチした方向に向かって加速
                 DrawDataID.ID_000404_NATURE_ACCELERATE_TOWARDS_TOUCH_POINT -> AccelerateTowardsTouchPoint01Drawable()
-
                 // 1536色
                 DrawDataID.ID_000500_COLOR_1536 -> Color1536Drawable()
                 // 768色(暗色)
@@ -178,6 +184,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000600_TRIANGLE_EXILE -> TriangleExile01Drawable()
                 // 多角形のラップ
                 DrawDataID.ID_000601_POLYGON_LAP -> PolygonLap01Drawable()
+                // 円⇔正方形の変形
+                DrawDataID.ID_000602_CIRCLE2SQUARE_MORPH -> Circle2SqaureMorph01Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")
             }
 

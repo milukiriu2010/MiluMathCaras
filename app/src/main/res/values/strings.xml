@@ -53,11 +53,13 @@
     <string name="draw_000052_curve_lissajous_3_4">Lissajous(p:q=3:4)</string>
     <string name="draw_000101_fractal_recursion_takagi_curve">Takagi Curve</string>
     <string name="draw_000102_fractal_recursion_koch_snowflake">Koch Snowflake</string>
-    <string name="draw_000103_fractal_recursion_tree_curve">Tree Curve</string>
     <string name="draw_000104_fractal_recursion_dragon_curve">Dragon Curve</string>
     <string name="draw_000105_fractal_recursion_sierpinski_triangle">Sierpinski Triangle</string>
     <string name="draw_000106_fractal_recursion_sierpinski_carpet">Sierpinski Carpet</string>
     <string name="draw_000107_fractal_recursion_hilbert_curve">Hilbert Curve</string>
+    <string name="draw_000111_fractal_recursion_tree_curve">Tree Curve</string>
+    <string name="draw_000112_fractal_recursion_tree_curve">Tree Curve</string>
+    <string name="draw_000113_fractal_recursion_tree_curve">Tree Curve</string>
     <string name="draw_000200_fractal_complex_mandelbrot_set">Mandelbrot</string>
     <string name="draw_000201_fractal_complex_mandelbrot_set">-1.5-1.0i～+1.5+1.0i</string>
     <string name="draw_000202_fractal_complex_mandelbrot_set">-1.3+0.0i～-1.1+0.2i</string>
@@ -99,4 +101,5 @@
     <string name="draw_000501_color_768_dark">color 768 dark</string>
     <string name="draw_000600_polygon_triangle_exile">Triangle Exile</string>
     <string name="draw_000601_polygon_lap">Polygon Lap</string>
+    <string name="draw_000602_polygon_circle2square_morph">Circle&lt;=&gt;Square</string>
 </resources>

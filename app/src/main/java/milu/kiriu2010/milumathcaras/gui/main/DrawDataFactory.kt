@@ -118,8 +118,12 @@ class DrawDataFactory {
                 // フラクタル(樹木曲線)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_TREE_CURVE -> {
                     // 樹木曲線
-                    drawDataLst.add(DrawData(DrawDataID.ID_000103_TREE_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000103_fractal_recursion_tree_curve),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000111_TREE_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000111_fractal_recursion_tree_curve),
                         stillImageParam = floatArrayOf(6f), motionImageParam = floatArrayOf(0f) ))
+                    // 樹木曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_000112_TREE_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000112_fractal_recursion_tree_curve) ))
+                    // 樹木曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_000113_TREE_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000113_fractal_recursion_tree_curve) ))
                 }
                 // フラクタル(マンデルブロ―集合)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_MANDELBROT -> {
@@ -156,6 +160,8 @@ class DrawDataFactory {
                     // 多角形のラップ
                     drawDataLst.add(DrawData(DrawDataID.ID_000601_POLYGON_LAP,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000601_polygon_lap),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://twitter.com/beesandbombs?lang=en") ))
+                    // 円⇔正方形の変形
+                    drawDataLst.add(DrawData(DrawDataID.ID_000602_CIRCLE2SQUARE_MORPH,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000602_polygon_circle2square_morph) ))
                 }
                 // "多角形in多角形"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_PINP -> {

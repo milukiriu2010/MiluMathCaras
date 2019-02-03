@@ -20,6 +20,30 @@ data class MyVectorF(
         return x*x+y*y
     }
 
+    // ベクトル差分の大きさ
+    fun magByDiff(v: MyVectorF): Float {
+        val dx = x - v.x
+        val dy = y - v.y
+        return sqrt(dx*dx+dy*dy)
+    }
+
+    // --------------------------------------
+    // 線形補完
+    // --------------------------------------
+    //  this : 補完元ベクトル
+    //  v    : 補完先ベクトル
+    //  ratio: 補完の割合(0.0-1.0)
+    //         0.0: 補完元ベクトルと一致
+    //         1.0: 補完先ベクトルと一致
+    // --------------------------------------
+    fun lerp(v: MyVectorF, ratio: Float ) {
+        val dx = v.x - x
+        x = x + dx*ratio
+
+        val dy = v.y - y
+        y = y + dy*ratio
+    }
+
     // 単位ベクトルに変換
     fun normalized(): MyVectorF {
         val mag = magnitude()
