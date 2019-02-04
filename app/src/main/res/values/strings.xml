@@ -102,4 +102,5 @@
     <string name="draw_000600_polygon_triangle_exile">Triangle Exile</string>
     <string name="draw_000601_polygon_lap">Polygon Lap</string>
     <string name="draw_000602_polygon_circle2square_morph">Circle&lt;=&gt;Square</string>
+    <string name="draw_000603_polygon_rotate_arrows">Rotate Arrows</string>
 </resources>

@@ -27,6 +27,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.nature.UniformMotion01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.Circle2SqaureMorph01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.PolygonInPolygon01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.PolygonLap01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.RotateArrows01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.TriangleExile01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWave01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWaveCircle01Drawable
@@ -186,6 +187,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000601_POLYGON_LAP -> PolygonLap01Drawable()
                 // 円⇔正方形の変形
                 DrawDataID.ID_000602_CIRCLE2SQUARE_MORPH -> Circle2SqaureMorph01Drawable()
+                // 回転する矢印
+                DrawDataID.ID_000603_ROTATE_ARROWS -> RotateArrows01Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")
             }
 

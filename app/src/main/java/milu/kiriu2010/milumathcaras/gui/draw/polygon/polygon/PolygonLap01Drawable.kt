@@ -296,7 +296,7 @@ class PolygonLap01Drawable: MyDrawable() {
         // ----------------------------------------------
         val length by lazy(LazyThreadSafetyMode.NONE) {
             pathMeasure.setPath(path, false)
-            Log.d( javaClass.simpleName, "sides[$sides]length[${pathMeasure.length}]")
+            //Log.d( javaClass.simpleName, "sides[$sides]length[${pathMeasure.length}]")
             pathMeasure.length
         }
 
@@ -308,7 +308,7 @@ class PolygonLap01Drawable: MyDrawable() {
         // 六角形 => (1-(1/(2*6)))*888    = 814
         // ----------------------------------------------
         val initialPhase by lazy(LazyThreadSafetyMode.NONE) {
-            Log.d( javaClass.simpleName, "sides[$sides]initialPhase[${(1f - (1f / (2 * sides))) * length}]")
+            //Log.d( javaClass.simpleName, "sides[$sides]initialPhase[${(1f - (1f / (2 * sides))) * length}]")
 
             (1f - (1f / (2 * sides))) * length
         }

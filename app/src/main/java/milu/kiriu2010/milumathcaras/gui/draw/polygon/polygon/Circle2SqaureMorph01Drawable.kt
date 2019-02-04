@@ -2,6 +2,7 @@ package milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon
 
 import android.graphics.*
 import android.os.Handler
+import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.gui.basic.MyVectorF
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
@@ -78,9 +79,9 @@ class Circle2SqaureMorph01Drawable: MyDrawable() {
     // 円・正方形を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.BLACK
+        color = Color.RED
         style = Paint.Style.STROKE
-        strokeWidth = 5f
+        strokeWidth = 10f
     }
 
     // -------------------------------------
@@ -156,7 +157,7 @@ class Circle2SqaureMorph01Drawable: MyDrawable() {
 
         // 円ベクトルと変形ベクトルを生成
         val d = 45
-        (0 until 360).forEach {
+        (0 until 360 step 9).forEach {
             // -----------------------------------------------------------
             // 円ベクトル
             // 正方形の頂点とインデックスを合わせるため45度位相を足している
@@ -165,7 +166,6 @@ class Circle2SqaureMorph01Drawable: MyDrawable() {
             val vy = sin((it+d).toFloat()*PI/180f).toFloat()
             val v = MyVectorF(vx,vy).multiply(side/2f)
             vc.add(v)
-
         }
 
         // -----------------------------------------
@@ -210,6 +210,8 @@ class Circle2SqaureMorph01Drawable: MyDrawable() {
                 }
             }
         }
+
+        //Log.d(javaClass.simpleName,"size:vc[${vc.size}]vs[${vs.size}]")
     }
 
     // -------------------------------

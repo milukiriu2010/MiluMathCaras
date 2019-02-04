@@ -156,7 +156,9 @@ enum class DrawDataID(val id: Int): Parcelable {
     // 多角形のラップ
     ID_000601_POLYGON_LAP(601),
     // 円⇔正方形の変形
-    ID_000602_CIRCLE2SQUARE_MORPH(602)
+    ID_000602_CIRCLE2SQUARE_MORPH(602),
+    // 回転する矢印
+    ID_000603_ROTATE_ARROWS(603)
 }
 
 // ------------------------------
