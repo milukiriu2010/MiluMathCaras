@@ -114,6 +114,9 @@ class DrawDataFactory {
                     // ヒルベルト曲線
                     drawDataLst.add(DrawData(DrawDataID.ID_000107_HILBERT_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000107_fractal_recursion_hilbert_curve),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
+                    // ムーア曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_000108_MOORECURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000108_fractal_recursion_moore_curve),
+                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
                 }
                 // フラクタル(樹木曲線)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_TREE_CURVE -> {
@@ -163,7 +166,8 @@ class DrawDataFactory {
                     // 円⇔正方形の変形
                     drawDataLst.add(DrawData(DrawDataID.ID_000602_CIRCLE2SQUARE_MORPH,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000602_polygon_circle2square_morph) ))
                     // 回転する矢印
-                    drawDataLst.add(DrawData(DrawDataID.ID_000603_ROTATE_ARROWS,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000603_polygon_rotate_arrows) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000603_ROTATE_ARROWS,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000603_polygon_rotate_arrows),
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://twitter.com/beesandbombs?lang=en") ))
                 }
                 // "多角形in多角形"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_PINP -> {

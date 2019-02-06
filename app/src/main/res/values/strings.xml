@@ -57,6 +57,7 @@
     <string name="draw_000105_fractal_recursion_sierpinski_triangle">Sierpinski Triangle</string>
     <string name="draw_000106_fractal_recursion_sierpinski_carpet">Sierpinski Carpet</string>
     <string name="draw_000107_fractal_recursion_hilbert_curve">Hilbert Curve</string>
+    <string name="draw_000108_fractal_recursion_moore_curve">Moore Curve</string>
     <string name="draw_000111_fractal_recursion_tree_curve">Tree Curve</string>
     <string name="draw_000112_fractal_recursion_tree_curve">Tree Curve</string>
     <string name="draw_000113_fractal_recursion_tree_curve">Tree Curve</string>

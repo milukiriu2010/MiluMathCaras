@@ -13,6 +13,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid.Trochoid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.mandelbrot.Mandelbrot00Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.dragon.DragonCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.HilbertCurve01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.MooreCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.koch.KochSnowflake01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski.SierpinskiCarpet01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski.SierpinskiTriangle01Drawable
@@ -97,6 +98,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000106_SIERPINSKI_CARPET -> SierpinskiCarpet01Drawable()
                 // ヒルベルト曲線
                 DrawDataID.ID_000107_HILBERT_CURVE -> HilbertCurve01Drawable()
+                // ムーア曲線
+                DrawDataID.ID_000108_MOORECURVE -> MooreCurve01Drawable()
                 // 樹木曲線
                 DrawDataID.ID_000111_TREE_CURVE -> TreeCurve01Drawable()
                 // 樹木曲線

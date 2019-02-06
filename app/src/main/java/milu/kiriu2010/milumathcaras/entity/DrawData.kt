@@ -67,6 +67,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000106_SIERPINSKI_CARPET(106),
     // ヒルベルト曲線
     ID_000107_HILBERT_CURVE(107),
+    // ムーア曲線
+    ID_000108_MOORECURVE(108),
     // 樹木曲線
     ID_000111_TREE_CURVE(111),
     // 樹木曲線

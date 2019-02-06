@@ -170,6 +170,7 @@ class RotateArrows01Drawable: MyDrawable() {
     private fun rotatePolygon() {
         angle += 10f
 
+        // 90度ごとに描画する矢印の初期向きを変える
         if ( angle.toInt()%90 == 0 ) {
             direction = when (direction) {
                 Direction.RIGHT -> Direction.DOWN
@@ -193,12 +194,24 @@ class RotateArrows01Drawable: MyDrawable() {
         // 矢印がインスタンス化されていなければ描画はスキップする
         if ( this::arrow.isInitialized == false ) return
 
+        // 矢印を描画する領域の一辺の長さ
         val len = side/n
+        // 矢印を描画する領域の中心点
         val center = MyPointF().apply {
             x = len/2f
             y = len/2f
         }
 
+        // ------------------------------------------
+        // 矢印を縦横に描画する際のパラメータ
+        // ------------------------------------------
+        // 右/左向き ⇒
+        //    4 x 4
+        //    描画領域にぴったりあう
+        // 上/下向き ⇒
+        //    5 x 5
+        //    端は切れた感じで描画
+        // ------------------------------------------
         var ns = 0
         var ne = n-1
         var offset = 0f
@@ -218,14 +231,14 @@ class RotateArrows01Drawable: MyDrawable() {
                 linePaint.color = Color.WHITE
             }
             Direction.DOWN -> {
-                ns = -1
+                ns = 0
                 ne = n
                 offset = -len/2f
                 backPaint.color = Color.WHITE
                 linePaint.color = Color.BLACK
             }
             Direction.UP -> {
-                ns = -1
+                ns = 0
                 ne = n
                 offset = -len/2f
                 backPaint.color = Color.WHITE
@@ -240,13 +253,14 @@ class RotateArrows01Drawable: MyDrawable() {
         // 枠を描画
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
+        Log.d(javaClass.simpleName,"===[${arrow.directionA}][${System.identityHashCode(arrow)}]===============================================")
         // 矢印を描く
         (ns..ne).forEach { i ->
             (ns..ne).forEach { j ->
                 // 原点(0,0)の位置
                 // = (マージン,マージン)
                 canvas.save()
-                canvas.translate(margin,margin)
+                canvas.translate(margin+offset,margin+offset)
 
                 canvas.translate(i*len,j*len)
 
@@ -255,10 +269,14 @@ class RotateArrows01Drawable: MyDrawable() {
                     // 中心点と描画点の差分
                     val dv = myPointF.copy().subtract(center)
                     // 回転し、中心点から元の座標に戻す
-                    dv.rotate(angle).plus(center)
+                    // 元の形を既に回転した形にしているのでangleは90度くくりとする
+                    dv.rotate((angle.toInt()%90).toFloat()).plus(center)
 
-                    //Log.d(javaClass.simpleName,"i[$i]j[$j]index[$index]angle[$angle]dvX[${dv.x}]dvY[${dv.y}]")
-
+                    /*
+                    if ( ( i == 0 ) and ( j== 0 ) ) {
+                        Log.d(javaClass.simpleName,"i[$i]j[$j]idx[$index]angle[$angle]dvX[${dv.x}]dvY[${dv.y}]")
+                    }
+                    */
 
                     if ( index == 0 ) {
                         path.moveTo(dv.x, dv.y)
@@ -275,49 +293,6 @@ class RotateArrows01Drawable: MyDrawable() {
                 canvas.restore()
             }
         }
-
-
-        /*
-        // 矢印を描く
-        val len = side/n
-        val cx = len/2f
-        val cy = len/2f
-        val center = MyPointF(cx,cy)
-        (0 until n).forEach { i ->
-            (0 until n).forEach { j ->
-                // 原点(0,0)の位置
-                // = (マージン,マージン)
-                canvas.save()
-                canvas.translate(margin,margin)
-
-                canvas.translate(i*len,j*len)
-
-                val path = Path()
-                arrow.pointLst.forEachIndexed { index, myPointF ->
-                    // 中心点と描画点の差分
-                    val dv = myPointF.copy().subtract(center)
-                    // 回転し、中心点から元の座標に戻す
-                    dv.rotate(angle).plus(center)
-
-                    //Log.d(javaClass.simpleName,"i[$i]j[$j]index[$index]angle[$angle]dvX[${dv.x}]dvY[${dv.y}]")
-
-
-                    if ( index == 0 ) {
-                        path.moveTo(dv.x, dv.y)
-                    }
-                    else {
-                        path.lineTo(dv.x, dv.y)
-                    }
-                }
-                path.close()
-
-                canvas.drawPath(path,linePaint)
-
-                // 座標を元に戻す
-                canvas.restore()
-            }
-        }
-        */
 
         // これまでの描画は上下逆なので反転する
         val matrix = Matrix()
@@ -381,6 +356,8 @@ class RotateArrows01Drawable: MyDrawable() {
                 val p3_4 = field*3f/4f
                 val p2 = field/2f
 
+                pointLst.clear()
+
                 // -----------------------------
                 // 左下から反時計回りに頂点を置く
                 // -----------------------------
@@ -389,6 +366,7 @@ class RotateArrows01Drawable: MyDrawable() {
                     // →
                     // --------------------------
                     Direction.RIGHT -> {
+                        //Log.d(javaClass.simpleName, "*** right ***")
                         pointLst.add(MyPointF(0f,p1_4))
                         pointLst.add(MyPointF(p2,p1_4))
                         pointLst.add(MyPointF(p2,0f))
@@ -401,6 +379,7 @@ class RotateArrows01Drawable: MyDrawable() {
                     // ↓
                     // --------------------------
                     Direction.DOWN -> {
+                        //Log.d(javaClass.simpleName, "*** down ***")
                         pointLst.add(MyPointF(p1_4,field))
                         pointLst.add(MyPointF(p1_4,p2))
                         pointLst.add(MyPointF(0f,p2))
@@ -413,6 +392,7 @@ class RotateArrows01Drawable: MyDrawable() {
                     // ←
                     // --------------------------
                     Direction.LEFT -> {
+                        //Log.d(javaClass.simpleName, "*** left ***")
                         pointLst.add(MyPointF(field,p3_4))
                         pointLst.add(MyPointF(p2,p3_4))
                         pointLst.add(MyPointF(p2,field))
@@ -425,6 +405,7 @@ class RotateArrows01Drawable: MyDrawable() {
                     // ↑
                     // --------------------------
                     Direction.UP -> {
+                        //Log.d(javaClass.simpleName, "*** up ***")
                         pointLst.add(MyPointF(p3_4,0f))
                         pointLst.add(MyPointF(p3_4,p2))
                         pointLst.add(MyPointF(field,p2))
