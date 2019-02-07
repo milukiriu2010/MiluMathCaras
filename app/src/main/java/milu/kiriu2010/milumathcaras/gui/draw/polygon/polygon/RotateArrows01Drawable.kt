@@ -8,11 +8,77 @@ import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
-// ---------------------------------------------
+// -----------------------------------------------------------------
 // 回転する矢印
-// ---------------------------------------------
+// -----------------------------------------------------------------
 // https://forum.drawbot.com/topic/123/rotating-arrows-exercise
-// ---------------------------------------------
+// -----------------------------------------------------------------
+// # triggered by Mike Duggan:
+// # https://twitter.com/mickduggan/status/1090577885067386880
+//
+// def arrow(center, size, rotation, barThickness, arrowhead):
+//   with savedState():
+//     translate(*center)
+//     scale(size)
+//     rotate(rotation)
+//     points = [
+//       (-0.5, barThickness/2),
+//       (0.5 - arrowhead, barThickness/2),
+//       (0.5 - arrowhead, 0.5),
+//       (0.5, 0),
+//       (0.5 - arrowhead, -0.5),
+//       (0.5 - arrowhead, -barThickness/2),
+//       (-0.5, -barThickness/2),
+//     ]
+//     polygon(*points)
+//
+// def arrowGrid(numArrows, arrowSize, barThickness, arrowhead, rotation):
+//   for i in range(numArrows):
+//     x = i * arrowSize
+//     for j in range(numArrows):
+//       y = j * arrowSize
+//       arrow((x, y), arrowSize, rotation, barThickness, arrowhead)
+//
+// def easeInOut(t):
+//   assert 0 <= t <= 1
+//   return (1 - cos(t * pi)) / 2
+//
+// canvasSize = 400
+// numArrows = 4
+// arrowSize = canvasSize / numArrows
+// barThickness = 0.5
+// arrowhead = 0.5
+// rotation = 180
+//
+// duration = 4
+// framesPerSecond = 15
+// numFrames = duration * framesPerSecond
+//
+// for frame in range(numFrames):
+//   t = 4 * frame / numFrames
+//   quadrant = floor(t)
+//   t = easeInOut(t % 1)
+//   angle = ((quadrant + t) * 90) % 380
+//   flip = quadrant % 2
+//   angle = -angle
+//
+//   newPage(canvasSize, canvasSize)
+//   frameDuration(1/framesPerSecond)
+//
+//   if flip:
+//     fill(1)
+//     rect(0, 0, canvasSize, canvasSize)
+//     fill(0)
+//     arrowGrid(numArrows + 1, arrowSize, barThickness, arrowhead, angle)
+//   else:
+//     fill(0)
+//     rect(0, 0, canvasSize, canvasSize)
+//     fill(1)
+//     translate(-arrowSize/2, -arrowSize/2)
+//     arrowGrid(numArrows + 2, arrowSize, 1 - barThickness, arrowhead, angle + 180)
+//
+// saveImage("Arrows.gif")
+// -----------------------------------------------------------------
 class RotateArrows01Drawable: MyDrawable() {
 
     enum class Direction {

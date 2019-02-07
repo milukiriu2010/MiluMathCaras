@@ -25,6 +25,7 @@
     <string name="menu_sub_polygon">Polygon</string>
     <string name="menu_sub_polygon_mix">Polygon Mix</string>
     <string name="menu_sub_polygon_pinp">Polygon in Polygon</string>
+    <string name="menu_sub_polygon_poutp">Polygon out Polygon</string>
     <string name="menu_sub_nature">Nature</string>
     <string name="menu_sub_color">Color</string>
     <string name="menu_sub_about">About Me</string>
@@ -42,12 +43,12 @@
     <string name="draw_000026_curve_epicycloid">Epicycloid(k=7.2)</string>
     <string name="draw_000031_curve_deltoid">Deltoid(k=3.0)</string>
     <string name="draw_000032_curve_astroid">Astroid(k=4.0)</string>
-    <string name="draw_000033_curve_hypocycloid">Hypocycloid(k=2.1)</string>
-    <string name="draw_000034_curve_hypocycloid">Hypocycloid(k=3.8)</string>
-    <string name="draw_000035_curve_hypocycloid">Hypocycloid(k=5.5)</string>
-    <string name="draw_000036_curve_hypocycloid">Hypocycloid(k=7.2)</string>
+    <string name="draw_000033_curve_hypocycloid">Hypocycloid\n(k=2.1)</string>
+    <string name="draw_000034_curve_hypocycloid">Hypocycloid\n(k=3.8)</string>
+    <string name="draw_000035_curve_hypocycloid">Hypocycloid\n(k=5.5)</string>
+    <string name="draw_000036_curve_hypocycloid">Hypocycloid\n(k=7.2)</string>
     <string name="draw_000040_wave_sine">Sine Wave</string>
-    <string name="draw_000041_wave_sine_circle">Sine Wave around Circle</string>
+    <string name="draw_000041_wave_sine_circle">Sine Wave\n around Circle</string>
     <string name="draw_000050_curve_lissajous_1_2">Lissajous(p:q=1:2)</string>
     <string name="draw_000051_curve_lissajous_3_2">Lissajous(p:q=3:2)</string>
     <string name="draw_000052_curve_lissajous_3_4">Lissajous(p:q=3:4)</string>
@@ -62,9 +63,9 @@
     <string name="draw_000112_fractal_recursion_tree_curve">Tree Curve</string>
     <string name="draw_000113_fractal_recursion_tree_curve">Tree Curve</string>
     <string name="draw_000200_fractal_complex_mandelbrot_set">Mandelbrot</string>
-    <string name="draw_000201_fractal_complex_mandelbrot_set">-1.5-1.0i～+1.5+1.0i</string>
-    <string name="draw_000202_fractal_complex_mandelbrot_set">-1.3+0.0i～-1.1+0.2i</string>
-    <string name="draw_000203_fractal_complex_mandelbrot_set">-1.28+0.18i～-1.26+0.20i</string>
+    <string name="draw_000201_fractal_complex_mandelbrot_set">-1.5-1.0i～\n+1.5+1.0i</string>
+    <string name="draw_000202_fractal_complex_mandelbrot_set">-1.3+0.0i～\n-1.1+0.2i</string>
+    <string name="draw_000203_fractal_complex_mandelbrot_set">-1.28+0.18i～\n-1.26+0.20i</string>
     <string name="draw_000251_fractal_complex_julia_set">Julia Set</string>
     <string name="draw_000301_polygon_3_in_4">3 in 4</string>
     <string name="draw_000302_polygon_3_in_5">3 in 5</string>
@@ -97,11 +98,12 @@
     <string name="draw_000401_nature_uniform_motion">Uniform Motion</string>
     <string name="draw_000402_nature_fountain">Fountain</string>
     <string name="draw_000403_nature_random_walk">Random Walk</string>
-    <string name="draw_000404_nature_accelerate_towards_touch_point">Accelerate towards the touch point</string>
+    <string name="draw_000404_nature_accelerate_towards_touch_point">Accelerate towards\n the touch point</string>
     <string name="draw_000500_color_1536">color 1536</string>
     <string name="draw_000501_color_768_dark">color 768 dark</string>
     <string name="draw_000600_polygon_triangle_exile">Triangle Exile</string>
     <string name="draw_000601_polygon_lap">Polygon Lap</string>
     <string name="draw_000602_polygon_circle2square_morph">Circle&lt;=&gt;Square</string>
     <string name="draw_000603_polygon_rotate_arrows">Rotate Arrows</string>
+    <string name="draw_000701_polygon_3_out_3">3 out 3</string>
 </resources>

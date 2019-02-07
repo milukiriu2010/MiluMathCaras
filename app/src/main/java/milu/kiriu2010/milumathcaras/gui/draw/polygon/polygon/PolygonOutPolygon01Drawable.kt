@@ -12,10 +12,10 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-// ----------------------------------------------------
-// 頂点が少ない多角形を頂点が多い多角形内で回転させる
-// ----------------------------------------------------
-class PolygonInPolygon01Drawable: MyDrawable() {
+// ---------------------------------------------
+// 多角形の外を多角形が回転する
+// ---------------------------------------------
+class PolygonOutPolygon01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -23,21 +23,21 @@ class PolygonInPolygon01Drawable: MyDrawable() {
     private val side = 1000f
     private val margin = 50f
 
-    // ---------------------------------------
+    // -------------------------------------
     // 回転しない方の多角形が外接する円の半径
-    // ---------------------------------------
-    private val r = side/2f
+    // -------------------------------------
+    private var r = side/2f
 
-    // ---------------------------------------
-    // 頂点が多い多角形(回転しない方の多角形)
-    // ---------------------------------------
+    // ---------------------------------
+    // 回転しない方の多角形
+    // ---------------------------------
     private val polygonA = Polygon().apply {
-        vertexCnt = 4
+        vertexCnt = 3
     }
 
-    // ---------------------------------------
-    // 頂点が少ない多角形(回転する方の多角形)
-    // ---------------------------------------
+    // -------------------------------------
+    // 回転する方の多角形
+    // -------------------------------------
     private val polygonB = Polygon().apply {
         vertexCnt = 3
     }
@@ -146,6 +146,9 @@ class PolygonInPolygon01Drawable: MyDrawable() {
                 1 -> polygonB.vertexCnt = fl.toInt()
             }
         }
+        // 回転しない方の多角形に外接する円の半径を
+        // 多角形の頂点数から適宜割り当てる
+        r = side/2f * (polygonA.vertexCnt.toFloat()/(polygonA.vertexCnt.toFloat()+polygonB.vertexCnt.toFloat()))
 
         // 多角形の頂点の初期位置設定
         createPath()
@@ -208,7 +211,7 @@ class PolygonInPolygon01Drawable: MyDrawable() {
         // ---------------------------
         // 回転しない多角形の内角を設定
         // ---------------------------
-        polygonA.calInternalAngle()
+        //polygonA.calInternalAngle()
 
         // ---------------------------
         // 回転しない多角形の頂点を設定
@@ -227,7 +230,8 @@ class PolygonInPolygon01Drawable: MyDrawable() {
         // ---------------------------
         // 回転しない多角形の内角を設定
         // ---------------------------
-        polygonB.calInternalAngle()
+        //polygonB.calInternalAngle()
+
         // ---------------------------
         // 回転する多角形の１辺の長さ
         // ---------------------------
@@ -429,6 +433,10 @@ class PolygonInPolygon01Drawable: MyDrawable() {
     private class Polygon{
         // 多角形の頂点の数
         var vertexCnt = 3
+            set(data: Int) {
+                field = data
+                internalAngle = 180f-(360f/data.toFloat())
+            }
         // 多角形の内角
         var internalAngle = 60f
         // 多角形の一辺の長さ
@@ -436,10 +444,12 @@ class PolygonInPolygon01Drawable: MyDrawable() {
         // 多角形の頂点リスト
         val pointLst: MutableList<MyPointF> = mutableListOf()
 
+        /*
         // 多角形の頂点の数から内角を計算する
         fun calInternalAngle() {
             internalAngle = 180f-(360f/vertexCnt.toFloat())
         }
+        */
 
         // 多角形の一辺の長さを頂点リストから計算する
         fun calLen() {

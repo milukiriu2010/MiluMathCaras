@@ -256,6 +256,12 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_000361_9_IN_10,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000361_polygon_9_in_10),
                         stillImageParam = floatArrayOf(10f,9f), motionImageParam = floatArrayOf(10f,9f) ))
                 }
+                // "多角形out多角形"を選択したときの描画データの一覧
+                MenuItem.MENU_POLYGON_POUTP -> {
+                    // 三角形out三角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_000701_3_OUT_3,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000701_polygon_3_out_3),
+                            stillImageParam = floatArrayOf(3f,3f), motionImageParam = floatArrayOf(3f,3f) ))
+                }
                 // "Nature of Code"を選択したときの描画データの一覧
                 MenuItem.MENU_NATURE -> {
                     // 等速度運動

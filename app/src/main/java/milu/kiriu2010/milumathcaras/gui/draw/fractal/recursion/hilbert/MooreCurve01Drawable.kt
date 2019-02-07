@@ -28,13 +28,11 @@ class MooreCurve01Drawable: MyDrawable() {
     // 再帰レベル
     // ----------------------------------------
     private var nNow = 0
-    // 開始時に指定した再帰レベル
-    private var nStart = 0
     // --------------------------------------------------------
     // 再帰レベルの最大値
     //  7回以上描くと、塗りつぶされていしまうので6回としている
     // --------------------------------------------------------
-    private val nMax = 2
+    private val nMax = 6
 
     // ----------------------------------------
     // ムーア曲線の描画点リスト
@@ -118,8 +116,6 @@ class MooreCurve01Drawable: MyDrawable() {
                 0 -> nNow = fl.toInt()
             }
         }
-        // 開始時に指定した再帰レベル
-        nStart = nNow
 
         // ムーア曲線を構築
         createPath()
@@ -238,63 +234,31 @@ class MooreCurve01Drawable: MyDrawable() {
             when (direction) {
                 // 上が開いている"コ"を描く
                 Direction.UP -> {
-                    /*
                     pointLst.add(a1)
                     pointLst.add(b2)
                     pointLst.add(c3)
                     pointLst.add(d0)
-                    */
-                    pointLst.add(d0)
-                    pointLst.add(c3)
-                    pointLst.add(b2)
-                    pointLst.add(a1)
                 }
                 // 下が開いている"コ"を描く
                 Direction.DOWN -> {
-                    /*
                     pointLst.add(c3)
                     pointLst.add(d0)
                     pointLst.add(a1)
                     pointLst.add(b2)
-                    */
-                    pointLst.add(b2)
-                    pointLst.add(a1)
-                    pointLst.add(d0)
-                    pointLst.add(c3)
                 }
                 // 左が開いている"コ"を描く
                 Direction.LEFT -> {
-                    /*
-                    if ( n != (nNow-1) ) {
-                        pointLst.add(a1)
-                        pointLst.add(d0)
-                        pointLst.add(c3)
-                        pointLst.add(b2)
-                    }
-                    else {
-                    */
-                        pointLst.add(b2)
-                        pointLst.add(c3)
-                        pointLst.add(d0)
-                        pointLst.add(a1)
-                    //}
+                    pointLst.add(a1)
+                    pointLst.add(d0)
+                    pointLst.add(c3)
+                    pointLst.add(b2)
                 }
                 // 右が開いている"コ"を描く
-                else -> {
-                    /*
-                    if ( n != (nNow-1) ) {
-                        pointLst.add(c3)
-                        pointLst.add(b2)
-                        pointLst.add(a1)
-                        pointLst.add(d0)
-                    }
-                    else {
-                    */
-                        pointLst.add(d0)
-                        pointLst.add(a1)
-                        pointLst.add(b2)
-                        pointLst.add(c3)
-                    //}
+                Direction.RIGHT -> {
+                    pointLst.add(c3)
+                    pointLst.add(b2)
+                    pointLst.add(a1)
+                    pointLst.add(d0)
                 }
             }
             return
@@ -332,20 +296,23 @@ class MooreCurve01Drawable: MyDrawable() {
             // -------------------------------
             // 前レベルが上向き
             // -------------------------------
-            // １回目以降
-            // 　左上:右向き
-            // 　左下:右向き
-            // 　右下:左向き
-            // 　右上:左向き
-            // -------------------------------
-            // ２回目以降
-            // 　左上:左向き
-            // 　左下:上向き
-            // 　右下:上向き
-            // 　右上:右向き
+            // 右上:左向き
+            // 右下:左向き
+            // 左下:右向き
+            // 左上:右向き
             // -------------------------------
             Direction.UP -> {
-                if ( n != nNow ) {
+                if ( n == nNow ) {
+                    // 右上:左向き
+                    calNextLevel(e,g,h,d,Direction.LEFT,n-1)
+                    // 右下:左向き
+                    calNextLevel(g,i,c,h,Direction.LEFT,n-1)
+                    // 左下:右向き
+                    calNextLevel(f,b,i,g,Direction.RIGHT,n-1)
+                    // 左上:右向き
+                    calNextLevel(a,f,g,e,Direction.RIGHT,n-1)
+                }
+                else {
                     // 左上:左向き
                     calNextLevel(a,f,g,e,Direction.LEFT,n-1)
                     // 左下:上向き
@@ -355,17 +322,7 @@ class MooreCurve01Drawable: MyDrawable() {
                     // 右上:右向き
                     calNextLevel(e,g,h,d,Direction.RIGHT,n-1)
                 }
-                else {
-                    // 左上:右向き
-                    calNextLevel(a,f,g,e,Direction.RIGHT,n-1)
-                    // 左下:右向き
-                    calNextLevel(f,b,i,g,Direction.RIGHT,n-1)
-                    // 右下:左向き
-                    calNextLevel(g,i,c,h,Direction.LEFT,n-1)
-                    // 右上:左向き
-                    calNextLevel(e,g,h,d,Direction.LEFT,n-1)
-                }
-            }
+        }
             // -------------------------------
             // 前レベルが下向き
             // -------------------------------
@@ -433,7 +390,6 @@ class MooreCurve01Drawable: MyDrawable() {
         if ( nNow > nMax ) {
             nNow = 0
         }
-        nStart = nNow
     }
 
     // -------------------------------

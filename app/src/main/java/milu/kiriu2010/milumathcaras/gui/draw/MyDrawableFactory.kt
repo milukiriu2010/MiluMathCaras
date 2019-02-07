@@ -25,10 +25,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.nature.AccelerateTowardsTouchPoint0
 import milu.kiriu2010.milumathcaras.gui.draw.nature.Fountain01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.RandomWalk01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.UniformMotion01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.Circle2SqaureMorph01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.PolygonInPolygon01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.PolygonLap01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.RotateArrows01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.TriangleExile01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWave01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWaveCircle01Drawable
@@ -192,6 +189,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000602_CIRCLE2SQUARE_MORPH -> Circle2SqaureMorph01Drawable()
                 // 回転する矢印
                 DrawDataID.ID_000603_ROTATE_ARROWS -> RotateArrows01Drawable()
+                // 三角形out三角形
+                DrawDataID.ID_000701_3_OUT_3 -> PolygonOutPolygon01Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")
             }
 
