@@ -31,6 +31,8 @@
     <string name="menu_sub_color">Color</string>
     <string name="menu_sub_about">About Me</string>
     <string name="menu_back">Back</string>
+    <string name="func_curve_trochoid">x = r * (t - k * sin(t))\ny = r * (1 - k * cos(t))</string>
+    <string name="func_curve_epicycloid">x = r*(1+1/k)*cos(t) - r/k*cos((k+1)*t)\ny = r*(k+1)*sin(t) - r*sin((k+1)*t)</string>
     <string name="draw_000001_curve_cycloid">Cycloid(k=1.0)</string>
     <string name="draw_000002_curve_trochoid">Trochoid(k=2.0)</string>
     <string name="draw_000003_curve_trochoid">Trochoid(k=-2.0)</string>
@@ -100,6 +102,7 @@
     <string name="draw_000402_nature_fountain">Fountain</string>
     <string name="draw_000403_nature_random_walk">Random Walk</string>
     <string name="draw_000404_nature_accelerate_towards_touch_point">Accelerate towards\n the touch point</string>
+    <string name="draw_000405_nature_mass_effect">Mass Effect</string>
     <string name="draw_000500_color_1536">color 1536</string>
     <string name="draw_000501_color_768_dark">color 768 dark</string>
     <string name="draw_000600_polygon_triangle_exile">Triangle Exile</string>

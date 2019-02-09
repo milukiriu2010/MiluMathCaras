@@ -147,8 +147,10 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000402_NATURE_FOUNTAIN(402),
     // ランダムウォーク
     ID_000403_NATURE_RANDOM_WALK(403),
-    // 加速度
+    // タッチポイントに向かって加速
     ID_000404_NATURE_ACCELERATE_TOWARDS_TOUCH_POINT(404),
+    // 質量の効果
+    ID_000405_NATURE_MASS_EFFECT(405),
     // 1536色
     ID_000500_COLOR_1536(500),
     // 768色(暗色)

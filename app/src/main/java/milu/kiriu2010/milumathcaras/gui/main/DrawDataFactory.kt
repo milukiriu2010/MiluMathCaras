@@ -20,40 +20,46 @@ class DrawDataFactory {
                     // サイクロイド曲線(cycloid)(k=1.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_000001_CYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000001_curve_cycloid),
                         stillImageParam = floatArrayOf(720f,1.0f), motionImageParam = floatArrayOf(0f,1.0f), editParam = floatArrayOf(-5f,5f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to "x = r * (t - k * sin(t))\ny = r * (1 - k * cos(t))", "autoParam" to "t", "handParam1" to "k") ))
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_trochoid), "autoParam" to "t", "handParam1" to "k") ))
                     // トロコイド曲線(trochoid)(k=2.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_000002_TROCHOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000002_curve_trochoid),
                         stillImageParam = floatArrayOf(720f,2.0f), motionImageParam = floatArrayOf(0f,2.0f), editParam = floatArrayOf(-5f,5f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to "x = r * (t - k * sin(t))\ny = r * (1 - k * cos(t))", "autoParam" to "t", "handParam1" to "k") ))
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_trochoid), "autoParam" to "t", "handParam1" to "k") ))
                     // トロコイド曲線(trochoid)(k=-2.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_000003_TROCHOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000003_curve_trochoid),
                         stillImageParam = floatArrayOf(720f,-2.0f), motionImageParam = floatArrayOf(0f,-2.0f), editParam = floatArrayOf(-5f,5f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to "x = r * (t - k * sin(t))\ny = r * (1 - k * cos(t))", "autoParam" to "t", "handParam1" to "k") ))
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_trochoid), "autoParam" to "t", "handParam1" to "k") ))
                     // トロコイド曲線(trochoid)(k=2.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_000004_TROCHOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000004_curve_trochoid),
                         stillImageParam = floatArrayOf(720f,0.5f),  motionImageParam = floatArrayOf(0f,0.5f), editParam = floatArrayOf(-5f,5f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to "x = r * (t - k * sin(t))\ny = r * (1 - k * cos(t))", "autoParam" to "t", "handParam1" to "k") ))
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_trochoid), "autoParam" to "t", "handParam1" to "k") ))
                 }
                 // エピサイクロイドを選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_EPICYCLOID -> {
                     // カージオイド曲線(k=1.0)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000021_CARDIOID,DrawFragmentType.FT_SQUARE_02,resources.getString(R.string.draw_000021_curve_cardioid),
-                        stillImageParam = floatArrayOf(360f,1f), motionImageParam = floatArrayOf(0f,1f), editParam = floatArrayOf(0.5f,8.0f,1f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000021_CARDIOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000021_curve_cardioid),
+                        stillImageParam = floatArrayOf(360f,1f), motionImageParam = floatArrayOf(0f,1f), editParam = floatArrayOf(0.1f,2.0f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_epicycloid), "autoParam" to "t", "handParam1" to "k") ))
                     // エピサイクロイド曲線(k=4.0)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000022_EPICYCLOID,DrawFragmentType.FT_SQUARE_02,resources.getString(R.string.draw_000022_curve_epicycloid),
-                        stillImageParam = floatArrayOf(360f,4f), motionImageParam = floatArrayOf(0f,4f), editParam = floatArrayOf(0.5f,8.0f,1f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000022_EPICYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000022_curve_epicycloid),
+                        stillImageParam = floatArrayOf(360f,4f), motionImageParam = floatArrayOf(0f,4f), editParam = floatArrayOf(2.0f,5.0f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_epicycloid), "autoParam" to "t", "handParam1" to "k") ))
                     // エピサイクロイド曲線(k=2.1)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000023_EPICYCLOID,DrawFragmentType.FT_SQUARE_02,resources.getString(R.string.draw_000023_curve_epicycloid),
-                        stillImageParam = floatArrayOf(3600f,2.1f), motionImageParam = floatArrayOf(0f,2.1f), editParam = floatArrayOf(0.5f,8.0f,1f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000023_EPICYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000023_curve_epicycloid),
+                        stillImageParam = floatArrayOf(3600f,2.1f), motionImageParam = floatArrayOf(0f,2.1f), editParam = floatArrayOf(2.0f,5.0f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_epicycloid), "autoParam" to "t", "handParam1" to "k") ))
                     // エピサイクロイド曲線(k=3.8)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000024_EPICYCLOID,DrawFragmentType.FT_SQUARE_02,resources.getString(R.string.draw_000024_curve_epicycloid),
-                        stillImageParam = floatArrayOf(1800f,3.8f), motionImageParam = floatArrayOf(0f,3.8f), editParam = floatArrayOf(0.5f,8.0f,1f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000024_EPICYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000024_curve_epicycloid),
+                        stillImageParam = floatArrayOf(1800f,3.8f), motionImageParam = floatArrayOf(0f,3.8f), editParam = floatArrayOf(2f,5.0f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_epicycloid), "autoParam" to "t", "handParam1" to "k") ))
                     // エピサイクロイド曲線(k=5.5)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000025_EPICYCLOID,DrawFragmentType.FT_SQUARE_02,resources.getString(R.string.draw_000025_curve_epicycloid),
-                        stillImageParam = floatArrayOf(720f,5.5f), motionImageParam = floatArrayOf(0f,5.5f), editParam = floatArrayOf(0.5f,8.0f,1f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000025_EPICYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000025_curve_epicycloid),
+                        stillImageParam = floatArrayOf(720f,5.5f), motionImageParam = floatArrayOf(0f,5.5f), editParam = floatArrayOf(5.0f,8.0f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_epicycloid), "autoParam" to "t", "handParam1" to "k") ))
                     // エピサイクロイド曲線(k=7.2)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000026_EPICYCLOID,DrawFragmentType.FT_SQUARE_02,resources.getString(R.string.draw_000026_curve_epicycloid),
-                        stillImageParam = floatArrayOf(1800f,7.2f), motionImageParam = floatArrayOf(0f,7.2f), editParam = floatArrayOf(0.5f,8.0f,1f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000026_EPICYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000026_curve_epicycloid),
+                        stillImageParam = floatArrayOf(1800f,7.2f), motionImageParam = floatArrayOf(0f,7.2f), editParam = floatArrayOf(5.0f,8.0f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_epicycloid), "autoParam" to "t", "handParam1" to "k") ))
                 }
                 // ハイポサイクロイドを選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_HYPOCYCLOID -> {
@@ -476,6 +482,9 @@ class DrawDataFactory {
                     // タッチした方向に向かって加速
                     drawDataLst.add(DrawData(DrawDataID.ID_000404_NATURE_ACCELERATE_TOWARDS_TOUCH_POINT,DrawFragmentType.FT_TOUCH_01,resources.getString(R.string.draw_000404_nature_accelerate_towards_touch_point),
                         stillImageParam = floatArrayOf(5f)))
+                    // 質量の効果
+                    drawDataLst.add(DrawData(DrawDataID.ID_000405_NATURE_MASS_EFFECT,DrawFragmentType.FT_RECTANGLE_01,resources.getString(R.string.draw_000405_nature_mass_effect),
+                        stillImageParam = floatArrayOf(10f), motionImageParam = floatArrayOf(10f)))
                 }
                 // 色を選択したときの描画データの一覧
                 MenuItem.MENU_COLOR -> {

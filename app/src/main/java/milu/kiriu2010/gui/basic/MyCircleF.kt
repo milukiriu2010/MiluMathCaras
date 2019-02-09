@@ -6,17 +6,21 @@ import kotlin.math.acos
 // 円
 data class MyCircleF(
     // 位置
-    var p: MyVectorF,
+    var p: MyVectorF = MyVectorF(),
     // 半径
-    var r: Float,
+    var r: Float = 0f,
     // 速度
-    var v: MyVectorF,
+    var v: MyVectorF = MyVectorF(),
     // 加速度
     var a: MyVectorF = MyVectorF(0f,0f),
+    // 物体の重さ
+    var mass: Float = 1f,
     // 色
     var color: Int = 0xff000000.toInt()
 ) {
+    // ---------------------------------------
     // 次の地点へ移動
+    // ---------------------------------------
     fun move(limit: Float = -1f): MyCircleF {
         // 位置を変更
         p.plus(v)
@@ -31,6 +35,19 @@ data class MyCircleF(
 
         return this
     }
+
+    // ---------------------------------------
+    // 力を加える(加速度を加える)
+    // ---------------------------------------
+    // 力=重量×加速度
+    // ---------------------------------------
+    public fun applyForce(force: MyVectorF): MyCircleF {
+        val f = force.copy()
+        f.divide(mass)
+        a.plus(f)
+        return this
+    }
+
 
     // ---------------------------------------------------------------
     // 境界に達していたら、反射する

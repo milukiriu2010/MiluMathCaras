@@ -22,10 +22,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.takagi.TakagiCurv
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve03Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.nature.AccelerateTowardsTouchPoint01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.nature.Fountain01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.nature.RandomWalk01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.nature.UniformMotion01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.nature.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.TriangleExile01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWave01Drawable
@@ -178,6 +175,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000403_NATURE_RANDOM_WALK -> RandomWalk01Drawable()
                 // タッチした方向に向かって加速
                 DrawDataID.ID_000404_NATURE_ACCELERATE_TOWARDS_TOUCH_POINT -> AccelerateTowardsTouchPoint01Drawable()
+                // 質量の効果
+                DrawDataID.ID_000405_NATURE_MASS_EFFECT -> MassEffect01Drawable()
                 // 1536色
                 DrawDataID.ID_000500_COLOR_1536 -> Color1536Drawable()
                 // 768色(暗色)

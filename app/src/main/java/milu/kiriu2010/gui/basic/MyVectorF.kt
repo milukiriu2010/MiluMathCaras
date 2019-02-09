@@ -1,14 +1,15 @@
 package milu.kiriu2010.gui.basic
 
+import java.lang.RuntimeException
 import kotlin.math.sqrt
 
 // ベクトル
 // ・速度
 data class MyVectorF(
     // X方向
-    var x: Float,
+    var x: Float = 0f,
     // Y方向
-    var y: Float
+    var y: Float = 0f
 ) {
     // ベクトルの大きさ
     fun magnitude(): Float {
@@ -97,6 +98,16 @@ data class MyVectorF(
     fun multiply(d: Float): MyVectorF {
         x *= d
         y *= d
+        return this
+    }
+
+    // ベクトルの大きさを変える
+    fun divide(d: Float): MyVectorF {
+        if ( d == 0f ) {
+            throw RuntimeException("Not allowed to divide by 0.")
+        }
+        x /= d
+        y /= d
         return this
     }
 
