@@ -7,10 +7,7 @@ import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
+import kotlin.math.*
 
 // ---------------------------------------------
 // 多角形の外を多角形が回転する
@@ -148,7 +145,7 @@ class PolygonOutPolygon01Drawable: MyDrawable() {
         }
         // 回転しない方の多角形に外接する円の半径を
         // 多角形の頂点数から適宜割り当てる
-        r = side/2f * (polygonA.vertexCnt.toFloat()/(polygonA.vertexCnt.toFloat()+polygonB.vertexCnt.toFloat()))
+        r = side/3f * (polygonA.vertexCnt.toFloat()/(polygonA.vertexCnt.toFloat()+polygonB.vertexCnt.toFloat()))
 
         // 多角形の頂点の初期位置設定
         createPath()
@@ -263,9 +260,9 @@ class PolygonOutPolygon01Drawable: MyDrawable() {
             val v1 = polygonB.pointLst[it-1]
 
             // 前の辺の角度
-            val tP = MyMathUtil.getAngle(v0,v1)
+            val tP = MyMathUtil.getAngle(v1,v0)
             // 次の頂点
-            val tB = ((360f-polygonB.internalAngle)+(tP+180f))*2f*PI/360f
+            val tB = (tP+polygonB.internalAngle)*PI/180f
             val x2 = v1.x + polygonA.len*cos(tB).toFloat()
             val y2 = v1.y + polygonA.len*sin(tB).toFloat()
             polygonB.pointLst.add(MyPointF(x2,y2))
@@ -274,10 +271,10 @@ class PolygonOutPolygon01Drawable: MyDrawable() {
         }
 
         // 回転の最大角度
-        //  = 回転しない多角形の内角 - 回転する多角形の内角
-        angleMax = polygonA.internalAngle - polygonB.internalAngle
+        //  = 360 - (回転しない多角形の内角 + 回転する多角形の内角)
+        angleMax = 360f - polygonA.internalAngle - polygonB.internalAngle
         // 回転にあたり刻む角度
-        angleDiv = angleMax/5f
+        angleDiv = angleMax/20f
     }
 
     // -------------------------------
@@ -301,7 +298,7 @@ class PolygonOutPolygon01Drawable: MyDrawable() {
             val len0 = sqrt(x0*x0+y0*y0)
             val angle0 = MyMathUtil.getAngle(c,myPointF)
 
-            val angle1 = (angle0-angleDiv)*PI/180f
+            val angle1 = (angle0+angleDiv)*PI/180f
             val x1 = c.x + len0 * cos(angle1).toFloat()
             val y1 = c.y + len0 * sin(angle1).toFloat()
             myPointF.x = x1
@@ -312,7 +309,8 @@ class PolygonOutPolygon01Drawable: MyDrawable() {
         }
 
         // 最大角度まで達したら、回転に使う頂点を隣に移す
-        if ( angle == angleMax ) {
+        // 誤差が生じるので、絶対値が誤差範囲内かどうかを判定することとしている
+        if ( abs(angle - angleMax) < 0.1f ) {
             vertexC = (vertexC+1)%polygonB.vertexCnt
             angle = 0f
             vertexLCMn = (vertexLCMn+1)%vertexLCM
@@ -435,6 +433,8 @@ class PolygonOutPolygon01Drawable: MyDrawable() {
         var vertexCnt = 3
             set(data: Int) {
                 field = data
+                // 多角形の頂点の数を設定するときに、
+                // 多角形の内角を計算する
                 internalAngle = 180f-(360f/data.toFloat())
             }
         // 多角形の内角
