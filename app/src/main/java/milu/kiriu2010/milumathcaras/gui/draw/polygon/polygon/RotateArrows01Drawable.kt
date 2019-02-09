@@ -11,6 +11,7 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 // -----------------------------------------------------------------
 // 回転する矢印
 // -----------------------------------------------------------------
+// https://twitter.com/justvanrossum/status/1091237538583511041
 // https://forum.drawbot.com/topic/123/rotating-arrows-exercise
 // -----------------------------------------------------------------
 // # triggered by Mike Duggan:

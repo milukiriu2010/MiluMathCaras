@@ -49,6 +49,8 @@ enum class MenuItem(val title: String): Parcelable {
     MENU_FRACTAL_JULIA("Julia"),
     // 波を描画するメニュー
     MENU_WAVE("Wave"),
+    // 円を描画するメニュー
+    MENU_CIRCLE("Circle"),
     // 多角形を描画するメニュー
     MENU_POLYGON("Polygon"),
     // "多角形のMIX"を描画するメニュー

@@ -1,6 +1,7 @@
 package milu.kiriu2010.milumathcaras.gui.draw
 
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
+import milu.kiriu2010.milumathcaras.gui.draw.circle.BiggerCircle01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.color.Color1536Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.color.Color768DarkDrawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.julia.Julia01Drawable
@@ -317,6 +318,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000777_10_OUT_9 -> PolygonOutPolygon01Drawable()
                 // 十角形out十角形
                 DrawDataID.ID_000778_10_OUT_10 -> PolygonOutPolygon01Drawable()
+                // だんだん大きくなる円
+                DrawDataID.ID_000800_CIRCLE_BIGGER -> BiggerCircle01Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")
             }
 

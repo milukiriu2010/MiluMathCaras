@@ -289,6 +289,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000777_10_OUT_9(777),
     // 十角形out十角形
     ID_000778_10_OUT_10(778),
+    // だんだん大きくなる円
+    ID_000800_CIRCLE_BIGGER(800)
 }
 
 // ------------------------------

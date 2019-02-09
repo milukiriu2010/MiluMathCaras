@@ -160,18 +160,25 @@ class DrawDataFactory {
                     // 円の周りを回転するサイン波
                     drawDataLst.add(DrawData(DrawDataID.ID_000041_SINE_WAVE_CIRCLE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000041_wave_sine_circle) ))
                 }
+                // 円を選択したときの描画データの一覧
+                MenuItem.MENU_CIRCLE -> {
+                    // だんだん大きくなる円
+                    drawDataLst.add(DrawData(DrawDataID.ID_000800_CIRCLE_BIGGER,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000800_circle_bigger),
+                        stillImageParam = floatArrayOf(1080f),
+                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/K4_NTCiK") ))
+                }
                 // "多角形のMix"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_MIX -> {
                     // 三角形でEXILE
                     drawDataLst.add(DrawData(DrawDataID.ID_000600_TRIANGLE_EXILE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000600_polygon_triangle_exile) ))
                     // 多角形のラップ
                     drawDataLst.add(DrawData(DrawDataID.ID_000601_POLYGON_LAP,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000601_polygon_lap),
-                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://twitter.com/beesandbombs?lang=en") ))
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://twitter.com/beesandbombs/status/872796708803145728") ))
                     // 円⇔正方形の変形
                     drawDataLst.add(DrawData(DrawDataID.ID_000602_CIRCLE2SQUARE_MORPH,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000602_polygon_circle2square_morph) ))
                     // 回転する矢印
                     drawDataLst.add(DrawData(DrawDataID.ID_000603_ROTATE_ARROWS,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000603_polygon_rotate_arrows),
-                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://twitter.com/beesandbombs?lang=en") ))
+                        creditMap = mutableMapOf<String,String>("name" to "Just van Rossum", "url" to "https://twitter.com/justvanrossum/status/1091237538583511041") ))
                 }
                 // "多角形in多角形"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_PINP -> {

@@ -22,6 +22,7 @@
     <string name="menu_sub_fractal_mandelbrot">Mandelbrot Set</string>
     <string name="menu_sub_fractal_julia">Julia Set</string>
     <string name="menu_sub_wave">Wave</string>
+    <string name="menu_sub_circle">Circle</string>
     <string name="menu_sub_polygon">Polygon</string>
     <string name="menu_sub_polygon_mix">Polygon Mix</string>
     <string name="menu_sub_polygon_pinp">Polygon in Polygon</string>
@@ -169,4 +170,5 @@
     <string name="draw_000776_polygon_10_out_8">10 out 8</string>
     <string name="draw_000777_polygon_10_out_9">10 out 9</string>
     <string name="draw_000778_polygon_10_out_10">10 out 10</string>
+    <string name="draw_000800_circle_bigger">Bigger Circle</string>
 </resources>

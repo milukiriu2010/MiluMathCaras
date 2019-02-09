@@ -125,6 +125,9 @@ class MenuFragment : Fragment() {
                     // [サブメニュー]
                     // 波一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_WAVE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_wave),false))
+                     // [サブメニュー]
+                     // 円一覧を表示するメニュー
+                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CIRCLE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_circle),false))
                     // [サブメニュー]
                     // 多角形一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon),true))
