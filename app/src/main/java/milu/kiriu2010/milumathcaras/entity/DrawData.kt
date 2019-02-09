@@ -300,10 +300,14 @@ enum class DrawFragmentType: Parcelable {
     FT_CREDIT_01,
     // 正方形領域に描画する
     FT_SQUARE_01,
-    // 正方形領域に描画する(媒介変数の値を変更するSeekBar１つ)
+    // 正方形領域に描画する(01＋媒介変数の値を変更するSeekBar１つ)
     FT_SQUARE_02,
-    // 正方形領域に描画する(媒介変数の値を変更するSeekBar２つ)
+    // 正方形領域に描画する(01＋媒介変数の値を変更するSeekBar２つ)
     FT_SQUARE_03,
+    // 正方形領域に描画する(01＋関数式)
+    FT_SQUARE_04,
+    // 正方形領域に描画する(02＋関数式)
+    FT_SQUARE_05,
     // 長方形領域に描画する
     FT_RECTANGLE_01,
     // タッチイベントを受け付ける
@@ -322,7 +326,6 @@ data class DrawData(
     // タイトル
     val title: String,
     // クレジット
-    //val credit: Array<String> = arrayOf(),
     val creditMap: MutableMap<String,String> = mutableMapOf(),
     // 静止画の初期パラメータ
     val stillImageParam: FloatArray = floatArrayOf(),
@@ -336,5 +339,14 @@ data class DrawData(
     // ２番目：最大値
     // ３番目：動画用の初期パラメータから採用する位置
     // ---------------------------------------------
-    val editParam: FloatArray = floatArrayOf()
+    val editParam: FloatArray = floatArrayOf(),
+    // ---------------------------------------------
+    // 関数式
+    // ---------------------------------------------
+    // キー
+    //   funcDesc   => 関数式
+    //   autoParam  => 自動で更新されるパラメータ
+    //   handParam1 => 手動で更新されるパラメータ１
+    // ---------------------------------------------
+    val funcDescMap: MutableMap<String, String> = mutableMapOf()
 ):  Parcelable

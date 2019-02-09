@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.R
 
 import milu.kiriu2010.milumathcaras.entity.DrawData
@@ -17,19 +18,26 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 private const val ARG_PARAM1 = "drawdata"
 
-// ---------------------------------------------
+// ----------------------------------------
 // アニメーション描画をするフラグメント
-// ---------------------------------------------
+// ----------------------------------------
 // 正方形の領域に描画する
-// ---------------------------------------------
+// ----------------------------------------
+// ☆ Square01Fragmentから加えたビュー
+// ----------------------------------------
+// ☆関数式表示用のTextView １つ
 // ・描画用のImageView１つ
-// ・オリジナル作成者名を表示するTextView １つ
-// ---------------------------------------------
-class Credit01Fragment : Fragment()
+// ・通知用のTextView １つ
+// ☆パラメータ表示用のTextView １つ
+// ----------------------------------------
+class Square04Fragment : Fragment()
     , NotifyCallback {
 
     // 描画データ
     private lateinit var drawData: DrawData
+
+    // 関数式を表示するビュー
+    private lateinit var textViewFuncDesc: TextView
 
     // 描画するビュー
     private lateinit var imageView: ImageView
@@ -37,11 +45,11 @@ class Credit01Fragment : Fragment()
     // 描画するDrawable
     private lateinit var drawable: MyDrawable
 
-    // 製作者の名前を表示するビュー
-    private lateinit var textViewName: TextView
+    // 描画に使っている媒介変数の値を表示するビュー
+    private lateinit var textView1: TextView
 
-    // 製作者のURLを表示するビュー
-    private lateinit var textView: TextView
+    // パラメータを表示するビュー
+    private lateinit var textView2: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,25 +63,22 @@ class Credit01Fragment : Fragment()
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_credit_01, container, false)
+        val view = inflater.inflate(R.layout.fragment_square_04, container, false)
+
+        // 関数式を表示するビュー
+        textViewFuncDesc = view.findViewById(R.id.textViewFuncDesc)
+        textViewFuncDesc.text = drawData.funcDescMap["funcDesc"] ?: ""
 
         // 描画するビュー
         imageView = view.findViewById(R.id.imageView)
         drawable = MyDrawableFactory.createInstance(drawData.id,this)
         imageView.setImageDrawable(drawable)
 
-        // 製作者の名前を表示するビュー
-        textViewName = view.findViewById(R.id.textViewName)
-        // 製作者名
-        val name = drawData.creditMap["name"]
-        textViewName.text = name
+        // 描画に使っている媒介変数の値を表示するビュー
+        textView1 = view.findViewById(R.id.textView1)
 
-        // 製作者のURLを表示するビュー
-        textView = view.findViewById(R.id.textView)
-        //textView.text = "Credit: %s".format(drawData.creditMap["name"])
-        // URL
-        val url = drawData.creditMap["url"]
-        textView.text = url
+        // パラメータを表示するビュー
+        textView2 = view.findViewById(R.id.textView2)
 
         return view
     }
@@ -97,12 +102,20 @@ class Credit01Fragment : Fragment()
     // 通知データを受信する
     // ---------------------------------
     override fun receive(data: Float) {
+        // 小数点以下の桁数
+        val numOfDecimals = MyMathUtil.getNumberOfDecimals(data)
+
+        // 媒介変数の値をビューに表示する
+        textView1.text = when (numOfDecimals) {
+            0 -> data.toInt().toString()
+            else -> data.toString()
+        }
     }
 
     companion object {
         @JvmStatic
         fun newInstance(drawData: DrawData) =
-            Credit01Fragment().apply {
+            Square04Fragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_PARAM1,drawData)
                 }

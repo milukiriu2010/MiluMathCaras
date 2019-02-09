@@ -34,10 +34,14 @@ class FragmentFactory {
                 DrawFragmentType.FT_CREDIT_01 -> Credit01Fragment.newInstance(drawData)
                 // 正方形領域に描画データを表示するフラグメントを生成
                 DrawFragmentType.FT_SQUARE_01 -> Square01Fragment.newInstance(drawData)
-                // 正方形領域に描画データを表示するフラグメントを生成(媒介変数の値を変更するシークバー１つ)
+                // 正方形領域に描画データを表示するフラグメントを生成(01＋媒介変数の値を変更するシークバー１つ)
                 DrawFragmentType.FT_SQUARE_02 -> Square02Fragment.newInstance(drawData)
-                // 正方形領域に描画データを表示するフラグメントを生成(媒介変数の値を変更するシークバー２つ)
+                // 正方形領域に描画データを表示するフラグメントを生成(01＋媒介変数の値を変更するシークバー２つ)
                 DrawFragmentType.FT_SQUARE_03 -> Square03Fragment.newInstance(drawData)
+                // 正方形領域に描画データを表示するフラグメントを生成(01＋関数式)
+                DrawFragmentType.FT_SQUARE_04 -> Square04Fragment.newInstance(drawData)
+                // 正方形領域に描画データを表示するフラグメントを生成(02＋関数式)
+                DrawFragmentType.FT_SQUARE_05 -> Square05Fragment.newInstance(drawData)
                 // 長方形領域に描画データを表示するフラグメントを生成
                 DrawFragmentType.FT_RECTANGLE_01 -> Rectangle01Fragment.newInstance(drawData)
                 // タッチイベントを受け付けるフラグメントを生成
