@@ -2,6 +2,7 @@ package milu.kiriu2010.milumathcaras.gui.draw
 
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
 import milu.kiriu2010.milumathcaras.gui.draw.circle.BiggerCircle01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.circle.BiggerCircle02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.color.Color1536Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.color.Color768DarkDrawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.julia.Julia01Drawable
@@ -177,6 +178,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000404_NATURE_ACCELERATE_TOWARDS_TOUCH_POINT -> AccelerateTowardsTouchPoint01Drawable()
                 // 質量の効果
                 DrawDataID.ID_000405_NATURE_MASS_EFFECT -> MassEffect01Drawable()
+                // 摩擦の効果
+                DrawDataID.ID_000406_NATURE_FRICTION_EFFECT -> FrictionEffect01Drawable()
                 // 1536色
                 DrawDataID.ID_000500_COLOR_1536 -> Color1536Drawable()
                 // 768色(暗色)
@@ -317,8 +320,10 @@ class MyDrawableFactory {
                 DrawDataID.ID_000777_10_OUT_9 -> PolygonOutPolygon01Drawable()
                 // 十角形out十角形
                 DrawDataID.ID_000778_10_OUT_10 -> PolygonOutPolygon01Drawable()
-                // だんだん大きくなる円
-                DrawDataID.ID_000800_CIRCLE_BIGGER -> BiggerCircle01Drawable()
+                // だんだん大きくなる円その１
+                DrawDataID.ID_000800_CIRCLE_BIGGER_01 -> BiggerCircle01Drawable()
+                // だんだん大きくなる円その２
+                DrawDataID.ID_000801_CIRCLE_BIGGER_02 -> BiggerCircle02Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")
             }
 

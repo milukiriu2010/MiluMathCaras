@@ -36,6 +36,7 @@ class BiggerCircle01Drawable: MyDrawable() {
     // -------------------------------
     private var angleInit = 180f
     private var angle = 0f
+    private var angleDv = 5f
     private var angleMax = 360f*7f
 
     // -------------------------------
@@ -180,7 +181,7 @@ class BiggerCircle01Drawable: MyDrawable() {
     // -------------------------------
     private fun movePoint() {
         // 10度ずつ移動する
-        angle = angle + 5f
+        angle = angle + angleDv
         //Log.d(javaClass.simpleName,"angle[{$angle}]")
 
         // １周するたびに円の半径を大きくする
@@ -237,10 +238,10 @@ class BiggerCircle01Drawable: MyDrawable() {
         val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
         // 円を描く
         val path = Path()
-        val bunchSize = pointLst.size
+        val bunchSize = 360/angleDv.toInt()
         var myPointF2: MyPointF? = null
         pointLst.forEachIndexed { index, myPointF1 ->
-            val color = myColor.create(index,bunchSize)
+            val color = myColor.create(index%bunchSize,bunchSize)
             linePaint.color = color.toInt()
             if ( myPointF2 != null ) {
                 canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaint)

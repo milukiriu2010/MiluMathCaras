@@ -1,38 +1,60 @@
-package milu.kiriu2010.milumathcaras.gui.draw.nature
+package milu.kiriu2010.milumathcaras.gui.draw.circle
 
 import android.graphics.*
 import android.os.Handler
-import android.util.Log
-import milu.kiriu2010.gui.basic.MyCircleF
-import milu.kiriu2010.gui.basic.MyVectorF
+import milu.kiriu2010.gui.basic.MyPointF
+import milu.kiriu2010.gui.color.ColorType
+import milu.kiriu2010.gui.color.MyColorFactory
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
+import kotlin.math.PI
+import kotlin.math.abs
+import kotlin.math.cos
+import kotlin.math.sin
 
-// ------------------------------------------------------------------
-// 質量の効果
-// ------------------------------------------------------------------
-// 力 = 質量 × 加速度
-// ------------------------------------------------------------------
-// https://natureofcode.com/book/chapter-2-forces/
-// ------------------------------------------------------------------
-class MassEffect01Drawable: MyDrawable() {
+// --------------------------------------------
+// だんだん大きくなる円
+// --------------------------------------------
+// 7回転する
+// --------------------------------------------
+// http://logo.twentygototen.org/NsVT04Kn
+// --------------------------------------------
+class BiggerCircle02Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
     // -------------------------------
-    private val sideW = 1000f
-    private val sideH = 1500f
-    private val margin = 0f
+    private val side = 1000f
+    private val margin = 50f
 
     // ---------------------------------
-    // 円の最大数
+    // 回転数
     // ---------------------------------
-    private var nMax = 10
+    private val nMax = 7
 
     // ---------------------------------
-    // 円リスト
+    // 中心移動
     // ---------------------------------
-    private val circleLst: MutableList<MyCircleF> = mutableListOf()
+    private var m = 0
+    private val mMax = 2
+
+    // ---------------------------------
+    // 円の半径
+    // ---------------------------------
+    private var r = (side/2f/nMax.toFloat()).toFloat()
+
+    // -------------------------------
+    // 円弧の描画角度
+    // -------------------------------
+    private var angleInit = 180f
+    private var angle = 0f
+    private var angleDv = 5f
+    private var angleMax = 360f*nMax.toFloat()*mMax.toFloat()
+
+    // -------------------------------
+    // 円の描画点リスト
+    // -------------------------------
+    val pointLst = mutableListOf<MyPointF>()
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -59,40 +81,14 @@ class MassEffect01Drawable: MyDrawable() {
         style = Paint.Style.FILL
     }
 
-    // -------------------------------------
+    // -------------------------------
     // 円を描くペイント
-    // -------------------------------------
+    // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.BLACK
-        style = Paint.Style.FILL_AND_STROKE
-        strokeWidth = 5f
+        color = Color.RED
+        style = Paint.Style.STROKE
+        strokeWidth = 10f
     }
-
-    // -------------------------------------
-    // 円を描く色リスト
-    // -------------------------------------
-    private val colorLst = arrayOf(
-        // 0:red
-        0xffff0000.toInt(),
-        // 1:pink
-        0xffffcccc.toInt(),
-        // 2:orange
-        0xffff7f00.toInt(),
-        // 3:maroon
-        0xff800000.toInt(),
-        // 4:green(lime)
-        0xff00ff00.toInt(),
-        // 5:blue
-        0xff0000ff.toInt(),
-        // 6:cyan
-        0xff00ffff.toInt(),
-        // 7:indigo
-        0xff6f00ff.toInt(),
-        // 8:violet
-        0xffff00ff.toInt(),
-        // 9:green
-        0xff008000.toInt()
-    )
 
     // -------------------------------------
     // 描画中に呼び出すコールバックを設定
@@ -115,20 +111,26 @@ class MassEffect01Drawable: MyDrawable() {
     // -----------------------------------------
     // 可変変数 values の引数位置による意味合い
     //
-    // 第１引数:描画する円の最大数
+    // 第１引数:描画角度の初期位置
     // -----------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
-        // 可変変数 values を初期値として、このクラスで使う変数に当てはめる
+        // 描画角度の初期位置
+        angleInit = 0f
         values.forEachIndexed { index, fl ->
             //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
             when (index) {
-                // 描画する円の最大数
-                0 -> nMax = fl.toInt()
+                // 描画角度の初期位置
+                0 -> angleInit = fl
             }
         }
 
-        // 描画する円を生成
-        while (createMover())
+        // 初期位置まで描画点を追加する
+        while ( angle < angleInit )  {
+            // 円の描画点を追加
+            addPoint()
+            // 円の描画点を移動
+            movePoint()
+        }
         // ビットマップに描画
         drawBitmap()
         // 描画
@@ -137,17 +139,25 @@ class MassEffect01Drawable: MyDrawable() {
         // 描画に使うスレッド
         if ( isKickThread ) {
             runnable = Runnable {
-                // 円を移動する
-                moveMover()
+                // 円の描画点を追加
+                addPoint()
+                // 円の描画点を移動
+                movePoint()
                 // ビットマップに描画
                 drawBitmap()
                 // 描画
                 invalidateSelf()
 
+                // 最初と最後は1秒後に描画
+                if (angle == angleMax || angle == 0f) {
+                    handler.postDelayed(runnable, 1000)
+                }
                 // 10msごとに描画
-                handler.postDelayed(runnable, 10)
+                else {
+                    handler.postDelayed(runnable, 10)
+                }
             }
-            handler.postDelayed(runnable, 100)
+            handler.postDelayed(runnable, 1000)
         }
     }
 
@@ -160,7 +170,7 @@ class MassEffect01Drawable: MyDrawable() {
     }
 
     // -------------------------------------
-    // TouchCallback
+    // CalculationCallback
     // 描画ビューを閉じる際,呼び出す後処理
     // -------------------------------------
     override fun calStop() {
@@ -169,62 +179,46 @@ class MassEffect01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 描画する円を生成
+    // 円の描画点を追加
     // -------------------------------
-    private fun createMover(): Boolean {
-        // 既に最大数を超えていたら何もしない
-        if ( circleLst.size >= nMax ) return false
-
-        // 円の重さ
-        val massA = (circleLst.size.toFloat()+1f)
-
-        // 円の半径
-        val rA = massA * 10f
-
-        // ---------------------------------------------------
-        // 円の初期位置(左上に配置)
-        // y座標を"sideH-rA"でなく"sideH-rA-1"としているのは、
-        // 境界チェックのところで、上にはりついてしまうから
-        // ---------------------------------------------------
-        val x = rA
-        val y = sideH-rA-1f
-
-        // 風の強さ
-        val wind = MyVectorF(1f,0f)
-        // 重力
-        val gravity = MyVectorF(0f,-10f)
-
-        // 色
-        val colorId = circleLst.size%colorLst.size
-
-        // 円
-        val circle = MyCircleF().apply{
-            // 円の初期位置
-            p = MyVectorF(x,y)
-            // 円の重さ
-            mass = massA
-            // 円の半径
-            r = rA
-            // 円の色
-            color = colorLst[colorId]
+    private fun addPoint() {
+        val x = when (m%mMax) {
+            // 左寄せ
+            0 -> r+r*cos((angle+180f)*PI/180f).toFloat()
+            // 右寄せ
+            1 -> side-r+r*cos((angle)*PI/180f).toFloat()
+            else -> 0f
         }
-        // 円に力を加える
-        circle.applyForce(wind).applyForce(gravity)
-
-        // 円を生成し、リストに加える
-        circleLst.add(circle)
-
-        return true
+        val y = r*sin(angle*PI/180f).toFloat()
+        pointLst.add(MyPointF(x,y))
     }
 
     // -------------------------------
-    // 円を移動する
+    // 円の描画点を移動
     // -------------------------------
-    private fun moveMover() {
-        circleLst.forEachIndexed { index, circleF ->
-            circleF.move()
-            // 境界を超えていたら、反射する
-            circleF.checkBorder(0f,0f,sideW,sideH)
+    private fun movePoint() {
+        // １周するたびに円の半径を大きくする
+        // ただし、中心移動が発生すると、最初の大きさに戻る
+        if ( angle.toInt()%360 == 0 ) {
+            m = (angle.toInt()/360)/nMax
+            r = (angle.toInt()/360%nMax+1).toFloat()*(side/2f/nMax.toFloat())
+        }
+
+        // 10度ずつ移動する
+        angle = angle + angleDv
+        //Log.d(javaClass.simpleName,"angle[{$angle}]")
+
+
+        // 最大角度を超えたら
+        // ・元の位置に戻す
+        // ・円の半径を戻す
+        // ・中心移動をもとの位置に戻す
+        // ・描画点リストをクリアする
+        if ( angle > angleMax ) {
+            angle = 0f
+            r = side/2f/7f
+            m = 0
+            pointLst.clear()
         }
     }
 
@@ -240,22 +234,57 @@ class MassEffect01Drawable: MyDrawable() {
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
         // 原点(0,0)の位置
-        // = (左右中央,上下中央)
-        val x0 = (intrinsicWidth/2).toFloat()
+        // = (マージン,上下中央)
+        val x0 = margin
         val y0 = (intrinsicHeight/2).toFloat()
 
-        // 円を描画
-        circleLst.reversed().forEachIndexed { index, myCircleF ->
-            linePaint.color = myCircleF.color
-            canvas.drawCircle(myCircleF.p.x,myCircleF.p.y,myCircleF.r,linePaint)
-        }
+        // 原点(x0,y0)を中心に円を描く
+        canvas.save()
+        canvas.translate(x0,y0)
 
-        // これまでの描画は上下逆なので、反転する
+        /*
+        // 円を描く
+        val path = Path()
+        pointLst.forEachIndexed { index, myPointF ->
+            if ( index == 0 ) {
+                path.moveTo(myPointF.x,myPointF.y)
+            }
+            else {
+                path.lineTo(myPointF.x,myPointF.y)
+            }
+        }
+        canvas.drawPath(path,linePaint)
+        */
+
+        // 色インスタンス作成
+        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
+        // 円を描く
+        val path = Path()
+        val bunchSize = 360/angleDv.toInt()
+        var myPointF2: MyPointF? = null
+        pointLst.forEachIndexed { index, myPointF1 ->
+            val color = myColor.create(index%bunchSize,bunchSize)
+            linePaint.color = color.toInt()
+            if ( myPointF2 != null) {
+                // 中心位置が移動した場合、点同士を繋げないようにするために
+                // 離れすぎている場合は、描画しないようにしている
+                val myPointFDiff = myPointF1.copy().subtract(myPointF2!!)
+                if ( myPointFDiff.magnitude() < r ) {
+                    canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaint)
+                }
+            }
+            myPointF2 = myPointF1
+        }
+        canvas.drawPath(path,linePaint)
+
+        // 座標を元に戻す
+        canvas.restore()
+
+        // これまでの描画は上下逆なので反転する
         val matrix = Matrix()
-        matrix.setScale(1f,-1f)
+        matrix.postScale(1f,-1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
     }
-
 
     // -------------------------------
     // Drawable
@@ -289,10 +318,10 @@ class MassEffect01Drawable: MyDrawable() {
     // -------------------------------
     // Drawable
     // -------------------------------
-    override fun getIntrinsicWidth(): Int = (sideW+margin*2).toInt()
+    override fun getIntrinsicWidth(): Int = (side+margin*2).toInt()
 
     // -------------------------------
     // Drawable
     // -------------------------------
-    override fun getIntrinsicHeight(): Int = (sideH+margin*2).toInt()
+    override fun getIntrinsicHeight(): Int = (side+margin*2).toInt()
 }

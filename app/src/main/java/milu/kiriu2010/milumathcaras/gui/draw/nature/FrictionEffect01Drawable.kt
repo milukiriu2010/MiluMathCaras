@@ -9,13 +9,13 @@ import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 // ------------------------------------------------------------------
-// 質量の効果
+// 摩擦の効果
 // ------------------------------------------------------------------
-// 力 = 質量 × 加速度
+// 摩擦力 = -1 * 摩擦係数 * 垂直抗力 * 速度ベクトル
 // ------------------------------------------------------------------
 // https://natureofcode.com/book/chapter-2-forces/
 // ------------------------------------------------------------------
-class MassEffect01Drawable: MyDrawable() {
+class FrictionEffect01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -33,6 +33,11 @@ class MassEffect01Drawable: MyDrawable() {
     // 円リスト
     // ---------------------------------
     private val circleLst: MutableList<MyCircleF> = mutableListOf()
+
+    // 風の強さ
+    val wind = MyVectorF(1f,0f)
+    // 重力
+    val gravity = MyVectorF(0f,-10f)
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -176,7 +181,7 @@ class MassEffect01Drawable: MyDrawable() {
         if ( circleLst.size >= nMax ) return false
 
         // 円の重さ
-        val massA = (circleLst.size.toFloat()+1f)
+        val massA = (circleLst.size.toFloat()+2f)
 
         // 円の半径
         val rA = massA * 10f
@@ -189,10 +194,6 @@ class MassEffect01Drawable: MyDrawable() {
         val x = rA
         val y = sideH-rA-1f
 
-        // 風の強さ
-        val wind = MyVectorF(1f,0f)
-        // 重力
-        val gravity = MyVectorF(0f,-10f)
 
         // 色
         val colorId = circleLst.size%colorLst.size
@@ -225,6 +226,40 @@ class MassEffect01Drawable: MyDrawable() {
             circleF.move()
             // 境界を超えていたら、反射する
             circleF.checkBorder(0f,0f,sideW,sideH)
+
+            // 物体の加速度をクリアする
+            circleF.a.multiply(0f)
+
+            // 円に力を加える
+            circleF.applyForce(wind).applyForce(gravity)
+
+            // ----------------------------------
+            // 摩擦効果を加える
+            // ----------------------------------
+            // 物体の速度
+            val v = circleF.v
+            // 摩擦係数
+            val c = 5f
+            // 摩擦力 = -1 * 摩擦係数 * 垂直抗力 * 速度ベクトル
+            val fv = v.copy()
+                .multiply(-1f)
+                .normalized()
+                .multiply(c)
+            circleF.applyForce(fv)
+
+            // -------------------------------------------------
+            // 速度の大きさが一定の値より小さくなったら停止させる
+            // -------------------------------------------------
+            if ( circleF.v.magnitude() < 3.5f/circleF.mass ) {
+                circleF.v.multiply(0f)
+                circleF.a.multiply(0f)
+            }
+
+            /*
+            if ( index == 0 ) {
+                Log.d(javaClass.simpleName,"vx[${circleF.v.x}]vy[${circleF.v.y}]")
+            }
+            */
         }
     }
 

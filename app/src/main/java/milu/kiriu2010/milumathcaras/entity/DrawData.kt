@@ -151,6 +151,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000404_NATURE_ACCELERATE_TOWARDS_TOUCH_POINT(404),
     // 質量の効果
     ID_000405_NATURE_MASS_EFFECT(405),
+    // 摩擦の効果
+    ID_000406_NATURE_FRICTION_EFFECT(406),
     // 1536色
     ID_000500_COLOR_1536(500),
     // 768色(暗色)
@@ -292,7 +294,9 @@ enum class DrawDataID(val id: Int): Parcelable {
     // 十角形out十角形
     ID_000778_10_OUT_10(778),
     // だんだん大きくなる円
-    ID_000800_CIRCLE_BIGGER(800)
+    ID_000800_CIRCLE_BIGGER_01(800),
+    // だんだん大きくなる円
+    ID_000801_CIRCLE_BIGGER_02(801)
 }
 
 // ------------------------------

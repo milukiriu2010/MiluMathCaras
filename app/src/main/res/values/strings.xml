@@ -104,6 +104,7 @@
     <string name="draw_000403_nature_random_walk">Random Walk</string>
     <string name="draw_000404_nature_accelerate_towards_touch_point">Accelerate towards\n the touch point</string>
     <string name="draw_000405_nature_mass_effect">Mass Effect</string>
+    <string name="draw_000406_nature_friction_effect">Friction Effect</string>
     <string name="draw_000500_color_1536">color 1536</string>
     <string name="draw_000501_color_768_dark">color 768 dark</string>
     <string name="draw_000600_polygon_triangle_exile">Triangle Exile</string>
@@ -174,5 +175,6 @@
     <string name="draw_000776_polygon_10_out_8">10 out 8</string>
     <string name="draw_000777_polygon_10_out_9">10 out 9</string>
     <string name="draw_000778_polygon_10_out_10">10 out 10</string>
-    <string name="draw_000800_circle_bigger">Bigger Circle</string>
+    <string name="draw_000800_circle_bigger_01">Bigger Circle 01</string>
+    <string name="draw_000801_circle_bigger_02">Bigger Circle 02</string>
 </resources>

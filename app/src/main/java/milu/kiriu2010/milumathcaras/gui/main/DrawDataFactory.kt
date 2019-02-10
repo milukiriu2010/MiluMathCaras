@@ -174,10 +174,14 @@ class DrawDataFactory {
                 }
                 // 円を選択したときの描画データの一覧
                 MenuItem.MENU_CIRCLE -> {
-                    // だんだん大きくなる円
-                    drawDataLst.add(DrawData(DrawDataID.ID_000800_CIRCLE_BIGGER,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000800_circle_bigger),
+                    // だんだん大きくなる円その１
+                    drawDataLst.add(DrawData(DrawDataID.ID_000800_CIRCLE_BIGGER_01,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000800_circle_bigger_01),
                         stillImageParam = floatArrayOf(1080f),
                         creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/K4_NTCiK") ))
+                    // だんだん大きくなる円その２
+                    drawDataLst.add(DrawData(DrawDataID.ID_000801_CIRCLE_BIGGER_02,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000801_circle_bigger_02),
+                        stillImageParam = floatArrayOf(3600f),
+                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/NsVT04Kn") ))
                 }
                 // "多角形のMix"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_MIX -> {
@@ -477,20 +481,29 @@ class DrawDataFactory {
                 // "Nature of Code"を選択したときの描画データの一覧
                 MenuItem.MENU_NATURE -> {
                     // 等速度運動
-                    drawDataLst.add(DrawData(DrawDataID.ID_000401_NATURE_UNFORM_MOTION,DrawFragmentType.FT_RECTANGLE_01,resources.getString(R.string.draw_000401_nature_uniform_motion),
-                        stillImageParam = floatArrayOf(5f)))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000401_NATURE_UNFORM_MOTION,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000401_nature_uniform_motion),
+                        stillImageParam = floatArrayOf(5f),
+                        creditMap = mutableMapOf<String,String>("name" to "The Nature of Code", "url" to "https://natureofcode.com/book/chapter-1-vectors/") ))
                     // 噴水
-                    drawDataLst.add(DrawData(DrawDataID.ID_000402_NATURE_FOUNTAIN,DrawFragmentType.FT_RECTANGLE_01,resources.getString(R.string.draw_000402_nature_fountain),
-                        stillImageParam = floatArrayOf(5f), motionImageParam = floatArrayOf(1f)))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000402_NATURE_FOUNTAIN,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000402_nature_fountain),
+                        stillImageParam = floatArrayOf(5f), motionImageParam = floatArrayOf(1f),
+                        creditMap = mutableMapOf<String,String>("name" to "The Nature of Code", "url" to "https://natureofcode.com/book/chapter-1-vectors/") ))
                     // ランダムウォーク
-                    drawDataLst.add(DrawData(DrawDataID.ID_000403_NATURE_RANDOM_WALK,DrawFragmentType.FT_RECTANGLE_01,resources.getString(R.string.draw_000403_nature_random_walk),
-                        stillImageParam = floatArrayOf(5f)))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000403_NATURE_RANDOM_WALK,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000403_nature_random_walk),
+                        stillImageParam = floatArrayOf(5f),
+                        creditMap = mutableMapOf<String,String>("name" to "The Nature of Code", "url" to "https://natureofcode.com/book/chapter-1-vectors/") ))
                     // タッチした方向に向かって加速
                     drawDataLst.add(DrawData(DrawDataID.ID_000404_NATURE_ACCELERATE_TOWARDS_TOUCH_POINT,DrawFragmentType.FT_TOUCH_01,resources.getString(R.string.draw_000404_nature_accelerate_towards_touch_point),
-                        stillImageParam = floatArrayOf(5f)))
+                        stillImageParam = floatArrayOf(5f),
+                        creditMap = mutableMapOf<String,String>("name" to "The Nature of Code", "url" to "https://natureofcode.com/book/chapter-1-vectors/") ))
                     // 質量の効果
-                    drawDataLst.add(DrawData(DrawDataID.ID_000405_NATURE_MASS_EFFECT,DrawFragmentType.FT_RECTANGLE_01,resources.getString(R.string.draw_000405_nature_mass_effect),
-                        stillImageParam = floatArrayOf(10f), motionImageParam = floatArrayOf(10f)))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000405_NATURE_MASS_EFFECT,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000405_nature_mass_effect),
+                        stillImageParam = floatArrayOf(10f), motionImageParam = floatArrayOf(10f),
+                        creditMap = mutableMapOf<String,String>("name" to "The Nature of Code", "url" to "https://natureofcode.com/book/chapter-2-forces/") ))
+                    // 摩擦の効果
+                    drawDataLst.add(DrawData(DrawDataID.ID_000406_NATURE_FRICTION_EFFECT,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000406_nature_friction_effect),
+                        stillImageParam = floatArrayOf(10f), motionImageParam = floatArrayOf(10f),
+                        creditMap = mutableMapOf<String,String>("name" to "The Nature of Code", "url" to "https://natureofcode.com/book/chapter-2-forces/") ))
                 }
                 // 色を選択したときの描画データの一覧
                 MenuItem.MENU_COLOR -> {
