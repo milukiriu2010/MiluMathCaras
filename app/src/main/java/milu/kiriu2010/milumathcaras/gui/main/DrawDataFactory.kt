@@ -64,23 +64,29 @@ class DrawDataFactory {
                 // ハイポサイクロイドを選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_HYPOCYCLOID -> {
                     // 三芒形/三尖形(deltoid)(k=3.0)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000031_DELTOID,DrawFragmentType.FT_SQUARE_02,resources.getString(R.string.draw_000031_curve_deltoid),
-                        stillImageParam = floatArrayOf(360f,3f), motionImageParam = floatArrayOf(0f,3f), editParam = floatArrayOf(1.1f,8.0f,1f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000031_DELTOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000031_curve_deltoid),
+                        stillImageParam = floatArrayOf(360f,3f), motionImageParam = floatArrayOf(0f,3f), editParam = floatArrayOf(0.1f,3.0f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k") ))
                     // アステロイド曲線(asteroid)(k=4.0)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000032_ASTROID,DrawFragmentType.FT_SQUARE_02,resources.getString(R.string.draw_000032_curve_astroid),
-                        stillImageParam = floatArrayOf(360f,4f), motionImageParam = floatArrayOf(0f,4f), editParam = floatArrayOf(1.1f,8.0f,1f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000032_ASTROID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000032_curve_astroid),
+                        stillImageParam = floatArrayOf(360f,4f), motionImageParam = floatArrayOf(0f,4f), editParam = floatArrayOf(2.0f,5.0f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k") ))
                     // ハイポサイクロイド曲線(hypocycloid)(k=2.1)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000033_HYPO_CYCLOID,DrawFragmentType.FT_SQUARE_02,resources.getString(R.string.draw_000033_curve_hypocycloid),
-                        stillImageParam = floatArrayOf(3600f,2.1f), motionImageParam = floatArrayOf(0f,2.1f), editParam = floatArrayOf(1.1f,8.0f,1f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000033_HYPO_CYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000033_curve_hypocycloid),
+                        stillImageParam = floatArrayOf(3600f,2.1f), motionImageParam = floatArrayOf(0f,2.1f), editParam = floatArrayOf(2.0f,5.0f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k") ))
                     // ハイポサイクロイド曲線(hypocycloid)(k=3.8)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000034_HYPO_CYCLOID,DrawFragmentType.FT_SQUARE_02,resources.getString(R.string.draw_000034_curve_hypocycloid),
-                        stillImageParam = floatArrayOf(1800f,3.8f), motionImageParam = floatArrayOf(0f,3.8f), editParam = floatArrayOf(1.1f,8.0f,1f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000034_HYPO_CYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000034_curve_hypocycloid),
+                        stillImageParam = floatArrayOf(1800f,3.8f), motionImageParam = floatArrayOf(0f,3.8f), editParam = floatArrayOf(2.0f,5.0f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k") ))
                     // ハイポサイクロイド曲線(hypocycloid)(k=5.5)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000035_HYPO_CYCLOID,DrawFragmentType.FT_SQUARE_02,resources.getString(R.string.draw_000035_curve_hypocycloid),
-                        stillImageParam = floatArrayOf(720f,5.5f), motionImageParam = floatArrayOf(0f,5.5f), editParam = floatArrayOf(1.1f,8.0f,1f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000035_HYPO_CYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000035_curve_hypocycloid),
+                        stillImageParam = floatArrayOf(720f,5.5f), motionImageParam = floatArrayOf(0f,5.5f), editParam = floatArrayOf(5.0f,8.0f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k") ))
                     // ハイポサイクロイド曲線(hypocycloid)(k=7.2)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000036_HYPO_CYCLOID,DrawFragmentType.FT_SQUARE_02,resources.getString(R.string.draw_000036_curve_hypocycloid),
-                        stillImageParam = floatArrayOf(1800f,7.2f), motionImageParam = floatArrayOf(0f,7.2f), editParam = floatArrayOf(1.1f,8.0f,1f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000036_HYPO_CYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000036_curve_hypocycloid),
+                        stillImageParam = floatArrayOf(1800f,7.2f), motionImageParam = floatArrayOf(0f,7.2f), editParam = floatArrayOf(5.0f,8.0f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k") ))
                 }
                 // スパイラルを選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_SPIRAL -> {
