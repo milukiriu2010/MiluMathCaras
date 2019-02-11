@@ -3,6 +3,7 @@ package milu.kiriu2010.milumathcaras.gui.draw
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
 import milu.kiriu2010.milumathcaras.gui.draw.circle.BiggerCircle01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.circle.BiggerCircle02Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.circle.SlideCircle01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.color.Color1536Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.color.Color768DarkDrawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.julia.Julia01Drawable
@@ -324,6 +325,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000800_CIRCLE_BIGGER_01 -> BiggerCircle01Drawable()
                 // だんだん大きくなる円その２
                 DrawDataID.ID_000801_CIRCLE_BIGGER_02 -> BiggerCircle02Drawable()
+                // 円をずらして描く
+                DrawDataID.ID_000802_CIRCLE_SLIDE -> SlideCircle01Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")
             }
 

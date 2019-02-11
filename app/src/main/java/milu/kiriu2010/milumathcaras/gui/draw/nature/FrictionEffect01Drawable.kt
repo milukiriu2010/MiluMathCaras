@@ -7,6 +7,7 @@ import milu.kiriu2010.gui.basic.MyCircleF
 import milu.kiriu2010.gui.basic.MyVectorF
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
+import kotlin.math.abs
 
 // ------------------------------------------------------------------
 // 摩擦の効果
@@ -210,7 +211,8 @@ class FrictionEffect01Drawable: MyDrawable() {
             color = colorLst[colorId]
         }
         // 円に力を加える
-        circle.applyForce(wind).applyForce(gravity)
+        circle.applyForce(wind)
+            .applyForce(gravity)
 
         // 円を生成し、リストに加える
         circleLst.add(circle)
@@ -223,15 +225,36 @@ class FrictionEffect01Drawable: MyDrawable() {
     // -------------------------------
     private fun moveMover() {
         circleLst.forEachIndexed { index, circleF ->
+            /*
+            if ( index == 0 ) {
+                Log.d(javaClass.simpleName,"====================================")
+                Log.d(javaClass.simpleName,"px1[${circleF.p.x}]py1[${circleF.p.y}]")
+            }
+            */
+            // 移動前の円の位置
+            val p1 = circleF.p.copy()
+
+            // 円を移動する
             circleF.move()
             // 境界を超えていたら、反射する
             circleF.checkBorder(0f,0f,sideW,sideH)
+
+            // 移動後の円の位置
+            val p2 = circleF.p.copy()
 
             // 物体の加速度をクリアする
             circleF.a.multiply(0f)
 
             // 円に力を加える
             circleF.applyForce(wind).applyForce(gravity)
+
+            /*
+            if ( index == 0 ) {
+                Log.d(javaClass.simpleName,"px2[${circleF.p.x}]py2[${circleF.p.y}]")
+                Log.d(javaClass.simpleName,"amag=${circleF.a.magnitude()}")
+                Log.d(javaClass.simpleName,"ax1[${circleF.a.x}]ay1[${circleF.a.y}]")
+            }
+            */
 
             // ----------------------------------
             // 摩擦効果を加える
@@ -240,6 +263,7 @@ class FrictionEffect01Drawable: MyDrawable() {
             val v = circleF.v
             // 摩擦係数
             val c = 5f
+            //val c = circleF.a.magnitude()
             // 摩擦力 = -1 * 摩擦係数 * 垂直抗力 * 速度ベクトル
             val fv = v.copy()
                 .multiply(-1f)
@@ -248,16 +272,21 @@ class FrictionEffect01Drawable: MyDrawable() {
             circleF.applyForce(fv)
 
             // -------------------------------------------------
-            // 速度の大きさが一定の値より小さくなったら停止させる
+            // 以下の場合、停止する
+            // ・Y座標が半径付近
+            // ・位置の変化が一定より小さい
             // -------------------------------------------------
-            if ( circleF.v.magnitude() < 3.5f/circleF.mass ) {
+            if ( (abs(circleF.r-circleF.p.y) < 0.2f) and
+                (p2.magByDiff(p1) < 2f ) ) {
+                circleF.p.y = circleF.r
                 circleF.v.multiply(0f)
                 circleF.a.multiply(0f)
             }
 
             /*
             if ( index == 0 ) {
-                Log.d(javaClass.simpleName,"vx[${circleF.v.x}]vy[${circleF.v.y}]")
+                Log.d(javaClass.simpleName,"c[$c]")
+                Log.d(javaClass.simpleName,"ax2[${circleF.a.x}]ay2[${circleF.a.y}]")
             }
             */
         }

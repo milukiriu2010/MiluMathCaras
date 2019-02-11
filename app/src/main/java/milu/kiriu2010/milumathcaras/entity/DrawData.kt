@@ -293,10 +293,12 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000777_10_OUT_9(777),
     // 十角形out十角形
     ID_000778_10_OUT_10(778),
-    // だんだん大きくなる円
+    // だんだん大きくなる円その１
     ID_000800_CIRCLE_BIGGER_01(800),
-    // だんだん大きくなる円
-    ID_000801_CIRCLE_BIGGER_02(801)
+    // だんだん大きくなる円その２
+    ID_000801_CIRCLE_BIGGER_02(801),
+    // 円をずらして描く
+    ID_000802_CIRCLE_SLIDE(802)
 }
 
 // ------------------------------
@@ -316,6 +318,8 @@ enum class DrawFragmentType: Parcelable {
     FT_SQUARE_04,
     // 正方形領域に描画する(02＋関数式)
     FT_SQUARE_05,
+    // 正方形領域に描画する(03＋関数式)
+    FT_SQUARE_06,
     // 長方形領域に描画する
     FT_RECTANGLE_01,
     // タッチイベントを受け付ける

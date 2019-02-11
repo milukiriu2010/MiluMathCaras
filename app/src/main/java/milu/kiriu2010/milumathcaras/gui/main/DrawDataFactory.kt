@@ -91,12 +91,9 @@ class DrawDataFactory {
                 // スパイラルを選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_SPIRAL -> {
                     // 対数螺旋
-                    //drawDataLst.add(DrawData(DrawDataID.ID_000010_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_010_curve_logarithmic_spiral), floatArrayOf(0f) ))
-                    // 対数螺旋
-                    //drawDataLst.add(DrawData(DrawDataID.ID_000010_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_03,resources.getString(R.string.draw_010_curve_logarithmic_spiral), floatArrayOf(0f,2f,0.2f), floatArrayOf(0f,2f,0.2f), floatArrayOf(0f,100f,1f,-0.5f,0.5f,2f) ))
-                    // 対数螺旋
-                    drawDataLst.add(DrawData(DrawDataID.ID_000010_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_03,resources.getString(R.string.draw_000010_curve_logarithmic_spiral),
-                        stillImageParam = floatArrayOf(0f,2f,0.14f), motionImageParam = floatArrayOf(0f,2f,0.14f), editParam = floatArrayOf(0f,500f,1f,-1.0f,1.0f,2f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000010_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_06,resources.getString(R.string.draw_000010_curve_logarithmic_spiral),
+                        stillImageParam = floatArrayOf(0f,2f,0.14f), motionImageParam = floatArrayOf(0f,2f,0.14f), editParam = floatArrayOf(0f,500f,1f,-1.0f,1.0f,2f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_logarithmic_spiral), "autoParam" to "t", "handParam1" to "a", "handParam2" to "b") ))
                 }
                 // リサージュ曲線を選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_LISSAJOUS -> {
@@ -182,6 +179,10 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_000801_CIRCLE_BIGGER_02,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000801_circle_bigger_02),
                         stillImageParam = floatArrayOf(3600f),
                         creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/NsVT04Kn") ))
+                    // 円をずらして描く
+                    drawDataLst.add(DrawData(DrawDataID.ID_000802_CIRCLE_SLIDE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000802_circle_slide),
+                        stillImageParam = floatArrayOf(3600f),
+                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/8oZNI4en") ))
                 }
                 // "多角形のMix"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_MIX -> {

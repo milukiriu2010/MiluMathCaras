@@ -42,6 +42,8 @@ class FragmentFactory {
                 DrawFragmentType.FT_SQUARE_04 -> Square04Fragment.newInstance(drawData)
                 // 正方形領域に描画データを表示するフラグメントを生成(02＋関数式)
                 DrawFragmentType.FT_SQUARE_05 -> Square05Fragment.newInstance(drawData)
+                // 正方形領域に描画データを表示するフラグメントを生成(03＋関数式)
+                DrawFragmentType.FT_SQUARE_06 -> Square06Fragment.newInstance(drawData)
                 // 長方形領域に描画データを表示するフラグメントを生成
                 DrawFragmentType.FT_RECTANGLE_01 -> Rectangle01Fragment.newInstance(drawData)
                 // タッチイベントを受け付けるフラグメントを生成

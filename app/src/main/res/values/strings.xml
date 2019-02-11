@@ -34,6 +34,8 @@
     <string name="func_curve_trochoid">x = r * (t - k * sin(t))\ny = r * (1 - k * cos(t))</string>
     <string name="func_curve_epicycloid">x = r*(1+1/k)*cos(t) - r/k*cos((k+1)*t)\ny = r*(1+1/k)*sin(t) - r/k*sin((k+1)*t)</string>
     <string name="func_curve_hypocycloid">x = r*(1-1/k)*cos(t) + r/k*cos((k-1)*t)\ny = r*(1-1/k)*sin(t) - r/k*sin((k-1)*t)</string>
+    <string name="func_curve_logarithmic_spiral">x = a * exp(b*t) * cos(t)\ny = a * exp(b*t) * sin(t)</string>
+    <string name="func_curve_lissajous">x = a * sin(p*t+d)\ny = b * sin(q*t)</string>
     <string name="draw_000001_curve_cycloid">Cycloid(k=1.0)</string>
     <string name="draw_000002_curve_trochoid">Trochoid(k=2.0)</string>
     <string name="draw_000003_curve_trochoid">Trochoid(k=-2.0)</string>
@@ -177,4 +179,5 @@
     <string name="draw_000778_polygon_10_out_10">10 out 10</string>
     <string name="draw_000800_circle_bigger_01">Bigger Circle 01</string>
     <string name="draw_000801_circle_bigger_02">Bigger Circle 02</string>
+    <string name="draw_000802_circle_slide">Slide Circle</string>
 </resources>
