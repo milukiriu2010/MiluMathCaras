@@ -27,7 +27,9 @@
     <string name="menu_sub_polygon_mix">Polygon Mix</string>
     <string name="menu_sub_polygon_pinp">Polygon in Polygon</string>
     <string name="menu_sub_polygon_poutp">Polygon out Polygon</string>
-    <string name="menu_sub_nature">Nature</string>
+    <string name="menu_sub_nature">Nature of Code</string>
+    <string name="menu_sub_nature_vectors">Vectors</string>
+    <string name="menu_sub_nature_forces">Forces</string>
     <string name="menu_sub_color">Color</string>
     <string name="menu_sub_about">About Me</string>
     <string name="menu_back">Back</string>

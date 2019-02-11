@@ -88,6 +88,8 @@ class Square05Fragment : Fragment()
 
         // 描画に使っている媒介変数の値を変更するシークバー
         seekBar = view.findViewById(R.id.seekBarA)
+        // シークバーのMax値を設定
+        seekBar.max = drawData.fragmentParamMap["maxA"] ?: 100
 
         // シークバーの値を表示するビュー
         seekText = view.findViewById(R.id.seekTextA)

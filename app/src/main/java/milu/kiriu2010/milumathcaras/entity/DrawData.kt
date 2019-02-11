@@ -359,6 +359,11 @@ data class DrawData(
     //   funcDesc   => 関数式
     //   autoParam  => 自動で更新されるパラメータ
     //   handParam1 => 手動で更新されるパラメータ１
+    //   handParam2 => 手動で更新されるパラメータ２
     // ---------------------------------------------
-    val funcDescMap: MutableMap<String, String> = mutableMapOf()
+    val funcDescMap: MutableMap<String, String> = mutableMapOf(),
+    // ---------------------------------------------
+    // フラグメント用パラメータ
+    // ---------------------------------------------
+    val fragmentParamMap: MutableMap<String,Int> = mutableMapOf()
 ):  Parcelable

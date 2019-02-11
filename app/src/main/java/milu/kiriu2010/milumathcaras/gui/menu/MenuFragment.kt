@@ -133,7 +133,7 @@ class MenuFragment : Fragment() {
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon),true))
                     // [サブメニュー]
                     // "Nature of Code"一覧を表示するメニュー
-                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_NATURE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_nature),false))
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_NATURE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_nature),true))
                      // [サブメニュー]
                      // 色一覧を表示するメニュー
                      menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_COLOR, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_color),false))
@@ -195,6 +195,17 @@ class MenuFragment : Fragment() {
                     // [サブメニュー]
                     // "多角形out多角形"一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_POUTP, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_poutp),false))
+                    // [戻るメニュー]
+                    menuDataLst.add(MenuData(MenuType.TYPE_BACK, MenuItem.MENU_BACK, FragmentID.ID_DUMMY,resources.getString(R.string.menu_back),false))
+                }
+                // "The Nature of Code"の一覧を表示するメニュー
+                MenuItem.MENU_NATURE -> {
+                    // [サブメニュー]
+                    // "Vectors"一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_NATURE_VECTORS, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_nature_vectors),false))
+                    // [サブメニュー]
+                    // "Forces"一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_NATURE_FORCES, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_nature_forces),false))
                     // [戻るメニュー]
                     menuDataLst.add(MenuData(MenuType.TYPE_BACK, MenuItem.MENU_BACK, FragmentID.ID_DUMMY,resources.getString(R.string.menu_back),false))
                 }

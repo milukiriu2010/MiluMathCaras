@@ -20,73 +20,89 @@ class DrawDataFactory {
                     // サイクロイド曲線(cycloid)(k=1.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_000001_CYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000001_curve_cycloid),
                         stillImageParam = floatArrayOf(720f,1.0f), motionImageParam = floatArrayOf(0f,1.0f), editParam = floatArrayOf(-5f,5f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_trochoid), "autoParam" to "t", "handParam1" to "k") ))
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_trochoid), "autoParam" to "t", "handParam1" to "k"),
+                        fragmentParamMap = mutableMapOf("maxA" to 20) ))
                     // トロコイド曲線(trochoid)(k=2.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_000002_TROCHOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000002_curve_trochoid),
                         stillImageParam = floatArrayOf(720f,2.0f), motionImageParam = floatArrayOf(0f,2.0f), editParam = floatArrayOf(-5f,5f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_trochoid), "autoParam" to "t", "handParam1" to "k") ))
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_trochoid), "autoParam" to "t", "handParam1" to "k"),
+                        fragmentParamMap = mutableMapOf("maxA" to 20) ))
                     // トロコイド曲線(trochoid)(k=-2.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_000003_TROCHOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000003_curve_trochoid),
                         stillImageParam = floatArrayOf(720f,-2.0f), motionImageParam = floatArrayOf(0f,-2.0f), editParam = floatArrayOf(-5f,5f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_trochoid), "autoParam" to "t", "handParam1" to "k") ))
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_trochoid), "autoParam" to "t", "handParam1" to "k"),
+                        fragmentParamMap = mutableMapOf("maxA" to 20) ))
                     // トロコイド曲線(trochoid)(k=2.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_000004_TROCHOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000004_curve_trochoid),
                         stillImageParam = floatArrayOf(720f,0.5f),  motionImageParam = floatArrayOf(0f,0.5f), editParam = floatArrayOf(-5f,5f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_trochoid), "autoParam" to "t", "handParam1" to "k") ))
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_trochoid), "autoParam" to "t", "handParam1" to "k"),
+                        fragmentParamMap = mutableMapOf("maxA" to 20) ))
                 }
                 // エピサイクロイドを選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_EPICYCLOID -> {
                     // カージオイド曲線(k=1.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_000021_CARDIOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000021_curve_cardioid),
-                        stillImageParam = floatArrayOf(360f,1f), motionImageParam = floatArrayOf(0f,1f), editParam = floatArrayOf(0.1f,2.0f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_epicycloid), "autoParam" to "t", "handParam1" to "k") ))
+                        stillImageParam = floatArrayOf(360f,1f), motionImageParam = floatArrayOf(0f,1f), editParam = floatArrayOf(0.2f,2.0f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_epicycloid), "autoParam" to "t", "handParam1" to "k"),
+                        fragmentParamMap = mutableMapOf("maxA" to 9) ))
                     // エピサイクロイド曲線(k=4.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_000022_EPICYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000022_curve_epicycloid),
-                        stillImageParam = floatArrayOf(360f,4f), motionImageParam = floatArrayOf(0f,4f), editParam = floatArrayOf(2.0f,5.0f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_epicycloid), "autoParam" to "t", "handParam1" to "k") ))
+                        stillImageParam = floatArrayOf(360f,4f), motionImageParam = floatArrayOf(0f,4f), editParam = floatArrayOf(4f,5f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_epicycloid), "autoParam" to "t", "handParam1" to "k"),
+                        fragmentParamMap = mutableMapOf("maxA" to 10) ))
                     // エピサイクロイド曲線(k=2.1)
                     drawDataLst.add(DrawData(DrawDataID.ID_000023_EPICYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000023_curve_epicycloid),
-                        stillImageParam = floatArrayOf(3600f,2.1f), motionImageParam = floatArrayOf(0f,2.1f), editParam = floatArrayOf(2.0f,5.0f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_epicycloid), "autoParam" to "t", "handParam1" to "k") ))
+                        stillImageParam = floatArrayOf(3600f,2.1f), motionImageParam = floatArrayOf(0f,2.1f), editParam = floatArrayOf(2f,3f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_epicycloid), "autoParam" to "t", "handParam1" to "k"),
+                        fragmentParamMap = mutableMapOf("maxA" to 10) ))
                     // エピサイクロイド曲線(k=3.8)
                     drawDataLst.add(DrawData(DrawDataID.ID_000024_EPICYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000024_curve_epicycloid),
-                        stillImageParam = floatArrayOf(1800f,3.8f), motionImageParam = floatArrayOf(0f,3.8f), editParam = floatArrayOf(2f,5.0f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_epicycloid), "autoParam" to "t", "handParam1" to "k") ))
+                        stillImageParam = floatArrayOf(1800f,3.8f), motionImageParam = floatArrayOf(0f,3.8f), editParam = floatArrayOf(3f,4f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_epicycloid), "autoParam" to "t", "handParam1" to "k"),
+                        fragmentParamMap = mutableMapOf("maxA" to 10) ))
                     // エピサイクロイド曲線(k=5.5)
                     drawDataLst.add(DrawData(DrawDataID.ID_000025_EPICYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000025_curve_epicycloid),
-                        stillImageParam = floatArrayOf(720f,5.5f), motionImageParam = floatArrayOf(0f,5.5f), editParam = floatArrayOf(5.0f,8.0f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_epicycloid), "autoParam" to "t", "handParam1" to "k") ))
+                        stillImageParam = floatArrayOf(720f,5.5f), motionImageParam = floatArrayOf(0f,5.5f), editParam = floatArrayOf(5f,6f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_epicycloid), "autoParam" to "t", "handParam1" to "k"),
+                        fragmentParamMap = mutableMapOf("maxA" to 10) ))
                     // エピサイクロイド曲線(k=7.2)
                     drawDataLst.add(DrawData(DrawDataID.ID_000026_EPICYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000026_curve_epicycloid),
-                        stillImageParam = floatArrayOf(1800f,7.2f), motionImageParam = floatArrayOf(0f,7.2f), editParam = floatArrayOf(5.0f,8.0f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_epicycloid), "autoParam" to "t", "handParam1" to "k") ))
+                        stillImageParam = floatArrayOf(1800f,7.2f), motionImageParam = floatArrayOf(0f,7.2f), editParam = floatArrayOf(7f,8f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_epicycloid), "autoParam" to "t", "handParam1" to "k"),
+                        fragmentParamMap = mutableMapOf("maxA" to 10) ))
                 }
                 // ハイポサイクロイドを選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_HYPOCYCLOID -> {
                     // 三芒形/三尖形(deltoid)(k=3.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_000031_DELTOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000031_curve_deltoid),
-                        stillImageParam = floatArrayOf(360f,3f), motionImageParam = floatArrayOf(0f,3f), editParam = floatArrayOf(0.1f,3.0f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k") ))
+                        stillImageParam = floatArrayOf(360f,3f), motionImageParam = floatArrayOf(0f,3f), editParam = floatArrayOf(0.2f,3f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k"),
+                        fragmentParamMap = mutableMapOf("maxA" to 14) ))
                     // アステロイド曲線(asteroid)(k=4.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_000032_ASTROID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000032_curve_astroid),
-                        stillImageParam = floatArrayOf(360f,4f), motionImageParam = floatArrayOf(0f,4f), editParam = floatArrayOf(2.0f,5.0f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k") ))
+                        stillImageParam = floatArrayOf(360f,4f), motionImageParam = floatArrayOf(0f,4f), editParam = floatArrayOf(4f,5f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k"),
+                        fragmentParamMap = mutableMapOf("maxA" to 10) ))
                     // ハイポサイクロイド曲線(hypocycloid)(k=2.1)
                     drawDataLst.add(DrawData(DrawDataID.ID_000033_HYPO_CYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000033_curve_hypocycloid),
-                        stillImageParam = floatArrayOf(3600f,2.1f), motionImageParam = floatArrayOf(0f,2.1f), editParam = floatArrayOf(2.0f,5.0f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k") ))
+                        stillImageParam = floatArrayOf(3600f,2.1f), motionImageParam = floatArrayOf(0f,2.1f), editParam = floatArrayOf(2f,3f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k"),
+                        fragmentParamMap = mutableMapOf("maxA" to 10) ))
                     // ハイポサイクロイド曲線(hypocycloid)(k=3.8)
                     drawDataLst.add(DrawData(DrawDataID.ID_000034_HYPO_CYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000034_curve_hypocycloid),
-                        stillImageParam = floatArrayOf(1800f,3.8f), motionImageParam = floatArrayOf(0f,3.8f), editParam = floatArrayOf(2.0f,5.0f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k") ))
+                        stillImageParam = floatArrayOf(1800f,3.8f), motionImageParam = floatArrayOf(0f,3.8f), editParam = floatArrayOf(3f,4f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k"),
+                        fragmentParamMap = mutableMapOf("maxA" to 10) ))
                     // ハイポサイクロイド曲線(hypocycloid)(k=5.5)
                     drawDataLst.add(DrawData(DrawDataID.ID_000035_HYPO_CYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000035_curve_hypocycloid),
-                        stillImageParam = floatArrayOf(720f,5.5f), motionImageParam = floatArrayOf(0f,5.5f), editParam = floatArrayOf(5.0f,8.0f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k") ))
+                        stillImageParam = floatArrayOf(720f,5.5f), motionImageParam = floatArrayOf(0f,5.5f), editParam = floatArrayOf(5f,6f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k"),
+                        fragmentParamMap = mutableMapOf("maxA" to 10) ))
                     // ハイポサイクロイド曲線(hypocycloid)(k=7.2)
                     drawDataLst.add(DrawData(DrawDataID.ID_000036_HYPO_CYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000036_curve_hypocycloid),
-                        stillImageParam = floatArrayOf(1800f,7.2f), motionImageParam = floatArrayOf(0f,7.2f), editParam = floatArrayOf(5.0f,8.0f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k") ))
+                        stillImageParam = floatArrayOf(1800f,7.2f), motionImageParam = floatArrayOf(0f,7.2f), editParam = floatArrayOf(7f,8f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k"),
+                        fragmentParamMap = mutableMapOf("maxA" to 10) ))
                 }
                 // スパイラルを選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_SPIRAL -> {
@@ -98,14 +114,20 @@ class DrawDataFactory {
                 // リサージュ曲線を選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_LISSAJOUS -> {
                     // リサージュ曲線(p:q=1:2)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000050_LISSAJOUS_CURVE_1_2,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000050_curve_lissajous_1_2),
-                        stillImageParam = floatArrayOf(1f,2f), motionImageParam = floatArrayOf(1f,2f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000050_LISSAJOUS_CURVE_1_2,DrawFragmentType.FT_SQUARE_06,resources.getString(R.string.draw_000050_curve_lissajous_1_2),
+                        stillImageParam = floatArrayOf(1f,2f), motionImageParam = floatArrayOf(1f,2f), editParam = floatArrayOf(1f,2f,0f,1f,2f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_lissajous), "autoParam" to "t", "handParam1" to "p", "handParam2" to "q"),
+                        fragmentParamMap = mutableMapOf("maxA" to 10, "maxB" to 10) ))
                     // リサージュ曲線(p:q=3:2)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000051_LISSAJOUS_CURVE_3_2,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000051_curve_lissajous_3_2),
-                        stillImageParam = floatArrayOf(3f,2f), motionImageParam = floatArrayOf(3f,2f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000051_LISSAJOUS_CURVE_3_2,DrawFragmentType.FT_SQUARE_06,resources.getString(R.string.draw_000051_curve_lissajous_3_2),
+                        stillImageParam = floatArrayOf(3f,2f), motionImageParam = floatArrayOf(3f,2f), editParam = floatArrayOf(1f,5f,0f,1f,5f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_lissajous), "autoParam" to "t", "handParam1" to "p", "handParam2" to "q"),
+                        fragmentParamMap = mutableMapOf("maxA" to 4, "maxB" to 4) ))
                     // リサージュ曲線(p:q=3:4)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000052_LISSAJOUS_CURVE_3_4,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000052_curve_lissajous_3_4),
-                        stillImageParam = floatArrayOf(3f,4f), motionImageParam = floatArrayOf(3f,4f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000052_LISSAJOUS_CURVE_3_4,DrawFragmentType.FT_SQUARE_06,resources.getString(R.string.draw_000052_curve_lissajous_3_4),
+                        stillImageParam = floatArrayOf(3f,4f), motionImageParam = floatArrayOf(3f,4f), editParam = floatArrayOf(1f,5f,0f,1f,5f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_lissajous), "autoParam" to "t", "handParam1" to "p", "handParam2" to "q"),
+                        fragmentParamMap = mutableMapOf("maxA" to 4, "maxB" to 4) ))
                 }
                 // フラクタル(再帰)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_RECURSION -> {
@@ -479,8 +501,8 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_000778_10_OUT_10,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000778_polygon_10_out_10),
                         stillImageParam = floatArrayOf(10f,10f), motionImageParam = floatArrayOf(10f,10f) ))
                 }
-                // "Nature of Code"を選択したときの描画データの一覧
-                MenuItem.MENU_NATURE -> {
+                // "Nature of Code"-"Vectors"を選択したときの描画データの一覧
+                MenuItem.MENU_NATURE_VECTORS -> {
                     // 等速度運動
                     drawDataLst.add(DrawData(DrawDataID.ID_000401_NATURE_UNFORM_MOTION,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000401_nature_uniform_motion),
                         stillImageParam = floatArrayOf(5f),
@@ -497,6 +519,9 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_000404_NATURE_ACCELERATE_TOWARDS_TOUCH_POINT,DrawFragmentType.FT_TOUCH_01,resources.getString(R.string.draw_000404_nature_accelerate_towards_touch_point),
                         stillImageParam = floatArrayOf(5f),
                         creditMap = mutableMapOf<String,String>("name" to "The Nature of Code", "url" to "https://natureofcode.com/book/chapter-1-vectors/") ))
+                }
+                // "Nature of Code"-"Forces"を選択したときの描画データの一覧
+                MenuItem.MENU_NATURE_FORCES -> {
                     // 質量の効果
                     drawDataLst.add(DrawData(DrawDataID.ID_000405_NATURE_MASS_EFFECT,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000405_nature_mass_effect),
                         stillImageParam = floatArrayOf(10f), motionImageParam = floatArrayOf(10f),
