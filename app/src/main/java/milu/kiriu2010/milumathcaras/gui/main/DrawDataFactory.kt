@@ -16,8 +16,6 @@ class DrawDataFactory {
                 // トロコイドを選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_TROCHOID -> {
                     // サイクロイド曲線(cycloid)(k=1.0)
-                    //drawDataLst.add(DrawData(DrawDataID.ID_000001_CYCLOID,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_001_curve_cycloid), floatArrayOf(720f) ))
-                    // サイクロイド曲線(cycloid)(k=1.0)
                     drawDataLst.add(DrawData(DrawDataID.ID_000001_CYCLOID,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000001_curve_cycloid),
                         stillImageParam = floatArrayOf(720f,1.0f), motionImageParam = floatArrayOf(0f,1.0f), editParam = floatArrayOf(-5f,5f,1f),
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_trochoid), "autoParam" to "t", "handParam1" to "k"),
@@ -218,6 +216,10 @@ class DrawDataFactory {
                     // 回転する矢印
                     drawDataLst.add(DrawData(DrawDataID.ID_000603_ROTATE_ARROWS,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000603_polygon_rotate_arrows),
                         creditMap = mutableMapOf<String,String>("name" to "Just van Rossum", "url" to "https://twitter.com/justvanrossum/status/1091237538583511041") ))
+                    // 六角形をずらして描く
+                    drawDataLst.add(DrawData(DrawDataID.ID_000604_SLIDE_HEXAGON,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000604_polygon_slide_hexagon),
+                        stillImageParam = floatArrayOf(1f), motionImageParam = floatArrayOf(1f),
+                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/dMgxWRrj") ))
                 }
                 // "多角形in多角形"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_PINP -> {

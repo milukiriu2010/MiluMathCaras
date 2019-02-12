@@ -1,7 +1,8 @@
-package milu.kiriu2010.milumathcaras.gui.draw.circle
+package milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon
 
 import android.graphics.*
 import android.os.Handler
+import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.gui.color.ColorType
 import milu.kiriu2010.gui.color.MyColorFactory
@@ -12,11 +13,11 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 // --------------------------------------------
-// 円をずらして描く
+// 六角形をずらして描く
 // --------------------------------------------
-// http://logo.twentygototen.org/8oZNI4en
+// http://logo.twentygototen.org/dMgxWRrj
 // --------------------------------------------
-class SlideCircle01Drawable: MyDrawable() {
+class SlideHexagon01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -25,24 +26,32 @@ class SlideCircle01Drawable: MyDrawable() {
     private val margin = 50f
 
     // ---------------------------------
-    // 円の半径
+    // 六角形の半径
     // ---------------------------------
     private var r = side/4f
 
     // -------------------------------
-    // 円弧の描画角度
+    // 六角形の描画角度
     // -------------------------------
-    private var angleInit = 180f
-    private var angleDv = 10f
-    private var angleMax = 360f*36f
-    // １つの円を描画しているときの媒介変数
-    private var angleA = 0f
-    // "描画領域の中心点"から"描画する円の中心"の角度
-    private var angleB = 0f
-
+    private var angleMax = 360f*12f
+    // １つの六角形を描画しているときの頂点数
+    private var nVertex = 0
+    private var nVertexMax = 6
+    private var angleVertex = -60f
+    // 最初の描画角度
+    private var angleInit = 60f
+    // 現在の描画角度
+    private var angle = angleInit
+    // 一辺上に描画する点(3分割)
+    private var nVertexDv = 0
+    private var nVertexDvMax = 3
+    // 描画する六角形の数
+    private var nCnt = 0
+    private var nCntMax = 12
+    //private var angleDv = 30f
 
     // -------------------------------
-    // 円の描画点リスト
+    // 六角形の描画点リスト
     // -------------------------------
     val pointLst = mutableListOf<MyPointF>()
 
@@ -72,7 +81,7 @@ class SlideCircle01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 円を描くペイント
+    // 六角形を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
@@ -101,26 +110,28 @@ class SlideCircle01Drawable: MyDrawable() {
     // -----------------------------------------
     // 可変変数 values の引数位置による意味合い
     //
-    // 第１引数:描画角度の初期位置
+    // 第１引数:描画する六角形の数
     // -----------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
-        // 描画角度の初期位置
-        angleInit = 0f
+        // 描画する六角形の数
+        nCntMax = 12
         values.forEachIndexed { index, fl ->
             //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
             when (index) {
-                // 描画角度の初期位置
-                0 -> angleInit = fl
+                // 描画する六角形の数
+                0 -> nCntMax = fl.toInt()
             }
         }
 
+        /*
         // 初期位置まで描画点を追加する
-        while ( angleA < angleInit )  {
-            // 円の描画点を追加
+        while ( nCnt < nCntMax )  {
+            // 六角形の描画点を追加
             addPoint()
-            // 円の描画点を移動
-            movePoint()
+            // 六角形の描画点を移動
+            //movePoint()
         }
+        */
         // ビットマップに描画
         drawBitmap()
         // 描画
@@ -129,17 +140,17 @@ class SlideCircle01Drawable: MyDrawable() {
         // 描画に使うスレッド
         if ( isKickThread ) {
             runnable = Runnable {
-                // 円の描画点を追加
+                // 六角形の描画点を追加
                 addPoint()
-                // 円の描画点を移動
-                movePoint()
+                // 六角形の描画点を移動
+                //movePoint()
                 // ビットマップに描画
                 drawBitmap()
                 // 描画
                 invalidateSelf()
 
-                // 最初と最後は1秒後に描画
-                if (angleA == angleMax || angleA == 0f) {
+                // 最後は1秒後に描画
+                if (nCnt == nCntMax) {
                     handler.postDelayed(runnable, 1000)
                 }
                 // 100msごとに描画
@@ -169,15 +180,51 @@ class SlideCircle01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 円の描画点を追加
+    // 六角形の描画点を追加
     // -------------------------------
     private fun addPoint() {
-        // "描画エリアの中心点"からの座標＋"描画中の円の中心点"からの座標
-        val x = r*cos(angleB*PI/180f).toFloat()+r*cos((angleA+angleB+180f)*PI/180f).toFloat()
-        val y = r*sin(angleB*PI/180f).toFloat()+r*sin((angleA+angleB+180f)*PI/180f).toFloat()
+        // すべての六角形を描いたらクリアする
+        if ( nCnt == nCntMax ) {
+            nCnt = 0
+            pointLst.clear()
+        }
+
+        // 六角形を描く座標
+        var x = 0f
+        var y = 0f
+        when ( nVertexDv ) {
+            // 頂点までたどり着く
+            nVertexDvMax-1 -> {
+                x = r*cos(angle/PI/180f).toFloat()
+                y = r*sin(angle/PI/180f).toFloat()
+                nVertex++
+                nVertex = nVertex%nVertexMax
+                nVertexDv = 0
+                // 頂点までたどりついたら描画角度を変える
+                angle = angle - angleVertex
+            }
+            // 頂点まで描いている途中
+            else -> {
+                x = r*(nVertexDv+1).toFloat()/nVertexDvMax.toFloat()*cos(angle/PI/180f).toFloat()
+                y = r*(nVertexDv+1).toFloat()/nVertexDvMax.toFloat()*sin(angle/PI/180f).toFloat()
+                nVertexDv++
+            }
+        }
+        // 描画点をリストに加える
         pointLst.add(MyPointF(x,y))
+
+        // １つの六角形を描き終わったら、描画角度を変える
+        if ( ( nVertexDv == 0 ) and ( nVertex == 0 ) ) {
+            angle = angle-angleVertex/2f
+            nCnt++
+        }
+
+        Log.d(javaClass.simpleName,"======================================")
+        Log.d(javaClass.simpleName,"nCnt[$nCnt]nCntMax[$nCntMax]nVertexMax[$nVertexMax]")
+        Log.d(javaClass.simpleName,"nVertexDv[$nVertexDv]nVertex[$nVertex]angle[$angle]")
     }
 
+    /*
     // -------------------------------
     // 円の描画点を移動
     // -------------------------------
@@ -200,6 +247,7 @@ class SlideCircle01Drawable: MyDrawable() {
             pointLst.clear()
         }
     }
+    */
 
     // -------------------------------
     // ビットマップに描画
@@ -239,7 +287,7 @@ class SlideCircle01Drawable: MyDrawable() {
         val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
         // 円を描く
         val path = Path()
-        val bunchSize = 360/angleDv.toInt()
+        val bunchSize = nVertexDvMax*nVertexMax
         var myPointF2: MyPointF? = null
         pointLst.forEachIndexed { index, myPointF1 ->
             val color = myColor.create(index%bunchSize,bunchSize)

@@ -193,6 +193,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000602_CIRCLE2SQUARE_MORPH -> Circle2SqaureMorph01Drawable()
                 // 回転する矢印
                 DrawDataID.ID_000603_ROTATE_ARROWS -> RotateArrows01Drawable()
+                // 六角形をずらして描く
+                DrawDataID.ID_000604_SLIDE_HEXAGON -> SlideHexagon01Drawable()
                 // 三角形out三角形
                 DrawDataID.ID_000701_3_OUT_3 -> PolygonOutPolygon01Drawable()
                 // 三角形out四角形
