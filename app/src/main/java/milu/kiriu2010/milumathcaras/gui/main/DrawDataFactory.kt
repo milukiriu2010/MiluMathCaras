@@ -216,10 +216,6 @@ class DrawDataFactory {
                     // 回転する矢印
                     drawDataLst.add(DrawData(DrawDataID.ID_000603_ROTATE_ARROWS,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000603_polygon_rotate_arrows),
                         creditMap = mutableMapOf<String,String>("name" to "Just van Rossum", "url" to "https://twitter.com/justvanrossum/status/1091237538583511041") ))
-                    // 六角形をずらして描く
-                    drawDataLst.add(DrawData(DrawDataID.ID_000604_SLIDE_HEXAGON,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000604_polygon_slide_hexagon),
-                        stillImageParam = floatArrayOf(1f), motionImageParam = floatArrayOf(1f),
-                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/dMgxWRrj") ))
                 }
                 // "多角形in多角形"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_PINP -> {
@@ -502,6 +498,47 @@ class DrawDataFactory {
                     // 十角形out十角形
                     drawDataLst.add(DrawData(DrawDataID.ID_000778_10_OUT_10,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000778_polygon_10_out_10),
                         stillImageParam = floatArrayOf(10f,10f), motionImageParam = floatArrayOf(10f,10f) ))
+                }
+                // 多角形をずらして描画するデータの一覧
+                MenuItem.MENU_POLYGON_SLIDE -> {
+                    /*
+                    // 六角形をずらして描く
+                    drawDataLst.add(DrawData(DrawDataID.ID_000604_SLIDE_HEXAGON,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000604_polygon_slide_hexagon),
+                        stillImageParam = floatArrayOf(12f), motionImageParam = floatArrayOf(0f),
+                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/dMgxWRrj") ))
+                    // 三角形をずらして描く
+                    drawDataLst.add(DrawData(DrawDataID.ID_000781_SLIDE_3,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000781_polygon_slide_3),
+                        stillImageParam = floatArrayOf(3f), motionImageParam = floatArrayOf(3f),
+                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/dMgxWRrj") ))
+                    // 四角形をずらして描く
+                    drawDataLst.add(DrawData(DrawDataID.ID_000782_SLIDE_4,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000782_polygon_slide_4),
+                        stillImageParam = floatArrayOf(4f), motionImageParam = floatArrayOf(4f),
+                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/dMgxWRrj") ))
+                        */
+                    // 五角形をずらして描く
+                    drawDataLst.add(DrawData(DrawDataID.ID_000783_SLIDE_5,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000783_polygon_slide_5),
+                        stillImageParam = floatArrayOf(5f), motionImageParam = floatArrayOf(5f),
+                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/dMgxWRrj") ))
+                    // 六角形をずらして描く
+                    drawDataLst.add(DrawData(DrawDataID.ID_000784_SLIDE_6,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000784_polygon_slide_6),
+                        stillImageParam = floatArrayOf(6f), motionImageParam = floatArrayOf(6f),
+                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/dMgxWRrj") ))
+                    // 七角形をずらして描く
+                    drawDataLst.add(DrawData(DrawDataID.ID_000785_SLIDE_7,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000785_polygon_slide_7),
+                        stillImageParam = floatArrayOf(7f), motionImageParam = floatArrayOf(7f),
+                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/dMgxWRrj") ))
+                    // 八角形をずらして描く
+                    drawDataLst.add(DrawData(DrawDataID.ID_000786_SLIDE_8,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000786_polygon_slide_8),
+                        stillImageParam = floatArrayOf(8f), motionImageParam = floatArrayOf(8f),
+                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/dMgxWRrj") ))
+                    // 九角形をずらして描く
+                    drawDataLst.add(DrawData(DrawDataID.ID_000787_SLIDE_9,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000787_polygon_slide_9),
+                        stillImageParam = floatArrayOf(9f), motionImageParam = floatArrayOf(9f),
+                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/dMgxWRrj") ))
+                    // 十角形をずらして描く
+                    drawDataLst.add(DrawData(DrawDataID.ID_000788_SLIDE_10,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000788_polygon_slide_10),
+                        stillImageParam = floatArrayOf(10f), motionImageParam = floatArrayOf(10f),
+                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/dMgxWRrj") ))
                 }
                 // "Nature of Code"-"Vectors"を選択したときの描画データの一覧
                 MenuItem.MENU_NATURE_VECTORS -> {

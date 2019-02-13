@@ -323,6 +323,22 @@ class MyDrawableFactory {
                 DrawDataID.ID_000777_10_OUT_9 -> PolygonOutPolygon01Drawable()
                 // 十角形out十角形
                 DrawDataID.ID_000778_10_OUT_10 -> PolygonOutPolygon01Drawable()
+                // 三角形をずらして描く
+                DrawDataID.ID_000781_SLIDE_3 -> SlidePolygon01Drawable()
+                // 四角形をずらして描く
+                DrawDataID.ID_000782_SLIDE_4 -> SlidePolygon01Drawable()
+                // 五角形をずらして描く
+                DrawDataID.ID_000783_SLIDE_5 -> SlidePolygon01Drawable()
+                // 六角形をずらして描く
+                DrawDataID.ID_000784_SLIDE_6 -> SlidePolygon01Drawable()
+                // 七角形をずらして描く
+                DrawDataID.ID_000785_SLIDE_7 -> SlidePolygon01Drawable()
+                // 八角形をずらして描く
+                DrawDataID.ID_000786_SLIDE_8 -> SlidePolygon01Drawable()
+                // 九角形をずらして描く
+                DrawDataID.ID_000787_SLIDE_9 -> SlidePolygon01Drawable()
+                // 十角形をずらして描く
+                DrawDataID.ID_000788_SLIDE_10 -> SlidePolygon01Drawable()
                 // だんだん大きくなる円その１
                 DrawDataID.ID_000800_CIRCLE_BIGGER_01 -> BiggerCircle01Drawable()
                 // だんだん大きくなる円その２

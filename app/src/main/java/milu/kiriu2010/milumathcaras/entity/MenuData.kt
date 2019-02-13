@@ -59,6 +59,8 @@ enum class MenuItem(val title: String): Parcelable {
     MENU_POLYGON_PINP("P in P"),
     // "多角形out多角形"を描画するメニュー
     MENU_POLYGON_POUTP("P out P"),
+    // 多角形をずらして描画するメニュー
+    MENU_POLYGON_SLIDE("Polygon Slide"),
     // The Nature of Code
     // https://natureofcode.com/book/chapter-1-vectors/
     MENU_NATURE( "Nature"),

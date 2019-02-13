@@ -27,6 +27,7 @@
     <string name="menu_sub_polygon_mix">Polygon Mix</string>
     <string name="menu_sub_polygon_pinp">Polygon in Polygon</string>
     <string name="menu_sub_polygon_poutp">Polygon out Polygon</string>
+    <string name="menu_sub_polygon_slide">Slide Polygon</string>
     <string name="menu_sub_nature">Nature of Code</string>
     <string name="menu_sub_nature_vectors">Vectors</string>
     <string name="menu_sub_nature_forces">Forces</string>
@@ -180,6 +181,14 @@
     <string name="draw_000776_polygon_10_out_8">10 out 8</string>
     <string name="draw_000777_polygon_10_out_9">10 out 9</string>
     <string name="draw_000778_polygon_10_out_10">10 out 10</string>
+    <string name="draw_000781_polygon_slide_3">Slide 3</string>
+    <string name="draw_000782_polygon_slide_4">Slide 4</string>
+    <string name="draw_000783_polygon_slide_5">Slide 5</string>
+    <string name="draw_000784_polygon_slide_6">Slide 6</string>
+    <string name="draw_000785_polygon_slide_7">Slide 7</string>
+    <string name="draw_000786_polygon_slide_8">Slide 8</string>
+    <string name="draw_000787_polygon_slide_9">Slide 9</string>
+    <string name="draw_000788_polygon_slide_10">Slide 10</string>
     <string name="draw_000800_circle_bigger_01">Bigger Circle 01</string>
     <string name="draw_000801_circle_bigger_02">Bigger Circle 02</string>
     <string name="draw_000802_circle_slide">Slide Circle</string>

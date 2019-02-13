@@ -195,6 +195,9 @@ class MenuFragment : Fragment() {
                     // [サブメニュー]
                     // "多角形out多角形"一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_POUTP, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_poutp),false))
+                    // [サブメニュー]
+                    // 多角形をずらして描画するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_SLIDE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_slide),false))
                     // [戻るメニュー]
                     menuDataLst.add(MenuData(MenuType.TYPE_BACK, MenuItem.MENU_BACK, FragmentID.ID_DUMMY,resources.getString(R.string.menu_back),false))
                 }

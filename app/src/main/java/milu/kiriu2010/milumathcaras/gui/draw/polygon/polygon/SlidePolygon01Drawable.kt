@@ -13,11 +13,11 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 // --------------------------------------------
-// 六角形をずらして描く
+// 多角形をずらして描く
 // --------------------------------------------
 // http://logo.twentygototen.org/dMgxWRrj
 // --------------------------------------------
-class SlideHexagon01Drawable: MyDrawable() {
+class SlidePolygon01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -26,14 +26,14 @@ class SlideHexagon01Drawable: MyDrawable() {
     private val margin = 50f
 
     // ---------------------------------
-    // 六角形の半径
+    // 多角形の１辺の長さ
     // ---------------------------------
     private var r = side/4f
 
     // -------------------------------
-    // 六角形の描画角度
+    // 多角形の描画角度
     // -------------------------------
-    // １つの六角形を描画しているときの頂点数
+    // １つの多角形を描画しているときの頂点数
     private var nVertex = 0
     private var nVertexMax = 6
     private var angleVertex = -360f/nVertexMax.toFloat()
@@ -44,12 +44,12 @@ class SlideHexagon01Drawable: MyDrawable() {
     // 一辺上に描画する点(3分割)
     private var nVertexDv = 0
     private var nVertexDvMax = 3
-    // 描画する六角形の数
+    // 描画する多角形の数
     private var nCnt = 0
     private var nCntMax = nVertexMax*2
 
     // -------------------------------
-    // 六角形の描画点リスト
+    // 多角形の描画点リスト
     // -------------------------------
     val pointLst = mutableListOf<MyPointF>()
 
@@ -79,7 +79,7 @@ class SlideHexagon01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 六角形を描くペイント
+    // 多角形を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
@@ -108,21 +108,29 @@ class SlideHexagon01Drawable: MyDrawable() {
     // -----------------------------------------
     // 可変変数 values の引数位置による意味合い
     //
-    // 第１引数:初期表示で描画する六角形の数
+    // 第１引数:多角形の頂点数
     // -----------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
-        // 初期表示で描画する六角形の数
-        var nCntInit = 12
         values.forEachIndexed { index, fl ->
             //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
             when (index) {
-                // 初期表示で描画する六角形の数
-                0 -> nCntInit = fl.toInt()
+                // 多角形の頂点数
+                0 -> nVertexMax = fl.toInt()
             }
         }
+        angleVertex = -360f/nVertexMax.toFloat()
+        // 最初の描画角度
+        angleInit = 360f/nVertexMax.toFloat()
+        // 現在の描画角度
+        angle = angleInit
+        // 描画する多角形の数
+        nCntMax = nVertexMax*2
+        // 多角形の１辺の長さ
+        r = side/(nVertexMax-2).toFloat()
+
 
         // 初期位置まで描画点を追加する
-        while ( nCnt < nCntInit )  {
+        while ( nCnt < nCntMax )  {
             // 六角形の描画点を追加
             addPoint()
             // 六角形の描画点を移動
@@ -148,7 +156,7 @@ class SlideHexagon01Drawable: MyDrawable() {
 
                 // 最後は1秒後に描画
                 if (nCnt == nCntMax) {
-                    handler.postDelayed(runnable, 1000)
+                    handler.postDelayed(runnable, 2000)
                 }
                 // 100msごとに描画
                 else {
