@@ -163,8 +163,8 @@ class Trochoid01Drawable: MyDrawable() {
             }
         }
 
-        // トロコイド曲線の描画点リストをクリア
-        //pointLst.clear()
+        // 描画に使うパラメータを初期化
+        init()
         // トロコイド曲線の描画点を追加
         addPoint()
         // 初期位置に車で描画点を追加する
@@ -222,6 +222,14 @@ class Trochoid01Drawable: MyDrawable() {
     }
 
     // -------------------------------
+    // 描画に使うパラメータを初期化
+    // -------------------------------
+    private fun init() {
+        angle = 0f
+        pointLst.clear()
+    }
+
+    // -------------------------------
     // トロコイド曲線の描画点を追加
     // -------------------------------
     private fun addPoint() {
@@ -248,8 +256,7 @@ class Trochoid01Drawable: MyDrawable() {
         // ・元の位置に戻す
         // ・トロコイド曲線の描画点リストをクリアする
         if ( angle > angleMax ) {
-            angle = 0f
-            pointLst.clear()
+            init()
         }
     }
 

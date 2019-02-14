@@ -68,6 +68,7 @@
     <string name="draw_000106_fractal_recursion_sierpinski_carpet">Sierpinski Carpet</string>
     <string name="draw_000107_fractal_recursion_hilbert_curve">Hilbert Curve</string>
     <string name="draw_000108_fractal_recursion_moore_curve">Moore Curve</string>
+    <string name="draw_000109_fractal_gosper_island">Gosper Island</string>
     <string name="draw_000111_fractal_recursion_tree_curve">Tree Curve</string>
     <string name="draw_000112_fractal_recursion_tree_curve">Tree Curve</string>
     <string name="draw_000113_fractal_recursion_tree_curve">Tree Curve</string>
@@ -116,7 +117,6 @@
     <string name="draw_000601_polygon_lap">Polygon Lap</string>
     <string name="draw_000602_polygon_circle2square_morph">Circle&lt;=&gt;Square</string>
     <string name="draw_000603_polygon_rotate_arrows">Rotate Arrows</string>
-    <string name="draw_000604_polygon_slide_hexagon">Slide Hexagon</string>
     <string name="draw_000701_polygon_3_out_3">3 out 3</string>
     <string name="draw_000702_polygon_3_out_4">3 out 4</string>
     <string name="draw_000703_polygon_3_out_5">3 out 5</string>

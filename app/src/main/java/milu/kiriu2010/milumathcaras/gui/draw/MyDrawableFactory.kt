@@ -15,6 +15,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiral01Dra
 import milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid.Trochoid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.mandelbrot.Mandelbrot00Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.dragon.DragonCurve01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.gosper.GosperIsland01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.HilbertCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.MooreCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.koch.KochSnowflake01Drawable
@@ -97,6 +98,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000107_HILBERT_CURVE -> HilbertCurve01Drawable()
                 // ムーア曲線
                 DrawDataID.ID_000108_MOORECURVE -> MooreCurve01Drawable()
+                // ゴスパー島
+                DrawDataID.ID_000109_GOSPER_ISLAND -> GosperIsland01Drawable()
                 // 樹木曲線
                 DrawDataID.ID_000111_TREE_CURVE -> TreeCurve01Drawable()
                 // 樹木曲線
@@ -193,8 +196,6 @@ class MyDrawableFactory {
                 DrawDataID.ID_000602_CIRCLE2SQUARE_MORPH -> Circle2SqaureMorph01Drawable()
                 // 回転する矢印
                 DrawDataID.ID_000603_ROTATE_ARROWS -> RotateArrows01Drawable()
-                // 六角形をずらして描く
-                DrawDataID.ID_000604_SLIDE_HEXAGON -> SlideHexagon01Drawable()
                 // 三角形out三角形
                 DrawDataID.ID_000701_3_OUT_3 -> PolygonOutPolygon01Drawable()
                 // 三角形out四角形

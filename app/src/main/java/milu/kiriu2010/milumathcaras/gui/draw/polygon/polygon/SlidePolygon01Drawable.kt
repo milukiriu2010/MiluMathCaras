@@ -287,8 +287,7 @@ class SlidePolygon01Drawable: MyDrawable() {
         canvas.save()
         canvas.translate(x0,y0)
 
-        /*
-        // 円を描く
+        // 多角形を描く
         val path = Path()
         pointLst.forEachIndexed { index, myPointF ->
             if ( index == 0 ) {
@@ -299,11 +298,11 @@ class SlidePolygon01Drawable: MyDrawable() {
             }
         }
         canvas.drawPath(path,linePaint)
-        */
 
+        /*
         // 色インスタンス作成
         val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
-        // 円を描く
+        // 多角形を描く
         val path = Path()
         val bunchSize = nVertexDvMax*nVertexMax
         var myPointF2: MyPointF? = null
@@ -316,6 +315,7 @@ class SlidePolygon01Drawable: MyDrawable() {
             myPointF2 = myPointF1
         }
         canvas.drawPath(path,linePaint)
+        */
 
         // 座標を元に戻す
         canvas.restore()

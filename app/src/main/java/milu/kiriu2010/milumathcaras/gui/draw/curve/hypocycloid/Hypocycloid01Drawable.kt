@@ -159,6 +159,9 @@ class Hypocycloid01Drawable: MyDrawable() {
         // 衣非サイクロイドと同じにしてみた
         rR = side/2f / (1f+2f/k)
 
+        // 描画に使うパラメータを初期化
+        init()
+
         // ハイポサイクロイド曲線の媒介変数(度)の最大値を求める
         calAngleMax()
 
@@ -199,6 +202,14 @@ class Hypocycloid01Drawable: MyDrawable() {
             }
             handler.postDelayed(runnable, 1000)
         }
+    }
+
+    // -------------------------------
+    // 描画に使うパラメータを初期化
+    // -------------------------------
+    private fun init() {
+        angle = 0f
+        pointLst.clear()
     }
 
     // -----------------------------------------------------
@@ -285,8 +296,7 @@ class Hypocycloid01Drawable: MyDrawable() {
         // ・元の位置に戻す
         // ・ハイポサイクロイド曲線の描画点リストをクリアする
         if ( angle > angleMax ) {
-            angle = 0f
-            pointLst.clear()
+            init()
         }
     }
 

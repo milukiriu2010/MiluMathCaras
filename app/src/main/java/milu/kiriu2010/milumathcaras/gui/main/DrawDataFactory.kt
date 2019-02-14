@@ -150,6 +150,9 @@ class DrawDataFactory {
                     // ムーア曲線
                     drawDataLst.add(DrawData(DrawDataID.ID_000108_MOORECURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000108_fractal_recursion_moore_curve),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
+                    // ゴスパー島
+                    drawDataLst.add(DrawData(DrawDataID.ID_000109_GOSPER_ISLAND,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000109_fractal_gosper_island),
+                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
                 }
                 // フラクタル(樹木曲線)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_TREE_CURVE -> {

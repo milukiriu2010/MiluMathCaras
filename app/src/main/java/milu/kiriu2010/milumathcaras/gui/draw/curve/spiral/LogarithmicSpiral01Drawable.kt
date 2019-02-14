@@ -194,6 +194,7 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
         // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
         notifyCallback?.receive(angle)
     }
+
     // 対数螺旋を回転する
     private fun rotatePath() {
         angle += 20f

@@ -69,6 +69,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000107_HILBERT_CURVE(107),
     // ムーア曲線
     ID_000108_MOORECURVE(108),
+    // ゴスパー島
+    ID_000109_GOSPER_ISLAND(109),
     // 樹木曲線
     ID_000111_TREE_CURVE(111),
     // 樹木曲線
@@ -165,8 +167,6 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000602_CIRCLE2SQUARE_MORPH(602),
     // 回転する矢印
     ID_000603_ROTATE_ARROWS(603),
-    // 六角形をずらして描く
-    ID_000604_SLIDE_HEXAGON(604),
     // 三角形out三角形
     ID_000701_3_OUT_3(701),
     // 三角形out四角形
