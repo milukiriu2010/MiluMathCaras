@@ -150,19 +150,28 @@ class DrawDataFactory {
                     // ムーア曲線
                     drawDataLst.add(DrawData(DrawDataID.ID_000108_MOORECURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000108_fractal_recursion_moore_curve),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
-                    // ゴスパー島
-                    drawDataLst.add(DrawData(DrawDataID.ID_000109_GOSPER_ISLAND,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000109_fractal_gosper_island),
-                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
                 }
                 // フラクタル(樹木曲線)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_TREE_CURVE -> {
-                    // 樹木曲線
-                    drawDataLst.add(DrawData(DrawDataID.ID_000111_TREE_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000111_fractal_recursion_tree_curve),
+                    // 樹木曲線01
+                    drawDataLst.add(DrawData(DrawDataID.ID_000111_TREE_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000111_fractal_recursion_tree_curve_01),
                         stillImageParam = floatArrayOf(6f), motionImageParam = floatArrayOf(0f) ))
-                    // 樹木曲線
-                    drawDataLst.add(DrawData(DrawDataID.ID_000112_TREE_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000112_fractal_recursion_tree_curve) ))
-                    // 樹木曲線
-                    drawDataLst.add(DrawData(DrawDataID.ID_000113_TREE_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000113_fractal_recursion_tree_curve) ))
+                    // 樹木曲線02
+                    drawDataLst.add(DrawData(DrawDataID.ID_000112_TREE_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000112_fractal_recursion_tree_curve_02) ))
+                    // 樹木曲線03
+                    drawDataLst.add(DrawData(DrawDataID.ID_000113_TREE_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000113_fractal_recursion_tree_curve_03) ))
+                }
+                // フラクタル(ごスパー曲線)を選択したときの描画データの一覧
+                MenuItem.MENU_FRACTAL_GOSPER_CURVE -> {
+                    // ゴスパー島01
+                    drawDataLst.add(DrawData(DrawDataID.ID_000116_GOSPER_ISLAND_01,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000116_fractal_gosper_island_01),
+                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
+                    // ゴスパー島02
+                    drawDataLst.add(DrawData(DrawDataID.ID_000117_GOSPER_ISLAND_02,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000117_fractal_gosper_island_02),
+                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
+                    // ゴスパー曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_000118_GOSPER_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000118_fractal_gosper_curve),
+                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
                 }
                 // フラクタル(マンデルブロ―集合)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_MANDELBROT -> {

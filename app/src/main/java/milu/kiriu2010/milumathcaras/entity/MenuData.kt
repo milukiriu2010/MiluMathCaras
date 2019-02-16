@@ -41,6 +41,8 @@ enum class MenuItem(val title: String): Parcelable {
     MENU_FRACTAL_RECURSION("Recursion"),
     // フラクタル(樹木曲線)を描画するメニュー
     MENU_FRACTAL_TREE_CURVE("Tree Curve"),
+    // フラクタル(ごスパー曲線)を描画するメニュー
+    MENU_FRACTAL_GOSPER_CURVE("Gosper Curve"),
     // フラクタル(複素数)を描画するメニュー
     MENU_FRACTAL_COMPLEX("Complex"),
     // フラクタル(マンデルブロ―集合)を描画するメニュー

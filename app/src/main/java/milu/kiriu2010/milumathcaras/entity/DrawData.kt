@@ -69,14 +69,18 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000107_HILBERT_CURVE(107),
     // ムーア曲線
     ID_000108_MOORECURVE(108),
-    // ゴスパー島
-    ID_000109_GOSPER_ISLAND(109),
-    // 樹木曲線
+    // 樹木曲線01
     ID_000111_TREE_CURVE(111),
-    // 樹木曲線
+    // 樹木曲線02
     ID_000112_TREE_CURVE(112),
-    // 樹木曲線
+    // 樹木曲線03
     ID_000113_TREE_CURVE(113),
+    // ゴスパー島01
+    ID_000116_GOSPER_ISLAND_01(116),
+    // ゴスパー島02
+    ID_000117_GOSPER_ISLAND_02(117),
+    // ゴスパー曲線
+    ID_000118_GOSPER_CURVE(118),
     // マンデルブロ―集合(白黒)
     ID_000200_MANDELBRO_SET(200),
     // マンデルブロ―集合(-1.5-1.0i～+0.5+1.0i)

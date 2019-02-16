@@ -4,20 +4,19 @@ import android.graphics.*
 import android.os.Handler
 import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
-import milu.kiriu2010.gui.color.ColorType
-import milu.kiriu2010.gui.color.MyColorFactory
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.*
 
 // -----------------------------------------------
-// ゴスパー島
+// ゴスパー曲線
 // -----------------------------------------------
+// https://en.wikipedia.org/wiki/Gosper_curve
 // https://www.mathcurve.com/fractals/gosper/gosper.shtml
 // http://ecademy.agnesscott.edu/~lriddle/ifs/ksnow/flowsnake.htm
 // -----------------------------------------------
-class GosperIsland01Drawable: MyDrawable() {
+class GosperCurve01Drawable: MyDrawable() {
     // ---------------------------------
     // 描画領域
     // ---------------------------------
@@ -32,7 +31,7 @@ class GosperIsland01Drawable: MyDrawable() {
     // 再帰レベルの最大値
     //  3回描くと、それ以降は違いがわからないので6回としている
     // --------------------------------------------------------
-    private val nMax = 3
+    private val nMax = 1
 
     // ----------------------------------------
     // ゴスパー島の回転角度
@@ -44,7 +43,12 @@ class GosperIsland01Drawable: MyDrawable() {
     // ----------------------------------------
     // ゴスパー島の描画点リスト
     // ----------------------------------------
-    private val pointLst = mutableListOf<MyPointF>()
+    private val pointLstA = mutableListOf<MyPointF>()
+
+    // ----------------------------------------
+    // ゴスパー曲線の描画点リスト
+    // ----------------------------------------
+    private val pointLstB = mutableListOf<MyPointF>()
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -74,10 +78,19 @@ class GosperIsland01Drawable: MyDrawable() {
     // -------------------------------
     // ゴスパー島を描くペイント
     // -------------------------------
-    private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    private val linePaintA = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.BLACK
+        style = Paint.Style.STROKE
+        strokeWidth = 1f
+    }
+
+    // -------------------------------
+    // ゴスパー曲線を描くペイント
+    // -------------------------------
+    private val linePaintB = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
         style = Paint.Style.STROKE
-        strokeWidth = 10f
+        strokeWidth = 5f
     }
 
     // -------------------------------------
@@ -167,7 +180,9 @@ class GosperIsland01Drawable: MyDrawable() {
     // ゴスパー島を構築
     private fun createPath() {
         // ゴスパー島の描画点リストをクリアする
-        pointLst.clear()
+        pointLstA.clear()
+        // ゴスパー曲線の描画点リストをクリアする
+        pointLstB.clear()
 
         // ------------------------------
         // ゴスパー島の頂点
@@ -193,55 +208,211 @@ class GosperIsland01Drawable: MyDrawable() {
         calNextLevel(e,f,nNow)
         calNextLevel(f,a,nNow)
 
+        // ----------------------------------------
+        // ゴスパー曲線を描くための最初のステップ
+        // ----------------------------------------
+        creteCurve(nNow-1)
+
         // 描画中に呼び出すコールバックをキックし、現在の再帰レベルを通知する
         notifyCallback?.receive(nNow.toFloat())
+    }
+
+    // ----------------------------------------
+    // ゴスパー曲線を描くための最初のステップ
+    // ----------------------------------------
+    private fun creteCurve( n: Int ) {
+        if ( n < 0 ) return
+
+        // ゴスパー島の0,2番目の点が描画の起点となる描画点A,B
+        val a = pointLstA[0].copy()
+        val b = pointLstA[2].copy()
+
+        // 辺の長さ
+        val r = a.distance(b)
+        // 描画点"A-B"の角度
+        val angle = MyMathUtil.getAngle(a,b)
+
+        // --------------------------------
+        // 描画点C
+        // --------------------------------
+        // 描画点Bからみて
+        //   角度="A-B"の角度 - 60
+        // --------------------------------
+        val c = MyPointF().apply {
+            x = b.x + r * cos((angle-60f)*PI/180f).toFloat()
+            y = b.y + r * sin((angle-60f)*PI/180f).toFloat()
+        }
+
+
+        pointLstB.add(a)
+        pointLstB.add(b)
+        pointLstB.add(c)
     }
 
     // -------------------------------------
     // 次レベルのゴスパー島の描画点を求める
     // -------------------------------------
-    private fun calNextLevel(a: MyPointF, b: MyPointF, n: Int) {
+    private fun calNextLevel(a: MyPointF, g: MyPointF, m: Int, n: Int = 0) {
         // -----------------------------------------------------
-        // 再帰呼び出しの際、nを減らしていき0以下になったら終了
+        // 再帰呼び出しの際、mを減らしていき0以下になったら終了
         // -----------------------------------------------------
-        if ( n <= 0 ) {
-            pointLst.add(a)
+        if ( m <= 0 ) {
+            pointLstA.add(a)
             return
         }
 
-        // 長さ="A-B"の1/sqrt(7)
-        val r = a.distance(b).toFloat()/sqrt(7f).toFloat()
-        // "A-B"の角度
-        val t = MyMathUtil.getAngle(a,b).toFloat()
+        // 長さ="A-G"の1/sqrt(7)
+        val r = a.distance(g).toFloat()/sqrt(7f).toFloat()
+        // "A-G"の角度
+        val t = MyMathUtil.getAngle(a,g).toFloat()
 
         // ---------------------------
-        // 描画点C
+        // 描画点B
         // ---------------------------
         // 描画点Aからみて
-        //   距離="A-B"の1/sqrt(7)
-        //   角度="A-B"の角度 + angle
+        //   距離="A-G"の1/sqrt(7)
+        //   角度="A-G"の角度 + angle
         // ---------------------------
-        val c = MyPointF().apply {
+        val b = MyPointF().apply {
             x = a.x + r * cos((t+angle)*PI/180f).toFloat()
             y = a.y + r * sin((t+angle)*PI/180f).toFloat()
         }
 
-        // ---------------------------
-        // 描画点D
-        // ---------------------------
+        // --------------------------------
+        // 描画点C
+        // --------------------------------
         // 描画点Bからみて
-        //   距離="A-B"の1/sqrt(7)
-        //   角度="B-A"の角度 + angle
-        // ---------------------------
+        //   距離="A-G"の1/sqrt(7)
+        //   角度="A-G"の角度 + angle + 180
+        // --------------------------------
+        val c = MyPointF().apply {
+            x = g.x + r * cos((t+angle+180f)*PI/180f).toFloat()
+            y = g.y + r * sin((t+angle+180f)*PI/180f).toFloat()
+        }
+
+        // --------------------------------
+        // 描画点D
+        // --------------------------------
+        // 描画点Cからみて
+        //   距離="A-G"の1/sqrt(7)
+        //   角度="B-C"の角度 -60
+        // --------------------------------
+        val angleBC = MyMathUtil.getAngle(b,c)
         val d = MyPointF().apply {
-            x = b.x + r * cos((t+angle+180f)*PI/180f).toFloat()
-            y = b.y + r * sin((t+angle+180f)*PI/180f).toFloat()
+            x = c.x + r * cos((angleBC-60f)*PI/180f).toFloat()
+            y = c.y + r * sin((angleBC-60f)*PI/180f).toFloat()
+        }
+
+        // --------------------------------
+        // 描画点E
+        // --------------------------------
+        // 描画点Dからみて
+        //   距離="A-G"の1/sqrt(7)
+        //   角度="C-D"の角度 -60
+        // --------------------------------
+        val angleCD = MyMathUtil.getAngle(c,d)
+        val e = MyPointF().apply {
+            x = d.x + r * cos((angleCD-60f)*PI/180f).toFloat()
+            y = d.y + r * sin((angleCD-60f)*PI/180f).toFloat()
+        }
+
+        // --------------------------------
+        // 描画点F
+        // --------------------------------
+        // 描画点Eからみて
+        //   距離="A-G"の1/sqrt(7)
+        //   角度="D-E"の角度 -60
+        // --------------------------------
+        val angleDE = MyMathUtil.getAngle(d,e)
+        val f = MyPointF().apply {
+            x = e.x + r * cos((angleDE-60f)*PI/180f).toFloat()
+            y = e.y + r * sin((angleDE-60f)*PI/180f).toFloat()
         }
 
         // 次レベルのゴスパー島を描画
-        calNextLevel(a,c,n-1)
-        calNextLevel(c,d,n-1)
-        calNextLevel(d,b,n-1)
+        calNextLevel(a,b,m-1)
+        calNextLevel(b,c,m-1)
+        calNextLevel(c,d,m-1)
+        calNextLevel(d,e,m-1)
+        calNextLevel(e,f,m-1)
+        calNextLevel(f,a,m-1)
+
+        // -----------------------------------------------------
+        // 再帰呼び出しの際、nを減らしていき0以上の場合、
+        // 中央の正六角形を追加描画
+        // -----------------------------------------------------
+        // と思ったが、うまくいかない
+        // -----------------------------------------------------
+        //if ( n <= 0 ) return
+
+        // -----------------------------------------------------
+        // 以降、重複描画されるが、うまい方法が思いつかない
+        // -----------------------------------------------------
+
+
+        // --------------------------------
+        // 描画点A2(E)
+        // --------------------------------
+        val a2 = e.copy()
+        // --------------------------------
+        // 描画点B2(D)
+        // --------------------------------
+        val b2 = d.copy()
+        // --------------------------------
+        // 描画点C2
+        // --------------------------------
+        // 描画点B2からみて
+        //   距離="A-G"の1/sqrt(7)
+        //   角度="A2-B2"の角度 -60
+        // --------------------------------
+        val angleA2B2 = MyMathUtil.getAngle(a2,b2)
+        val c2 = MyPointF().apply {
+            x = b2.x + r * cos((angleA2B2-60f)*PI/180f).toFloat()
+            y = b2.y + r * sin((angleA2B2-60f)*PI/180f).toFloat()
+        }
+        // --------------------------------
+        // 描画点D2
+        // --------------------------------
+        // 描画点C2からみて
+        //   距離="A-G"の1/sqrt(7)
+        //   角度="B2-C2"の角度 -60
+        // --------------------------------
+        val angleB2C2 = MyMathUtil.getAngle(b2,c2)
+        val d2 = MyPointF().apply {
+            x = c2.x + r * cos((angleB2C2-60f)*PI/180f).toFloat()
+            y = c2.y + r * sin((angleB2C2-60f)*PI/180f).toFloat()
+        }
+        // --------------------------------
+        // 描画点E2
+        // --------------------------------
+        // 描画点D2からみて
+        //   距離="A-G"の1/sqrt(7)
+        //   角度="C2-D2"の角度 -60
+        // --------------------------------
+        val angleC2D2 = MyMathUtil.getAngle(c2,d2)
+        val e2 = MyPointF().apply {
+            x = d2.x + r * cos((angleC2D2-60f)*PI/180f).toFloat()
+            y = d2.y + r * sin((angleC2D2-60f)*PI/180f).toFloat()
+        }
+        // --------------------------------
+        // 描画点F2
+        // --------------------------------
+        // 描画点E2からみて
+        //   距離="A-G"の1/sqrt(7)
+        //   角度="D2-E2"の角度 -60
+        // --------------------------------
+        val angleD2E2 = MyMathUtil.getAngle(d2,e2)
+        val f2 = MyPointF().apply {
+            x = e2.x + r * cos((angleD2E2-60f)*PI/180f).toFloat()
+            y = e2.y + r * sin((angleD2E2-60f)*PI/180f).toFloat()
+        }
+        // 次レベルのゴスパー島を描画
+        calNextLevel(a2,b2,m-1)
+        calNextLevel(b2,c2,m-1)
+        calNextLevel(c2,d2,m-1)
+        calNextLevel(d2,e2,m-1)
+        calNextLevel(e2,f2,m-1)
+        calNextLevel(f2,a2,m-1)
     }
 
     // -------------------------------------
@@ -271,14 +442,14 @@ class GosperIsland01Drawable: MyDrawable() {
         //  = (左右中央,上下中央)
         // ---------------------------------------------------------------------
         canvas.save()
-        //Log.d(javaClass.simpleName, "pointLst.size[${pointLst.size}]")
+        Log.d(javaClass.simpleName, "pointLstA.size[${pointLstA.size}]")
         canvas.translate(intrinsicWidth/2f, intrinsicHeight/2f)
 
         /*
         //Log.d(javaClass.simpleName,"===============================")
         // ゴスパー島を描画
         val path = Path()
-        pointLst.forEachIndexed { index, myPointF ->
+        pointLstA.forEachIndexed { index, myPointF ->
             //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
             if ( index == 0 ) {
                 path.moveTo(myPointF.x,myPointF.y)
@@ -288,28 +459,40 @@ class GosperIsland01Drawable: MyDrawable() {
             }
         }
         path.close()
-        canvas.drawPath(path,linePaint)
+        canvas.drawPath(path,linePaintA)
         */
 
-        // 色インスタンス作成
-        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
-
         // ゴスパー島を描画
-        // 1536色のグラデーション
-        val bunchSize = pointLst.size
-        var myPointF2: MyPointF? = null
-        pointLst.forEachIndexed { index, myPointF1 ->
-            //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
-            if ( myPointF2 != null ) {
-                val color = myColor.create(index,bunchSize)
-                linePaint.color = color.toInt()
-                canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaint)
+        var pathA = Path()
+        pointLstA.forEachIndexed { index, myPointF ->
+            when ( index%6 ) {
+                0 -> {
+                    pathA = Path()
+                    pathA.moveTo(myPointF.x,myPointF.y)
+                }
+                5 -> {
+                    pathA.lineTo(myPointF.x,myPointF.y)
+                    pathA.close()
+                    canvas.drawPath(pathA,linePaintA)
+                }
+                else -> {
+                    pathA.lineTo(myPointF.x,myPointF.y)
+                }
             }
-            myPointF2 = myPointF1
         }
-        val color = myColor.create(0,bunchSize)
-        linePaint.color = color.toInt()
-        canvas.drawLine(myPointF2?.x!!,myPointF2?.y!!,pointLst[0].x,pointLst[0].y,linePaint)
+
+        // ゴスパー曲線を描画
+        val pathB = Path()
+        pointLstB.forEachIndexed { index, myPointF ->
+            //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
+            if ( index == 0 ) {
+                pathB.moveTo(myPointF.x,myPointF.y)
+            }
+            else {
+                pathB.lineTo(myPointF.x,myPointF.y)
+            }
+        }
+        canvas.drawPath(pathB,linePaintB)
 
         // 座標を元に戻す
         canvas.restore()
@@ -334,7 +517,7 @@ class GosperIsland01Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun setAlpha(alpha: Int) {
-        linePaint.alpha = alpha
+        linePaintA.alpha = alpha
     }
 
     // -------------------------------
@@ -346,7 +529,7 @@ class GosperIsland01Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun setColorFilter(colorFilter: ColorFilter?) {
-        linePaint.colorFilter = colorFilter
+        linePaintA.colorFilter = colorFilter
     }
 
     // -------------------------------
