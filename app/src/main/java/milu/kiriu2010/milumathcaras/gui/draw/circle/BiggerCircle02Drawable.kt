@@ -139,22 +139,29 @@ class BiggerCircle02Drawable: MyDrawable() {
         // 描画に使うスレッド
         if ( isKickThread ) {
             runnable = Runnable {
-                // 円の描画点を追加
-                addPoint()
-                // 円の描画点を移動
-                movePoint()
-                // ビットマップに描画
-                drawBitmap()
-                // 描画
-                invalidateSelf()
+                // "更新"状態
+                if ( isPaused == false ) {
+                    // 円の描画点を追加
+                    addPoint()
+                    // 円の描画点を移動
+                    movePoint()
+                    // ビットマップに描画
+                    drawBitmap()
+                    // 描画
+                    invalidateSelf()
 
-                // 最初と最後は1秒後に描画
-                if (angle == angleMax || angle == 0f) {
-                    handler.postDelayed(runnable, 1000)
+                    // 最初と最後は1秒後に描画
+                    if (angle == angleMax || angle == 0f) {
+                        handler.postDelayed(runnable, 1000)
+                    }
+                    // 10msごとに描画
+                    else {
+                        handler.postDelayed(runnable, 10)
+                    }
                 }
-                // 10msごとに描画
+                // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
-                    handler.postDelayed(runnable, 10)
+                    handler.postDelayed(runnable, 100)
                 }
             }
             handler.postDelayed(runnable, 1000)

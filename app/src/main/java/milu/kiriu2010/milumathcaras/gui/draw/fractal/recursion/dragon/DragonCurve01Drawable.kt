@@ -124,22 +124,29 @@ class DragonCurve01Drawable: MyDrawable() {
         // 描画に使うスレッド
         if (isKickThread) {
             runnable = Runnable {
-                // 再帰レベルを１つ増やす
-                incrementLevel()
-                // 三角波を構築
-                createPath()
-                // ビットマップに描画
-                drawBitmap()
-                // 描画
-                invalidateSelf()
+                // "更新"状態
+                if ( isPaused == false ) {
+                    // 再帰レベルを１つ増やす
+                    incrementLevel()
+                    // 三角波を構築
+                    createPath()
+                    // ビットマップに描画
+                    drawBitmap()
+                    // 描画
+                    invalidateSelf()
 
-                // 最初と最後は1秒後に描画
-                if ( nNow == nMax || nNow == 0 ) {
-                    handler.postDelayed(runnable, 1000)
+                    // 最初と最後は1秒後に描画
+                    if ( nNow == nMax || nNow == 0 ) {
+                        handler.postDelayed(runnable, 1000)
+                    }
+                    // 500msごとに描画
+                    else {
+                        handler.postDelayed(runnable, 500)
+                    }
                 }
-                // 500msごとに描画
+                // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
-                    handler.postDelayed(runnable, 500)
+                    handler.postDelayed(runnable, 100)
                 }
             }
             handler.postDelayed(runnable, 1000)

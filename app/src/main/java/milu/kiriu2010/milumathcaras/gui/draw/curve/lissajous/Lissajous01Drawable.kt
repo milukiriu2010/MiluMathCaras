@@ -167,19 +167,27 @@ class Lissajous01Drawable: MyDrawable() {
         // 描画に使うスレッド
         if ( isKickThread ) {
             runnable = Runnable {
-                createPath()
-                // リサージュ曲線を回転する
-                rotatePath()
-                // ビットマップに描画
-                drawBitmap()
-                // 描画
-                invalidateSelf()
+                // "更新"状態
+                if ( isPaused == false ) {
+                    // リサージュ曲線の描画点リストを生成
+                    createPath()
+                    // リサージュ曲線を回転する
+                    rotatePath()
+                    // ビットマップに描画
+                    drawBitmap()
+                    // 描画
+                    invalidateSelf()
 
-                // 最初と最後は1秒後に描画
-                if (angle == angleMax || angle == 0f) {
-                    handler.postDelayed(runnable, 1000)
+                    // 最初と最後は1秒後に描画
+                    if (angle == angleMax || angle == 0f) {
+                        handler.postDelayed(runnable, 1000)
+                    }
+                    // 100msごとに描画
+                    else {
+                        handler.postDelayed(runnable, 100)
+                    }
                 }
-                // 100msごとに描画
+                // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
                     handler.postDelayed(runnable, 100)
                 }

@@ -342,8 +342,6 @@ enum class DrawFragmentType: Parcelable {
     FT_SQUARE_05,
     // 正方形領域に描画する(03＋関数式)
     FT_SQUARE_06,
-    // 長方形領域に描画する
-    FT_RECTANGLE_01,
     // タッチイベントを受け付ける
     FT_TOUCH_01
 }

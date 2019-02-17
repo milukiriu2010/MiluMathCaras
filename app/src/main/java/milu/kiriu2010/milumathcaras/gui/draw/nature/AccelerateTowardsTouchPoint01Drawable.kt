@@ -147,17 +147,24 @@ class AccelerateTowardsTouchPoint01Drawable: MyDrawable() {
         // 描画に使うスレッド
         if ( isKickThread ) {
             runnable = Runnable {
-                // ランダムウォークする円を生成
-                createMover()
-                // 円を移動する
-                moveMover()
-                // ビットマップに描画
-                drawBitmap()
-                // 描画
-                invalidateSelf()
+                // "更新"状態
+                if ( isPaused == false ) {
+                    // ランダムウォークする円を生成
+                    createMover()
+                    // 円を移動する
+                    moveMover()
+                    // ビットマップに描画
+                    drawBitmap()
+                    // 描画
+                    invalidateSelf()
 
-                // 10msごとに描画
-                handler.postDelayed(runnable, 10)
+                    // 10msごとに描画
+                    handler.postDelayed(runnable, 10)
+                }
+                // "停止"状態のときは、更新されないよう処理をスキップする
+                else {
+                    handler.postDelayed(runnable, 100)
+                }
             }
             handler.postDelayed(runnable, 100)
         }

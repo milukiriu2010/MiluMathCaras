@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/action_resume" android:id="@+id/menuItemResume" app:showAsAction="ifRoom"
+          android:visible="false" android:enabled="true" android:checkable="true"
+          android:icon="@drawable/svg_play_white"/>
+    <item android:title="@string/action_pause" android:id="@+id/menuItemPause" app:showAsAction="ifRoom"
+          android:visible="true" android:enabled="true" android:checkable="true"
+          android:icon="@drawable/svg_pause_white"/>
+</menu>

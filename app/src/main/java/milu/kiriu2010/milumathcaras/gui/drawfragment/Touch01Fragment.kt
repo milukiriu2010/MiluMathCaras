@@ -4,10 +4,7 @@ package milu.kiriu2010.milumathcaras.gui.drawfragment
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import milu.kiriu2010.milumathcaras.R
 
@@ -35,6 +32,12 @@ class Touch01Fragment : Fragment() {
     // 描画するDrawable
     private lateinit var drawable: MyDrawable
 
+    // メニュー(再開)
+    private var menuItemResume: MenuItem? = null
+
+    // メニュー(停止)
+    private var menuItemPause: MenuItem? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -47,7 +50,7 @@ class Touch01Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_rectangle_01, container, false)
+        val view = inflater.inflate(R.layout.fragment_square_01, container, false)
 
         // 描画するビュー
         imageView = view.findViewById(R.id.imageView)
@@ -89,6 +92,57 @@ class Touch01Fragment : Fragment() {
         // 画面を消したときスレッドが止まるようにするためonPauseで呼び出している
         drawable.calStop()
         super.onPause()
+    }
+
+
+    // ----------------------------------------------------
+    // アクションバーにメニューを表示するためのおまじない
+    // ----------------------------------------------------
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    // ----------------------------------------------------
+    // アクションバーにメニューを表示
+    // ----------------------------------------------------
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_basic,menu)
+        // メニュー(再開)
+        menuItemResume = menu?.findItem(R.id.menuItemResume)
+        // メニュー(停止)
+        menuItemPause  = menu?.findItem(R.id.menuItemPause)
+        menuItemVisible(false,true)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    // ----------------------------------------------------
+    // 再開・停止メニューをON/OFFする
+    // ----------------------------------------------------
+    private fun menuItemVisible(flgResume: Boolean,flgPause: Boolean) {
+        menuItemResume?.isVisible = flgResume
+        menuItemPause?.isVisible = flgPause
+    }
+
+    // ----------------------------------------------------
+    // アクションバーのアイコンをタップすると呼ばれる
+    // ----------------------------------------------------
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item?.itemId) {
+            // 再開
+            R.id.menuItemResume -> {
+                drawable.resume()
+                menuItemVisible(false,true)
+                true
+            }
+            // 停止
+            R.id.menuItemPause -> {
+                drawable.pause()
+                menuItemVisible(true,false)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     companion object {

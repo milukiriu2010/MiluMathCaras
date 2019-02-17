@@ -585,9 +585,9 @@ class DrawDataFactory {
                 // 色を選択したときの描画データの一覧
                 MenuItem.MENU_COLOR -> {
                     // 1536色
-                    drawDataLst.add(DrawData(DrawDataID.ID_000500_COLOR_1536,DrawFragmentType.FT_RECTANGLE_01,resources.getString(R.string.draw_000500_color_1536)))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000500_COLOR_1536,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000500_color_1536)))
                     // 768色(暗色)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000501_COLOR_768_DARK,DrawFragmentType.FT_RECTANGLE_01,resources.getString(R.string.draw_000501_color_768_dark)))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000501_COLOR_768_DARK,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000501_color_768_dark)))
                 }
                 else -> {
                     throw RuntimeException("No Draw List for ${menuData.menuItem.title}")

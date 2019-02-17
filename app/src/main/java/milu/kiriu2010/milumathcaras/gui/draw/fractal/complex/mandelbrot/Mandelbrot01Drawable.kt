@@ -206,19 +206,26 @@ class Mandelbrot01Drawable: MyDrawable() {
 
         // 計算に時間がかかるため、常にスレッドを起動することとする
         runnable = Runnable {
-            // 虚数部をスキャン
-            scanImagenary()
-            // 描画
-            invalidateSelf()
+            // "更新"状態
+            if ( isPaused == false ) {
+                // 虚数部をスキャン
+                scanImagenary()
+                // 描画
+                invalidateSelf()
 
-            // X軸を全スキャンしていない場合は、スレッドを起動する
-            if ( nX <= side ) {
-                handler.postDelayed(runnable, 10)
+                // X軸を全スキャンしていない場合は、スレッドを起動する
+                if ( nX <= side ) {
+                    handler.postDelayed(runnable, 10)
+                }
+                // X軸を全スキャンしたら、スレッドを解放する
+                else {
+                    // 描画に使うスレッドを解放する
+                    handler.removeCallbacks(runnable)
+                }
             }
-            // X軸を全スキャンしたら、スレッドを解放する
+            // "停止"状態のときは、更新されないよう処理をスキップする
             else {
-                // 描画に使うスレッドを解放する
-                handler.removeCallbacks(runnable)
+                handler.postDelayed(runnable, 100)
             }
         }
         handler.postDelayed(runnable, 10)

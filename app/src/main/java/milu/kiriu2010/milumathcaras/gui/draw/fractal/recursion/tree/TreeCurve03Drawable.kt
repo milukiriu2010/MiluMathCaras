@@ -114,16 +114,23 @@ class TreeCurve03Drawable: MyDrawable() {
         // 描画に使うスレッド
         if (isKickThread) {
             runnable = Runnable {
-                // 再帰レベルを１つ増やす
-                incrementLevel()
-                // 樹木曲線を構築
-                createPath()
-                // ビットマップに描画
-                drawBitmap()
-                // 描画
-                invalidateSelf()
+                // "更新"状態
+                if ( isPaused == false ) {
+                    // 再帰レベルを１つ増やす
+                    incrementLevel()
+                    // 樹木曲線を構築
+                    createPath()
+                    // ビットマップに描画
+                    drawBitmap()
+                    // 描画
+                    invalidateSelf()
 
-                handler.postDelayed(runnable, 100)
+                    handler.postDelayed(runnable, 100)
+                }
+                // "停止"状態のときは、更新されないよう処理をスキップする
+                else {
+                    handler.postDelayed(runnable, 100)
+                }
             }
             handler.postDelayed(runnable, 1000)
         }
