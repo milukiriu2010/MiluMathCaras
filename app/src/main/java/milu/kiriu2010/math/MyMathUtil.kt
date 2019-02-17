@@ -4,6 +4,8 @@ import milu.kiriu2010.gui.basic.MyPointF
 import java.util.Stack
 import kotlin.math.PI
 import kotlin.math.atan
+import kotlin.math.cos
+import kotlin.math.sin
 
 class MyMathUtil {
     companion object {
@@ -146,5 +148,37 @@ class MyMathUtil {
             }
         }
 
+        // --------------------------------------------
+        // 角度を0～360度の範囲に補正
+        // --------------------------------------------
+        fun correctAngle(a: Float): Float {
+            if ( ( a >= 0f ) and ( a < 360f ) ) {
+                return a
+            }
+            else if ( a >= 360f ) {
+                var b = a-360f
+                while ( b >= 360f ) b = b - 360f
+                return b
+            }
+            else {
+                var b = a+360f
+                while ( b < 0f ) b = b + 360f
+                return b
+            }
+        }
+
+        // --------------------------------------------
+        // cos(度)
+        // --------------------------------------------
+        fun cosf(angle: Float): Float {
+            return cos(angle*PI/180f).toFloat()
+        }
+
+        // --------------------------------------------
+        // sin(度)
+        // --------------------------------------------
+        fun sinf(angle: Float): Float {
+            return sin(angle*PI/180f).toFloat()
+        }
     }
 }

@@ -4,6 +4,7 @@ import android.graphics.*
 import android.os.Handler
 import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
+import milu.kiriu2010.gui.basic.MyTurtle
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
@@ -29,9 +30,9 @@ class GosperCurve01Drawable: MyDrawable() {
     private var nNow = 0
     // --------------------------------------------------------
     // 再帰レベルの最大値
-    //  3回描くと、それ以降は違いがわからないので6回としている
+    //  5回描くと、遅い＆線で埋め尽くされるので、4回で終了
     // --------------------------------------------------------
-    private val nMax = 1
+    private val nMax = 4
 
     // ----------------------------------------
     // ゴスパー島の回転角度
@@ -46,9 +47,10 @@ class GosperCurve01Drawable: MyDrawable() {
     private val pointLstA = mutableListOf<MyPointF>()
 
     // ----------------------------------------
-    // ゴスパー曲線の描画点リスト
+    // ゴスパー曲線の描画Turtle
     // ----------------------------------------
-    private val pointLstB = mutableListOf<MyPointF>()
+    //private val pointLstB = mutableListOf<MyPointF>()
+    private val myTurtle = MyTurtle()
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -181,8 +183,6 @@ class GosperCurve01Drawable: MyDrawable() {
     private fun createPath() {
         // ゴスパー島の描画点リストをクリアする
         pointLstA.clear()
-        // ゴスパー曲線の描画点リストをクリアする
-        pointLstB.clear()
 
         // ------------------------------
         // ゴスパー島の頂点
@@ -211,42 +211,176 @@ class GosperCurve01Drawable: MyDrawable() {
         // ----------------------------------------
         // ゴスパー曲線を描くための最初のステップ
         // ----------------------------------------
-        creteCurve(nNow-1)
+        creteCurveInit(nNow-1)
 
         // 描画中に呼び出すコールバックをキックし、現在の再帰レベルを通知する
         notifyCallback?.receive(nNow.toFloat())
     }
 
     // ----------------------------------------
-    // ゴスパー曲線を描くための最初のステップ
+    // ゴスパー曲線を描くための初期処理
     // ----------------------------------------
-    private fun creteCurve( n: Int ) {
+    private fun creteCurveInit(n: Int ) {
+        // ゴスパー曲線描画Turtleを初期化する
+        myTurtle.clear()
         if ( n < 0 ) return
 
         // ゴスパー島の0,2番目の点が描画の起点となる描画点A,B
         val a = pointLstA[0].copy()
         val b = pointLstA[2].copy()
 
-        // 辺の長さ
+        // 移動距離
         val r = a.distance(b)
         // 描画点"A-B"の角度
-        val angle = MyMathUtil.getAngle(a,b)
+        val angle = MyMathUtil.getAngle(a,b).toFloat()
 
-        // --------------------------------
-        // 描画点C
-        // --------------------------------
-        // 描画点Bからみて
-        //   角度="A-B"の角度 - 60
-        // --------------------------------
-        val c = MyPointF().apply {
-            x = b.x + r * cos((angle-60f)*PI/180f).toFloat()
-            y = b.y + r * sin((angle-60f)*PI/180f).toFloat()
+        // ---------------------------------
+        // ゴスパー曲線を描く亀に以下を設定
+        // ・初期位置
+        // ・移動距離
+        // ・初期角度
+        // ---------------------------------
+        myTurtle.addPoint(a).apply {
+            d = r
+            t = angle
         }
 
+        // ゴスパー曲線をパターンAで描画
+        createCurveA(n)
+    }
 
-        pointLstB.add(a)
-        pointLstB.add(b)
-        pointLstB.add(c)
+    // -------------------------------------
+    // ゴスパー曲線をパターンAで描画
+    // -------------------------------------
+    private fun createCurveA( n: Int ) {
+        if ( n > 0 ) {
+            // パターンA
+            createCurveA(n-1)
+            // 右60度
+            myTurtle.turn(-60f)
+            // パターンB
+            createCurveB(n-1)
+            // 右120度
+            myTurtle.turn(-120f)
+            // パターンB
+            createCurveB(n-1)
+            // 左60度
+            myTurtle.turn(60f)
+            // パターンA
+            createCurveA(n-1)
+            // 左120度
+            myTurtle.turn(120f)
+            // パターンA
+            createCurveA(n-1)
+            // パターンA
+            createCurveA(n-1)
+            // 左60度
+            myTurtle.turn(60f)
+            // パターンB
+            createCurveB(n-1)
+            // 右60度
+            myTurtle.turn(-60f)
+        }
+        else {
+            // --------------------------
+            // 亀の軌跡
+            // --------------------------
+            // ・移動
+            // ・右60度
+            // ・移動
+            // ・右120度
+            // ・移動
+            // ・左60度
+            // ・移動
+            // ・左120度
+            // ・移動
+            // ・移動
+            // ・左60度
+            // ・移動
+            // ・右60度
+            // --------------------------
+            myTurtle.move()
+                .turn(-60f)
+                .move()
+                .turn(-120f)
+                .move()
+                .turn(60f)
+                .move()
+                .turn(120f)
+                .move()
+                .move()
+                .turn(60f)
+                .move()
+                .turn(-60f)
+        }
+    }
+
+
+    // -------------------------------------
+    // ゴスパー曲線をパターンBで描画
+    // -------------------------------------
+    private fun createCurveB( n: Int ) {
+        if ( n > 0 ) {
+            // 左60度
+            myTurtle.turn(60f)
+            // パターンA
+            createCurveA(n-1)
+            // 右60度
+            myTurtle.turn(-60f)
+            // パターンB
+            createCurveB(n-1)
+            // パターンB
+            createCurveB(n-1)
+            // 右120度
+            myTurtle.turn(-120f)
+            // パターンB
+            createCurveB(n-1)
+            // 右60度
+            myTurtle.turn(-60f)
+            // パターンA
+            createCurveA(n-1)
+            // 左120度
+            myTurtle.turn(120f)
+            // パターンA
+            createCurveA(n-1)
+            // 左60度
+            myTurtle.turn(60f)
+            // パターンB
+            createCurveB(n-1)
+        }
+        else {
+            // --------------------------
+            // 亀の軌跡
+            // --------------------------
+            // ・左60度
+            // ・移動
+            // ・右60度
+            // ・移動
+            // ・移動
+            // ・右120度
+            // ・移動
+            // ・右60度
+            // ・移動
+            // ・左120度
+            // ・移動
+            // ・移動
+            // ・左60度
+            // ・移動
+            // --------------------------
+            myTurtle.turn(60f)
+                .move()
+                .turn(-60f)
+                .move()
+                .move()
+                .turn(-120f)
+                .move()
+                .turn(-60f)
+                .move()
+                .turn(120f)
+                .move()
+                .turn(60f)
+                .move()
+        }
     }
 
     // -------------------------------------
@@ -483,7 +617,7 @@ class GosperCurve01Drawable: MyDrawable() {
 
         // ゴスパー曲線を描画
         val pathB = Path()
-        pointLstB.forEachIndexed { index, myPointF ->
+        myTurtle.pLst.forEachIndexed { index, myPointF ->
             //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
             if ( index == 0 ) {
                 pathB.moveTo(myPointF.x,myPointF.y)
