@@ -433,7 +433,7 @@ class GosperIsland02Drawable: MyDrawable() {
                 5 -> {
                     path.lineTo(myPointF.x,myPointF.y)
                     path.close()
-                    val color = myColor.create(n%7,7)
+                    val color = myColor.create(n%7,8)
                     linePaint.color = color.toInt()
                     canvas.drawPath(path,linePaint)
                     n++

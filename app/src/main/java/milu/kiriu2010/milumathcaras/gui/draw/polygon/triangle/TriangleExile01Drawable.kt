@@ -137,18 +137,25 @@ class TriangleExile01Drawable: MyDrawable() {
         // 描画に使うスレッド
         if ( isKickThread ) {
             runnable = Runnable {
-                // 三角形頂点Aを移動
-                movePoint()
-                // ビットマップに描画
-                drawBitmap()
-                // 描画
-                invalidateSelf()
+                // "更新"状態
+                if ( isPaused == false ) {
+                    // 三角形頂点Aを移動
+                    movePoint()
+                    // ビットマップに描画
+                    drawBitmap()
+                    // 描画
+                    invalidateSelf()
 
-                // すべての三角形が動作完了したら1秒後に描画
-                if ( checkAllDone() ) {
-                    handler.postDelayed(runnable, 1000)
+                    // すべての三角形が動作完了したら1秒後に描画
+                    if ( checkAllDone() ) {
+                        handler.postDelayed(runnable, 1000)
+                    }
+                    // 100msごとに描画
+                    else {
+                        handler.postDelayed(runnable, 100)
+                    }
                 }
-                // 100msごとに描画
+                // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
                     handler.postDelayed(runnable, 100)
                 }

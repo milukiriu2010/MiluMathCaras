@@ -131,9 +131,9 @@ class SlidePolygon01Drawable: MyDrawable() {
 
         // 初期位置まで描画点を追加する
         while ( nCnt < nCntMax )  {
-            // 六角形の描画点を追加
+            // 多角形の描画点を追加
             addPoint()
-            // 六角形の描画点を移動
+            // 多角形の描画点を移動
             //movePoint()
         }
 
@@ -145,22 +145,29 @@ class SlidePolygon01Drawable: MyDrawable() {
         // 描画に使うスレッド
         if ( isKickThread ) {
             runnable = Runnable {
-                // 六角形の描画点を追加
-                addPoint()
-                // 六角形の描画点を移動
-                //movePoint()
-                // ビットマップに描画
-                drawBitmap()
-                // 描画
-                invalidateSelf()
+                // "更新"状態
+                if ( isPaused == false ) {
+                    // 多角形の描画点を追加
+                    addPoint()
+                    // 多角形の描画点を移動
+                    //movePoint()
+                    // ビットマップに描画
+                    drawBitmap()
+                    // 描画
+                    invalidateSelf()
 
-                // 最後は1秒後に描画
-                if (nCnt == nCntMax) {
-                    handler.postDelayed(runnable, 2000)
+                    // 最後は1秒後に描画
+                    if (nCnt == nCntMax) {
+                        handler.postDelayed(runnable, 2000)
+                    }
+                    // 100msごとに描画
+                    else {
+                        handler.postDelayed(runnable, 50)
+                    }
                 }
-                // 100msごとに描画
+                // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
-                    handler.postDelayed(runnable, 50)
+                    handler.postDelayed(runnable, 100)
                 }
             }
             handler.postDelayed(runnable, 1000)

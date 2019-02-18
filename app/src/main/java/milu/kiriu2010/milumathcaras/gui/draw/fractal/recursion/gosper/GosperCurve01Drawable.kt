@@ -5,6 +5,8 @@ import android.os.Handler
 import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.gui.basic.MyTurtle
+import milu.kiriu2010.gui.color.ColorType
+import milu.kiriu2010.gui.color.MyColorFactory
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
@@ -32,7 +34,7 @@ class GosperCurve01Drawable: MyDrawable() {
     // 再帰レベルの最大値
     //  5回描くと、遅い＆線で埋め尽くされるので、4回で終了
     // --------------------------------------------------------
-    private val nMax = 4
+    private val nMax = 5
 
     // ----------------------------------------
     // ゴスパー島の回転角度
@@ -151,7 +153,14 @@ class GosperCurve01Drawable: MyDrawable() {
                     // 描画
                     invalidateSelf()
 
-                    handler.postDelayed(runnable, 100)
+                    // 最初と最後は1秒後に描画
+                    if ( nNow == nMax || nNow == 0 ) {
+                        handler.postDelayed(runnable, 1000)
+                    }
+                    // 500msごとに描画
+                    else {
+                        handler.postDelayed(runnable, 500)
+                    }
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
@@ -615,6 +624,7 @@ class GosperCurve01Drawable: MyDrawable() {
             }
         }
 
+        /*
         // ゴスパー曲線を描画
         val pathB = Path()
         myTurtle.pLst.forEachIndexed { index, myPointF ->
@@ -627,6 +637,23 @@ class GosperCurve01Drawable: MyDrawable() {
             }
         }
         canvas.drawPath(pathB,linePaintB)
+        */
+
+        // 色インスタンス作成
+        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
+
+        // ゴスパー曲線を描画
+        val bunchSize = myTurtle.pLst.size
+        var myPointF2: MyPointF? = null
+        myTurtle.pLst.forEachIndexed { index, myPointF1 ->
+            //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
+            if ( myPointF2 != null ) {
+                val color = myColor.create(index,bunchSize)
+                linePaintB.color = color.toInt()
+                canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaintB)
+            }
+            myPointF2 = myPointF1
+        }
 
         // 座標を元に戻す
         canvas.restore()
