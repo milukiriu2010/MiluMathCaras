@@ -220,6 +220,8 @@ class DrawDataFactory {
                 MenuItem.MENU_CIRCLE_MORPH -> {
                     // 円⇔正方形の変形
                     drawDataLst.add(DrawData(DrawDataID.ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000810_circle_morph_circle2square) ))
+                    // "円⇔正方形の変形"のタイリング
+                    drawDataLst.add(DrawData(DrawDataID.ID_000811_CIRCLE_MORPH_CIRCLE2SQUARE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000811_circle_morph_circle2square) ))
                 }
                 // "多角形のMix"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_MIX -> {
