@@ -1,23 +1,24 @@
-package milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon
+package milu.kiriu2010.milumathcaras.gui.draw.circle.circles
 
 import android.graphics.*
 import android.os.Handler
-import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
-import milu.kiriu2010.gui.basic.MyVectorF
+import milu.kiriu2010.gui.color.ColorType
+import milu.kiriu2010.gui.color.MyColorFactory
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
-import kotlin.math.sqrt
 
-// ---------------------------------------------
-// 円⇔正方形の変形
-// ---------------------------------------------
-// https://processing.org/examples/morph.html
-// ---------------------------------------------
-class Circle2SqaureMorph01Drawable: MyDrawable() {
+// --------------------------------------------
+// だんだん大きくなる円
+// --------------------------------------------
+// 7回転する
+// --------------------------------------------
+// http://logo.twentygototen.org/NsVT04Kn
+// --------------------------------------------
+class BiggerCircle02Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -26,29 +27,33 @@ class Circle2SqaureMorph01Drawable: MyDrawable() {
     private val margin = 50f
 
     // ---------------------------------
-    // 円ベクトル
+    // 回転数
     // ---------------------------------
-    private val vc = mutableListOf<MyVectorF>()
-
-    // -------------------------------------
-    // 正方形ベクトル
-    // -------------------------------------
-    private val vs = mutableListOf<MyVectorF>()
+    private val nMax = 7
 
     // ---------------------------------
-    // 変形ベクトル
+    // 中心移動
     // ---------------------------------
-    private val vm = mutableListOf<MyVectorF>()
-    // 補完比率(0.0f-1.0f)
-    private var ratio = 0f
+    private var m = 0
+    private val mMax = 2
 
     // ---------------------------------
-    // 変形方向を決める状態
+    // 円の半径
     // ---------------------------------
-    // 円　　 ⇒ 正方形: true
-    // 正方形 ⇒ 円　　: false
-    // ---------------------------------
-    private var state = false
+    private var r = (side/2f/nMax.toFloat()).toFloat()
+
+    // -------------------------------
+    // 円弧の描画角度
+    // -------------------------------
+    private var angleInit = 180f
+    private var angle = 0f
+    private var angleDv = 5f
+    private var angleMax = 360f*nMax.toFloat()*mMax.toFloat()
+
+    // -------------------------------
+    // 円の描画点リスト
+    // -------------------------------
+    val pointLst = mutableListOf<MyPointF>()
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -76,7 +81,7 @@ class Circle2SqaureMorph01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 円・正方形を描くペイント
+    // 円を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
@@ -99,16 +104,32 @@ class Circle2SqaureMorph01Drawable: MyDrawable() {
     // ---------------------------------------
     private lateinit var runnable: Runnable
 
-    // --------------------------------------
+    // -----------------------------------------
     // CalculationCallback
     // 描画に使うデータを計算する
-    // --------------------------------------
+    // -----------------------------------------
     // 可変変数 values の引数位置による意味合い
     //
-    // --------------------------------------
+    // 第１引数:描画角度の初期位置
+    // -----------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
-        // 円・正方形の初期ベクトル設定
-        createVector()
+        // 描画角度の初期位置
+        angleInit = 0f
+        values.forEachIndexed { index, fl ->
+            //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
+            when (index) {
+                // 描画角度の初期位置
+                0 -> angleInit = fl
+            }
+        }
+
+        // 初期位置まで描画点を追加する
+        while ( angle < angleInit )  {
+            // 円の描画点を追加
+            addPoint()
+            // 円の描画点を移動
+            movePoint()
+        }
         // ビットマップに描画
         drawBitmap()
         // 描画
@@ -119,14 +140,23 @@ class Circle2SqaureMorph01Drawable: MyDrawable() {
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
-                    // 変形する
-                    morph()
+                    // 円の描画点を追加
+                    addPoint()
+                    // 円の描画点を移動
+                    movePoint()
                     // ビットマップに描画
                     drawBitmap()
                     // 描画
                     invalidateSelf()
 
-                    handler.postDelayed(runnable, 100)
+                    // 最初と最後は1秒後に描画
+                    if (angle == angleMax || angle == 0f) {
+                        handler.postDelayed(runnable, 1000)
+                    }
+                    // 10msごとに描画
+                    else {
+                        handler.postDelayed(runnable, 10)
+                    }
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
@@ -155,111 +185,46 @@ class Circle2SqaureMorph01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 円・正方形の初期ベクトル設定
+    // 円の描画点を追加
     // -------------------------------
-    private fun createVector() {
-        vc.clear()
-        vm.clear()
-        vs.clear()
-
-        // 円ベクトルと変形ベクトルを生成
-        val d = 45
-        (0 until 360 step 9).forEach {
-            // -----------------------------------------------------------
-            // 円ベクトル
-            // 正方形の頂点とインデックスを合わせるため45度位相を足している
-            // -----------------------------------------------------------
-            val vx = cos((it+d).toFloat()*PI/180f).toFloat()
-            val vy = sin((it+d).toFloat()*PI/180f).toFloat()
-            val v = MyVectorF(vx,vy).multiply(side/2f)
-            vc.add(v)
+    private fun addPoint() {
+        val x = when (m%mMax) {
+            // 左寄せ
+            0 -> r+r*cos((angle+180f)*PI/180f).toFloat()
+            // 右寄せ
+            1 -> side-r+r*cos((angle)*PI/180f).toFloat()
+            else -> 0f
         }
-
-        // -----------------------------------------
-        // 正方形ベクトルを生成
-        // -----------------------------------------
-        val s1 = side/4f
-        // 正方形の１辺を10分割
-        val sdv = side/2f/10f
-        //  side/4 => -side/4
-        val u2d = FloatArray(10,{ i -> s1-i.toFloat()*sdv })
-        // -side/4 =>  side/4
-        val d2u = FloatArray(10,{ i -> -s1+i.toFloat()*sdv })
-
-        // 上辺(side/4,side/4) => (-side/4,side/4)
-        u2d.forEach {
-            vs.add(MyVectorF(it,s1))
-        }
-        // 左辺(-side/4,side/4) => (-side/4,-side/4)
-        u2d.forEach {
-            vs.add(MyVectorF(-s1,it))
-        }
-        // 下辺(-side/4,-side/4) => (side/4,-side/4)
-        d2u.forEach {
-            vs.add(MyVectorF(it,-s1))
-        }
-        // 右辺(side/4,-side/4) => (side/4,side/4)
-        d2u.forEach {
-            vs.add(MyVectorF(s1,it))
-        }
-
-        when (state) {
-            true -> {
-                // 円ベクトルを変形ベクトルにコピー
-                vc.forEach {
-                    vm.add(it.copy())
-                }
-            }
-            false -> {
-                // 正方形ベクトルを変形ベクトルにコピー
-                vs.forEach {
-                    vm.add(it.copy())
-                }
-            }
-        }
-
-        //Log.d(javaClass.simpleName,"size:vc[${vc.size}]vs[${vs.size}]")
+        val y = r*sin(angle*PI/180f).toFloat()
+        pointLst.add(MyPointF(x,y))
     }
 
     // -------------------------------
-    // 変形する
+    // 円の描画点を移動
     // -------------------------------
-    private fun morph() {
-        // 補完先ベクトル
-        val dstV: MutableList<MyVectorF>
-        // 補完元ベクトル
-        val srcV: MutableList<MyVectorF>
-
-        when (state) {
-            true -> {
-                // 補完先ベクトル⇒正方形
-                dstV = vs
-                // 補完元ベクトル⇒円
-                srcV = vc
-            }
-            false -> {
-                // 補完先ベクトル⇒円
-                dstV = vc
-                // 補完元ベクトル⇒正方形
-                srcV = vs
-            }
+    private fun movePoint() {
+        // １周するたびに円の半径を大きくする
+        // ただし、中心移動が発生すると、最初の大きさに戻る
+        if ( angle.toInt()%360 == 0 ) {
+            m = (angle.toInt()/360)/nMax
+            r = (angle.toInt()/360%nMax+1).toFloat()*(side/2f/nMax.toFloat())
         }
 
-        vm.clear()
+        // 10度ずつ移動する
+        angle = angle + angleDv
+        //Log.d(javaClass.simpleName,"angle[{$angle}]")
 
-        srcV.forEachIndexed { index, myVectorF ->
-            val v = myVectorF.copy()
-            v.lerp(dstV[index],ratio)
-            vm.add(v)
-        }
 
-        ratio += 0.1f
-        if ( ratio > 1f ) {
-            ratio = 0f
-            state = when (state) {
-                true  -> false
-                false -> true
-            }
+        // 最大角度を超えたら
+        // ・元の位置に戻す
+        // ・円の半径を戻す
+        // ・中心移動をもとの位置に戻す
+        // ・描画点リストをクリアする
+        if ( angle > angleMax ) {
+            angle = 0f
+            r = side/2f/7f
+            m = 0
+            pointLst.clear()
         }
     }
 
@@ -275,39 +240,47 @@ class Circle2SqaureMorph01Drawable: MyDrawable() {
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
         // 原点(0,0)の位置
-        // = (左右中央,上下中央)
-        val x0 = (intrinsicWidth/2).toFloat()
+        // = (マージン,上下中央)
+        val x0 = margin
         val y0 = (intrinsicHeight/2).toFloat()
 
-        // 原点(x0,y0)を中心に円・三角形を描く
+        // 原点(x0,y0)を中心に円を描く
         canvas.save()
         canvas.translate(x0,y0)
 
         /*
-        // 回転しない多角形を描く
-        val pathA = Path()
-        polygonA.pointLst.forEachIndexed { index, myPointF ->
-            when (index) {
-                0 -> pathA.moveTo(myPointF.x,myPointF.y)
-                else -> pathA.lineTo(myPointF.x,myPointF.y)
-            }
-
-        }
-        pathA.close()
-        canvas.drawPath(pathA,linePaint)
-        */
-
-        // 変形ベクトルを描く
+        // 円を描く
         val path = Path()
-        vm.forEachIndexed { index, myVectorF ->
+        pointLst.forEachIndexed { index, myPointF ->
             if ( index == 0 ) {
-                path.moveTo(myVectorF.x,myVectorF.y)
+                path.moveTo(myPointF.x,myPointF.y)
             }
             else {
-                path.lineTo(myVectorF.x,myVectorF.y)
+                path.lineTo(myPointF.x,myPointF.y)
             }
         }
-        path.close()
+        canvas.drawPath(path,linePaint)
+        */
+
+        // 色インスタンス作成
+        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
+        // 円を描く
+        val path = Path()
+        val bunchSize = 360/angleDv.toInt()
+        var myPointF2: MyPointF? = null
+        pointLst.forEachIndexed { index, myPointF1 ->
+            val color = myColor.create(index%bunchSize,bunchSize)
+            linePaint.color = color.toInt()
+            if ( myPointF2 != null) {
+                // 中心位置が移動した場合、点同士を繋げないようにするために
+                // 離れすぎている場合は、描画しないようにしている
+                val myPointFDiff = myPointF1.copy().subtract(myPointF2!!)
+                if ( myPointFDiff.magnitude() < r ) {
+                    canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaint)
+                }
+            }
+            myPointF2 = myPointF1
+        }
         canvas.drawPath(path,linePaint)
 
         // 座標を元に戻す
@@ -315,7 +288,7 @@ class Circle2SqaureMorph01Drawable: MyDrawable() {
 
         // これまでの描画は上下逆なので反転する
         val matrix = Matrix()
-        matrix.setScale(1f,-1f)
+        matrix.postScale(1f,-1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
     }
 
@@ -357,34 +330,4 @@ class Circle2SqaureMorph01Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun getIntrinsicHeight(): Int = (side+margin*2).toInt()
-
-    private class Polygon{
-        // 多角形の頂点の数
-        var vertexCnt = 3
-        // 多角形の内角
-        var internalAngle = 60f
-        // 多角形の一辺の長さ
-        var len = 0f
-        // 多角形の頂点リスト
-        val pointLst: MutableList<MyPointF> = mutableListOf()
-
-        // 多角形の頂点の数から内角を計算する
-        fun calInternalAngle() {
-            internalAngle = 180f-(360f/vertexCnt.toFloat())
-        }
-
-        // 多角形の一辺の長さを頂点リストから計算する
-        fun calLen() {
-            val x0 = pointLst[0].x
-            val y0 = pointLst[0].y
-            val x1 = pointLst[1].x
-            val y1 = pointLst[1].y
-            len = sqrt((x1-x0)*(x1-x0)+(y1-y0)*(y1-y0))
-        }
-    }
-
-    private class Track {
-        // 描画点リスト
-        val pointLst: MutableList<MyPointF> = mutableListOf()
-    }
 }

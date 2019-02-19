@@ -26,6 +26,8 @@
     <string name="menu_sub_fractal_julia">Julia Set</string>
     <string name="menu_sub_wave">Wave</string>
     <string name="menu_sub_circle">Circle</string>
+    <string name="menu_sub_circle_circles">Circles</string>
+    <string name="menu_sub_circle_morph">Morphing Circle</string>
     <string name="menu_sub_polygon">Polygon</string>
     <string name="menu_sub_polygon_mix">Polygon Mix</string>
     <string name="menu_sub_polygon_pinp">Polygon in Polygon</string>
@@ -120,7 +122,6 @@
     <string name="draw_000501_color_768_dark">color 768 dark</string>
     <string name="draw_000600_polygon_triangle_exile">Triangle Exile</string>
     <string name="draw_000601_polygon_lap">Polygon Lap</string>
-    <string name="draw_000602_polygon_circle2square_morph">Circle&lt;=&gt;Square</string>
     <string name="draw_000603_polygon_rotate_arrows">Rotate Arrows</string>
     <string name="draw_000701_polygon_3_out_3">3 out 3</string>
     <string name="draw_000702_polygon_3_out_4">3 out 4</string>
@@ -197,4 +198,5 @@
     <string name="draw_000800_circle_bigger_01">Bigger Circle 01</string>
     <string name="draw_000801_circle_bigger_02">Bigger Circle 02</string>
     <string name="draw_000802_circle_slide">Slide Circle</string>
+    <string name="draw_000810_circle_morph_circle2square">Circle&lt;=&gt;Square</string>
 </resources>

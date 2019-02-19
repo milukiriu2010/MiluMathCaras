@@ -201,8 +201,8 @@ class DrawDataFactory {
                     // 円の周りを回転するサイン波
                     drawDataLst.add(DrawData(DrawDataID.ID_000041_SINE_WAVE_CIRCLE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000041_wave_sine_circle) ))
                 }
-                // 円を選択したときの描画データの一覧
-                MenuItem.MENU_CIRCLE -> {
+                // "複数円"を選択したときの描画データの一覧
+                MenuItem.MENU_CIRCLE_CIRCLES -> {
                     // だんだん大きくなる円その１
                     drawDataLst.add(DrawData(DrawDataID.ID_000800_CIRCLE_BIGGER_01,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000800_circle_bigger_01),
                         stillImageParam = floatArrayOf(1080f),
@@ -216,6 +216,11 @@ class DrawDataFactory {
                         stillImageParam = floatArrayOf(3600f),
                         creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/8oZNI4en") ))
                 }
+                // "変形する円"を選択したときの描画データの一覧
+                MenuItem.MENU_CIRCLE_MORPH -> {
+                    // 円⇔正方形の変形
+                    drawDataLst.add(DrawData(DrawDataID.ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000810_circle_morph_circle2square) ))
+                }
                 // "多角形のMix"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_MIX -> {
                     // 三角形でEXILE
@@ -223,8 +228,6 @@ class DrawDataFactory {
                     // 多角形のラップ
                     drawDataLst.add(DrawData(DrawDataID.ID_000601_POLYGON_LAP,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000601_polygon_lap),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://twitter.com/beesandbombs/status/872796708803145728") ))
-                    // 円⇔正方形の変形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000602_CIRCLE2SQUARE_MORPH,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000602_polygon_circle2square_morph) ))
                     // 回転する矢印
                     drawDataLst.add(DrawData(DrawDataID.ID_000603_ROTATE_ARROWS,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000603_polygon_rotate_arrows),
                         creditMap = mutableMapOf<String,String>("name" to "Just van Rossum", "url" to "https://twitter.com/justvanrossum/status/1091237538583511041") ))

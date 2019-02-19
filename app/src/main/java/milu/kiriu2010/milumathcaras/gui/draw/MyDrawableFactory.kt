@@ -1,9 +1,10 @@
 package milu.kiriu2010.milumathcaras.gui.draw
 
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
-import milu.kiriu2010.milumathcaras.gui.draw.circle.BiggerCircle01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.circle.BiggerCircle02Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.circle.SlideCircle01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.circle.circles.BiggerCircle01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.circle.circles.BiggerCircle02Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.circle.circles.SlideCircle01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.circle.morph.Circle2SqaureMorph01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.color.Color1536Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.color.Color768DarkDrawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.julia.Julia01Drawable
@@ -198,8 +199,6 @@ class MyDrawableFactory {
                 DrawDataID.ID_000600_TRIANGLE_EXILE -> TriangleExile01Drawable()
                 // 多角形のラップ
                 DrawDataID.ID_000601_POLYGON_LAP -> PolygonLap01Drawable()
-                // 円⇔正方形の変形
-                DrawDataID.ID_000602_CIRCLE2SQUARE_MORPH -> Circle2SqaureMorph01Drawable()
                 // 回転する矢印
                 DrawDataID.ID_000603_ROTATE_ARROWS -> RotateArrows01Drawable()
                 // 三角形out三角形
@@ -352,6 +351,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000801_CIRCLE_BIGGER_02 -> BiggerCircle02Drawable()
                 // 円をずらして描く
                 DrawDataID.ID_000802_CIRCLE_SLIDE -> SlideCircle01Drawable()
+                // 円⇔正方形の変形
+                DrawDataID.ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE -> Circle2SqaureMorph01Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")
             }
 

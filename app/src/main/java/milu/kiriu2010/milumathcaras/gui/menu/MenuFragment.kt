@@ -127,7 +127,7 @@ class MenuFragment : Fragment() {
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_WAVE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_wave),false))
                      // [サブメニュー]
                      // 円一覧を表示するメニュー
-                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CIRCLE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_circle),false))
+                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CIRCLE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_circle),true))
                     // [サブメニュー]
                     // 多角形一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon),true))
@@ -184,6 +184,17 @@ class MenuFragment : Fragment() {
                     // [サブメニュー]
                     // フラクタル(ジュリア集合)一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL_JULIA, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal_julia),false))
+                    // [戻るメニュー]
+                    menuDataLst.add(MenuData(MenuType.TYPE_BACK, MenuItem.MENU_BACK, FragmentID.ID_DUMMY,resources.getString(R.string.menu_back),false))
+                }
+                // 円一覧を表示するメニュー
+                MenuItem.MENU_CIRCLE -> {
+                    // [サブメニュー]
+                    // "複数円"一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CIRCLE_CIRCLES, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_circle_circles),false))
+                    // [サブメニュー]
+                    // "変形する円"一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CIRCLE_MORPH, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_circle_morph),false))
                     // [戻るメニュー]
                     menuDataLst.add(MenuData(MenuType.TYPE_BACK, MenuItem.MENU_BACK, FragmentID.ID_DUMMY,resources.getString(R.string.menu_back),false))
                 }

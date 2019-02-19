@@ -53,6 +53,10 @@ enum class MenuItem(val title: String): Parcelable {
     MENU_WAVE("Wave"),
     // 円を描画するメニュー
     MENU_CIRCLE("Circle"),
+    // 複数円を描画するメニュー
+    MENU_CIRCLE_CIRCLES("Circles"),
+    // 変形した円を描画するメニュー
+    MENU_CIRCLE_MORPH("Morphing Circle"),
     // 多角形を描画するメニュー
     MENU_POLYGON("Polygon"),
     // "多角形のMIX"を描画するメニュー

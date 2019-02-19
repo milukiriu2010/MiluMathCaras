@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.circle
+package milu.kiriu2010.milumathcaras.gui.draw.circle.circles
 
 import android.graphics.*
 import android.os.Handler
@@ -12,13 +12,11 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 // --------------------------------------------
-// だんだん大きくなる円
+// 円をずらして描く
 // --------------------------------------------
-// 7回転する
+// http://logo.twentygototen.org/8oZNI4en
 // --------------------------------------------
-// http://logo.twentygototen.org/K4_NTCiK
-// --------------------------------------------
-class BiggerCircle01Drawable: MyDrawable() {
+class SlideCircle01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -29,15 +27,19 @@ class BiggerCircle01Drawable: MyDrawable() {
     // ---------------------------------
     // 円の半径
     // ---------------------------------
-    private var r = (side/2f/7f).toFloat()
+    private var r = side/4f
 
     // -------------------------------
     // 円弧の描画角度
     // -------------------------------
     private var angleInit = 180f
-    private var angle = 0f
-    private var angleDv = 5f
-    private var angleMax = 360f*7f
+    private var angleDv = 10f
+    private var angleMax = 360f*36f
+    // １つの円を描画しているときの媒介変数
+    private var angleA = 0f
+    // "描画領域の中心点"から"描画する円の中心"の角度
+    private var angleB = 0f
+
 
     // -------------------------------
     // 円の描画点リスト
@@ -113,7 +115,7 @@ class BiggerCircle01Drawable: MyDrawable() {
         }
 
         // 初期位置まで描画点を追加する
-        while ( angle < angleInit )  {
+        while ( angleA < angleInit )  {
             // 円の描画点を追加
             addPoint()
             // 円の描画点を移動
@@ -139,7 +141,7 @@ class BiggerCircle01Drawable: MyDrawable() {
                     invalidateSelf()
 
                     // 最初と最後は1秒後に描画
-                    if (angle == angleMax || angle == 0f) {
+                    if (angleA == angleMax || angleA == 0f) {
                         handler.postDelayed(runnable, 1000)
                     }
                     // 100msごとに描画
@@ -177,9 +179,9 @@ class BiggerCircle01Drawable: MyDrawable() {
     // 円の描画点を追加
     // -------------------------------
     private fun addPoint() {
-        // 左よせにするため、x座標は180足している
-        val x = r+r*cos((angle+180f)*PI/180f).toFloat()
-        val y = r*sin(angle*PI/180f).toFloat()
+        // "描画エリアの中心点"からの座標＋"描画中の円の中心点"からの座標
+        val x = r*cos(angleB*PI/180f).toFloat()+r*cos((angleA+angleB+180f)*PI/180f).toFloat()
+        val y = r*sin(angleB*PI/180f).toFloat()+r*sin((angleA+angleB+180f)*PI/180f).toFloat()
         pointLst.add(MyPointF(x,y))
     }
 
@@ -188,21 +190,20 @@ class BiggerCircle01Drawable: MyDrawable() {
     // -------------------------------
     private fun movePoint() {
         // 10度ずつ移動する
-        angle = angle + angleDv
-        //Log.d(javaClass.simpleName,"angle[{$angle}]")
+        angleA = angleA + angleDv
+        //Log.d(javaClass.simpleName,"angleA[{$angleA}]")
 
-        // １周するたびに円の半径を大きくする
-        if ( angle > 0f && angle.toInt()%360 == 0 ) {
-            r = (angle.toInt()/360+1).toFloat()*(side/2f/7f)
+        // １周するたびに円の中心を移動する
+        if ( angleA > 0f && angleA.toInt()%360 == 0 ) {
+            angleB += angleDv
         }
 
         // 最大角度を超えたら
         // ・元の位置に戻す
-        // ・円の半径を戻す
         // ・描画点リストをクリアする
-        if ( angle > angleMax ) {
-            angle = 0f
-            r = side/2f/7f
+        if ( angleA > angleMax ) {
+            angleA = 0f
+            angleB = 0f
             pointLst.clear()
         }
     }
@@ -219,8 +220,8 @@ class BiggerCircle01Drawable: MyDrawable() {
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
         // 原点(0,0)の位置
-        // = (マージン,上下中央)
-        val x0 = margin
+        // = (左右中央,上下中央)
+        val x0 = (intrinsicWidth/2).toFloat()
         val y0 = (intrinsicHeight/2).toFloat()
 
         // 原点(x0,y0)を中心に円を描く
