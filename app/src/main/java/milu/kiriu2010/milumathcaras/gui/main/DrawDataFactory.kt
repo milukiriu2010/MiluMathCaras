@@ -221,7 +221,8 @@ class DrawDataFactory {
                     // 円⇔正方形の変形
                     drawDataLst.add(DrawData(DrawDataID.ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000810_circle_morph_circle2square) ))
                     // "円⇔正方形の変形"のタイリング
-                    drawDataLst.add(DrawData(DrawDataID.ID_000811_CIRCLE_MORPH_CIRCLE2SQUARE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000811_circle_morph_circle2square) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000811_CIRCLE_MORPH_CIRCLE2SQUARE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000811_circle_morph_circle2square),
+                        stillImageParam = floatArrayOf(0.2f), motionImageParam = floatArrayOf(0f) ))
                 }
                 // "多角形のMix"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_MIX -> {
@@ -593,6 +594,11 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_000500_COLOR_1536,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000500_color_1536)))
                     // 768色(暗色)
                     drawDataLst.add(DrawData(DrawDataID.ID_000501_COLOR_768_DARK,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000501_color_768_dark)))
+                }
+                // 錯覚を選択したときの描画データの一覧
+                MenuItem.MENU_OPTICAL_ILLUSION -> {
+                    // "Stepping Feet"
+                    drawDataLst.add(DrawData(DrawDataID.ID_000900_OPTICAL_ILLUSION_STEPPING_FEET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000900_optical_illusion_stepping_feet)))
                 }
                 else -> {
                     throw RuntimeException("No Draw List for ${menuData.menuItem.title}")

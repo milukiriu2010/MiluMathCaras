@@ -70,9 +70,14 @@ enum class MenuItem(val title: String): Parcelable {
     // The Nature of Code
     // https://natureofcode.com/book/chapter-1-vectors/
     MENU_NATURE( "Nature"),
+    // "The Nature of Code" - "Vectors"
     MENU_NATURE_VECTORS( "Vectors"),
+    // "The Nature of Code" - "Forces"
     MENU_NATURE_FORCES( "Forces"),
-    MENU_COLOR("Color")
+    // 色を描画するメニュー
+    MENU_COLOR("Color"),
+    // 錯覚を描画するメニュー
+    MENU_OPTICAL_ILLUSION("Optical Illusion")
 }
 
 // ------------------------------------

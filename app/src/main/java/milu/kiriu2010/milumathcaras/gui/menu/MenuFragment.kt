@@ -137,6 +137,9 @@ class MenuFragment : Fragment() {
                      // [サブメニュー]
                      // 色一覧を表示するメニュー
                      menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_COLOR, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_color),false))
+                     // [サブメニュー]
+                     // 錯覚一覧を表示するメニュー
+                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_OPTICAL_ILLUSION, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_optical_Illusion),false))
                     // [メインメニュー]
                     // ヘルプ
                     menuDataLst.add(MenuData(MenuType.TYPE_MAIN, MenuItem.MENU_DUMMY,FragmentID.ID_DUMMY,resources.getString(R.string.menu_main_help),false))

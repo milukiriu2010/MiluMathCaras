@@ -1,67 +1,36 @@
-package milu.kiriu2010.milumathcaras.gui.draw.circle.morph
+package milu.kiriu2010.milumathcaras.gui.draw.illusion
 
 import android.graphics.*
 import android.os.Handler
-import android.util.Log
-import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.gui.basic.MyVectorF
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
-import kotlin.math.sqrt
 
-// ---------------------------------------------
+// -------------------------------------------------
 // "円⇔正方形の変形"のタイリング
+// -------------------------------------------------
+// https://michaelbach.de/ot/mot-feetLin/index.html
+// -------------------------------------------------
+// フォアグラウンド
+//   黄黄黄黄
+//   青青青青
+// バックグラウンド
+//   黒白黒白黒白黒白
 // ---------------------------------------------
-// https://processing.org/examples/morph.html
-// ---------------------------------------------
-// 黒白黒白
-// 白黒白黒
-// 黒白黒白
-// 白黒白黒
-// ---------------------------------------------
-// 点⇒円(0.0～0.8)/円⇒正方形(0.8～1.0)
-// 正方形⇒円(1.0～0.8)/円⇒点(0.8～0.0)
-// ---------------------------------------------
-class Circle2SqaureMorph02Drawable: MyDrawable() {
+class SteppingFeet01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
     // -------------------------------
-    private val side = 1000f
+    private val sideW = 1000f
+    private val sideH = 1500f
     private val margin = 0f
 
     // ---------------------------------
-    // タイル個数(4x4)
+    // バー(20:黒10白10)
     // ---------------------------------
-    private val nTile = 4
-    // タイルの大きさ
-    private val sizeTile = side/nTile.toFloat()
-    // 一辺に対する円の大きさ
-    private val ratioCircle = 0.5f
-
-    // ---------------------------------
-    // タイル(0,0)の描画状態
-    // ---------------------------------
-    // 0 ⇒
-    //   バックグラウンド：黒
-    //   フォアグラウンド：白
-    // ---------------------------------
-    // 1 ⇒
-    //   バックグラウンド：白
-    //   フォアグラウンド：黒
-    // ---------------------------------
-    private var state = 0
-
-    // ---------------------------------
-    // 円ベクトル(0.8の位置)
-    // ---------------------------------
-    private val vc = mutableListOf<MyVectorF>()
-
-    // -------------------------------------
-    // 正方形ベクトル(1.0の位置)
-    // -------------------------------------
-    private val vs = mutableListOf<MyVectorF>()
+    private val nBar = 20
 
     // -------------------------------------
     // 変形する多角形リスト
@@ -137,6 +106,7 @@ class Circle2SqaureMorph02Drawable: MyDrawable() {
     // 第１引数:初期状態の変形比率
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
+        /*
         // 初期状態の変形比率
         var ratioInit = 0f
         values.forEachIndexed { index, fl ->
@@ -146,12 +116,14 @@ class Circle2SqaureMorph02Drawable: MyDrawable() {
                 0 -> ratioInit = fl
             }
         }
+        */
 
-
+        /*
         // 円・正方形の初期ベクトル設定
         createVector()
         // 初期状態の変形比率まで変形する
         while (polygonLst[0].ratio < ratioInit) morph()
+        */
         // ビットマップに描画
         drawBitmap()
         // 描画
@@ -162,8 +134,10 @@ class Circle2SqaureMorph02Drawable: MyDrawable() {
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
+                    /*
                     // 変形する
                     morph()
+                    */
                     // ビットマップに描画
                     drawBitmap()
                     // 描画
@@ -201,129 +175,13 @@ class Circle2SqaureMorph02Drawable: MyDrawable() {
     // 円・正方形の初期ベクトル設定
     // -------------------------------
     private fun createVector() {
-        vc.clear()
-        vs.clear()
         polygonLst.clear()
-
-        // -----------------------------------------
-        // 円ベクトル(0.8の位置)を生成
-        // -----------------------------------------
-        val d = 45f
-        (0 until 360 step 9).forEach {
-            // -----------------------------------------------------------
-            // 円ベクトル
-            // 正方形の頂点とインデックスを合わせるため45度位相を足している
-            // -----------------------------------------------------------
-            val vx = MyMathUtil.cosf(it.toFloat()+d)
-            val vy = MyMathUtil.sinf(it.toFloat()+d)
-            val v = MyVectorF(vx,vy).multiply(side/nTile.toFloat()/2f*ratioCircle)
-            vc.add(v)
-        }
-
-        // -----------------------------------------
-        // 正方形ベクトル(1.0の位置)を生成
-        // -----------------------------------------
-        // 正方形の１辺を10分割
-        val sdv = sizeTile/10f
-        //  side/4 => -side/4
-        val u2d = FloatArray(10,{ i -> sizeTile/2f-i.toFloat()*sdv })
-        // -side/4 =>  side/4
-        val d2u = FloatArray(10,{ i -> -sizeTile/2f+i.toFloat()*sdv })
-
-        // 上辺(sizeTile/2,sizeTile/2) => (-sizeTile/2,sizeTile/2)
-        u2d.forEach {
-            vs.add(MyVectorF(it,sizeTile/2f))
-        }
-        // 左辺(-sizeTile/2,sizeTile/2) => (-sizeTile/2,-sizeTile/2)
-        u2d.forEach {
-            vs.add(MyVectorF(-sizeTile/2f,it))
-        }
-        // 下辺(-sizeTile/2,-sizeTile/2) => (sizeTile/2,-sizeTile/2)
-        d2u.forEach {
-            vs.add(MyVectorF(it,-sizeTile/2f))
-        }
-        // 右辺(sizeTile/2,-sizeTile/2) => (sizeTile/2,sizeTile/2)
-        d2u.forEach {
-            vs.add(MyVectorF(sizeTile/2f,it))
-        }
-
-        /*
-        vc.forEachIndexed { index, myVectorF1 ->
-            val myVectorF2 = vs[index]
-            Log.d(javaClass.simpleName,"id[$index]cx[${myVectorF1.x}]cy[${myVectorF1.y}]sx[${myVectorF2.x}]sy[${myVectorF2.y}]")
-        }
-        */
-
-        // -------------------------------------
-        // 変形する多角形その１
-        // -------------------------------------
-        // 点⇒円(0.0～0.8)/円⇒正方形(0.8～1.0)
-        // -------------------------------------
-        val polygon1 = Polygon().apply {
-            vc.forEach {
-                vlst.add(it.copy().multiply(0f))
-            }
-            ratio = 0f
-            direction = 1
-        }
-        polygonLst.add(polygon1)
-
-        // -------------------------------------
-        // 変形する多角形その２
-        // -------------------------------------
-        // 正方形⇒円(1.0～0.8)/円⇒点(0.8～0.0)
-        // -------------------------------------
-        val polygon2 = Polygon().apply {
-            vs.forEach {
-                vlst.add(it.copy())
-            }
-            ratio = 1f
-            direction = -1
-        }
-        polygonLst.add(polygon2)
     }
 
     // -------------------------------
     // 変形する
     // -------------------------------
     private fun morph() {
-
-        polygonLst.forEachIndexed{ id1, polygon ->
-            polygon.vlst.clear()
-            when {
-                (polygon.ratio >= 0f) and (polygon.ratio < ratioCircle ) -> {
-                    vc.forEach {
-                        val ratio = polygon.ratio/ratioCircle
-                        polygon.vlst.add(it.copy().multiply(ratio))
-                    }
-                }
-                (polygon.ratio >= ratioCircle) and (polygon.ratio <= 1f ) -> {
-                    val ratio = (polygon.ratio-ratioCircle)/(1f-ratioCircle)
-                    //Log.d(javaClass.simpleName,"id1[$id1]ratio[$ratio]")
-                    vc.forEachIndexed { index, myVectorF ->
-                        val v = myVectorF.copy()
-                        v.lerp(vs[index],ratio)
-                        polygon.vlst.add(v)
-                    }
-                }
-            }
-
-            when ( polygon.direction ) {
-                1 -> {
-                    polygon.ratio += 0.05f
-                    if ( polygon.ratio > 1f ) {
-                        polygon.ratio = 0f
-                    }
-                }
-                -1 -> {
-                    polygon.ratio -= 0.05f
-                    if ( polygon.ratio < 0f ) {
-                        polygon.ratio = 1f
-                        state = (state+1)%2
-                    }
-                }
-            }
-        }
     }
 
     // -------------------------------
@@ -337,44 +195,22 @@ class Circle2SqaureMorph02Drawable: MyDrawable() {
         val x0 = margin
         val y0 = margin
 
-
         //Log.d(javaClass.simpleName,"========================================")
-        (0 until nTile).forEach { i ->
-            (0 until nTile).forEach { j ->
-                // 色(バックグラウンド)
-                var colorBack = colorLst[(0+i+j+state)%2]
-                // 色(フォアグラウンド)
-                var colorFore = colorLst[(1+i+j+state)%2]
-                // 描画する多角形
-                //val polygon = polygonLst[(i+j+state)%2]
-                val polygon = polygonLst[(i+j)%2]
-                //Log.d(javaClass.simpleName,"i[$i]j[$j]state[$state]back[$colorBack]fore[$colorFore]")
+        // バーの高さ
+        val barH = sideH/nBar.toFloat()
+        (0 until nBar).forEach { i ->
+            // 色(バックグラウンド)
+            var colorBack = colorLst[i%2]
 
-                canvas.save()
-                canvas.translate(x0+i.toFloat()*sizeTile,y0+j.toFloat()*sizeTile)
+            canvas.save()
+            canvas.translate(x0,y0+i.toFloat()*barH)
 
-                // バックグラウンド描画
-                backPaint.color = colorBack
-                canvas.drawRect(RectF(0f,0f,sizeTile,sizeTile),backPaint)
+            // バックグラウンド描画
+            backPaint.color = colorBack
+            canvas.drawRect(RectF(0f,0f,sideW,barH),backPaint)
 
-                // フォアグラウンド描画
-                val path = Path()
-                polygon.vlst.forEachIndexed { index, myVectorF ->
-                    if ( index == 0 ) {
-                        path.moveTo(myVectorF.x,myVectorF.y)
-                    }
-                    else {
-                        path.lineTo(myVectorF.x,myVectorF.y)
-                    }
-                }
-                forePaint.color = colorFore
-                canvas.translate(sizeTile/2f,sizeTile/2f)
-                canvas.drawPath(path,forePaint)
-
-
-                // 座標を元に戻す
-                canvas.restore()
-            }
+            // 座標を元に戻す
+            canvas.restore()
         }
 
         // 枠を描画
@@ -416,12 +252,12 @@ class Circle2SqaureMorph02Drawable: MyDrawable() {
     // -------------------------------
     // Drawable
     // -------------------------------
-    override fun getIntrinsicWidth(): Int = (side+margin*2).toInt()
+    override fun getIntrinsicWidth(): Int = (sideW+margin*2).toInt()
 
     // -------------------------------
     // Drawable
     // -------------------------------
-    override fun getIntrinsicHeight(): Int = (side+margin*2).toInt()
+    override fun getIntrinsicHeight(): Int = (sideH+margin*2).toInt()
 
     // ---------------------------------
     // 多角形

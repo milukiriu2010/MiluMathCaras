@@ -29,6 +29,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.takagi.TakagiCurv
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve03Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.illusion.SteppingFeet01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.TriangleExile01Drawable
@@ -356,6 +357,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE -> Circle2SqaureMorph01Drawable()
                 // "円⇔正方形の変形"のタイリング
                 DrawDataID.ID_000811_CIRCLE_MORPH_CIRCLE2SQUARE -> Circle2SqaureMorph02Drawable()
+                // "Stepping Feet"
+                DrawDataID.ID_000900_OPTICAL_ILLUSION_STEPPING_FEET -> SteppingFeet01Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")
             }
 

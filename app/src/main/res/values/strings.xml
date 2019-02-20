@@ -37,6 +37,7 @@
     <string name="menu_sub_nature_vectors">Vectors</string>
     <string name="menu_sub_nature_forces">Forces</string>
     <string name="menu_sub_color">Color</string>
+    <string name="menu_sub_optical_Illusion">Optical Illusion</string>
     <string name="menu_sub_about">About Me</string>
     <string name="menu_back">Back</string>
     <string name="func_curve_trochoid">x = r * (t - k * sin(t))\ny = r * (1 - k * cos(t))</string>
@@ -200,4 +201,5 @@
     <string name="draw_000802_circle_slide">Slide Circle</string>
     <string name="draw_000810_circle_morph_circle2square">Circle&lt;=&gt;Square</string>
     <string name="draw_000811_circle_morph_circle2square">Circle&lt;=&gt;Square</string>
+    <string name="draw_000900_optical_illusion_stepping_feet">Stepping Feet</string>
 </resources>
