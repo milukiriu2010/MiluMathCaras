@@ -1,21 +1,20 @@
-package milu.kiriu2010.milumathcaras.gui.draw.nature
+package milu.kiriu2010.milumathcaras.gui.draw.nature.forces
 
 import android.graphics.*
 import android.os.Handler
-import android.util.Log
 import milu.kiriu2010.gui.basic.MyCircleF
-import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.gui.basic.MyVectorF
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 // ------------------------------------------------------------------
-// リリース⇒ランダムウォーク
-// タッチ  ⇒タッチ点に向かって加速
+// 質量の効果
 // ------------------------------------------------------------------
-// https://natureofcode.com/book/chapter-1-vectors/
+// 力 = 質量 × 加速度
 // ------------------------------------------------------------------
-class AccelerateTowardsTouchPoint01Drawable: MyDrawable() {
+// https://natureofcode.com/book/chapter-2-forces/
+// ------------------------------------------------------------------
+class MassEffect01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -25,24 +24,14 @@ class AccelerateTowardsTouchPoint01Drawable: MyDrawable() {
     private val margin = 0f
 
     // ---------------------------------
-    // ランダムウォークする円の最大数
+    // 円の最大数
     // ---------------------------------
     private var nMax = 10
 
     // ---------------------------------
-    // ランダムウォークする円の半径
-    // ---------------------------------
-    private val r = 50f
-
-    // ---------------------------------
-    // ランダムウォークする円リスト
+    // 円リスト
     // ---------------------------------
     private val circleLst: MutableList<MyCircleF> = mutableListOf()
-
-    // ---------------------------------
-    // タッチ点
-    // ---------------------------------
-    private val touchPoint = MyVectorF(-1f,-1f)
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -70,7 +59,7 @@ class AccelerateTowardsTouchPoint01Drawable: MyDrawable() {
     }
 
     // -------------------------------------
-    // ランダムウォークする円を描くペイント
+    // 円を描くペイント
     // -------------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLACK
@@ -79,7 +68,7 @@ class AccelerateTowardsTouchPoint01Drawable: MyDrawable() {
     }
 
     // -------------------------------------
-    // ランダムウォークする円を描く色リスト
+    // 円を描く色リスト
     // -------------------------------------
     private val colorLst = arrayOf(
         // 0:red
@@ -125,19 +114,19 @@ class AccelerateTowardsTouchPoint01Drawable: MyDrawable() {
     // -----------------------------------------
     // 可変変数 values の引数位置による意味合い
     //
-    // 第１引数:ランダムウォークする円の最大数
+    // 第１引数:描画する円の最大数
     // -----------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
         // 可変変数 values を初期値として、このクラスで使う変数に当てはめる
         values.forEachIndexed { index, fl ->
             //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
             when (index) {
-                // ランダムウォークする円の最大数
+                // 描画する円の最大数
                 0 -> nMax = fl.toInt()
             }
         }
 
-        // ランダムウォークする円を生成
+        // 描画する円を生成
         while (createMover())
         // ビットマップに描画
         drawBitmap()
@@ -149,8 +138,6 @@ class AccelerateTowardsTouchPoint01Drawable: MyDrawable() {
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
-                    // ランダムウォークする円を生成
-                    createMover()
                     // 円を移動する
                     moveMover()
                     // ビットマップに描画
@@ -187,51 +174,51 @@ class AccelerateTowardsTouchPoint01Drawable: MyDrawable() {
         handler.removeCallbacks(runnable)
     }
 
-    // -------------------------------------
-    // タッチしたポイントを受け取る
-    // -------------------------------------
-    override fun receiveTouchPoint(x: Float, y: Float) {
-        Log.d(javaClass.simpleName,"Touch:x[${x}]y[${y}]" )
-        touchPoint.x = x
-        touchPoint.y = y
-    }
-
     // -------------------------------
-    // ランダムウォークする円を生成
+    // 描画する円を生成
     // -------------------------------
     private fun createMover(): Boolean {
         // 既に最大数を超えていたら何もしない
         if ( circleLst.size >= nMax ) return false
 
-        // 円の初期位置を描画領域内でランダムに設定
-        val x = (r.toInt()..(sideW-r).toInt()).shuffled()[0].toFloat()
-        val y = (r.toInt()..(sideH-r).toInt()).shuffled()[0].toFloat()
+        // 円の重さ
+        val massA = (circleLst.size.toFloat()+1f)
 
-        // 初期速度の候補リスト
-        // -45,-35,-25,-15,-5,5,15,25,35,45
-        //val v = IntArray(10,{ i -> i*10-45} )
-        // -95,-75,-55,-35,-15,15,35,55,75,95
-        //val v = IntArray(10,{ i -> i*20-95} )
-        // -15,-10,-5,0,5,10,15
-        val v = IntArray(7,{ i -> i*5-15} )
-        // 円の初期速度をランダムに設定
-        val vx = v.random().toFloat()
-        val vy = v.random().toFloat()
+        // 円の半径
+        val rA = massA * 10f
 
-        // 加速度を変更する
-        // -45,-35,-25,-15,-5,5,15,25,35,45
-        //val a = IntArray(10, { i -> i*10-45})
-        // -5,-4,-3,-2,-1,0,1,2,3,4,5
-        val a = IntArray(11, { i -> i-5})
-        // 円の初期加速度をランダムに設定
-        val ax = a.random().toFloat()
-        val ay = a.random().toFloat()
+        // ---------------------------------------------------
+        // 円の初期位置(左上に配置)
+        // y座標を"sideH-rA"でなく"sideH-rA-1"としているのは、
+        // 境界チェックのところで、上にはりついてしまうから
+        // ---------------------------------------------------
+        val x = rA
+        val y = sideH-rA-1f
+
+        // 風の強さ
+        val wind = MyVectorF(1f,0f)
+        // 重力
+        val gravity = MyVectorF(0f,-10f)
 
         // 色
-        val colorId = (0 until colorLst.size).random()
+        val colorId = circleLst.size%colorLst.size
+
+        // 円
+        val circle = MyCircleF().apply{
+            // 円の初期位置
+            p = MyVectorF(x,y)
+            // 円の重さ
+            mass = massA
+            // 円の半径
+            r = rA
+            // 円の色
+            color = colorLst[colorId]
+        }
+        // 円に力を加える
+        circle.applyForce(wind).applyForce(gravity)
 
         // 円を生成し、リストに加える
-        circleLst.add(MyCircleF(MyVectorF(x,y),r,MyVectorF(vx,vy), MyVectorF(ax,ay), color = colorLst[colorId]))
+        circleLst.add(circle)
 
         return true
     }
@@ -240,28 +227,10 @@ class AccelerateTowardsTouchPoint01Drawable: MyDrawable() {
     // 円を移動する
     // -------------------------------
     private fun moveMover() {
-        val iterator = circleLst.iterator()
-
-        while (iterator.hasNext()) {
-            val myCircleF1 = iterator.next()
-
-            if ( touchPoint != MyVectorF(-1f,-1f)) {
-
-                // 円の位置からみたタッチ点のベクトル
-                val dir = touchPoint.copy().subtract(myCircleF1.p)
-                // 円の加速度を"円の位置からみたタッチ点のベクトル"を元に生成
-                val a = dir.multiply(0.1f)
-                myCircleF1.a = a
-
-                //Log.d(javaClass.simpleName,"ax[${a.x}]ay[${a.y}]")
-            }
-
-            // 円を移動する(速度制限付き)
-            myCircleF1.move(20f)
-            // 境界を超えていたら、円のリストから削除する
-            if ( myCircleF1.overBorder(0f,0f,sideW,sideH) < 0 ) {
-                iterator.remove()
-            }
+        circleLst.forEachIndexed { index, circleF ->
+            circleF.move()
+            // 境界を超えていたら、反射する
+            circleF.checkBorder(0f,0f,sideW,sideH)
         }
     }
 
@@ -281,17 +250,15 @@ class AccelerateTowardsTouchPoint01Drawable: MyDrawable() {
         val x0 = (intrinsicWidth/2).toFloat()
         val y0 = (intrinsicHeight/2).toFloat()
 
-        // 等速度運動をする円を描画
-        val colorCnt = colorLst.size
-        circleLst.forEachIndexed { index, myCircleF ->
-            //linePaint.color = colorLst[index%colorCnt]
+        // 円を描画
+        circleLst.reversed().forEachIndexed { index, myCircleF ->
             linePaint.color = myCircleF.color
             canvas.drawCircle(myCircleF.p.x,myCircleF.p.y,myCircleF.r,linePaint)
         }
 
-        // これまでの描画はテンポラリなので、実際の描画に使うビットマップにコピーする
+        // これまでの描画は上下逆なので、反転する
         val matrix = Matrix()
-        matrix.setScale(1f,1f)
+        matrix.setScale(1f,-1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
     }
 

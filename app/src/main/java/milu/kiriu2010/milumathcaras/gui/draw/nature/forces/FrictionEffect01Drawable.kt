@@ -1,21 +1,21 @@
-package milu.kiriu2010.milumathcaras.gui.draw.nature
+package milu.kiriu2010.milumathcaras.gui.draw.nature.forces
 
 import android.graphics.*
 import android.os.Handler
-import android.util.Log
 import milu.kiriu2010.gui.basic.MyCircleF
 import milu.kiriu2010.gui.basic.MyVectorF
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
+import kotlin.math.abs
 
 // ------------------------------------------------------------------
-// 質量の効果
+// 摩擦の効果
 // ------------------------------------------------------------------
-// 力 = 質量 × 加速度
+// 摩擦力 = -1 * 摩擦係数 * 垂直抗力 * 速度ベクトル
 // ------------------------------------------------------------------
 // https://natureofcode.com/book/chapter-2-forces/
 // ------------------------------------------------------------------
-class MassEffect01Drawable: MyDrawable() {
+class FrictionEffect01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -33,6 +33,11 @@ class MassEffect01Drawable: MyDrawable() {
     // 円リスト
     // ---------------------------------
     private val circleLst: MutableList<MyCircleF> = mutableListOf()
+
+    // 風の強さ
+    val wind = MyVectorF(1f,0f)
+    // 重力
+    val gravity = MyVectorF(0f,-10f)
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -183,7 +188,7 @@ class MassEffect01Drawable: MyDrawable() {
         if ( circleLst.size >= nMax ) return false
 
         // 円の重さ
-        val massA = (circleLst.size.toFloat()+1f)
+        val massA = (circleLst.size.toFloat()+2f)
 
         // 円の半径
         val rA = massA * 10f
@@ -196,10 +201,6 @@ class MassEffect01Drawable: MyDrawable() {
         val x = rA
         val y = sideH-rA-1f
 
-        // 風の強さ
-        val wind = MyVectorF(1f,0f)
-        // 重力
-        val gravity = MyVectorF(0f,-10f)
 
         // 色
         val colorId = circleLst.size%colorLst.size
@@ -216,7 +217,8 @@ class MassEffect01Drawable: MyDrawable() {
             color = colorLst[colorId]
         }
         // 円に力を加える
-        circle.applyForce(wind).applyForce(gravity)
+        circle.applyForce(wind)
+            .applyForce(gravity)
 
         // 円を生成し、リストに加える
         circleLst.add(circle)
@@ -229,9 +231,70 @@ class MassEffect01Drawable: MyDrawable() {
     // -------------------------------
     private fun moveMover() {
         circleLst.forEachIndexed { index, circleF ->
+            /*
+            if ( index == 0 ) {
+                Log.d(javaClass.simpleName,"====================================")
+                Log.d(javaClass.simpleName,"px1[${circleF.p.x}]py1[${circleF.p.y}]")
+            }
+            */
+            // 移動前の円の位置
+            val p1 = circleF.p.copy()
+
+            // 円を移動する
             circleF.move()
             // 境界を超えていたら、反射する
             circleF.checkBorder(0f,0f,sideW,sideH)
+
+            // 移動後の円の位置
+            val p2 = circleF.p.copy()
+
+            // 物体の加速度をクリアする
+            circleF.a.multiply(0f)
+
+            // 円に力を加える
+            circleF.applyForce(wind).applyForce(gravity)
+
+            /*
+            if ( index == 0 ) {
+                Log.d(javaClass.simpleName,"px2[${circleF.p.x}]py2[${circleF.p.y}]")
+                Log.d(javaClass.simpleName,"amag=${circleF.a.magnitude()}")
+                Log.d(javaClass.simpleName,"ax1[${circleF.a.x}]ay1[${circleF.a.y}]")
+            }
+            */
+
+            // ----------------------------------
+            // 摩擦効果を加える
+            // ----------------------------------
+            // 物体の速度
+            val v = circleF.v
+            // 摩擦係数
+            val c = 5f
+            //val c = circleF.a.magnitude()
+            // 摩擦力 = -1 * 摩擦係数 * 垂直抗力 * 速度ベクトル
+            val fv = v.copy()
+                .multiply(-1f)
+                .normalized()
+                .multiply(c)
+            circleF.applyForce(fv)
+
+            // -------------------------------------------------
+            // 以下の場合、停止する
+            // ・Y座標が半径付近
+            // ・位置の変化が一定より小さい
+            // -------------------------------------------------
+            if ( (abs(circleF.r-circleF.p.y) < 0.2f) and
+                (p2.magByDiff(p1) < 2f ) ) {
+                circleF.p.y = circleF.r
+                circleF.v.multiply(0f)
+                circleF.a.multiply(0f)
+            }
+
+            /*
+            if ( index == 0 ) {
+                Log.d(javaClass.simpleName,"c[$c]")
+                Log.d(javaClass.simpleName,"ax2[${circleF.a.x}]ay2[${circleF.a.y}]")
+            }
+            */
         }
     }
 

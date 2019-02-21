@@ -1,21 +1,19 @@
-package milu.kiriu2010.milumathcaras.gui.draw.nature
+package milu.kiriu2010.milumathcaras.gui.draw.nature.vectors
 
 import android.graphics.*
 import android.os.Handler
-import android.util.Log
 import milu.kiriu2010.gui.basic.MyCircleF
-import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.gui.basic.MyVectorF
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
+import kotlin.math.absoluteValue
 
 // ------------------------------------------------------------------
-// 等速度運動
+// 噴水
 // ------------------------------------------------------------------
-// http://www.wakariyasui.sakura.ne.jp/p/mech/henni/toukasokudo.html
 // https://natureofcode.com/book/chapter-1-vectors/
 // ------------------------------------------------------------------
-class UniformMotion01Drawable: MyDrawable() {
+class Fountain01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -25,17 +23,17 @@ class UniformMotion01Drawable: MyDrawable() {
     private val margin = 0f
 
     // ---------------------------------
-    // 等速度運動する円の最大数
+    // 噴水粒子の最大数
     // ---------------------------------
-    private var nMax = 10
+    private var nMax = 20
 
     // ---------------------------------
-    // 等速度運動する円の半径
+    // 噴水粒子の半径
     // ---------------------------------
     private val r = 50f
 
     // ---------------------------------
-    // 等速度運動する円リスト
+    // 噴水粒子のリスト
     // ---------------------------------
     private val circleLst: MutableList<MyCircleF> = mutableListOf()
 
@@ -65,7 +63,7 @@ class UniformMotion01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 等速度運動する円を描くペイント
+    // 噴水粒子を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLACK
@@ -120,20 +118,23 @@ class UniformMotion01Drawable: MyDrawable() {
     // --------------------------------------
     // 可変変数 values の引数位置による意味合い
     //
-    // 第１引数:等速度運動する円の最大数
+    // 第１引数:噴水粒子の初期数
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
+        var n = nMax
         // 可変変数 values を初期値として、このクラスで使う変数に当てはめる
         values.forEachIndexed { index, fl ->
             //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
             when (index) {
-                // 等速度運動する円の最大数
-                0 -> nMax = fl.toInt()
+                // 噴水粒子の初期数
+                0 -> n = fl.toInt()
             }
         }
 
-        // 等速度運動する円を生成
-        while (createMover())
+        // 噴水粒子を生成
+        while (circleLst.size<n) {
+            createMover()
+        }
         // ビットマップに描画
         drawBitmap()
         // 描画
@@ -144,6 +145,8 @@ class UniformMotion01Drawable: MyDrawable() {
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
+                    // 噴水粒子を生成
+                    createMover()
                     // 円を移動する
                     moveMover()
                     // ビットマップに描画
@@ -181,48 +184,64 @@ class UniformMotion01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 等速度運動する円を生成
+    // 噴水粒子を生成
     // -------------------------------
     private fun createMover(): Boolean {
         // 既に最大数を超えていたら何もしない
         if ( circleLst.size >= nMax ) return false
 
-        // 円の初期位置を描画領域内でランダムに設定
-        val x = (r.toInt()..(sideW-r).toInt()).shuffled()[0].toFloat()
-        val y = (r.toInt()..(sideH-r).toInt()).shuffled()[0].toFloat()
+        // 噴水粒子の初期位置をランダムに設定
+        //   左右中央付近
+        //   上下1:3付近
+        val x = ((sideW/2-r).toInt()..(sideW/2+r).toInt()).shuffled()[0].toFloat()
+        val y = ((3*sideH/4-r).toInt()..(3*sideH/4+r).toInt()).shuffled()[0].toFloat()
 
         // 初期速度の候補リスト
         // -45,-35,-25,-15,-5,5,15,25,35,45
-        //val v = IntArray(10,{ i -> i*10-45} )
-        // -95,-75,-55,-35,-15,15,35,55,75,95
-        val v = IntArray(10,{ i -> i*20-95} )
-        // 円の初期速度をランダムに設定
+        val v = IntArray(10,{ i -> i*10-45} )
+        // 噴水粒子の初期速度をランダムに設定
         val vx = v.random().toFloat()
-        val vy = v.random().toFloat()
+        val vy = v.random().absoluteValue.toFloat()
+
+        // 噴水粒子の加速度
+        val a = MyVectorF(0f,-10f)
 
         // 円を生成し、リストに加える
-        circleLst.add(MyCircleF(MyVectorF(x,y),r,MyVectorF(vx,vy)))
+        circleLst.add(MyCircleF(MyVectorF(x,y),r,MyVectorF(vx,vy),a))
 
         return true
     }
 
     // -------------------------------
-    // 円を移動する
+    // 噴水粒子を移動する
     // -------------------------------
     private fun moveMover() {
-        circleLst.forEachIndexed labelA@{ index1, myCircleF1 ->
-            // 円を移動する
+        val iterator = circleLst.iterator()
+
+        while (iterator.hasNext()) {
+            val myCircleF1 = iterator.next()
+            // 噴水粒子を移動する
             myCircleF1.move()
-            // 境界に達していたら、反射する
-            myCircleF1.checkBorder(0f,0f,sideW,sideH)
-
-            circleLst.forEachIndexed labelB@{ index2, myCircleF2 ->
-                if (index1 == index2) return@labelB
-
-                // 衝突していたら、進行方向を変える
-                myCircleF1.checkCollision(myCircleF2)
+            // 境界を超えていたら、噴水粒子のリストから削除する
+            if ( myCircleF1.overBorder(0f,0f,sideW,sideH) < 0 ) {
+                iterator.remove()
             }
         }
+
+        // ---------------------------------------------
+        // java.util.ConcurrentModificationException
+        // が発生する
+        // ---------------------------------------------
+        /*
+        circleLst.iterator().forEach { myCircleF1 ->
+            // 噴水粒子を移動する
+            myCircleF1.move()
+            // 境界を超えていたら、噴水粒子のリストから削除する
+            if ( myCircleF1.overBorder(0f,0f,sideW,sideH) < 0 ) {
+                circleLst.remove(myCircleF1)
+            }
+        }
+        */
     }
 
     // -------------------------------

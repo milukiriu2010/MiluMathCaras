@@ -380,9 +380,9 @@ class Circle2SqaureMorph02Drawable: MyDrawable() {
         // 枠を描画
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
-        // これまでの描画は上下逆なので反転する
+        // これまでの描画はテンポラリ領域に実施していたので、実際の表示に使うビットマップにコピーする
         val matrix = Matrix()
-        matrix.setScale(1f,-1f)
+        matrix.setScale(1f,1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
     }
 

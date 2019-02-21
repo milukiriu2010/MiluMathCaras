@@ -2,8 +2,7 @@ package milu.kiriu2010.milumathcaras.gui.draw.illusion
 
 import android.graphics.*
 import android.os.Handler
-import milu.kiriu2010.gui.basic.MyVectorF
-import milu.kiriu2010.math.MyMathUtil
+import android.util.Log
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
@@ -32,10 +31,40 @@ class SteppingFeet01Drawable: MyDrawable() {
     // ---------------------------------
     private val nBar = 20
 
+    // ---------------------------------
+    // バーの高さ
+    // ---------------------------------
+    val barH = sideH/nBar.toFloat()
+
+    // ---------------------------------
+    // 足の幅
+    // ---------------------------------
+    var feetW = sideW/10f
+
+    // ---------------------------------
+    // 足の高さ
+    // ---------------------------------
+    var feetH = barH*4f
+
+    // ---------------------------------
+    // 足の位置(X軸からの距離)
+    // ---------------------------------
+    var dY = 0f
+
+    // ---------------------------------
+    // 足の単位時間あたりの移動距離
+    // ---------------------------------
+    var v = feetH/32f
+
     // -------------------------------------
-    // 変形する多角形リスト
+    // 足リスト
     // -------------------------------------
-    private val polygonLst = mutableListOf<Polygon>()
+    private val feetLst = mutableListOf<Feet>()
+
+    // -------------------------------------
+    // コントラストON/OFF
+    // -------------------------------------
+    private var contrastFlg = false
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -63,24 +92,26 @@ class SteppingFeet01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 円・正方形を描くペイント
+    // コントラストを描くペイント
     // -------------------------------
-    private val forePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.WHITE
+    private val contrastPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = 0x88aaaaaa.toInt()
         style = Paint.Style.FILL
     }
 
-    // 描画に使う色リスト
-    private val colorLst = intArrayOf(
+    // -------------------------------
+    // 足を描くペイント
+    // -------------------------------
+    private val feetPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.BLACK
+        style = Paint.Style.FILL
+    }
+
+    // バックグラウンドの描画に使う色リスト
+    private val colorBackLst = intArrayOf(
         0xff000000.toInt(),
         0xffffffff.toInt()
     )
-    /*
-    private val colorLst = intArrayOf(
-        Color.BLACK,
-        Color.WHITE
-    )
-    */
 
     // -------------------------------------
     // 描画中に呼び出すコールバックを設定
@@ -118,12 +149,9 @@ class SteppingFeet01Drawable: MyDrawable() {
         }
         */
 
-        /*
-        // 円・正方形の初期ベクトル設定
-        createVector()
-        // 初期状態の変形比率まで変形する
-        while (polygonLst[0].ratio < ratioInit) morph()
-        */
+        // 足を生成
+        createFeet()
+
         // ビットマップに描画
         drawBitmap()
         // 描画
@@ -134,16 +162,14 @@ class SteppingFeet01Drawable: MyDrawable() {
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
-                    /*
-                    // 変形する
-                    morph()
-                    */
+                    // 足を移動する
+                    moveFeet()
                     // ビットマップに描画
                     drawBitmap()
                     // 描画
                     invalidateSelf()
 
-                    handler.postDelayed(runnable, 100)
+                    handler.postDelayed(runnable, 10)
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
@@ -171,17 +197,54 @@ class SteppingFeet01Drawable: MyDrawable() {
         handler.removeCallbacks(runnable)
     }
 
-    // -------------------------------
-    // 円・正方形の初期ベクトル設定
-    // -------------------------------
-    private fun createVector() {
-        polygonLst.clear()
+    // -------------------------------------
+    // タッチしたポイントを受け取る
+    // -------------------------------------
+    override fun receiveTouchPoint(x: Float, y: Float) {
+        Log.d(javaClass.simpleName,"Touch:x[${x}]y[${y}]" )
+        // タッチする⇒コントラストON
+        // タッチ離す⇒コントラストOFF
+        contrastFlg = if ( ( x == -1f ) and ( y == -1f ) ) {
+            false
+        }
+        else {
+            true
+        }
     }
 
     // -------------------------------
-    // 変形する
+    // 足を生成
     // -------------------------------
-    private fun morph() {
+    private fun createFeet() {
+        // 黄色の足
+        val feetA = Feet().apply {
+            shape = RectF(3f*feetW,0f,4f*feetW,feetH)
+            color = 0xffffff00.toInt()
+        }
+
+        // 青色の足
+        val feetB = Feet().apply {
+            shape = RectF(6f*feetW,0f,7f*feetW,feetH)
+            color = 0xff000080.toInt()
+        }
+
+        feetLst.add(feetA)
+        feetLst.add(feetB)
+    }
+
+    // -------------------------------
+    // 足を移動する
+    // -------------------------------
+    private fun moveFeet() {
+        dY = dY + v
+        if ( dY + feetH >= sideH ) {
+            dY = sideH - feetH
+            v = -v
+        }
+        else if ( dY <= 0f ) {
+            dY = 0f
+            v = -v
+        }
     }
 
     // -------------------------------
@@ -196,11 +259,9 @@ class SteppingFeet01Drawable: MyDrawable() {
         val y0 = margin
 
         //Log.d(javaClass.simpleName,"========================================")
-        // バーの高さ
-        val barH = sideH/nBar.toFloat()
         (0 until nBar).forEach { i ->
             // 色(バックグラウンド)
-            var colorBack = colorLst[i%2]
+            var colorBack = colorBackLst[i%2]
 
             canvas.save()
             canvas.translate(x0,y0+i.toFloat()*barH)
@@ -212,6 +273,22 @@ class SteppingFeet01Drawable: MyDrawable() {
             // 座標を元に戻す
             canvas.restore()
         }
+
+        // コントラストを描画
+        if ( contrastFlg ) {
+            canvas.drawRect(RectF(0f,0f,sideW,sideH),contrastPaint)
+        }
+
+        // 足を描画
+        canvas.save()
+        canvas.translate(x0,y0+dY)
+        // 足を描画
+        feetLst.forEach {
+            feetPaint.color = it.color
+            canvas.drawRect(it.shape,feetPaint)
+        }
+        // 座標を元に戻す
+        canvas.restore()
 
         // 枠を描画
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
@@ -260,16 +337,16 @@ class SteppingFeet01Drawable: MyDrawable() {
     override fun getIntrinsicHeight(): Int = (sideH+margin*2).toInt()
 
     // ---------------------------------
-    // 多角形
+    // 足
     // ---------------------------------
-    private data class Polygon(
-        // 変形ベクトルリスト
-        val vlst: MutableList<MyVectorF> = mutableListOf(),
-        // 変形比率(0.0-1.0)
-        var ratio: Float = 0f,
-        // 変形の方向
-        //  1 => 0.0～1.0
-        // -1 => 1.0～0.0
-        var direction: Int = 1
+    data class Feet(
+        // ---------------------------------
+        // 形
+        // ---------------------------------
+        var shape: RectF = RectF(),
+        // ---------------------------------
+        // 色
+        // ---------------------------------
+        var color: Int = 0
     )
 }

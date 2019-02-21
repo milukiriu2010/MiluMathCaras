@@ -598,7 +598,7 @@ class DrawDataFactory {
                 // 錯覚を選択したときの描画データの一覧
                 MenuItem.MENU_OPTICAL_ILLUSION -> {
                     // "Stepping Feet"
-                    drawDataLst.add(DrawData(DrawDataID.ID_000900_OPTICAL_ILLUSION_STEPPING_FEET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000900_optical_illusion_stepping_feet)))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000900_OPTICAL_ILLUSION_STEPPING_FEET,DrawFragmentType.FT_TOUCH_01,resources.getString(R.string.draw_000900_optical_illusion_stepping_feet)))
                 }
                 else -> {
                     throw RuntimeException("No Draw List for ${menuData.menuItem.title}")

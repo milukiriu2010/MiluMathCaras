@@ -30,7 +30,12 @@ import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve01D
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve03Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.illusion.SteppingFeet01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.nature.*
+import milu.kiriu2010.milumathcaras.gui.draw.nature.forces.FrictionEffect01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.nature.forces.MassEffect01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.AccelerateTowardsTouchPoint01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.Fountain01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.RandomWalk01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.UniformMotion01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.TriangleExile01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWave01Drawable
