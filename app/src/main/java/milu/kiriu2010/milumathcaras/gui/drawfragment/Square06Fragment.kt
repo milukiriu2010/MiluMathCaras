@@ -94,6 +94,25 @@ class Square06Fragment : Fragment()
         drawable = MyDrawableFactory.createInstance(drawData.id,this)
         imageView.setImageDrawable(drawable)
 
+        imageView.setOnTouchListener { v, event ->
+            // ---------------------------------------------
+            // x,y    => view    の左上からの位置
+            // rawX,Y => デバイスの左上からの位置
+            // らしいが、なんかずれてる
+            // ---------------------------------------------
+            Log.d(javaClass.simpleName,"Touch:x[${event.x}]xp[${event.xPrecision}]xr[${event.rawX}]y[${event.y}]" )
+            when ( event.action ) {
+                // タッチしたとき
+                MotionEvent.ACTION_DOWN -> drawable.receiveTouchPoint(event.x,event.y,event)
+                // タッチを離したとき
+                MotionEvent.ACTION_UP -> drawable.receiveTouchPoint(-1f,-1f,event)
+                // タッチ点を移動したとき
+                MotionEvent.ACTION_MOVE -> drawable.receiveTouchPoint(event.x,event.y,event)
+            }
+
+            true
+        }
+
         // 描画に使っている媒介変数の値を表示するビュー
         textView = view.findViewById(R.id.textView)
 

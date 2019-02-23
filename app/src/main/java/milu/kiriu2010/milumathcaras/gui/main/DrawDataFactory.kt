@@ -579,7 +579,7 @@ class DrawDataFactory {
                         stillImageParam = floatArrayOf(5f),
                         creditMap = mutableMapOf<String,String>("name" to "The Nature of Code", "url" to "https://natureofcode.com/book/chapter-1-vectors/") ))
                     // タッチした方向に向かって加速
-                    drawDataLst.add(DrawData(DrawDataID.ID_000404_NATURE_ACCELERATE_TOWARDS_TOUCH_POINT,DrawFragmentType.FT_TOUCH_01,resources.getString(R.string.draw_000404_nature_accelerate_towards_touch_point),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000404_NATURE_ACCELERATE_TOWARDS_TOUCH_POINT,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000404_nature_accelerate_towards_touch_point),
                         stillImageParam = floatArrayOf(5f),
                         creditMap = mutableMapOf<String,String>("name" to "The Nature of Code", "url" to "https://natureofcode.com/book/chapter-1-vectors/") ))
                 }
@@ -604,7 +604,8 @@ class DrawDataFactory {
                 // 錯覚を選択したときの描画データの一覧
                 MenuItem.MENU_OPTICAL_ILLUSION -> {
                     // "Stepping Feet"
-                    drawDataLst.add(DrawData(DrawDataID.ID_000900_OPTICAL_ILLUSION_STEPPING_FEET,DrawFragmentType.FT_TOUCH_01,resources.getString(R.string.draw_000900_optical_illusion_stepping_feet)))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000900_OPTICAL_ILLUSION_STEPPING_FEET,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000900_optical_illusion_stepping_feet),
+                        creditMap = mutableMapOf<String,String>("name" to "Michael Bach", "url" to "https://michaelbach.de/ot/mot-feetLin/index.html") ))
                 }
                 else -> {
                     throw RuntimeException("No Draw List for ${menuData.menuItem.title}")

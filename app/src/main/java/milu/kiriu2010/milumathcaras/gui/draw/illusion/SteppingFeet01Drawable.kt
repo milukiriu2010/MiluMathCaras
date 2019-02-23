@@ -3,6 +3,7 @@ package milu.kiriu2010.milumathcaras.gui.draw.illusion
 import android.graphics.*
 import android.os.Handler
 import android.util.Log
+import android.view.MotionEvent
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
@@ -200,8 +201,9 @@ class SteppingFeet01Drawable: MyDrawable() {
     // -------------------------------------
     // タッチしたポイントを受け取る
     // -------------------------------------
-    override fun receiveTouchPoint(x: Float, y: Float) {
+    override fun receiveTouchPoint(x: Float, y: Float, event: MotionEvent) {
         Log.d(javaClass.simpleName,"Touch:x[${x}]y[${y}]" )
+        /*
         // タッチする⇒コントラストON
         // タッチ離す⇒コントラストOFF
         contrastFlg = if ( ( x == -1f ) and ( y == -1f ) ) {
@@ -209,6 +211,15 @@ class SteppingFeet01Drawable: MyDrawable() {
         }
         else {
             true
+        }
+        */
+
+        // タッチをすると、コントラストをON/OFFする
+        if ( event.action == MotionEvent.ACTION_DOWN ) {
+            contrastFlg = when (contrastFlg) {
+                true  -> false
+                false -> true
+            }
         }
     }
 

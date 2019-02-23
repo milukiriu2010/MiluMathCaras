@@ -1,6 +1,7 @@
 package milu.kiriu2010.milumathcaras.gui.draw
 
 import android.graphics.drawable.Drawable
+import android.view.MotionEvent
 
 abstract class MyDrawable: Drawable()
     , CalculationCallback
@@ -28,5 +29,5 @@ abstract class MyDrawable: Drawable()
     // TouchCallback
     // タッチしたポイントを受け取る
     // -------------------------------------
-    override fun receiveTouchPoint(x: Float, y: Float) {}
+    override fun receiveTouchPoint(x: Float, y: Float, event: MotionEvent) {}
 }

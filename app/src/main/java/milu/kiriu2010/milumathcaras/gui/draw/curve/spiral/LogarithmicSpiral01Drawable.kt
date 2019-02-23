@@ -2,6 +2,8 @@ package milu.kiriu2010.milumathcaras.gui.draw.curve.spiral
 
 import android.graphics.*
 import android.os.Handler
+import android.util.Log
+import android.view.MotionEvent
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.gui.color.ColorType
 import milu.kiriu2010.gui.color.MyColorFactory
@@ -184,6 +186,28 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
         handler.removeCallbacks(runnable)
     }
 
+    // -------------------------------------
+    // タッチしたポイントを受け取る
+    // -------------------------------------
+    override fun receiveTouchPoint(x: Float, y: Float, event: MotionEvent) {
+        Log.d(javaClass.simpleName,"Touch:x[${x}]y[${y}]" )
+        /*
+        // タッチする⇒コントラストON
+        // タッチ離す⇒コントラストOFF
+        contrastFlg = if ( ( x == -1f ) and ( y == -1f ) ) {
+            false
+        }
+        else {
+            true
+        }
+        */
+
+        // タッチすると、回転方向を変更する
+        if ( event.action == MotionEvent.ACTION_DOWN ) {
+            sign = -sign
+        }
+    }
+
     // -------------------------------
     // 対数螺旋の描画点リストを生成
     // -------------------------------
@@ -211,7 +235,7 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
         // ・回転方向を変更する
         if ( angle > angleMax ) {
             angle = 0f
-            sign = -1f*sign
+            //sign = -1f*sign
         }
         // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
         notifyCallback?.receive(angle)

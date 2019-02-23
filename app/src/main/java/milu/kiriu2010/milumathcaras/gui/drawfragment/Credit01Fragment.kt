@@ -3,6 +3,7 @@ package milu.kiriu2010.milumathcaras.gui.drawfragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -65,6 +66,25 @@ class Credit01Fragment : Fragment()
         imageView = view.findViewById(R.id.imageView)
         drawable = MyDrawableFactory.createInstance(drawData.id,this)
         imageView.setImageDrawable(drawable)
+
+        imageView.setOnTouchListener { v, event ->
+            // ---------------------------------------------
+            // x,y    => view    の左上からの位置
+            // rawX,Y => デバイスの左上からの位置
+            // らしいが、なんかずれてる
+            // ---------------------------------------------
+            Log.d(javaClass.simpleName,"Touch:x[${event.x}]xp[${event.xPrecision}]xr[${event.rawX}]y[${event.y}]" )
+            when ( event.action ) {
+                // タッチしたとき
+                MotionEvent.ACTION_DOWN -> drawable.receiveTouchPoint(event.x,event.y,event)
+                // タッチを離したとき
+                MotionEvent.ACTION_UP -> drawable.receiveTouchPoint(-1f,-1f,event)
+                // タッチ点を移動したとき
+                MotionEvent.ACTION_MOVE -> drawable.receiveTouchPoint(event.x,event.y,event)
+            }
+
+            true
+        }
 
         // 製作者の名前を表示するビュー
         textViewName = view.findViewById(R.id.textViewName)

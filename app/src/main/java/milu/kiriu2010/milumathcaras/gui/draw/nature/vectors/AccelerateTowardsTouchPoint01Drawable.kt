@@ -3,6 +3,7 @@ package milu.kiriu2010.milumathcaras.gui.draw.nature.vectors
 import android.graphics.*
 import android.os.Handler
 import android.util.Log
+import android.view.MotionEvent
 import milu.kiriu2010.gui.basic.MyCircleF
 import milu.kiriu2010.gui.basic.MyVectorF
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
@@ -189,7 +190,7 @@ class AccelerateTowardsTouchPoint01Drawable: MyDrawable() {
     // -------------------------------------
     // タッチしたポイントを受け取る
     // -------------------------------------
-    override fun receiveTouchPoint(x: Float, y: Float) {
+    override fun receiveTouchPoint(x: Float, y: Float, event: MotionEvent) {
         Log.d(javaClass.simpleName,"Touch:x[${x}]y[${y}]" )
         touchPoint.x = x
         touchPoint.y = y
