@@ -61,10 +61,6 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000102_KOCH_SNOWFLAKE(102),
     // ドラゴン曲線
     ID_000104_DRAGON_CURVE(104),
-    // シェルピンスキーの三角形
-    ID_000105_SIERPINSKI_TRIANGLE(105),
-    // シェルピンスキーのカーペット
-    ID_000106_SIERPINSKI_CARPET(106),
     // ヒルベルト曲線
     ID_000107_HILBERT_CURVE(107),
     // ムーア曲線
@@ -81,6 +77,12 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000117_GOSPER_ISLAND_02(117),
     // ゴスパー曲線
     ID_000118_GOSPER_CURVE(118),
+    // シェルピンスキーの三角形
+    ID_000121_SIERPINSKI_TRIANGLE(121),
+    // シェルピンスキーのカーペット
+    ID_000122_SIERPINSKI_CARPET(122),
+    // シェルピンスキーの五角形
+    ID_000123_SIERPINSKI_PENTAGON(123),
     // マンデルブロ―集合(白黒)
     ID_000200_MANDELBRO_SET(200),
     // マンデルブロ―集合(-1.5-1.0i～+0.5+1.0i)

@@ -138,12 +138,6 @@ class DrawDataFactory {
                     // ドラゴン曲線
                     drawDataLst.add(DrawData(DrawDataID.ID_000104_DRAGON_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000104_fractal_recursion_dragon_curve),
                         stillImageParam = floatArrayOf(6f), motionImageParam = floatArrayOf(0f) ))
-                    // シェルピンスキーの三角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000105_SIERPINSKI_TRIANGLE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000105_fractal_recursion_sierpinski_triangle),
-                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
-                    // シェルピンスキーのカーペット
-                    drawDataLst.add(DrawData(DrawDataID.ID_000106_SIERPINSKI_CARPET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000106_fractal_recursion_sierpinski_carpet),
-                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
                     // ヒルベルト曲線
                     drawDataLst.add(DrawData(DrawDataID.ID_000107_HILBERT_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000107_fractal_recursion_hilbert_curve),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
@@ -160,6 +154,18 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_000112_TREE_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000112_fractal_recursion_tree_curve_02) ))
                     // 樹木曲線03
                     drawDataLst.add(DrawData(DrawDataID.ID_000113_TREE_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000113_fractal_recursion_tree_curve_03) ))
+                }
+                // フラクタル(シェルピンスキー系)を選択したときの描画データの一覧
+                MenuItem.MENU_FRACTAL_SIERPINSKI_FAMILY -> {
+                    // シェルピンスキーの三角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_000121_SIERPINSKI_TRIANGLE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000121_fractal_sierpinski_triangle),
+                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
+                    // シェルピンスキーのカーペット
+                    drawDataLst.add(DrawData(DrawDataID.ID_000122_SIERPINSKI_CARPET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000122_fractal_sierpinski_carpet),
+                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
+                    // シェルピンスキーの五角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_000123_SIERPINSKI_PENTAGON,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000123_fractal_sierpinski_pentagon),
+                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
                 }
                 // フラクタル(ごスパー曲線)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_GOSPER_CURVE -> {

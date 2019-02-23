@@ -24,6 +24,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.HilbertCu
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.MooreCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.koch.KochSnowflake01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski.SierpinskiCarpet01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski.SierpinskiPentagon01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski.SierpinskiTriangle01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.takagi.TakagiCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve01Drawable
@@ -100,10 +101,6 @@ class MyDrawableFactory {
                 DrawDataID.ID_000102_KOCH_SNOWFLAKE -> KochSnowflake01Drawable()
                 // ドラゴン曲線
                 DrawDataID.ID_000104_DRAGON_CURVE -> DragonCurve01Drawable()
-                // シェルピンスキーの三角形
-                DrawDataID.ID_000105_SIERPINSKI_TRIANGLE -> SierpinskiTriangle01Drawable()
-                // シェルピンスキーのカーペット
-                DrawDataID.ID_000106_SIERPINSKI_CARPET -> SierpinskiCarpet01Drawable()
                 // ヒルベルト曲線
                 DrawDataID.ID_000107_HILBERT_CURVE -> HilbertCurve01Drawable()
                 // ムーア曲線
@@ -120,6 +117,12 @@ class MyDrawableFactory {
                 DrawDataID.ID_000117_GOSPER_ISLAND_02 -> GosperIsland02Drawable()
                 // ゴスパー曲線
                 DrawDataID.ID_000118_GOSPER_CURVE -> GosperCurve01Drawable()
+                // シェルピンスキーの三角形
+                DrawDataID.ID_000121_SIERPINSKI_TRIANGLE -> SierpinskiTriangle01Drawable()
+                // シェルピンスキーのカーペット
+                DrawDataID.ID_000122_SIERPINSKI_CARPET -> SierpinskiCarpet01Drawable()
+                // シェルピンスキーの五角形
+                DrawDataID.ID_000123_SIERPINSKI_PENTAGON -> SierpinskiPentagon01Drawable()
                 // マンデルブロ―集合(白黒)
                 DrawDataID.ID_000200_MANDELBRO_SET -> Mandelbrot00Drawable()
                 // マンデルブロ―集合(-1.5-1.0i～+0.5+1.0i)

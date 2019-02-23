@@ -176,7 +176,10 @@ class MenuFragment : Fragment() {
                     // フラクタル(樹木曲線)一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL_TREE_CURVE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal_tree_curve),false))
                     // [サブメニュー]
-                    // フラクタル(ごスパー曲線)一覧を表示するメニュー
+                    // フラクタル(シェルピンスキー系)一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL_SIERPINSKI_FAMILY, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal_sierpinski_family),false))
+                    // [サブメニュー]
+                    // フラクタル(ゴスパー曲線)一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL_GOSPER_CURVE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal_gosper_curve),false))
                     // [サブメニュー]
                     // フラクタル(複素数)一覧を表示するメニュー
