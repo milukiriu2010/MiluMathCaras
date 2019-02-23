@@ -41,6 +41,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.TriangleExile01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWave01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWaveCircle01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWaveCircle02Drawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 class MyDrawableFactory {
@@ -89,6 +90,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000040_SINE_WAVE -> SineWave01Drawable()
                 // 円の周りを回転するサイン波
                 DrawDataID.ID_000041_SINE_WAVE_CIRCLE -> SineWaveCircle01Drawable()
+                // 円の周りを回転するサイン波
+                DrawDataID.ID_000042_SINE_WAVE_CIRCLE -> SineWaveCircle02Drawable()
                 // リサージュ曲線(p:q=1:2)
                 DrawDataID.ID_000050_LISSAJOUS_CURVE_1_2 -> Lissajous01Drawable()
                 // リサージュ曲線(p:q=3:2)

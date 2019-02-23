@@ -206,6 +206,8 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_000040_SINE_WAVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000040_wave_sine) ))
                     // 円の周りを回転するサイン波
                     drawDataLst.add(DrawData(DrawDataID.ID_000041_SINE_WAVE_CIRCLE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000041_wave_sine_circle) ))
+                    // 円の周りを回転するサイン波
+                    drawDataLst.add(DrawData(DrawDataID.ID_000042_SINE_WAVE_CIRCLE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000042_wave_sine_circle) ))
                 }
                 // "複数円"を選択したときの描画データの一覧
                 MenuItem.MENU_CIRCLE_CIRCLES -> {
