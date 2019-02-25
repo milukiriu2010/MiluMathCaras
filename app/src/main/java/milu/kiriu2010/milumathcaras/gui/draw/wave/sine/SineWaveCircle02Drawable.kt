@@ -43,36 +43,13 @@ class SineWaveCircle02Drawable: MyDrawable() {
     // ---------------------------------
     private var kc = 6f
 
-
-    /*
-    // ---------------------------------
-    // サイン波を描画する全体の角度
-    // ---------------------------------
-    //private val d = 120
-    //private val d = 180
-    private val d = 359
-    */
-
     // -------------------------------
     // 円の位相(係数tに相当)
     // -------------------------------
     private var angle = 0f
-    private var angleMax = 360f
-
-    /*
-    // -------------------------------
-    // 円の位相(係数tに相当)
-    // -------------------------------
-    private var anglePhaseC = 0f
-    // -------------------------------
-    // サイン波の位相(係数tに相当)
-    // -------------------------------
-    private var anglePhaseS = 0f
-    private var anglePhaseMax = 360f
-
-    // 描画点を描く間隔(5度)
-    private val interval = 5
-    */
+    private var angleMax = 720f
+    // PathEffectと色を切り替える角度
+    private var angleThreshHold1 = 360f
 
     // 描画するサイン波
     private val wave =
@@ -85,10 +62,10 @@ class SineWaveCircle02Drawable: MyDrawable() {
             }
         }
 
-    // PathEffectのインデックス(境界を超えた場合に使う)
-    private var pathEffectId0 = 0
-    // PathEffectのインデックス(境界を超えていない場合に使う)
-    private var pathEffectId1 = 0
+    // PathEffectインデックス
+    private var pathEffectId = 1
+    // 次のPathEffectを反映するサイン波上の位置
+    private var nextPathEffectPos = 0
 
     // 描画に使うPathEffectのリスト
     private val pathEffectLst: List<PathEffect> = listOf(
@@ -115,10 +92,11 @@ class SineWaveCircle02Drawable: MyDrawable() {
     // 色数
     val colorSize = myColor.getColorSize()
 
-    // 色インデックス(境界を超えた場合に使う)
-    private var colorId0 = 0
-    // 色インデックス(境界を超えていない場合に使う)
-    private var colorId1 = 0
+
+    // 色インデックス
+    private var colorId = 1
+    // 色を反映するサイン波上の位置
+    private var nextColorPos = 0
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -189,7 +167,7 @@ class SineWaveCircle02Drawable: MyDrawable() {
                     // 描画
                     invalidateSelf()
 
-                    handler.postDelayed(runnable, 100)
+                    handler.postDelayed(runnable, 10)
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
@@ -221,91 +199,61 @@ class SineWaveCircle02Drawable: MyDrawable() {
     // サイン波の描画点を生成
     // -------------------------------
     private fun createPath() {
-        /*
-        // サイン波を回転させるときの中心点
-        val mX = side/2f
-        val mY = side/2f
-
-        // 長さdを描く間にサイン波を2周する
-        val dv = kc/d
-        // サイン波の描画点を生成
-        // 描画点をクリア
-        wave.pointLst.clear()
-        (0..d step interval).forEach {
-            // "円の中心"に対する"描画線"の角度
-            //val t0 = it.toFloat() + anglePhaseC
-            // anglePhaseCに係数をかけることで全体の回転スピードを増す
-            val t0 = it.toFloat() + anglePhaseC*3f
-
-            val r0 = kr*r*sin((it.toFloat()*dv+anglePhaseS)*PI/180f).toFloat()
-
-            // 描画点
-            val x0 = (r+r0)*cos(t0*PI/180f)
-            val y0 = (r+r0)*sin(t0*PI/180f)
-
-            wave.pointLst.add(MyPointF(x0.toFloat(),y0.toFloat()))
-        }
-        */
-
         // 描画点をクリア
         wave.pointLst.clear()
         (0..360 step 5).forEach {
             val d = it.toFloat()
-            val x = (1f+kr*MyMathUtil.sinf(kc*d))*r*MyMathUtil.cosf(d)
-            val y = (1f+kr*MyMathUtil.sinf(kc*d))*r*MyMathUtil.sinf(d)
+            val x = (1f+kr*MyMathUtil.sinf(kc*d-90f))*r*MyMathUtil.cosf(d)
+            val y = (1f+kr*MyMathUtil.sinf(kc*d-90f))*r*MyMathUtil.sinf(d)
             wave.pointLst.add(MyPointF(x,y))
         }
+
+        // 次のPathEffectを反映するサイン波上の位置
+        nextPathEffectPos = wave.pointLst.size
     }
 
     // -------------------------------
     // サイン波の位相を移動
     // -------------------------------
     private fun movePhase() {
-        /*
-        val dv = 10f
-        anglePhaseC = anglePhaseC + dv
-        // サイン波の周期は円の周期の６倍にする
-        anglePhaseS = anglePhaseS + dv*6f
-        // ・元の位置に戻す
-        if ( anglePhaseC > anglePhaseMax ) {
-            anglePhaseC = 0f
-            pathEffectId0++
-            pathEffectId0 = pathEffectId0%pathEffectLst.size
-            // 色インデックス(境界を超えた場合に使う)
-            colorId0 += colorSize/6
-            colorId0 = colorId0%colorSize
-        }
-        // ・元の位置に戻す
-        if ( anglePhaseS >= anglePhaseMax ) {
-            anglePhaseS = 0f
-        }
-        // サイン波すべてが境界を超えたらPathEffectと色を合わせる
-        if ( anglePhaseC > d ) {
-            pathEffectId1 = pathEffectId0%pathEffectLst.size
-            colorId1 = colorId0%colorSize
-        }
-        */
-
-        angle += 5f
+        // 10度ずつが、きれいに回転して見える
+        angle += 10f
         if ( angle >= angleMax ) {
             angle = 0f
+
+            // PathEffectインデックス
+            pathEffectId = (pathEffectId+1)%pathEffectLst.size
+            // 次のPathEffectを反映するサイン波上の位置
+            nextPathEffectPos = wave.pointLst.size
+            // 色インデックス
+            colorId = colorId+colorSize/6
+            colorId = colorId%colorSize
+            // 色を反映するサイン波上の位置
+            nextColorPos = wave.pointLst.size
+        }
+        else if ( angle >= angleThreshHold1 ) {
+            // 次のPathEffectを反映するサイン波上の位置
+            nextPathEffectPos = nextPathEffectPos-1
+            // 色を反映するサイン波上の位置
+            nextColorPos = nextColorPos-1
         }
 
-        //Log.d(javaClass.simpleName,"===[$angle]=========================")
+        //Log.d(javaClass.simpleName,"angle[$angle]nextPathEffectPos[$nextPathEffectPos]angleThreshHold1[$angleThreshHold1]")
+        /**/
         // 波を回転する
         wave.pointLst.forEachIndexed { index, myPointF ->
-            /*
-            if ( index == 0 ) {
-                Log.d(javaClass.simpleName,"x[${myPointF.x}]y[${myPointF.y}]")
-            }
-            */
-            myPointF.rotate(angle)
-            /*
-            if ( index == 0 ) {
-                Log.d(javaClass.simpleName,"x[${myPointF.x}]y[${myPointF.y}]")
-            }
-            */
+            //if ( index == 0 ) {
+            //    Log.d(javaClass.simpleName,"x[${myPointF.x}]y[${myPointF.y}]")
+            //}
+            // 3倍が、きれいに回転してみえる
+            myPointF.rotate(angle*3f)
+            //
+            //if ( index == 0 ) {
+            //    Log.d(javaClass.simpleName,"x[${myPointF.x}]y[${myPointF.y}]")
+            //}
+            //
         }
+        /**/
     }
 
     // -------------------------------
@@ -351,12 +299,27 @@ class SineWaveCircle02Drawable: MyDrawable() {
         }
         */
 
+        //Log.d(javaClass.simpleName,"nextPathEffectPos[$nextPathEffectPos]")
+
         // サイン波を描く
         var myPointF2: MyPointF? = null
         val bunchSize = wave.pointLst.size
         wave.pointLst.forEachIndexed { index, myPointF1 ->
             if ( myPointF2 != null ) {
-                wave.linePaint.color = myColor.create(index,bunchSize).toInt()
+                //wave.linePaint.color = myColor.create(index,bunchSize).toInt()
+                wave.linePaint.pathEffect = if ( index < nextPathEffectPos ) {
+                    pathEffectLst[pathEffectId]
+                }
+                else {
+                    pathEffectLst[(pathEffectId+1)%pathEffectLst.size]
+                }
+                wave.linePaint.color = if ( index < nextColorPos ) {
+                    myColor.create(colorId,colorSize).toInt()
+                }
+                else {
+                    myColor.create((colorId+colorSize/6)%colorSize,colorSize).toInt()
+                }
+
                 canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,wave.linePaint)
             }
             myPointF2 = myPointF1
