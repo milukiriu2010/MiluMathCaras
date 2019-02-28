@@ -327,6 +327,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE(810),
     // "円⇔正方形の変形"のタイリング
     ID_000811_CIRCLE_MORPH_CIRCLE2SQUARE(811),
+    // "正方形の中で大きくなる円"のタイリング
+    ID_000820_CIRCLE_TILE_CIRCLE2SQUARE(820),
     // "Stepping Feet"
     ID_000900_OPTICAL_ILLUSION_STEPPING_FEET(900),
 }

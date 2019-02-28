@@ -201,6 +201,9 @@ class MenuFragment : Fragment() {
                     // [サブメニュー]
                     // "変形する円"一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CIRCLE_MORPH, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_circle_morph),false))
+                    // [サブメニュー]
+                    // 敷き詰めた円を描画するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CIRCLE_TILE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_circle_tile),false))
                     // [戻るメニュー]
                     menuDataLst.add(MenuData(MenuType.TYPE_BACK, MenuItem.MENU_BACK, FragmentID.ID_DUMMY,resources.getString(R.string.menu_back),false))
                 }

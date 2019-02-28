@@ -6,6 +6,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.circle.circles.BiggerCircle02Drawab
 import milu.kiriu2010.milumathcaras.gui.draw.circle.circles.SlideCircle01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.circle.morph.Circle2SqaureMorph01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.circle.morph.Circle2SqaureMorph02Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.circle.tile.Circle2SqaureTile01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.color.Color1536Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.color.Color768DarkDrawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.julia.Julia01Drawable
@@ -368,6 +369,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE -> Circle2SqaureMorph01Drawable()
                 // "円⇔正方形の変形"のタイリング
                 DrawDataID.ID_000811_CIRCLE_MORPH_CIRCLE2SQUARE -> Circle2SqaureMorph02Drawable()
+                // "正方形の中で大きくなる円"のタイリング
+                DrawDataID.ID_000820_CIRCLE_TILE_CIRCLE2SQUARE -> Circle2SqaureTile01Drawable()
                 // "Stepping Feet"
                 DrawDataID.ID_000900_OPTICAL_ILLUSION_STEPPING_FEET -> SteppingFeet01Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")

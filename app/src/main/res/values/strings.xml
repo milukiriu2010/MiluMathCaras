@@ -29,6 +29,7 @@
     <string name="menu_sub_circle">Circle</string>
     <string name="menu_sub_circle_circles">Circles</string>
     <string name="menu_sub_circle_morph">Morphing Circle</string>
+    <string name="menu_sub_circle_tile">Tiling Circle</string>
     <string name="menu_sub_polygon">Polygon</string>
     <string name="menu_sub_polygon_mix">Polygon Mix</string>
     <string name="menu_sub_polygon_pinp">Polygon in Polygon</string>
@@ -204,5 +205,6 @@
     <string name="draw_000802_circle_slide">Slide Circle</string>
     <string name="draw_000810_circle_morph_circle2square">Circle&lt;=&gt;Square</string>
     <string name="draw_000811_circle_morph_circle2square">Circle&lt;=&gt;Square</string>
+    <string name="draw_000820_circle_tile_circle2square">Circle&lt;=&gt;Square</string>
     <string name="draw_000900_optical_illusion_stepping_feet">Stepping Feet</string>
 </resources>
