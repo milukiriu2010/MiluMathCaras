@@ -85,6 +85,10 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000122_SIERPINSKI_CARPET(122),
     // シェルピンスキーの五角形
     ID_000123_SIERPINSKI_PENTAGON(123),
+    // シェルピンスキーの六角形
+    ID_000124_SIERPINSKI_HEXAGON(124),
+    // シェルピンスキーの八角形
+    ID_000125_SIERPINSKI_OCTAGON(125),
     // マンデルブロ―集合(白黒)
     ID_000200_MANDELBRO_SET(200),
     // マンデルブロ―集合(-1.5-1.0i～+0.5+1.0i)

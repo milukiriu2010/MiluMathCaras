@@ -166,6 +166,12 @@ class DrawDataFactory {
                     // シェルピンスキーの五角形
                     drawDataLst.add(DrawData(DrawDataID.ID_000123_SIERPINSKI_PENTAGON,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000123_fractal_sierpinski_pentagon),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
+                    // シェルピンスキーの六角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_000124_SIERPINSKI_HEXAGON,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000124_fractal_sierpinski_hexagon),
+                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
+                    // シェルピンスキーの八角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_000125_SIERPINSKI_OCTAGON,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000125_fractal_sierpinski_octagon),
+                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
                 }
                 // フラクタル(ごスパー曲線)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_GOSPER_CURVE -> {

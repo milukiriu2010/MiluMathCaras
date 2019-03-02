@@ -24,9 +24,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.gosper.GosperIsla
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.HilbertCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.MooreCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.koch.KochSnowflake01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski.SierpinskiCarpet01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski.SierpinskiPentagon01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski.SierpinskiTriangle01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski.*
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.takagi.TakagiCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve02Drawable
@@ -127,6 +125,10 @@ class MyDrawableFactory {
                 DrawDataID.ID_000122_SIERPINSKI_CARPET -> SierpinskiCarpet01Drawable()
                 // シェルピンスキーの五角形
                 DrawDataID.ID_000123_SIERPINSKI_PENTAGON -> SierpinskiPentagon01Drawable()
+                // シェルピンスキーの六角形
+                DrawDataID.ID_000124_SIERPINSKI_HEXAGON -> SierpinskiHexagon01Drawable()
+                // シェルピンスキーの八角形
+                DrawDataID.ID_000125_SIERPINSKI_OCTAGON -> SierpinskiOctagon01Drawable()
                 // マンデルブロ―集合(白黒)
                 DrawDataID.ID_000200_MANDELBRO_SET -> Mandelbrot00Drawable()
                 // マンデルブロ―集合(-1.5-1.0i～+0.5+1.0i)

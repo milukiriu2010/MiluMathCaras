@@ -32,6 +32,10 @@ class Circle2SqaureTile01Drawable: MyDrawable() {
     // ---------------------------------
     // タイル個数(9x9)
     // ---------------------------------
+    // 9x9としているが
+    // 中央を基準とするため
+    // 値を変えたい場合は、奇数がよい
+    // ---------------------------------
     private val nTile = 9
     // タイルの大きさ
     private val sizeTile = (side-margin*(nTile-1).toFloat())/nTile.toFloat()
@@ -181,9 +185,14 @@ class Circle2SqaureTile01Drawable: MyDrawable() {
     private fun createPolygon() {
         polygonLst.clear()
 
+        // タイルの中央インデックス
+        val ci = (nTile+1)/2
+
         (0 until nTile).forEach { i ->
             (0 until nTile).forEach { j ->
                 val square = Square()
+                square.len = sizeTile
+                square.ratio = 0f
                 polygonLst.add(square)
             }
         }
@@ -193,7 +202,12 @@ class Circle2SqaureTile01Drawable: MyDrawable() {
     // 変形する
     // -------------------------------
     private fun morph() {
-
+        polygonLst.forEach {
+            it.ratio += 0.05f
+            if ( it.ratio >= 1.0f ) {
+                it.ratio = 0f
+            }
+        }
     }
 
     // -------------------------------
