@@ -26,8 +26,8 @@ class Circle2SqaureTile01Drawable: MyDrawable() {
     // -------------------------------
     // 描画領域
     // -------------------------------
-    private val side = 980f
-    private val margin = 10f
+    private val side = 1000f
+    private val margin = 20f
 
     // ---------------------------------
     // タイル個数(9x9)
@@ -84,7 +84,7 @@ class Circle2SqaureTile01Drawable: MyDrawable() {
     private val rimPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.WHITE
         style = Paint.Style.STROKE
-        strokeWidth = 10f
+        strokeWidth = 4f
     }
 
     // -------------------------------------
@@ -186,13 +186,36 @@ class Circle2SqaureTile01Drawable: MyDrawable() {
         polygonLst.clear()
 
         // タイルの中央インデックス
-        val ci = (nTile+1)/2
+        val ci = (nTile-1)/2
+        val ratioMax = 1f
 
         (0 until nTile).forEach { i ->
             (0 until nTile).forEach { j ->
                 val square = Square()
                 square.len = sizeTile
-                square.ratio = 0f
+                //square.ratio = 0f
+                val distance = sqrt((i-ci).toFloat()*(i-ci).toFloat()+(j-ci).toFloat()*(j-ci).toFloat())
+                val distanceMax = sqrt(ci.toFloat()*ci.toFloat())
+                square.ratio = ratioMax * (distanceMax-distance)/distanceMax
+
+                val colA = when ((i+j)%2) {
+                    // apricot
+                    0 -> 0xffef820d.toInt()
+                    // baby blue
+                    else -> 0xff89cfef.toInt()
+                }
+
+                val colB = when ((i+j)%2) {
+                    // chili
+                    //0 -> 0xffc21807.toInt()
+                    // punch
+                    0 -> 0xffec5578.toInt()
+                    // yale
+                    else -> 0xff0e4c92.toInt()
+                }
+                square.colorA = colA
+                square.colorB = colB
+
                 polygonLst.add(square)
             }
         }
@@ -206,6 +229,10 @@ class Circle2SqaureTile01Drawable: MyDrawable() {
             it.ratio += 0.05f
             if ( it.ratio >= 1.0f ) {
                 it.ratio = 0f
+                val colA = it.colorA
+                val colB = it.colorB
+                it.colorA = colB
+                it.colorB = colA
             }
         }
     }
@@ -219,15 +246,13 @@ class Circle2SqaureTile01Drawable: MyDrawable() {
         // バックグランドを描画
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),backPaint)
 
-        // 枠を描画
-        canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
-
         // 原点(0,0)の位置
         // = (マージン,マージン)
         val x0 = margin
         val y0 = margin
 
         //Log.d(javaClass.simpleName,"========================================")
+        // 正方形と円を描画
         (0 until nTile).forEach { i ->
             (0 until nTile).forEach { j ->
                 // 描画する正方形
@@ -237,18 +262,44 @@ class Circle2SqaureTile01Drawable: MyDrawable() {
                 canvas.translate(x0+i.toFloat()*(sizeTile+margin),y0+j.toFloat()*(sizeTile+margin))
 
                 // 正方形描画
-                objPaint.color = polygon.colorS
+                objPaint.color = polygon.colorA
                 canvas.drawRect(RectF(0f,0f,sizeTile,sizeTile),objPaint)
 
                 // 円描画
                 canvas.translate(polygon.len/2f,polygon.len/2f)
-                objPaint.color = polygon.colorC
+                objPaint.color = polygon.colorB
                 canvas.drawCircle(0f,0f,polygon.r,objPaint)
+                canvas.drawCircle(0f,0f,polygon.r,rimPaint)
 
                 // 座標を元に戻す
                 canvas.restore()
             }
         }
+
+        // 枠描画(縦方向)
+        (0..nTile).forEach { i ->
+            canvas.save()
+            canvas.translate(i.toFloat()*(sizeTile+margin),0f)
+
+            canvas.drawRect(0f,0f,margin,intrinsicHeight.toFloat(),gapPaint)
+
+            // 座標を元に戻す
+            canvas.restore()
+        }
+
+        // 枠描画(横方向)
+        (0..nTile).forEach { i ->
+            canvas.save()
+            canvas.translate(0f, i.toFloat()*(sizeTile+margin))
+
+            canvas.drawRect(0f,0f,intrinsicWidth.toFloat(),margin,gapPaint)
+
+            // 座標を元に戻す
+            canvas.restore()
+        }
+
+        // 枠を描画
+        canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
         // これまでの描画はテンポラリ領域に実施していたので、実際の表示に使うビットマップにコピーする
         val matrix = Matrix()
@@ -313,9 +364,9 @@ class Circle2SqaureTile01Drawable: MyDrawable() {
             }
         // 円の半径
         var r: Float = 0f
-        // 正方形の色
-        var colorS = 0xff000000.toInt()
-        // 円の色
-        var colorC = 0xffffffff.toInt()
+        // 正方形の色(初期値)
+        var colorA = 0xff000000.toInt()
+        // 円の色(初期値)
+        var colorB = 0xffffffff.toInt()
     }
 }

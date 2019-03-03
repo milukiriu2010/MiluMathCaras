@@ -235,14 +235,15 @@ class DrawDataFactory {
                     // 円⇔正方形の変形
                     drawDataLst.add(DrawData(DrawDataID.ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000810_circle_morph_circle2square) ))
                     // "円⇔正方形の変形"のタイリング
-                    drawDataLst.add(DrawData(DrawDataID.ID_000811_CIRCLE_MORPH_CIRCLE2SQUARE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000811_circle_morph_circle2square),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000811_CIRCLE_MORPH_CIRCLE2SQUARE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000811_circle_morph_circle2square),
                         stillImageParam = floatArrayOf(0.2f), motionImageParam = floatArrayOf(0f) ))
                 }
                 // 敷き詰めた円を描画するメニュー
                 MenuItem.MENU_CIRCLE_TILE -> {
                     // "正方形の中で大きくなる円"のタイリング
                     drawDataLst.add(DrawData(DrawDataID.ID_000820_CIRCLE_TILE_CIRCLE2SQUARE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000820_circle_tile_circle2square),
-                        stillImageParam = floatArrayOf(0.2f), motionImageParam = floatArrayOf(0f) ))
+                        stillImageParam = floatArrayOf(0.2f), motionImageParam = floatArrayOf(0f),
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://beesandbombs.tumblr.com/image/164719111714") ))
                 }
                 // "多角形のMix"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_MIX -> {
