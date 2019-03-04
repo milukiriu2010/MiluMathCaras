@@ -127,6 +127,14 @@ class DrawDataFactory {
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_lissajous), "autoParam" to "t", "handParam1" to "p", "handParam2" to "q"),
                         fragmentParamMap = mutableMapOf("maxA" to 4, "maxB" to 4) ))
                 }
+                // レムニスケート曲線を選択したときの描画データの一覧
+                MenuItem.MENU_CURVE_LEMNISCATE -> {
+                    // レムニスケート曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_000005_LEMNISCATE,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000005_curve_lemniscate),
+                        stillImageParam = floatArrayOf(500f), motionImageParam = floatArrayOf(500f), editParam = floatArrayOf(0f,500f,0f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_lemniscate), "autoParam" to "t", "handParam1" to "a"),
+                        fragmentParamMap = mutableMapOf("maxA" to 500) ))
+                }
                 // フラクタル(再帰)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_RECURSION -> {
                     // 高木曲線

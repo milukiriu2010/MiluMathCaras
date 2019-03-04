@@ -13,6 +13,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.julia.Julia01Drawab
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.mandelbrot.Mandelbrot01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.epicycloid.Epicycloid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.hypocycloid.Hypocycloid01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.Lemniscate01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lissajous.Lissajous01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiral01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid.Trochoid01Drawable
@@ -48,8 +49,6 @@ class MyDrawableFactory {
         fun createInstance(id: DrawDataID,notifyCallback: NotifyCallback? = null): MyDrawable {
             val myDrawable = when ( id ) {
                 // サイクロイド曲線(cycloid)(k=1.0)
-                //DrawDataID.ID_000001_CYCLOID -> Cycloid01Drawable()
-                // サイクロイド曲線(cycloid)(k=1.0)
                 DrawDataID.ID_000001_CYCLOID -> Trochoid01Drawable()
                 // トロコイド曲線(trochoid)(k=2.0)
                 DrawDataID.ID_000002_TROCHOID -> Trochoid01Drawable()
@@ -57,6 +56,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000003_TROCHOID -> Trochoid01Drawable()
                 // トロコイド曲線(trochoid)(k=0.5)
                 DrawDataID.ID_000004_TROCHOID -> Trochoid01Drawable()
+                // レムニスケート曲線
+                DrawDataID.ID_000005_LEMNISCATE -> Lemniscate01Drawable()
                 // 対数螺旋(描画点を回転させる方法)
                 DrawDataID.ID_000010_LOGARITHMIC_SPIRAL -> LogarithmicSpiral01Drawable()
                 // 対数螺旋(画像を回転させる方法)
