@@ -337,6 +337,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000820_CIRCLE_TILE_CIRCLE2SQUARE(820),
     // "Stepping Feet"
     ID_000900_OPTICAL_ILLUSION_STEPPING_FEET(900),
+    // "Stereokinetic Effect(SKE)"
+    ID_000901_OPTICAL_ILLUSION_STEREOKINETIC_EFFECT(901),
 }
 
 // ------------------------------

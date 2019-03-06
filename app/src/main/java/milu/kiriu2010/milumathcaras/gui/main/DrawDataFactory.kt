@@ -225,26 +225,26 @@ class DrawDataFactory {
                 }
                 // "複数円"を選択したときの描画データの一覧
                 MenuItem.MENU_CIRCLE_CIRCLES -> {
-                    // だんだん大きくなる円その１
-                    drawDataLst.add(DrawData(DrawDataID.ID_000800_CIRCLE_BIGGER_01,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000800_circle_bigger_01),
-                        stillImageParam = floatArrayOf(1080f),
-                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/K4_NTCiK") ))
-                    // だんだん大きくなる円その２
-                    drawDataLst.add(DrawData(DrawDataID.ID_000801_CIRCLE_BIGGER_02,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000801_circle_bigger_02),
-                        stillImageParam = floatArrayOf(3600f),
-                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/NsVT04Kn") ))
                     // 円をずらして描く
                     drawDataLst.add(DrawData(DrawDataID.ID_000802_CIRCLE_SLIDE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000802_circle_slide),
                         stillImageParam = floatArrayOf(3600f),
                         creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/8oZNI4en") ))
+                    // だんだん大きくなる円その２
+                    drawDataLst.add(DrawData(DrawDataID.ID_000801_CIRCLE_BIGGER_02,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000801_circle_bigger_02),
+                        stillImageParam = floatArrayOf(3600f),
+                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/NsVT04Kn") ))
+                    // だんだん大きくなる円その１
+                    drawDataLst.add(DrawData(DrawDataID.ID_000800_CIRCLE_BIGGER_01,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000800_circle_bigger_01),
+                        stillImageParam = floatArrayOf(1080f),
+                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/K4_NTCiK") ))
                 }
                 // "変形する円"を選択したときの描画データの一覧
                 MenuItem.MENU_CIRCLE_MORPH -> {
-                    // 円⇔正方形の変形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000810_circle_morph_circle2square) ))
                     // "円⇔正方形の変形"のタイリング
                     drawDataLst.add(DrawData(DrawDataID.ID_000811_CIRCLE_MORPH_CIRCLE2SQUARE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000811_circle_morph_circle2square),
                         stillImageParam = floatArrayOf(0.2f), motionImageParam = floatArrayOf(0f) ))
+                    // 円⇔正方形の変形
+                    drawDataLst.add(DrawData(DrawDataID.ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000810_circle_morph_circle2square) ))
                 }
                 // 敷き詰めた円を描画するメニュー
                 MenuItem.MENU_CIRCLE_TILE -> {
@@ -255,14 +255,14 @@ class DrawDataFactory {
                 }
                 // "多角形のMix"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_MIX -> {
-                    // 三角形でEXILE
-                    drawDataLst.add(DrawData(DrawDataID.ID_000600_TRIANGLE_EXILE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000600_polygon_triangle_exile) ))
-                    // 多角形のラップ
-                    drawDataLst.add(DrawData(DrawDataID.ID_000601_POLYGON_LAP,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000601_polygon_lap),
-                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://twitter.com/beesandbombs/status/872796708803145728") ))
                     // 回転する矢印
                     drawDataLst.add(DrawData(DrawDataID.ID_000603_ROTATE_ARROWS,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000603_polygon_rotate_arrows),
                         creditMap = mutableMapOf<String,String>("name" to "Just van Rossum", "url" to "https://twitter.com/justvanrossum/status/1091237538583511041") ))
+                    // 多角形のラップ
+                    drawDataLst.add(DrawData(DrawDataID.ID_000601_POLYGON_LAP,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000601_polygon_lap),
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://twitter.com/beesandbombs/status/872796708803145728") ))
+                    // 三角形でEXILE
+                    drawDataLst.add(DrawData(DrawDataID.ID_000600_TRIANGLE_EXILE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000600_polygon_triangle_exile) ))
                 }
                 // "多角形in多角形"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_PINP -> {
@@ -626,6 +626,9 @@ class DrawDataFactory {
                 }
                 // 錯覚を選択したときの描画データの一覧
                 MenuItem.MENU_OPTICAL_ILLUSION -> {
+                    // "Stereokinetic Effect"
+                    drawDataLst.add(DrawData(DrawDataID.ID_000901_OPTICAL_ILLUSION_STEREOKINETIC_EFFECT,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000901_optical_illusion_stereokinetic_effect),
+                        creditMap = mutableMapOf<String,String>("name" to "Michael Bach", "url" to "https://michaelbach.de/ot/mot-ske/index.html") ))
                     // "Stepping Feet"
                     drawDataLst.add(DrawData(DrawDataID.ID_000900_OPTICAL_ILLUSION_STEPPING_FEET,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000900_optical_illusion_stepping_feet),
                         creditMap = mutableMapOf<String,String>("name" to "Michael Bach", "url" to "https://michaelbach.de/ot/mot-feetLin/index.html") ))

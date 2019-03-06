@@ -2,70 +2,51 @@ package milu.kiriu2010.milumathcaras.gui.draw.illusion
 
 import android.graphics.*
 import android.os.Handler
+import android.support.v4.math.MathUtils
 import android.util.Log
 import android.view.MotionEvent
+import milu.kiriu2010.gui.basic.MyPointF
+import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 // -------------------------------------------------
-// Stepping Feet
+// Stereokinetic Effect(SKE)
 // -------------------------------------------------
-// https://michaelbach.de/ot/mot-feetLin/index.html
+// https://michaelbach.de/ot/mot-ske/index.html
 // -------------------------------------------------
-// フォアグラウンド
-//   黄黄黄黄
-//   青青青青
-// バックグラウンド
-//   黒白黒白黒白黒白
+// 円を１２個描く
+//   黄青黄青黄青黄青
+//   青黄青黄
 // ---------------------------------------------
-class SteppingFeet01Drawable: MyDrawable() {
+class StereoKineticEffect01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
     // -------------------------------
-    private val sideW = 1000f
-    private val sideH = 1500f
-    private val margin = 0f
-
-    // ---------------------------------
-    // バー(20:黒10白10)
-    // ---------------------------------
-    private val nBar = 20
-
-    // ---------------------------------
-    // バーの高さ
-    // ---------------------------------
-    val barH = sideH/nBar.toFloat()
-
-    // ---------------------------------
-    // 足の幅
-    // ---------------------------------
-    var feetW = sideW/10f
-
-    // ---------------------------------
-    // 足の高さ
-    // ---------------------------------
-    var feetH = barH*4f
-
-    // ---------------------------------
-    // 足の位置(X軸からの距離)
-    // ---------------------------------
-    var dY = 0f
-
-    // ---------------------------------
-    // 足の単位時間あたりの移動距離
-    // ---------------------------------
-    var v = feetH/32f
+    private val side = 1000f
+    private val margin = 50f
 
     // -------------------------------------
-    // 足リスト
+    // 描画する円の全体の数
     // -------------------------------------
-    private val feetLst = mutableListOf<Feet>()
+    private var nT = 12
 
     // -------------------------------------
-    // コントラストON/OFF
+    // 中心よりに描画する円の数
     // -------------------------------------
-    private var contrastFlg = false
+    private var nC = 4
+
+    // -------------------------------------
+    // 円リスト
+    // -------------------------------------
+    private val circleLst = mutableListOf<Circle>()
+
+    // -------------------------------------
+    // 円の回転角度
+    // -------------------------------------
+    var angle = 0f
+    var angleMax = 360f
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -88,30 +69,22 @@ class SteppingFeet01Drawable: MyDrawable() {
     // バックグラウンドに使うペイント
     // -------------------------------
     private val backPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.WHITE
+        style = Paint.Style.FILL
+    }
+
+    // -------------------------------
+    // 円を描くペイント
+    // -------------------------------
+    private val circlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLACK
         style = Paint.Style.FILL
     }
 
-    // -------------------------------
-    // コントラストを描くペイント
-    // -------------------------------
-    private val contrastPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = 0x88aaaaaa.toInt()
-        style = Paint.Style.FILL
-    }
-
-    // -------------------------------
-    // 足を描くペイント
-    // -------------------------------
-    private val feetPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.BLACK
-        style = Paint.Style.FILL
-    }
-
-    // バックグラウンドの描画に使う色リスト
-    private val colorBackLst = intArrayOf(
-        0xff000000.toInt(),
-        0xffffffff.toInt()
+    // 円の描画に使う色リスト
+    private val colorLst = intArrayOf(
+        0xff0000ff.toInt(),
+        0xffffff00.toInt()
     )
 
     // -------------------------------------
@@ -150,8 +123,8 @@ class SteppingFeet01Drawable: MyDrawable() {
         }
         */
 
-        // 足を生成
-        createFeet()
+        // 円を生成
+        createCircle()
 
         // ビットマップに描画
         drawBitmap()
@@ -163,8 +136,8 @@ class SteppingFeet01Drawable: MyDrawable() {
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
-                    // 足を移動する
-                    moveFeet()
+                    // 円を移動する
+                    moveCircle()
                     // ビットマップに描画
                     drawBitmap()
                     // 描画
@@ -198,64 +171,59 @@ class SteppingFeet01Drawable: MyDrawable() {
         handler.removeCallbacks(runnable)
     }
 
-    // -------------------------------------
-    // タッチしたポイントを受け取る
-    // -------------------------------------
-    override fun receiveTouchPoint(x: Float, y: Float, event: MotionEvent) {
-        Log.d(javaClass.simpleName,"Touch:x[${x}]y[${y}]" )
-        /*
-        // タッチする⇒コントラストON
-        // タッチ離す⇒コントラストOFF
-        contrastFlg = if ( ( x == -1f ) and ( y == -1f ) ) {
-            false
+    // -------------------------------
+    // 円を生成
+    // -------------------------------
+    private fun createCircle() {
+        // 前回計算した半径
+        var prevR = 0f
+        (0 until nT).forEach { i ->
+            val circle = Circle().apply {
+                // 半径
+                r = side*(nT-i).toFloat()/nT.toFloat()/2f
+                // 中心位置のX座標
+                val x = when {
+                    i < (nT-nC) -> {
+                        // 前回計算した半径
+                        prevR = r
+                        side / 2f - r
+                    }
+                    else -> side/2f-prevR*2f+r
+                }
+                // 中心
+                c = MyPointF(x,0f)
+                // 色
+                color = colorLst[i%2]
+            }
+            // 円リストに追加
+            circleLst.add(circle)
         }
-        else {
-            true
+    }
+
+    // -------------------------------
+    // 円を移動する
+    // -------------------------------
+    private fun moveCircle() {
+        // 回転角度
+        val dv = 5f
+        angle += dv
+        if ( angle >= angleMax ) {
+            angle = 0f
+        }
+
+        /*
+        ここで計算すると、誤差がたまっていって、
+        中心に集まってしまうので、
+        画像を描画するところで、計算する
+
+        // 円の中心位置を移動する
+        circleLst.forEach { circle ->
+            // 中心位置
+            val c = circle.c
+            circle.c.x = c.x * MyMathUtil.cosf(dv) - c.y * MyMathUtil.sinf(dv)
+            circle.c.y = c.x * MyMathUtil.sinf(dv) + c.y * MyMathUtil.cosf(dv)
         }
         */
-
-        // タッチをすると、コントラストをON/OFFする
-        if ( event.action == MotionEvent.ACTION_DOWN ) {
-            contrastFlg = when (contrastFlg) {
-                true  -> false
-                false -> true
-            }
-        }
-    }
-
-    // -------------------------------
-    // 足を生成
-    // -------------------------------
-    private fun createFeet() {
-        // 黄色の足
-        val feetA = Feet().apply {
-            shape = RectF(3f*feetW,0f,4f*feetW,feetH)
-            color = 0xffffff00.toInt()
-        }
-
-        // 青色の足
-        val feetB = Feet().apply {
-            shape = RectF(6f*feetW,0f,7f*feetW,feetH)
-            color = 0xff000080.toInt()
-        }
-
-        feetLst.add(feetA)
-        feetLst.add(feetB)
-    }
-
-    // -------------------------------
-    // 足を移動する
-    // -------------------------------
-    private fun moveFeet() {
-        dY = dY + v
-        if ( dY + feetH >= sideH ) {
-            dY = sideH - feetH
-            v = -v
-        }
-        else if ( dY <= 0f ) {
-            dY = 0f
-            v = -v
-        }
     }
 
     // -------------------------------
@@ -264,45 +232,33 @@ class SteppingFeet01Drawable: MyDrawable() {
     private fun drawBitmap() {
         val canvas = Canvas(tmpBitmap)
 
+        // バックグランドを描画
+        canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),backPaint)
+
+        // 枠を描画
+        canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
+
         // 原点(0,0)の位置
-        // = (マージン,マージン)
-        val x0 = margin
-        val y0 = margin
+        // = (左右中央,上下中央)
+        val x0 = intrinsicWidth.toFloat()/2f
+        val y0 = intrinsicHeight.toFloat()/2f
 
         //Log.d(javaClass.simpleName,"========================================")
-        (0 until nBar).forEach { i ->
-            // 色(バックグラウンド)
-            var colorBack = colorBackLst[i%2]
-
+        // 円描画
+        circleLst.forEach { circle ->
             canvas.save()
-            canvas.translate(x0,y0+i.toFloat()*barH)
+            canvas.translate(x0,y0)
+            // 中心位置
+            val c = circle.c.copy()
+            val x = c.x * MyMathUtil.cosf(angle) - c.y * MyMathUtil.sinf(angle)
+            val y = c.x * MyMathUtil.sinf(angle) + c.y * MyMathUtil.cosf(angle)
 
-            // バックグラウンド描画
-            backPaint.color = colorBack
-            canvas.drawRect(RectF(0f,0f,sideW,barH),backPaint)
+            circlePaint.color = circle.color
+            canvas.drawCircle(x,y,circle.r,circlePaint)
 
             // 座標を元に戻す
             canvas.restore()
         }
-
-        // コントラストを描画
-        if ( contrastFlg ) {
-            canvas.drawRect(RectF(0f,0f,sideW,sideH),contrastPaint)
-        }
-
-        // 足を描画
-        canvas.save()
-        canvas.translate(x0,y0+dY)
-        // 足を描画
-        feetLst.forEach {
-            feetPaint.color = it.color
-            canvas.drawRect(it.shape,feetPaint)
-        }
-        // 座標を元に戻す
-        canvas.restore()
-
-        // 枠を描画
-        canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
         // これまでの描画は上下逆なので反転する
         val matrix = Matrix()
@@ -340,21 +296,25 @@ class SteppingFeet01Drawable: MyDrawable() {
     // -------------------------------
     // Drawable
     // -------------------------------
-    override fun getIntrinsicWidth(): Int = (sideW+margin*2).toInt()
+    override fun getIntrinsicWidth(): Int = (side+margin*2).toInt()
 
     // -------------------------------
     // Drawable
     // -------------------------------
-    override fun getIntrinsicHeight(): Int = (sideH+margin*2).toInt()
+    override fun getIntrinsicHeight(): Int = (side+margin*2).toInt()
 
     // ---------------------------------
-    // 足
+    // 円
     // ---------------------------------
-    data class Feet(
+    data class Circle(
         // ---------------------------------
-        // 形
+        // 中心
         // ---------------------------------
-        var shape: RectF = RectF(),
+        var c: MyPointF = MyPointF(),
+        // ---------------------------------
+        // 半径
+        // ---------------------------------
+        var r: Float = 0f,
         // ---------------------------------
         // 色
         // ---------------------------------

@@ -31,6 +31,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve01D
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve03Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.illusion.SteppingFeet01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.illusion.StereoKineticEffect01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.forces.FrictionEffect01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.forces.MassEffect01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.AccelerateTowardsTouchPoint01Drawable
@@ -376,6 +377,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000820_CIRCLE_TILE_CIRCLE2SQUARE -> Circle2SqaureTile01Drawable()
                 // "Stepping Feet"
                 DrawDataID.ID_000900_OPTICAL_ILLUSION_STEPPING_FEET -> SteppingFeet01Drawable()
+                // "Stereokinetic Effect(SKE)"
+                DrawDataID.ID_000901_OPTICAL_ILLUSION_STEREOKINETIC_EFFECT -> StereoKineticEffect01Drawable()
                 else -> throw RuntimeException("Not Found MyDrawable")
             }
 
