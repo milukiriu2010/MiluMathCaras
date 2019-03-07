@@ -208,6 +208,7 @@
     <string name="draw_000800_circle_bigger_01">Bigger Circle 01</string>
     <string name="draw_000801_circle_bigger_02">Bigger Circle 02</string>
     <string name="draw_000802_circle_slide">Slide Circle</string>
+    <string name="draw_000803_circle_rotate">Rotate Circle</string>
     <string name="draw_000810_circle_morph_circle2square">Circle&lt;=&gt;Square</string>
     <string name="draw_000811_circle_morph_circle2square">Circle&lt;=&gt;Square</string>
     <string name="draw_000820_circle_tile_circle2square">Circle&lt;=&gt;Square</string>

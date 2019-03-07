@@ -624,36 +624,41 @@ class GosperCurve01Drawable: MyDrawable() {
             }
         }
 
-        /*
         // ゴスパー曲線を描画
-        val pathB = Path()
-        myTurtle.pLst.forEachIndexed { index, myPointF ->
-            //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
-            if ( index == 0 ) {
-                pathB.moveTo(myPointF.x,myPointF.y)
+        // 赤で描画
+        if ( nNow <= 3 ) {
+            val pathB = Path()
+            myTurtle.pLst.forEachIndexed { index, myPointF ->
+                //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
+                if ( index == 0 ) {
+                    pathB.moveTo(myPointF.x,myPointF.y)
+                }
+                else {
+                    pathB.lineTo(myPointF.x,myPointF.y)
+                }
             }
-            else {
-                pathB.lineTo(myPointF.x,myPointF.y)
+            canvas.drawPath(pathB,linePaintB)
+        }
+        // ゴスパー曲線を描画
+        // 虹色で描画
+        else {
+            // 色インスタンス作成
+            val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
+
+            // ゴスパー曲線を描画
+            val bunchSize = myTurtle.pLst.size
+            var myPointF2: MyPointF? = null
+            myTurtle.pLst.forEachIndexed { index, myPointF1 ->
+                //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
+                if ( myPointF2 != null ) {
+                    val color = myColor.create(index,bunchSize)
+                    linePaintB.color = color.toInt()
+                    canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaintB)
+                }
+                myPointF2 = myPointF1
             }
         }
-        canvas.drawPath(pathB,linePaintB)
-        */
 
-        // 色インスタンス作成
-        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
-
-        // ゴスパー曲線を描画
-        val bunchSize = myTurtle.pLst.size
-        var myPointF2: MyPointF? = null
-        myTurtle.pLst.forEachIndexed { index, myPointF1 ->
-            //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
-            if ( myPointF2 != null ) {
-                val color = myColor.create(index,bunchSize)
-                linePaintB.color = color.toInt()
-                canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaintB)
-            }
-            myPointF2 = myPointF1
-        }
 
         // 座標を元に戻す
         canvas.restore()
