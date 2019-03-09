@@ -155,42 +155,45 @@ class DrawDataFactory {
                 }
                 // フラクタル(樹木曲線)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_TREE_CURVE -> {
+                    // 樹木曲線03
+                    drawDataLst.add(DrawData(DrawDataID.ID_000113_TREE_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000113_fractal_recursion_tree_curve_03) ))
+                    // 樹木曲線02
+                    drawDataLst.add(DrawData(DrawDataID.ID_000112_TREE_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000112_fractal_recursion_tree_curve_02) ))
                     // 樹木曲線01
                     drawDataLst.add(DrawData(DrawDataID.ID_000111_TREE_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000111_fractal_recursion_tree_curve_01),
                         stillImageParam = floatArrayOf(6f), motionImageParam = floatArrayOf(0f) ))
-                    // 樹木曲線02
-                    drawDataLst.add(DrawData(DrawDataID.ID_000112_TREE_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000112_fractal_recursion_tree_curve_02) ))
-                    // 樹木曲線03
-                    drawDataLst.add(DrawData(DrawDataID.ID_000113_TREE_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000113_fractal_recursion_tree_curve_03) ))
                 }
                 // フラクタル(シェルピンスキー系)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_SIERPINSKI_FAMILY -> {
-                    // シェルピンスキーの三角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000121_SIERPINSKI_TRIANGLE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000121_fractal_sierpinski_triangle),
-                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
-                    // シェルピンスキーのカーペット
-                    drawDataLst.add(DrawData(DrawDataID.ID_000122_SIERPINSKI_CARPET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000122_fractal_sierpinski_carpet),
-                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
-                    // シェルピンスキーの五角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000123_SIERPINSKI_PENTAGON,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000123_fractal_sierpinski_pentagon),
-                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
-                    // シェルピンスキーの六角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000124_SIERPINSKI_HEXAGON,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000124_fractal_sierpinski_hexagon),
+                    // シェルピンスキーの星
+                    drawDataLst.add(DrawData(DrawDataID.ID_000126_SIERPINSKI_STAR,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000126_fractal_sierpinski_star),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
                     // シェルピンスキーの八角形
                     drawDataLst.add(DrawData(DrawDataID.ID_000125_SIERPINSKI_OCTAGON,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000125_fractal_sierpinski_octagon),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
+                    // シェルピンスキーの六角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_000124_SIERPINSKI_HEXAGON,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000124_fractal_sierpinski_hexagon),
+                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
+                    // シェルピンスキーの五角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_000123_SIERPINSKI_PENTAGON,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000123_fractal_sierpinski_pentagon),
+                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
+                    // シェルピンスキーのカーペット
+                    drawDataLst.add(DrawData(DrawDataID.ID_000122_SIERPINSKI_CARPET,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000122_fractal_sierpinski_carpet),
+                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
+                    // シェルピンスキーの三角形
+                    drawDataLst.add(DrawData(DrawDataID.ID_000121_SIERPINSKI_TRIANGLE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000121_fractal_sierpinski_triangle),
+                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
                 }
                 // フラクタル(ごスパー曲線)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_GOSPER_CURVE -> {
-                    // ゴスパー島01
-                    drawDataLst.add(DrawData(DrawDataID.ID_000116_GOSPER_ISLAND_01,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000116_fractal_gosper_island_01),
+                    // ゴスパー曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_000118_GOSPER_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000118_fractal_gosper_curve),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
                     // ゴスパー島02
                     drawDataLst.add(DrawData(DrawDataID.ID_000117_GOSPER_ISLAND_02,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000117_fractal_gosper_island_02),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
-                    // ゴスパー曲線
-                    drawDataLst.add(DrawData(DrawDataID.ID_000118_GOSPER_CURVE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000118_fractal_gosper_curve),
+                    // ゴスパー島01
+                    drawDataLst.add(DrawData(DrawDataID.ID_000116_GOSPER_ISLAND_01,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000116_fractal_gosper_island_01),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
                 }
                 // フラクタル(マンデルブロ―集合)を選択したときの描画データの一覧

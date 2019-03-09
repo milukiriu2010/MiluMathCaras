@@ -89,6 +89,7 @@
     <string name="draw_000123_fractal_sierpinski_pentagon">Sierpinski Pentagon</string>
     <string name="draw_000124_fractal_sierpinski_hexagon">Sierpinski Hexagon</string>
     <string name="draw_000125_fractal_sierpinski_octagon">Sierpinski Octagon</string>
+    <string name="draw_000126_fractal_sierpinski_star">Sierpinski Star</string>
     <string name="draw_000200_fractal_complex_mandelbrot_set">Mandelbrot</string>
     <string name="draw_000201_fractal_complex_mandelbrot_set">-1.5-1.0i～\n+1.5+1.0i</string>
     <string name="draw_000202_fractal_complex_mandelbrot_set">-1.3+0.0i～\n-1.1+0.2i</string>
