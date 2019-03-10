@@ -229,8 +229,11 @@ class DrawDataFactory {
                 // "複数円"を選択したときの描画データの一覧
                 MenuItem.MENU_CIRCLE_CIRCLES -> {
                     // 円の中に円を描き,すべての円を回転させる
-                    drawDataLst.add(DrawData(DrawDataID.ID_000803_CIRCLE_ROTATE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000803_circle_rotate),
-                        stillImageParam = floatArrayOf(3600f) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000805_CIRCLE_ROTATE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000805_circle_rotate) ))
+                    // 円の中に円を描き,すべての円を回転させる
+                    drawDataLst.add(DrawData(DrawDataID.ID_000804_CIRCLE_ROTATE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000804_circle_rotate) ))
+                    // 円の中に円を描き,すべての円を回転させる
+                    drawDataLst.add(DrawData(DrawDataID.ID_000803_CIRCLE_ROTATE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000803_circle_rotate) ))
                     // 円をずらして描く
                     drawDataLst.add(DrawData(DrawDataID.ID_000802_CIRCLE_SLIDE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000802_circle_slide),
                         stillImageParam = floatArrayOf(3600f),

@@ -333,6 +333,10 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000802_CIRCLE_SLIDE(802),
     // 円の中に円を描き,すべての円を回転させる
     ID_000803_CIRCLE_ROTATE(803),
+    // 円の中に円を描き,すべての円を回転させる
+    ID_000804_CIRCLE_ROTATE(804),
+    // 円の中に円を描き,すべての円を回転させる
+    ID_000805_CIRCLE_ROTATE(805),
     // 円⇔正方形の変形
     ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE(810),
     // "円⇔正方形の変形"のタイリング

@@ -35,11 +35,36 @@ data class MyPointF(
         return this
     }
 
+    fun diff(p: MyPointF): MyPointF {
+        val dx = x - p.x
+        val dy = y - p.y
+        return MyPointF(dx,dy)
+    }
+
+    // -----------------------------------
+    // 原点を中心とした回転
+    // -----------------------------------
     fun rotate(angleDv: Float): MyPointF {
         val mag = magnitude()
         val angle = MyMathUtil.getAngle(MyPointF(0f,0f),this)
         x = mag * cos((angle+angleDv)*PI/180f).toFloat()
         y = mag * sin((angle+angleDv)*PI/180f).toFloat()
+        return this
+    }
+
+    // -----------------------------------
+    // 座標pを中心とした回転
+    // -----------------------------------
+    fun rotate(angleDv: Float, p: MyPointF): MyPointF {
+        val dx = x - p.x
+        val dy = y - p.y
+
+        val ex = dx * MyMathUtil.cosf(angleDv) - dy * MyMathUtil.sinf(angleDv)
+        val ey = dx * MyMathUtil.sinf(angleDv) + dy * MyMathUtil.cosf(angleDv)
+
+        x = ex + p.x
+        y = ey + p.y
+
         return this
     }
 }

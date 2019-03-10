@@ -2,6 +2,7 @@ package milu.kiriu2010.milumathcaras.gui.draw.circle.circles
 
 import android.graphics.*
 import android.os.Handler
+import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
@@ -11,9 +12,7 @@ import kotlin.math.sqrt
 // --------------------------------------------
 // 円の中に円を描き,すべての円を回転させる
 // --------------------------------------------
-// 回っている最中に広がって、再び戻ってくる
-// --------------------------------------------
-class RotateCircle01Drawable: MyDrawable() {
+class RotateCircle03Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -37,6 +36,19 @@ class RotateCircle01Drawable: MyDrawable() {
     // 円リスト
     // -------------------------------------
     private val circleLst = mutableListOf<Circle>()
+
+    private val circleTest0 = Circle().apply {
+        c = MyPointF(100f,100f)
+        r = 100f
+    }
+    private val circleTest1 = Circle().apply {
+        c = MyPointF(200f,200f)
+        r = 100f
+    }
+    private val circleTest2 = Circle().apply {
+        c = MyPointF(300f,300f)
+        r = 100f
+    }
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -126,7 +138,7 @@ class RotateCircle01Drawable: MyDrawable() {
                     // 描画
                     invalidateSelf()
 
-                    handler.postDelayed(runnable, 50)
+                    handler.postDelayed(runnable, 100)
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
@@ -161,12 +173,12 @@ class RotateCircle01Drawable: MyDrawable() {
         circleLst.clear()
         val circle = Circle().apply {
             c = MyPointF()
-            r = side/6f
+            r = side/4f
             color = Color.WHITE
             g = 0
         }
 
-        nNow = 4
+        nNow = 3
         addCircle(circle,nNow-1)
     }
 
@@ -189,7 +201,7 @@ class RotateCircle01Drawable: MyDrawable() {
         // --------------------------------------
         // 次世代の円
         // --------------------------------------
-        (0..2).forEach { id ->
+        (0..0).forEach { id ->
             val cC = Circle().apply {
                 // 中心
                 c = cp.c.copy()
@@ -221,17 +233,17 @@ class RotateCircle01Drawable: MyDrawable() {
     // -------------------------------
     // 円を移動する
     // -------------------------------
+    /*
     private fun moveCircle() {
         angle += 5f
         if ( angle >= angleMax ) {
             angle = 0f
         }
     }
-    /*
+    */
     private fun moveCircle() {
         angle = 5f
     }
-    */
 
     // -------------------------------
     // ビットマップに描画
@@ -253,9 +265,12 @@ class RotateCircle01Drawable: MyDrawable() {
         canvas.save()
         canvas.translate(x0,y0)
 
+        Log.d(javaClass.simpleName,"==================================")
         // 円を描く
+        /*
         (0..nNow).forEach { i ->
             circleLst.filter{ it.g == i }.forEach { circle ->
+                Log.d(javaClass.simpleName,"===[$i]===========================")
                 linePaint.color = circle.color
                 if ( circle.p == null ) {
                     canvas.drawCircle(circle.c.x,circle.c.y,circle.r,linePaint)
@@ -265,12 +280,45 @@ class RotateCircle01Drawable: MyDrawable() {
                 // 前世代の中心位置に対して現在の中心位置を回転して
                 // 円を描画
                 else {
-                    val cc = rotate(angle,circle)
+                    //val cc = rotate(angle,circle,false)
+                    val cc = rotate(angle,circle,false)
                     canvas.drawCircle(cc.x,cc.y,circle.r,linePaint)
                     canvas.drawCircle(cc.x,cc.y,circle.r,framePaint)
+
+                    Log.d(javaClass.simpleName,"x[${cc.x}]y[${cc.y}]")
                 }
             }
         }
+        */
+
+        /**/
+        linePaint.color = Color.WHITE
+        canvas.drawCircle(circleTest0.c.x,circleTest0.c.y,circleTest0.r,linePaint)
+        canvas.drawCircle(circleTest0.c.x,circleTest0.c.y,circleTest0.r,framePaint)
+        canvas.drawCircle(circleTest0.c.x,circleTest0.c.y,5f,linePaint)
+        canvas.drawCircle(circleTest0.c.x,circleTest0.c.y,5f,framePaint)
+
+        val circleTest1Org = circleTest1.copy()
+        circleTest1.c.rotate(angle, circleTest0.c)
+        linePaint.color = Color.YELLOW
+        canvas.drawCircle(circleTest1.c.x,circleTest1.c.y,circleTest1.r,linePaint)
+        canvas.drawCircle(circleTest1.c.x,circleTest1.c.y,circleTest1.r,framePaint)
+        canvas.drawCircle(circleTest1.c.x,circleTest1.c.y,5f,linePaint)
+        canvas.drawCircle(circleTest1.c.x,circleTest1.c.y,5f,framePaint)
+        /**/
+        val d = circleTest1.c.diff(circleTest1Org.c)
+        circleTest2.c.plus(d)
+        circleTest2.c.rotate(angle, circleTest1.c)
+        linePaint.color = Color.CYAN
+        canvas.drawCircle(circleTest2.c.x,circleTest2.c.y,circleTest2.r,linePaint)
+        canvas.drawCircle(circleTest2.c.x,circleTest2.c.y,circleTest2.r,framePaint)
+        canvas.drawCircle(circleTest2.c.x,circleTest2.c.y,5f,linePaint)
+        canvas.drawCircle(circleTest2.c.x,circleTest2.c.y,5f,framePaint)
+        Log.d(javaClass.simpleName,"d=[${d.distance(MyPointF())}]x[${d.x}]y[${d.y}]")
+        Log.d(javaClass.simpleName,"dis1_0=${circleTest1.c.distance(circleTest0.c)}")
+        Log.d(javaClass.simpleName,"dis2_1=${circleTest2.c.distance(circleTest1.c)}")
+
+        canvas.restore()
 
         // これまでの描画は上下逆なので反転する
         val matrix = Matrix()
@@ -278,13 +326,17 @@ class RotateCircle01Drawable: MyDrawable() {
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
     }
 
-    private fun rotate( angleDv: Float, circle: Circle ): MyPointF {
+    private fun rotate( angleDv: Float, circle: Circle, isCopy: Boolean ): MyPointF {
         if ( circle.p == null) {
             return MyPointF()
         }
         else {
-            val p = rotate( angleDv, circle.p!! )
-            val cc = circle.c.copy().rotate(angle,p)
+            val p = rotate( angleDv, circle.p!!, true )
+            val cc = when (isCopy) {
+                true -> circle.c.copy().rotate(angleDv,p)
+                false -> circle.c.rotate(angleDv,p)
+            }
+
             return cc
         }
     }

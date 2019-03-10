@@ -1,10 +1,7 @@
 package milu.kiriu2010.milumathcaras.gui.draw
 
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
-import milu.kiriu2010.milumathcaras.gui.draw.circle.circles.BiggerCircle01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.circle.circles.BiggerCircle02Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.circle.circles.RotateCircle01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.circle.circles.SlideCircle01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.circle.circles.*
 import milu.kiriu2010.milumathcaras.gui.draw.circle.morph.Circle2SqaureMorph01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.circle.morph.Circle2SqaureMorph02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.circle.tile.Circle2SqaureTile01Drawable
@@ -374,6 +371,10 @@ class MyDrawableFactory {
                 DrawDataID.ID_000802_CIRCLE_SLIDE -> SlideCircle01Drawable()
                 // 円の中に円を描き,すべての円を回転させる
                 DrawDataID.ID_000803_CIRCLE_ROTATE -> RotateCircle01Drawable()
+                // 円の中に円を描き,すべての円を回転させる
+                DrawDataID.ID_000804_CIRCLE_ROTATE -> RotateCircle02Drawable()
+                // 円の中に円を描き,すべての円を回転させる
+                DrawDataID.ID_000805_CIRCLE_ROTATE -> RotateCircle03Drawable()
                 // 円⇔正方形の変形
                 DrawDataID.ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE -> Circle2SqaureMorph01Drawable()
                 // "円⇔正方形の変形"のタイリング
