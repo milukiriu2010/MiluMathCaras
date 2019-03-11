@@ -179,8 +179,12 @@ class RotateCircle01Drawable: MyDrawable() {
             return
         }
 
+        // 正三角形
         //　次世代の円の半径 = 前世代の円の半径 * (2*sqrt(3)-3)
-        val rN = cp.r * (2f*sqrt(3f)-3f)
+        //val rN = cp.r * (2f*sqrt(3f)-3f)
+        // 正五角形
+        // 次の星の半径 = 前の星の半径 * (3-sqrt(5))/2
+        val rN = cp.r * (3f-sqrt(5f))/2f
 
         // "次世代の円の中心 - 前世代の円の中心"の距離 =
         //   前世代の円の半径 - 次世代の円の半径
@@ -189,6 +193,7 @@ class RotateCircle01Drawable: MyDrawable() {
         // --------------------------------------
         // 次世代の円
         // --------------------------------------
+        /* 正三角形
         (0..2).forEach { id ->
             val cC = Circle().apply {
                 // 中心
@@ -216,6 +221,48 @@ class RotateCircle01Drawable: MyDrawable() {
 
             addCircle(cC,n-1)
         }
+        */
+
+        // 正五角形
+        (0..4).forEach { id ->
+            val cC = Circle().apply {
+                // 中心
+                c = cp.c.copy()
+                    .plus(
+                        MyPointF().apply {
+                            x = lN*MyMathUtil.cosf(id.toFloat()*72f+18f)
+                            y = lN*MyMathUtil.sinf(id.toFloat()*72f+18f)
+                        }
+                    )
+                // 半径
+                r = rN
+                // 色
+                //color = when {
+                //    (cp.color == Color.WHITE) and ( id == 0 ) -> Color.RED
+                //    (cp.color == Color.WHITE) and ( id == 1 ) -> Color.YELLOW
+                //    (cp.color == Color.WHITE) and ( id == 2 ) -> Color.GREEN
+                //    (cp.color == Color.WHITE) and ( id == 3 ) -> Color.MAGENTA
+                //    (cp.color == Color.WHITE) and ( id == 4 ) -> Color.BLUE
+                //    else -> Color.WHITE
+                //}
+                color = when {
+                    ( id == 0 ) -> Color.RED
+                    ( id == 1 ) -> Color.YELLOW
+                    ( id == 2 ) -> Color.GREEN
+                    ( id == 3 ) -> Color.MAGENTA
+                    ( id == 4 ) -> Color.BLUE
+                    else -> Color.WHITE
+                }
+                // 世代
+                g = nNow - n
+                // 親円
+                p = cp
+            }
+
+            addCircle(cC,n-1)
+        }
+
+
     }
 
     // -------------------------------
@@ -227,11 +274,6 @@ class RotateCircle01Drawable: MyDrawable() {
             angle = 0f
         }
     }
-    /*
-    private fun moveCircle() {
-        angle = 5f
-    }
-    */
 
     // -------------------------------
     // ビットマップに描画

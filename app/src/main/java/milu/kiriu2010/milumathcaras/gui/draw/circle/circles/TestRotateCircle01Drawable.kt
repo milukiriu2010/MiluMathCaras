@@ -12,7 +12,7 @@ import kotlin.math.sqrt
 // --------------------------------------------
 // 円の中に円を描き,すべての円を回転させる
 // --------------------------------------------
-class RotateCircle03Drawable: MyDrawable() {
+class TestRotateCircle01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -299,14 +299,24 @@ class RotateCircle03Drawable: MyDrawable() {
         canvas.drawCircle(circleTest0.c.x,circleTest0.c.y,5f,framePaint)
 
         val circleTest1Org = circleTest1.copy()
+        // Circleのコピーだけではだめで、MyPointFをコピーしないとダメ。
+        circleTest1Org.c = circleTest1.c.copy()
+        Log.d(javaClass.simpleName,"1org=x[${circleTest1Org.c.x}]y[${circleTest1Org.c.y}]")
         circleTest1.c.rotate(angle, circleTest0.c)
+        Log.d(javaClass.simpleName,"1org=x[${circleTest1Org.c.x}]y[${circleTest1Org.c.y}]")
         linePaint.color = Color.YELLOW
         canvas.drawCircle(circleTest1.c.x,circleTest1.c.y,circleTest1.r,linePaint)
         canvas.drawCircle(circleTest1.c.x,circleTest1.c.y,circleTest1.r,framePaint)
         canvas.drawCircle(circleTest1.c.x,circleTest1.c.y,5f,linePaint)
         canvas.drawCircle(circleTest1.c.x,circleTest1.c.y,5f,framePaint)
+        Log.d(javaClass.simpleName,"1   =x[${circleTest1.c.x}]y[${circleTest1.c.y}]")
+
         /**/
         val d = circleTest1.c.diff(circleTest1Org.c)
+        // --------------------------------------------------------------------
+        // 回転後の円(1)と回転前の円(1)の移動量分、円(2)を移動してから回転しないと、
+        // 円(1)と円(2)の間が、どんどん開いていく
+        // --------------------------------------------------------------------
         circleTest2.c.plus(d)
         circleTest2.c.rotate(angle, circleTest1.c)
         linePaint.color = Color.CYAN
