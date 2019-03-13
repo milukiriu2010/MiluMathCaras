@@ -133,7 +133,8 @@
     <string name="draw_000501_color_768_dark">color 768 dark</string>
     <string name="draw_000600_polygon_triangle_exile">Triangle Exile</string>
     <string name="draw_000601_polygon_lap">Polygon Lap</string>
-    <string name="draw_000603_polygon_rotate_arrows">Rotate Arrows</string>
+    <string name="draw_000602_polygon_rotate_arrows">Rotate Arrows</string>
+    <string name="draw_000603_polygon_triangle_unite">Triangle Unite</string>
     <string name="draw_000701_polygon_3_out_3">3 out 3</string>
     <string name="draw_000702_polygon_3_out_4">3 out 4</string>
     <string name="draw_000703_polygon_3_out_5">3 out 5</string>
