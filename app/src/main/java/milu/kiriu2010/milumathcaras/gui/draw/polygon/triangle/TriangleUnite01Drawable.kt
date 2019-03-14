@@ -33,10 +33,27 @@ class TriangleUnite01Drawable: MyDrawable() {
     // -------------------------------
     // 三角形の回転角度
     // -------------------------------
-    private var angleInit = 90f
+    private var angleInit = 60f
     private var angle = angleInit
     private var angleMin = 0f
     private val angleDv = 5f
+    private val dv = angleInit/angleDv
+
+    // -------------------------------
+    // 三角形のスケーリング
+    // -------------------------------
+    private var scaleInit = 1f
+    private var scale = scaleInit
+    private var scaleMin = 0f
+    private var scaleDv = (scaleInit-scaleMin)/dv
+
+    // -------------------------------
+    // 三角形の移動量
+    // -------------------------------
+    private var transInit = 0f
+    private var trans = transInit
+    private var transMax = 1f
+    private var transDv = (transMax-transInit)/dv
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -87,12 +104,33 @@ class TriangleUnite01Drawable: MyDrawable() {
     private lateinit var runnable: Runnable
 
     init {
+        val rr = side/4f
+
         // 大将となる三角形
         val triangle0 = Triangle().apply {
             // 三角形の頂点位置を初期設定
-            iniVertex( rX = side/3f, tX = 90f )
+            iniVertex( rX = rr, tX = 90f, reX = rr/2f )
         }
         polygonOrgLst.add(triangle0)
+
+        // 子分となる三角形
+        (0..2).forEach { i ->
+            val triangle1 = Triangle().apply {
+                // 中心位置(最初)
+                val c = MyPointF().apply {
+                    x = rr * 2f * MyMathUtil.cosf(i.toFloat()*120f+30f)
+                    y = rr * 2f * MyMathUtil.sinf(i.toFloat()*120f+30f)
+                }
+                // 中心位置(最後)
+                val ce = MyPointF().apply {
+                    x = rr/2f * MyMathUtil.cosf(i.toFloat()*120f+90f)
+                    y = rr/2f * MyMathUtil.sinf(i.toFloat()*120f+90f)
+                }
+                // 三角形の頂点位置を初期設定
+                iniVertex( cX = c, rX = 0f, tX = 30f, ceX = ce, reX = rr/2f )
+            }
+            polygonOrgLst.add(triangle1)
+        }
     }
 
     // --------------------------------------
@@ -165,6 +203,10 @@ class TriangleUnite01Drawable: MyDrawable() {
             val triangle = it.copy()
             // 中心位置をコピー
             triangle.c = it.c.copy()
+            // 中心位置(最初)をコピー
+            triangle.cs = it.cs.copy()
+            // 中心位置(最後)をコピー
+            triangle.ce = it.ce.copy()
             // 頂点位置をコピー
             it.pointLst.forEachIndexed { id, point ->
                 triangle.pointLst[id].x = point.x
@@ -179,9 +221,62 @@ class TriangleUnite01Drawable: MyDrawable() {
     // -------------------------------
     private fun movePolygon() {
         angle -= angleDv
+        scale -= scaleDv
+        trans += transDv
+
+        /*
+        polygonLst.forEachIndexed { id, triangle ->
+            when (id) {
+                0 -> {
+                    // スケーリング
+                    triangle.r = triangle.r / (scale+scaleDv) * scale
+                    // 回転
+                    triangle.t -= angleDv
+                    // 三角形の頂点を再計算
+                    triangle.calVertex()
+                }
+                else -> {
+                    // 三角形の頂点を再計算
+                    triangle.calVertex()
+                }
+            }
+        }
+        */
+
+        polygonLst.forEachIndexed { id, triangle ->
+            when (id) {
+                // 大将
+                0 -> {
+                    // スケーリング
+                    triangle.r = triangle.rs * scale + triangle.re * (1f-scale)
+                    // 回転
+                    triangle.t -= angleDv
+                    // 三角形の頂点を再計算
+                    triangle.calVertex()
+                }
+                // 子分
+                else -> {
+                    // スケーリング
+                    triangle.r = triangle.rs * scale + triangle.re * (1f-scale)
+                    // 回転(大将より3倍速く回転する)
+                    triangle.t -= 3f*angleDv
+                    triangle.c.let {
+                        it.x = triangle.cs.x * (1f-trans) + triangle.ce.x * trans
+                        it.y = triangle.cs.y * (1f-trans) + triangle.ce.y * trans
+                    }
+                    // 三角形の頂点を再計算
+                    triangle.calVertex()
+                }
+            }
+        }
+
+
         if ( angle <= angleMin ) {
             angle = angleInit
+            scale = scaleInit
+            trans = transInit
         }
+
     }
 
     // -------------------------------
@@ -224,10 +319,9 @@ class TriangleUnite01Drawable: MyDrawable() {
         // 座標を元に戻す
         canvas.restore()
 
-        // 初期の描画では頂点Aは一番右なので、
-        // 頂点Aが真上にくるよう90度左に回転する
+        // テンポラリ描画を実体用ビットマップに描画する
         val matrix = Matrix()
-        matrix.setRotate(-90f)
+        matrix.postScale(1f,-1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
     }
 
@@ -272,18 +366,31 @@ class TriangleUnite01Drawable: MyDrawable() {
     private data class Triangle(
         // 三角形を描く元となる円の中心
         var c: MyPointF = MyPointF(),
+        // 三角形を描く元となる円の中心(最初)
+        var cs: MyPointF = MyPointF(),
+        // 三角形を描く元となる円の中心(最後)
+        var ce: MyPointF = MyPointF(),
         // 三角形を描く元となる円の半径
         var r: Float = 0f,
+        // 三角形を描く元となる円の半径(最初)
+        var rs: Float = 0f,
+        // 三角形を描く元となる円の半径(最後)
+        var re: Float = 0f,
         // 三角形の回転角度
         var t: Float = 0f,
         // 三角形の頂点
         val pointLst: MutableList<MyPointF> = mutableListOf()
     ) {
         // 三角形の頂点位置を初期設定
-        fun iniVertex( cX: MyPointF = MyPointF(), rX: Float = 0f, tX: Float = 0f) {
+        fun iniVertex( cX: MyPointF = MyPointF(), rX: Float = 0f, tX: Float = 0f, ceX: MyPointF = MyPointF(), reX: Float = 0f ) {
             c = cX
+            cs = cX.copy()
+            ce = ceX.copy()
             r = rX
+            rs = rX
+            re = reX
             t = tX
+
 
             (0..2).forEach { i ->
                 // 三角形の頂点リスト
