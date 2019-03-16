@@ -13,6 +13,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.epicycloid.Epicycloid01Drawab
 import milu.kiriu2010.milumathcaras.gui.draw.curve.hypocycloid.Hypocycloid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.Lemniscate01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lissajous.Lissajous01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.CassinialOval01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiral01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid.Trochoid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.mandelbrot.Mandelbrot00Drawable
@@ -58,6 +59,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000004_TROCHOID -> Trochoid01Drawable()
                 // レムニスケート曲線
                 DrawDataID.ID_000005_LEMNISCATE -> Lemniscate01Drawable()
+                // カッシーニの卵形線
+                DrawDataID.ID_0000006_CASSINIAN_OVAL -> CassinialOval01Drawable()
                 // 対数螺旋(描画点を回転させる方法)
                 DrawDataID.ID_000010_LOGARITHMIC_SPIRAL -> LogarithmicSpiral01Drawable()
                 // 対数螺旋(画像を回転させる方法)
