@@ -252,7 +252,7 @@ class SierpinskiTriangle01Drawable: MyDrawable() {
         //Log.d(javaClass.simpleName,"===============================")
         // シェルピンスキーの三角形を描画
         var path: Path = Path()
-        pointLst.forEachIndexed { index, myPointF ->
+        circleLst.forEachIndexed { index, myPointF ->
             //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
             when ( index%3 ) {
                 0 -> {

@@ -273,7 +273,7 @@ class TreeCurve01Drawable: MyDrawable() {
         /*
         // 樹木曲線を描画
         val path = Path()
-        pointLst.forEachIndexed { index, myPointF ->
+        circleLst.forEachIndexed { index, myPointF ->
             if ( index%2 == 0 ) {
                 path.moveTo(myPointF.x,myPointF.y)
             }

@@ -252,7 +252,7 @@ class SineWave01Drawable: MyDrawable() {
         // サイン波を描く
         waveLst.forEach { wave ->
             var path = Path()
-            wave.pointLst.forEachIndexed { index, myPointF ->
+            wave.circleLst.forEachIndexed { index, myPointF ->
                 when (index) {
                     0 -> {
                         path.moveTo(myPointF.x,myPointF.y)

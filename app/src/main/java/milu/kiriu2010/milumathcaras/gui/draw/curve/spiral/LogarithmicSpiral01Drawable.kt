@@ -264,7 +264,7 @@ class LogarithmicSpiral01Drawable: MyDrawable() {
         /*
         // 対数螺旋を描く
         val path = Path()
-        pointLst.forEachIndexed { index, myPointF ->
+        circleLst.forEachIndexed { index, myPointF ->
             // 描画点の原点からの距離
             val lenXY = sqrt(myPointF.x*myPointF.x+myPointF.y*myPointF.y)
             // 描画点のX軸に対する角度

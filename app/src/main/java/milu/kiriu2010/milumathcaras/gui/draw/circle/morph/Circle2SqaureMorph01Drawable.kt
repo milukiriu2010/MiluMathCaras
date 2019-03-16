@@ -285,7 +285,7 @@ class Circle2SqaureMorph01Drawable: MyDrawable() {
         /*
         // 回転しない多角形を描く
         val pathA = Path()
-        polygonA.pointLst.forEachIndexed { index, myPointF ->
+        polygonA.circleLst.forEachIndexed { index, myPointF ->
             when (index) {
                 0 -> pathA.moveTo(myPointF.x,myPointF.y)
                 else -> pathA.lineTo(myPointF.x,myPointF.y)

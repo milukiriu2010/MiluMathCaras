@@ -233,7 +233,7 @@ class SineWaveCircle01Drawable: MyDrawable() {
         // サイン波の描画点を生成
         waveLst.forEach { wave ->
             // 描画点をクリア
-            wave.pointLst.clear()
+            wave.circleLst.clear()
 
             (0..side.toInt() step 10).forEach {
                 // 回転前の描画点
@@ -248,7 +248,7 @@ class SineWaveCircle01Drawable: MyDrawable() {
                 val x1 = len * cos((angle+wave.angleRotate)*PI/180f)+mX
                 val y1 = len * sin((angle+wave.angleRotate)*PI/180f)
 
-                wave.pointLst.add(MyPointF(x1.toFloat(),y1.toFloat()))
+                wave.circleLst.add(MyPointF(x1.toFloat(),y1.toFloat()))
             }
         }
         */
@@ -258,7 +258,7 @@ class SineWaveCircle01Drawable: MyDrawable() {
         val dv = 1080f/d
         // サイン波の描画点を生成
         // 描画点をクリア
-        wave.pointLst.clear()
+        wave.circleLst.clear()
 
         (0..d).forEach {
             // "円の中心"に対する"描画線"の角度
@@ -271,7 +271,7 @@ class SineWaveCircle01Drawable: MyDrawable() {
             val x0 = r*cos(t0*PI/180f)+h*cos(it.toFloat()*dv*PI/180f)
             val y0 = r*sin(t0*PI/180f)+h*sin(it.toFloat()*dv*PI/180f)
 
-            wave.pointLst.add(MyPointF(x0.toFloat(),y0.toFloat()))
+            wave.circleLst.add(MyPointF(x0.toFloat(),y0.toFloat()))
         }
         */
 
@@ -281,7 +281,7 @@ class SineWaveCircle01Drawable: MyDrawable() {
         // サイン波の描画点を生成
         waveLst.forEach { wave ->
             // 描画点をクリア
-            wave.pointLst.clear()
+            wave.circleLst.clear()
 
             (0..d).forEach {
                 // "円の中心"に対する"描画線"の角度
@@ -293,7 +293,7 @@ class SineWaveCircle01Drawable: MyDrawable() {
                 val x0 = r*cos(t0*PI/180f)+h
                 val y0 = r*sin(t0*PI/180f)+h*sin(it.toFloat()*dv*PI/180f)
 
-                wave.pointLst.add(MyPointF(x0.toFloat(),y0.toFloat()))
+                wave.circleLst.add(MyPointF(x0.toFloat(),y0.toFloat()))
             }
         }
         */
@@ -305,7 +305,7 @@ class SineWaveCircle01Drawable: MyDrawable() {
         // サイン波の描画点を生成
         waveLst.forEach { wave ->
             // 描画点をクリア
-            wave.pointLst.clear()
+            wave.circleLst.clear()
 
             (0..d).forEach {
                 // "円の中心"に対する"描画線"の角度
@@ -317,7 +317,7 @@ class SineWaveCircle01Drawable: MyDrawable() {
                 val x0 = (r+r0)*cos(t0*PI/180f)
                 val y0 = (r+r0)*sin(t0*PI/180f)
 
-                wave.pointLst.add(MyPointF(x0.toFloat(),y0.toFloat()))
+                wave.circleLst.add(MyPointF(x0.toFloat(),y0.toFloat()))
             }
         }
         */
@@ -400,9 +400,9 @@ class SineWaveCircle01Drawable: MyDrawable() {
         val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
         // サイン波を描く
         // 1536色のグラデーション
-        val bunchSize = wave.pointLst.size
+        val bunchSize = wave.circleLst.size
         var myPointF2: MyPointF? = null
-        wave.pointLst.forEachIndexed { index, myPointF1 ->
+        wave.circleLst.forEachIndexed { index, myPointF1 ->
             val color = myColor.create((index+anglePhaseC.toInt())%bunchSize,bunchSize)
             //val color = myColor.create(index,bunchSize)
             wave.linePaint.color = color.toInt()

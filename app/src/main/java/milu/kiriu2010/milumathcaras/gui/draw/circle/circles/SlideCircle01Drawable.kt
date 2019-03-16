@@ -231,7 +231,7 @@ class SlideCircle01Drawable: MyDrawable() {
         /*
         // 円を描く
         val path = Path()
-        pointLst.forEachIndexed { index, myPointF ->
+        circleLst.forEachIndexed { index, myPointF ->
             if ( index == 0 ) {
                 path.moveTo(myPointF.x,myPointF.y)
             }

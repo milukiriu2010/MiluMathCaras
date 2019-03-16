@@ -268,7 +268,7 @@ class DragonCurve01Drawable: MyDrawable() {
         //Log.d(javaClass.simpleName,"===============================")
         // ドラゴン曲線を描画
         val path = Path()
-        pointLst.forEachIndexed { index, myPointF ->
+        circleLst.forEachIndexed { index, myPointF ->
             //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
             if ( index == 0 ) {
                 path.moveTo(myPointF.x,myPointF.y)

@@ -269,7 +269,7 @@ class SlidePolygon01Drawable: MyDrawable() {
         if ( angleA > angleMax ) {
             angleA = 0f
             angleB = 0f
-            pointLst.clear()
+            circleLst.clear()
         }
     }
     */
@@ -313,7 +313,7 @@ class SlidePolygon01Drawable: MyDrawable() {
         val path = Path()
         val bunchSize = nVertexDvMax*nVertexMax
         var myPointF2: MyPointF? = null
-        pointLst.forEachIndexed { index, myPointF1 ->
+        circleLst.forEachIndexed { index, myPointF1 ->
             val color = myColor.create(index%bunchSize,bunchSize)
             linePaint.color = color.toInt()
             if ( myPointF2 != null ) {

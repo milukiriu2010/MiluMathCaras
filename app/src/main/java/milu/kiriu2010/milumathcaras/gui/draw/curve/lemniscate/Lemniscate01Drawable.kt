@@ -221,7 +221,7 @@ class Lemniscate01Drawable: MyDrawable() {
         // レムニスケート曲線を描く
         // 赤色で線を描く
         val path = Path()
-        pointLst.forEachIndexed { index, myPointF ->
+        circleLst.forEachIndexed { index, myPointF ->
             when (index) {
                 0 -> path.moveTo(myPointF.x,myPointF.y)
                 else -> path.lineTo(myPointF.x,myPointF.y)
@@ -234,10 +234,10 @@ class Lemniscate01Drawable: MyDrawable() {
         /*
         // レムニスケート曲線を描く
         // 30度ずつ色を変える
-        val bunchSize = pointLst.size/colorLst.size
+        val bunchSize = circleLst.size/colorLst.size
         var colorPos = -1
         var path = Path()
-        pointLst.forEachIndexed { index, myPointF ->
+        circleLst.forEachIndexed { index, myPointF ->
             when (index%bunchSize) {
                 0 -> {
                     if ( colorPos >= 0) {

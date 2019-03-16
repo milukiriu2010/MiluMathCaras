@@ -57,6 +57,7 @@
     <string name="draw_000005_curve_lemniscate">Lemniscate</string>
     <string name="draw_000006_curve_cassinian_oval">Cassinian Oval</string>
     <string name="draw_000010_curve_logarithmic_spiral">Logarithmic Spiral</string>
+    <string name="draw_000011_curve_logarithmic_spiral">Logarithmic Spiral</string>
     <string name="draw_000021_curve_cardioid">Cardioid(k=1.0)</string>
     <string name="draw_000022_curve_epicycloid">Epicycloid(k=4.0)</string>
     <string name="draw_000023_curve_epicycloid">Epicycloid(k=2.1)</string>

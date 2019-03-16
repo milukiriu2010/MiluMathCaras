@@ -278,14 +278,14 @@ class GosperIsland01Drawable: MyDrawable() {
         //  = (左右中央,上下中央)
         // ---------------------------------------------------------------------
         canvas.save()
-        //Log.d(javaClass.simpleName, "pointLst.size[${pointLst.size}]")
+        //Log.d(javaClass.simpleName, "circleLst.size[${circleLst.size}]")
         canvas.translate(intrinsicWidth/2f, intrinsicHeight/2f)
 
         /*
         //Log.d(javaClass.simpleName,"===============================")
         // ゴスパー島を描画
         val path = Path()
-        pointLst.forEachIndexed { index, myPointF ->
+        circleLst.forEachIndexed { index, myPointF ->
             //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
             if ( index == 0 ) {
                 path.moveTo(myPointF.x,myPointF.y)

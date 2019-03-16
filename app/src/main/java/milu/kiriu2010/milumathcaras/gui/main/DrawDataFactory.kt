@@ -104,6 +104,8 @@ class DrawDataFactory {
                 }
                 // スパイラルを選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_SPIRAL -> {
+                    // 対数螺旋上に円を描く
+                    drawDataLst.add(DrawData(DrawDataID.ID_000011_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000011_curve_logarithmic_spiral) ))
                     // 対数螺旋
                     drawDataLst.add(DrawData(DrawDataID.ID_000010_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_06,resources.getString(R.string.draw_000010_curve_logarithmic_spiral),
                         stillImageParam = floatArrayOf(0f,2f,0.14f), motionImageParam = floatArrayOf(0f,2f,0.14f), editParam = floatArrayOf(0f,500f,1f,-1.0f,1.0f,2f),
@@ -131,14 +133,14 @@ class DrawDataFactory {
                 MenuItem.MENU_CURVE_LEMNISCATE -> {
                     // カッシーニの卵型線
                     drawDataLst.add(DrawData(DrawDataID.ID_0000006_CASSINIAN_OVAL,DrawFragmentType.FT_SQUARE_06,resources.getString(R.string.draw_000006_curve_cassinian_oval),
-                        stillImageParam = floatArrayOf(200f,200f), motionImageParam = floatArrayOf(200f,200f), editParam = floatArrayOf(100f,400f,0f,100f,400f,1f),
+                        stillImageParam = floatArrayOf(200f,200f), motionImageParam = floatArrayOf(300f,300f), editParam = floatArrayOf(250f,350f,0f,250f,350f,1f),
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_cassinian_oval), "autoParam" to "t", "handParam1" to "a", "handParam2" to "b"),
-                        fragmentParamMap = mutableMapOf("maxA" to 500,"maxB" to 500) ))
+                        fragmentParamMap = mutableMapOf("maxA" to 100,"maxB" to 100) ))
                     // レムニスケート曲線
                     drawDataLst.add(DrawData(DrawDataID.ID_000005_LEMNISCATE,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000005_curve_lemniscate),
-                        stillImageParam = floatArrayOf(500f), motionImageParam = floatArrayOf(500f), editParam = floatArrayOf(0f,500f,0f),
+                        stillImageParam = floatArrayOf(500f), motionImageParam = floatArrayOf(500f), editParam = floatArrayOf(100f,500f,0f),
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_lemniscate), "autoParam" to "t", "handParam1" to "a"),
-                        fragmentParamMap = mutableMapOf("maxA" to 500) ))
+                        fragmentParamMap = mutableMapOf("maxA" to 10) ))
                 }
                 // フラクタル(再帰)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_RECURSION -> {

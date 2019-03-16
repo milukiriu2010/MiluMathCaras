@@ -279,7 +279,7 @@ class SineWaveCircle02Drawable: MyDrawable() {
         /*
         // サイン波を描く
         var myPointF2: MyPointF? = null
-        wave.pointLst.forEachIndexed { index, myPointF1 ->
+        wave.circleLst.forEachIndexed { index, myPointF1 ->
             // サイン波が境界を越えた場合
             if ( anglePhaseC+(index*interval) > d ) {
                 wave.linePaint.pathEffect = pathEffectLst[pathEffectId0]
