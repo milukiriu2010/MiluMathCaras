@@ -382,6 +382,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000804_CIRCLE_ROTATE -> RotateCircle02Drawable()
                 // 円の中に円を描き,すべての円を回転させる
                 DrawDataID.ID_000805_CIRCLE_ROTATE -> TestRotateCircle01Drawable()
+                // クリスマスツリー(円を三角形上に並べる)
+                DrawDataID.ID_000806_CIRCLE_XMASTREE -> XmasTreeCircle01Drawable()
                 // 円⇔正方形の変形
                 DrawDataID.ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE -> Circle2SqaureMorph01Drawable()
                 // "円⇔正方形の変形"のタイリング
