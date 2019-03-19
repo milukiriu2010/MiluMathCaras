@@ -3,10 +3,8 @@ package milu.kiriu2010.milumathcaras.gui.draw.circle.circles
 import android.graphics.*
 import android.os.Handler
 import milu.kiriu2010.gui.basic.MyPointF
-import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
-import kotlin.math.sqrt
 
 // --------------------------------------------
 // クリスマスツリー(円を三角形上に並べる)
@@ -23,9 +21,9 @@ class XmasTreeCircle01Drawable: MyDrawable() {
     private val margin = 50f
 
     // 円の半径
-    val rX = 30f
+    val rr = 15f
     // 円と円の間隔
-    val sX = 10f
+    val ss = 10f
 
     // -------------------------------------
     // クリスマスツリーの階層(必ず奇数)
@@ -150,25 +148,26 @@ class XmasTreeCircle01Drawable: MyDrawable() {
     private fun createCircle() {
         circleLst.clear()
 
-        // 中央
-        val cX = side/2f
-        // 基準円
-        val circle = Circle().apply {
-            c.x = side/2f
-            c.y = sX + rX
-            r = rX
-            color = Color.GREEN
-        }
+        (1..nL).forEach { row ->
+            (1..nL).forEach { col ->
+                val circle = Circle().apply {
+                    var rshift = 0f
+                    when (row%2) {
+                        0 -> {
+                            color = Color.RED
+                            rshift = (rr * 2f + ss)/2f
+                        }
+                        1 -> {
+                            color = Color.GREEN
+                            rshift = 0f
+                        }
+                    }
 
-        (1..nL).forEach { i ->
-            (0..i).forEach { j ->
-                if ( j < i ) {
-
+                    c.x = rr * (2f*(col-1).toFloat()+1f) + ss * col.toFloat() + rshift
+                    c.y = rr * (2f*(row-1).toFloat()+1f) + ss * row.toFloat()
+                    r = rr
                 }
-                // 最後尾
-                else {
-
-                }
+                circleLst.add(circle)
             }
         }
     }
@@ -197,34 +196,20 @@ class XmasTreeCircle01Drawable: MyDrawable() {
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
         // 原点(0,0)の位置
-        // = (左右中央,上下中央)
-        val x0 = (intrinsicWidth/2).toFloat()
-        val y0 = (intrinsicHeight/2).toFloat()
+        // = (マージン,マージン)
+        val x0 = margin
+        val y0 = margin
 
-        // 原点(x0,y0)を中心に円を描く
         canvas.save()
         canvas.translate(x0,y0)
 
         // 円を描く
-        /*
-        (0..nNow).forEach { i ->
-            circleLst.filter{ it.g == i }.forEach { circle ->
-                linePaint.color = circle.color
-                if ( circle.p == null ) {
-                    canvas.drawCircle(circle.c.x,circle.c.y,circle.r,linePaint)
-                    canvas.drawCircle(circle.c.x,circle.c.y,circle.r,framePaint)
-                }
-                // 親世代がある場合、
-                // 前世代の中心位置に対して現在の中心位置を回転して
-                // 円を描画
-                else {
-                    val cc = rotate(angle,circle)
-                    canvas.drawCircle(cc.x,cc.y,circle.r,linePaint)
-                    canvas.drawCircle(cc.x,cc.y,circle.r,framePaint)
-                }
-            }
+        circleLst.forEachIndexed { id, circle ->
+            linePaint.color = circle.color
+            canvas.drawCircle(circle.c.x,circle.c.y,circle.r,linePaint)
         }
-        */
+
+        canvas.restore()
 
         // これまでの描画は上下逆なので反転する
         val matrix = Matrix()
@@ -284,7 +269,7 @@ class XmasTreeCircle01Drawable: MyDrawable() {
         // ---------------------------------
         // 半径比率
         // ---------------------------------
-        var rr: Float = 1f,
+        var rratio: Float = 1f,
         // ---------------------------------
         // 半径比率を変える方向
         //   0: 変化なし
