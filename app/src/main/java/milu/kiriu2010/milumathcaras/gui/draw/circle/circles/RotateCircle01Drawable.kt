@@ -18,7 +18,8 @@ class RotateCircle01Drawable: MyDrawable() {
     // -------------------------------
     // 描画領域
     // -------------------------------
-    private val side = 1000f
+    private val sideW = 1000f
+    private val sideH = 1500f
     private val margin = 50f
 
     // ---------------------------------
@@ -161,7 +162,7 @@ class RotateCircle01Drawable: MyDrawable() {
         circleLst.clear()
         val circle = Circle().apply {
             c = MyPointF()
-            r = side/6f
+            r = sideW/6f
             color = Color.WHITE
             g = 0
         }
@@ -361,12 +362,12 @@ class RotateCircle01Drawable: MyDrawable() {
     // -------------------------------
     // Drawable
     // -------------------------------
-    override fun getIntrinsicWidth(): Int = (side+margin*2).toInt()
+    override fun getIntrinsicWidth(): Int = (sideW+margin*2).toInt()
 
     // -------------------------------
     // Drawable
     // -------------------------------
-    override fun getIntrinsicHeight(): Int = (side+margin*2).toInt()
+    override fun getIntrinsicHeight(): Int = (sideH+margin*2).toInt()
 
     // ---------------------------------
     // 円

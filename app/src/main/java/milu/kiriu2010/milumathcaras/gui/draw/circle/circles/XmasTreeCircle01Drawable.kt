@@ -25,6 +25,25 @@ class XmasTreeCircle01Drawable: MyDrawable() {
     // 円と円の間隔
     val ss = 10f
 
+    // 円の移動距離(最大)
+    val dM = 2f*rr+ss
+    // 円の移動距離(刻み)
+    val dV = dM/5f
+    // 円の移動距離(現在)
+    var dN = 0f
+
+    // 円の半径比率(最大)
+    var rM = 1f
+    // 円の半径比率(刻み)
+    var rV = rM/5f
+    // 円の半径比率(現在)
+    var rN = 0f
+
+    // 小さくなる円のインデックス
+    val idxSLst = arrayOf(4,3,5,2,6,1,7)
+    // 大きくなる円のインデックス
+    val idxBLst = arrayOf(3,5,2,6,1,7,0)
+
     // -------------------------------------
     // クリスマスツリーの階層(必ず奇数)
     // -------------------------------------
@@ -114,7 +133,7 @@ class XmasTreeCircle01Drawable: MyDrawable() {
                     // 描画
                     invalidateSelf()
 
-                    handler.postDelayed(runnable, 50)
+                    handler.postDelayed(runnable, 100)
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
@@ -148,6 +167,54 @@ class XmasTreeCircle01Drawable: MyDrawable() {
     private fun createCircle() {
         circleLst.clear()
 
+        (0 until nL).forEach { row ->
+            val idxS = idxSLst[row]
+            val idxB = idxBLst[row]
+            (0..nL).forEach { col ->
+                val circle = Circle().apply {
+                    // 円の中心(右シフト)
+                    var rshift = 0f
+                    when (row%2) {
+                        0 -> {
+                            color = Color.GREEN
+                            // 円の中心(右シフト)
+                            rshift = 0f
+                            // 半径(初期)
+                            r = when  {
+                                (col <= idxB) -> 0f
+                                (col > idxS)  -> 0f
+                                else -> rr
+                            }
+
+                        }
+                        1 -> {
+                            color = Color.RED
+                            // 円の中心(右シフト)
+                            rshift = (rr * 2f + ss)/2f
+                            // 半径(初期)
+                            r = when  {
+                                (col < idxS)  -> 0f
+                                (col >= idxB) -> 0f
+                                else -> rr
+                            }
+                        }
+                    }
+
+                    // 円の中心
+                    c.x = rr * (2f*(col-1).toFloat()+1f) + ss * col.toFloat() + rshift
+                    c.y = rr * (2f*row.toFloat()+1f) + ss * row.toFloat()
+                    // 半径比率を変える方向
+                    sign = when (col) {
+                        idxB -> 1
+                        idxS -> -1
+                        else -> 0
+                    }
+                }
+                circleLst.add(circle)
+            }
+        }
+
+        /*
         (1..nL).forEach { row ->
             (1..nL).forEach { col ->
                 val circle = Circle().apply {
@@ -160,6 +227,7 @@ class XmasTreeCircle01Drawable: MyDrawable() {
                         1 -> {
                             color = Color.GREEN
                             rshift = 0f
+
                         }
                     }
 
@@ -170,18 +238,20 @@ class XmasTreeCircle01Drawable: MyDrawable() {
                 circleLst.add(circle)
             }
         }
+        */
+
     }
 
     // -------------------------------
     // 円を移動する
     // -------------------------------
     private fun moveCircle() {
-        /*
-        angle += 5f
-        if ( angle >= angleMax ) {
-            angle = 0f
+        dN += dV
+        rN += rV
+        if ( dN >= dM ) {
+            dN = 0f
+            rN = 0f
         }
-        */
     }
 
     // -------------------------------
@@ -206,14 +276,34 @@ class XmasTreeCircle01Drawable: MyDrawable() {
         // 円を描く
         circleLst.forEachIndexed { id, circle ->
             linePaint.color = circle.color
-            canvas.drawCircle(circle.c.x,circle.c.y,circle.r,linePaint)
+            val row = id/(nL+1)
+            val r = when ( circle.sign ) {
+                1 -> rr * rN
+                -1 -> circle.r * (rM-rN)
+                else -> circle.r
+            }
+
+            when (row%2) {
+                0 -> canvas.drawCircle(circle.c.x+dN,circle.c.y,r,linePaint)
+                1 -> canvas.drawCircle(circle.c.x-dN,circle.c.y,r,linePaint)
+            }
         }
+        /*
+        circleLst.forEachIndexed { id, circle ->
+            linePaint.color = circle.color
+            val row = id/nL
+            when (row%2) {
+                0 -> canvas.drawCircle(circle.c.x+dN,circle.c.y,circle.r,linePaint)
+                1 -> canvas.drawCircle(circle.c.x-dN,circle.c.y,circle.r,linePaint)
+            }
+        }
+        */
 
         canvas.restore()
 
         // これまでの描画は上下逆なので反転する
         val matrix = Matrix()
-        matrix.postScale(1f,-1f)
+        matrix.postScale(1f,1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
     }
 
@@ -267,16 +357,12 @@ class XmasTreeCircle01Drawable: MyDrawable() {
         // ---------------------------------
         var r: Float = 0f,
         // ---------------------------------
-        // 半径比率
-        // ---------------------------------
-        var rratio: Float = 1f,
-        // ---------------------------------
         // 半径比率を変える方向
         //   0: 変化なし
         //   1: 大きくなる
         //  -1: 小さくなる
         // ---------------------------------
-        var rs: Float = 0f,
+        var sign: Int = 0,
         // ---------------------------------
         // 色
         // ---------------------------------

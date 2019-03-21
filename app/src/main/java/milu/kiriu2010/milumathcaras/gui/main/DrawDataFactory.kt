@@ -236,7 +236,8 @@ class DrawDataFactory {
                 // "複数円"を選択したときの描画データの一覧
                 MenuItem.MENU_CIRCLE_CIRCLES -> {
                     // クリスマスツリー(円を三角形上に並べる)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000806_CIRCLE_XMASTREE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000806_circle_xmastree) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000806_CIRCLE_XMASTREE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000806_circle_xmastree),
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/8ed06c22c8e4c32a60cf6bcb2b74a2e6/tumblr_my0y8b1jgP1r2geqjo1_500.gif") ))
                     // 実験：円の中に円を描き,すべての円を回転させる
                     //drawDataLst.add(DrawData(DrawDataID.ID_000805_CIRCLE_ROTATE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000805_circle_rotate) ))
                     // 円の中に円を描き,すべての円を回転させる
