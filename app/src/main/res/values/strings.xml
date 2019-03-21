@@ -33,6 +33,7 @@
     <string name="menu_sub_circle_tile">Tiling Circle</string>
     <string name="menu_sub_polygon">Polygon</string>
     <string name="menu_sub_polygon_mix">Polygon Mix</string>
+    <string name="menu_sub_polygon_triangle">Triangle</string>
     <string name="menu_sub_polygon_pinp">Polygon in Polygon</string>
     <string name="menu_sub_polygon_poutp">Polygon out Polygon</string>
     <string name="menu_sub_polygon_slide">Slide Polygon</string>
@@ -128,6 +129,7 @@
     <string name="draw_000351_polygon_8_in_9">8 in 9</string>
     <string name="draw_000352_polygon_8_in_10">8 in 10</string>
     <string name="draw_000361_polygon_9_in_10">9 in 10</string>
+    <string name="draw_000370_triangle_center_of_gravity">Triangle\nCenter of Gravity</string>
     <string name="draw_000401_nature_uniform_motion">Uniform Motion</string>
     <string name="draw_000402_nature_fountain">Fountain</string>
     <string name="draw_000403_nature_random_walk">Random Walk</string>

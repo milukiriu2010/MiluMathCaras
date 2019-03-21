@@ -291,6 +291,11 @@ class DrawDataFactory {
                     // 三角形でEXILE
                     drawDataLst.add(DrawData(DrawDataID.ID_000600_TRIANGLE_EXILE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000600_polygon_triangle_exile) ))
                 }
+                // "三角形"を選択したときの描画データの一覧
+                MenuItem.MENU_POLYGON_TRIANGLE -> {
+                    // 三角形の重心
+                    drawDataLst.add(DrawData(DrawDataID.ID_000370_TRIANGLE_CENTER_OF_GRAVITY,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000370_triangle_center_of_gravity) ))
+                }
                 // "多角形in多角形"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_PINP -> {
                     // 三角形in四角形

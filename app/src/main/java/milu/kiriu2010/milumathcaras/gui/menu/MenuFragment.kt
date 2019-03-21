@@ -135,11 +135,11 @@ class MenuFragment : Fragment() {
                     // "Nature of Code"一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_NATURE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_nature),true))
                      // [サブメニュー]
-                     // 色一覧を表示するメニュー
-                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_COLOR, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_color),false))
-                     // [サブメニュー]
                      // 錯覚一覧を表示するメニュー
                      menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_OPTICAL_ILLUSION, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_optical_Illusion),false))
+                     // [サブメニュー]
+                     // 色一覧を表示するメニュー
+                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_COLOR, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_color),false))
                     // [メインメニュー]
                     // ヘルプ
                     menuDataLst.add(MenuData(MenuType.TYPE_MAIN, MenuItem.MENU_DUMMY,FragmentID.ID_DUMMY,resources.getString(R.string.menu_main_help),false))
@@ -215,6 +215,9 @@ class MenuFragment : Fragment() {
                     // [サブメニュー]
                     // "多角形のMix"一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_MIX, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_mix),false))
+                    // [サブメニュー]
+                    // "三角形"一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_TRIANGLE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_triangle),false))
                     // [サブメニュー]
                     // "多角形in多角形"一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_PINP, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_pinp),false))

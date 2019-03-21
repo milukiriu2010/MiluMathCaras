@@ -167,6 +167,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000352_8_IN_10(352),
     // 九角形in十角形
     ID_000361_9_IN_10(361),
+    // 三角形の重心
+    ID_000370_TRIANGLE_CENTER_OF_GRAVITY(370),
     // 等加速度運動
     ID_000401_NATURE_UNFORM_MOTION(401),
     // 噴水
