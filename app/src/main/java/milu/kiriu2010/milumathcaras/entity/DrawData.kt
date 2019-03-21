@@ -22,11 +22,15 @@ enum class DrawDataID(val id: Int): Parcelable {
     // レムニスケート曲線
     ID_000005_LEMNISCATE(5),
     // カッシーニの卵形線
-    ID_0000006_CASSINIAN_OVAL(6),
+    ID_000006_CASSINIAN_OVAL(6),
+    // レムニスケート曲線
+    ID_000007_LEMNISCATE(7),
     // 対数螺旋
     ID_000010_LOGARITHMIC_SPIRAL(10),
     // 対数螺旋上に円を描く
     ID_000011_LOGARITHMIC_SPIRAL(11),
+    // 対数螺旋上に円を描く
+    ID_000012_LOGARITHMIC_SPIRAL(12),
     // カージオイド曲線(k=1.0)
     ID_000021_CARDIOID(21),
     // エピサイクロイド曲線(k=4.0)

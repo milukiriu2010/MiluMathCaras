@@ -105,7 +105,9 @@ class DrawDataFactory {
                 // スパイラルを選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_SPIRAL -> {
                     // 対数螺旋上に円を描く
-                    drawDataLst.add(DrawData(DrawDataID.ID_000011_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000011_curve_logarithmic_spiral) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000012_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000012_curve_logarithmic_spiral_circle02) ))
+                    // 対数螺旋上に円を描く
+                    drawDataLst.add(DrawData(DrawDataID.ID_000011_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000011_curve_logarithmic_spiral_circle01) ))
                     // 対数螺旋
                     drawDataLst.add(DrawData(DrawDataID.ID_000010_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_06,resources.getString(R.string.draw_000010_curve_logarithmic_spiral),
                         stillImageParam = floatArrayOf(0f,2f,0.14f), motionImageParam = floatArrayOf(0f,2f,0.14f), editParam = floatArrayOf(0f,500f,1f,-1.0f,1.0f,2f),
@@ -131,8 +133,11 @@ class DrawDataFactory {
                 }
                 // レムニスケート曲線を選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_LEMNISCATE -> {
+                    // レムニスケート曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_000007_LEMNISCATE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000007_curve_lemniscate),
+                        stillImageParam = floatArrayOf(360f*20f), motionImageParam = floatArrayOf(360f*20f) ))
                     // カッシーニの卵型線
-                    drawDataLst.add(DrawData(DrawDataID.ID_0000006_CASSINIAN_OVAL,DrawFragmentType.FT_SQUARE_06,resources.getString(R.string.draw_000006_curve_cassinian_oval),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000006_CASSINIAN_OVAL,DrawFragmentType.FT_SQUARE_06,resources.getString(R.string.draw_000006_curve_cassinian_oval),
                         stillImageParam = floatArrayOf(200f,200f), motionImageParam = floatArrayOf(300f,300f), editParam = floatArrayOf(250f,350f,0f,250f,350f,1f),
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_cassinian_oval), "autoParam" to "t", "handParam1" to "a", "handParam2" to "b"),
                         fragmentParamMap = mutableMapOf("maxA" to 100,"maxB" to 100) ))

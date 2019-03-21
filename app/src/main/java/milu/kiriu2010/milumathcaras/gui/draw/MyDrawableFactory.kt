@@ -14,8 +14,10 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.hypocycloid.Hypocycloid01Draw
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.Lemniscate01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lissajous.Lissajous01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.CassinialOval01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.Lemniscate02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiral01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiral02Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiralCircle01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiralCircle02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid.Trochoid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.mandelbrot.Mandelbrot00Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.dragon.DragonCurve01Drawable
@@ -61,11 +63,15 @@ class MyDrawableFactory {
                 // レムニスケート曲線
                 DrawDataID.ID_000005_LEMNISCATE -> Lemniscate01Drawable()
                 // カッシーニの卵形線
-                DrawDataID.ID_0000006_CASSINIAN_OVAL -> CassinialOval01Drawable()
+                DrawDataID.ID_000006_CASSINIAN_OVAL -> CassinialOval01Drawable()
+                // レムニスケート曲線
+                DrawDataID.ID_000007_LEMNISCATE -> Lemniscate02Drawable()
                 // 対数螺旋(描画点を回転させる方法)
                 DrawDataID.ID_000010_LOGARITHMIC_SPIRAL -> LogarithmicSpiral01Drawable()
                 // 対数螺旋に円を描画
-                DrawDataID.ID_000011_LOGARITHMIC_SPIRAL -> LogarithmicSpiral02Drawable()
+                DrawDataID.ID_000011_LOGARITHMIC_SPIRAL -> LogarithmicSpiralCircle01Drawable()
+                // 対数螺旋に円を描画
+                DrawDataID.ID_000012_LOGARITHMIC_SPIRAL -> LogarithmicSpiralCircle02Drawable()
                 // カージオイド曲線(cardioid)(k=1.0)
                 DrawDataID.ID_000021_CARDIOID -> Epicycloid01Drawable()
                 // エピサイクロイド曲線(k=4.0)

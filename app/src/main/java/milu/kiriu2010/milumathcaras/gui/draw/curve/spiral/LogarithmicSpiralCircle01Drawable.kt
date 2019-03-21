@@ -1,25 +1,27 @@
-package milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate
+package milu.kiriu2010.milumathcaras.gui.draw.curve.spiral
 
 import android.graphics.*
 import android.os.Handler
 import android.util.Log
+import android.view.MotionEvent
 import milu.kiriu2010.gui.basic.MyPointF
-import milu.kiriu2010.gui.color.ColorType
-import milu.kiriu2010.gui.color.MyColorFactory
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.*
 
 // -------------------------------------------------------------------------------------
-// レムニスケート曲線
+// 対数螺旋/ベルヌーイの螺旋上に円を描く
 // -------------------------------------------------------------------------------------
-//   x = a * cos(t)/(1+sin(t)*sin(t))
-//   y = a * sin(t)*cos(t)/(1+sin(t)*sin(t))
+//   x = r * cos(t) = a * exp(b*t) * cos(t)
+//   y = r * sin(t) = a * exp(b*t) * sin(t)
 // -------------------------------------------------------------------------------------
-// http://mathworld.wolfram.com/Lemniscate.html
+// https://en.wikipedia.org/wiki/Logarithmic_spiral
+// https://www.mathcurve.com/courbes2d.gb/logarithmic/logarithmic.shtml
 // -------------------------------------------------------------------------------------
-class Lemniscate01Drawable: MyDrawable() {
+// 画像を回転させることで螺旋を回転する
+// -------------------------------------------------------------------------------------
+class LogarithmicSpiralCircle01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -28,20 +30,32 @@ class Lemniscate01Drawable: MyDrawable() {
     private val margin = 50f
 
     // ---------------------------------
-    // レムニスケート曲線の変数a
+    // 対数螺旋の変数a
     // ---------------------------------
-    private var a = side/2f
+    private var a = 75f
+    // ---------------------------------
+    // 対数螺旋の変数b
+    // ---------------------------------
+    private var b = 1f
 
-    // ----------------------------------
-    // レムニスケート曲線の位相(変数tに相当)
-    // ----------------------------------
+    // -------------------------------
+    // 対数螺旋の回転方向
+    // -------------------------------
+    // +1:内に収束するようにみえる
+    // -1:外に広がるようにみえる
+    // -------------------------------
+    private var sign = +1f
+
+    // -------------------------------
+    // 対数螺旋の回転角度(変数tに相当)
+    // -------------------------------
     private var angle = 0f
     private var angleMax = 360f
 
     // -------------------------------
-    // レムニスケート曲線の描画点リスト
+    // 対数螺旋上の描画円リスト
     // -------------------------------
-    val pointLst = mutableListOf<MyPointF>()
+    val circleLst = mutableListOf<Circle>()
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -69,12 +83,12 @@ class Lemniscate01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // レムニスケート曲線を描くペイント
+    // 対数螺旋を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
         style = Paint.Style.STROKE
-        strokeWidth = 10f
+        strokeWidth = 5f
     }
 
     // -------------------------------------
@@ -97,18 +111,9 @@ class Lemniscate01Drawable: MyDrawable() {
     // 描画に使うデータを計算する
     // --------------------------------------
     // values
-    // 第１引数:レムニスケート曲線の変数a
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
-        values.forEachIndexed { index, fl ->
-            //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
-            when (index) {
-                // レムニスケート曲線の変数a
-                0 -> a = fl
-            }
-        }
-
-        // レムニスケート曲線の描画点リストを生成
+        // 対数螺旋の描画点リストを生成
         createPath()
         // ビットマップに描画
         drawBitmap()
@@ -120,23 +125,14 @@ class Lemniscate01Drawable: MyDrawable() {
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
-                    // レムニスケート曲線の描画点リストを生成
-                    createPath()
-                    // レムニスケート曲線を回転する
+                    // 対数螺旋を回転する
                     rotatePath()
                     // ビットマップに描画
                     drawBitmap()
                     // 描画
                     invalidateSelf()
 
-                    // 最初と最後は1秒後に描画
-                    if (angle == angleMax || angle == 0f) {
-                        handler.postDelayed(runnable, 1000)
-                    }
-                    // 100msごとに描画
-                    else {
-                        handler.postDelayed(runnable, 100)
-                    }
+                    handler.postDelayed(runnable, 100)
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
@@ -164,37 +160,51 @@ class Lemniscate01Drawable: MyDrawable() {
         handler.removeCallbacks(runnable)
     }
 
-    // -----------------------------------
-    // レムニスケート曲線の描画点リストを生成
-    // -----------------------------------
-    private fun createPath() {
-        // 描画点リストをクリア
-        pointLst.clear()
+    // -------------------------------------
+    // タッチしたポイントを受け取る
+    // -------------------------------------
+    override fun receiveTouchPoint(x: Float, y: Float, event: MotionEvent) {
+        Log.d(javaClass.simpleName,"Touch:x[${x}]y[${y}]" )
 
-        (0..360 step 1).forEach {
-            val f = it.toFloat()
-            val cos = MyMathUtil.cosf(f)
-            val sin = MyMathUtil.sinf(f)
-            val x = a*cos/(1f+sin*sin)
-            val y = a*sin*cos/(1f+sin*sin)
-            pointLst.add(MyPointF(x,y))
+        // タッチすると、回転方向を変更する
+        if ( event.action == MotionEvent.ACTION_DOWN ) {
+            sign = -sign
         }
-
-        // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
-        notifyCallback?.receive(angle)
     }
 
-    // レムニスケート曲線を回転する
-    private fun rotatePath() {
-        angle += 5f
+    // -------------------------------
+    // 対数螺旋の描画点リストを生成
+    // -------------------------------
+    private fun createPath() {
+        // 描画点リストをクリア
+        circleLst.clear()
 
-        // ２回転したら
+        val d = 15
+        (0 until 360 step d).forEach { id1 ->
+            val ii = id1/d
+            val t1 = id1.toFloat()
+            (0..360 step 5).forEach { id2 ->
+                val t2 = id2.toFloat()
+                val circle = Circle().apply {
+                    c.x = a*exp(t2*PI/180f).toFloat() * MyMathUtil.cosf(t1+t2)
+                    c.y = a*exp(t2*PI/180f).toFloat() * MyMathUtil.sinf(t1+t2)
+                }
+                circle.color = if (ii%2 == 0) Color.RED else Color.BLUE
+                circleLst.add(circle)
+            }
+        }
+    }
+
+    // 対数螺旋を回転する
+    private fun rotatePath() {
+        angle += 20f
+
+        // ３周したら、
         // ・元の角度に戻す
+        // ・回転方向を変更する
         if ( angle > angleMax ) {
             angle = 0f
         }
-        // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
-        notifyCallback?.receive(angle)
     }
 
     // -------------------------------
@@ -205,7 +215,7 @@ class Lemniscate01Drawable: MyDrawable() {
         // バックグランドを描画
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),backPaint)
 
-        // 枠を描画
+        // 枠を描画(画像を回転させるので、回転してから枠を描くこととした
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
         // 原点(0,0)の位置
@@ -217,67 +227,36 @@ class Lemniscate01Drawable: MyDrawable() {
         canvas.save()
         canvas.translate(x0,y0)
 
-        /*
-        // レムニスケート曲線を描く
-        // 赤色で線を描く
+        // 対数螺旋を描く
         val path = Path()
-        circleLst.forEachIndexed { index, myPointF ->
-            when (index) {
-                0 -> path.moveTo(myPointF.x,myPointF.y)
-                else -> path.lineTo(myPointF.x,myPointF.y)
-            }
+        circleLst.forEachIndexed { id, circle ->
+            val x = circle.c.x * MyMathUtil.cosf(sign*angle) - circle.c.y * MyMathUtil.sinf(sign*angle)
+            val y = circle.c.x * MyMathUtil.sinf(sign*angle) + circle.c.y * MyMathUtil.cosf(sign*angle)
+
+            linePaint.color = circle.color
+            canvas.drawCircle(x,y,circle.r,linePaint)
         }
-        path.close()
         canvas.drawPath(path,linePaint)
-        */
-
-        /*
-        // レムニスケート曲線を描く
-        // 30度ずつ色を変える
-        val bunchSize = circleLst.size/colorLst.size
-        var colorPos = -1
-        var path = Path()
-        circleLst.forEachIndexed { index, myPointF ->
-            when (index%bunchSize) {
-                0 -> {
-                    if ( colorPos >= 0) {
-                        linePaint.color = colorLst[colorPos%colorLst.size]
-                        path.lineTo(myPointF.x,myPointF.y)
-                        canvas.drawPath(path,linePaint)
-                    }
-                    colorPos++
-                    path = Path()
-                    path.moveTo(myPointF.x,myPointF.y)
-                }
-                else -> path.lineTo(myPointF.x,myPointF.y)
-            }
-        }
-        */
-
-        // 色インスタンス作成
-        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
-
-        // レムニスケート曲線を描く
-        // 1536色のグラデーション
-        val bunchSize = pointLst.size
-        var myPointF2: MyPointF? = null
-        pointLst.forEachIndexed { index, myPointF1 ->
-            if ( myPointF2 != null ) {
-                val id = (index+angle.toInt())%bunchSize
-                val color = myColor.create(id,bunchSize)
-                linePaint.color = color.toInt()
-                canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaint)
-            }
-            myPointF2 = myPointF1
-        }
 
         // 座標を元に戻す
         canvas.restore()
 
-        // これまでの描画は上下逆なので反転する
+        // テンポラリを実体に反映
         val matrix = Matrix()
         matrix.postScale(1f,-1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
+
+        /*
+        // 描画点を回転させるのではなく、
+        // 画像を回転させてみる方法
+        val matrix = Matrix()        matrix.postRotate(sign*angle,x0,y0)
+        imageBitmap = Bitmap.createBitmap(intrinsicWidth,intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val canvas2 = Canvas(imageBitmap)
+        canvas2.drawBitmap(tmpBitmap,matrix,backPaint)
+
+        // 枠を描画(画像を回転させるので、回転してから枠を描くこととした
+        canvas2.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
+         */
     }
 
     // -------------------------------
@@ -318,4 +297,14 @@ class Lemniscate01Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun getIntrinsicHeight(): Int = (side+margin*2).toInt()
+
+    // 円
+    data class Circle(
+        // 中心
+        val c: MyPointF = MyPointF(),
+        // 半径
+        val r: Float = 10f,
+        // 色
+        var color: Int = Color.RED
+    )
 }
