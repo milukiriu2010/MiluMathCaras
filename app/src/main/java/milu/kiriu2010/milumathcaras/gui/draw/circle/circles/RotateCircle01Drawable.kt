@@ -199,7 +199,7 @@ class RotateCircle01Drawable: MyDrawable() {
             val cC = Circle().apply {
                 // 中心
                 c = cp.c.copy()
-                    .plus(
+                    .plusSelf(
                         MyPointF().apply {
                             x = lN*MyMathUtil.cosf(id.toFloat()*120f+90f)
                             y = lN*MyMathUtil.sinf(id.toFloat()*120f+90f)
@@ -229,7 +229,7 @@ class RotateCircle01Drawable: MyDrawable() {
             val cC = Circle().apply {
                 // 中心
                 c = cp.c.copy()
-                    .plus(
+                    .plusSelf(
                         MyPointF().apply {
                             x = lN*MyMathUtil.cosf(id.toFloat()*72f+18f)
                             y = lN*MyMathUtil.sinf(id.toFloat()*72f+18f)

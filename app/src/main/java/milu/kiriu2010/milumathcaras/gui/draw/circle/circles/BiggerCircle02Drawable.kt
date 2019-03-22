@@ -274,7 +274,7 @@ class BiggerCircle02Drawable: MyDrawable() {
             if ( myPointF2 != null) {
                 // 中心位置が移動した場合、点同士を繋げないようにするために
                 // 離れすぎている場合は、描画しないようにしている
-                val myPointFDiff = myPointF1.copy().subtract(myPointF2!!)
+                val myPointFDiff = myPointF1.copy().subtractSelf(myPointF2!!)
                 if ( myPointFDiff.magnitude() < r ) {
                     canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaint)
                 }

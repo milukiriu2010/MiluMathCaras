@@ -293,6 +293,8 @@ class DrawDataFactory {
                 }
                 // "三角形"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_TRIANGLE -> {
+                    // 三角形の外心
+                    drawDataLst.add(DrawData(DrawDataID.ID_000371_TRIANGLE_CIRCUMCENTER,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000371_triangle_circumcenter) ))
                     // 三角形の重心
                     drawDataLst.add(DrawData(DrawDataID.ID_000370_TRIANGLE_CENTER_OF_GRAVITY,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000370_triangle_center_of_gravity) ))
                 }

@@ -145,7 +145,7 @@ class Complex(
     }
 
     companion object {
-        // a static version of plus
+        // a static version of plusSelf
         fun plus(a: Complex, b: Complex): Complex {
             val real = a.re + b.re
             val imag = a.im + b.im

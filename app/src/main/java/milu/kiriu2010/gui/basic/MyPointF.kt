@@ -1,10 +1,8 @@
 package milu.kiriu2010.gui.basic
 
 import milu.kiriu2010.math.MyMathUtil
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
+import java.lang.RuntimeException
+import kotlin.math.*
 
 // X,Y座標
 data class MyPointF(
@@ -23,13 +21,13 @@ data class MyPointF(
         return sqrt(x*x+y*y)
     }
 
-    fun plus(p: MyPointF): MyPointF {
+    fun plusSelf(p: MyPointF): MyPointF {
         x = x + p.x
         y = y + p.y
         return this
     }
 
-    fun subtract(p: MyPointF): MyPointF {
+    fun subtractSelf(p: MyPointF): MyPointF {
         x = x - p.x
         y = y - p.y
         return this
@@ -39,6 +37,23 @@ data class MyPointF(
         val dx = x - p.x
         val dy = y - p.y
         return MyPointF(dx,dy)
+    }
+
+    fun multiply(f: Float): MyPointF {
+        return this.copy().also {
+            it.x = x * f
+            it.y = y * f
+        }
+    }
+
+    fun divide(f: Float): MyPointF {
+        if ( f == 0f ) {
+            throw RuntimeException("cannot divide by 0.")
+        }
+        return this.copy().also {
+            it.x = x / f
+            it.y = y / f
+        }
     }
 
     // -----------------------------------
@@ -87,4 +102,28 @@ data class MyPointF(
 
         return this
     }
+
+    // -------------------------------------
+    // "点A-自点"と"点B-自点"のなす角度を取得
+    // -------------------------------------
+    fun getAngle(a: MyPointF, b: MyPointF): Float {
+        val va = diff(a)
+        val vb = diff(b)
+
+        // 内積からcos値を求める
+        val cost = (va.x*vb.x + va.y*vb.y)/(va.magnitude()*vb.magnitude())
+        // cos値から角度を求める
+        val acos = acos(cost).toFloat()
+
+        // acosの値は、-PI/2～PI/2なので,負の場合はPI足して補正する
+        return when {
+            (acos >= 0f) -> {
+                (acos * 180f/PI).toFloat()
+            }
+            else -> {
+                ((acos+PI) * 180f/PI).toFloat()
+            }
+        }
+    }
+
 }

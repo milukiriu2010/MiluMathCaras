@@ -8,7 +8,6 @@ import milu.kiriu2010.gui.color.MyColorFactory
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
-import kotlin.math.sqrt
 
 // -----------------------------------------------------------------
 // シェルピンスキーの六角形
@@ -210,7 +209,7 @@ class SierpinskiHexagon01Drawable: MyDrawable() {
             val x = rC * MyMathUtil.cosf(it.toFloat()*60f)
             val y = rC * MyMathUtil.sinf(it.toFloat()*60f)
             val polygon = Polygon().apply {
-                center = polygon0.center.copy().plus(MyPointF(x,y))
+                center = polygon0.center.copy().plusSelf(MyPointF(x,y))
                 r = rN
             }
             calNextLevel(polygon,n-1)

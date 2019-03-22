@@ -4,7 +4,6 @@ import android.graphics.*
 import android.os.Handler
 import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
-import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
@@ -341,10 +340,10 @@ class RotateArrows01Drawable: MyDrawable() {
                 val path = Path()
                 arrow.pointLst.forEachIndexed { index, myPointF ->
                     // 中心点と描画点の差分
-                    val dv = myPointF.copy().subtract(center)
+                    val dv = myPointF.copy().subtractSelf(center)
                     // 回転し、中心点から元の座標に戻す
                     // 元の形を既に回転した形にしているのでangleは90度くくりとする
-                    dv.rotate((angle.toInt()%90).toFloat()).plus(center)
+                    dv.rotate((angle.toInt()%90).toFloat()).plusSelf(center)
 
                     /*
                     if ( ( i == 0 ) and ( j== 0 ) ) {

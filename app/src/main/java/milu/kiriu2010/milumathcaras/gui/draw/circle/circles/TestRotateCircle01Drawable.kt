@@ -205,7 +205,7 @@ class TestRotateCircle01Drawable: MyDrawable() {
             val cC = Circle().apply {
                 // 中心
                 c = cp.c.copy()
-                    .plus(
+                    .plusSelf(
                         MyPointF().apply {
                             x = lN*MyMathUtil.cosf(id.toFloat()*120f+90f)
                             y = lN*MyMathUtil.sinf(id.toFloat()*120f+90f)
@@ -317,7 +317,7 @@ class TestRotateCircle01Drawable: MyDrawable() {
         // 回転後の円(1)と回転前の円(1)の移動量分、円(2)を移動してから回転しないと、
         // 円(1)と円(2)の間が、どんどん開いていく
         // --------------------------------------------------------------------
-        circleTest2.c.plus(d)
+        circleTest2.c.plusSelf(d)
         circleTest2.c.rotate(angle, circleTest1.c)
         linePaint.color = Color.CYAN
         canvas.drawCircle(circleTest2.c.x,circleTest2.c.y,circleTest2.r,linePaint)

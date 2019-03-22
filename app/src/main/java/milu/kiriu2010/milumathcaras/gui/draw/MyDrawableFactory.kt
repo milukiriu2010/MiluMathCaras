@@ -42,6 +42,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.RandomWalk01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.UniformMotion01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.TriangleCenterOfGravity01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.TriangleCircumCenter01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.TriangleExile01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.TriangleUnite01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWave01Drawable
@@ -211,6 +212,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000327_9_IN_10 -> PolygonInPolygon01Drawable()
                 // 三角形の重心
                 DrawDataID.ID_000370_TRIANGLE_CENTER_OF_GRAVITY -> TriangleCenterOfGravity01Drawable()
+                // 三角形の外心
+                DrawDataID.ID_000371_TRIANGLE_CIRCUMCENTER -> TriangleCircumCenter01Drawable()
                 // 等速度運動
                 DrawDataID.ID_000401_NATURE_UNFORM_MOTION -> UniformMotion01Drawable()
                 // 噴水

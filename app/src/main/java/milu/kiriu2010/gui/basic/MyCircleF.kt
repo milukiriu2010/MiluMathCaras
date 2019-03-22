@@ -154,7 +154,7 @@ data class MyCircleF(
         // 反射ベクトル
         // R = F + 2(-F*N)*N
         // -----------------------------------------
-        //v.plus(vn.multiply(-2f*dot))
+        //v.plusSelf(vn.multiply(-2f*dot))
         v.reflect(vn)
 
         return this

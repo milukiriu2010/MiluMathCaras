@@ -210,7 +210,7 @@ class SierpinskiOctagon01Drawable: MyDrawable() {
             val x = rC * MyMathUtil.cosf(it.toFloat()*45f)
             val y = rC * MyMathUtil.sinf(it.toFloat()*45f)
             val polygon = Polygon().apply {
-                center = polygon0.center.copy().plus(MyPointF(x,y))
+                center = polygon0.center.copy().plusSelf(MyPointF(x,y))
                 r = rN
             }
             calNextLevel(polygon,n-1)
