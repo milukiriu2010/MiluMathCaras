@@ -8,21 +8,24 @@ import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
-// ----------------------------------------------------------------
-// 三角形の外心
-// ----------------------------------------------------------------
+// -------------------------------------------
+// 三角形の内心
+// -------------------------------------------
 // 定義
-//   各辺の垂直２等分線の交点
-// ----------------------------------------------------------------
-// 外心のベクトル
-//   O = (sin(2a)*A+sin(2b)*B+sin(2c)*C)/(sin(2a)+sin(2b)+sin(2c))
-// ----------------------------------------------------------------
-// 角度BOC=角度BAC x 2
-// 角度COA=角度CBA x 2
-// 角度AOB=角度ACB x 2
-// ----------------------------------------------------------------
-class TriangleCircumCenter01Drawable: MyDrawable() {
-
+//   各角の２等分線の交点
+// -------------------------------------------
+// 内心のベクトル
+//   I = (BCの長さ*A+CAの長さ*B+ABの長さ*C)
+//       /(BCの長さ+CAの長さ+ABの長さ)
+// -------------------------------------------
+// 三角形の面積
+//   S = ABの長さ*ACの長さ*sin(A)/2
+//     = BCの長さ*BAの長さ*sin(B)/2
+//     = CAの長さ*CBの長さ*sin(C)/2
+// -------------------------------------------
+// http://examist.jp/mathematics/math-b/planar-vector/naisin-vector/
+// -------------------------------------------
+class TriangleInCenter01Drawable: MyDrawable() {
     // -------------------------------
     // 描画領域
     // -------------------------------
@@ -78,7 +81,7 @@ class TriangleCircumCenter01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 各辺の垂直2等分線と外接円を描く
+    // 各角の２等分線と内接円を描く
     // -------------------------------
     private val dotPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLACK
@@ -257,41 +260,44 @@ class TriangleCircumCenter01Drawable: MyDrawable() {
         path.close()
         canvas.drawPath(path,linePaint)
 
+        // BCの長さ
+        val lbc = pointLst[2].diff(pointLst[1]).magnitude()
+        // CAの長さ
+        val lca = pointLst[0].diff(pointLst[2]).magnitude()
+        // ABの長さ
+        val lab = pointLst[1].diff(pointLst[0]).magnitude()
+
+        // 全辺合計の長さ
+        val labc = lbc + lca + lab
+        // 補正ベクトルA
+        val va = pointLst[0].multiply(lbc/labc)
+        // 補正ベクトルB
+        val vb = pointLst[1].multiply(lca/labc)
+        // 補正ベクトルC
+        val vc = pointLst[2].multiply(lab/labc)
+
+        // 内心ベクトル
+        val vi = va.plus(vb).plus(vc)
+        canvas.drawCircle(vi.x,vi.y,20f,centerPaint)
+
+        // 各頂点と内心を結ぶ
+        pointLst.forEach {
+            canvas.drawLine(it.x,it.y,vi.x,vi.y,dotPaint)
+        }
+
         // 角度A
         val ta = pointLst[0].getAngle(pointLst[1],pointLst[2])
-        // 角度B
-        val tb = pointLst[1].getAngle(pointLst[2],pointLst[0])
-        // 角度C
-        val tc = pointLst[2].getAngle(pointLst[0],pointLst[1])
-        // 補正ベクトルA
-        val va = pointLst[0].multiply(MyMathUtil.sinf(2f*ta))
-        // 補正ベクトルB
-        val vb = pointLst[1].multiply(MyMathUtil.sinf(2f*tb))
-        // 補正ベクトルC
-        val vc = pointLst[2].multiply(MyMathUtil.sinf(2f*tc))
 
-        // 外心ベクトル
-        val vo = va.copy().plusSelf(vb).plusSelf(vc)
-            .divide(MyMathUtil.sinf(2f*ta)+MyMathUtil.sinf(2f*tb)+MyMathUtil.sinf(2f*tc) )
-        canvas.drawCircle(vo.x,vo.y,20f,centerPaint)
+        // 内接円の面積
+        val s = lca * lab *
+                MyMathUtil.sinf(ta)/2f
+        // 内接円の半径
+        val r = 2f*s/labc
+        // 内接円を描く
+        canvas.drawCircle(vi.x,vi.y,r,dotPaint)
 
-        // 外接円の半径
-        val vor = vo.diff(pointLst[0]).magnitude()
-        canvas.drawCircle(vo.x,vo.y,vor,dotPaint)
 
-        val idx = arrayOf(0,1,2)
-        idx.forEach { id ->
-            // 中点として使う頂点のインデックス
-            val ids = idx.filter { it != id }
 
-            // 中点
-            val m = pointLst[ids[0]].mid(pointLst[ids[1]])
-            // 外心と中点を結ぶベクトル(外心からみたベクトル)
-            val vom = m.diff(vo)
-            // 外心と中点を結ぶベクトル(原点からみた値:外心円の半径と同じ大きさに補正)
-            val vomo = vom.multiply(vor/vom.magnitude()).plusSelf(vo)
-            canvas.drawLine(vo.x,vo.y,vomo.x,vomo.y,dotPaint)
-        }
 
         // 座標を元に戻す
         canvas.restore()

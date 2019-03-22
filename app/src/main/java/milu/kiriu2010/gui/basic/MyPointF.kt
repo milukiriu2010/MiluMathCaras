@@ -27,6 +27,14 @@ data class MyPointF(
         return this
     }
 
+    fun plus(p: MyPointF): MyPointF {
+        return MyPointF().also {
+            it.x = x + p.x
+            it.y = y + p.y
+        }
+    }
+
+
     fun subtractSelf(p: MyPointF): MyPointF {
         x = x - p.x
         y = y - p.y
@@ -40,7 +48,7 @@ data class MyPointF(
     }
 
     fun multiply(f: Float): MyPointF {
-        return this.copy().also {
+        return MyPointF().also {
             it.x = x * f
             it.y = y * f
         }
@@ -50,7 +58,7 @@ data class MyPointF(
         if ( f == 0f ) {
             throw RuntimeException("cannot divide by 0.")
         }
-        return this.copy().also {
+        return MyPointF().also {
             it.x = x / f
             it.y = y / f
         }

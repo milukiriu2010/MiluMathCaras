@@ -131,6 +131,7 @@
     <string name="draw_000327_polygon_9_in_10">9 in 10</string>
     <string name="draw_000370_triangle_center_of_gravity">Triangle\nCenter of Gravity</string>
     <string name="draw_000371_triangle_circumcenter">Triangle\nCircumcenter</string>
+    <string name="draw_000372_triangle_incenter">Triangle\nIncenter</string>
     <string name="draw_000401_nature_uniform_motion">Uniform Motion</string>
     <string name="draw_000402_nature_fountain">Fountain</string>
     <string name="draw_000403_nature_random_walk">Random Walk</string>
