@@ -163,8 +163,8 @@ class LogarithmicSpiralCircle01Drawable: MyDrawable() {
     // -------------------------------------
     // タッチしたポイントを受け取る
     // -------------------------------------
-    override fun receiveTouchPoint(x: Float, y: Float, event: MotionEvent) {
-        Log.d(javaClass.simpleName,"Touch:x[${x}]y[${y}]" )
+    override fun receiveTouchPoint(event: MotionEvent) {
+        //Log.d(javaClass.simpleName,"Touch:x[${x}]y[${y}]" )
 
         // タッチすると、回転方向を変更する
         if ( event.action == MotionEvent.ACTION_DOWN ) {

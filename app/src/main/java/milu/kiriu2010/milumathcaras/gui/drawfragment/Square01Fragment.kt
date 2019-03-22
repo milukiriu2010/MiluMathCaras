@@ -71,14 +71,23 @@ class Square01Fragment : Fragment()
             // rawX,Y => デバイスの左上からの位置
             // らしいが、なんかずれてる
             // ---------------------------------------------
-            //Log.d(javaClass.simpleName,"Touch:x[${event.x}]xp[${event.xPrecision}]xr[${event.rawX}]y[${event.y}]" )
+            /*
+            val loc = IntArray(2)
+            v.getLocationOnScreen(loc)
+            Log.d(javaClass.simpleName,"===========================================" )
+            Log.d(javaClass.simpleName,"V    :x[${v.left}]y[${v.top}]" )
+            Log.d(javaClass.simpleName,"Loc  :x[${loc[0]}]y[${loc[1]}]" )
+            Log.d(javaClass.simpleName,"Touch:x[${event.x}]y[${event.y}]" )
+            Log.d(javaClass.simpleName,"Preci:x[${event.xPrecision}]y[${event.yPrecision}]" )
+            Log.d(javaClass.simpleName,"Raw  :x[${event.rawX}]y[${event.rawY}]" )
+            */
             when ( event.action ) {
                 // タッチしたとき
-                MotionEvent.ACTION_DOWN -> drawable.receiveTouchPoint(event.x,event.y,event)
+                MotionEvent.ACTION_DOWN -> drawable.receiveTouchPoint(event)
                 // タッチを離したとき
-                MotionEvent.ACTION_UP -> drawable.receiveTouchPoint(-1f,-1f,event)
+                MotionEvent.ACTION_UP -> drawable.receiveTouchPoint(event)
                 // タッチ点を移動したとき
-                MotionEvent.ACTION_MOVE -> drawable.receiveTouchPoint(event.x,event.y,event)
+                MotionEvent.ACTION_MOVE -> drawable.receiveTouchPoint(event)
             }
 
             true

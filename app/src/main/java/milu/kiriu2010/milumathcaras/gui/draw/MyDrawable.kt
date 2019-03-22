@@ -29,5 +29,5 @@ abstract class MyDrawable: Drawable()
     // TouchCallback
     // タッチしたポイントを受け取る
     // -------------------------------------
-    override fun receiveTouchPoint(x: Float, y: Float, event: MotionEvent) {}
+    override fun receiveTouchPoint(event: MotionEvent) {}
 }

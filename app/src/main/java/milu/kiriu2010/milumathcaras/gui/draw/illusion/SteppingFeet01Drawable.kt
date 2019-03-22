@@ -201,19 +201,8 @@ class SteppingFeet01Drawable: MyDrawable() {
     // -------------------------------------
     // タッチしたポイントを受け取る
     // -------------------------------------
-    override fun receiveTouchPoint(x: Float, y: Float, event: MotionEvent) {
-        Log.d(javaClass.simpleName,"Touch:x[${x}]y[${y}]" )
-        /*
-        // タッチする⇒コントラストON
-        // タッチ離す⇒コントラストOFF
-        contrastFlg = if ( ( x == -1f ) and ( y == -1f ) ) {
-            false
-        }
-        else {
-            true
-        }
-        */
-
+    override fun receiveTouchPoint(event: MotionEvent) {
+        //Log.d(javaClass.simpleName,"Touch:x[${x}]y[${y}]" )
         // タッチをすると、コントラストをON/OFFする
         if ( event.action == MotionEvent.ACTION_DOWN ) {
             contrastFlg = when (contrastFlg) {

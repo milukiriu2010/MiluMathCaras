@@ -6,5 +6,5 @@ interface TouchCallback {
     // -------------------------------------
     // タッチしたポイントを受け取る
     // -------------------------------------
-    fun receiveTouchPoint(x: Float, y: Float, event: MotionEvent)
+    fun receiveTouchPoint(event: MotionEvent)
 }

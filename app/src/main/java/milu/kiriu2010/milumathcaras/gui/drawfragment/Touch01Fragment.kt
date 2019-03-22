@@ -66,11 +66,11 @@ class Touch01Fragment : Fragment() {
             Log.d(javaClass.simpleName,"Touch:x[${event.x}]xp[${event.xPrecision}]xr[${event.rawX}]y[${event.y}]" )
             when ( event.action ) {
                 // タッチしたとき
-                MotionEvent.ACTION_DOWN -> drawable.receiveTouchPoint(event.x,event.y,event)
+                MotionEvent.ACTION_DOWN -> drawable.receiveTouchPoint(event)
                 // タッチを離したとき
-                MotionEvent.ACTION_UP -> drawable.receiveTouchPoint(-1f,-1f,event)
+                MotionEvent.ACTION_UP -> drawable.receiveTouchPoint(event)
                 // タッチ点を移動したとき
-                MotionEvent.ACTION_MOVE -> drawable.receiveTouchPoint(event.x,event.y,event)
+                MotionEvent.ACTION_MOVE -> drawable.receiveTouchPoint(event)
             }
 
             true

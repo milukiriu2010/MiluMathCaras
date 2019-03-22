@@ -190,10 +190,18 @@ class AccelerateTowardsTouchPoint01Drawable: MyDrawable() {
     // -------------------------------------
     // タッチしたポイントを受け取る
     // -------------------------------------
-    override fun receiveTouchPoint(x: Float, y: Float, event: MotionEvent) {
-        Log.d(javaClass.simpleName,"Touch:x[${x}]y[${y}]" )
-        touchPoint.x = x
-        touchPoint.y = y
+    override fun receiveTouchPoint(event: MotionEvent) {
+        //Log.d(javaClass.simpleName,"Touch:x[${x}]y[${y}]" )
+        when (event.action ) {
+            MotionEvent.ACTION_UP -> {
+                touchPoint.x = -1f
+                touchPoint.y = -1f
+            }
+            else -> {
+                touchPoint.x = event.x
+                touchPoint.y = event.y
+            }
+        }
     }
 
     // -------------------------------

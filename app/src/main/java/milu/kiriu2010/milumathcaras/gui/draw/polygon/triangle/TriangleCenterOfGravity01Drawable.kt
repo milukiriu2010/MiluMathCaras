@@ -36,6 +36,10 @@ class TriangleCenterOfGravity01Drawable: MyDrawable() {
     // タッチでつかんだ頂点
     // -------------------------------
     private var grabPoint: MyPointF? = null
+    // -------------------------------
+    // タッチ点
+    // -------------------------------
+    private var touchPoint: MyPointF? = null
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -140,37 +144,53 @@ class TriangleCenterOfGravity01Drawable: MyDrawable() {
     // -------------------------------------
     // タッチしたポイントを受け取る
     // -------------------------------------
-    override fun receiveTouchPoint(x: Float, y: Float, event: MotionEvent) {
-        //Log.d(javaClass.simpleName, "Touch")
+    override fun receiveTouchPoint(event: MotionEvent) {
 
-        // タッチした付近に頂点があれば動かす
+        // タッチ点に一番近い頂点を動かす
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                Log.d(javaClass.simpleName, "Down")
-                Log.d(javaClass.simpleName, "x[${x}]y[${y}]")
-                pointLst.forEach {
-                    val d = it.distance(MyPointF(x,y))
-                    Log.d(javaClass.simpleName, "d[$d]X[${it.x}]Y[${it.y}]")
-                    if ( d <= 100f ) {
-                        grabPoint = it
-                        return
+                //Log.d(javaClass.simpleName, "Down")
+                touchPoint = MyPointF(event.x,event.y)
+                // なんかタッチ位置とずれているから、これで対応
+                val basePoint = MyPointF().also {
+                    it.x = 2f*event.x - event.rawX
+                    it.y = 2f*event.y - event.rawY
+                }
+                var d = Float.MAX_VALUE
+                pointLst.forEachIndexed { id, myPointF ->
+                    val dV = myPointF.distance(MyPointF(basePoint.x,basePoint.y))
+                    //Log.d(javaClass.simpleName, "d[$dV]X[${myPointF.x}]Y[${myPointF.y}]")
+                    if ( dV < d ) {
+                        d = dV
+                        grabPoint = myPointF
                     }
                 }
+                //Log.d(javaClass.simpleName, "down:gx[${grabPoint?.x}]gy[${grabPoint?.y}]")
             }
             MotionEvent.ACTION_MOVE -> {
+                //Log.d(javaClass.simpleName, "move1:gx[${grabPoint?.x}]gy[${grabPoint?.y}]")
                 grabPoint?.let {
-                    it.x = x
-                    it.y = y
+                    it.x = it.x + (event.x - touchPoint!!.x )
+                    it.y = it.y + (event.y - touchPoint!!.y )
                 }
+                //Log.d(javaClass.simpleName, "move2:gx[${grabPoint?.x}]gy[${grabPoint?.y}]")
+                touchPoint = MyPointF(event.x,event.y)
             }
             MotionEvent.ACTION_UP -> {
+                //Log.d(javaClass.simpleName, "up1:gx[${grabPoint?.x}]gy[${grabPoint?.y}]")
                 grabPoint?.let {
-                    it.x = x
-                    it.y = y
+                    it.x = it.x + (event.x - touchPoint!!.x )
+                    it.y = it.y + (event.y - touchPoint!!.y )
                 }
+                //Log.d(javaClass.simpleName, "up2:gx[${grabPoint?.x}]gy[${grabPoint?.y}]")
                 grabPoint = null
+                touchPoint = null
             }
         }
+        // ビットマップに描画
+        drawBitmap()
+        // 描画
+        invalidateSelf()
     }
 
     // -------------------------------
