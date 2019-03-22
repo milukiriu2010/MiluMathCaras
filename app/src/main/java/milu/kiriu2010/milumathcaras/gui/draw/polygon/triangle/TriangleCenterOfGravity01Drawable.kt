@@ -3,6 +3,7 @@ package milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle
 import android.graphics.*
 import android.os.Handler
 import android.util.Log
+import android.view.MotionEvent
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
@@ -30,6 +31,11 @@ class TriangleCenterOfGravity01Drawable: MyDrawable() {
     // 描画する三角形の頂点リスト
     // -------------------------------
     private val pointLst = mutableListOf<MyPointF>()
+
+    // -------------------------------
+    // タッチでつかんだ頂点
+    // -------------------------------
+    private var grabPoint: MyPointF? = null
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -63,6 +69,24 @@ class TriangleCenterOfGravity01Drawable: MyDrawable() {
         color = Color.BLACK
         style = Paint.Style.STROKE
         strokeWidth = 10f
+    }
+
+    // -------------------------------
+    // 三角形の頂点と中点を結ぶ線
+    // -------------------------------
+    private val dotPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.BLACK
+        style = Paint.Style.STROKE
+        strokeWidth = 5f
+        pathEffect = DashPathEffect(floatArrayOf(10f,10f),0f)
+    }
+
+    // -------------------------------
+    // 三角形の重心を描く
+    // -------------------------------
+    private val centerPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.RED
+        style = Paint.Style.FILL
     }
 
     // -------------------------------------
@@ -112,6 +136,43 @@ class TriangleCenterOfGravity01Drawable: MyDrawable() {
         handler.removeCallbacks(runnable)
     }
 
+
+    // -------------------------------------
+    // タッチしたポイントを受け取る
+    // -------------------------------------
+    override fun receiveTouchPoint(x: Float, y: Float, event: MotionEvent) {
+        //Log.d(javaClass.simpleName, "Touch")
+
+        // タッチした付近に頂点があれば動かす
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                Log.d(javaClass.simpleName, "Down")
+                Log.d(javaClass.simpleName, "x[${x}]y[${y}]")
+                pointLst.forEach {
+                    val d = it.distance(MyPointF(x,y))
+                    Log.d(javaClass.simpleName, "d[$d]X[${it.x}]Y[${it.y}]")
+                    if ( d <= 100f ) {
+                        grabPoint = it
+                        return
+                    }
+                }
+            }
+            MotionEvent.ACTION_MOVE -> {
+                grabPoint?.let {
+                    it.x = x
+                    it.y = y
+                }
+            }
+            MotionEvent.ACTION_UP -> {
+                grabPoint?.let {
+                    it.x = x
+                    it.y = y
+                }
+                grabPoint = null
+            }
+        }
+    }
+
     // -------------------------------
     // 三角形を生成
     // -------------------------------
@@ -121,19 +182,19 @@ class TriangleCenterOfGravity01Drawable: MyDrawable() {
         // 頂点A
         val a = MyPointF().apply {
             x = ((side/3f).toInt()..(side*2f/3f).toInt()).random().toFloat()
-            y = ((side/2f).toInt()..side.toInt()).random().toFloat()
+            y = (0..(side/2f).toInt()).random().toFloat()
         }
 
         // 頂点B
         val b = MyPointF().apply {
             x = (0..(side/3f).toInt()).random().toFloat()
-            y = (0..(side/2f).toInt()).random().toFloat()
+            y = ((side/2f).toInt()..side.toInt()).random().toFloat()
         }
 
         // 頂点C
         val c = MyPointF().apply {
             x = ((side*2f/3f).toInt()..side.toInt()).random().toFloat()
-            y = (0..(side/2f).toInt()).random().toFloat()
+            y = ((side/2f).toInt()..side.toInt()).random().toFloat()
         }
 
         pointLst.add(a)
@@ -172,12 +233,29 @@ class TriangleCenterOfGravity01Drawable: MyDrawable() {
         path.close()
         canvas.drawPath(path,linePaint)
 
+        // 頂点Aと中点BCを結ぶ
+        // 頂点Bと中点CAを結ぶ
+        // 頂点Cと中点ABを結ぶ
+        val idx = arrayOf(0,1,2)
+        idx.forEach { id ->
+            // 中点として使う頂点のインデックス
+            val ids = idx.filter { it != id }
+            // 中点
+            val p = pointLst[ids[0]].mid(pointLst[ids[1]])
+            // 頂点と中点を結ぶ
+            canvas.drawLine(pointLst[id].x,pointLst[id].y,p.x,p.y,dotPaint)
+        }
+
+        // 重心
+        val g = pointLst[0].cog(pointLst[1],pointLst[2])
+        canvas.drawCircle(g.x,g.y,20f,centerPaint)
+
         // 座標を元に戻す
         canvas.restore()
 
         // テンポラリ描画を実体用ビットマップに描画する
         val matrix = Matrix()
-        matrix.postScale(1f,-1f)
+        matrix.postScale(1f,1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
     }
 

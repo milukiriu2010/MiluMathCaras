@@ -299,88 +299,88 @@ class DrawDataFactory {
                 // "多角形in多角形"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_PINP -> {
                     // 三角形in四角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000301_3_IN_4,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000301_polygon_3_in_4),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000300_3_IN_4,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000300_polygon_3_in_4),
                         stillImageParam = floatArrayOf(4f,3f), motionImageParam = floatArrayOf(4f,3f) ))
                     // 三角形in五角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000302_3_IN_5,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000302_polygon_3_in_5),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000301_3_IN_5,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000301_polygon_3_in_5),
                         stillImageParam = floatArrayOf(5f,3f), motionImageParam = floatArrayOf(5f,3f) ))
                     // 三角形in六角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000303_3_IN_6,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000303_polygon_3_in_6),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000302_3_IN_6,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000302_polygon_3_in_6),
                         stillImageParam = floatArrayOf(6f,3f), motionImageParam = floatArrayOf(6f,3f) ))
                     // 三角形in七角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000304_3_IN_7,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000304_polygon_3_in_7),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000303_3_IN_7,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000303_polygon_3_in_7),
                         stillImageParam = floatArrayOf(7f,3f), motionImageParam = floatArrayOf(7f,3f) ))
                     // 三角形in八角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000305_3_IN_8,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000305_polygon_3_in_8),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000304_3_IN_8,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000304_polygon_3_in_8),
                         stillImageParam = floatArrayOf(8f,3f), motionImageParam = floatArrayOf(8f,3f) ))
                     // 三角形in九角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000306_3_IN_9,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000306_polygon_3_in_9),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000305_3_IN_9,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000305_polygon_3_in_9),
                         stillImageParam = floatArrayOf(9f,3f), motionImageParam = floatArrayOf(9f,3f) ))
                     // 三角形in十角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000307_3_IN_10,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000307_polygon_3_in_10),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000306_3_IN_10,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000306_polygon_3_in_10),
                         stillImageParam = floatArrayOf(10f,3f), motionImageParam = floatArrayOf(10f,3f) ))
                     // 四角形in五角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000311_4_IN_5,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000311_polygon_4_in_5),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000307_4_IN_5,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000307_polygon_4_in_5),
                         stillImageParam = floatArrayOf(5f,4f), motionImageParam = floatArrayOf(5f,4f) ))
                     // 四角形in六角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000312_4_IN_6,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000312_polygon_4_in_6),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000308_4_IN_6,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000308_polygon_4_in_6),
                         stillImageParam = floatArrayOf(6f,4f), motionImageParam = floatArrayOf(6f,4f) ))
                     // 四角形in七角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000313_4_IN_7,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000313_polygon_4_in_7),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000309_4_IN_7,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000309_polygon_4_in_7),
                         stillImageParam = floatArrayOf(7f,4f), motionImageParam = floatArrayOf(7f,4f) ))
                     // 四角形in八角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000314_4_IN_8,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000314_polygon_4_in_8),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000310_4_IN_8,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000310_polygon_4_in_8),
                         stillImageParam = floatArrayOf(8f,4f), motionImageParam = floatArrayOf(8f,4f) ))
                     // 四角形in九角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000315_4_IN_9,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000315_polygon_4_in_9),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000311_4_IN_9,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000311_polygon_4_in_9),
                         stillImageParam = floatArrayOf(9f,4f), motionImageParam = floatArrayOf(9f,4f) ))
                     // 四角形in十角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000316_4_IN_10,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000316_polygon_4_in_10),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000312_4_IN_10,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000312_polygon_4_in_10),
                         stillImageParam = floatArrayOf(10f,4f), motionImageParam = floatArrayOf(10f,4f) ))
                     // 五角形in六角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000321_5_IN_6,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000321_polygon_5_in_6),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000313_5_IN_6,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000313_polygon_5_in_6),
                         stillImageParam = floatArrayOf(6f,5f), motionImageParam = floatArrayOf(6f,5f) ))
                     // 五角形in七角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000322_5_IN_7,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000322_polygon_5_in_7),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000314_5_IN_7,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000314_polygon_5_in_7),
                         stillImageParam = floatArrayOf(7f,5f), motionImageParam = floatArrayOf(7f,5f) ))
                     // 五角形in八角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000323_5_IN_8,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000323_polygon_5_in_8),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000315_5_IN_8,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000315_polygon_5_in_8),
                         stillImageParam = floatArrayOf(8f,5f), motionImageParam = floatArrayOf(8f,5f) ))
                     // 五角形in九角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000324_5_IN_9,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000324_polygon_5_in_9),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000316_5_IN_9,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000316_polygon_5_in_9),
                         stillImageParam = floatArrayOf(9f,5f), motionImageParam = floatArrayOf(9f,5f) ))
                     // 五角形in十角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000325_5_IN_10,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000325_polygon_5_in_10),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000317_5_IN_10,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000317_polygon_5_in_10),
                         stillImageParam = floatArrayOf(10f,5f), motionImageParam = floatArrayOf(10f,5f) ))
                     // 六角形in七角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000331_6_IN_7,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000331_polygon_6_in_7),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000318_6_IN_7,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000318_polygon_6_in_7),
                         stillImageParam = floatArrayOf(7f,6f), motionImageParam = floatArrayOf(7f,6f) ))
                     // 六角形in八角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000332_6_IN_8,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000332_polygon_6_in_8),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000319_6_IN_8,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000319_polygon_6_in_8),
                         stillImageParam = floatArrayOf(8f,6f), motionImageParam = floatArrayOf(8f,6f) ))
                     // 六角形in九角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000333_6_IN_9,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000333_polygon_6_in_9),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000320_6_IN_9,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000320_polygon_6_in_9),
                         stillImageParam = floatArrayOf(9f,6f), motionImageParam = floatArrayOf(9f,6f) ))
                     // 六角形in十角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000334_6_IN_10,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000334_polygon_6_in_10),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000321_6_IN_10,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000321_polygon_6_in_10),
                         stillImageParam = floatArrayOf(10f,6f), motionImageParam = floatArrayOf(10f,6f) ))
                     // 七角形in八角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000341_7_IN_8,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000341_polygon_7_in_8),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000322_7_IN_8,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000322_polygon_7_in_8),
                         stillImageParam = floatArrayOf(8f,7f), motionImageParam = floatArrayOf(8f,7f) ))
                     // 七角形in九角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000342_7_IN_9,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000342_polygon_7_in_9),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000323_7_IN_9,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000323_polygon_7_in_9),
                         stillImageParam = floatArrayOf(9f,7f), motionImageParam = floatArrayOf(9f,7f) ))
                     // 七角形in十角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000343_7_IN_10,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000343_polygon_7_in_10),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000324_7_IN_10,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000324_polygon_7_in_10),
                         stillImageParam = floatArrayOf(10f,7f), motionImageParam = floatArrayOf(10f,7f) ))
                     // 八角形in九角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000351_8_IN_9,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000351_polygon_8_in_9),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000325_8_IN_9,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000325_polygon_8_in_9),
                         stillImageParam = floatArrayOf(9f,8f), motionImageParam = floatArrayOf(9f,8f) ))
                     // 八角形in十角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000352_8_IN_10,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000352_polygon_8_in_10),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000326_8_IN_10,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000326_polygon_8_in_10),
                         stillImageParam = floatArrayOf(10f,8f), motionImageParam = floatArrayOf(10f,8f) ))
                     // 九角形in十角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000361_9_IN_10,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000361_polygon_9_in_10),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000327_9_IN_10,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000327_polygon_9_in_10),
                         stillImageParam = floatArrayOf(10f,9f), motionImageParam = floatArrayOf(10f,9f) ))
                 }
                 // "多角形out多角形"を選択したときの描画データの一覧

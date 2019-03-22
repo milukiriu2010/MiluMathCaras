@@ -42,6 +42,26 @@ data class MyPointF(
     }
 
     // -----------------------------------
+    // 中点
+    // -----------------------------------
+    fun mid(p: MyPointF): MyPointF {
+        return MyPointF().also {
+            it.x = (x+p.x)/2f
+            it.y = (y+p.y)/2f
+        }
+    }
+
+    // -----------------------------------
+    // 重心
+    // -----------------------------------
+    fun cog(p: MyPointF,q: MyPointF): MyPointF {
+        return MyPointF().also {
+            it.x = (x+p.x+q.x)/3f
+            it.y = (y+p.y+q.y)/3f
+        }
+    }
+
+    // -----------------------------------
     // 原点を中心とした回転
     // -----------------------------------
     fun rotate(angleDv: Float): MyPointF {

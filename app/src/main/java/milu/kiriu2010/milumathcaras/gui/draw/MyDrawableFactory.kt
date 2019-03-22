@@ -154,61 +154,61 @@ class MyDrawableFactory {
                 // ジュリア集合
                 DrawDataID.ID_000251_JULIA_SET -> Julia01Drawable()
                 // 三角形in四角形
-                DrawDataID.ID_000301_3_IN_4 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000300_3_IN_4 -> PolygonInPolygon01Drawable()
                 // 三角形in五角形
-                DrawDataID.ID_000302_3_IN_5 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000301_3_IN_5 -> PolygonInPolygon01Drawable()
                 // 三角形in六角形
-                DrawDataID.ID_000303_3_IN_6 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000302_3_IN_6 -> PolygonInPolygon01Drawable()
                 // 三角形in七角形
-                DrawDataID.ID_000304_3_IN_7 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000303_3_IN_7 -> PolygonInPolygon01Drawable()
                 // 三角形in八角形
-                DrawDataID.ID_000305_3_IN_8 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000304_3_IN_8 -> PolygonInPolygon01Drawable()
                 // 三角形in九角形
-                DrawDataID.ID_000306_3_IN_9 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000305_3_IN_9 -> PolygonInPolygon01Drawable()
                 // 三角形in十角形
-                DrawDataID.ID_000307_3_IN_10 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000306_3_IN_10 -> PolygonInPolygon01Drawable()
                 // 四角形in五角形
-                DrawDataID.ID_000311_4_IN_5 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000307_4_IN_5 -> PolygonInPolygon01Drawable()
                 // 四角形in六角形
-                DrawDataID.ID_000312_4_IN_6 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000308_4_IN_6 -> PolygonInPolygon01Drawable()
                 // 四角形in七角形
-                DrawDataID.ID_000313_4_IN_7 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000309_4_IN_7 -> PolygonInPolygon01Drawable()
                 // 四角形in八角形
-                DrawDataID.ID_000314_4_IN_8 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000310_4_IN_8 -> PolygonInPolygon01Drawable()
                 // 四角形in九角形
-                DrawDataID.ID_000315_4_IN_9 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000311_4_IN_9 -> PolygonInPolygon01Drawable()
                 // 四角形in十角形
-                DrawDataID.ID_000316_4_IN_10 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000312_4_IN_10 -> PolygonInPolygon01Drawable()
                 // 五角形in六角形
-                DrawDataID.ID_000321_5_IN_6 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000313_5_IN_6 -> PolygonInPolygon01Drawable()
                 // 五角形in七角形
-                DrawDataID.ID_000322_5_IN_7 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000314_5_IN_7 -> PolygonInPolygon01Drawable()
                 // 五角形in八角形
-                DrawDataID.ID_000323_5_IN_8 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000315_5_IN_8 -> PolygonInPolygon01Drawable()
                 // 五角形in九角形
-                DrawDataID.ID_000324_5_IN_9 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000316_5_IN_9 -> PolygonInPolygon01Drawable()
                 // 五角形in十角形
-                DrawDataID.ID_000325_5_IN_10 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000317_5_IN_10 -> PolygonInPolygon01Drawable()
                 // 六角形in七角形
-                DrawDataID.ID_000331_6_IN_7 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000318_6_IN_7 -> PolygonInPolygon01Drawable()
                 // 六角形in八角形
-                DrawDataID.ID_000332_6_IN_8 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000319_6_IN_8 -> PolygonInPolygon01Drawable()
                 // 六角形in九角形
-                DrawDataID.ID_000333_6_IN_9 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000320_6_IN_9 -> PolygonInPolygon01Drawable()
                 // 六角形in十角形
-                DrawDataID.ID_000334_6_IN_10 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000321_6_IN_10 -> PolygonInPolygon01Drawable()
                 // 七角形in八角形
-                DrawDataID.ID_000341_7_IN_8 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000322_7_IN_8 -> PolygonInPolygon01Drawable()
                 // 七角形in九角形
-                DrawDataID.ID_000342_7_IN_9 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000323_7_IN_9 -> PolygonInPolygon01Drawable()
                 // 七角形in十角形
-                DrawDataID.ID_000343_7_IN_10 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000324_7_IN_10 -> PolygonInPolygon01Drawable()
                 // 八角形in九角形
-                DrawDataID.ID_000351_8_IN_9 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000325_8_IN_9 -> PolygonInPolygon01Drawable()
                 // 八角形in十角形
-                DrawDataID.ID_000352_8_IN_10 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000326_8_IN_10 -> PolygonInPolygon01Drawable()
                 // 九角形in十角形
-                DrawDataID.ID_000361_9_IN_10 -> PolygonInPolygon01Drawable()
+                DrawDataID.ID_000327_9_IN_10 -> PolygonInPolygon01Drawable()
                 // 三角形の重心
                 DrawDataID.ID_000370_TRIANGLE_CENTER_OF_GRAVITY -> TriangleCenterOfGravity01Drawable()
                 // 等速度運動
