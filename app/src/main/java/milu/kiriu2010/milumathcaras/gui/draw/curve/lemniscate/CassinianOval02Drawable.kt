@@ -12,38 +12,72 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.*
 
 // -------------------------------------------------------------------------------------
-// レムニスケート曲線
+// カッシーニの卵形線
 // -------------------------------------------------------------------------------------
-//   x = a * cos(t)/(1+sin(t)*sin(t))
-//   y = a * sin(t)*cos(t)/(1+sin(t)*sin(t))
+//   x = a * sqrt(cos(2t)+sqrt((b/a)^4-sin(2t)^2) * cos(t)
+//   y = a * sqrt(cos(2t)+sqrt((b/a)^4-sin(2t)^2) * sin(t)
 // -------------------------------------------------------------------------------------
-// http://mathworld.wolfram.com/Lemniscate.html
+//   x = a * sqrt(cos(2t)-sqrt((b/a)^4-sin(2t)^2) * cos(t)
+//   y = a * sqrt(cos(2t)-sqrt((b/a)^4-sin(2t)^2) * sin(t)
 // -------------------------------------------------------------------------------------
-class Lemniscate02Drawable: MyDrawable() {
+// (1) a=b ⇒ レムニスケート
+// (2) a<b ⇒ ２つのループ
+// (3) a>b ⇒ １つのループ
+// -------------------------------------------------------------------------------------
+// https://www.mathcurve.com/courbes2d.gb/cassini/cassini.shtml
+// https://en.wikipedia.org/wiki/Cassini_oval
+// -------------------------------------------------------------------------------------
+class CassinianOval02Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
     // -------------------------------
-    private val side = 1000f
-    private val margin = 50f
+    private val side = 300f
+    private val margin = 10f
 
     // ---------------------------------
-    // レムニスケート曲線の変数a
+    // 最大周回数
     // ---------------------------------
-    private var a = side/2f/5f
+    private val nMax = 20f
+
+    // ---------------------------------
+    // カッシーニの卵形線の変数a
+    // ---------------------------------
+    private var a = 100f
+    private var bMin = 90f
+    private var bMax = 110f
+    /*
+    private var a = 90f
+    private var bMin = 60f
+    private var bMax = 120f
+    */
+    /*
+    private var a = 100f
+    private var bMin = 50f
+    private var bMax = 150f
+    */
+
+    // ---------------------------------
+    // カッシーニの卵形線の変数b
+    // ---------------------------------
+    private var b = bMin
+    private var bv = (bMax-bMin)/nMax
 
     // ----------------------------------
-    // レムニスケート曲線の位相(変数tに相当)
+    // カッシーニの卵形線の位相(変数tに相当)
     // ----------------------------------
     private val split = 72
     private var t = 0f
     private var tD = 360f/split.toFloat()
-    private var tM = 360f * 20f
+    private var tM = 360f * nMax
 
     // -------------------------------
-    // レムニスケート曲線の描画点リスト
+    // カッシーニの卵形線の描画点リスト
     // -------------------------------
     val pointLst = mutableListOf<MyPointF>()
+
+    // 特異点
+    val specialPoint = MyPointF(1000f,1000f)
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -71,12 +105,12 @@ class Lemniscate02Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // レムニスケート曲線を描くペイント
+    // カッシーニの卵形線を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
         style = Paint.Style.STROKE
-        strokeWidth = 10f
+        strokeWidth = 1f
     }
 
     // -------------------------------------
@@ -99,24 +133,28 @@ class Lemniscate02Drawable: MyDrawable() {
     // 描画に使うデータを計算する
     // -------------------------------------------
     // values
-    // 第１引数:レムニスケート曲線の変数tの初期値
+    // 第１引数:カッシーニの卵形線の変数tの初期値
     // -------------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
-        // 第１引数:レムニスケート曲線の変数tの初期値
+        // 第１引数:カッシーニの卵形線の変数tの初期値
         var tI = 0f
         values.forEachIndexed { index, fl ->
             //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
             when (index) {
-                // 第１引数:レムニスケート曲線の変数tの初期値
+                // 第１引数:カッシーニの卵形線の変数tの初期値
                 0 -> tI = fl
             }
         }
 
-        // レムニスケート曲線の描画点リストを生成
+        /*
+        // カッシーニの卵形線の描画点リストを生成
         while ( t < tI ) {
             createPath()
             increment()
         }
+        */
+        createPath()
+
         // ビットマップに描画
         drawBitmap()
         // 描画
@@ -127,9 +165,9 @@ class Lemniscate02Drawable: MyDrawable() {
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
-                    // レムニスケート曲線の描画点リストを生成
+                    // カッシーニの卵形線の描画点リストを生成
                     createPath()
-                    // レムニスケート曲線の媒介変数tの値を増加
+                    // カッシーニの卵形線の媒介変数tの値を増加
                     increment()
                     // ビットマップに描画
                     drawBitmap()
@@ -165,38 +203,55 @@ class Lemniscate02Drawable: MyDrawable() {
     }
 
     // ---------------------------------------
-    // レムニスケート曲線の描画点リストを生成
+    // カッシーニの卵形線の描画点リストを生成
     // ---------------------------------------
     private fun createPath() {
         // 描画点リストをクリア
         if ( t == 0f ) pointLst.clear()
 
-        // 媒介変数tを360で割り、何周目か判定する
         val tI = t.toInt()
+        // 媒介変数tを360で割り、周回数を求める
         val n = tI/360
-        // 5周ごとにレムニスケート曲線の描画角度を変えるため、
-        // 5のあまりを取得している
-        val na = n%5
+        // 媒介変数tの360で割った余りを描画角度とする
+        val tN = (tI%360).toFloat()
 
-        // 媒介変数aの大きさを周回数によって変更
-        val aN = a * (na+1).toFloat()
+        // 媒介変数bの大きさを周回数によって変更
+        b = bMin + bv * n.toFloat()
 
-        val cos = MyMathUtil.cosf(t+90f)
-        val sin = MyMathUtil.sinf(t+90f)
-        val x = aN*cos/(1f+sin*sin)
-        val y = aN*sin*cos/(1f+sin*sin)
+        val cos1 = MyMathUtil.cosf(tN)
+        val sin1 = MyMathUtil.sinf(tN)
+        val cos2 = MyMathUtil.cosf(2f*tN)
+        val sin2 = MyMathUtil.sinf(2f*tN)
 
-        // 5回転する度に
-        // レムニスケート曲線を45度回転する
-        val tt = (n/5).toFloat()*45f
-        val xx = x * MyMathUtil.cosf(tt) - y * MyMathUtil.sinf(tt)
-        val yy = x * MyMathUtil.sinf(tt) + y * MyMathUtil.cosf(tt)
-
-        pointLst.add(MyPointF(xx,yy))
+        val pow1 = b/a*b/a*b/a*b/a-sin2*sin2
+        if ( pow1 > 0f ) {
+            val sqrt1 = sqrt(pow1)
+            val plus1 = cos2 + sqrt1
+            if ( plus1 > 0f ) {
+                val r1 = a*sqrt(plus1 )
+                val x1 = r1 * cos1
+                val y1 = r1 * sin1
+                pointLst.add(MyPointF(x1,y1))
+                Log.d(javaClass.simpleName,"t[$t]tN[$tN]r1[$r1]x1[$x1]y[$y1]s1[$sqrt1]p1[$pow1]")
+            }
+        }
+        else {
+            pointLst.add(specialPoint)
+        }
+        /*
+        if (b < a) {
+            val r2 = a*sqrt(cos2-sqrt((b/a).pow(4f)-sin2.pow(2f)))
+            val x2 = r2 * cos1
+            val y2 = r2 * sin1
+            pointLst.add(MyPointF(x2,y2))
+        }
+        */
+        // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
+        notifyCallback?.receive(t)
     }
 
     // ---------------------------------------
-    // レムニスケート曲線の媒介変数tの値を増加
+    // カッシーニの卵形線の媒介変数tの値を増加
     // ---------------------------------------
     private fun increment() {
         t += tD
@@ -226,7 +281,7 @@ class Lemniscate02Drawable: MyDrawable() {
         canvas.translate(x0,y0)
 
         /*
-        // レムニスケート曲線を描く
+        // カッシーニの卵形線を描く
         // 赤色で線を描く
         val path = Path()
         circleLst.forEachIndexed { index, myPointF ->
@@ -239,69 +294,26 @@ class Lemniscate02Drawable: MyDrawable() {
         canvas.drawPath(path,linePaint)
         */
 
-        /*
         // 色インスタンス作成
         val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
 
-        // レムニスケート曲線を描く
-        // 1536色のグラデーション
-        val bunchSize = pointLst.size
-        var myPointF2: MyPointF? = null
-        pointLst.forEachIndexed { id, myPointF1 ->
-            if ( myPointF2 != null ) {
-                val id = (id+t.toInt())%bunchSize
-                val color = myColor.create(id,bunchSize)
-                linePaint.color = color.toInt()
-                canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaint)
-            }
-            myPointF2 = myPointF1
-        }
-        */
-
-        // 色インスタンス作成
-        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
-
-        // レムニスケート曲線を描く
+        // カッシーニの卵形線を描く
         // 1536色のグラデーション
         val bunchSize = split
         var myPointF2: MyPointF? = null
         pointLst.forEachIndexed { id, myPointF1 ->
-            if ( myPointF2 != null ) {
+            if ( ( myPointF2 != null ) and (myPointF1 != specialPoint) ) {
                 val color = myColor.create(id%bunchSize,bunchSize)
                 linePaint.color = color.toInt()
                 canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaint)
             }
-            myPointF2 = myPointF1
-        }
-
-        /*
-        // 色インスタンス作成
-        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
-
-        // レムニスケート曲線を描く
-        // 1536色のグラデーション
-        val bunchSize = 20
-        val path = Path()
-        pointLst.forEachIndexed { id, myPointF ->
-            when (id%split) {
-                0 -> {
-                    path.reset()
-                    path.moveTo(myPointF.x,myPointF.y)
-                }
-                split-1 -> {
-                    path.lineTo(myPointF.x,myPointF.y)
-                    path.close()
-                }
-                else -> {
-                    path.lineTo(myPointF.x,myPointF.y)
-                }
+            if (myPointF1 == specialPoint) {
+                myPointF2 = null
             }
-            val color = myColor.create(id%split,bunchSize)
-            linePaint.color = color.toInt()
-            canvas.drawPath(path,linePaint)
+            else {
+                myPointF2 = myPointF1
+            }
         }
-        */
-
 
         // 座標を元に戻す
         canvas.restore()

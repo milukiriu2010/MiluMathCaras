@@ -13,7 +13,8 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.epicycloid.Epicycloid01Drawab
 import milu.kiriu2010.milumathcaras.gui.draw.curve.hypocycloid.Hypocycloid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.Lemniscate01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lissajous.Lissajous01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.CassinialOval01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.CassinianOval01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.CassinianOval02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.Lemniscate02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiral01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiralCircle01Drawable
@@ -62,9 +63,11 @@ class MyDrawableFactory {
                 // レムニスケート曲線
                 DrawDataID.ID_000005_LEMNISCATE -> Lemniscate01Drawable()
                 // カッシーニの卵形線
-                DrawDataID.ID_000006_CASSINIAN_OVAL -> CassinialOval01Drawable()
+                DrawDataID.ID_000006_CASSINIAN_OVAL -> CassinianOval01Drawable()
                 // レムニスケート曲線
                 DrawDataID.ID_000007_LEMNISCATE -> Lemniscate02Drawable()
+                // カッシーニの卵形線
+                DrawDataID.ID_000008_CASSINIAN_OVAL -> CassinianOval02Drawable()
                 // 対数螺旋(描画点を回転させる方法)
                 DrawDataID.ID_000010_LOGARITHMIC_SPIRAL -> LogarithmicSpiral01Drawable()
                 // 対数螺旋に円を描画

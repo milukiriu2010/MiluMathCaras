@@ -58,6 +58,7 @@
     <string name="draw_000005_curve_lemniscate">Lemniscate</string>
     <string name="draw_000006_curve_cassinian_oval">Cassinian Oval</string>
     <string name="draw_000007_curve_lemniscate">Lemniscate</string>
+    <string name="draw_000008_curve_cassinian_oval">Cassinian Oval</string>
     <string name="draw_000010_curve_logarithmic_spiral">Logarithmic Spiral</string>
     <string name="draw_000011_curve_logarithmic_spiral_circle01">Logarithmic Spiral\nCircle 01</string>
     <string name="draw_000012_curve_logarithmic_spiral_circle02">Logarithmic Spiral\nCircle 02</string>

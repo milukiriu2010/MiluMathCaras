@@ -26,7 +26,7 @@ import kotlin.math.*
 // https://www.mathcurve.com/courbes2d.gb/cassini/cassini.shtml
 // https://en.wikipedia.org/wiki/Cassini_oval
 // -------------------------------------------------------------------------------------
-class CassinialOval01Drawable: MyDrawable() {
+class CassinianOval01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
