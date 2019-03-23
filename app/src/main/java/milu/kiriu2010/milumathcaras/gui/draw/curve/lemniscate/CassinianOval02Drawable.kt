@@ -32,30 +32,22 @@ class CassinianOval02Drawable: MyDrawable() {
     // -------------------------------
     // 描画領域
     // -------------------------------
-    private val side = 300f
+    private val side = 500f
     private val margin = 10f
 
     // ---------------------------------
     // 最大周回数
     // ---------------------------------
-    private val nMax = 20f
+    private val nMax = 40f
 
     // ---------------------------------
     // カッシーニの卵形線の変数a
     // ---------------------------------
+    // b<aを描画すると汚いのでやめた
     private var a = 100f
-    private var bMin = 90f
-    private var bMax = 110f
-    /*
-    private var a = 90f
-    private var bMin = 60f
-    private var bMax = 120f
-    */
-    /*
-    private var a = 100f
-    private var bMin = 50f
-    private var bMax = 150f
-    */
+    //private var bMin = 90f
+    private var bMin = 100f
+    private var bMax = 200f
 
     // ---------------------------------
     // カッシーニの卵形線の変数b
@@ -74,10 +66,14 @@ class CassinianOval02Drawable: MyDrawable() {
     // -------------------------------
     // カッシーニの卵形線の描画点リスト
     // -------------------------------
-    val pointLst = mutableListOf<MyPointF>()
+    val point1Lst = mutableListOf<MyPointF>()
+    val point2Lst = mutableListOf<MyPointF>()
 
     // 特異点
     val specialPoint = MyPointF(1000f,1000f)
+
+    // 色相
+    var colPhase = 0
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -146,13 +142,11 @@ class CassinianOval02Drawable: MyDrawable() {
             }
         }
 
-        /*
         // カッシーニの卵形線の描画点リストを生成
         while ( t < tI ) {
             createPath()
             increment()
         }
-        */
         createPath()
 
         // ビットマップに描画
@@ -174,7 +168,12 @@ class CassinianOval02Drawable: MyDrawable() {
                     // 描画
                     invalidateSelf()
 
-                    handler.postDelayed(runnable, 10)
+                    if (t == 0f) {
+                        handler.postDelayed(runnable, 1000)
+                    }
+                    else {
+                        handler.postDelayed(runnable, 10)
+                    }
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
@@ -207,7 +206,10 @@ class CassinianOval02Drawable: MyDrawable() {
     // ---------------------------------------
     private fun createPath() {
         // 描画点リストをクリア
-        if ( t == 0f ) pointLst.clear()
+        if ( t == 0f ) {
+            point1Lst.clear()
+            point2Lst.clear()
+        }
 
         val tI = t.toInt()
         // 媒介変数tを360で割り、周回数を求める
@@ -224,28 +226,38 @@ class CassinianOval02Drawable: MyDrawable() {
         val sin2 = MyMathUtil.sinf(2f*tN)
 
         val pow1 = b/a*b/a*b/a*b/a-sin2*sin2
-        if ( pow1 > 0f ) {
+        if ( pow1 >= 0f ) {
             val sqrt1 = sqrt(pow1)
             val plus1 = cos2 + sqrt1
-            if ( plus1 > 0f ) {
-                val r1 = a*sqrt(plus1 )
+            if ( plus1 >= 0f ) {
+                val r1 = a*sqrt(plus1)
                 val x1 = r1 * cos1
                 val y1 = r1 * sin1
-                pointLst.add(MyPointF(x1,y1))
-                Log.d(javaClass.simpleName,"t[$t]tN[$tN]r1[$r1]x1[$x1]y[$y1]s1[$sqrt1]p1[$pow1]")
+                point1Lst.add(MyPointF(x1,y1))
+                //Log.d(javaClass.simpleName,"t[$t]tN[$tN]r1[$r1]x1[$x1]y[$y1]s1[$sqrt1]p1[$pow1]")
             }
         }
         else {
-            pointLst.add(specialPoint)
+            point1Lst.add(specialPoint)
         }
-        /*
+
         if (b < a) {
-            val r2 = a*sqrt(cos2-sqrt((b/a).pow(4f)-sin2.pow(2f)))
-            val x2 = r2 * cos1
-            val y2 = r2 * sin1
-            pointLst.add(MyPointF(x2,y2))
+            if ( pow1 >= 0f ) {
+                val sqrt1 = sqrt(pow1)
+                val minus1 = cos2 - sqrt1
+                if ( minus1 >= 0f ) {
+                    val r1 = a*sqrt(minus1)
+                    val x1 = r1 * cos1
+                    val y1 = r1 * sin1
+                    point2Lst.add(MyPointF(x1,y1))
+                    //Log.d(javaClass.simpleName,"t[$t]tN[$tN]r1[$r1]x1[$x1]y[$y1]s1[$sqrt1]p1[$pow1]")
+                }
+            }
+            else {
+                point2Lst.add(specialPoint)
+            }
         }
-        */
+
         // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
         notifyCallback?.receive(t)
     }
@@ -255,8 +267,10 @@ class CassinianOval02Drawable: MyDrawable() {
     // ---------------------------------------
     private fun increment() {
         t += tD
+        colPhase++
         if ( t > tM ) {
             t = 0f
+            colPhase = 0
         }
     }
 
@@ -301,7 +315,22 @@ class CassinianOval02Drawable: MyDrawable() {
         // 1536色のグラデーション
         val bunchSize = split
         var myPointF2: MyPointF? = null
-        pointLst.forEachIndexed { id, myPointF1 ->
+        point1Lst.forEachIndexed { id, myPointF1 ->
+            if ( ( myPointF2 != null ) and (myPointF1 != specialPoint) ) {
+                val color = myColor.create((id+colPhase)%bunchSize,bunchSize)
+                linePaint.color = color.toInt()
+                canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaint)
+            }
+            if (myPointF1 == specialPoint) {
+                myPointF2 = null
+            }
+            else {
+                myPointF2 = myPointF1
+            }
+        }
+
+        myPointF2 = null
+        point2Lst.forEachIndexed { id, myPointF1 ->
             if ( ( myPointF2 != null ) and (myPointF1 != specialPoint) ) {
                 val color = myColor.create(id%bunchSize,bunchSize)
                 linePaint.color = color.toInt()
@@ -313,6 +342,12 @@ class CassinianOval02Drawable: MyDrawable() {
             else {
                 myPointF2 = myPointF1
             }
+
+            /*
+            if ( ( id%split == (split-1) ) or ( id%split == (split/2-1) ) ) {
+                myPointF2 = null
+            }
+            */
         }
 
         // 座標を元に戻す
