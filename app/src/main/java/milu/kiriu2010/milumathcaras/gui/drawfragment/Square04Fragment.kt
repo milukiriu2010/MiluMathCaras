@@ -4,6 +4,7 @@ package milu.kiriu2010.milumathcaras.gui.drawfragment
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -73,6 +74,34 @@ class Square04Fragment : Fragment()
         imageView = view.findViewById(R.id.imageView)
         drawable = MyDrawableFactory.createInstance(drawData.id,this)
         imageView.setImageDrawable(drawable)
+
+        imageView.setOnTouchListener { v, event ->
+            // ---------------------------------------------
+            // x,y    => view    の左上からの位置
+            // rawX,Y => デバイスの左上からの位置
+            // らしいが、なんかずれてる
+            // ---------------------------------------------
+            /*
+            val loc = IntArray(2)
+            v.getLocationOnScreen(loc)
+            Log.d(javaClass.simpleName,"===========================================" )
+            Log.d(javaClass.simpleName,"V    :x[${v.left}]y[${v.top}]" )
+            Log.d(javaClass.simpleName,"Loc  :x[${loc[0]}]y[${loc[1]}]" )
+            Log.d(javaClass.simpleName,"Touch:x[${event.x}]y[${event.y}]" )
+            Log.d(javaClass.simpleName,"Preci:x[${event.xPrecision}]y[${event.yPrecision}]" )
+            Log.d(javaClass.simpleName,"Raw  :x[${event.rawX}]y[${event.rawY}]" )
+            */
+            when ( event.action ) {
+                // タッチしたとき
+                MotionEvent.ACTION_DOWN -> drawable.receiveTouchPoint(event)
+                // タッチを離したとき
+                MotionEvent.ACTION_UP -> drawable.receiveTouchPoint(event)
+                // タッチ点を移動したとき
+                MotionEvent.ACTION_MOVE -> drawable.receiveTouchPoint(event)
+            }
+
+            true
+        }
 
         // 描画に使っている媒介変数の値を表示するビュー
         textView1 = view.findViewById(R.id.textView1)

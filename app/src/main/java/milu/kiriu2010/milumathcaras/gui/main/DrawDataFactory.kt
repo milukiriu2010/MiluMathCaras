@@ -243,15 +243,18 @@ class DrawDataFactory {
                 }
                 // "複数円"を選択したときの描画データの一覧
                 MenuItem.MENU_CIRCLE_CIRCLES -> {
+                    // 青・赤・黄３つの円を回転する
+                    drawDataLst.add(DrawData(DrawDataID.ID_000807_CIRCLE_ROTATE_03,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000807_circle_rotate_03),
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/a465c018e4c0ff6a7c8228b729821d56/tumblr_moni0oFXm71r2geqjo1_500.gif") ))
                     // クリスマスツリー(円を三角形上に並べる)
                     drawDataLst.add(DrawData(DrawDataID.ID_000806_CIRCLE_XMASTREE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000806_circle_xmastree),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/8ed06c22c8e4c32a60cf6bcb2b74a2e6/tumblr_my0y8b1jgP1r2geqjo1_500.gif") ))
                     // 実験：円の中に円を描き,すべての円を回転させる
-                    //drawDataLst.add(DrawData(DrawDataID.ID_000805_CIRCLE_ROTATE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000805_circle_rotate) ))
+                    //drawDataLst.add(DrawData(DrawDataID.ID_000805_CIRCLE_TEST_ROTATE_01,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000805_circle_rotate) ))
                     // 円の中に円を描き,すべての円を回転させる
-                    drawDataLst.add(DrawData(DrawDataID.ID_000804_CIRCLE_ROTATE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000804_circle_rotate) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000804_CIRCLE_ROTATE_02,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000804_circle_rotate_02) ))
                     // 円の中に円を描き,すべての円を回転させる
-                    drawDataLst.add(DrawData(DrawDataID.ID_000803_CIRCLE_ROTATE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000803_circle_rotate) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000803_CIRCLE_ROTATE_01,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000803_circle_rotate_01) ))
                     // 円をずらして描く
                     drawDataLst.add(DrawData(DrawDataID.ID_000802_CIRCLE_SLIDE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000802_circle_slide),
                         stillImageParam = floatArrayOf(3600f),
@@ -297,11 +300,14 @@ class DrawDataFactory {
                 // "三角形"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_TRIANGLE -> {
                     // 三角形の内心
-                    drawDataLst.add(DrawData(DrawDataID.ID_000372_TRIANGLE_INCENTER,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000372_triangle_incenter) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000372_TRIANGLE_INCENTER,DrawFragmentType.FT_SQUARE_04,resources.getString(R.string.draw_000372_triangle_incenter),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_triangle_incenter)) ))
                     // 三角形の外心
-                    drawDataLst.add(DrawData(DrawDataID.ID_000371_TRIANGLE_CIRCUMCENTER,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000371_triangle_circumcenter) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000371_TRIANGLE_CIRCUMCENTER,DrawFragmentType.FT_SQUARE_04,resources.getString(R.string.draw_000371_triangle_circumcenter),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_triangle_circumcenter)) ))
                     // 三角形の重心
-                    drawDataLst.add(DrawData(DrawDataID.ID_000370_TRIANGLE_CENTER_OF_GRAVITY,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000370_triangle_center_of_gravity) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000370_TRIANGLE_CENTER_OF_GRAVITY,DrawFragmentType.FT_SQUARE_04,resources.getString(R.string.draw_000370_triangle_center_of_gravity),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_triangle_center_of_gravity)) ))
                 }
                 // "多角形in多角形"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_PINP -> {

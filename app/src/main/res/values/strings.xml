@@ -51,6 +51,9 @@
     <string name="func_curve_lissajous">x = a * sin(p*t+d)\ny = b * sin(q*t)</string>
     <string name="func_curve_lemniscate">x = a * cos(t)/(1+sin(t)*sin(t))\ny = a * sin(t) * sin(t)/(1+sin(t)*sin(t))</string>
     <string name="func_curve_cassinian_oval">x = a * sqrt(cos(2t)+sqrt((b/a)^4-sin(2t)^2) * cos(t)\na * sqrt(cos(2t)+sqrt((b/a)^4-sin(2t)^2) * sin(t)</string>
+    <string name="func_triangle_center_of_gravity">G=(A+B+C)/3</string>
+    <string name="func_triangle_circumcenter">O=(A*sin(2a)+B*sin(2b)+C*sin(2c))/(sin(2a)+sin(2b)+sin(2c))</string>
+    <string name="func_triangle_incenter">I=(a*A+b*B+c*C)/(a+b+c)</string>
     <string name="draw_000001_curve_cycloid">Cycloid(k=1.0)</string>
     <string name="draw_000002_curve_trochoid">Trochoid(k=2.0)</string>
     <string name="draw_000003_curve_trochoid">Trochoid(k=-2.0)</string>
@@ -220,10 +223,11 @@
     <string name="draw_000800_circle_bigger_01">Bigger Circle 01</string>
     <string name="draw_000801_circle_bigger_02">Bigger Circle 02</string>
     <string name="draw_000802_circle_slide">Slide Circle</string>
-    <string name="draw_000803_circle_rotate">Rotate Circle\n5 in 5 in 5</string>
-    <string name="draw_000804_circle_rotate">Rotate Circle\n5 in 5 in 5</string>
-    <string name="draw_000805_circle_rotate">Rotate Circle(Test)</string>
+    <string name="draw_000803_circle_rotate_01">Rotate Circle 01\n5 in 5 in 5</string>
+    <string name="draw_000804_circle_rotate_02">Rotate Circle 02\n5 in 5 in 5</string>
+    <string name="draw_000805_circle_test_rotate_01">Rotate Circle(Test)</string>
     <string name="draw_000806_circle_xmastree">Xmas Tree</string>
+    <string name="draw_000807_circle_rotate_03">Rotate Circle 03</string>
     <string name="draw_000810_circle_morph_circle2square">Circle&lt;=&gt;Square</string>
     <string name="draw_000811_circle_morph_circle2square">Circle&lt;=&gt;Square</string>
     <string name="draw_000820_circle_tile_circle2square">Circle&lt;=&gt;Square</string>

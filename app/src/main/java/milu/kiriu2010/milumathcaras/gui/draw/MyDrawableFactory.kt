@@ -391,13 +391,15 @@ class MyDrawableFactory {
                 // 円をずらして描く
                 DrawDataID.ID_000802_CIRCLE_SLIDE -> SlideCircle01Drawable()
                 // 円の中に円を描き,すべての円を回転させる
-                DrawDataID.ID_000803_CIRCLE_ROTATE -> RotateCircle01Drawable()
+                DrawDataID.ID_000803_CIRCLE_ROTATE_01 -> RotateCircle01Drawable()
                 // 円の中に円を描き,すべての円を回転させる
-                DrawDataID.ID_000804_CIRCLE_ROTATE -> RotateCircle02Drawable()
+                DrawDataID.ID_000804_CIRCLE_ROTATE_02 -> RotateCircle02Drawable()
                 // 円の中に円を描き,すべての円を回転させる
-                DrawDataID.ID_000805_CIRCLE_ROTATE -> TestRotateCircle01Drawable()
+                DrawDataID.ID_000805_CIRCLE_TEST_ROTATE_01 -> TestRotateCircle01Drawable()
                 // クリスマスツリー(円を三角形上に並べる)
                 DrawDataID.ID_000806_CIRCLE_XMASTREE -> XmasTreeCircle01Drawable()
+                // 青・赤・黄３つの円を回転する
+                DrawDataID.ID_000807_CIRCLE_ROTATE_03 -> RotateCircle03Drawable()
                 // 円⇔正方形の変形
                 DrawDataID.ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE -> Circle2SqaureMorph01Drawable()
                 // "円⇔正方形の変形"のタイリング
