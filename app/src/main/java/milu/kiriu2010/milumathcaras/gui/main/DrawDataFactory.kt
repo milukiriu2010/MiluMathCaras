@@ -285,6 +285,9 @@ class DrawDataFactory {
                 }
                 // "多角形のMix"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_MIX -> {
+                    // 正方形⇔ひし形
+                    drawDataLst.add(DrawData(DrawDataID.ID_000604_SQUARE_2_DIAMOND,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000604_polygon_square_2_diamond),
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/47c47e8bbcb5ee14878548f806a7c086/tumblr_mnor4buGS01r2geqjo1_500.gif") ))
                     // 回転しながら三角形を合体
                     drawDataLst.add(DrawData(DrawDataID.ID_000603_TRIANGLE_UNITE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000603_polygon_triangle_unite),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/094d3547b2ba27003dff3eaae387a225/tumblr_n13h7v4Ov01r2geqjo1_500.gif") ))

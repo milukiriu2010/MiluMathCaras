@@ -42,6 +42,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.Fountain01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.RandomWalk01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.UniformMotion01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.*
+import milu.kiriu2010.milumathcaras.gui.draw.polygon.square.Square2Diamond01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.*
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWave01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWaveCircle01Drawable
@@ -240,6 +241,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000602_ROTATE_ARROWS -> RotateArrows01Drawable()
                 // 回転しながら三角形を合体
                 DrawDataID.ID_000603_TRIANGLE_UNITE -> TriangleUnite01Drawable()
+                // 正方形⇔ひし形
+                DrawDataID.ID_000604_SQUARE_2_DIAMOND -> Square2Diamond01Drawable()
                 // 三角形out三角形
                 DrawDataID.ID_000701_3_OUT_3 -> PolygonOutPolygon01Drawable()
                 // 三角形out四角形
