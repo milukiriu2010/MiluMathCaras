@@ -5,6 +5,8 @@ import milu.kiriu2010.milumathcaras.gui.draw.circle.circles.*
 import milu.kiriu2010.milumathcaras.gui.draw.circle.morph.Circle2SqaureMorph01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.circle.morph.Circle2SqaureMorph02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.circle.tile.Circle2SqaureTile01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.circle.tile.RotateCircleTile01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.circle.tile.XmasTreeCircle01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.color.Color1536Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.color.Color768DarkDrawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.julia.Julia01Drawable
@@ -42,7 +44,8 @@ import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.Fountain01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.RandomWalk01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.UniformMotion01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.*
-import milu.kiriu2010.milumathcaras.gui.draw.polygon.square.Square2Diamond01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.polygon.tile.RotateArrows01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.polygon.tile.Square2Diamond01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.*
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWave01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWaveCircle01Drawable
@@ -399,16 +402,16 @@ class MyDrawableFactory {
                 DrawDataID.ID_000804_CIRCLE_ROTATE_02 -> RotateCircle02Drawable()
                 // 円の中に円を描き,すべての円を回転させる
                 DrawDataID.ID_000805_CIRCLE_TEST_ROTATE_01 -> TestRotateCircle01Drawable()
-                // クリスマスツリー(円を三角形上に並べる)
-                DrawDataID.ID_000806_CIRCLE_XMASTREE -> XmasTreeCircle01Drawable()
-                // 青・赤・黄３つの円を回転する
-                DrawDataID.ID_000807_CIRCLE_ROTATE_03 -> RotateCircle03Drawable()
                 // 円⇔正方形の変形
                 DrawDataID.ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE -> Circle2SqaureMorph01Drawable()
                 // "円⇔正方形の変形"のタイリング
                 DrawDataID.ID_000811_CIRCLE_MORPH_CIRCLE2SQUARE -> Circle2SqaureMorph02Drawable()
                 // "正方形の中で大きくなる円"のタイリング
                 DrawDataID.ID_000820_CIRCLE_TILE_CIRCLE2SQUARE -> Circle2SqaureTile01Drawable()
+                // クリスマスツリー(円を三角形上に並べる)
+                DrawDataID.ID_000821_CIRCLE_XMASTREE -> XmasTreeCircle01Drawable()
+                // 青・赤・黄３つの円を回転する
+                DrawDataID.ID_000822_CIRCLE_TILE_ROTATE_CIRCLE_01 -> RotateCircleTile01Drawable()
                 // "Stepping Feet"
                 DrawDataID.ID_000900_OPTICAL_ILLUSION_STEPPING_FEET -> SteppingFeet01Drawable()
                 // "Stereokinetic Effect(SKE)"

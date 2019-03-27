@@ -30,9 +30,10 @@
     <string name="menu_sub_circle">Circle</string>
     <string name="menu_sub_circle_circles">Circles</string>
     <string name="menu_sub_circle_morph">Morphing Circle</string>
-    <string name="menu_sub_circle_tile">Tiling Circle</string>
+    <string name="menu_sub_circle_tile">Tiling Circles</string>
     <string name="menu_sub_polygon">Polygon</string>
     <string name="menu_sub_polygon_mix">Polygon Mix</string>
+    <string name="menu_sub_polygon_tile">Tiling Polygons</string>
     <string name="menu_sub_polygon_triangle">Triangle</string>
     <string name="menu_sub_polygon_pinp">Polygon in Polygon</string>
     <string name="menu_sub_polygon_poutp">Polygon out Polygon</string>
@@ -227,11 +228,11 @@
     <string name="draw_000803_circle_rotate_01">Rotate Circle 01\n5 in 5 in 5</string>
     <string name="draw_000804_circle_rotate_02">Rotate Circle 02\n5 in 5 in 5</string>
     <string name="draw_000805_circle_test_rotate_01">Rotate Circle(Test)</string>
-    <string name="draw_000806_circle_xmastree">Xmas Tree</string>
-    <string name="draw_000807_circle_rotate_03">Rotate Circle 03</string>
     <string name="draw_000810_circle_morph_circle2square">Circle&lt;=&gt;Square</string>
     <string name="draw_000811_circle_morph_circle2square">Circle&lt;=&gt;Square</string>
     <string name="draw_000820_circle_tile_circle2square">Circle&lt;=&gt;Square</string>
+    <string name="draw_000821_circle_xmastree">Xmas Tree</string>
+    <string name="draw_000822_circle_tile_rotate_01">Rotate Circle Tile</string>
     <string name="draw_000900_optical_illusion_stepping_feet">Stepping Feet</string>
     <string name="draw_000901_optical_illusion_stereokinetic_effect">Stereokinetic Effect</string>
 </resources>

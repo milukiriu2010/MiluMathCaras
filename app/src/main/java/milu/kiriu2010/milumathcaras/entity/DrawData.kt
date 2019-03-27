@@ -358,16 +358,16 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000804_CIRCLE_ROTATE_02(804),
     // 円の中に円を描き,すべての円を回転させる(テスト)
     ID_000805_CIRCLE_TEST_ROTATE_01(805),
-    // クリスマスツリー(円を三角形上に並べる)
-    ID_000806_CIRCLE_XMASTREE(806),
-    // 青・赤・黄３つの円を回転する
-    ID_000807_CIRCLE_ROTATE_03(807),
     // 円⇔正方形の変形
     ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE(810),
     // "円⇔正方形の変形"のタイリング
     ID_000811_CIRCLE_MORPH_CIRCLE2SQUARE(811),
     // "正方形の中で大きくなる円"のタイリング
     ID_000820_CIRCLE_TILE_CIRCLE2SQUARE(820),
+    // クリスマスツリー(円を三角形上に並べる)
+    ID_000821_CIRCLE_XMASTREE(821),
+    // 青・赤・黄３つの円を回転する
+    ID_000822_CIRCLE_TILE_ROTATE_CIRCLE_01(822),
     // "Stepping Feet"
     ID_000900_OPTICAL_ILLUSION_STEPPING_FEET(900),
     // "Stereokinetic Effect(SKE)"

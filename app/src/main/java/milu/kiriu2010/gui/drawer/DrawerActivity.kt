@@ -38,6 +38,7 @@ open class DrawerActivity : AppCompatActivity() {
     // このときドロワートグルにイベントを伝えることで
     // ナビゲーションドロワーを開閉する
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        //Log.d(javaClass.simpleName,"DrawerActivity:id[${item.itemId}]home[${android.R.id.home}]")
         // ドロワーに伝える
         if ( drawerToggle?.onOptionsItemSelected(item) == true ) {
             return true

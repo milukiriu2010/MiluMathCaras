@@ -243,12 +243,6 @@ class DrawDataFactory {
                 }
                 // "複数円"を選択したときの描画データの一覧
                 MenuItem.MENU_CIRCLE_CIRCLES -> {
-                    // 青・赤・黄３つの円を回転する
-                    drawDataLst.add(DrawData(DrawDataID.ID_000807_CIRCLE_ROTATE_03,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000807_circle_rotate_03),
-                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/a465c018e4c0ff6a7c8228b729821d56/tumblr_moni0oFXm71r2geqjo1_500.gif") ))
-                    // クリスマスツリー(円を三角形上に並べる)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000806_CIRCLE_XMASTREE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000806_circle_xmastree),
-                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/8ed06c22c8e4c32a60cf6bcb2b74a2e6/tumblr_my0y8b1jgP1r2geqjo1_500.gif") ))
                     // 実験：円の中に円を描き,すべての円を回転させる
                     //drawDataLst.add(DrawData(DrawDataID.ID_000805_CIRCLE_TEST_ROTATE_01,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000805_circle_rotate) ))
                     // 円の中に円を描き,すべての円を回転させる
@@ -278,6 +272,12 @@ class DrawDataFactory {
                 }
                 // 敷き詰めた円を描画するメニュー
                 MenuItem.MENU_CIRCLE_TILE -> {
+                    // 青・赤・黄３つの円を回転する
+                    drawDataLst.add(DrawData(DrawDataID.ID_000822_CIRCLE_TILE_ROTATE_CIRCLE_01,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000822_circle_tile_rotate_01),
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/a465c018e4c0ff6a7c8228b729821d56/tumblr_moni0oFXm71r2geqjo1_500.gif") ))
+                    // クリスマスツリー(円を三角形上に並べる)
+                    drawDataLst.add(DrawData(DrawDataID.ID_000821_CIRCLE_XMASTREE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000821_circle_xmastree),
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/8ed06c22c8e4c32a60cf6bcb2b74a2e6/tumblr_my0y8b1jgP1r2geqjo1_500.gif") ))
                     // "正方形の中で大きくなる円"のタイリング
                     drawDataLst.add(DrawData(DrawDataID.ID_000820_CIRCLE_TILE_CIRCLE2SQUARE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000820_circle_tile_circle2square),
                         stillImageParam = floatArrayOf(0.2f), motionImageParam = floatArrayOf(0f),
@@ -285,20 +285,23 @@ class DrawDataFactory {
                 }
                 // "多角形のMix"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_MIX -> {
-                    // 正方形⇔ひし形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000604_SQUARE_2_DIAMOND,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000604_polygon_square_2_diamond),
-                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/47c47e8bbcb5ee14878548f806a7c086/tumblr_mnor4buGS01r2geqjo1_500.gif") ))
                     // 回転しながら三角形を合体
                     drawDataLst.add(DrawData(DrawDataID.ID_000603_TRIANGLE_UNITE,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000603_polygon_triangle_unite),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/094d3547b2ba27003dff3eaae387a225/tumblr_n13h7v4Ov01r2geqjo1_500.gif") ))
-                    // 回転する矢印
-                    drawDataLst.add(DrawData(DrawDataID.ID_000602_ROTATE_ARROWS,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000602_polygon_rotate_arrows),
-                        creditMap = mutableMapOf<String,String>("name" to "Just van Rossum", "url" to "https://twitter.com/justvanrossum/status/1091237538583511041") ))
                     // 多角形のラップ
                     drawDataLst.add(DrawData(DrawDataID.ID_000601_POLYGON_LAP,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000601_polygon_lap),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://twitter.com/beesandbombs/status/872796708803145728") ))
                     // 三角形でEXILE
                     drawDataLst.add(DrawData(DrawDataID.ID_000600_TRIANGLE_EXILE,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000600_polygon_triangle_exile) ))
+                }
+                // 敷き詰めた多角形を描画するメニュー
+                MenuItem.MENU_POLYGON_TILE -> {
+                    // 正方形⇔ひし形
+                    drawDataLst.add(DrawData(DrawDataID.ID_000604_SQUARE_2_DIAMOND,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000604_polygon_square_2_diamond),
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/47c47e8bbcb5ee14878548f806a7c086/tumblr_mnor4buGS01r2geqjo1_500.gif") ))
+                    // 回転する矢印
+                    drawDataLst.add(DrawData(DrawDataID.ID_000602_ROTATE_ARROWS,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000602_polygon_rotate_arrows),
+                        creditMap = mutableMapOf<String,String>("name" to "Just van Rossum", "url" to "https://twitter.com/justvanrossum/status/1091237538583511041") ))
                 }
                 // "三角形"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_TRIANGLE -> {

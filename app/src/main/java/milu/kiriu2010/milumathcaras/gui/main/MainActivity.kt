@@ -217,4 +217,38 @@ class MainActivity : DrawerActivity()
             super.onBackPressed()
         }
     }
+
+    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+        //Log.d(javaClass.simpleName,"MainActivity:id[${item.itemId}]home[${android.R.id.home}]")
+        return when (item.itemId) {
+            // アップバーのハンバーガーアイコンをクリック
+            android.R.id.home -> {
+                // --------------------------------------
+                // ナビゲーションドロワーを開いていて、
+                // 下の階層のメニューを開いていたら、
+                // 上の階層のメニューに戻る
+                // --------------------------------------
+                if ( menuFragmentStack.empty() == false ) {
+                    val menuFragment = menuFragmentStack.pop()
+                    if ( menuFragment != null ) {
+                        supportFragmentManager.beginTransaction()
+                            .remove(menuFragment)
+                            .commit()
+                    }
+                    true
+                }
+                // -----------------------------------------
+                // ナビゲーションドロワーを開いていていない
+                //  or
+                // 一番上の階層のメニューを開いている
+                // ⇒
+                // デフォルトの動作を実行
+                // -----------------------------------------
+                else {
+                    super.onOptionsItemSelected(item)
+                }
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 }

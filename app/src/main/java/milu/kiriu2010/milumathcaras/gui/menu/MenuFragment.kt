@@ -216,6 +216,9 @@ class MenuFragment : Fragment() {
                     // "多角形のMix"一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_MIX, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_mix),false))
                     // [サブメニュー]
+                    // 敷き詰めた多角形を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_TILE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_tile),false))
+                    // [サブメニュー]
                     // "三角形"一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_TRIANGLE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_triangle),false))
                     // [サブメニュー]

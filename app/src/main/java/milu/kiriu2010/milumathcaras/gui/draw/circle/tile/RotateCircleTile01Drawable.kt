@@ -1,13 +1,11 @@
-package milu.kiriu2010.milumathcaras.gui.draw.circle.circles
+package milu.kiriu2010.milumathcaras.gui.draw.circle.tile
 
 import android.graphics.*
 import android.os.Handler
 import android.util.Log
-import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
-import kotlin.math.sqrt
 
 // --------------------------------------------
 // 青・赤・黄３つの円を回転する
@@ -17,7 +15,7 @@ import kotlin.math.sqrt
 // --------------------------------------------
 // https://66.media.tumblr.com/a465c018e4c0ff6a7c8228b729821d56/tumblr_moni0oFXm71r2geqjo1_500.gif
 // --------------------------------------------
-class RotateCircle03Drawable: MyDrawable() {
+class RotateCircleTile01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域

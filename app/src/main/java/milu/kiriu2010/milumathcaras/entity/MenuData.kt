@@ -62,11 +62,13 @@ enum class MenuItem(val title: String): Parcelable {
     // 変形した円を描画するメニュー
     MENU_CIRCLE_MORPH("Morphing Circle"),
     // 敷き詰めた円を描画するメニュー
-    MENU_CIRCLE_TILE("Tiling Circle"),
+    MENU_CIRCLE_TILE("Tiling Circles"),
     // 多角形を描画するメニュー
     MENU_POLYGON("Polygon"),
     // "多角形のMIX"を描画するメニュー
     MENU_POLYGON_MIX("Polygon Mix"),
+    // 敷き詰めた多角形を描画するメニュー
+    MENU_POLYGON_TILE("Tiling Polygons"),
     // 三角形を描画するメニュー
     MENU_POLYGON_TRIANGLE("Triangle"),
     // "多角形in多角形"を描画するメニュー

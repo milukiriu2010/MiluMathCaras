@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.circle.circles
+package milu.kiriu2010.milumathcaras.gui.draw.circle.tile
 
 import android.graphics.*
 import android.os.Handler

@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.polygon.square
+package milu.kiriu2010.milumathcaras.gui.draw.polygon.tile
 
 import android.graphics.*
 import android.os.Handler
