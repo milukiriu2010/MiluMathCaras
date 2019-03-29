@@ -309,6 +309,9 @@ class DrawDataFactory {
                 }
                 // "三角形"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_TRIANGLE -> {
+                    // 三角形の垂心
+                    drawDataLst.add(DrawData(DrawDataID.ID_000373_TRIANGLE_ORTHOCENTER,DrawFragmentType.FT_SQUARE_04,resources.getString(R.string.draw_000373_triangle_orthocenter),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_triangle_orthocenter)) ))
                     // 三角形の内心
                     drawDataLst.add(DrawData(DrawDataID.ID_000372_TRIANGLE_INCENTER,DrawFragmentType.FT_SQUARE_04,resources.getString(R.string.draw_000372_triangle_incenter),
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_triangle_incenter)) ))

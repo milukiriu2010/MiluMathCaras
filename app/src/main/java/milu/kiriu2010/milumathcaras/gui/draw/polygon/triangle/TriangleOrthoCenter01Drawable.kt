@@ -9,23 +9,18 @@ import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 // -------------------------------------------
-// 三角形の内心
+// 三角形の垂心
 // -------------------------------------------
 // 定義
-//   各角の２等分線の交点
+//   各頂点から向かい合う辺に下した垂線の交点
 // -------------------------------------------
-// 内心のベクトル
-//   I = (BCの長さ*A+CAの長さ*B+ABの長さ*C)
-//       /(BCの長さ+CAの長さ+ABの長さ)
-// -------------------------------------------
-// 三角形の面積
-//   S = ABの長さ*ACの長さ*sin(A)/2
-//     = BCの長さ*BAの長さ*sin(B)/2
-//     = CAの長さ*CBの長さ*sin(C)/2
+// 垂心のベクトル
+//   H = tan(A)*A + tan(B)*B + tan(C)*C
+//       /(tan(A)+tan(B)+tan(C))
 // -------------------------------------------
 // http://examist.jp/mathematics/math-b/planar-vector/naisin-vector/
 // -------------------------------------------
-class TriangleInCenter01Drawable: MyDrawable() {
+class TriangleOrthoCenter01Drawable: MyDrawable() {
     // -------------------------------
     // 描画領域
     // -------------------------------
@@ -81,7 +76,7 @@ class TriangleInCenter01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 各角の２等分線と内接円を描く
+    // 垂線を描く
     // -------------------------------
     private val dotPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLACK
@@ -91,7 +86,7 @@ class TriangleInCenter01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 三角形の内心を描く
+    // 三角形の垂心を描く
     // -------------------------------
     private val centerPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
@@ -260,43 +255,69 @@ class TriangleInCenter01Drawable: MyDrawable() {
         path.close()
         canvas.drawPath(path,linePaint)
 
-        // BCの長さ
-        val lbc = pointLst[2].diff(pointLst[1]).magnitude()
-        // CAの長さ
-        val lca = pointLst[0].diff(pointLst[2]).magnitude()
-        // ABの長さ
-        val lab = pointLst[1].diff(pointLst[0]).magnitude()
-
-        // 全辺合計の長さ
-        val labc = lbc + lca + lab
-        // 補正ベクトルA
-        val va = pointLst[0].multiply(lbc/labc)
-        // 補正ベクトルB
-        val vb = pointLst[1].multiply(lca/labc)
-        // 補正ベクトルC
-        val vc = pointLst[2].multiply(lab/labc)
-
-        // 内心ベクトル
-        val vi = va.plus(vb).plus(vc)
-        canvas.drawCircle(vi.x,vi.y,20f,centerPaint)
-
-        // 各頂点と内心を結ぶ
-        pointLst.forEach {
-            canvas.drawLine(it.x,it.y,vi.x,vi.y,dotPaint)
-        }
-
         // 角度A
         val ta = pointLst[0].getAngle(pointLst[1],pointLst[2])
+        // 角度B
+        val tb = pointLst[1].getAngle(pointLst[2],pointLst[0])
+        // 角度C
+        val tc = pointLst[2].getAngle(pointLst[0],pointLst[1])
+        // 補正ベクトルA
+        val va = pointLst[0].multiply(MyMathUtil.tanf(ta))
+        // 補正ベクトルB
+        val vb = pointLst[1].multiply(MyMathUtil.tanf(tb))
+        // 補正ベクトルC
+        val vc = pointLst[2].multiply(MyMathUtil.tanf(tc))
 
-        // 内接円の面積
-        val s = lca * lab *
-                MyMathUtil.sinf(ta)/2f
-        // 内接円の半径
-        val r = 2f*s/labc
-        // 内接円を描く
-        canvas.drawCircle(vi.x,vi.y,r,dotPaint)
+        // 垂心ベクトル
+        val vh = va.plus(vb).plus(vc).divide(MyMathUtil.tanf(ta)+MyMathUtil.tanf(tb)+MyMathUtil.tanf(tc))
+        canvas.drawCircle(vh.x,vh.y,20f,centerPaint)
 
+        // 垂心が多角形内にあるかどうか判定
+        when ( vh.inJudge(pointLst) ) {
+            // 垂心が多角形内
+            1 -> {
+                // BCの長さ
+                val lbc = pointLst[2].diff(pointLst[1]).magnitude()
+                // CAの長さ
+                val lca = pointLst[0].diff(pointLst[2]).magnitude()
+                // ABの長さ
+                val lab = pointLst[1].diff(pointLst[0]).magnitude()
 
+                // BDの長さ(ABの長さ*cos(B))
+                val lbd = lab * MyMathUtil.cosf(tb)
+                // DCの長さ(BC-BD)
+                val ldc = lbc - lbd
+                // 描画点D
+                val d = pointLst[1].lerp(pointLst[2],lbd,ldc)
+                // 線分AD
+                canvas.drawLine(pointLst[0].x,pointLst[0].y,d.x,d.y,dotPaint)
+
+                // CEの長さ(BCの長さ*cos(C))
+                val lce = lbc * MyMathUtil.cosf(tc)
+                // EAの長さ(CA-CE)
+                val lea = lca - lce
+                // 描画点E
+                val e = pointLst[2].lerp(pointLst[0],lce,lea)
+                // 線分BE
+                canvas.drawLine(pointLst[1].x,pointLst[1].y,e.x,e.y,dotPaint)
+
+                // AFの長さ(ACの長さ*cos(A))
+                val laf = lca * MyMathUtil.cosf(ta)
+                // FBの長さ
+                val lfb = lab - laf
+                // 描画点F
+                val f = pointLst[0].lerp(pointLst[1],laf,lfb)
+                // 線分CF
+                canvas.drawLine(pointLst[2].x,pointLst[2].y,f.x,f.y,dotPaint)
+            }
+            // 垂心が多角形外
+            else -> {
+                // 各頂点と垂心を結ぶ
+                pointLst.forEach {
+                    canvas.drawLine(it.x,it.y,vh.x,vh.y,dotPaint)
+                }
+            }
+        }
 
 
         // 座標を元に戻す

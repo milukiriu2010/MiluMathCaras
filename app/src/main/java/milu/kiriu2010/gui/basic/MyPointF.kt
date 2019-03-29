@@ -85,6 +85,47 @@ data class MyPointF(
     }
 
     // -----------------------------------
+    // 線形補間
+    // -----------------------------------
+    fun lerp(b: MyPointF, ra: Float, rb: Float): MyPointF {
+        return MyPointF().also {
+            it.x = (rb*x+ra*b.x)/(ra+rb)
+            it.y = (rb*y+ra*b.y)/(ra+rb)
+        }
+    }
+
+    // -----------------------------------
+    // 点が多角形内にあるかどうか判定
+    // -----------------------------------
+    //   1 => 内
+    //   2 => 外
+    //  -1 => 対象外
+    // -----------------------------------
+    // http://edom18.hateblo.jp/entry/2018/11/28/200032
+    // -----------------------------------
+    fun inJudge(pointLst: MutableList<MyPointF>): Int {
+        if ( pointLst.size <= 2 ) return -1
+
+        // 各頂点の角度の合計
+        var angleTotal = 0f
+        var p2: MyPointF = pointLst[pointLst.size-1]
+        pointLst.forEachIndexed { id, p1 ->
+            val angle = getAngle(p2,p1)
+            angleTotal += angle
+            p2 = p1
+        }
+
+        // 各頂点との角度が360度であれば、多角形内に点があると判定する
+        val eps = 0.1f
+        return if ( ( angleTotal >= (360f-eps) ) and ( angleTotal <= (360f+eps) ) ) {
+            1
+        }
+        else {
+            2
+        }
+    }
+
+    // -----------------------------------
     // 原点を中心とした回転
     // -----------------------------------
     fun rotate(angleDv: Float): MyPointF {

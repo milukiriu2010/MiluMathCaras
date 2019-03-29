@@ -2,10 +2,7 @@ package milu.kiriu2010.math
 
 import milu.kiriu2010.gui.basic.MyPointF
 import java.util.Stack
-import kotlin.math.PI
-import kotlin.math.atan
-import kotlin.math.cos
-import kotlin.math.sin
+import kotlin.math.*
 
 class MyMathUtil {
     companion object {
@@ -179,6 +176,13 @@ class MyMathUtil {
         // --------------------------------------------
         fun sinf(angle: Float): Float {
             return sin(angle*PI/180f).toFloat()
+        }
+
+        // --------------------------------------------
+        // tan(度)
+        // --------------------------------------------
+        fun tanf(angle: Float): Float {
+            return tan(angle*PI/180f).toFloat()
         }
     }
 }
