@@ -49,6 +49,7 @@
     <string name="func_curve_epicycloid">x = r*(1+1/k)*cos(t) - r/k*cos((k+1)*t)\ny = r*(1+1/k)*sin(t) - r/k*sin((k+1)*t)</string>
     <string name="func_curve_hypocycloid">x = r*(1-1/k)*cos(t) + r/k*cos((k-1)*t)\ny = r*(1-1/k)*sin(t) - r/k*sin((k-1)*t)</string>
     <string name="func_curve_logarithmic_spiral">x = a * exp(b*t) * cos(t)\ny = a * exp(b*t) * sin(t)</string>
+    <string name="func_curve_involute">x = a * (cos(t) + t * sin(t))\ny = a * (sin(t) - t * cos(t))</string>
     <string name="func_curve_lissajous">x = a * sin(p*t+d)\ny = b * sin(q*t)</string>
     <string name="func_curve_lemniscate">x = a * cos(t)/(1+sin(t)*sin(t))\ny = a * sin(t) * sin(t)/(1+sin(t)*sin(t))</string>
     <string name="func_curve_cassinian_oval">x = a * sqrt(cos(2t)+sqrt((b/a)^4-sin(2t)^2) * cos(t)\na * sqrt(cos(2t)+sqrt((b/a)^4-sin(2t)^2) * sin(t)</string>
@@ -66,6 +67,7 @@
     <string name="draw_000010_curve_logarithmic_spiral">Logarithmic Spiral</string>
     <string name="draw_000011_curve_logarithmic_spiral_circle01">Logarithmic Spiral\nCircle 01</string>
     <string name="draw_000012_curve_logarithmic_spiral_circle02">Logarithmic Spiral\nCircle 02</string>
+    <string name="draw_000013_curve_involute_curve">Involute Curve</string>
     <string name="draw_000021_curve_cardioid">Cardioid(k=1.0)</string>
     <string name="draw_000022_curve_epicycloid">Epicycloid(k=4.0)</string>
     <string name="draw_000023_curve_epicycloid">Epicycloid(k=2.1)</string>

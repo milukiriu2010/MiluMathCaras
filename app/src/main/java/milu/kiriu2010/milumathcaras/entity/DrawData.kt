@@ -33,6 +33,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000011_LOGARITHMIC_SPIRAL(11),
     // 対数螺旋上に円を描く
     ID_000012_LOGARITHMIC_SPIRAL(12),
+    // インボリュート曲線
+    ID_000013_INVOLUTE_CURVE(13),
     // カージオイド曲線(k=1.0)
     ID_000021_CARDIOID(21),
     // エピサイクロイド曲線(k=4.0)

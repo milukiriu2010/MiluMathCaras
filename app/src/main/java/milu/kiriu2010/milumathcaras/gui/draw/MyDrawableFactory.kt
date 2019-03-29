@@ -18,6 +18,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.lissajous.Lissajous01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.CassinianOval01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.CassinianOval02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.Lemniscate02Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.InvoluteCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiral01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiralCircle01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiralCircle02Drawable
@@ -78,6 +79,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000011_LOGARITHMIC_SPIRAL -> LogarithmicSpiralCircle01Drawable()
                 // 対数螺旋に円を描画
                 DrawDataID.ID_000012_LOGARITHMIC_SPIRAL -> LogarithmicSpiralCircle02Drawable()
+                // インボリュート曲線
+                DrawDataID.ID_000013_INVOLUTE_CURVE -> InvoluteCurve01Drawable()
                 // カージオイド曲線(cardioid)(k=1.0)
                 DrawDataID.ID_000021_CARDIOID -> Epicycloid01Drawable()
                 // エピサイクロイド曲線(k=4.0)

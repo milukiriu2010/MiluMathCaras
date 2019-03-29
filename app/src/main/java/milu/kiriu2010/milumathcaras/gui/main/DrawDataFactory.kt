@@ -108,6 +108,10 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_000012_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000012_curve_logarithmic_spiral_circle02) ))
                     // 対数螺旋上に円を描く
                     drawDataLst.add(DrawData(DrawDataID.ID_000011_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000011_curve_logarithmic_spiral_circle01) ))
+                    // インボリュート曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_000013_INVOLUTE_CURVE,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000013_curve_involute_curve),
+                        stillImageParam = floatArrayOf(0f,0.3f), motionImageParam = floatArrayOf(0f,0.3f), editParam = floatArrayOf(0.1f,5f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_involute), "autoParam" to "t", "handParam1" to "a") ))
                     // 対数螺旋
                     drawDataLst.add(DrawData(DrawDataID.ID_000010_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_06,resources.getString(R.string.draw_000010_curve_logarithmic_spiral),
                         stillImageParam = floatArrayOf(0f,2f,0.14f), motionImageParam = floatArrayOf(0f,2f,0.14f), editParam = floatArrayOf(0f,500f,1f,-1.0f,1.0f,2f),
