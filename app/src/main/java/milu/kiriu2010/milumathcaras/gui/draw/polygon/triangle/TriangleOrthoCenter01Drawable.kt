@@ -268,47 +268,53 @@ class TriangleOrthoCenter01Drawable: MyDrawable() {
         // 補正ベクトルC
         val vc = pointLst[2].multiply(MyMathUtil.tanf(tc))
 
+        // -------------------------------------------------------------
         // 垂心ベクトル
+        // -------------------------------------------------------------
         val vh = va.plus(vb).plus(vc).divide(MyMathUtil.tanf(ta)+MyMathUtil.tanf(tb)+MyMathUtil.tanf(tc))
-        canvas.drawCircle(vh.x,vh.y,20f,centerPaint)
+
+        // -------------------------------------------------------------
+        // 各頂点から対辺に向かって垂線を引く
+        // -------------------------------------------------------------
+        // BCの長さ
+        val lbc = pointLst[2].diff(pointLst[1]).magnitude()
+        // CAの長さ
+        val lca = pointLst[0].diff(pointLst[2]).magnitude()
+        // ABの長さ
+        val lab = pointLst[1].diff(pointLst[0]).magnitude()
+
+        // BDの長さ(ABの長さ*cos(B))
+        val lbd = lab * MyMathUtil.cosf(tb)
+        // DCの長さ(BC-BD)
+        val ldc = lbc - lbd
+        // 描画点D
+        val d = pointLst[1].lerp(pointLst[2],lbd,ldc)
+        // 線分AD
+        canvas.drawLine(pointLst[0].x,pointLst[0].y,d.x,d.y,dotPaint)
+
+        // CEの長さ(BCの長さ*cos(C))
+        val lce = lbc * MyMathUtil.cosf(tc)
+        // EAの長さ(CA-CE)
+        val lea = lca - lce
+        // 描画点E
+        val e = pointLst[2].lerp(pointLst[0],lce,lea)
+        // 線分BE
+        canvas.drawLine(pointLst[1].x,pointLst[1].y,e.x,e.y,dotPaint)
+
+        // AFの長さ(ACの長さ*cos(A))
+        val laf = lca * MyMathUtil.cosf(ta)
+        // FBの長さ
+        val lfb = lab - laf
+        // 描画点F
+        val f = pointLst[0].lerp(pointLst[1],laf,lfb)
+        // 線分CF
+        canvas.drawLine(pointLst[2].x,pointLst[2].y,f.x,f.y,dotPaint)
+
 
         // 垂心が多角形内にあるかどうか判定
         when ( vh.inJudge(pointLst) ) {
             // 垂心が多角形内
             1 -> {
-                // BCの長さ
-                val lbc = pointLst[2].diff(pointLst[1]).magnitude()
-                // CAの長さ
-                val lca = pointLst[0].diff(pointLst[2]).magnitude()
-                // ABの長さ
-                val lab = pointLst[1].diff(pointLst[0]).magnitude()
-
-                // BDの長さ(ABの長さ*cos(B))
-                val lbd = lab * MyMathUtil.cosf(tb)
-                // DCの長さ(BC-BD)
-                val ldc = lbc - lbd
-                // 描画点D
-                val d = pointLst[1].lerp(pointLst[2],lbd,ldc)
-                // 線分AD
-                canvas.drawLine(pointLst[0].x,pointLst[0].y,d.x,d.y,dotPaint)
-
-                // CEの長さ(BCの長さ*cos(C))
-                val lce = lbc * MyMathUtil.cosf(tc)
-                // EAの長さ(CA-CE)
-                val lea = lca - lce
-                // 描画点E
-                val e = pointLst[2].lerp(pointLst[0],lce,lea)
-                // 線分BE
-                canvas.drawLine(pointLst[1].x,pointLst[1].y,e.x,e.y,dotPaint)
-
-                // AFの長さ(ACの長さ*cos(A))
-                val laf = lca * MyMathUtil.cosf(ta)
-                // FBの長さ
-                val lfb = lab - laf
-                // 描画点F
-                val f = pointLst[0].lerp(pointLst[1],laf,lfb)
-                // 線分CF
-                canvas.drawLine(pointLst[2].x,pointLst[2].y,f.x,f.y,dotPaint)
             }
             // 垂心が多角形外
             else -> {
@@ -318,6 +324,11 @@ class TriangleOrthoCenter01Drawable: MyDrawable() {
                 }
             }
         }
+
+        // -------------------------------------------------------------
+        // 垂心を描く
+        // -------------------------------------------------------------
+        canvas.drawCircle(vh.x,vh.y,20f,centerPaint)
 
 
         // 座標を元に戻す

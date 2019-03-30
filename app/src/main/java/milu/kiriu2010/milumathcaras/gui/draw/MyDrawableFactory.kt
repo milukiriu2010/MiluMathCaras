@@ -18,10 +18,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.lissajous.Lissajous01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.CassinianOval01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.CassinianOval02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.Lemniscate02Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.InvoluteCurve01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiral01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiralCircle01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.LogarithmicSpiralCircle02Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.*
 import milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid.Trochoid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.mandelbrot.Mandelbrot00Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.dragon.DragonCurve01Drawable
@@ -75,12 +72,14 @@ class MyDrawableFactory {
                 DrawDataID.ID_000008_CASSINIAN_OVAL -> CassinianOval02Drawable()
                 // 対数螺旋(描画点を回転させる方法)
                 DrawDataID.ID_000010_LOGARITHMIC_SPIRAL -> LogarithmicSpiral01Drawable()
-                // 対数螺旋に円を描画
-                DrawDataID.ID_000011_LOGARITHMIC_SPIRAL -> LogarithmicSpiralCircle01Drawable()
-                // 対数螺旋に円を描画
-                DrawDataID.ID_000012_LOGARITHMIC_SPIRAL -> LogarithmicSpiralCircle02Drawable()
+                // 対数螺旋上に円を描画
+                DrawDataID.ID_000011_LOGARITHMIC_SPIRAL_CIRCLE_01 -> LogarithmicSpiralCircle01Drawable()
+                // 対数螺旋上に円を描画
+                DrawDataID.ID_000012_LOGARITHMIC_SPIRAL_CIRCLE_02 -> LogarithmicSpiralCircle02Drawable()
                 // インボリュート曲線
                 DrawDataID.ID_000013_INVOLUTE_CURVE -> InvoluteCurve01Drawable()
+                // 対数螺旋間に円を描画
+                DrawDataID.ID_000014_LOGARITHMIC_SPIRAL_TRIANGLE_01 -> LogarithmicSpiralTriangle01Drawable()
                 // カージオイド曲線(cardioid)(k=1.0)
                 DrawDataID.ID_000021_CARDIOID -> Epicycloid01Drawable()
                 // エピサイクロイド曲線(k=4.0)
