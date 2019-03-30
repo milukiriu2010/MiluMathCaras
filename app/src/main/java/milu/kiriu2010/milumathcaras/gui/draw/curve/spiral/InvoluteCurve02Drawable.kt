@@ -219,6 +219,40 @@ class InvoluteCurve02Drawable: MyDrawable() {
         // 枠を描画
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
+        // 回転後のインボリュート曲線の描画点
+        val rotateLst = mutableListOf<MyPointF>()
+        // 三角形用描画点
+        val pointTriangle = mutableListOf<MyPointF>()
+        pointLst.forEachIndexed { id, p1 ->
+            // 描画点の原点からの距離
+            val lenXY = sqrt(p1.x*p1.x+p1.y*p1.y)
+            // 描画点のX軸に対する角度
+            val angleXY = MyMathUtil.getAngle(MyPointF(0f,0f),p1)
+
+            // ------------------------------------------------------------------------
+            // インボリュート曲線が回転しているようにみえるするために、描画点をangle度回転させる
+            // ------------------------------------------------------------------------
+            // angleに+1をかけると、内に収束するようにみえる
+            // angleに-1をかけると、外に広がるようにみえる
+            // ------------------------------------------------------------------------
+            val x1 = lenXY * cos((sign*angle+angleXY)*PI/180f)
+            val y1 = lenXY * sin((sign*angle+angleXY)*PI/180f)
+
+            rotateLst.add(MyPointF(x1.toFloat(),y1.toFloat()))
+            if ( ( id%angleN == 0 ) and ( (id/angleN)%2 == 0 ) ) {
+                pointTriangle.add(MyPointF(x1.toFloat(),y1.toFloat()))
+            }
+        }
+
+        val path = Path()
+        pointTriangle.forEachIndexed { id, p ->
+            when (id) {
+                0 -> path.moveTo(p.x,p.y)
+                else -> path.lineTo(p.x,p.y)
+            }
+        }
+        path.close()
+
         // 原点(0,0)の位置
         // = (マージン,マージン)
         val x0 = margin
@@ -231,7 +265,8 @@ class InvoluteCurve02Drawable: MyDrawable() {
         // 1536色のグラデーション
         val bunchSize = angleN
         var p2: MyPointF? = null
-        val d = 6f
+        //val d = 6f
+        val d = (1+2f*PI.toFloat()*260f/360f)
         (0..4).forEach { row ->
             val rowf = row.toFloat()
             canvas.save()
@@ -241,53 +276,26 @@ class InvoluteCurve02Drawable: MyDrawable() {
                 val colf = col.toFloat()
                 canvas.translate(a*d,0f)
 
-                // 三角形用描画点
-                val pointTriangle = mutableListOf<MyPointF>()
                 // インボリュート曲線を描く
-                pointLst.forEachIndexed { id, p1 ->
-                    // 描画点の原点からの距離
-                    val lenXY = sqrt(p1.x*p1.x+p1.y*p1.y)
-                    // 描画点のX軸に対する角度
-                    val angleXY = MyMathUtil.getAngle(MyPointF(0f,0f),p1)
-
-                    // ------------------------------------------------------------------------
-                    // インボリュート曲線が回転しているようにみえるするために、描画点をangle度回転させる
-                    // ------------------------------------------------------------------------
-                    // angleに+1をかけると、内に収束するようにみえる
-                    // angleに-1をかけると、外に広がるようにみえる
-                    // ------------------------------------------------------------------------
-                    val x1 = lenXY * cos((sign*angle+angleXY)*PI/180f)
-                    val y1 = lenXY * sin((sign*angle+angleXY)*PI/180f)
+                rotateLst.forEachIndexed { id, p1 ->
                     if ( p2 != null ) {
                         val color = myColor.create(id%angleN,bunchSize)
                         linePaint.color = color.toInt()
-                        canvas.drawLine(x1.toFloat(),y1.toFloat(),p2?.x!!,p2?.y!!,linePaint)
+                        canvas.drawLine(p1.x.toFloat(),p1.y.toFloat(),p2?.x!!,p2?.y!!,linePaint)
                     }
 
                     p2 = when ( id%angleN ) {
                         angleN-1 -> null
-                        else -> MyPointF(x1.toFloat(),y1.toFloat())
-                    }
-
-                    if ( ( id%angleN == 0 ) and ( (id/angleN)%2 == 0 ) ) {
-                        pointTriangle.add(MyPointF(x1.toFloat(),y1.toFloat()))
+                        else -> p1
                     }
                 }
 
-                val path = Path()
-                pointTriangle.forEachIndexed { id, p ->
-                    when (id) {
-                        0 -> path.moveTo(p.x,p.y)
-                        else -> path.lineTo(p.x,p.y)
-                    }
-                }
+                // 三角形を描く
                 canvas.drawPath(path,drawPaint)
             }
             // 座標を元に戻す
             canvas.restore()
         }
-
-
 
         // これまでの描画はテンポラリのため実像に描画する
         val matrix = Matrix()
