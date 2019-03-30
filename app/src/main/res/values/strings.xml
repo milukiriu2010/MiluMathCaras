@@ -68,8 +68,9 @@
     <string name="draw_000010_curve_logarithmic_spiral">Logarithmic Spiral</string>
     <string name="draw_000011_curve_logarithmic_spiral_circle01">Logarithmic Spiral\nCircle 01</string>
     <string name="draw_000012_curve_logarithmic_spiral_circle02">Logarithmic Spiral\nCircle 02</string>
-    <string name="draw_000013_curve_involute_curve">Involute Curve</string>
+    <string name="draw_000013_curve_involute_curve01">Involute Curve 01</string>
     <string name="draw_000014_curve_logarithmic_spiral_triangle01">Logarithmic Spiral\nTriangle 01</string>
+    <string name="draw_000015_curve_involute_curve02">Involute Curve 02</string>
     <string name="draw_000021_curve_cardioid">Cardioid(k=1.0)</string>
     <string name="draw_000022_curve_epicycloid">Epicycloid(k=4.0)</string>
     <string name="draw_000023_curve_epicycloid">Epicycloid(k=2.1)</string>

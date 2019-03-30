@@ -77,9 +77,11 @@ class MyDrawableFactory {
                 // 対数螺旋上に円を描画
                 DrawDataID.ID_000012_LOGARITHMIC_SPIRAL_CIRCLE_02 -> LogarithmicSpiralCircle02Drawable()
                 // インボリュート曲線
-                DrawDataID.ID_000013_INVOLUTE_CURVE -> InvoluteCurve01Drawable()
+                DrawDataID.ID_000013_INVOLUTE_CURVE_01 -> InvoluteCurve01Drawable()
                 // 対数螺旋間に円を描画
                 DrawDataID.ID_000014_LOGARITHMIC_SPIRAL_TRIANGLE_01 -> LogarithmicSpiralTriangle01Drawable()
+                // インボリュート曲線
+                DrawDataID.ID_000015_INVOLUTE_CURVE_02 -> InvoluteCurve02Drawable()
                 // カージオイド曲線(cardioid)(k=1.0)
                 DrawDataID.ID_000021_CARDIOID -> Epicycloid01Drawable()
                 // エピサイクロイド曲線(k=4.0)

@@ -104,6 +104,8 @@ class DrawDataFactory {
                 }
                 // スパイラルを選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_SPIRAL -> {
+                    // インボリュート曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_000015_INVOLUTE_CURVE_02,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000015_curve_involute_curve02) ))
                     // 対数螺旋間に三角形を描く
                     drawDataLst.add(DrawData(DrawDataID.ID_000014_LOGARITHMIC_SPIRAL_TRIANGLE_01,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000014_curve_logarithmic_spiral_triangle01) ))
                     // 対数螺旋上に円を描く
@@ -111,7 +113,7 @@ class DrawDataFactory {
                     // 対数螺旋上に円を描く
                     drawDataLst.add(DrawData(DrawDataID.ID_000011_LOGARITHMIC_SPIRAL_CIRCLE_01,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000011_curve_logarithmic_spiral_circle01) ))
                     // インボリュート曲線
-                    drawDataLst.add(DrawData(DrawDataID.ID_000013_INVOLUTE_CURVE,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000013_curve_involute_curve),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000013_INVOLUTE_CURVE_01,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000013_curve_involute_curve01),
                         stillImageParam = floatArrayOf(0f,0.3f), motionImageParam = floatArrayOf(0f,0.3f), editParam = floatArrayOf(0.1f,5f,1f),
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_involute), "autoParam" to "t", "handParam1" to "a") ))
                     // 対数螺旋
