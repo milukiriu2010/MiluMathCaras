@@ -12,7 +12,7 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.*
 
 // -------------------------------------------------------------------------------------
-// インボリュート曲線
+// インボリュート曲線のタイリング
 // -------------------------------------------------------------------------------------
 //   x = a * (cos(t) + t * sin(t))
 //   y = a * (sin(t) - t * cos(t))
@@ -40,6 +40,11 @@ class InvoluteCurve02Drawable: MyDrawable() {
     private var angleMax2 = 260f
     private var angleDv = 5f
     private var angleN = (angleMax2/angleDv).toInt()+1
+
+    // -------------------------------
+    // インボリュート曲線を描く色
+    // -------------------------------
+    private var colorId = 0
 
 
     // -------------------------------
@@ -202,9 +207,11 @@ class InvoluteCurve02Drawable: MyDrawable() {
     // インボリュート曲線を回転する
     private fun rotatePath() {
         angle += angleDv
+        colorId++
 
         if ( angle >= angleMax1 ) {
             angle = 0f
+            colorId = 0
         }
     }
 
@@ -279,7 +286,7 @@ class InvoluteCurve02Drawable: MyDrawable() {
                 // インボリュート曲線を描く
                 rotateLst.forEachIndexed { id, p1 ->
                     if ( p2 != null ) {
-                        val color = myColor.create(id%angleN,bunchSize)
+                        val color = myColor.create((id+colorId)%angleN,bunchSize)
                         linePaint.color = color.toInt()
                         canvas.drawLine(p1.x.toFloat(),p1.y.toFloat(),p2?.x!!,p2?.y!!,linePaint)
                     }
@@ -291,6 +298,7 @@ class InvoluteCurve02Drawable: MyDrawable() {
                 }
 
                 // 三角形を描く
+                drawPaint.color = myColor.create((colorId)%angleN,bunchSize).toInt()
                 canvas.drawPath(path,drawPaint)
             }
             // 座標を元に戻す
