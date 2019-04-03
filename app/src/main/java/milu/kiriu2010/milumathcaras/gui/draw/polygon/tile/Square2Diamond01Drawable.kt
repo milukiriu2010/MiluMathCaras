@@ -86,7 +86,7 @@ class Square2Diamond01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 矢印を描くペイント
+    // 頂点を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = 0xff19b5fe.toInt()
