@@ -1884,7 +1884,7 @@ class Triangle2Diamond01Drawable: MyDrawable() {
         if (ratioNow > ratioMax) {
             ratioNow = 0f
         }
-        Log.d(javaClass.simpleName,"ratioNow[${ratioNow}]")
+        //Log.d(javaClass.simpleName,"ratioNow[${ratioNow}]")
     }
 
 
@@ -1932,14 +1932,14 @@ class Triangle2Diamond01Drawable: MyDrawable() {
                 else -> vertex0Lst
             }
 
-            Log.d(javaClass.simpleName,"vertexLst.size[${vertexLst.size}]")
+            //Log.d(javaClass.simpleName,"vertexLst.size[${vertexLst.size}]")
 
             (0..splitN+6).forEach { col ->
                 canvas.translate(a,0f)
 
                 // 各パターンを２つずつ描く
                 val vLst = vertexLst.filterIndexed { id, vertex -> ( id == (col%3)*2 ) or ( id == (col%3)*2+1 ) }
-                Log.d(javaClass.simpleName,"vLst.size[${vLst.size}]")
+                //Log.d(javaClass.simpleName,"vLst.size[${vLst.size}]")
 
                 vLst.forEach { vertex ->
                     val path = Path()
@@ -1952,10 +1952,11 @@ class Triangle2Diamond01Drawable: MyDrawable() {
                         }
 
 
+                        /*
                         if ( ( row == 0 ) and ( col == 0 ) ) {
                             Log.d(javaClass.simpleName,"id[${id}]x[${p.x}]y[${p.y}]")
                         }
-                        //canvas.drawCircle(sp.x,sp.y,10f,dmyPaint)
+                        */
                     }
                     path.close()
                     canvas.drawPath(path,linePaint)
