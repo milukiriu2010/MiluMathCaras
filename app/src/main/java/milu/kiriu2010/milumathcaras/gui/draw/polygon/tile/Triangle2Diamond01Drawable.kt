@@ -184,7 +184,7 @@ class Triangle2Diamond01Drawable: MyDrawable() {
     }
     val m1 = MyPointF().also {
         it.x = r1*MyMathUtil.cosf(330f)
-        it.y = r1*MyMathUtil.sinf(30f)
+        it.y = r1*MyMathUtil.sinf(330f)
     }
     val m2 = MyPointF().also {
         it.x = r1*MyMathUtil.cosf(210f)
@@ -336,7 +336,7 @@ class Triangle2Diamond01Drawable: MyDrawable() {
                     // 描画
                     invalidateSelf()
 
-                    handler.postDelayed(runnable, 200)
+                    handler.postDelayed(runnable, 50)
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
@@ -380,14 +380,18 @@ class Triangle2Diamond01Drawable: MyDrawable() {
         if (nCnt > 0) {
             modeDirNow = when (modeDirNow) {
                 ModeDir.DOWN1 -> ModeDir.DOWN2
-                ModeDir.DOWN2 -> ModeDir.DOWN1
-                /*
                 ModeDir.DOWN2 -> ModeDir.UP1
                 ModeDir.UP1 -> ModeDir.UP2
                 ModeDir.UP2 -> ModeDir.DOWN1
-                */
                 else -> ModeDir.DOWN1
             }
+            /*
+            modeDirNow = when (modeDirNow) {
+                ModeDir.UP1 -> ModeDir.UP2
+                ModeDir.UP2 -> ModeDir.UP1
+                else -> ModeDir.DOWN1
+            }
+            */
         }
 
 
@@ -397,6 +401,8 @@ class Triangle2Diamond01Drawable: MyDrawable() {
         when (modeDirNow) {
             ModeDir.DOWN1 -> createPathDOWN1()
             ModeDir.DOWN2 -> createPathDOWN2()
+            ModeDir.UP1   -> createPathUP1()
+            ModeDir.UP2   -> createPathUP2()
         }
 
         nCnt++
@@ -1135,6 +1141,742 @@ class Triangle2Diamond01Drawable: MyDrawable() {
     }
 
     // -------------------------------
+    // 描画点のパス設定(UP1)
+    // -------------------------------
+    private fun createPathUP1() {
+
+        // -----------------------------------------------
+        // パターン０
+        // -----------------------------------------------
+
+        // パターン０―１つ目
+        val v01 = Vertex().also {
+            it.ms = ModeSplit.DOWN
+            // 起点位置
+            it.slst.add(l0.copy())  // 0
+            it.slst.add(k2.copy())  // 1
+            it.slst.add(k0.copy())  // 2
+            it.slst.add(k1.copy())  // 3
+            it.slst.add(l0.copy())  // 4
+            // 終端位置
+            it.elst.add(m0.copy())  // 0
+            it.elst.add(k2.copy())  // 1
+            it.elst.add(MyPointF()) // 2
+            it.elst.add(k1.copy())  // 3
+            it.elst.add(m0.copy())  // 4
+        }
+        // パターン０―２つ目
+        val v02 = Vertex().also {
+            it.ms = ModeSplit.RIGHT
+            // 起点位置
+            it.slst.add(l1.copy())  // 0
+            it.slst.add(k0.copy())  // 1
+            it.slst.add(k1.copy())  // 2
+            it.slst.add(k2.copy())  // 3
+            it.slst.add(l1.copy())  // 4
+            // 終端位置
+            it.elst.add(m1.copy())  // 0
+            it.elst.add(k0.copy())  // 1
+            it.elst.add(MyPointF()) // 2
+            it.elst.add(k2.copy())  // 3
+            it.elst.add(m1.copy())  // 4
+        }
+        // パターン０―３つ目
+        val v03 = Vertex().also {
+            it.ms = ModeSplit.DOWN
+            // 起点位置
+            it.slst.add(l0.copy())  // 0
+            it.slst.add(k2.copy())  // 1
+            it.slst.add(k0.copy())  // 2
+            it.slst.add(k1.copy())  // 3
+            it.slst.add(l0.copy())  // 4
+            // 終端位置
+            it.elst.add(m0.copy())  // 0
+            it.elst.add(k2.copy())  // 1
+            it.elst.add(MyPointF()) // 2
+            it.elst.add(k1.copy())  // 3
+            it.elst.add(m0.copy())  // 4
+        }
+        // パターン０―４つ目
+        val v04 = Vertex().also {
+            it.ms = ModeSplit.DOWN
+            // 起点位置
+            it.slst.add(l0.copy())  // 0
+            it.slst.add(k2.copy())  // 1
+            it.slst.add(k0.copy())  // 2
+            it.slst.add(k1.copy())  // 3
+            it.slst.add(l0.copy())  // 4
+            // 終端位置
+            it.elst.add(m0.copy())  // 0
+            it.elst.add(k2.copy())  // 1
+            it.elst.add(MyPointF()) // 2
+            it.elst.add(k1.copy())  // 3
+            it.elst.add(m0.copy())  // 4
+        }
+        // パターン０―５つ目
+        val v05 = Vertex().also {
+            it.ms = ModeSplit.LEFT
+            // 起点位置
+            it.slst.add(l2.copy())  // 0
+            it.slst.add(k1.copy())  // 1
+            it.slst.add(k2.copy())  // 2
+            it.slst.add(k0.copy())  // 3
+            it.slst.add(l2.copy())  // 4
+            // 終端位置
+            it.elst.add(m2.copy())  // 0
+            it.elst.add(k1.copy())  // 1
+            it.elst.add(MyPointF()) // 2
+            it.elst.add(k0.copy())  // 3
+            it.elst.add(m2.copy())  // 4
+        }
+        // パターン０―６つ目
+        val v06 = Vertex().also {
+            it.ms = ModeSplit.RIGHT
+            // 起点位置
+            it.slst.add(l1.copy())  // 0
+            it.slst.add(k0.copy())  // 1
+            it.slst.add(k1.copy())  // 2
+            it.slst.add(k2.copy())  // 3
+            it.slst.add(l1.copy())  // 4
+            // 終端位置
+            it.elst.add(m1.copy())  // 0
+            it.elst.add(k0.copy())  // 1
+            it.elst.add(MyPointF()) // 2
+            it.elst.add(k2.copy())  // 3
+            it.elst.add(m1.copy())  // 4
+        }
+
+        vertex0Lst.add(v01)
+        vertex0Lst.add(v02)
+        vertex0Lst.add(v03)
+        vertex0Lst.add(v04)
+        vertex0Lst.add(v05)
+        vertex0Lst.add(v06)
+
+        // -----------------------------------------------
+        // パターン１
+        // -----------------------------------------------
+
+        // パターン１―１つ目
+        val v11 = Vertex().also {
+            it.ms = ModeSplit.DOWN
+            // 起点位置
+            it.slst.add(l0.copy())  // 0
+            it.slst.add(k2.copy())  // 1
+            it.slst.add(k0.copy())  // 2
+            it.slst.add(k1.copy())  // 3
+            it.slst.add(l0.copy())  // 4
+            // 終端位置
+            it.elst.add(m0.copy())  // 0
+            it.elst.add(k2.copy())  // 1
+            it.elst.add(MyPointF()) // 2
+            it.elst.add(k1.copy())  // 3
+            it.elst.add(m0.copy())  // 4
+        }
+        // パターン１―２つ目
+        val v12 = Vertex().also {
+            it.ms = ModeSplit.LEFT
+            // 起点位置
+            it.slst.add(l2.copy())  // 0
+            it.slst.add(k1.copy())  // 1
+            it.slst.add(k2.copy())  // 2
+            it.slst.add(k0.copy())  // 3
+            it.slst.add(l2.copy())  // 4
+            // 終端位置
+            it.elst.add(m2.copy())  // 0
+            it.elst.add(k1.copy())  // 1
+            it.elst.add(MyPointF()) // 2
+            it.elst.add(k0.copy())  // 3
+            it.elst.add(m2.copy())  // 4
+        }
+        // パターン１―３つ目
+        val v13 = Vertex().also {
+            it.ms = ModeSplit.RIGHT
+            // 起点位置
+            it.slst.add(l1.copy())  // 0
+            it.slst.add(k0.copy())  // 1
+            it.slst.add(k1.copy())  // 2
+            it.slst.add(k2.copy())  // 3
+            it.slst.add(l1.copy())  // 4
+            // 終端位置
+            it.elst.add(m1.copy())  // 0
+            it.elst.add(k0.copy())  // 1
+            it.elst.add(MyPointF()) // 2
+            it.elst.add(k2.copy())  // 3
+            it.elst.add(m1.copy())  // 4
+        }
+        // パターン１―４つ目
+        val v14 = Vertex().also {
+            it.ms = ModeSplit.RIGHT
+            // 起点位置
+            it.slst.add(l1.copy())  // 0
+            it.slst.add(k0.copy())  // 1
+            it.slst.add(k1.copy())  // 2
+            it.slst.add(k2.copy())  // 3
+            it.slst.add(l1.copy())  // 4
+            // 終端位置
+            it.elst.add(m1.copy())  // 0
+            it.elst.add(k0.copy())  // 1
+            it.elst.add(MyPointF()) // 2
+            it.elst.add(k2.copy())  // 3
+            it.elst.add(m1.copy())  // 4
+        }
+        // パターン１―５つ目
+        val v15 = Vertex().also {
+            it.ms = ModeSplit.DOWN
+            // 起点位置
+            it.slst.add(l0.copy())  // 0
+            it.slst.add(k2.copy())  // 1
+            it.slst.add(k0.copy())  // 2
+            it.slst.add(k1.copy())  // 3
+            it.slst.add(l0.copy())  // 4
+            // 終端位置
+            it.elst.add(m0.copy())  // 0
+            it.elst.add(k2.copy())  // 1
+            it.elst.add(MyPointF()) // 2
+            it.elst.add(k1.copy())  // 3
+            it.elst.add(m0.copy())  // 4
+        }
+        // パターン１―６つ目
+        val v16 = Vertex().also {
+            it.ms = ModeSplit.DOWN
+            // 起点位置
+            it.slst.add(l0.copy())  // 0
+            it.slst.add(k2.copy())  // 1
+            it.slst.add(k0.copy())  // 2
+            it.slst.add(k1.copy())  // 3
+            it.slst.add(l0.copy())  // 4
+            // 終端位置
+            it.elst.add(m0.copy())  // 0
+            it.elst.add(k2.copy())  // 1
+            it.elst.add(MyPointF()) // 2
+            it.elst.add(k1.copy())  // 3
+            it.elst.add(m0.copy())  // 4
+        }
+
+        vertex1Lst.add(v11)
+        vertex1Lst.add(v12)
+        vertex1Lst.add(v13)
+        vertex1Lst.add(v14)
+        vertex1Lst.add(v15)
+        vertex1Lst.add(v16)
+
+
+        // -----------------------------------------------
+        // パターン２
+        // -----------------------------------------------
+
+        // パターン２―１つ目
+        val v21 = Vertex().also {
+            it.ms = ModeSplit.RIGHT
+            // 起点位置
+            it.slst.add(l1.copy())  // 0
+            it.slst.add(k0.copy())  // 1
+            it.slst.add(k1.copy())  // 2
+            it.slst.add(k2.copy())  // 3
+            it.slst.add(l1.copy())  // 4
+            // 終端位置
+            it.elst.add(m1.copy())  // 0
+            it.elst.add(k0.copy())  // 1
+            it.elst.add(MyPointF()) // 2
+            it.elst.add(k2.copy())  // 3
+            it.elst.add(m1.copy())  // 4
+        }
+        // パターン２―２つ目
+        val v22 = Vertex().also {
+            it.ms = ModeSplit.RIGHT
+            // 起点位置
+            it.slst.add(l1.copy())  // 0
+            it.slst.add(k0.copy())  // 1
+            it.slst.add(k1.copy())  // 2
+            it.slst.add(k2.copy())  // 3
+            it.slst.add(l1.copy())  // 4
+            // 終端位置
+            it.elst.add(m1.copy())  // 0
+            it.elst.add(k0.copy())  // 1
+            it.elst.add(MyPointF()) // 2
+            it.elst.add(k2.copy())  // 3
+            it.elst.add(m1.copy())  // 4
+        }
+        // パターン２―３つ目
+        val v23 = Vertex().also {
+            it.ms = ModeSplit.LEFT
+            // 起点位置
+            it.slst.add(l2.copy())  // 0
+            it.slst.add(k1.copy())  // 1
+            it.slst.add(k2.copy())  // 2
+            it.slst.add(k0.copy())  // 3
+            it.slst.add(l2.copy())  // 4
+            // 終端位置
+            it.elst.add(m2.copy())  // 0
+            it.elst.add(k1.copy())  // 1
+            it.elst.add(MyPointF()) // 2
+            it.elst.add(k0.copy())  // 3
+            it.elst.add(m2.copy())  // 4
+        }
+        // パターン２―４つ目
+        val v24 = Vertex().also {
+            it.ms = ModeSplit.LEFT
+            // 起点位置
+            it.slst.add(l2.copy())  // 0
+            it.slst.add(k1.copy())  // 1
+            it.slst.add(k2.copy())  // 2
+            it.slst.add(k0.copy())  // 3
+            it.slst.add(l2.copy())  // 4
+            // 終端位置
+            it.elst.add(m2.copy())  // 0
+            it.elst.add(k1.copy())  // 1
+            it.elst.add(MyPointF()) // 2
+            it.elst.add(k0.copy())  // 3
+            it.elst.add(m2.copy())  // 4
+        }
+        // パターン２―５つ目
+        val v25 = Vertex().also {
+            it.ms = ModeSplit.LEFT
+            // 起点位置
+            it.slst.add(l2.copy())  // 0
+            it.slst.add(k1.copy())  // 1
+            it.slst.add(k2.copy())  // 2
+            it.slst.add(k0.copy())  // 3
+            it.slst.add(l2.copy())  // 4
+            // 終端位置
+            it.elst.add(m2.copy())  // 0
+            it.elst.add(k1.copy())  // 1
+            it.elst.add(MyPointF()) // 2
+            it.elst.add(k0.copy())  // 3
+            it.elst.add(m2.copy())  // 4
+        }
+        // パターン２―６つ目
+        val v26 = Vertex().also {
+            it.ms = ModeSplit.LEFT
+            // 起点位置
+            it.slst.add(l2.copy())  // 0
+            it.slst.add(k1.copy())  // 1
+            it.slst.add(k2.copy())  // 2
+            it.slst.add(k0.copy())  // 3
+            it.slst.add(l2.copy())  // 4
+            // 終端位置
+            it.elst.add(m2.copy())  // 0
+            it.elst.add(k1.copy())  // 1
+            it.elst.add(MyPointF()) // 2
+            it.elst.add(k0.copy())  // 3
+            it.elst.add(m2.copy())  // 4
+        }
+
+        vertex2Lst.add(v21)
+        vertex2Lst.add(v22)
+        vertex2Lst.add(v23)
+        vertex2Lst.add(v24)
+        vertex2Lst.add(v25)
+        vertex2Lst.add(v26)
+
+    }
+
+    // -------------------------------
+    // 描画点のパス設定(UP2)
+    // -------------------------------
+    private fun createPathUP2() {
+
+        // -----------------------------------------------
+        // パターン０
+        // -----------------------------------------------
+
+        // パターン０―１つ目
+        val v01 = Vertex().also {
+            it.ms = ModeSplit.DOWN
+            // 起点位置
+            it.slst.add(n0.copy())  // 0
+            it.slst.add(m0.copy())  // 1
+            it.slst.add(k2.copy())  // 2
+            it.slst.add(MyPointF())  // 3
+            it.slst.add(k1.copy())  // 4
+            it.slst.add(m0.copy())  // 5
+            it.slst.add(n0.copy())  // 6
+            // 終端位置
+            it.elst.add(n0.copy())  // 0
+            it.elst.add(n1.copy())  // 1
+            it.elst.add(k2.copy())  // 2
+            it.elst.add(l0.copy())  // 3
+            it.elst.add(k1.copy())  // 4
+            it.elst.add(n2.copy())  // 5
+            it.elst.add(n0.copy())  // 6
+        }
+        // パターン０―２つ目
+        val v02 = Vertex().also {
+            it.ms = ModeSplit.RIGHT
+            // 起点位置
+            it.slst.add(n3.copy())  // 0
+            it.slst.add(m1.copy())  // 1
+            it.slst.add(k0.copy())  // 2
+            it.slst.add(MyPointF())  // 3
+            it.slst.add(k2.copy())  // 4
+            it.slst.add(m1.copy())  // 5
+            it.slst.add(n3.copy())  // 6
+            // 終端位置
+            it.elst.add(n3.copy())  // 0
+            it.elst.add(n4.copy())  // 1
+            it.elst.add(k0.copy())  // 2
+            it.elst.add(l1.copy())  // 3
+            it.elst.add(k2.copy())  // 4
+            it.elst.add(n5.copy())  // 5
+            it.elst.add(n3.copy())  // 6
+        }
+        // パターン０―３つ目
+        val v03 = Vertex().also {
+            it.ms = ModeSplit.DOWN
+            // 起点位置
+            it.slst.add(n0.copy())  // 0
+            it.slst.add(m0.copy())  // 1
+            it.slst.add(k2.copy())  // 2
+            it.slst.add(MyPointF())  // 3
+            it.slst.add(k1.copy())  // 4
+            it.slst.add(m0.copy())  // 5
+            it.slst.add(n0.copy())  // 6
+            // 終端位置
+            it.elst.add(n0.copy())  // 0
+            it.elst.add(n1.copy())  // 1
+            it.elst.add(k2.copy())  // 2
+            it.elst.add(l0.copy())  // 3
+            it.elst.add(k1.copy())  // 4
+            it.elst.add(n2.copy())  // 5
+            it.elst.add(n0.copy())  // 6
+        }
+        // パターン０―４つ目
+        val v04 = Vertex().also {
+            it.ms = ModeSplit.DOWN
+            // 起点位置
+            it.slst.add(n0.copy())  // 0
+            it.slst.add(m0.copy())  // 1
+            it.slst.add(k2.copy())  // 2
+            it.slst.add(MyPointF())  // 3
+            it.slst.add(k1.copy())  // 4
+            it.slst.add(m0.copy())  // 5
+            it.slst.add(n0.copy())  // 6
+            // 終端位置
+            it.elst.add(n0.copy())  // 0
+            it.elst.add(n1.copy())  // 1
+            it.elst.add(k2.copy())  // 2
+            it.elst.add(l0.copy())  // 3
+            it.elst.add(k1.copy())  // 4
+            it.elst.add(n2.copy())  // 5
+            it.elst.add(n0.copy())  // 6
+        }
+        // パターン０―５つ目
+        val v05 = Vertex().also {
+            it.ms = ModeSplit.LEFT
+            // 起点位置
+            it.slst.add(n6.copy())  // 0
+            it.slst.add(m2.copy())  // 1
+            it.slst.add(k1.copy())  // 2
+            it.slst.add(MyPointF())  // 3
+            it.slst.add(k0.copy())  // 4
+            it.slst.add(m2.copy())  // 5
+            it.slst.add(n6.copy())  // 6
+            // 終端位置
+            it.elst.add(n6.copy())  // 0
+            it.elst.add(n7.copy())  // 1
+            it.elst.add(k1.copy())  // 2
+            it.elst.add(l2.copy())  // 3
+            it.elst.add(k0.copy())  // 4
+            it.elst.add(n8.copy())  // 5
+            it.elst.add(n6.copy())  // 6
+        }
+        // パターン０―６つ目
+        val v06 = Vertex().also {
+            it.ms = ModeSplit.RIGHT
+            // 起点位置
+            it.slst.add(n3.copy())  // 0
+            it.slst.add(m1.copy())  // 1
+            it.slst.add(k0.copy())  // 2
+            it.slst.add(MyPointF())  // 3
+            it.slst.add(k2.copy())  // 4
+            it.slst.add(m1.copy())  // 5
+            it.slst.add(n3.copy())  // 6
+            // 終端位置
+            it.elst.add(n3.copy())  // 0
+            it.elst.add(n4.copy())  // 1
+            it.elst.add(k0.copy())  // 2
+            it.elst.add(l1.copy())  // 3
+            it.elst.add(k2.copy())  // 4
+            it.elst.add(n5.copy())  // 5
+            it.elst.add(n3.copy())  // 6
+        }
+
+        vertex0Lst.add(v01)
+        vertex0Lst.add(v02)
+        vertex0Lst.add(v03)
+        vertex0Lst.add(v04)
+        vertex0Lst.add(v05)
+        vertex0Lst.add(v06)
+
+        // -----------------------------------------------
+        // パターン１
+        // -----------------------------------------------
+
+        // パターン１―１つ目
+        val v11 = Vertex().also {
+            it.ms = ModeSplit.DOWN
+            // 起点位置
+            it.slst.add(n0.copy())  // 0
+            it.slst.add(m0.copy())  // 1
+            it.slst.add(k2.copy())  // 2
+            it.slst.add(MyPointF())  // 3
+            it.slst.add(k1.copy())  // 4
+            it.slst.add(m0.copy())  // 5
+            it.slst.add(n0.copy())  // 6
+            // 終端位置
+            it.elst.add(n0.copy())  // 0
+            it.elst.add(n1.copy())  // 1
+            it.elst.add(k2.copy())  // 2
+            it.elst.add(l0.copy())  // 3
+            it.elst.add(k1.copy())  // 4
+            it.elst.add(n2.copy())  // 5
+            it.elst.add(n0.copy())  // 6
+        }
+        // パターン１―２つ目
+        val v12 = Vertex().also {
+            it.ms = ModeSplit.LEFT
+            // 起点位置
+            it.slst.add(n6.copy())  // 0
+            it.slst.add(m2.copy())  // 1
+            it.slst.add(k1.copy())  // 2
+            it.slst.add(MyPointF())  // 3
+            it.slst.add(k0.copy())  // 4
+            it.slst.add(m2.copy())  // 5
+            it.slst.add(n6.copy())  // 6
+            // 終端位置
+            it.elst.add(n6.copy())  // 0
+            it.elst.add(n7.copy())  // 1
+            it.elst.add(k1.copy())  // 2
+            it.elst.add(l2.copy())  // 3
+            it.elst.add(k0.copy())  // 4
+            it.elst.add(n8.copy())  // 5
+            it.elst.add(n6.copy())  // 6
+        }
+        // パターン１―３つ目
+        val v13 = Vertex().also {
+            it.ms = ModeSplit.RIGHT
+            // 起点位置
+            it.slst.add(n3.copy())  // 0
+            it.slst.add(m1.copy())  // 1
+            it.slst.add(k0.copy())  // 2
+            it.slst.add(MyPointF())  // 3
+            it.slst.add(k2.copy())  // 4
+            it.slst.add(m1.copy())  // 5
+            it.slst.add(n3.copy())  // 6
+            // 終端位置
+            it.elst.add(n3.copy())  // 0
+            it.elst.add(n4.copy())  // 1
+            it.elst.add(k0.copy())  // 2
+            it.elst.add(l1.copy())  // 3
+            it.elst.add(k2.copy())  // 4
+            it.elst.add(n5.copy())  // 5
+            it.elst.add(n3.copy())  // 6
+        }
+        // パターン１―４つ目
+        val v14 = Vertex().also {
+            it.ms = ModeSplit.RIGHT
+            // 起点位置
+            it.slst.add(n3.copy())  // 0
+            it.slst.add(m1.copy())  // 1
+            it.slst.add(k0.copy())  // 2
+            it.slst.add(MyPointF())  // 3
+            it.slst.add(k2.copy())  // 4
+            it.slst.add(m1.copy())  // 5
+            it.slst.add(n3.copy())  // 6
+            // 終端位置
+            it.elst.add(n3.copy())  // 0
+            it.elst.add(n4.copy())  // 1
+            it.elst.add(k0.copy())  // 2
+            it.elst.add(l1.copy())  // 3
+            it.elst.add(k2.copy())  // 4
+            it.elst.add(n5.copy())  // 5
+            it.elst.add(n3.copy())  // 6
+        }
+        // パターン１―５つ目
+        val v15 = Vertex().also {
+            it.ms = ModeSplit.DOWN
+            // 起点位置
+            it.slst.add(n0.copy())  // 0
+            it.slst.add(m0.copy())  // 1
+            it.slst.add(k2.copy())  // 2
+            it.slst.add(MyPointF())  // 3
+            it.slst.add(k1.copy())  // 4
+            it.slst.add(m0.copy())  // 5
+            it.slst.add(n0.copy())  // 6
+            // 終端位置
+            it.elst.add(n0.copy())  // 0
+            it.elst.add(n1.copy())  // 1
+            it.elst.add(k2.copy())  // 2
+            it.elst.add(l0.copy())  // 3
+            it.elst.add(k1.copy())  // 4
+            it.elst.add(n2.copy())  // 5
+            it.elst.add(n0.copy())  // 6
+        }
+        // パターン１―６つ目
+        val v16 = Vertex().also {
+            it.ms = ModeSplit.DOWN
+            // 起点位置
+            it.slst.add(n0.copy())  // 0
+            it.slst.add(m0.copy())  // 1
+            it.slst.add(k2.copy())  // 2
+            it.slst.add(MyPointF())  // 3
+            it.slst.add(k1.copy())  // 4
+            it.slst.add(m0.copy())  // 5
+            it.slst.add(n0.copy())  // 6
+            // 終端位置
+            it.elst.add(n0.copy())  // 0
+            it.elst.add(n1.copy())  // 1
+            it.elst.add(k2.copy())  // 2
+            it.elst.add(l0.copy())  // 3
+            it.elst.add(k1.copy())  // 4
+            it.elst.add(n2.copy())  // 5
+            it.elst.add(n0.copy())  // 6
+        }
+
+        vertex1Lst.add(v11)
+        vertex1Lst.add(v12)
+        vertex1Lst.add(v13)
+        vertex1Lst.add(v14)
+        vertex1Lst.add(v15)
+        vertex1Lst.add(v16)
+
+        // -----------------------------------------------
+        // パターン２
+        // -----------------------------------------------
+
+        // パターン２―１つ目
+        val v21 = Vertex().also {
+            it.ms = ModeSplit.RIGHT
+            // 起点位置
+            it.slst.add(n3.copy())  // 0
+            it.slst.add(m1.copy())  // 1
+            it.slst.add(k0.copy())  // 2
+            it.slst.add(MyPointF())  // 3
+            it.slst.add(k2.copy())  // 4
+            it.slst.add(m1.copy())  // 5
+            it.slst.add(n3.copy())  // 6
+            // 終端位置
+            it.elst.add(n3.copy())  // 0
+            it.elst.add(n4.copy())  // 1
+            it.elst.add(k0.copy())  // 2
+            it.elst.add(l1.copy())  // 3
+            it.elst.add(k2.copy())  // 4
+            it.elst.add(n5.copy())  // 5
+            it.elst.add(n3.copy())  // 6
+        }
+        // パターン２―２つ目
+        val v22 = Vertex().also {
+            it.ms = ModeSplit.RIGHT
+            // 起点位置
+            it.slst.add(n3.copy())  // 0
+            it.slst.add(m1.copy())  // 1
+            it.slst.add(k0.copy())  // 2
+            it.slst.add(MyPointF())  // 3
+            it.slst.add(k2.copy())  // 4
+            it.slst.add(m1.copy())  // 5
+            it.slst.add(n3.copy())  // 6
+            // 終端位置
+            it.elst.add(n3.copy())  // 0
+            it.elst.add(n4.copy())  // 1
+            it.elst.add(k0.copy())  // 2
+            it.elst.add(l1.copy())  // 3
+            it.elst.add(k2.copy())  // 4
+            it.elst.add(n5.copy())  // 5
+            it.elst.add(n3.copy())  // 6
+        }
+        // パターン２―３つ目
+        val v23 = Vertex().also {
+            it.ms = ModeSplit.LEFT
+            // 起点位置
+            it.slst.add(n6.copy())  // 0
+            it.slst.add(m2.copy())  // 1
+            it.slst.add(k1.copy())  // 2
+            it.slst.add(MyPointF())  // 3
+            it.slst.add(k0.copy())  // 4
+            it.slst.add(m2.copy())  // 5
+            it.slst.add(n6.copy())  // 6
+            // 終端位置
+            it.elst.add(n6.copy())  // 0
+            it.elst.add(n7.copy())  // 1
+            it.elst.add(k1.copy())  // 2
+            it.elst.add(l2.copy())  // 3
+            it.elst.add(k0.copy())  // 4
+            it.elst.add(n8.copy())  // 5
+            it.elst.add(n6.copy())  // 6
+        }
+        // パターン２―４つ目
+        val v24 = Vertex().also {
+            it.ms = ModeSplit.LEFT
+            // 起点位置
+            it.slst.add(n6.copy())  // 0
+            it.slst.add(m2.copy())  // 1
+            it.slst.add(k1.copy())  // 2
+            it.slst.add(MyPointF())  // 3
+            it.slst.add(k0.copy())  // 4
+            it.slst.add(m2.copy())  // 5
+            it.slst.add(n6.copy())  // 6
+            // 終端位置
+            it.elst.add(n6.copy())  // 0
+            it.elst.add(n7.copy())  // 1
+            it.elst.add(k1.copy())  // 2
+            it.elst.add(l2.copy())  // 3
+            it.elst.add(k0.copy())  // 4
+            it.elst.add(n8.copy())  // 5
+            it.elst.add(n6.copy())  // 6
+        }
+        // パターン２―５つ目
+        val v25 = Vertex().also {
+            it.ms = ModeSplit.LEFT
+            // 起点位置
+            it.slst.add(n6.copy())  // 0
+            it.slst.add(m2.copy())  // 1
+            it.slst.add(k1.copy())  // 2
+            it.slst.add(MyPointF())  // 3
+            it.slst.add(k0.copy())  // 4
+            it.slst.add(m2.copy())  // 5
+            it.slst.add(n6.copy())  // 6
+            // 終端位置
+            it.elst.add(n6.copy())  // 0
+            it.elst.add(n7.copy())  // 1
+            it.elst.add(k1.copy())  // 2
+            it.elst.add(l2.copy())  // 3
+            it.elst.add(k0.copy())  // 4
+            it.elst.add(n8.copy())  // 5
+            it.elst.add(n6.copy())  // 6
+        }
+        // パターン２―６つ目
+        val v26 = Vertex().also {
+            it.ms = ModeSplit.LEFT
+            // 起点位置
+            it.slst.add(n6.copy())  // 0
+            it.slst.add(m2.copy())  // 1
+            it.slst.add(k1.copy())  // 2
+            it.slst.add(MyPointF())  // 3
+            it.slst.add(k0.copy())  // 4
+            it.slst.add(m2.copy())  // 5
+            it.slst.add(n6.copy())  // 6
+            // 終端位置
+            it.elst.add(n6.copy())  // 0
+            it.elst.add(n7.copy())  // 1
+            it.elst.add(k1.copy())  // 2
+            it.elst.add(l2.copy())  // 3
+            it.elst.add(k0.copy())  // 4
+            it.elst.add(n8.copy())  // 5
+            it.elst.add(n6.copy())  // 6
+        }
+
+        vertex2Lst.add(v21)
+        vertex2Lst.add(v22)
+        vertex2Lst.add(v23)
+        vertex2Lst.add(v24)
+        vertex2Lst.add(v25)
+        vertex2Lst.add(v26)
+
+
+    }
+
+    // -------------------------------
     // 描画点を移動する
     // -------------------------------
     private fun movePath() {
@@ -1160,25 +1902,30 @@ class Triangle2Diamond01Drawable: MyDrawable() {
 
 
         // 三角形/ひし形を描画
-        (0..splitN+2).forEach { row ->
+        (0..splitN+3).forEach { row ->
             canvas.save()
             canvas.translate(margin,margin)
             canvas.translate(-a,h*(row-1).toFloat())
 
+            when(modeDirNow) {
+                ModeDir.UP1 -> canvas.translate(0f,-r1.toFloat())
+                ModeDir.UP2 -> canvas.translate(0f,-r1.toFloat())
+            }
+
             // 描画する頂点パターンを選択
             val vertexLst = when (row%3) {
                 0 -> {
-                    linePaint.color = Color.RED
+                    //linePaint.color = Color.RED
                     canvas.translate(-a*1.5f*(row/3).toFloat(),0f)
                     vertex0Lst
                 }
                 1 -> {
-                    linePaint.color = Color.GREEN
+                    //linePaint.color = Color.GREEN
                     canvas.translate(-a/2f-a*1.5f*(row/3).toFloat(),0f)
                     vertex1Lst
                 }
                 2 -> {
-                    linePaint.color = Color.BLUE
+                    //linePaint.color = Color.BLUE
                     canvas.translate(-a*1.5f*(row/3).toFloat(),0f)
                     vertex2Lst
                 }
@@ -1187,7 +1934,7 @@ class Triangle2Diamond01Drawable: MyDrawable() {
 
             Log.d(javaClass.simpleName,"vertexLst.size[${vertexLst.size}]")
 
-            (0..splitN+5).forEach { col ->
+            (0..splitN+6).forEach { col ->
                 canvas.translate(a,0f)
 
                 // 各パターンを２つずつ描く
