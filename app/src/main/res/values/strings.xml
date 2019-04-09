@@ -57,6 +57,7 @@
     <string name="func_triangle_circumcenter">O=(A*sin(2A)+B*sin(2B)+C*sin(2C))/(sin(2A)+sin(2B)+sin(2C))</string>
     <string name="func_triangle_incenter">I=(a*A+b*B+c*C)/(a+b+c)</string>
     <string name="func_triangle_orthocenter">H=(A*tan(A)+B*tan(B)+C*tan(C))/(tan(A)+tan(B)+tan(C))</string>
+    <string name="func_triangle_excenter">OIa= (-a * OA + b * OB + c * OC)/(-a+b+c)</string>
     <string name="draw_000001_curve_cycloid">Cycloid(k=1.0)</string>
     <string name="draw_000002_curve_trochoid">Trochoid(k=2.0)</string>
     <string name="draw_000003_curve_trochoid">Trochoid(k=-2.0)</string>
@@ -143,6 +144,7 @@
     <string name="draw_000371_triangle_circumcenter">Triangle\nCircumcenter</string>
     <string name="draw_000372_triangle_incenter">Triangle\nIncenter</string>
     <string name="draw_000373_triangle_orthocenter">Triangle\nOrthocenter</string>
+    <string name="draw_000374_triangle_excenter">Triangle\nExcenter</string>
     <string name="draw_000401_nature_uniform_motion">Uniform Motion</string>
     <string name="draw_000402_nature_fountain">Fountain</string>
     <string name="draw_000403_nature_random_walk">Random Walk</string>

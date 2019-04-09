@@ -227,6 +227,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000372_TRIANGLE_INCENTER -> TriangleInCenter01Drawable()
                 // 三角形の垂心
                 DrawDataID.ID_000373_TRIANGLE_ORTHOCENTER -> TriangleOrthoCenter01Drawable()
+                // 三角形の傍心
+                DrawDataID.ID_000374_TRIANGLE_EXCENTER -> TriangleExCenter01Drawable()
                 // 等速度運動
                 DrawDataID.ID_000401_NATURE_UNFORM_MOTION -> UniformMotion01Drawable()
                 // 噴水
