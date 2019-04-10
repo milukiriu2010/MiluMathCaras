@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle
+package milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.center
 
 import android.graphics.*
 import android.os.Handler
@@ -288,16 +288,13 @@ class TriangleInCenter01Drawable: MyDrawable() {
         // 角度A
         val ta = pointLst[0].getAngle(pointLst[1],pointLst[2])
 
-        // 内接円の面積
+        // 三角形の面積
         val s = lca * lab *
                 MyMathUtil.sinf(ta)/2f
         // 内接円の半径
         val r = 2f*s/labc
         // 内接円を描く
         canvas.drawCircle(vi.x,vi.y,r,dotPaint)
-
-
-
 
         // 座標を元に戻す
         canvas.restore()

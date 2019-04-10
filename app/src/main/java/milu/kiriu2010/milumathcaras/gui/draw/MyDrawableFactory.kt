@@ -44,8 +44,10 @@ import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.UniformMotion01Drawa
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.tile.RotateArrows01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.tile.Square2Diamond01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.polygon.tile.Square2Diamond02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.tile.Triangle2Diamond01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.*
+import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.center.*
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWave01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWaveCircle01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWaveCircle02Drawable
@@ -253,10 +255,12 @@ class MyDrawableFactory {
                 DrawDataID.ID_000602_ROTATE_ARROWS -> RotateArrows01Drawable()
                 // 回転しながら三角形を合体
                 DrawDataID.ID_000603_TRIANGLE_UNITE -> TriangleUnite01Drawable()
-                // 正方形⇔ひし形
-                DrawDataID.ID_000604_SQUARE_2_DIAMOND -> Square2Diamond01Drawable()
+                // 正方形⇔ひし形01
+                DrawDataID.ID_000604_SQUARE_2_DIAMOND_01 -> Square2Diamond01Drawable()
                 // 三角形⇔ひし形
                 DrawDataID.ID_000605_TRIANGLE_2_DIAMOND -> Triangle2Diamond01Drawable()
+                // 正方形⇔ひし形02
+                DrawDataID.ID_000606_SQUARE_2_DIAMOND_02 -> Square2Diamond02Drawable()
                 // 三角形out三角形
                 DrawDataID.ID_000701_3_OUT_3 -> PolygonOutPolygon01Drawable()
                 // 三角形out四角形

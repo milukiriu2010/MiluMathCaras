@@ -307,15 +307,18 @@ class DrawDataFactory {
                     // 三角形⇔ひし形
                     drawDataLst.add(DrawData(DrawDataID.ID_000605_TRIANGLE_2_DIAMOND,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000605_polygon_triangle_2_diamond),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/6fbe92faf0c058002dfee6c5485a0187/tumblr_mo0n7hepeL1ql82o1o1_r3_500.gif") ))
-                    // 正方形⇔ひし形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000604_SQUARE_2_DIAMOND,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000604_polygon_square_2_diamond),
+                    // 正方形⇔ひし形02
+                    drawDataLst.add(DrawData(DrawDataID.ID_000606_SQUARE_2_DIAMOND_02,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000606_polygon_square_2_diamond_02),
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/47c47e8bbcb5ee14878548f806a7c086/tumblr_mnor4buGS01r2geqjo1_500.gif") ))
+                    // 正方形⇔ひし形01
+                    drawDataLst.add(DrawData(DrawDataID.ID_000604_SQUARE_2_DIAMOND_01,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000604_polygon_square_2_diamond_01),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/47c47e8bbcb5ee14878548f806a7c086/tumblr_mnor4buGS01r2geqjo1_500.gif") ))
                     // 回転する矢印
                     drawDataLst.add(DrawData(DrawDataID.ID_000602_ROTATE_ARROWS,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000602_polygon_rotate_arrows),
                         creditMap = mutableMapOf<String,String>("name" to "Just van Rossum", "url" to "https://twitter.com/justvanrossum/status/1091237538583511041") ))
                 }
                 // "三角形"を選択したときの描画データの一覧
-                MenuItem.MENU_POLYGON_TRIANGLE -> {
+                MenuItem.MENU_POLYGON_TRIANGLE_CENTER -> {
                     // 三角形の傍心
                     drawDataLst.add(DrawData(DrawDataID.ID_000374_TRIANGLE_EXCENTER,DrawFragmentType.FT_SQUARE_04,resources.getString(R.string.draw_000374_triangle_excenter),
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_triangle_excenter)) ))

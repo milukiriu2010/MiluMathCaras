@@ -1,16 +1,11 @@
-package milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle
+package milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.center
 
 import android.graphics.*
 import android.os.Handler
-import android.util.Log
 import android.view.MotionEvent
 import milu.kiriu2010.gui.basic.MyPointF
-import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
 
 // ------------------------------------------------------
 // 三角形の重心

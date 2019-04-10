@@ -220,7 +220,7 @@ class MenuFragment : Fragment() {
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_TILE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_tile),false))
                     // [サブメニュー]
                     // "三角形"一覧を表示するメニュー
-                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_TRIANGLE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_triangle),false))
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_TRIANGLE_CENTER, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_triangle_center),false))
                     // [サブメニュー]
                     // "多角形in多角形"一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_PINP, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_pinp),false))

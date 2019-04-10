@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle
+package milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.center
 
 import android.graphics.*
 import android.os.Handler

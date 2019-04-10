@@ -385,13 +385,6 @@ class Triangle2Diamond01Drawable: MyDrawable() {
                 ModeDir.UP2 -> ModeDir.DOWN1
                 else -> ModeDir.DOWN1
             }
-            /*
-            modeDirNow = when (modeDirNow) {
-                ModeDir.UP1 -> ModeDir.UP2
-                ModeDir.UP2 -> ModeDir.UP1
-                else -> ModeDir.DOWN1
-            }
-            */
         }
 
 

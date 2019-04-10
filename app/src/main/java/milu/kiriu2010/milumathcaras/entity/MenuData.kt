@@ -69,8 +69,8 @@ enum class MenuItem(val title: String): Parcelable {
     MENU_POLYGON_MIX("Polygon Mix"),
     // 敷き詰めた多角形を描画するメニュー
     MENU_POLYGON_TILE("Tiling Polygons"),
-    // 三角形を描画するメニュー
-    MENU_POLYGON_TRIANGLE("Triangle"),
+    // 三角形の中心を描画するメニュー
+    MENU_POLYGON_TRIANGLE_CENTER("Triangle Center"),
     // "多角形in多角形"を描画するメニュー
     MENU_POLYGON_PINP("P in P"),
     // "多角形out多角形"を描画するメニュー

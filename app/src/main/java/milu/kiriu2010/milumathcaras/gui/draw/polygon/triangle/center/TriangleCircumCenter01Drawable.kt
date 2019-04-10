@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle
+package milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.center
 
 import android.graphics.*
 import android.os.Handler
@@ -8,23 +8,21 @@ import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
-// -------------------------------------------
-// 三角形の傍心
-// -------------------------------------------
+// ----------------------------------------------------------------
+// 三角形の外心
+// ----------------------------------------------------------------
 // 定義
-//   1つの角の二等分線と残り2つの角の外角の二等分線の交点
-// -------------------------------------------
-// 傍心のベクトル
-//   OIa= (-a x OA + b x OB + c x OC)/(-a+b+c)
-// -------------------------------------------
-// S=ra*(b+c-a)/2
-//  =rb*(c+a-b)/2
-//  =rc*(a+b-c)/2
-// -------------------------------------------
-// http://www2.spec.ed.jp/krk/sugaku/?action=common_download_main&upload_id=524
-// https://mathtrain.jp/boushin
-// -------------------------------------------
-class TriangleExCenter01Drawable: MyDrawable() {
+//   各辺の垂直２等分線の交点
+// ----------------------------------------------------------------
+// 外心のベクトル
+//   O = (sin(2a)*A+sin(2b)*B+sin(2c)*C)/(sin(2a)+sin(2b)+sin(2c))
+// ----------------------------------------------------------------
+// 角度BOC=角度BAC x 2
+// 角度COA=角度CBA x 2
+// 角度AOB=角度ACB x 2
+// ----------------------------------------------------------------
+class TriangleCircumCenter01Drawable: MyDrawable() {
+
     // -------------------------------
     // 描画領域
     // -------------------------------
@@ -80,7 +78,7 @@ class TriangleExCenter01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 各角の２等分線と内接円を描く
+    // 各辺の垂直2等分線と外接円を描く
     // -------------------------------
     private val dotPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLACK
@@ -90,7 +88,7 @@ class TriangleExCenter01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 三角形の内心を描く
+    // 三角形の外心を描く
     // -------------------------------
     private val centerPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
@@ -259,74 +257,41 @@ class TriangleExCenter01Drawable: MyDrawable() {
         path.close()
         canvas.drawPath(path,linePaint)
 
-        // BCの長さ
-        val lbc = pointLst[2].diff(pointLst[1]).magnitude()
-        // CAの長さ
-        val lca = pointLst[0].diff(pointLst[2]).magnitude()
-        // ABの長さ
-        val lab = pointLst[1].diff(pointLst[0]).magnitude()
-
-        // 全辺の合計の長さ
-        val abcLen = lbc + lca + lab
-
-        // 傍心ベクトルOIaの分母
-        val labc = -lbc + lca + lab
-        // 補正ベクトルA
-        val oiaa = pointLst[0].multiply(-lbc/labc)
-        // 補正ベクトルB
-        val oiab = pointLst[1].multiply(lca/labc)
-        // 補正ベクトルC
-        val oiac = pointLst[2].multiply(lab/labc)
-
-        // 傍心ベクトルOIbの分母
-        val lbca = lbc - lca + lab
-        // 補正ベクトルA
-        val oiba = pointLst[0].multiply(lbc/lbca)
-        // 補正ベクトルB
-        val oibb = pointLst[1].multiply(-lca/lbca)
-        // 補正ベクトルC
-        val oibc = pointLst[2].multiply(lab/lbca)
-
-        // 傍心ベクトルOIcの分母
-        val lcab = lbc + lca - lab
-        // 補正ベクトルA
-        val oica = pointLst[0].multiply(lbc/lcab)
-        // 補正ベクトルB
-        val oicb = pointLst[1].multiply(lca/lcab)
-        // 補正ベクトルC
-        val oicc = pointLst[2].multiply(-lab/lcab)
-
-        // 傍心ベクトルOIa
-        val oia = oiaa.plus(oiab).plus(oiac)
-        // 傍心ベクトルOIb
-        val oib = oibb.plus(oibc).plus(oiba)
-        // 傍心ベクトルOIc
-        val oic = oicc.plus(oica).plus(oicb)
-        canvas.drawCircle(oia.x,oia.y,20f,centerPaint)
-        canvas.drawCircle(oib.x,oib.y,20f,centerPaint)
-        canvas.drawCircle(oic.x,oic.y,20f,centerPaint)
-
-        // 各頂点と傍心OIaを結ぶ
-        pointLst.forEach {
-            canvas.drawLine(it.x,it.y,oia.x,oia.y,dotPaint)
-            canvas.drawLine(it.x,it.y,oib.x,oib.y,dotPaint)
-            canvas.drawLine(it.x,it.y,oic.x,oic.y,dotPaint)
-        }
-
-        /*
         // 角度A
         val ta = pointLst[0].getAngle(pointLst[1],pointLst[2])
+        // 角度B
+        val tb = pointLst[1].getAngle(pointLst[2],pointLst[0])
+        // 角度C
+        val tc = pointLst[2].getAngle(pointLst[0],pointLst[1])
+        // 補正ベクトルA
+        val va = pointLst[0].multiply(MyMathUtil.sinf(2f*ta))
+        // 補正ベクトルB
+        val vb = pointLst[1].multiply(MyMathUtil.sinf(2f*tb))
+        // 補正ベクトルC
+        val vc = pointLst[2].multiply(MyMathUtil.sinf(2f*tc))
 
-        // 内接円の面積
-        val s = lca * lab *
-                MyMathUtil.sinf(ta)/2f
-        // 内接円の半径
-        val r = 2f*s/labc
-        // 内接円を描く
-        canvas.drawCircle(vi.x,vi.y,r,dotPaint)
-        */
+        // 外心ベクトル
+        val vo = va.copy().plusSelf(vb).plusSelf(vc)
+            .divide(MyMathUtil.sinf(2f*ta)+MyMathUtil.sinf(2f*tb)+MyMathUtil.sinf(2f*tc) )
+        canvas.drawCircle(vo.x,vo.y,20f,centerPaint)
 
+        // 外接円の半径
+        val vor = vo.diff(pointLst[0]).magnitude()
+        canvas.drawCircle(vo.x,vo.y,vor,dotPaint)
 
+        val idx = arrayOf(0,1,2)
+        idx.forEach { id ->
+            // 中点として使う頂点のインデックス
+            val ids = idx.filter { it != id }
+
+            // 中点
+            val m = pointLst[ids[0]].mid(pointLst[ids[1]])
+            // 外心と中点を結ぶベクトル(外心からみたベクトル)
+            val vom = m.diff(vo)
+            // 外心と中点を結ぶベクトル(原点からみた値:外心円の半径と同じ大きさに補正)
+            val vomo = vom.multiply(vor/vom.magnitude()).plusSelf(vo)
+            canvas.drawLine(vo.x,vo.y,vomo.x,vomo.y,dotPaint)
+        }
 
         // 座標を元に戻す
         canvas.restore()
