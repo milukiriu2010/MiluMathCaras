@@ -31,8 +31,10 @@ enum class MenuItem(val title: String): Parcelable {
     MENU_CURVE_EPICYCLOID("Epicycloid"),
     // ハイポサイクロイドを描画するメニュー
     MENU_CURVE_HYPOCYCLOID("Hypocycloid"),
-    // スパイラルを描画するメニュー
-    MENU_CURVE_SPIRAL("Spiral"),
+    // 対数螺旋を描画するメニュー
+    MENU_CURVE_SPIRAL_LOGARITHMIC("Logarithmic Spiral"),
+    // インボリュート曲線を描画するメニュー
+    MENU_CURVE_SPIRAL_INVOLUTE("Involute"),
     // リサージュ曲線を描画するメニュー
     MENU_CURVE_LISSAJOUS("Lissajous"),
     // レムニスケート曲線を描画するメニュー

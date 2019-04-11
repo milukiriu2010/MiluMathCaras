@@ -131,7 +131,7 @@ class Square2Diamond02Drawable: MyDrawable() {
                     // 描画
                     invalidateSelf()
 
-                    handler.postDelayed(runnable, 50)
+                    handler.postDelayed(runnable, 100)
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
@@ -221,6 +221,34 @@ class Square2Diamond02Drawable: MyDrawable() {
     // 描画点のパス設定(VERTICAL)
     // -------------------------------
     private fun createPathVERTICAL() {
+        val v0 = Vertex().also {
+            // 起点位置
+            it.slst.add(MyPointF(a,a))
+            it.slst.add(MyPointF(a,0f))
+            it.slst.add(MyPointF(0f,a))
+            it.slst.add(MyPointF(a,a))
+            // 終端位置
+            it.elst.add(MyPointF(a,a))
+            it.elst.add(MyPointF(0f,a))
+            it.elst.add(MyPointF(0f,a))
+            it.elst.add(MyPointF(0f,2f*a))
+        }
+
+        val v1 = Vertex().also {
+            // 起点位置
+            it.slst.add(MyPointF(0f,0f))
+            it.slst.add(MyPointF(0f,a))
+            it.slst.add(MyPointF(a,0f))
+            it.slst.add(MyPointF(0f,0f))
+            // 終端位置
+            it.elst.add(MyPointF(0f,0f))
+            it.elst.add(MyPointF(a,0f))
+            it.elst.add(MyPointF(a,0f))
+            it.elst.add(MyPointF(a,-a))
+        }
+
+        vertexLst.add(v0)
+        vertexLst.add(v1)
     }
 
     // -------------------------------
@@ -250,12 +278,18 @@ class Square2Diamond02Drawable: MyDrawable() {
         // = (マージン,マージン)
 
         // 描画点を描く
-        (0..splitN+1).forEach { row ->
+        (0..splitN+1).forEach row@{ row ->
             canvas.save()
             canvas.translate(margin,margin)
             canvas.translate(-a*1.5f,a*(row-1).toFloat())
-            (0..splitN+2).forEach { col ->
+            (0..splitN+2).forEach col@{ col ->
                 canvas.translate(a,0f)
+                when {
+                    (modeSplitNow == ModeSplit.HORIZONTAL) and (row%2 == 0) and (col%2 == 1) -> return@col
+                    (modeSplitNow == ModeSplit.HORIZONTAL) and (row%2 == 1) and (col%2 == 0) -> return@col
+                    (modeSplitNow == ModeSplit.VERTICAL) and (row%2 == 0) and (col%2 == 0) -> return@col
+                    (modeSplitNow == ModeSplit.VERTICAL) and (row%2 == 1) and (col%2 == 1) -> return@col
+                }
 
                 vertexLst.forEach { vertex ->
                     val path = Path()

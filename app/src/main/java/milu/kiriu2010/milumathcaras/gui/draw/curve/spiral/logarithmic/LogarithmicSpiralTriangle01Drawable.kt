@@ -1,54 +1,44 @@
-package milu.kiriu2010.milumathcaras.gui.draw.curve.spiral
+package milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.logarithmic
 
 import android.graphics.*
 import android.os.Handler
 import android.view.MotionEvent
 import milu.kiriu2010.gui.basic.MyPointF
-import milu.kiriu2010.gui.color.ColorType
-import milu.kiriu2010.gui.color.MyColorFactory
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.*
 
 // -------------------------------------------------------------------------------------
-// インボリュート曲線のタイリング
+// 対数螺旋/ベルヌーイの螺旋間に三角形を描く
 // -------------------------------------------------------------------------------------
-//   x = a * (cos(t) + t * sin(t))
-//   y = a * (sin(t) - t * cos(t))
+//   x = r * cos(t) = a * exp(b*t) * cos(t)
+//   y = r * sin(t) = a * exp(b*t) * sin(t)
 // -------------------------------------------------------------------------------------
-// https://www.mathcurve.com/courbes2d.gb/developpantedecercle/developpantedecercle.shtml
+// https://en.wikipedia.org/wiki/Logarithmic_spiral
+// https://www.mathcurve.com/courbes2d.gb/logarithmic/logarithmic.shtml
 // -------------------------------------------------------------------------------------
-class InvoluteCurve02Drawable: MyDrawable() {
+// 画像を回転させることで螺旋を回転する
+// -------------------------------------------------------------------------------------
+class LogarithmicSpiralTriangle01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
     // -------------------------------
     private val side = 1000f
-    private val margin = 0f
+    private val margin = 50f
 
     // ---------------------------------
-    // インボリュート曲線の変数a
+    // 対数螺旋の変数a
     // ---------------------------------
-    private var a = 50f
+    private var a = 75f
+    // ---------------------------------
+    // 対数螺旋の変数b
+    // ---------------------------------
+    private var b = 1f
 
     // -------------------------------
-    // インボリュート曲線の回転角度(変数tに相当)
-    // -------------------------------
-    private var angle = 0f
-    private var angleMax1 = 360f
-    private var angleMax2 = 260f
-    private var angleDv = 5f
-    private var angleN = (angleMax2/angleDv).toInt()+1
-
-    // -------------------------------
-    // インボリュート曲線を描く色
-    // -------------------------------
-    private var colorId = 0
-
-
-    // -------------------------------
-    // インボリュート曲線の回転方向
+    // 対数螺旋の回転方向
     // -------------------------------
     // +1:内に収束するようにみえる
     // -1:外に広がるようにみえる
@@ -56,7 +46,15 @@ class InvoluteCurve02Drawable: MyDrawable() {
     private var sign = +1f
 
     // -------------------------------
-    // インボリュート曲線の描画点リスト
+    // 対数螺旋の回転角度(変数tに相当)
+    // -------------------------------
+    private var angle = 0f
+    private var angleMax = 360f
+    private var angleDv = 5f
+    private var angleN = (angleMax/angleDv).toInt()
+
+    // -------------------------------
+    // 対数螺旋上の描画点リスト
     // -------------------------------
     val pointLst = mutableListOf<MyPointF>()
 
@@ -86,19 +84,10 @@ class InvoluteCurve02Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // インボリュート曲線を描くペイント
+    // 対数螺旋を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
-        style = Paint.Style.STROKE
-        strokeWidth = 5f
-    }
-
-    // -------------------------------
-    // 三角形を描くペイント
-    // -------------------------------
-    private val drawPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = 0xffff8800.toInt()
         style = Paint.Style.FILL
     }
 
@@ -124,7 +113,7 @@ class InvoluteCurve02Drawable: MyDrawable() {
     // values
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
-        // インボリュート曲線の描画点リストを生成
+        // 対数螺旋の描画点リストを生成
         createPath()
         // ビットマップに描画
         drawBitmap()
@@ -136,14 +125,14 @@ class InvoluteCurve02Drawable: MyDrawable() {
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
-                    // インボリュート曲線を回転する
+                    // 対数螺旋を回転する
                     rotatePath()
                     // ビットマップに描画
                     drawBitmap()
                     // 描画
                     invalidateSelf()
 
-                    handler.postDelayed(runnable, 50)
+                    handler.postDelayed(runnable, 100)
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
@@ -176,6 +165,7 @@ class InvoluteCurve02Drawable: MyDrawable() {
     // -------------------------------------
     override fun receiveTouchPoint(event: MotionEvent) {
         //Log.d(javaClass.simpleName,"Touch:x[${x}]y[${y}]" )
+
         // タッチすると、回転方向を変更する
         if ( event.action == MotionEvent.ACTION_DOWN ) {
             sign = -sign
@@ -183,35 +173,37 @@ class InvoluteCurve02Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // インボリュート曲線の描画点リストを生成
+    // 対数螺旋の描画点リストを生成
     // -------------------------------
     private fun createPath() {
         // 描画点リストをクリア
         pointLst.clear()
 
-        val d = 120f
-        (0..5).forEach { i ->
-            val rev = if ( i%2 == 0 ) 1f else -1f
-            val df = i.toFloat()*d
-            (0..angleMax2.toInt() step angleDv.toInt()).forEach { t ->
-                val tf = t.toFloat()
-                val cos = MyMathUtil.cosf(tf+df)
-                val sin = MyMathUtil.sinf(tf+df)
-                val x = a*(cos+2f*PI.toFloat()*tf*sin/360f)
-                val y = a*(sin-2f*PI.toFloat()*tf*cos/360f)*rev
-                pointLst.add(MyPointF(x,y))
+        val d = 15
+        (0 until 360 step d).forEach { id1 ->
+            val ii = id1/d
+            val t1 = id1.toFloat()
+            (0 until 360 step angleDv.toInt()).forEach { id2 ->
+                val t2 = id2.toFloat()
+                val aA = a*exp(t2*PI/180f).toFloat()
+                val p = MyPointF().apply {
+                    x = aA * MyMathUtil.cosf(t1+t2)
+                    y = aA * MyMathUtil.sinf(t1+t2)
+                }
+                pointLst.add(p)
             }
         }
     }
 
-    // インボリュート曲線を回転する
+    // 対数螺旋を回転する
     private fun rotatePath() {
-        angle += angleDv
-        colorId++
+        angle += 20f
 
-        if ( angle >= angleMax1 ) {
+        // ３周したら、
+        // ・元の角度に戻す
+        // ・回転方向を変更する
+        if ( angle > angleMax ) {
             angle = 0f
-            colorId = 0
         }
     }
 
@@ -223,92 +215,83 @@ class InvoluteCurve02Drawable: MyDrawable() {
         // バックグランドを描画
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),backPaint)
 
-        // 枠を描画
+        // 枠を描画(画像を回転させるので、回転してから枠を描くこととした
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
-        // 回転後のインボリュート曲線の描画点
-        val rotateLst = mutableListOf<MyPointF>()
-        // 三角形用描画点
-        val pointTriangle = mutableListOf<MyPointF>()
-        pointLst.forEachIndexed { id, p1 ->
-            // 描画点の原点からの距離
-            val lenXY = sqrt(p1.x*p1.x+p1.y*p1.y)
-            // 描画点のX軸に対する角度
-            val angleXY = MyMathUtil.getAngle(MyPointF(0f,0f),p1)
-
-            // ------------------------------------------------------------------------
-            // インボリュート曲線が回転しているようにみえるするために、描画点をangle度回転させる
-            // ------------------------------------------------------------------------
-            // angleに+1をかけると、内に収束するようにみえる
-            // angleに-1をかけると、外に広がるようにみえる
-            // ------------------------------------------------------------------------
-            val x1 = lenXY * cos((sign*angle+angleXY)*PI/180f)
-            val y1 = lenXY * sin((sign*angle+angleXY)*PI/180f)
-
-            rotateLst.add(MyPointF(x1.toFloat(),y1.toFloat()))
-            if ( ( id%angleN == 0 ) and ( (id/angleN)%2 == 0 ) ) {
-                pointTriangle.add(MyPointF(x1.toFloat(),y1.toFloat()))
-            }
-        }
-
-        val path = Path()
-        pointTriangle.forEachIndexed { id, p ->
-            when (id) {
-                0 -> path.moveTo(p.x,p.y)
-                else -> path.lineTo(p.x,p.y)
-            }
-        }
-        path.close()
-
         // 原点(0,0)の位置
-        // = (マージン,マージン)
-        val x0 = margin
-        val y0 = margin
+        // = (左右中央,上下中央)
+        val x0 = intrinsicWidth/2f
+        val y0 = intrinsicHeight/2f
 
-        // 色インスタンス作成
-        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
+        // 原点(x0,y0)を中心に対数螺旋を描く
+        canvas.save()
+        canvas.translate(x0,y0)
 
-        // インボリュート曲線を描く
-        // 1536色のグラデーション
-        val bunchSize = angleN
+        // 対数螺旋を描く
         var p2: MyPointF? = null
-        //val d = 6f
-        val d = (1+2f*PI.toFloat()*260f/360f)
-        (0..4).forEach { row ->
-            val rowf = row.toFloat()
-            canvas.save()
-            canvas.translate(x0,y0)
-            canvas.translate(-a*d,rowf*a*d)
-            (0..4).forEach { col ->
-                val colf = col.toFloat()
-                canvas.translate(a*d,0f)
+        val pSize = pointLst.size
+        pointLst.forEachIndexed { idA, p1 ->
+            if ( p2 != null ) {
+                // ----------------------------------------
+                // 現在の描画点
+                // ----------------------------------------
+                val p1x = p1.x * MyMathUtil.cosf(sign*angle) - p1.y * MyMathUtil.sinf(sign*angle)
+                val p1y = p1.x * MyMathUtil.sinf(sign*angle) + p1.y * MyMathUtil.cosf(sign*angle)
 
-                // インボリュート曲線を描く
-                rotateLst.forEachIndexed { id, p1 ->
-                    if ( p2 != null ) {
-                        val color = myColor.create((id+colorId)%angleN,bunchSize)
-                        linePaint.color = color.toInt()
-                        canvas.drawLine(p1.x.toFloat(),p1.y.toFloat(),p2?.x!!,p2?.y!!,linePaint)
-                    }
+                // ----------------------------------------
+                // １つ前の描画点
+                // ----------------------------------------
+                val p2x = p2!!.x * MyMathUtil.cosf(sign*angle) - p2!!.y * MyMathUtil.sinf(sign*angle)
+                val p2y = p2!!.x * MyMathUtil.sinf(sign*angle) + p2!!.y * MyMathUtil.cosf(sign*angle)
 
-                    p2 = when ( id%angleN ) {
-                        angleN-1 -> null
-                        else -> p1
-                    }
+                // ----------------------------------------
+                // 前列の描画点
+                // ----------------------------------------
+                val idB = when {
+                    (idA < angleN) -> pSize-angleN+idA
+                    else -> idA-angleN
+                }
+                val p3 = pointLst[idB]
+                val p3x = p3.x * MyMathUtil.cosf(sign*angle) - p3.y * MyMathUtil.sinf(sign*angle)
+                val p3y = p3.x * MyMathUtil.sinf(sign*angle) + p3.y * MyMathUtil.cosf(sign*angle)
+
+                linePaint.color = when ((idA/angleN)%2) {
+                    0 -> Color.RED
+                    else -> Color.BLUE
                 }
 
-                // 三角形を描く
-                drawPaint.color = myColor.create((colorId)%angleN,bunchSize).toInt()
-                canvas.drawPath(path,drawPaint)
+                val path = Path()
+                path.moveTo(p1x,p1y)
+                path.lineTo(p2x,p2y)
+                path.lineTo(p3x,p3y)
+                path.close()
+                canvas.drawPath(path,linePaint)
             }
-            // 座標を元に戻す
-            canvas.restore()
+            p2 = when (idA%angleN) {
+                angleN-1 -> null
+                else -> p1
+            }
         }
 
-        // これまでの描画はテンポラリのため実像に描画する
+        // 座標を元に戻す
+        canvas.restore()
+
+        // テンポラリを実体に反映
         val matrix = Matrix()
-        matrix.postScale(1f,1f)
+        matrix.postScale(1f,-1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
+
+        /*
+        // 描画点を回転させるのではなく、
+        // 画像を回転させてみる方法
+        val matrix = Matrix()        matrix.postRotate(sign*angle,x0,y0)
+        imageBitmap = Bitmap.createBitmap(intrinsicWidth,intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val canvas2 = Canvas(imageBitmap)
+        canvas2.drawBitmap(tmpBitmap,matrix,backPaint)
+
+        // 枠を描画(画像を回転させるので、回転してから枠を描くこととした
+        canvas2.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
+         */
     }
 
     // -------------------------------
@@ -325,6 +308,7 @@ class InvoluteCurve02Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun setAlpha(alpha: Int) {
+        linePaint.alpha = alpha
     }
 
     // -------------------------------
@@ -336,6 +320,7 @@ class InvoluteCurve02Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun setColorFilter(colorFilter: ColorFilter?) {
+        linePaint.colorFilter = colorFilter
     }
 
     // -------------------------------
@@ -347,4 +332,16 @@ class InvoluteCurve02Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun getIntrinsicHeight(): Int = (side+margin*2).toInt()
+
+    /*
+    // 円
+    data class Circle(
+        // 中心
+        val c: MyPointF = MyPointF(),
+        // 半径
+        val r: Float = 10f,
+        // 色
+        var color: Int = Color.RED
+    )
+    */
 }

@@ -18,7 +18,12 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.lissajous.Lissajous01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.CassinianOval01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.CassinianOval02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.Lemniscate02Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.*
+import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.involute.InvoluteCurve01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.involute.InvoluteCurve02Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.logarithmic.LogarithmicSpiral01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.logarithmic.LogarithmicSpiralCircle01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.logarithmic.LogarithmicSpiralCircle02Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.logarithmic.LogarithmicSpiralTriangle01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid.Trochoid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.mandelbrot.Mandelbrot00Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.dragon.DragonCurve01Drawable

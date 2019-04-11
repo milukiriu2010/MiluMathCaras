@@ -159,8 +159,11 @@ class MenuFragment : Fragment() {
                     // ハイポサイクロイドを表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE_HYPOCYCLOID, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve_hypocycloid),false))
                     // [サブメニュー]
-                    // スパイラル一覧を表示するメニュー
-                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE_SPIRAL, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve_spiral),false))
+                    // 対数螺旋一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE_SPIRAL_LOGARITHMIC, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve_spiral_logarithmic),false))
+                    // [サブメニュー]
+                    // インボリュート曲線一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE_SPIRAL_INVOLUTE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve_spiral_involute),false))
                     // [サブメニュー]
                     // リサージュ曲線を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE_LISSAJOUS, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve_lissajous),false))

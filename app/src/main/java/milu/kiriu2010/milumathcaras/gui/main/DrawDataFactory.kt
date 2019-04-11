@@ -102,24 +102,27 @@ class DrawDataFactory {
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypocycloid), "autoParam" to "t", "handParam1" to "k"),
                         fragmentParamMap = mutableMapOf("maxA" to 10) ))
                 }
-                // スパイラルを選択したときの描画データの一覧
-                MenuItem.MENU_CURVE_SPIRAL -> {
-                    // インボリュート曲線
-                    drawDataLst.add(DrawData(DrawDataID.ID_000015_INVOLUTE_CURVE_02,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000015_curve_involute_curve02) ))
+                // 対数螺旋を選択したときの描画データの一覧
+                MenuItem.MENU_CURVE_SPIRAL_LOGARITHMIC -> {
                     // 対数螺旋間に三角形を描く
                     drawDataLst.add(DrawData(DrawDataID.ID_000014_LOGARITHMIC_SPIRAL_TRIANGLE_01,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000014_curve_logarithmic_spiral_triangle01) ))
                     // 対数螺旋上に円を描く
                     drawDataLst.add(DrawData(DrawDataID.ID_000012_LOGARITHMIC_SPIRAL_CIRCLE_02,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000012_curve_logarithmic_spiral_circle02) ))
                     // 対数螺旋上に円を描く
                     drawDataLst.add(DrawData(DrawDataID.ID_000011_LOGARITHMIC_SPIRAL_CIRCLE_01,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000011_curve_logarithmic_spiral_circle01) ))
-                    // インボリュート曲線
-                    drawDataLst.add(DrawData(DrawDataID.ID_000013_INVOLUTE_CURVE_01,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000013_curve_involute_curve01),
-                        stillImageParam = floatArrayOf(0f,0.3f), motionImageParam = floatArrayOf(0f,0.3f), editParam = floatArrayOf(0.1f,5f,1f),
-                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_involute), "autoParam" to "t", "handParam1" to "a") ))
                     // 対数螺旋
                     drawDataLst.add(DrawData(DrawDataID.ID_000010_LOGARITHMIC_SPIRAL,DrawFragmentType.FT_SQUARE_06,resources.getString(R.string.draw_000010_curve_logarithmic_spiral),
                         stillImageParam = floatArrayOf(0f,2f,0.14f), motionImageParam = floatArrayOf(0f,2f,0.14f), editParam = floatArrayOf(0f,500f,1f,-1.0f,1.0f,2f),
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_logarithmic_spiral), "autoParam" to "t", "handParam1" to "a", "handParam2" to "b") ))
+                }
+                // インボリュート曲線を選択したときの描画データの一覧
+                MenuItem.MENU_CURVE_SPIRAL_LOGARITHMIC -> {
+                    // インボリュート曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_000015_INVOLUTE_CURVE_02,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000015_curve_involute_curve02) ))
+                    // インボリュート曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_000013_INVOLUTE_CURVE_01,DrawFragmentType.FT_SQUARE_05,resources.getString(R.string.draw_000013_curve_involute_curve01),
+                        stillImageParam = floatArrayOf(0f,0.3f), motionImageParam = floatArrayOf(0f,0.3f), editParam = floatArrayOf(0.1f,5f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_involute), "autoParam" to "t", "handParam1" to "a") ))
                 }
                 // リサージュ曲線を選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_LISSAJOUS -> {
@@ -308,8 +311,7 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_000605_TRIANGLE_2_DIAMOND,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000605_polygon_triangle_2_diamond),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/6fbe92faf0c058002dfee6c5485a0187/tumblr_mo0n7hepeL1ql82o1o1_r3_500.gif") ))
                     // 正方形⇔ひし形02
-                    drawDataLst.add(DrawData(DrawDataID.ID_000606_SQUARE_2_DIAMOND_02,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000606_polygon_square_2_diamond_02),
-                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/47c47e8bbcb5ee14878548f806a7c086/tumblr_mnor4buGS01r2geqjo1_500.gif") ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000606_SQUARE_2_DIAMOND_02,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000606_polygon_square_2_diamond_02) ))
                     // 正方形⇔ひし形01
                     drawDataLst.add(DrawData(DrawDataID.ID_000604_SQUARE_2_DIAMOND_01,DrawFragmentType.FT_CREDIT_01,resources.getString(R.string.draw_000604_polygon_square_2_diamond_01),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/47c47e8bbcb5ee14878548f806a7c086/tumblr_mnor4buGS01r2geqjo1_500.gif") ))
