@@ -131,7 +131,12 @@ class Square2Diamond02Drawable: MyDrawable() {
                     // 描画
                     invalidateSelf()
 
-                    handler.postDelayed(runnable, 100)
+                    if ( (ratioNow == 0f) or (ratioNow == 0.5f) ) {
+                        handler.postDelayed(runnable, 300)
+                    }
+                    else {
+                        handler.postDelayed(runnable, 100)
+                    }
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
                 else {

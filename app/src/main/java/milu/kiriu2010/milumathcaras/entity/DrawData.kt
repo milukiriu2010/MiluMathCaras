@@ -412,6 +412,16 @@ enum class DrawFragmentType: Parcelable {
 }
 
 // ------------------
+// 描画に使うビュータイプ
+// ------------------
+enum class DrawViewType {
+    // Drawableを継承
+    DVT_DRAWABLE,
+    // GLSurfaceViewを継承
+    DVT_GL
+}
+
+// ------------------
 // 描画データ
 // ------------------
 @Parcelize
@@ -422,6 +432,8 @@ data class DrawData(
     val drawFragmentType: DrawFragmentType,
     // タイトル
     val title: String,
+    // 描画に使うビュータイプ
+    var drawViewType: DrawViewType = DrawViewType.DVT_DRAWABLE,
     // クレジット
     val creditMap: MutableMap<String,String> = mutableMapOf(),
     // 静止画の初期パラメータ

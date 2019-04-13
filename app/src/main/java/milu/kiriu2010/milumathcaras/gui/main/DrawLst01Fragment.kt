@@ -61,6 +61,7 @@ class DrawLst01Fragment : Fragment() {
             //Log.d(javaClass.simpleName,"motionImageParam.size[${drawData.motionImageParam.size}]")
 
             // 描画データをクリックすると、描画するようコールバックを呼び出す
+            // ここでは、MainActivityが呼び出されている
             drawDataCallback?.draw(drawData)
         }
         recyclerViewDrawData.adapter = adapter
