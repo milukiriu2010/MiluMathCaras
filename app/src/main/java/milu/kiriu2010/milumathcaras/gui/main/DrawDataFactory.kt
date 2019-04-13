@@ -116,7 +116,7 @@ class DrawDataFactory {
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_logarithmic_spiral), "autoParam" to "t", "handParam1" to "a", "handParam2" to "b") ))
                 }
                 // インボリュート曲線を選択したときの描画データの一覧
-                MenuItem.MENU_CURVE_SPIRAL_LOGARITHMIC -> {
+                MenuItem.MENU_CURVE_SPIRAL_INVOLUTE -> {
                     // インボリュート曲線
                     drawDataLst.add(DrawData(DrawDataID.ID_000015_INVOLUTE_CURVE_02,DrawFragmentType.FT_SQUARE_01,resources.getString(R.string.draw_000015_curve_involute_curve02) ))
                     // インボリュート曲線
