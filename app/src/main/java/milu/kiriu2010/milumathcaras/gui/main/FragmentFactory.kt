@@ -46,6 +46,8 @@ class FragmentFactory {
                 DrawFragmentType.FT_SQUARE_06 -> Square06Fragment.newInstance(drawData)
                 // タッチイベントを受け付けるフラグメントを生成
                 DrawFragmentType.FT_TOUCH_01 -> Touch01Fragment.newInstance(drawData)
+                // OpenGLを使った描画を実施するフラグメントを生成
+                DrawFragmentType.FT_D3_01 -> D3x01Fragment.newInstance(drawData)
                 else -> throw RuntimeException("Not Found Fragment[${drawData.drawFragmentType}]")
             }
         }

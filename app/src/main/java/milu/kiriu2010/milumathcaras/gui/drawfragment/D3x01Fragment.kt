@@ -10,8 +10,8 @@ import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.R
 
 import milu.kiriu2010.milumathcaras.entity.DrawData
-import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
-import milu.kiriu2010.milumathcaras.gui.draw.MyDrawableFactory
+import milu.kiriu2010.milumathcaras.gui.draw.MgRenderer
+import milu.kiriu2010.milumathcaras.gui.draw.MgRendererFactory
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 private const val ARG_PARAM1 = "drawdata"
@@ -29,6 +29,9 @@ class D3x01Fragment : Fragment()
 
     // 描画するビュー
     private lateinit var myGLES20View: MyGLES20View
+
+    // レンダ―
+    private lateinit var renderer: MgRenderer
 
     // メニュー(再開)
     private var menuItemResume: MenuItem? = null
@@ -48,10 +51,12 @@ class D3x01Fragment : Fragment()
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_square_01, container, false)
+        val view = inflater.inflate(R.layout.fragment_d3_01, container, false)
 
         // 描画するビュー
         myGLES20View = view.findViewById(R.id.myGLES20View)
+        renderer = MgRendererFactory.createInstance(drawData.id,this)
+        myGLES20View.setRenderer(renderer)
 
         return view
     }
@@ -68,6 +73,9 @@ class D3x01Fragment : Fragment()
         // 描画に使うスレッドを解放する
         // 画面を消したときスレッドが止まるようにするためonPauseで呼び出している
         //drawable.calStop()
+
+        // シェーダ終了処理
+        renderer.closeShader()
         super.onPause()
     }
 

@@ -386,6 +386,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000900_OPTICAL_ILLUSION_STEPPING_FEET(900),
     // "Stereokinetic Effect(SKE)"
     ID_000901_OPTICAL_ILLUSION_STEREOKINETIC_EFFECT(901),
+    // 正四面体
+    ID_001000_GL_TETRAHEDRON_01(1000)
 }
 
 // ------------------------------
@@ -408,17 +410,19 @@ enum class DrawFragmentType: Parcelable {
     // 正方形領域に描画する(03＋関数式)
     FT_SQUARE_06,
     // タッチイベントを受け付ける
-    FT_TOUCH_01
+    FT_TOUCH_01,
+    // OpenGLを使った描画を実施するフラグメントを生成
+    FT_D3_01
 }
 
 // ------------------
 // 描画に使うビュータイプ
 // ------------------
-enum class DrawViewType {
+enum class DrawViewType(val viewType: Int) {
     // Drawableを継承
-    DVT_DRAWABLE,
+    DVT_DRAWABLE(1),
     // GLSurfaceViewを継承
-    DVT_GL
+    DVT_GL(2)
 }
 
 // ------------------

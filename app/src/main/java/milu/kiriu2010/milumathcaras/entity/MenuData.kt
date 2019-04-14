@@ -89,7 +89,9 @@ enum class MenuItem(val title: String): Parcelable {
     // 色を描画するメニュー
     MENU_COLOR("Color"),
     // 錯覚を描画するメニュー
-    MENU_OPTICAL_ILLUSION("Optical Illusion")
+    MENU_OPTICAL_ILLUSION("Optical Illusion"),
+    // 多面体を描画するメニュー
+    MENU_POLYHEDRON("Polyhedron")
 }
 
 // ------------------------------------

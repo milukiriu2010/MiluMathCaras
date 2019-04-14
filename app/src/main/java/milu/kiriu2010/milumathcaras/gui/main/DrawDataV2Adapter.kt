@@ -9,7 +9,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import milu.kiriu2010.milumathcaras.R
 import milu.kiriu2010.milumathcaras.entity.DrawData
+import milu.kiriu2010.milumathcaras.entity.DrawViewType
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawableFactory
+import java.lang.RuntimeException
 
 class DrawDataV2Adapter(
     val context: Context,
@@ -26,9 +28,10 @@ class DrawDataV2Adapter(
         val viewHolder: RecyclerView.ViewHolder
 
         when (viewType) {
-            else -> {
+            // 2D用のセル
+            DrawViewType.DVT_DRAWABLE.viewType -> {
                 view = inflater.inflate(R.layout.list_row_draw_data,parent,false)
-                viewHolder = DrawDataViewHolder(view)
+                viewHolder = DrawDataD2ViewHolder(view)
 
                 // -------------------------------------------------
                 // "描画データ"クリック時に呼び出されるコールバック
@@ -39,12 +42,30 @@ class DrawDataV2Adapter(
                     onItemClicked(drawData)
                 }
             }
+            // OpenGL用のセル
+            DrawViewType.DVT_GL.viewType -> {
+                view = inflater.inflate(R.layout.list_row_draw_data,parent,false)
+                viewHolder = DrawDataGLViewHolder(view)
+
+                // -------------------------------------------------
+                // "描画データ"クリック時に呼び出されるコールバック
+                // -------------------------------------------------
+                view.setOnClickListener {
+                    val pos = viewHolder.adapterPosition
+                    val drawData = drawDataLst[pos]
+                    onItemClicked(drawData)
+                }
+            }
+            // 該当なし
+            else -> {
+                throw RuntimeException("No match for viewType[$viewType]")
+            }
         }
 
         return viewHolder
         /*
         val view = inflater.inflate(R.layout.list_row_draw_data,parent,false)
-        val viewHolder = DrawDataViewHolder(view)
+        val viewHolder = DrawDataD2ViewHolder(view)
 
         // -------------------------------------------------
         // "描画データ"クリック時に呼び出されるコールバック
@@ -62,6 +83,27 @@ class DrawDataV2Adapter(
     override fun getItemCount(): Int = drawDataLst.size
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, pos: Int) {
+        // 描画データ
+        val drawData = drawDataLst[pos]
+        when (viewHolder) {
+            // 2D用のセル
+            is DrawDataD2ViewHolder -> {
+                // タイトル
+                viewHolder.dataTitle.text = drawData.title
+                // サムネイル
+                val drawable = MyDrawableFactory.createInstance(drawData.id)
+                drawable.calStart(false,*drawData.stillImageParam)
+                viewHolder.imaveViewThumbNail.setImageDrawable(drawable)
+            }
+            // OpenGL用のセル
+            is DrawDataGLViewHolder -> {
+                // タイトル
+                viewHolder.dataTitle.text = drawData.title
+                // サムネイル
+
+            }
+
+        }
         /*
         // 描画データ
         val drawData = drawDataLst[pos]
@@ -74,7 +116,26 @@ class DrawDataV2Adapter(
         */
     }
 
-    class DrawDataViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    // -----------------------------------------------------
+    // セルを表示するときのXMLリソースを切り替えるために
+    // ビュータイプを返す
+    // -----------------------------------------------------
+    override fun getItemViewType(position: Int): Int {
+        //return super.getItemViewType(position)
+        val drawData = drawDataLst[position]
+        return drawData.drawViewType.viewType
+    }
+
+    // 2Dセル用
+    class DrawDataD2ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        // タイトル
+        val dataTitle = view.findViewById<TextView>(R.id.dataTitle)
+        // サムネイル
+        val imaveViewThumbNail = view.findViewById<ImageView>(R.id.imageViewThumbNail)
+    }
+
+    // GLセル用
+    class DrawDataGLViewHolder(view: View): RecyclerView.ViewHolder(view) {
         // タイトル
         val dataTitle = view.findViewById<TextView>(R.id.dataTitle)
         // サムネイル

@@ -131,6 +131,9 @@ class MenuFragment : Fragment() {
                     // [サブメニュー]
                     // 多角形一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon),true))
+                     // [サブメニュー]
+                     // 多面体一覧を表示するメニュー
+                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron),false))
                     // [サブメニュー]
                     // "Nature of Code"一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_NATURE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_nature),true))

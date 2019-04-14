@@ -4,8 +4,53 @@ import milu.kiriu2010.gui.basic.MyPointF
 import java.util.Stack
 import kotlin.math.*
 
+// --------------------------------------
+// ver0.0.1  first merge
+// --------------------------------------
 class MyMathUtil {
     companion object {
+        // -----------------------------------------------------------
+        // 外積２
+        // -----------------------------------------------------------
+        // id1: ベクトルA
+        // id2: ベクトルB
+        // id3: ベクトルA,Bの原点
+        // -----------------------------------------------------------
+        fun crossProduct3Dv2( dat: ArrayList<Float>, id1: Int, id2: Int, id3: Int ): ArrayList<Float> {
+            if ( dat.size < 6 ) {
+                throw RuntimeException("dat.size is short.")
+            }
+
+            val a = arrayListOf<Float>(dat[id1]-dat[id3],dat[id1+1]-dat[id3+1],dat[id1+2]-dat[id3+2])
+            val b = arrayListOf<Float>(dat[id2]-dat[id3],dat[id2+1]-dat[id3+1],dat[id2+2]-dat[id3+2])
+
+            val nx = a[1]*b[2]-a[2]*b[1]
+            val ny = a[2]*b[0]-a[0]*b[2]
+            val nz = a[0]*b[1]-a[1]*b[0]
+            val ns = sqrt(nx*nx+ny*ny+nz*nz)
+
+            return arrayListOf( nx/ns, ny/ns , nz/ns )
+        }
+
+        // -----------------------------------------------------------
+        // 外積
+        // -----------------------------------------------------------
+        fun crossProduct3D( a: List<Float>, b: List<Float> ): ArrayList<Float> {
+            if ( a.size != 3 ) {
+                throw RuntimeException("a is not vec3.")
+            }
+            if ( b.size != 3 ) {
+                throw RuntimeException("b is not vec3.")
+            }
+
+            val nx = a[1]*b[2]-a[2]*b[1]
+            val ny = a[2]*b[0]-a[0]*b[2]
+            val nz = a[0]*b[1]-a[1]*b[0]
+            val ns = sqrt(nx*nx+ny*ny+nz*nz)
+
+            return arrayListOf( nx/ns, ny/ns , nz/ns )
+        }
+
         // -----------------------------------------------------------
         // リストをスタックに変換する
         // -----------------------------------------------------------
@@ -184,5 +229,12 @@ class MyMathUtil {
         fun tanf(angle: Float): Float {
             return tan(angle*PI/180f).toFloat()
         }
+
+        // 定数
+        val GOLDEN_RATIO = (sqrt(5f)+1f)/2f
+        val COS36F = (sqrt(5f)+1f)/4f
+        val SIN36F = sqrt(10f-2f*sqrt(5f))/4f
+        val COS72F = (sqrt(5f)-1f)/4f
+        val SIN72F = sqrt(10f+2f*sqrt(5f))/4f
     }
 }

@@ -39,6 +39,7 @@
     <string name="menu_sub_polygon_pinp">Polygon in Polygon</string>
     <string name="menu_sub_polygon_poutp">Polygon out Polygon</string>
     <string name="menu_sub_polygon_slide">Slide Polygon</string>
+    <string name="menu_sub_polyhedron">Polyhedron</string>
     <string name="menu_sub_nature">Nature of Code</string>
     <string name="menu_sub_nature_vectors">Vectors</string>
     <string name="menu_sub_nature_forces">Forces</string>
@@ -246,4 +247,5 @@
     <string name="draw_000822_circle_tile_rotate_01">Rotate Circle Tile</string>
     <string name="draw_000900_optical_illusion_stepping_feet">Stepping Feet</string>
     <string name="draw_000901_optical_illusion_stereokinetic_effect">Stereokinetic Effect</string>
+    <string name="draw_001000_gl_tetrahedron_01">Tetrahedron 01</string>
 </resources>

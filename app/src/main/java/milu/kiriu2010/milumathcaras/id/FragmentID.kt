@@ -17,5 +17,5 @@ enum class FragmentID(val id: String): Parcelable {
     // アプリについて表示するフラグメント
     ID_ABOUT("fragmentAbout"),
     // Exceptionの内容を表示するフラグメント
-    ID_EXCEPTION("fragmentException")
+    ID_EXCEPTION("fragmentException"),
 }

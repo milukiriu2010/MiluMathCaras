@@ -660,6 +660,12 @@ class DrawDataFactory {
                         stillImageParam = floatArrayOf(10f), motionImageParam = floatArrayOf(10f),
                         creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/dMgxWRrj") ))
                 }
+                // 多面体を選択したときの描画データの一覧
+                MenuItem.MENU_POLYHEDRON -> {
+                    // 正四面体
+                    drawDataLst.add(DrawData(DrawDataID.ID_001000_GL_TETRAHEDRON_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001000_gl_tetrahedron_01),
+                        drawViewType = DrawViewType.DVT_GL ))
+                }
                 // "Nature of Code"-"Vectors"を選択したときの描画データの一覧
                 MenuItem.MENU_NATURE_VECTORS -> {
                     // 等速度運動

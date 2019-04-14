@@ -28,7 +28,7 @@ class DrawLst01Fragment : Fragment() {
     private lateinit var recyclerViewDrawData: RecyclerView
 
     // 描画データのリサイクラービューのアダプタ
-    private lateinit var adapter: DrawDataAdapter
+    private lateinit var adapter: DrawDataV2Adapter
 
     // 描画データを描画するコールバック
     private var drawDataCallback: DrawDataCallback? = null
@@ -56,8 +56,19 @@ class DrawLst01Fragment : Fragment() {
         val layoutManager = LinearLayoutManager(ctx,LinearLayoutManager.VERTICAL,false)
         recyclerViewDrawData.layoutManager = layoutManager
 
+        /*
         // 描画データのリサイクラービューのアダプタ
         adapter = DrawDataAdapter(ctx, DrawDataFactory.createDrawDataLst(menuData,resources)) { drawData ->
+            //Log.d(javaClass.simpleName,"motionImageParam.size[${drawData.motionImageParam.size}]")
+
+            // 描画データをクリックすると、描画するようコールバックを呼び出す
+            // ここでは、MainActivityが呼び出されている
+            drawDataCallback?.draw(drawData)
+        }
+        */
+
+        // 描画データのリサイクラービューのアダプタ
+        adapter = DrawDataV2Adapter(ctx, DrawDataFactory.createDrawDataLst(menuData,resources)) { drawData ->
             //Log.d(javaClass.simpleName,"motionImageParam.size[${drawData.motionImageParam.size}]")
 
             // 描画データをクリックすると、描画するようコールバックを呼び出す
