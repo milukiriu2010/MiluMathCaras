@@ -10,6 +10,7 @@ import android.widget.TextView
 import milu.kiriu2010.milumathcaras.R
 import milu.kiriu2010.milumathcaras.entity.DrawData
 import milu.kiriu2010.milumathcaras.entity.DrawViewType
+import milu.kiriu2010.milumathcaras.gui.draw.MgRendererFactory
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawableFactory
 import java.lang.RuntimeException
 
@@ -63,21 +64,6 @@ class DrawDataV2Adapter(
         }
 
         return viewHolder
-        /*
-        val view = inflater.inflate(R.layout.list_row_draw_data,parent,false)
-        val viewHolder = DrawDataD2ViewHolder(view)
-
-        // -------------------------------------------------
-        // "描画データ"クリック時に呼び出されるコールバック
-        // -------------------------------------------------
-        view.setOnClickListener {
-            val pos = viewHolder.adapterPosition
-            val drawData = drawDataLst[pos]
-            onItemClicked(drawData)
-        }
-
-        return viewHolder
-        */
     }
 
     override fun getItemCount(): Int = drawDataLst.size
@@ -100,7 +86,11 @@ class DrawDataV2Adapter(
                 // タイトル
                 viewHolder.dataTitle.text = drawData.title
                 // サムネイル
-
+                /*
+                val renderer = MgRendererFactory.createInstance(drawData.id,context)
+                val bmp = renderer.createBitmapFromGLSurface()
+                viewHolder.imaveViewThumbNail.setImageBitmap(bmp)
+                */
             }
 
         }

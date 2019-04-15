@@ -11,13 +11,13 @@ class Tetrahedron01Model : MgModelAbs() {
 
 
         // v0,v3,v11
-        val va = arrayListOf(-sqrt(3f)/2f,0f,-0.5f)
+        val va = arrayListOf(-sqrt(3f)/2f,-sqrt(2f)/2f,-0.5f)
         // v1,v5,v6
-        val vb = arrayListOf(0f,0f,1f)
+        val vb = arrayListOf(0f,-sqrt(2f)/2f,1f)
         // v2,v8,v9
-        val vc = arrayListOf(sqrt(3f)/2f,0f,-0.5f)
+        val vc = arrayListOf(sqrt(3f)/2f,-sqrt(2f)/2f,-0.5f)
         // v4,v7,v10
-        val vd = arrayListOf(0f,sqrt(2f),0f)
+        val vd = arrayListOf(0f,sqrt(2f)/2f,0f)
 
         // 頂点データ
         // v0

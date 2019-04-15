@@ -55,7 +55,7 @@ class D3x01Fragment : Fragment()
 
         // 描画するビュー
         myGLES20View = view.findViewById(R.id.myGLES20View)
-        renderer = MgRendererFactory.createInstance(drawData.id,this)
+        renderer = MgRendererFactory.createInstance(drawData.id,context!!,this)
         myGLES20View.setRenderer(renderer)
 
         return view
@@ -129,20 +129,18 @@ class D3x01Fragment : Fragment()
     // ----------------------------------------------------
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item?.itemId) {
-            /*
             // 再開
             R.id.menuItemResume -> {
-                drawable.resume()
+                renderer.isRunning = true
                 menuItemVisible(false,true)
                 true
             }
             // 停止
             R.id.menuItemPause -> {
-                drawable.pause()
+                renderer.isRunning = false
                 menuItemVisible(true,false)
                 true
             }
-            */
             else -> super.onOptionsItemSelected(item)
         }
     }

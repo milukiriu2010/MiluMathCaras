@@ -1,14 +1,17 @@
 package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.tetrahedron.tetrahedron01
 
+import android.content.Context
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
+import android.util.Log
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MgRenderer
+import java.util.*
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-class Tetrahedron01Renderer: MgRenderer() {
+class Tetrahedron01Renderer(ctx: Context): MgRenderer(ctx) {
 
     // シェーダ
     private lateinit var shader: Tetrahedron01Shader
@@ -47,7 +50,9 @@ class Tetrahedron01Renderer: MgRenderer() {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
 
         // 回転角度
-        angle1 =(angle1+1)%360
+        if ( isRunning) {
+            angle1 = (angle1 + 1) % 360
+        }
         val t1 = angle1.toFloat()
 
         val x = MyMathUtil.cosf(t1)
@@ -72,6 +77,8 @@ class Tetrahedron01Renderer: MgRenderer() {
 
         // 描画
         shader.drawObj(model,matMVP,matM,matI,vecLight,vecEye,vecAmbientColor)
+
+        //Log.d(javaClass.simpleName, Arrays.toString(matMVP))
     }
 
     override fun onSurfaceChanged(gl: GL10, width: Int, height: Int) {
@@ -84,7 +91,7 @@ class Tetrahedron01Renderer: MgRenderer() {
 
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
         // canvasを初期化する色を設定する
-        GLES20.glClearColor(1f, 1f, 1f, 1f)
+        GLES20.glClearColor(0f, 0f, 0f, 1f)
 
         // canvasを初期化する際の深度を設定する
         GLES20.glClearDepthf(1f)
