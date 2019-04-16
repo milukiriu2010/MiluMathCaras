@@ -31,7 +31,7 @@ class Tetrahedron01Renderer(ctx: Context): MgRenderer(ctx) {
     // テンポラリ行列
     private val matT = FloatArray(16)
     // 点光源の位置
-    private val vecLight = floatArrayOf(0f,0f,2f)
+    private val vecLight = floatArrayOf(0f,0f,3f)
     // 環境光の色
     private val vecAmbientColor = floatArrayOf(0.1f,0.1f,0.1f,1f)
     // カメラの座標
@@ -50,7 +50,7 @@ class Tetrahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
 
         // 回転角度
-        if ( isRunning) {
+        if ( isRunning ) {
             angle1 = (angle1 + 1) % 360
         }
         val t1 = angle1.toFloat()

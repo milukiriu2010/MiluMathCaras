@@ -8,16 +8,20 @@ class Tetrahedron01Model : MgModelAbs() {
 
     override fun createPath( opt: Map<String,Float> ) {
 
+        val ta = sqrt(3f)/2f
+        val tb = 0.5f
+        val tc = sqrt(2f)/2f
 
+        var scale = opt["scale"] ?: 1f
 
         // v0,v3,v11
-        val va = arrayListOf(-sqrt(3f)/2f,-sqrt(2f)/2f,-0.5f)
+        val va = arrayListOf(-ta*scale,-tc*scale,-tb*scale)
         // v1,v5,v6
-        val vb = arrayListOf(0f,-sqrt(2f)/2f,1f)
+        val vb = arrayListOf(0f,-tc*scale,1f*scale)
         // v2,v8,v9
-        val vc = arrayListOf(sqrt(3f)/2f,-sqrt(2f)/2f,-0.5f)
+        val vc = arrayListOf(ta*scale,-tc*scale,-tb*scale)
         // v4,v7,v10
-        val vd = arrayListOf(0f,sqrt(2f)/2f,0f)
+        val vd = arrayListOf(0f,tc*scale,0f)
 
         // 頂点データ
         // v0
@@ -47,20 +51,20 @@ class Tetrahedron01Model : MgModelAbs() {
 
         // 法線データ
         (0..2).forEach {
-            // (v1-v0) x (v2-v0)
-            datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*1, 3*2, 3*0 ) )
+            // (v2-v0) x (v1-v0)
+            datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*2, 3*1, 3*0 ) )
         }
         (3..5).forEach {
-            // (v4-v3) x (v5-v3)
-            datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*4, 3*5, 3*3 ) )
+            // (v5-v3) x (v4-v3)
+            datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*5, 3*4, 3*3 ) )
         }
         (6..8).forEach {
-            // (v7-v6) x (v8-v6)
-            datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*7, 3*8, 3*6 ) )
+            // (v8-v6) x (v7-v6)
+            datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*8, 3*7, 3*6 ) )
         }
         (9..11).forEach {
-            // (v10-v9) x (v11-v9)
-            datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*10, 3*11, 3*9 ) )
+            // (v11-v9) x (v10-v9)
+            datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*11, 3*10, 3*9 ) )
         }
 
         // 色データ
@@ -78,10 +82,11 @@ class Tetrahedron01Model : MgModelAbs() {
         }
 
         // インデックスデータ
-        datIdx.addAll(arrayListOf<Short>(0,1,2))
-        datIdx.addAll(arrayListOf<Short>(3,4,5))
-        datIdx.addAll(arrayListOf<Short>(6,7,8))
-        datIdx.addAll(arrayListOf<Short>(9,10,11))
+        // 裏からみているので、右回りにインデックスを張る必要がある
+        datIdx.addAll(arrayListOf<Short>(0,2,1))
+        datIdx.addAll(arrayListOf<Short>(3,5,4))
+        datIdx.addAll(arrayListOf<Short>(6,8,7))
+        datIdx.addAll(arrayListOf<Short>(9,11,10))
 
         // バッファ割り当て
         allocateBuffer()
