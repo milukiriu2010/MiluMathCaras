@@ -3,25 +3,27 @@ package milu.kiriu2010.milumathcaras.gui.drawfragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
+import android.widget.TextView
+import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.R
 
 import milu.kiriu2010.milumathcaras.entity.DrawData
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawableFactory
+import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 private const val ARG_PARAM1 = "drawdata"
 
-// ----------------------------------------
-// Touchイベントを受け付けるフラグメント
-// ----------------------------------------
-// 長方形の領域に描画する
-// ----------------------------------------
+// --------------------------------------------------
+// Drawableを使った描画を実施するフラグメントを生成
+// --------------------------------------------------
 // ・描画用のImageView１つ
-// ----------------------------------------
-class Touch01Fragment : Fragment() {
+// ・通知用のTextView １つ
+// --------------------------------------------------
+class D2x01Fragment : Fragment()
+    , NotifyCallback {
 
     // 描画データ
     private lateinit var drawData: DrawData
@@ -31,6 +33,9 @@ class Touch01Fragment : Fragment() {
 
     // 描画するDrawable
     private lateinit var drawable: MyDrawable
+
+    // 描画に使っている媒介変数の値を表示するビュー
+    private lateinit var textView: TextView
 
     // メニュー(再開)
     private var menuItemResume: MenuItem? = null
@@ -54,7 +59,7 @@ class Touch01Fragment : Fragment() {
 
         // 描画するビュー
         imageView = view.findViewById(R.id.imageView)
-        drawable = MyDrawableFactory.createInstance(drawData.id)
+        drawable = MyDrawableFactory.createInstance(drawData.id,this)
         imageView.setImageDrawable(drawable)
 
         imageView.setOnTouchListener { v, event ->
@@ -63,7 +68,16 @@ class Touch01Fragment : Fragment() {
             // rawX,Y => デバイスの左上からの位置
             // らしいが、なんかずれてる
             // ---------------------------------------------
-            Log.d(javaClass.simpleName,"Touch:x[${event.x}]xp[${event.xPrecision}]xr[${event.rawX}]y[${event.y}]" )
+            /*
+            val loc = IntArray(2)
+            v.getLocationOnScreen(loc)
+            Log.d(javaClass.simpleName,"===========================================" )
+            Log.d(javaClass.simpleName,"V    :x[${v.left}]y[${v.top}]" )
+            Log.d(javaClass.simpleName,"Loc  :x[${loc[0]}]y[${loc[1]}]" )
+            Log.d(javaClass.simpleName,"Touch:x[${event.x}]y[${event.y}]" )
+            Log.d(javaClass.simpleName,"Preci:x[${event.xPrecision}]y[${event.yPrecision}]" )
+            Log.d(javaClass.simpleName,"Raw  :x[${event.rawX}]y[${event.rawY}]" )
+            */
             when ( event.action ) {
                 // タッチしたとき
                 MotionEvent.ACTION_DOWN -> drawable.receiveTouchPoint(event)
@@ -75,6 +89,9 @@ class Touch01Fragment : Fragment() {
 
             true
         }
+
+        // 描画に使っている媒介変数の値を表示するビュー
+        textView = view.findViewById(R.id.textView)
 
         return view
     }
@@ -94,6 +111,19 @@ class Touch01Fragment : Fragment() {
         super.onPause()
     }
 
+    // ---------------------------------
+    // 通知データを受信する
+    // ---------------------------------
+    override fun receive(data: Float) {
+        // 小数点以下の桁数
+        val numOfDecimals = MyMathUtil.getNumberOfDecimals(data)
+
+        // 媒介変数の値をビューに表示する
+        textView.text = when (numOfDecimals) {
+            0 -> data.toInt().toString()
+            else -> data.toString()
+        }
+    }
 
     // ----------------------------------------------------
     // アクションバーにメニューを表示するためのおまじない
@@ -148,7 +178,7 @@ class Touch01Fragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(drawData: DrawData) =
-            Touch01Fragment().apply {
+            D2x01Fragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_PARAM1,drawData)
                 }

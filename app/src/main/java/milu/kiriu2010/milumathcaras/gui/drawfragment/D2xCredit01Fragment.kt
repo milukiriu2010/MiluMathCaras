@@ -5,40 +5,29 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
 import android.widget.ImageView
-import android.widget.SeekBar
 import android.widget.TextView
-import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.R
 
 import milu.kiriu2010.milumathcaras.entity.DrawData
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawableFactory
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
-import java.lang.RuntimeException
 
 private const val ARG_PARAM1 = "drawdata"
 
-// ----------------------------------------------
-// アニメーション描画をするフラグメント
-// ----------------------------------------------
-// 正方形の領域に描画する
-// ----------------------------------------------
-// ☆ Square02Fragmentから加えたビュー
-// ----------------------------------------------
-// ☆関数式表示用のTextView １つ
+// -------------------------------------------------
+// Drawableを使った描画を実施するフラグメントを生成
+// -------------------------------------------------
+// 製作者名を表示
+// -------------------------------------------------
 // ・描画用のImageView１つ
-// ・通知用のTextView １つ
-// ・媒介変数を変更するSeekBar １つ
-// ・変更した媒介変数の値を表示するTextView １つ
-// ----------------------------------------------
-class Square05Fragment : Fragment()
+// ・オリジナル作成者名を表示するTextView １つ
+// -------------------------------------------------
+class D2xCredit01Fragment : Fragment()
     , NotifyCallback {
 
     // 描画データ
     private lateinit var drawData: DrawData
-
-    // 関数式を表示するビュー
-    private lateinit var textViewFuncDesc: TextView
 
     // 描画するビュー
     private lateinit var imageView: ImageView
@@ -46,14 +35,11 @@ class Square05Fragment : Fragment()
     // 描画するDrawable
     private lateinit var drawable: MyDrawable
 
-    // 描画に使っている媒介変数の値を表示するビュー
+    // 製作者の名前を表示するビュー
+    private lateinit var textViewName: TextView
+
+    // 製作者のURLを表示するビュー
     private lateinit var textView: TextView
-
-    // 描画に使っている媒介変数の値を変更するシークバー
-    private lateinit var seekBar: SeekBar
-
-    // シークバーの値を表示するビュー
-    private lateinit var seekText: TextView
 
     // メニュー(再開)
     private var menuItemResume: MenuItem? = null
@@ -65,9 +51,6 @@ class Square05Fragment : Fragment()
         super.onCreate(savedInstanceState)
         arguments?.let {
             drawData = it.getParcelable(ARG_PARAM1)
-            if ( drawData.editParam.size < 3 ) {
-                throw RuntimeException("Short of editParam size. 3 params are required, at least.")
-            }
         }
     }
 
@@ -76,16 +59,13 @@ class Square05Fragment : Fragment()
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_square_05, container, false)
-
-        // 関数式を表示するビュー
-        textViewFuncDesc = view.findViewById(R.id.textViewFuncDesc)
-        textViewFuncDesc.text = drawData.funcDescMap["funcDesc"] ?: ""
+        val view = inflater.inflate(R.layout.fragment_credit_01, container, false)
 
         // 描画するビュー
         imageView = view.findViewById(R.id.imageView)
         drawable = MyDrawableFactory.createInstance(drawData.id,this)
         imageView.setImageDrawable(drawable)
+
         imageView.setOnTouchListener { v, event ->
             // ---------------------------------------------
             // x,y    => view    の左上からの位置
@@ -105,80 +85,20 @@ class Square05Fragment : Fragment()
             true
         }
 
-        // 描画に使っている媒介変数の値を表示するビュー
+        // 製作者の名前を表示するビュー
+        textViewName = view.findViewById(R.id.textViewName)
+        // 製作者名
+        val name = drawData.creditMap["name"]
+        textViewName.text = name
+
+        // 製作者のURLを表示するビュー
         textView = view.findViewById(R.id.textView)
-
-        // 描画に使っている媒介変数の値を変更するシークバー
-        seekBar = view.findViewById(R.id.seekBarA)
-        // シークバーのMax値を設定
-        seekBar.max = drawData.fragmentParamMap["maxA"] ?: 100
-
-        // シークバーの値を表示するビュー
-        seekText = view.findViewById(R.id.seekTextA)
-        // "実際の値"をシークバーの仮想位置に反映
-        value2seekBar()
-
-        seekBar.setOnSeekBarChangeListener( object: SeekBar.OnSeekBarChangeListener{
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                // シークバーの位置から"実際の値"を取得
-                seekBar2Value()
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            }
-
-            // アニメーションをリスタート
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                drawRestart()
-            }
-        })
+        //textView.text = "Credit: %s".format(drawData.creditMap["name"])
+        // URL
+        val url = drawData.creditMap["url"]
+        textView.text = url
 
         return view
-    }
-
-    // "実際の値"をシークバーの仮想位置に反映
-    private fun value2seekBar() {
-        // 編集可能な媒介変数の最小値
-        val min = drawData.editParam[0].toBigDecimal()
-        // 編集可能な媒介変数の最大値
-        val max = drawData.editParam[1].toBigDecimal()
-        // 実際の値=動画用パラメータから"編集可能な媒介変数の現在値"を取得
-        val now = drawData.motionImageParam[drawData.editParam[2].toInt()].toBigDecimal()
-        // シークバーの実際の可動範囲
-        val size = max-min
-        // 実際の値に対応するシークバーの仮想位置
-        val pos = ((now-min)*seekBar.max.toBigDecimal()/(max-min)).toInt()
-        // 仮想位置をシークバーに反映
-        seekBar.progress = pos
-        // 実際の値をテキストに反映
-        val handParam1 = drawData.funcDescMap["handParam1"] ?: ""
-        seekText.text = "$handParam1=${now.toString()}"
-    }
-
-    // シークバーの位置から"実際の値"を取得
-    private fun seekBar2Value(): Float {
-        val min = drawData.editParam[0].toBigDecimal()
-        val max = drawData.editParam[1].toBigDecimal()
-        val pos = seekBar.progress
-        val mag = max - min
-        // シークバーの位置から"実際の値"を取得
-        val now = min+(pos.toBigDecimal()*100.0.toBigDecimal())*mag/(seekBar.max.toBigDecimal()*100.0.toBigDecimal())
-        // 実際の値をテキストに反映
-        val handParam1 = drawData.funcDescMap["handParam1"] ?: ""
-        seekText.text = "$handParam1=${now.toString()}"
-
-        return now.toFloat()
-    }
-
-    // アニメーションをリスタート
-    private fun drawRestart() {
-        // シークバーの位置から"実際の値"を取得
-        val now = seekBar2Value()
-        // アニメーションをリスタート
-        drawable.calStop()
-        val param = drawData.motionImageParam.clone()
-        param.set(drawData.editParam[2].toInt(),now)
-        drawable.calStart(true,*param)
     }
 
     override fun onResume() {
@@ -200,18 +120,7 @@ class Square05Fragment : Fragment()
     // 通知データを受信する
     // ---------------------------------
     override fun receive(data: Float) {
-        // 小数点以下の桁数
-        val numOfDecimals = MyMathUtil.getNumberOfDecimals(data)
-
-        // 媒介変数の値をビューに表示する
-        val autoParam = drawData.funcDescMap["autoParam"] ?: ""
-        val strData = when (numOfDecimals) {
-            0 -> data.toInt().toString()
-            else -> data.toString()
-        }
-        textView.text = "$autoParam=$strData"
     }
-
 
     // ----------------------------------------------------
     // アクションバーにメニューを表示するためのおまじない
@@ -262,11 +171,11 @@ class Square05Fragment : Fragment()
             else -> super.onOptionsItemSelected(item)
         }
     }
-    
+
     companion object {
         @JvmStatic
         fun newInstance(drawData: DrawData) =
-            Square05Fragment().apply {
+            D2xCredit01Fragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_PARAM1,drawData)
                 }

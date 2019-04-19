@@ -21,17 +21,15 @@ import java.lang.RuntimeException
 
 private const val ARG_PARAM1 = "drawdata"
 
-// ----------------------------------------------
-// アニメーション描画をするフラグメント
-// ----------------------------------------------
-// 正方形の領域に描画する
-// ----------------------------------------------
+// -------------------------------------------------
+// Drawableを使った描画を実施するフラグメントを生成
+// -------------------------------------------------
 // ・描画用のImageView１つ
 // ・通知用のTextView １つ
 // ・媒介変数を変更するSeekBar ２つ
 // ・変更した媒介変数の値を表示するTextView ２つ
-// ----------------------------------------------
-class Square03Fragment : Fragment()
+// -------------------------------------------------
+class D2x03Fragment : Fragment()
     , NotifyCallback {
 
     // 描画データ
@@ -266,7 +264,7 @@ class Square03Fragment : Fragment()
     companion object {
         @JvmStatic
         fun newInstance(drawData: DrawData) =
-            Square03Fragment().apply {
+            D2x03Fragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_PARAM1,drawData)
                 }

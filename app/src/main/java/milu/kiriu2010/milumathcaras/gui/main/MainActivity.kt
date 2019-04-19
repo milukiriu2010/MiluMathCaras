@@ -3,7 +3,6 @@ package milu.kiriu2010.milumathcaras.gui.main
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
-import android.util.Log
 import android.view.WindowManager
 import kotlinx.android.synthetic.main.activity_main.*
 import milu.kiriu2010.gui.common.ExceptionFragment
@@ -13,7 +12,6 @@ import milu.kiriu2010.milumathcaras.entity.DrawData
 import milu.kiriu2010.milumathcaras.entity.MenuData
 import milu.kiriu2010.milumathcaras.entity.MenuItem
 import milu.kiriu2010.milumathcaras.entity.MenuType
-import milu.kiriu2010.milumathcaras.gui.drawfragment.Square01Fragment
 import milu.kiriu2010.milumathcaras.gui.menu.MenuFragment
 import milu.kiriu2010.milumathcaras.id.FragmentID
 import java.util.*

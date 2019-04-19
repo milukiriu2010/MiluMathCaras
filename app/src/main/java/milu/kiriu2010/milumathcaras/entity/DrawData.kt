@@ -403,22 +403,20 @@ enum class DrawDataID(val id: Int): Parcelable {
 // ------------------------------
 @Parcelize
 enum class DrawFragmentType: Parcelable {
-    // 製作者名を表示する
-    FT_CREDIT_01,
-    // 正方形領域に描画する
-    FT_SQUARE_01,
-    // 正方形領域に描画する(01＋媒介変数の値を変更するSeekBar１つ)
-    FT_SQUARE_02,
-    // 正方形領域に描画する(01＋媒介変数の値を変更するSeekBar２つ)
-    FT_SQUARE_03,
-    // 正方形領域に描画する(01＋関数式)
-    FT_SQUARE_04,
-    // 正方形領域に描画する(02＋関数式)
-    FT_SQUARE_05,
-    // 正方形領域に描画する(03＋関数式)
-    FT_SQUARE_06,
-    // タッチイベントを受け付ける
-    FT_TOUCH_01,
+    // Drawableを使った描画を実施するフラグメントを生成(製作者名を表示)
+    FT_D2_CREDIT_01,
+    // Drawableを使った描画を実施するフラグメントを生成
+    FT_D2_01,
+    // Drawableを使った描画を実施するフラグメントを生成(01＋媒介変数の値を変更するSeekBar１つ)
+    FT_D2_02,
+    // Drawableを使った描画を実施するフラグメントを生成(01＋媒介変数の値を変更するSeekBar２つ)
+    FT_D2_03,
+    // Drawableを使った描画を実施するフラグメントを生成(01＋関数式)
+    FT_D2_04,
+    // Drawableを使った描画を実施するフラグメントを生成(02＋関数式)
+    FT_D2_05,
+    // Drawableを使った描画を実施するフラグメントを生成(03＋関数式)
+    FT_D2_06,
     // OpenGLを使った描画を実施するフラグメントを生成
     FT_D3_01
 }

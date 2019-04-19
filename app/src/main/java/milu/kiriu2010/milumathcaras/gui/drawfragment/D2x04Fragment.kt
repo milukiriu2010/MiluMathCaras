@@ -3,8 +3,10 @@ package milu.kiriu2010.milumathcaras.gui.drawfragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import milu.kiriu2010.math.MyMathUtil
@@ -17,19 +19,24 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 private const val ARG_PARAM1 = "drawdata"
 
-// ----------------------------------------
-// アニメーション描画をするフラグメント
-// ----------------------------------------
-// 正方形の領域に描画する
-// ----------------------------------------
+// -------------------------------------------------
+// Drawableを使った描画を実施するフラグメントを生成
+// -------------------------------------------------
+// ☆ Square01Fragmentから加えたビュー
+// -------------------------------------------------
+// ☆関数式表示用のTextView １つ
 // ・描画用のImageView１つ
 // ・通知用のTextView １つ
-// ----------------------------------------
-class Square01Fragment : Fragment()
+// ☆パラメータ表示用のTextView １つ
+// -------------------------------------------------
+class D2x04Fragment : Fragment()
     , NotifyCallback {
 
     // 描画データ
     private lateinit var drawData: DrawData
+
+    // 関数式を表示するビュー
+    private lateinit var textViewFuncDesc: TextView
 
     // 描画するビュー
     private lateinit var imageView: ImageView
@@ -38,13 +45,10 @@ class Square01Fragment : Fragment()
     private lateinit var drawable: MyDrawable
 
     // 描画に使っている媒介変数の値を表示するビュー
-    private lateinit var textView: TextView
+    private lateinit var textView1: TextView
 
-    // メニュー(再開)
-    private var menuItemResume: MenuItem? = null
-
-    // メニュー(停止)
-    private var menuItemPause: MenuItem? = null
+    // パラメータを表示するビュー
+    private lateinit var textView2: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +62,11 @@ class Square01Fragment : Fragment()
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_square_01, container, false)
+        val view = inflater.inflate(R.layout.fragment_square_04, container, false)
+
+        // 関数式を表示するビュー
+        textViewFuncDesc = view.findViewById(R.id.textViewFuncDesc)
+        textViewFuncDesc.text = drawData.funcDescMap["funcDesc"] ?: ""
 
         // 描画するビュー
         imageView = view.findViewById(R.id.imageView)
@@ -94,7 +102,10 @@ class Square01Fragment : Fragment()
         }
 
         // 描画に使っている媒介変数の値を表示するビュー
-        textView = view.findViewById(R.id.textView)
+        textView1 = view.findViewById(R.id.textView1)
+
+        // パラメータを表示するビュー
+        textView2 = view.findViewById(R.id.textView2)
 
         return view
     }
@@ -122,66 +133,16 @@ class Square01Fragment : Fragment()
         val numOfDecimals = MyMathUtil.getNumberOfDecimals(data)
 
         // 媒介変数の値をビューに表示する
-        textView.text = when (numOfDecimals) {
+        textView1.text = when (numOfDecimals) {
             0 -> data.toInt().toString()
             else -> data.toString()
-        }
-    }
-
-    // ----------------------------------------------------
-    // アクションバーにメニューを表示するためのおまじない
-    // ----------------------------------------------------
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
-    // ----------------------------------------------------
-    // アクションバーにメニューを表示
-    // ----------------------------------------------------
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_basic,menu)
-        // メニュー(再開)
-        menuItemResume = menu?.findItem(R.id.menuItemResume)
-        // メニュー(停止)
-        menuItemPause  = menu?.findItem(R.id.menuItemPause)
-        menuItemVisible(false,true)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    // ----------------------------------------------------
-    // 再開・停止メニューをON/OFFする
-    // ----------------------------------------------------
-    private fun menuItemVisible(flgResume: Boolean,flgPause: Boolean) {
-        menuItemResume?.isVisible = flgResume
-        menuItemPause?.isVisible = flgPause
-    }
-
-    // ----------------------------------------------------
-    // アクションバーのアイコンをタップすると呼ばれる
-    // ----------------------------------------------------
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item?.itemId) {
-            // 再開
-            R.id.menuItemResume -> {
-                drawable.resume()
-                menuItemVisible(false,true)
-                true
-            }
-            // 停止
-            R.id.menuItemPause -> {
-                drawable.pause()
-                menuItemVisible(true,false)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
         }
     }
 
     companion object {
         @JvmStatic
         fun newInstance(drawData: DrawData) =
-            Square01Fragment().apply {
+            D2x04Fragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_PARAM1,drawData)
                 }
