@@ -662,6 +662,9 @@ class DrawDataFactory {
                 }
                 // 多面体を選択したときの描画データの一覧
                 MenuItem.MENU_POLYHEDRON -> {
+                    // トーラス
+                    drawDataLst.add(DrawData(DrawDataID.ID_001006_GL_TORUS_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001006_gl_torus_01),
+                        drawViewType = DrawViewType.DVT_GL, motionImageParam = floatArrayOf(6f,0.5f) ))
                     // 球
                     drawDataLst.add(DrawData(DrawDataID.ID_001005_GL_SPHERE_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001005_gl_sphere_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageParam = floatArrayOf(5f,1f) ))

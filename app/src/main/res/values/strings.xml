@@ -247,10 +247,11 @@
     <string name="draw_000822_circle_tile_rotate_01">Rotate Circle Tile</string>
     <string name="draw_000900_optical_illusion_stepping_feet">Stepping Feet</string>
     <string name="draw_000901_optical_illusion_stereokinetic_effect">Stereokinetic Effect</string>
-    <string name="draw_001000_gl_tetrahedron_01">Tetrahedron 01</string>
-    <string name="draw_001001_gl_cube_01">Cube 01</string>
+    <string name="draw_001000_gl_tetrahedron_01">Tetrahedron</string>
+    <string name="draw_001001_gl_cube_01">Cube</string>
     <string name="draw_001002_gl_octahedron_01">Octahedron 01</string>
-    <string name="draw_001005_gl_sphere_01">Sphere 01</string>
+    <string name="draw_001005_gl_sphere_01">Sphere</string>
+    <string name="draw_001006_gl_torus_01">Torus</string>
 
     <string name="shader_simple">Simple</string>
     <string name="shader_directional_light">Directional Light</string>

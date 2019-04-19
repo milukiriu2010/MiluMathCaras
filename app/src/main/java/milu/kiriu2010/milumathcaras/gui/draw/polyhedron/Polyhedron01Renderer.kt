@@ -3,10 +3,7 @@ package milu.kiriu2010.milumathcaras.gui.draw.polyhedron
 import android.content.Context
 import android.opengl.GLES20
 import android.opengl.Matrix
-import milu.kiriu2010.gui.model.Cube01Model
-import milu.kiriu2010.gui.model.MgModelAbs
-import milu.kiriu2010.gui.model.Octahedron01Model
-import milu.kiriu2010.gui.model.Sphere01Model
+import milu.kiriu2010.gui.model.*
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.renderer.Tetrahedron01Model
@@ -62,10 +59,13 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.setIdentityM(matM,0)
         // モデルを平行移動する
         Matrix.translateM(matM,0,x,y,0f)
-        // モデルを"Y軸"を中心に回転する
-        Matrix.rotateM(matM,0,t0,0f,1f,0f)
-        // モデルを"X軸45度Y軸45度/Z軸45度"を中心に回転する
-        //Matrix.rotateM(matM,0,t1,1f,1f,1f)
+        when ( modelType ) {
+            // モデルを"X軸45度Y軸45度Z軸45度"を中心に回転する
+            6 -> Matrix.rotateM(matM,0,t0,1f,1f,1f)
+            // モデルを"Y軸"を中心に回転する
+            else -> Matrix.rotateM(matM,0,t0,0f,1f,0f)
+        }
+
         // モデル×ビュー×プロジェクション
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
 
@@ -137,6 +137,8 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
             2 -> Octahedron01Model()
             // 球
             5 -> Sphere01Model()
+            // トーラス
+            6 -> Torus01Model()
             else -> Tetrahedron01Model()
         }
         model.createPath( mapOf("scale" to scale) )
