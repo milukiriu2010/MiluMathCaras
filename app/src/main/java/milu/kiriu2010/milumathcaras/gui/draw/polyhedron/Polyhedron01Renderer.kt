@@ -6,6 +6,7 @@ import android.opengl.Matrix
 import milu.kiriu2010.gui.model.Cube01Model
 import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.gui.model.Octahedron01Model
+import milu.kiriu2010.gui.model.Sphere01Model
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.renderer.Tetrahedron01Model
@@ -130,6 +131,8 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
             1 -> Cube01Model()
             // 正八面体
             2 -> Octahedron01Model()
+            // 球
+            5 -> Sphere01Model()
             else -> Tetrahedron01Model()
         }
         model.createPath( mapOf("scale" to scale) )

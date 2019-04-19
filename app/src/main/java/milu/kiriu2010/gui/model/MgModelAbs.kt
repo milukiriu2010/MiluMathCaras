@@ -12,6 +12,8 @@ abstract class MgModelAbs {
     lateinit var bufNor: FloatBuffer
     // 色バッファ
     lateinit var bufCol: FloatBuffer
+    // テクスチャ座標バッファ
+    lateinit var bufTxc: FloatBuffer
     // インデックスバッファ
     lateinit var bufIdx: ShortBuffer
 
@@ -21,6 +23,8 @@ abstract class MgModelAbs {
     var datNor = arrayListOf<Float>()
     // 色データ
     var datCol = arrayListOf<Float>()
+    // テクスチャ座標データ
+    var datTxc = arrayListOf<Float>()
     // インデックスデータ
     var datIdx = arrayListOf<Short>()
 
@@ -51,6 +55,16 @@ abstract class MgModelAbs {
 
             asFloatBuffer().apply {
                 put(datCol.toFloatArray())
+                position(0)
+            }
+        }
+
+        // テクスチャ座標バッファ
+        bufTxc = ByteBuffer.allocateDirect(datTxc.toArray().size * 4).run {
+            order(ByteOrder.nativeOrder())
+
+            asFloatBuffer().apply {
+                put(datTxc.toFloatArray())
                 position(0)
             }
         }

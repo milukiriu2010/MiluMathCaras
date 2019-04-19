@@ -17,6 +17,8 @@ class MgRendererFactory {
                 DrawDataID.ID_001001_GL_CUBE_01 -> Polyhedron01Renderer(context)
                 // 正八面体
                 DrawDataID.ID_001002_GL_OCTAHEDRON_01 -> Polyhedron01Renderer(context)
+                // 球
+                DrawDataID.ID_001005_GL_SPHERE_01 -> Polyhedron01Renderer(context)
                 else -> throw RuntimeException("Not Found GLSurfaceView.Renderer")
             }
 
