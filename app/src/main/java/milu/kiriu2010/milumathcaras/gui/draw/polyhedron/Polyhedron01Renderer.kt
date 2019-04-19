@@ -9,6 +9,7 @@ import milu.kiriu2010.gui.model.Octahedron01Model
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.renderer.Tetrahedron01Model
+import milu.kiriu2010.gui.shader.AmbientLight01Shader
 import milu.kiriu2010.gui.shader.DirectionalLight01Shader
 import milu.kiriu2010.gui.shader.Simple01Shader
 import milu.kiriu2010.gui.shader.Tetrahedron01Shader
@@ -21,6 +22,8 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
     private lateinit var shaderSimple: Simple01Shader
     // シェーダ(平行光源)
     private lateinit var shaderDirectionalLight: DirectionalLight01Shader
+    // シェーダ(環境光)
+    private lateinit var shaderAmbientLight: AmbientLight01Shader
 
     // 描画モデル
     private lateinit var model: MgModelAbs
@@ -74,6 +77,7 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
         when (shaderSwitch) {
             0 -> shaderSimple.draw(model,matMVP)
             1 -> shaderDirectionalLight.draw(model,matMVP,matI,vecLight)
+            2 -> shaderAmbientLight.draw(model,matMVP,matI,vecLight,vecAmbientColor)
             else -> shaderSimple.draw(model,matMVP)
         }
 
@@ -114,6 +118,9 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
         shaderDirectionalLight = DirectionalLight01Shader()
         shaderDirectionalLight.loadShader()
 
+        // シェーダプログラム登録(環境光)
+        shaderAmbientLight = AmbientLight01Shader()
+        shaderAmbientLight.loadShader()
 
         // モデル生成
         model = when (modelType) {

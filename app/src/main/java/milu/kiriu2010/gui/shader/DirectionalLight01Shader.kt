@@ -4,6 +4,7 @@ import android.opengl.GLES20
 import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.gui.basic.MyGLFunc
 
+// 平行光源
 class DirectionalLight01Shader: MgShader() {
     // 頂点シェーダ
     private val scv =
@@ -49,9 +50,9 @@ class DirectionalLight01Shader: MgShader() {
     }
 
     fun draw(modelAbs: MgModelAbs,
-             matMVP: FloatArray,
-             matI: FloatArray,
-             vecLight: FloatArray) {
+             u_matMVP: FloatArray,
+             u_matINV: FloatArray,
+             u_vecLight: FloatArray) {
 
         GLES20.glUseProgram(programHandle)
 
@@ -80,18 +81,19 @@ class DirectionalLight01Shader: MgShader() {
         }
         MyGLFunc.checkGlError("a_Color")
 
-
         // uniform(モデル×ビュー×プロジェクション)
         GLES20.glGetUniformLocation(programHandle,"u_matMVP").also {
-            GLES20.glUniformMatrix4fv(it,1,false,matMVP,0)
+            GLES20.glUniformMatrix4fv(it,1,false,u_matMVP,0)
         }
+
 +        // uniform(逆行列)
         GLES20.glGetUniformLocation(programHandle,"u_matINV").also {
-            GLES20.glUniformMatrix4fv(it,1,false,matI,0)
+            GLES20.glUniformMatrix4fv(it,1,false,u_matINV,0)
         }
+
         // uniform(平行光源)
         GLES20.glGetUniformLocation(programHandle,"u_vecLight").also {
-            GLES20.glUniform3fv(it,1,vecLight,0)
+            GLES20.glUniform3fv(it,1,u_vecLight,0)
         }
 
         // モデルを描画

@@ -253,10 +253,12 @@
 
     <string name="shader_simple">Simple</string>
     <string name="shader_directional_light">Directional Light</string>
+    <string name="shader_ambient_light">Ambient Light</string>
 
     <string-array name="shaderlist">
         <item>@string/shader_simple</item>
         <item>@string/shader_directional_light</item>
+        <item>@string/shader_ambient_light</item>
     </string-array>
 
 </resources>
