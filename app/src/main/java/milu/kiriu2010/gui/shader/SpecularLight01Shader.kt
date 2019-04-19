@@ -4,8 +4,8 @@ import android.opengl.GLES20
 import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.gui.basic.MyGLFunc
 
-// 環境光
-class AmbientLight01Shader: MgShader() {
+// 反射光
+class SpecularLight01Shader: MgShader() {
     // 頂点シェーダ
     private val scv =
             """
@@ -15,13 +15,18 @@ class AmbientLight01Shader: MgShader() {
             uniform   mat4 u_matMVP;
             uniform   mat4 u_matINV;
             uniform   vec3 u_vecLight;
+            uniform   vec3 u_vecEye;
             uniform   vec4 u_ambientColor;
             varying   vec4 v_Color;
 
             void main() {
                 vec3  invLight = normalize(u_matINV * vec4(u_vecLight,0.0)).xyz;
-                float diffuse  = clamp(dot(a_Normal,invLight), 0.1, 1.0);
-                v_Color        = a_Color * vec4(vec3(diffuse), 1.0) + u_ambientColor;
+                vec3  invEye   = normalize(u_matINV * vec4(u_vecEye  ,0.0)).xyz;
+                vec3  halfLE   = normalize(invLight + invEye);
+                float diffuse  = clamp(dot(a_Normal,invLight), 0.0, 1.0);
+                float specular = pow(clamp(dot(a_Normal, halfLE), 0.0, 1.0), 50.0);
+                vec4  light    = a_Color * vec4(vec3(diffuse),1.0) + vec4(vec3(specular),1.0);
+                v_Color        = light + u_ambientColor;
                 gl_Position    = u_matMVP * vec4(a_Position,1.0);
             }
             """.trimIndent()
@@ -54,6 +59,7 @@ class AmbientLight01Shader: MgShader() {
              u_matMVP: FloatArray,
              u_matINV: FloatArray,
              u_vecLight: FloatArray,
+             u_vecEye: FloatArray,
              u_ambientColor: FloatArray) {
 
         GLES20.glUseProgram(programHandle)
@@ -100,6 +106,12 @@ class AmbientLight01Shader: MgShader() {
             GLES20.glUniform3fv(it,1,u_vecLight,0)
         }
         MyGLFunc.checkGlError("u_vecLight")
+
+        // uniform(視点座標)
+        GLES20.glGetUniformLocation(programHandle,"u_vecEye").also {
+            GLES20.glUniform3fv(it,1,u_vecEye,0)
+        }
+        MyGLFunc.checkGlError("u_vecEye")
 
         // uniform(環境光)
         GLES20.glGetUniformLocation(programHandle,"u_ambientColor").also {

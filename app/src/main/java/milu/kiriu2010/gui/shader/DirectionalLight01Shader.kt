@@ -85,16 +85,19 @@ class DirectionalLight01Shader: MgShader() {
         GLES20.glGetUniformLocation(programHandle,"u_matMVP").also {
             GLES20.glUniformMatrix4fv(it,1,false,u_matMVP,0)
         }
+        MyGLFunc.checkGlError("u_matMVP")
 
 +        // uniform(逆行列)
         GLES20.glGetUniformLocation(programHandle,"u_matINV").also {
             GLES20.glUniformMatrix4fv(it,1,false,u_matINV,0)
         }
+        MyGLFunc.checkGlError("u_matINV")
 
         // uniform(平行光源)
         GLES20.glGetUniformLocation(programHandle,"u_vecLight").also {
             GLES20.glUniform3fv(it,1,u_vecLight,0)
         }
+        MyGLFunc.checkGlError("u_vecLight")
 
         // モデルを描画
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, modelAbs.datIdx.size, GLES20.GL_UNSIGNED_SHORT, modelAbs.bufIdx)

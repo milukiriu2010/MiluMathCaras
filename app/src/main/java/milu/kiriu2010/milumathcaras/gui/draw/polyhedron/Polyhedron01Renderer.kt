@@ -10,10 +10,7 @@ import milu.kiriu2010.gui.model.Sphere01Model
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.renderer.Tetrahedron01Model
-import milu.kiriu2010.gui.shader.AmbientLight01Shader
-import milu.kiriu2010.gui.shader.DirectionalLight01Shader
-import milu.kiriu2010.gui.shader.Simple01Shader
-import milu.kiriu2010.gui.shader.Tetrahedron01Shader
+import milu.kiriu2010.gui.shader.*
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -25,6 +22,8 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
     private lateinit var shaderDirectionalLight: DirectionalLight01Shader
     // シェーダ(環境光)
     private lateinit var shaderAmbientLight: AmbientLight01Shader
+    // シェーダ(反射光)
+    private lateinit var shaderSpecularLight: SpecularLight01Shader
 
     // 描画モデル
     private lateinit var model: MgModelAbs
@@ -79,6 +78,7 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
             0 -> shaderSimple.draw(model,matMVP)
             1 -> shaderDirectionalLight.draw(model,matMVP,matI,vecLight)
             2 -> shaderAmbientLight.draw(model,matMVP,matI,vecLight,vecAmbientColor)
+            3 -> shaderSpecularLight.draw(model,matMVP,matI,vecLight,vecEye,vecAmbientColor)
             else -> shaderSimple.draw(model,matMVP)
         }
 
@@ -122,6 +122,10 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
         // シェーダプログラム登録(環境光)
         shaderAmbientLight = AmbientLight01Shader()
         shaderAmbientLight.loadShader()
+
+        // シェーダプログラム登録(反射光)
+        shaderSpecularLight = SpecularLight01Shader()
+        shaderSpecularLight.loadShader()
 
         // モデル生成
         model = when (modelType) {

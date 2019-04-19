@@ -77,6 +77,7 @@ class D3x01Fragment : Fragment()
                     R.string.shader_simple -> 0
                     R.string.shader_directional_light -> 1
                     R.string.shader_ambient_light -> 2
+                    R.string.shader_specular_light -> 3
                     else -> 0
                 }
                 // 使わなくなったら解放
