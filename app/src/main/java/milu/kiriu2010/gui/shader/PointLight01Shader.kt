@@ -1,13 +1,13 @@
-package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.tetrahedron.tetrahedron01
+package milu.kiriu2010.gui.shader
 
 import android.opengl.GLES20
+import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.gui.basic.MyGLFunc
-import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.MgModelAbs
 
-class Tetrahedron01Shader {
+class PointLight01Shader: MgShader() {
     // 頂点シェーダ
     private val scv =
-        """
+            """
             attribute vec3 a_Position;
             attribute vec3 a_Normal;
             attribute vec4 a_Color;
@@ -28,7 +28,7 @@ class Tetrahedron01Shader {
 
     // フラグメントシェーダ
     private val scf =
-        """
+            """
             precision mediump float;
             // 逆行列
             uniform   mat4 u_matINV;
@@ -61,11 +61,7 @@ class Tetrahedron01Shader {
             }
             """.trimIndent()
 
-    // プログラムハンドル
-    var programHandle: Int = -1
-
-    // シェーダをロードする
-    fun loadShader(): Int {
+    override fun loadShader(): MgShader {
         // 頂点シェーダを生成
         val svhandle = MyGLFunc.loadShader(GLES20.GL_VERTEX_SHADER, scv)
         // フラグメントシェーダを生成
@@ -74,83 +70,71 @@ class Tetrahedron01Shader {
         // プログラムオブジェクトの生成とリンク
         programHandle = MyGLFunc.createProgram(svhandle,sfhandle, arrayOf("a_Position","a_Normal","a_Color") )
 
-        return programHandle
+        return this
     }
 
-    // シェーダを削除
-    fun deleteShader() {
-        GLES20.glDeleteProgram(programHandle)
-    }
+    fun draw(modelAbs: MgModelAbs,
+             matMVP: FloatArray,
+             matM: FloatArray,
+             matI: FloatArray,
+             vecLight: FloatArray,
+             vecEye: FloatArray,
+             vecAmbientColor: FloatArray) {
 
-    // モデルを描画する
-    fun drawObj(model: MgModelAbs,
-                matMVP: FloatArray,
-                matM: FloatArray,
-                matI: FloatArray,
-                vecLight: FloatArray,
-                vecEye: FloatArray,
-                vecAmbientColor: FloatArray) {
+        GLES20.glUseProgram(programHandle)
 
         // attribute(頂点)
-        model.bufPos.position(0)
+        modelAbs.bufPos.position(0)
         // get handle to vertex shader's vPosition member
-        val a_Position = GLES20.glGetAttribLocation(programHandle, "a_Position").also {
-            GLES20.glVertexAttribPointer(it,3,GLES20.GL_FLOAT,false,3*4,model.bufPos)
+        GLES20.glGetAttribLocation(programHandle, "a_Position").also {
+            GLES20.glVertexAttribPointer(it,3,GLES20.GL_FLOAT,false,3*4,modelAbs.bufPos)
             GLES20.glEnableVertexAttribArray(it)
         }
         MyGLFunc.checkGlError("a_Position")
 
         // attribute(法線)
-        model.bufNor.position(0)
-        val a_Normal = GLES20.glGetAttribLocation(programHandle,"a_Normal").also {
-            GLES20.glVertexAttribPointer(it,3,GLES20.GL_FLOAT,false, 3*4, model.bufNor)
+        modelAbs.bufNor.position(0)
+        GLES20.glGetAttribLocation(programHandle,"a_Normal").also {
+            GLES20.glVertexAttribPointer(it,3,GLES20.GL_FLOAT,false, 3*4, modelAbs.bufNor)
             GLES20.glEnableVertexAttribArray(it)
         }
         MyGLFunc.checkGlError("a_Normal")
 
         // attribute(色)
-        model.bufCol.position(0)
-        val a_Color = GLES20.glGetAttribLocation(programHandle,"a_Color").also {
-            GLES20.glVertexAttribPointer(it,3,GLES20.GL_FLOAT,false, 4*4, model.bufCol)
+        modelAbs.bufCol.position(0)
+        GLES20.glGetAttribLocation(programHandle,"a_Color").also {
+            GLES20.glVertexAttribPointer(it,3,GLES20.GL_FLOAT,false, 4*4, modelAbs.bufCol)
             GLES20.glEnableVertexAttribArray(it)
         }
         MyGLFunc.checkGlError("a_Color")
+
 
         // uniform(モデル×ビュー×プロジェクション)
         GLES20.glGetUniformLocation(programHandle,"u_matMVP").also {
             GLES20.glUniformMatrix4fv(it,1,false,matMVP,0)
         }
-
         // uniform(座標行列)
         GLES20.glGetUniformLocation(programHandle,"u_matM").also {
             GLES20.glUniformMatrix4fv(it,1,false,matM,0)
         }
-
         // uniform(逆行列)
         GLES20.glGetUniformLocation(programHandle,"u_matINV").also {
             GLES20.glUniformMatrix4fv(it,1,false,matI,0)
         }
-
         // uniform(平行光源)
         GLES20.glGetUniformLocation(programHandle,"u_vecLight").also {
             GLES20.glUniform3fv(it,1,vecLight,0)
         }
-
         // uniform(視線ベクトル)
         GLES20.glGetUniformLocation(programHandle,"u_vecEye").also {
             GLES20.glUniform3fv(it,1,vecEye,0)
         }
-
         // uniform(環境光の色)
         GLES20.glGetUniformLocation(programHandle,"u_vecAmbientColor").also {
             GLES20.glUniform4fv(it,1,vecAmbientColor,0)
         }
 
         // モデルを描画
-        GLES20.glDrawElements(GLES20.GL_TRIANGLES, model.datIdx.size, GLES20.GL_UNSIGNED_SHORT, model.bufIdx)
-
-        GLES20.glDisableVertexAttribArray(a_Position)
-        GLES20.glDisableVertexAttribArray(a_Normal)
-        GLES20.glDisableVertexAttribArray(a_Color)
+        GLES20.glDrawElements(GLES20.GL_TRIANGLES, modelAbs.datIdx.size, GLES20.GL_UNSIGNED_SHORT, modelAbs.bufIdx)
     }
 }

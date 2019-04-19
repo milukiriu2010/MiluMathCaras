@@ -1,7 +1,7 @@
 package milu.kiriu2010.milumathcaras.gui.draw
 
 import android.content.Context
-import android.opengl.GLSurfaceView
+import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.tetrahedron.tetrahedron01.Tetrahedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback

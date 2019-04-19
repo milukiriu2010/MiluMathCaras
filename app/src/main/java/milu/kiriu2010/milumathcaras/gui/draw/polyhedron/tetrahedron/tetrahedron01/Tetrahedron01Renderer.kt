@@ -2,48 +2,26 @@ package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.tetrahedron.tetrahedron
 
 import android.content.Context
 import android.opengl.GLES20
-import android.opengl.GLSurfaceView
 import android.opengl.Matrix
-import android.util.Log
 import milu.kiriu2010.math.MyMathUtil
-import milu.kiriu2010.milumathcaras.gui.draw.MgRenderer
-import java.util.*
+import milu.kiriu2010.gui.renderer.MgRenderer
+import milu.kiriu2010.gui.renderer.Tetrahedron01Model
+import milu.kiriu2010.gui.shader.DirectionalLight01Shader
+import milu.kiriu2010.gui.shader.Simple01Shader
+import milu.kiriu2010.gui.shader.Tetrahedron01Shader
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
 class Tetrahedron01Renderer(ctx: Context): MgRenderer(ctx) {
 
-    // シェーダ
-    private lateinit var shader: Tetrahedron01Shader
+    // シェーダ(特殊効果なし)
+    private lateinit var shaderSimple: Simple01Shader
+    // シェーダ(平行光源)
+    private lateinit var shaderDirectionalLight: DirectionalLight01Shader
+
     // 描画モデル
     private lateinit var model: Tetrahedron01Model
 
-    // モデル変換行列
-    private val matM = FloatArray(16)
-    // モデル変換行列の逆行列
-    private val matI = FloatArray(16)
-    // ビュー変換行列
-    private val matV = FloatArray(16)
-    // プロジェクション変換行列
-    private val matP = FloatArray(16)
-    // モデル・ビュー・プロジェクション行列
-    private val matMVP = FloatArray(16)
-    // テンポラリ行列
-    private val matT = FloatArray(16)
-    // 点光源の位置
-    private val vecLight = floatArrayOf(0f,0f,3f)
-    // 環境光の色
-    private val vecAmbientColor = floatArrayOf(0.1f,0.1f,0.1f,1f)
-    // カメラの座標
-    private val vecEye = floatArrayOf(0f,0f,5f)
-    // カメラの上方向を表すベクトル
-    private val vecEyeUp = floatArrayOf(0f,1f,0f)
-    // カメラが見ている位置
-    private val vecCenter = floatArrayOf(0f,0f,0f)
-
-
-    // 回転角度
-    private var angle1 = 0
 
     override fun onDrawFrame(gl: GL10) {
         // canvasを初期化
@@ -51,32 +29,37 @@ class Tetrahedron01Renderer(ctx: Context): MgRenderer(ctx) {
 
         // 回転角度
         if ( isRunning ) {
-            angle1 = (angle1 + 1) % 360
+            angle[0] = (angle[0] + 1) % 360
         }
-        val t1 = angle1.toFloat()
+        val t0 = angle[0].toFloat()
 
-        val x = MyMathUtil.cosf(t1)
-        val y = MyMathUtil.sinf(t1)
+        val x = MyMathUtil.cosf(t0)
+        val y = MyMathUtil.sinf(t0)
 
         // ビュー×プロジェクション
-        Matrix.multiplyMM(matT,0,matP,0,matV,0)
+        Matrix.multiplyMM(matVP,0,matP,0,matV,0)
 
         // モデルを単位行列にする
         Matrix.setIdentityM(matM,0)
         // モデルを平行移動する
         Matrix.translateM(matM,0,x,y,0f)
         // モデルを"Y軸"を中心に回転する
-        Matrix.rotateM(matM,0,t1,0f,1f,0f)
+        Matrix.rotateM(matM,0,t0,0f,1f,0f)
         // モデルを"X軸45度Y軸45度/Z軸45度"を中心に回転する
         //Matrix.rotateM(matM,0,t1,1f,1f,1f)
         // モデル×ビュー×プロジェクション
-        Matrix.multiplyMM(matMVP,0,matT,0,matM,0)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
 
         // モデル座標変換行列から逆行列を生成
         Matrix.invertM(matI,0,matM,0)
 
         // 描画
-        shader.drawObj(model,matMVP,matM,matI,vecLight,vecEye,vecAmbientColor)
+        // モデルを描画
+        when (shaderSwitch) {
+            0 -> shaderSimple.draw(model,matMVP)
+            1 -> shaderDirectionalLight.draw(model,matMVP,matI,vecLight)
+            else -> shaderSimple.draw(model,matMVP)
+        }
 
         //Log.d(javaClass.simpleName, Arrays.toString(matMVP))
     }
@@ -107,9 +90,14 @@ class Tetrahedron01Renderer(ctx: Context): MgRenderer(ctx) {
             vecCenter[0], vecCenter[1], vecCenter[2],
             vecEyeUp[0], vecEyeUp[1], vecEyeUp[2])
 
-        // シェーダプログラム登録
-        shader = Tetrahedron01Shader()
-        shader.loadShader()
+        // シェーダプログラム登録(特殊効果なし)
+        shaderSimple = Simple01Shader()
+        shaderSimple.loadShader()
+
+        // シェーダプログラム登録(平行光源)
+        shaderDirectionalLight = DirectionalLight01Shader()
+        shaderDirectionalLight.loadShader()
+
 
         // モデル生成
         model = Tetrahedron01Model()
@@ -119,7 +107,8 @@ class Tetrahedron01Renderer(ctx: Context): MgRenderer(ctx) {
     // MgRenderer
     // シェーダ終了処理
     override fun closeShader() {
-        shader.deleteShader()
+        shaderSimple.deleteShader()
+
     }
 
 }

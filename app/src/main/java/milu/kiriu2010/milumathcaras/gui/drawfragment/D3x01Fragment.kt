@@ -3,14 +3,15 @@ package milu.kiriu2010.milumathcaras.gui.drawfragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.*
+import android.widget.AdapterView
+import android.widget.Spinner
 import milu.kiriu2010.gui.view.MyGLES20View
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.R
 
 import milu.kiriu2010.milumathcaras.entity.DrawData
-import milu.kiriu2010.milumathcaras.gui.draw.MgRenderer
+import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.milumathcaras.gui.draw.MgRendererFactory
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
@@ -32,6 +33,9 @@ class D3x01Fragment : Fragment()
 
     // レンダ―
     private lateinit var renderer: MgRenderer
+
+    // シェーダ選択用スピナ―
+    private lateinit var spinnerShader: Spinner
 
     // メニュー(再開)
     private var menuItemResume: MenuItem? = null
@@ -57,6 +61,27 @@ class D3x01Fragment : Fragment()
         myGLES20View = view.findViewById(R.id.myGLES20View)
         renderer = MgRendererFactory.createInstance(drawData.id,context!!,this)
         myGLES20View.setRenderer(renderer)
+
+        // シェーダ選択用スピナ―
+        spinnerShader = view.findViewById<Spinner>(R.id.spinnerShader)
+        spinnerShader.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // http://android-note.open-memo.net/sub/spinner--get-resource-id-for-selected-item.html
+                val array = resources.obtainTypedArray(R.array.shaderlist)
+                val itemId = array.getResourceId(position,R.string.shader_simple)
+                renderer.shaderSwitch = when (itemId) {
+                    R.string.shader_simple -> 0
+                    R.string.shader_directional_light -> 1
+                    else -> 0
+                }
+                // 使わなくなったら解放
+                array.recycle()
+            }
+
+        }
 
         return view
     }

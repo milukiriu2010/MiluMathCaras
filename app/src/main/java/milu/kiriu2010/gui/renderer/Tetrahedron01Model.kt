@@ -1,7 +1,7 @@
-package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.tetrahedron.tetrahedron01
+package milu.kiriu2010.gui.renderer
 
 import milu.kiriu2010.math.MyMathUtil
-import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.MgModelAbs
+import milu.kiriu2010.gui.model.MgModelAbs
 import kotlin.math.sqrt
 
 class Tetrahedron01Model : MgModelAbs() {

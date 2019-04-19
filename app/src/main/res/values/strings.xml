@@ -248,4 +248,13 @@
     <string name="draw_000900_optical_illusion_stepping_feet">Stepping Feet</string>
     <string name="draw_000901_optical_illusion_stereokinetic_effect">Stereokinetic Effect</string>
     <string name="draw_001000_gl_tetrahedron_01">Tetrahedron 01</string>
+
+    <string name="shader_simple">Simple</string>
+    <string name="shader_directional_light">Directional Light</string>
+
+    <string-array name="shaderlist">
+        <item>@string/shader_simple</item>
+        <item>@string/shader_directional_light</item>
+    </string-array>
+
 </resources>

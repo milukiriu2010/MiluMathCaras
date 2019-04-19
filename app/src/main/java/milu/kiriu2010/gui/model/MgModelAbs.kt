@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.polyhedron
+package milu.kiriu2010.gui.model
 
 import java.nio.ByteBuffer
 import java.nio.ByteOrder

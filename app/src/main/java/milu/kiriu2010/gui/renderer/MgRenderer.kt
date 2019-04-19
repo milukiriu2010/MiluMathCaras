@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw
+package milu.kiriu2010.gui.renderer
 
 import android.content.Context
 import android.graphics.*
@@ -14,15 +14,47 @@ import java.lang.RuntimeException
 
 
 abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
+    // モデル変換行列
+    protected val matM = FloatArray(16)
+    // モデル変換行列の逆行列
+    protected val matI = FloatArray(16)
+    // ビュー変換行列
+    protected val matV = FloatArray(16)
+    // プロジェクション変換行列
+    protected val matP = FloatArray(16)
+    // モデル・ビュー・プロジェクション行列
+    protected val matMVP = FloatArray(16)
+    // ビュー・プロジェクション行列
+    protected val matVP = FloatArray(16)
+    // 点光源の位置
+    protected val vecLight = floatArrayOf(0f,0f,2f)
+    // 環境光の色
+    protected val vecAmbientColor = floatArrayOf(0.1f,0.1f,0.1f,1f)
+    // カメラの座標
+    protected val vecEye = floatArrayOf(0f,0f,5f)
+    // カメラの上方向を表すベクトル
+    protected val vecEyeUp = floatArrayOf(0f,1f,0f)
+    // 中心座標
+    protected val vecCenter = floatArrayOf(0f,0f,0f)
+
+
+
     // レンダリング領域の幅
     var renderW: Int = 512
     // レンダリング領域の高さ
     var renderH: Int = 512
+
+    // 回転角度
+    protected var angle = intArrayOf(0,0)
+
     // 状態
     // -------------------------------
     //   true  => 動作
     //   false => 停止
     var isRunning = true
+
+    // シェーダスイッチ
+    var shaderSwitch = 0
 
     /*
     // 描画したものをビットマップにキャプチャする
