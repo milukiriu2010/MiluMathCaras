@@ -11,12 +11,14 @@ class Octahedron01Model: MgModelAbs() {
     override fun createPath( opt: Map<String,Float> ) {
         val sq2 = sqrt(2f)
 
-        val va = arrayListOf(0f,-sq2,0f)
-        val vb = arrayListOf(1f,0f,1f)
-        val vc = arrayListOf(-1f,0f,1f)
-        val vd = arrayListOf(-1f,0f,-1f)
-        val ve = arrayListOf(1f,0f,-1f)
-        val vf = arrayListOf(0f,sq2,0f)
+        var scale = opt["scale"] ?: 1f
+
+        val va = arrayListOf(0f,-sq2*scale,0f)
+        val vb = arrayListOf(scale,0f,scale)
+        val vc = arrayListOf(-scale,0f,scale)
+        val vd = arrayListOf(-scale,0f,-scale)
+        val ve = arrayListOf(scale,0f,-scale)
+        val vf = arrayListOf(0f,sq2*scale,0f)
 
         // 頂点データ
         datPos.addAll(ArrayList<Float>(va))   // v0
@@ -79,29 +81,37 @@ class Octahedron01Model: MgModelAbs() {
         }
 
         // 色データ
+        // ABC(赤)
         (0..2).forEach {
             datCol.addAll(arrayListOf<Float>(1f,0f,0f,1f))
         }
+        // BFC(だいだい)
         (3..5).forEach {
             datCol.addAll(arrayListOf<Float>(1f,0.5f,0f,1f))
         }
+        // BEF(黄色)
         (6..8).forEach {
             datCol.addAll(arrayListOf<Float>(1f,1f,0f,1f))
         }
+        // EDF(緑)
         (9..11).forEach {
-            datCol.addAll(arrayListOf<Float>(0.5f,1f,0f,1f))
-        }
-        (12..14).forEach {
             datCol.addAll(arrayListOf<Float>(0f,1f,0f,1f))
         }
-        (15..17).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,1f,0.5f,1f))
-        }
-        (18..20).forEach {
+        // EAD(水色)
+        (12..14).forEach {
             datCol.addAll(arrayListOf<Float>(0f,1f,1f,1f))
         }
-        (21..23).forEach {
+        // ACD
+        (15..17).forEach {
             datCol.addAll(arrayListOf<Float>(0f,0.5f,1f,1f))
+        }
+        // FDC(青)
+        (18..20).forEach {
+            datCol.addAll(arrayListOf<Float>(0f,0f,1f,1f))
+        }
+        // AEB(紫)
+        (21..23).forEach {
+            datCol.addAll(arrayListOf<Float>(1f,0f,1f,1f))
         }
 
         // インデックスデータ

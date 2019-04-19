@@ -1,17 +1,7 @@
 package milu.kiriu2010.gui.renderer
 
 import android.content.Context
-import android.graphics.*
-import android.opengl.GLES20
 import android.opengl.GLSurfaceView
-import java.nio.IntBuffer
-import android.graphics.Bitmap
-import android.opengl.GLException
-import javax.microedition.khronos.opengles.GL10
-import android.R.attr.y
-import android.R.attr.x
-import java.lang.RuntimeException
-
 
 abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
     // モデル変換行列
@@ -27,7 +17,7 @@ abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
     // ビュー・プロジェクション行列
     protected val matVP = FloatArray(16)
     // 点光源の位置
-    protected val vecLight = floatArrayOf(0f,0f,2f)
+    protected val vecLight = floatArrayOf(0f,2f,2f)
     // 環境光の色
     protected val vecAmbientColor = floatArrayOf(0.1f,0.1f,0.1f,1f)
     // カメラの座標
@@ -150,6 +140,9 @@ abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
         return Bitmap.createBitmap(bitmapSource, renderW, renderH, Bitmap.Config.ARGB_8888)
     }
     */
+
+    // 描画に利用するデータを設定する
+    abstract fun setMotionParam( vararg values: Float )
 
     // シェーダ終了処理
     abstract fun closeShader()

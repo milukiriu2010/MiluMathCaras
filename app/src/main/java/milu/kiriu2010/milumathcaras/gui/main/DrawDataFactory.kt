@@ -662,9 +662,15 @@ class DrawDataFactory {
                 }
                 // 多面体を選択したときの描画データの一覧
                 MenuItem.MENU_POLYHEDRON -> {
+                    // 正八面体
+                    drawDataLst.add(DrawData(DrawDataID.ID_001002_GL_OCTAHEDRON_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001002_gl_octahedron_01),
+                        drawViewType = DrawViewType.DVT_GL, motionImageParam = floatArrayOf(2f,0.5f) ))
+                    // 立方体
+                    drawDataLst.add(DrawData(DrawDataID.ID_001001_GL_CUBE_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001001_gl_cube_01),
+                        drawViewType = DrawViewType.DVT_GL, motionImageParam = floatArrayOf(1f,0.5f) ))
                     // 正四面体
                     drawDataLst.add(DrawData(DrawDataID.ID_001000_GL_TETRAHEDRON_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001000_gl_tetrahedron_01),
-                        drawViewType = DrawViewType.DVT_GL ))
+                        drawViewType = DrawViewType.DVT_GL, motionImageParam = floatArrayOf(0f) ))
                 }
                 // "Nature of Code"-"Vectors"を選択したときの描画データの一覧
                 MenuItem.MENU_NATURE_VECTORS -> {

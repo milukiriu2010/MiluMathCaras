@@ -387,7 +387,12 @@ enum class DrawDataID(val id: Int): Parcelable {
     // "Stereokinetic Effect(SKE)"
     ID_000901_OPTICAL_ILLUSION_STEREOKINETIC_EFFECT(901),
     // 正四面体
-    ID_001000_GL_TETRAHEDRON_01(1000)
+    ID_001000_GL_TETRAHEDRON_01(1000),
+    // 立方体
+    ID_001001_GL_CUBE_01(1001),
+    // 正八面体
+    ID_001002_GL_OCTAHEDRON_01(1002)
+
 }
 
 // ------------------------------

@@ -1,8 +1,11 @@
-package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.tetrahedron.tetrahedron01
+package milu.kiriu2010.milumathcaras.gui.draw.polyhedron
 
 import android.content.Context
 import android.opengl.GLES20
 import android.opengl.Matrix
+import milu.kiriu2010.gui.model.Cube01Model
+import milu.kiriu2010.gui.model.MgModelAbs
+import milu.kiriu2010.gui.model.Octahedron01Model
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.renderer.Tetrahedron01Model
@@ -12,7 +15,7 @@ import milu.kiriu2010.gui.shader.Tetrahedron01Shader
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-class Tetrahedron01Renderer(ctx: Context): MgRenderer(ctx) {
+class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
 
     // シェーダ(特殊効果なし)
     private lateinit var shaderSimple: Simple01Shader
@@ -20,8 +23,21 @@ class Tetrahedron01Renderer(ctx: Context): MgRenderer(ctx) {
     private lateinit var shaderDirectionalLight: DirectionalLight01Shader
 
     // 描画モデル
-    private lateinit var model: Tetrahedron01Model
+    private lateinit var model: MgModelAbs
+    private var modelType = -1
 
+    // スケール
+    private var scale = 1f
+
+    // 描画に利用するデータを設定する
+    override fun setMotionParam( vararg values: Float ) {
+        values.forEachIndexed { id, fl ->
+            when (id) {
+                0 -> modelType = fl.toInt()
+                1 -> scale = fl
+            }
+        }
+    }
 
     override fun onDrawFrame(gl: GL10) {
         // canvasを初期化
@@ -100,8 +116,16 @@ class Tetrahedron01Renderer(ctx: Context): MgRenderer(ctx) {
 
 
         // モデル生成
-        model = Tetrahedron01Model()
-        model.createPath()
+        model = when (modelType) {
+            // 正四面体
+            0 -> Tetrahedron01Model()
+            // 立方体
+            1 -> Cube01Model()
+            // 正八面体
+            2 -> Octahedron01Model()
+            else -> Tetrahedron01Model()
+        }
+        model.createPath( mapOf("scale" to scale) )
     }
 
     // MgRenderer
