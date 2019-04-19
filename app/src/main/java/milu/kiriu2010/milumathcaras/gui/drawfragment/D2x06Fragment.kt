@@ -81,7 +81,7 @@ class D2x06Fragment : Fragment()
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_square_06, container, false)
+        val view = inflater.inflate(R.layout.fragment_d2_06, container, false)
 
         // 関数式を表示するビュー
         textViewFuncDesc = view.findViewById(R.id.textViewFuncDesc)
