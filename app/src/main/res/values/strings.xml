@@ -250,6 +250,7 @@
     <string name="draw_001000_gl_tetrahedron_01">Tetrahedron</string>
     <string name="draw_001001_gl_cube_01">Cube</string>
     <string name="draw_001002_gl_octahedron_01">Octahedron</string>
+    <string name="draw_001003_gl_dodecahedron_01">Dodecahedron</string>
     <string name="draw_001004_gl_icosahedron_01">Icosahedron</string>
     <string name="draw_001005_gl_sphere_01">Sphere</string>
     <string name="draw_001006_gl_torus_01">Torus</string>

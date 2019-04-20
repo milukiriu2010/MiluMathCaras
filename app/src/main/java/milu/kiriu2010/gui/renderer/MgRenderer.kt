@@ -17,7 +17,7 @@ abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
     // ビュー・プロジェクション行列
     protected val matVP = FloatArray(16)
     // 点光源の位置
-    protected val vecLight = floatArrayOf(0f,2f,2f)
+    protected val vecLight = floatArrayOf(2f,2f,2f)
     // 環境光の色
     protected val vecAmbientColor = floatArrayOf(0.1f,0.1f,0.1f,1f)
     // カメラの座標

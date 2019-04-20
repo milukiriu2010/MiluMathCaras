@@ -664,13 +664,16 @@ class DrawDataFactory {
                 MenuItem.MENU_POLYHEDRON -> {
                     // トーラス
                     drawDataLst.add(DrawData(DrawDataID.ID_001006_GL_TORUS_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001006_gl_torus_01),
-                        drawViewType = DrawViewType.DVT_GL, motionImageParam = floatArrayOf(6f,0.5f) ))
+                        drawViewType = DrawViewType.DVT_GL, motionImageParam = floatArrayOf(6f,0.25f) ))
                     // 球
                     drawDataLst.add(DrawData(DrawDataID.ID_001005_GL_SPHERE_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001005_gl_sphere_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageParam = floatArrayOf(5f,1f) ))
                     // 正二十面体
                     drawDataLst.add(DrawData(DrawDataID.ID_001004_GL_ICOSAHEDRON_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001004_gl_icosahedron_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageParam = floatArrayOf(4f,0.5f) ))
+                    // 正十二面体
+                    drawDataLst.add(DrawData(DrawDataID.ID_001003_GL_DODECAHEDRON_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001003_gl_dodecahedron_01),
+                        drawViewType = DrawViewType.DVT_GL, motionImageParam = floatArrayOf(3f,0.5f) ))
                     // 正八面体
                     drawDataLst.add(DrawData(DrawDataID.ID_001002_GL_OCTAHEDRON_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001002_gl_octahedron_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageParam = floatArrayOf(2f,1f) ))

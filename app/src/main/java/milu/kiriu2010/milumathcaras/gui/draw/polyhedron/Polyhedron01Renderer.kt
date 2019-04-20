@@ -155,6 +155,8 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
             1 -> Cube01Model()
             // 正八面体
             2 -> Octahedron01Model()
+            // 正十二面体
+            3 -> Dodecahedron01Model()
             // 正二十面体
             4 -> Icosahedron01Model()
             // 球
