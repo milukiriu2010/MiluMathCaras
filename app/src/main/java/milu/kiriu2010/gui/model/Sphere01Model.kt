@@ -10,14 +10,17 @@ import kotlin.math.sqrt
 
 
 // 球
+// https://wgld.org/d/webgl/w025.html
 class Sphere01Model: MgModelAbs() {
 
     override fun createPath( opt: Map<String,Float> ) {
-        var row = opt["row"]?.toInt() ?: 16
+        // 緯度
+        var row    = opt["row"]?.toInt() ?: 16
+        // 経度
         var column = opt["column"]?.toInt() ?: 16
         var radius = opt["radius"]?.toFloat() ?: 1f
-        var scale = opt["scale"] ?: 1f
-        var color = FloatArray(4)
+        var scale  = opt["scale"] ?: 1f
+        var color  = FloatArray(4)
         color[0] = opt["colorR"] ?: -1f
         color[1] = opt["colorG"] ?: -1f
         color[2] = opt["colorB"] ?: -1f

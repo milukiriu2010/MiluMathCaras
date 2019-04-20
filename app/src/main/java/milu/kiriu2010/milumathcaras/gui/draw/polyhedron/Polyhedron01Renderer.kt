@@ -21,6 +21,10 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
     private lateinit var shaderAmbientLight: AmbientLight01Shader
     // シェーダ(反射光)
     private lateinit var shaderSpecularLight: SpecularLight01Shader
+    // シェーダ(フォンシェーディング)
+    private lateinit var shaderPhongShading: PhongShading01Shader
+    // シェーダ(点光源)
+    private lateinit var shaderPointLight: PointLight01Shader
 
     // 描画モデル
     private lateinit var model: MgModelAbs
@@ -75,10 +79,18 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
         // 描画
         // モデルを描画
         when (shaderSwitch) {
+            // 特殊効果なし
             0 -> shaderSimple.draw(model,matMVP)
+            // 平行光源
             1 -> shaderDirectionalLight.draw(model,matMVP,matI,vecLight)
+            // 環境光
             2 -> shaderAmbientLight.draw(model,matMVP,matI,vecLight,vecAmbientColor)
+            // 反射光
             3 -> shaderSpecularLight.draw(model,matMVP,matI,vecLight,vecEye,vecAmbientColor)
+            // フォンシェーディング
+            4 -> shaderPhongShading.draw(model,matMVP,matI,vecLight,vecEye,vecAmbientColor)
+            // 点光源
+            5 -> shaderPointLight.draw(model,matMVP,matM,matI,vecLight,vecEye,vecAmbientColor)
             else -> shaderSimple.draw(model,matMVP)
         }
 
@@ -126,6 +138,14 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
         // シェーダプログラム登録(反射光)
         shaderSpecularLight = SpecularLight01Shader()
         shaderSpecularLight.loadShader()
+
+        // シェーダプログラム登録(フォンシェーディング)
+        shaderPhongShading = PhongShading01Shader()
+        shaderPhongShading.loadShader()
+
+        // シェーダプログラム登録(点光源)
+        shaderPointLight = PointLight01Shader()
+        shaderPointLight.loadShader()
 
         // モデル生成
         model = when (modelType) {

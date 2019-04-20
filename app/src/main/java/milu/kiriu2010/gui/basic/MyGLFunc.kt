@@ -44,11 +44,11 @@ class MyGLFunc {
             val programHandle = GLES20.glCreateProgram().also {
                 // 頂点シェーダをプログラムに追加
                 GLES20.glAttachShader(it,svhandle)
-                MyGLFunc.printShaderInfoLog(svhandle)
+                MyGLFunc.printShaderInfoLog(svhandle,"vertex shader")
 
                 // フラグメントシェーダをプログラムに追加
                 GLES20.glAttachShader(it,sfhandle)
-                MyGLFunc.printShaderInfoLog(sfhandle)
+                MyGLFunc.printShaderInfoLog(sfhandle,"fragment shader")
 
                 // シェーダオブジェクトを削除
                 GLES20.glDeleteShader(svhandle)
@@ -92,8 +92,8 @@ class MyGLFunc {
         // -------------------------------------
         // シェーダの情報を表示する
         // -------------------------------------
-        fun printShaderInfoLog(shaderHandle: Int) {
-            Log.d(TAG,"=== shader compile ============================")
+        fun printShaderInfoLog(shaderHandle: Int, tag: String) {
+            Log.d(TAG,"=== shader compile[${tag}] ===================")
             // シェーダのコンパイル時のログの内容を取得する
             Log.d(TAG,GLES20.glGetShaderInfoLog(shaderHandle))
             /*
