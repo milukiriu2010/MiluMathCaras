@@ -142,7 +142,7 @@ abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
     */
 
     // 描画に利用するデータを設定する
-    abstract fun setMotionParam( vararg values: Float )
+    abstract fun setMotionParam(motionParam: MutableMap<String,Float> )
 
     // シェーダ終了処理
     abstract fun closeShader()

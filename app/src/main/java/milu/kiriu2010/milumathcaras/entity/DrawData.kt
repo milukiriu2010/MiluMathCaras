@@ -476,5 +476,7 @@ data class DrawData(
     // ---------------------------------------------
     // フラグメント用パラメータ
     // ---------------------------------------------
-    val fragmentParamMap: MutableMap<String,Int> = mutableMapOf()
+    val fragmentParamMap: MutableMap<String,Int> = mutableMapOf(),
+    // 動画用の初期パラメータVer2
+    val motionImageV2Param: MutableMap<String,Float> = mutableMapOf()
 ):  Parcelable

@@ -60,7 +60,8 @@ class D3x01Fragment : Fragment()
         // 描画するビュー
         myGLES20View = view.findViewById(R.id.myGLES20View)
         renderer = MgRendererFactory.createInstance(drawData.id,context!!,this)
-        renderer.setMotionParam(*drawData.motionImageParam)
+        //renderer.setMotionParam(*drawData.motionImageParam)
+        renderer.setMotionParam(drawData.motionImageV2Param)
         myGLES20View.setRenderer(renderer)
 
         // シェーダ選択用スピナ―

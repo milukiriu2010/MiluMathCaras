@@ -34,13 +34,9 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
     private var scale = 1f
 
     // 描画に利用するデータを設定する
-    override fun setMotionParam( vararg values: Float ) {
-        values.forEachIndexed { id, fl ->
-            when (id) {
-                0 -> modelType = fl.toInt()
-                1 -> scale = fl
-            }
-        }
+    override fun setMotionParam(motionParam: MutableMap<String,Float> ) {
+        modelType = motionParam["modelType"]?.toInt() ?: 0
+        scale = motionParam["scale"] ?: 1f
     }
 
     override fun onDrawFrame(gl: GL10) {
