@@ -7,6 +7,7 @@ import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.gui.basic.MyQuaternion
 import kotlin.math.sqrt
 
+// 2019.04.25
 abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
     // モデル変換行列
     protected val matM = FloatArray(16)
@@ -38,6 +39,11 @@ abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
 
     // 回転角度
     protected var angle = intArrayOf(0,0)
+
+    // 深度テスト
+    var isDepth = true
+    // カリング
+    var isCull = true
 
     // -------------------------------
     // 状態
