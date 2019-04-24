@@ -28,10 +28,14 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
 
     // 描画モデル
     private lateinit var model: MgModelAbs
+    // 描画するモデルの種類
     private var modelType = -1
+    // 座標軸モデル
+    private lateinit var axisModel: Axis01Model
 
     // スケール
     private var scale = 1f
+
 
     // 描画に利用するデータを設定する
     override fun setMotionParam(motionParam: MutableMap<String,Float> ) {
@@ -45,7 +49,9 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
 
         // 回転角度
         if ( isRunning ) {
-            angle[0] = (angle[0] + 1) % 360
+            if ( ( rotateAxis[0] == true ) or ( rotateAxis[1] == true ) or ( rotateAxis[2] == true ) ) {
+                angle[0] = (angle[0] + 1) % 360
+            }
         }
         val t0 = angle[0].toFloat()
 
@@ -55,8 +61,14 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
         // ビュー×プロジェクション
         Matrix.multiplyMM(matVP,0,matP,0,matV,0)
 
+        // クォータニオンによる回転が適用された状態の座標変換行列を取得する
+        val matQ = qtnNow.toMatIV()
+
         // モデルを単位行列にする
         Matrix.setIdentityM(matM,0)
+        // モデル座標変換行列にクォータニオンを適用する
+        Matrix.multiplyMM(matM,0,matM,0,matQ,0)
+        /*
         // モデルを平行移動する
         Matrix.translateM(matM,0,x,y,0f)
         when ( modelType ) {
@@ -64,6 +76,19 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
             6 -> Matrix.rotateM(matM,0,t0,1f,1f,1f)
             // モデルを"Y軸"を中心に回転する
             else -> Matrix.rotateM(matM,0,t0,0f,1f,0f)
+        }
+        */
+
+        // 各座標軸を中心に回転
+        val rotateVec = floatArrayOf(0f,0f,0f)
+        rotateVec[0] = if ( rotateAxis[0] ) 1f else 0f
+        rotateVec[1] = if ( rotateAxis[1] ) 1f else 0f
+        rotateVec[2] = if ( rotateAxis[2] ) 1f else 0f
+
+        // (0,0,0)をかけるとモデル座標変換行列が0になって、モデルが非表示になるため
+        // どれかの軸が回転対象となっているとき、回転を施す
+        if ( ( rotateAxis[0] == true ) or ( rotateAxis[1] == true ) or ( rotateAxis[2] == true ) ) {
+            Matrix.rotateM(matM,0,t0,rotateVec[0],rotateVec[1],rotateVec[2])
         }
 
         // モデル×ビュー×プロジェクション
@@ -91,6 +116,12 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
         }
 
         //Log.d(javaClass.simpleName, Arrays.toString(matMVP))
+
+        // 座標軸を描画
+        if ( displayAxis ) {
+            GLES20.glLineWidth(5f)
+            shaderSimple.drawArrays(axisModel,matMVP)
+        }
     }
 
     override fun onSurfaceChanged(gl: GL10, width: Int, height: Int) {
@@ -162,6 +193,11 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
             else -> Tetrahedron01Model()
         }
         model.createPath( mapOf("scale" to scale) )
+
+        // 座標軸モデル生成
+        axisModel = Axis01Model()
+        axisModel.createPath( mapOf("scale" to 2f))
+
     }
 
     // MgRenderer

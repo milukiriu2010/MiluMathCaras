@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
 import android.widget.AdapterView
+import android.widget.CheckBox
 import android.widget.Spinner
+import android.widget.Switch
 import milu.kiriu2010.gui.view.MyGLES20View
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.R
@@ -63,6 +65,21 @@ class D3x01Fragment : Fragment()
         //renderer.setMotionParam(*drawData.motionImageParam)
         renderer.setMotionParam(drawData.motionImageV2Param)
         myGLES20View.setRenderer(renderer)
+        myGLES20View.setOnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_UP -> {
+                }
+                MotionEvent.ACTION_DOWN -> {
+                    renderer.receiveTouch(event,myGLES20View.width,myGLES20View.height)
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    renderer.receiveTouch(event,myGLES20View.width,myGLES20View.height)
+                }
+                else -> {
+                }
+            }
+            true
+        }
 
         // シェーダ選択用スピナ―
         spinnerShader = view.findViewById<Spinner>(R.id.spinnerShader)
@@ -86,7 +103,30 @@ class D3x01Fragment : Fragment()
                 // 使わなくなったら解放
                 array.recycle()
             }
+        }
 
+        // 座標軸ON/OFF
+        val switchAxis = view.findViewById<Switch>(R.id.switchAxis)
+        switchAxis.setOnCheckedChangeListener { buttonView, isChecked ->
+            renderer.displayAxis = isChecked
+        }
+
+        // X座標軸による回転ON/OFF
+        val checkBoxD3x01X = view.findViewById<CheckBox>(R.id.checkBoxD3x01X)
+        checkBoxD3x01X.setOnCheckedChangeListener { buttonView, isChecked ->
+            renderer.rotateAxis[0] = isChecked
+        }
+
+        // Y座標軸による回転ON/OFF
+        val checkBoxD3x01Y = view.findViewById<CheckBox>(R.id.checkBoxD3x01Y)
+        checkBoxD3x01Y.setOnCheckedChangeListener { buttonView, isChecked ->
+            renderer.rotateAxis[1] = isChecked
+        }
+
+        // Z座標軸による回転ON/OFF
+        val checkBoxD3x01Z = view.findViewById<CheckBox>(R.id.checkBoxD3x01Z)
+        checkBoxD3x01Z.setOnCheckedChangeListener { buttonView, isChecked ->
+            renderer.rotateAxis[2] = isChecked
         }
 
         return view

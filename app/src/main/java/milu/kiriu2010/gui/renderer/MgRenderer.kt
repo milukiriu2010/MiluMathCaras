@@ -2,6 +2,10 @@ package milu.kiriu2010.gui.renderer
 
 import android.content.Context
 import android.opengl.GLSurfaceView
+import android.view.MotionEvent
+import milu.kiriu2010.gui.basic.MyPointF
+import milu.kiriu2010.gui.basic.MyQuaternion
+import kotlin.math.sqrt
 
 abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
     // モデル変換行列
@@ -27,8 +31,6 @@ abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
     // 中心座標
     protected val vecCenter = floatArrayOf(0f,0f,0f)
 
-
-
     // レンダリング領域の幅
     var renderW: Int = 512
     // レンダリング領域の高さ
@@ -37,6 +39,7 @@ abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
     // 回転角度
     protected var angle = intArrayOf(0,0)
 
+    // -------------------------------
     // 状態
     // -------------------------------
     //   true  => 動作
@@ -45,6 +48,58 @@ abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
 
     // シェーダスイッチ
     var shaderSwitch = 0
+
+    // 現在のクォータニオン
+    var qtnNow = MyQuaternion()
+
+    // タッチ開始ポイント
+    val touchP = MyPointF()
+    // タッチ開始時におけるクォータニオン
+    var qtnTouch = MyQuaternion()
+
+    // 座標軸ON/OFF
+    var displayAxis = true
+    // 座標軸による回転ON/OFF
+    val rotateAxis = booleanArrayOf(false,false,false)
+
+
+    // ---------------------------------------------------------------
+    // タッチイベントを取得
+    // ---------------------------------------------------------------
+    // w: キャンバスの幅
+    // h: キャンバスの高さ
+    // ---------------------------------------------------------------
+    fun receiveTouch(ev: MotionEvent, w: Int, h: Int ) {
+        when (ev.action) {
+            MotionEvent.ACTION_DOWN -> {
+                touchP.x = ev.x
+                touchP.y = ev.y
+                qtnTouch = qtnNow.copy()
+                return
+            }
+        }
+
+        // キャンバスの対角線の長さの逆数
+        var wh = 1f/ sqrt((w*w+h*h).toFloat())
+        // タッチ点からみた座標
+        var x = ev.x - touchP.x
+        var y = ev.y - touchP.y
+        var sq = sqrt(x*x+y*y)
+        // 回転角
+        var r = sq*wh*360f
+        // 単位化する
+        if ( (sq != 1f) and ( sq != 0f ) ) {
+            sq = 1f/sq
+            x *= sq
+            y *= sq
+        }
+
+        // 回転角と回転軸ベクトルからクォータニオンを生成
+        // OpenGLでは、Y座標が上のため、yにマイナスをつけない
+        //xQtn = MyQuaternion.rotate(r, floatArrayOf(y,x,0f))
+        val qtnTmp = MyQuaternion.rotate(r, floatArrayOf(y,x,0f))
+        qtnNow = qtnTmp.multiply(qtnTouch)
+    }
 
     /*
     // 描画したものをビットマップにキャプチャする
