@@ -5,6 +5,19 @@ import java.nio.ByteOrder
 import java.nio.FloatBuffer
 import java.nio.ShortBuffer
 
+// ----------------------------------
+// モデル抽象クラス
+// ----------------------------------
+// createPathの引数で使うマップのキー
+//   scale
+//     モデルの大きさを変更する
+//   pattern
+//     1:面(その１)
+//     2:面(その２)
+//    20:線
+// ----------------------------------
+// 2019.04.25
+// ----------------------------------
 abstract class MgModelAbs {
     // 頂点バッファ
     lateinit var bufPos: FloatBuffer

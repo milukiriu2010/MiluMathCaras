@@ -15,10 +15,12 @@ class Tetrahedron01Model : MgModelAbs() {
         val pattern = opt["pattern"]?.toInt() ?: 1
 
         when ( pattern ) {
-            // 底面が三角形
+            // 面：底面が三角形
             1 -> createPathPattern1(opt)
-            // 正四面体の辺が立方体の対角線に合うよう配置
+            // 面：正四面体の辺が立方体の対角線に合うよう配置
             2 -> createPathPattern2(opt)
+            // 線：底面が三角形
+            20 -> createPathPattern20(opt)
             else -> createPathPattern1(opt)
         }
 
@@ -26,7 +28,7 @@ class Tetrahedron01Model : MgModelAbs() {
         allocateBuffer()
     }
 
-    // 底面が三角形
+    // 面：底面が三角形
     private fun createPathPattern1( opt: Map<String,Float> ) {
         val ta = sqrt(3f)/2f
         val tb = 0.5f
@@ -109,7 +111,7 @@ class Tetrahedron01Model : MgModelAbs() {
         datIdx.addAll(arrayListOf<Short>(9,11,10))
     }
 
-    // 正四面体の辺が立方体の対角線に合うよう配置
+    // 面：正四面体の辺が立方体の対角線に合うよう配置
     private fun createPathPattern2( opt: Map<String,Float> ){
         var scale = opt["scale"] ?: 1f
 
@@ -175,5 +177,70 @@ class Tetrahedron01Model : MgModelAbs() {
         datIdx.addAll(arrayListOf<Short>(6,7,8))
         datIdx.addAll(arrayListOf<Short>(9,10,11))
     }
+
+    // 線：底面が三角形
+    private fun createPathPattern20( opt: Map<String,Float> ) {
+        val ta = sqrt(3f)/2f
+        val tb = 0.5f
+        val tc = sqrt(2f)/2f
+
+        var scale = opt["scale"] ?: 1f
+
+        // v0,v3,v11
+        val va = arrayListOf(-ta*scale,-tc*scale,-tb*scale)
+        // v1,v5,v6
+        val vb = arrayListOf(       0f,-tc*scale, 1f*scale)
+        // v2,v8,v9
+        val vc = arrayListOf( ta*scale,-tc*scale,-tb*scale)
+        // v4,v7,v10
+        val vd = arrayListOf(       0f, tc*scale,       0f)
+
+        // 頂点データ
+        // l0
+        datPos.addAll(ArrayList<Float>(va))
+        datPos.addAll(ArrayList<Float>(vb))
+        // l1
+        datPos.addAll(ArrayList<Float>(vb))
+        datPos.addAll(ArrayList<Float>(vc))
+        // l2
+        datPos.addAll(ArrayList<Float>(vc))
+        datPos.addAll(ArrayList<Float>(va))
+        // l3
+        datPos.addAll(ArrayList<Float>(vd))
+        datPos.addAll(ArrayList<Float>(va))
+        // l4
+        datPos.addAll(ArrayList<Float>(vd))
+        datPos.addAll(ArrayList<Float>(vb))
+        // l5
+        datPos.addAll(ArrayList<Float>(vd))
+        datPos.addAll(ArrayList<Float>(vc))
+
+        // 色データ
+        // l0
+        (0..1).forEach {
+            datCol.addAll(arrayListOf<Float>(1f,0f,0f,1f))
+        }
+        // l1
+        (2..3).forEach {
+            datCol.addAll(arrayListOf<Float>(1f,1f,0f,1f))
+        }
+        // l2
+        (4..5).forEach {
+            datCol.addAll(arrayListOf<Float>(0f,1f,0f,1f))
+        }
+        /// l3
+        (6..7).forEach {
+            datCol.addAll(arrayListOf<Float>(0f,1f,1f,1f))
+        }
+        /// l4
+        (8..9).forEach {
+            datCol.addAll(arrayListOf<Float>(0f,0f,1f,1f))
+        }
+        /// l5
+        (10..11).forEach {
+            datCol.addAll(arrayListOf<Float>(1f,0f,1f,1f))
+        }
+    }
+
 
 }

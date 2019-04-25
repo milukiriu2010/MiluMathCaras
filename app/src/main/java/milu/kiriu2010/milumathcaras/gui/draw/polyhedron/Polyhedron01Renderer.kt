@@ -4,7 +4,6 @@ import android.content.Context
 import android.opengl.GLES20
 import android.opengl.Matrix
 import milu.kiriu2010.gui.model.*
-import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.renderer.Tetrahedron01Model
 import milu.kiriu2010.gui.shader.*
@@ -15,6 +14,8 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
 
     // シェーダ(特殊効果なし)
     private lateinit var shaderSimple: Simple01Shader
+    // シェーダ(点で描画)
+    private lateinit var shaderPoints: Points01Shader
     // シェーダ(平行光源)
     private lateinit var shaderDirectionalLight: DirectionalLight01Shader
     // シェーダ(環境光)
@@ -36,6 +37,8 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
     // スケール
     private var scale = 1f
 
+    // 前回利用したシェーダ
+    private var shaderSwitchOld = shaderSwitch
 
     // 描画に利用するデータを設定する
     override fun setMotionParam(motionParam: MutableMap<String,Float> ) {
@@ -55,9 +58,6 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
         }
         val t0 = angle[0].toFloat()
 
-        val x = MyMathUtil.cosf(t0)
-        val y = MyMathUtil.sinf(t0)
-
         // ビュー×プロジェクション
         Matrix.multiplyMM(matVP,0,matP,0,matV,0)
 
@@ -68,16 +68,6 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.setIdentityM(matM,0)
         // モデル座標変換行列にクォータニオンを適用する
         Matrix.multiplyMM(matM,0,matM,0,matQ,0)
-        /*
-        // モデルを平行移動する
-        Matrix.translateM(matM,0,x,y,0f)
-        when ( modelType ) {
-            // モデルを"X軸45度Y軸45度Z軸45度"を中心に回転する
-            6 -> Matrix.rotateM(matM,0,t0,1f,1f,1f)
-            // モデルを"Y軸"を中心に回転する
-            else -> Matrix.rotateM(matM,0,t0,0f,1f,0f)
-        }
-        */
 
         // 各座標軸を中心に回転
         val rotateVec = floatArrayOf(0f,0f,0f)
@@ -97,6 +87,20 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
         // モデル座標変換行列から逆行列を生成
         Matrix.invertM(matI,0,matM,0)
 
+        // 選択されたシェーダが前回と違う場合
+        // モデルデータを再読み込みする
+        if ( shaderSwitch != shaderSwitchOld ) {
+            when (shaderSwitch) {
+                // 線で描画(LINES)
+                7 -> model.createPath( mapOf("scale" to scale, "pattern" to 20f) )
+                // 上記以外
+                else -> {
+                    model.createPath( mapOf("scale" to scale) )
+                }
+            }
+
+        }
+
         // 描画
         // モデルを描画
         when (shaderSwitch) {
@@ -112,6 +116,10 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
             4 -> shaderPhongShading.draw(model,matMVP,matI,vecLight,vecEye,vecAmbientColor)
             // 点光源
             5 -> shaderPointLight.draw(model,matMVP,matM,matI,vecLight,vecEye,vecAmbientColor)
+            // 点で描画
+            6 -> shaderPoints.draw(model,matMVP,30f)
+            // 線で描画(LINES)
+            7 -> shaderSimple.drawLines(model,matMVP)
             else -> shaderSimple.draw(model,matMVP)
         }
 
@@ -120,7 +128,7 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
         // 座標軸を描画
         if ( displayAxis ) {
             GLES20.glLineWidth(5f)
-            shaderSimple.drawArrays(axisModel,matMVP)
+            shaderSimple.drawLines(axisModel,matMVP,3)
         }
     }
 
@@ -153,6 +161,10 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
         // シェーダプログラム登録(特殊効果なし)
         shaderSimple = Simple01Shader()
         shaderSimple.loadShader()
+
+        // シェーダプログラム登録(点で描画)
+        shaderPoints = Points01Shader()
+        shaderPoints.loadShader()
 
         // シェーダプログラム登録(平行光源)
         shaderDirectionalLight = DirectionalLight01Shader()

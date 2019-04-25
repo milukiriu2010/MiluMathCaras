@@ -92,12 +92,22 @@ class D3x01Fragment : Fragment()
                 val array = resources.obtainTypedArray(R.array.shaderlist)
                 val itemId = array.getResourceId(position,R.string.shader_simple)
                 renderer.shaderSwitch = when (itemId) {
+                    // 特殊効果なし
                     R.string.shader_simple -> 0
+                    // 平行光源
                     R.string.shader_directional_light -> 1
+                    // 環境光
                     R.string.shader_ambient_light -> 2
+                    // 拡散光
                     R.string.shader_specular_light -> 3
+                    // フォーンシェーディング
                     R.string.shader_phong_shading -> 4
+                    // 点光源
                     R.string.shader_point_light -> 5
+                    // 点で描画(POINTS)
+                    R.string.shader_gl_points -> 6
+                    // 線で描画(LINES)
+                    R.string.shader_gl_lines -> 7
                     else -> 0
                 }
                 // 使わなくなったら解放
