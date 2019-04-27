@@ -91,6 +91,8 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
         // モデルデータを再読み込みする
         if ( shaderSwitch != shaderSwitchOld ) {
             when (shaderSwitch) {
+                // 点で描画(POINTS)
+                6 -> model.createPath( mapOf("scale" to scale, "pattern" to 10f) )
                 // 線で描画(LINES)
                 7 -> model.createPath( mapOf("scale" to scale, "pattern" to 20f) )
                 // 上記以外
@@ -98,7 +100,7 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
                     model.createPath( mapOf("scale" to scale) )
                 }
             }
-
+            shaderSwitchOld = shaderSwitch
         }
 
         // 描画
@@ -117,7 +119,14 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
             // 点光源
             5 -> shaderPointLight.draw(model,matMVP,matM,matI,vecLight,vecEye,vecAmbientColor)
             // 点で描画
-            6 -> shaderPoints.draw(model,matMVP,30f)
+            6 -> {
+                val u_pointSize = when (modelType) {
+                    // トーラス
+                    6 -> 10f
+                    else -> 30f
+                }
+                shaderPoints.draw(model,matMVP,u_pointSize)
+            }
             // 線で描画(LINES)
             7 -> shaderSimple.drawLines(model,matMVP)
             else -> shaderSimple.draw(model,matMVP)
@@ -128,7 +137,8 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
         // 座標軸を描画
         if ( displayAxis ) {
             GLES20.glLineWidth(5f)
-            shaderSimple.drawLines(axisModel,matMVP,3)
+            //shaderSimple.drawLines(axisModel,matMVP,3)
+            shaderSimple.drawLines(axisModel,matMVP)
         }
     }
 

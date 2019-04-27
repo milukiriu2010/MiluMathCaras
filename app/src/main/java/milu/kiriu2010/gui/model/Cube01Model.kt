@@ -1,24 +1,52 @@
 package milu.kiriu2010.gui.model
 
+import milu.kiriu2010.gui.color.MgColor
 import milu.kiriu2010.math.MyMathUtil
 import java.nio.*
 import kotlin.math.sqrt
 
-
+// ------------------------------------------
 // 立方体
+// ------------------------------------------
+// 2019.04.27  点・線
+// ------------------------------------------
 class Cube01Model: MgModelAbs() {
 
     override fun createPath( opt: Map<String,Float> ) {
+        datPos.clear()
+        datNor.clear()
+        datCol.clear()
+        datTxc.clear()
+        datIdx.clear()
+
+        val pattern = opt["pattern"]?.toInt() ?: 1
+
+        when ( pattern ) {
+            // 面
+            1 -> createPathPattern1(opt)
+            // 点
+            10 -> createPathPattern10(opt)
+            // 線
+            20 -> createPathPattern20(opt)
+            else -> createPathPattern1(opt)
+        }
+
+        // バッファ割り当て
+        allocateBuffer()
+    }
+
+    // 面
+    private fun createPathPattern1( opt: Map<String,Float> ) {
         var scale = opt["scale"] ?: 1f
 
-        val va = arrayListOf(-scale,-scale,scale)
-        val vb = arrayListOf(scale,-scale,scale)
-        val vc = arrayListOf(-scale,scale,scale)
-        val vd = arrayListOf(scale,scale,scale)
-        val ve = arrayListOf(scale,-scale,-scale)
+        val va = arrayListOf(-scale,-scale, scale)
+        val vb = arrayListOf( scale,-scale, scale)
+        val vc = arrayListOf(-scale, scale, scale)
+        val vd = arrayListOf( scale, scale, scale)
+        val ve = arrayListOf( scale,-scale,-scale)
         val vf = arrayListOf(-scale,-scale,-scale)
-        val vg = arrayListOf(scale,scale,-scale)
-        val vh = arrayListOf(-scale,scale,-scale)
+        val vg = arrayListOf( scale, scale,-scale)
+        val vh = arrayListOf(-scale, scale,-scale)
 
         // 頂点データ
         datPos.addAll(ArrayList<Float>(va))   // v0
@@ -45,7 +73,6 @@ class Cube01Model: MgModelAbs() {
         datPos.addAll(ArrayList<Float>(vd))   // v21,v6,v3
         datPos.addAll(ArrayList<Float>(vh))   // v22,v14,v11
         datPos.addAll(ArrayList<Float>(vg))   // v23,v10,v7
-
 
         // 法線データ
         (0..23).forEach {
@@ -106,6 +133,15 @@ class Cube01Model: MgModelAbs() {
         (20..23).forEach {
             datCol.addAll(arrayListOf<Float>(1f,0f,1f,1f))
         }
+        /*
+        (0..23).forEach { i ->
+            // ４頂点で１つの面を構成するため４で割る
+            val ii = i/4
+            // 立方体は８つ頂点があるので８で割る
+            var tc = MgColor.hsva(360/8*ii,1f,1f,1f)
+            datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
+        }
+        */
 
         // インデックスデータ
         datIdx.addAll(arrayListOf(0,1,2))
@@ -120,45 +156,100 @@ class Cube01Model: MgModelAbs() {
         datIdx.addAll(arrayListOf(17,19,18))
         datIdx.addAll(arrayListOf(20,21,22))
         datIdx.addAll(arrayListOf(21,23,22))
+    }
 
-        // 頂点バッファ
-        bufPos = ByteBuffer.allocateDirect(datPos.toArray().size * 4).run {
-            order(ByteOrder.nativeOrder())
 
-            asFloatBuffer().apply {
-                put(datPos.toFloatArray())
-                position(0)
-            }
-        }
+    // 点
+    private fun createPathPattern10( opt: Map<String,Float> ) {
+        var scale = opt["scale"] ?: 1f
 
-        // 法線バッファ
-        bufNor = ByteBuffer.allocateDirect(datNor.toArray().size * 4).run {
-            order(ByteOrder.nativeOrder())
+        val va = arrayListOf(-scale,-scale, scale)
+        val vb = arrayListOf( scale,-scale, scale)
+        val vc = arrayListOf(-scale, scale, scale)
+        val vd = arrayListOf( scale, scale, scale)
+        val ve = arrayListOf( scale,-scale,-scale)
+        val vf = arrayListOf(-scale,-scale,-scale)
+        val vg = arrayListOf( scale, scale,-scale)
+        val vh = arrayListOf(-scale, scale,-scale)
 
-            asFloatBuffer().apply {
-                put(datNor.toFloatArray())
-                position(0)
-            }
-        }
+        // 頂点データ
+        datPos.addAll(ArrayList<Float>(va))
+        datPos.addAll(ArrayList<Float>(vb))
+        datPos.addAll(ArrayList<Float>(vc))
+        datPos.addAll(ArrayList<Float>(vd))
+        datPos.addAll(ArrayList<Float>(ve))
+        datPos.addAll(ArrayList<Float>(vf))
+        datPos.addAll(ArrayList<Float>(vg))
+        datPos.addAll(ArrayList<Float>(vh))
 
-        // 色バッファ
-        bufCol = ByteBuffer.allocateDirect(datCol.toArray().size * 4).run {
-            order(ByteOrder.nativeOrder())
-
-            asFloatBuffer().apply {
-                put(datCol.toFloatArray())
-                position(0)
-            }
-        }
-
-        // インデックスバッファ
-        bufIdx = ByteBuffer.allocateDirect(datIdx.toArray().size * 2).run {
-            order(ByteOrder.nativeOrder())
-
-            asShortBuffer().apply {
-                put(datIdx.toShortArray())
-                position(0)
-            }
+        // 色データ
+        (0..7).forEach { i ->
+            // 立方体は８つ頂点があるので８で割る
+            var tc = MgColor.hsva(360/8*i,1f,1f,1f)
+            datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
         }
     }
+
+
+    // 線
+    private fun createPathPattern20( opt: Map<String,Float> ) {
+        var scale = opt["scale"] ?: 1f
+
+        val va = arrayListOf(-scale,-scale, scale)
+        val vb = arrayListOf( scale,-scale, scale)
+        val vc = arrayListOf(-scale, scale, scale)
+        val vd = arrayListOf( scale, scale, scale)
+        val ve = arrayListOf( scale,-scale,-scale)
+        val vf = arrayListOf(-scale,-scale,-scale)
+        val vg = arrayListOf( scale, scale,-scale)
+        val vh = arrayListOf(-scale, scale,-scale)
+
+        // 頂点データ
+        // l0
+        datPos.addAll(ArrayList<Float>(va))
+        datPos.addAll(ArrayList<Float>(vb))
+        // l1
+        datPos.addAll(ArrayList<Float>(vb))
+        datPos.addAll(ArrayList<Float>(vd))
+        // l2
+        datPos.addAll(ArrayList<Float>(vd))
+        datPos.addAll(ArrayList<Float>(vc))
+        // l3
+        datPos.addAll(ArrayList<Float>(vc))
+        datPos.addAll(ArrayList<Float>(va))
+        // l4
+        datPos.addAll(ArrayList<Float>(va))
+        datPos.addAll(ArrayList<Float>(vf))
+        // l5
+        datPos.addAll(ArrayList<Float>(vb))
+        datPos.addAll(ArrayList<Float>(ve))
+        // l6
+        datPos.addAll(ArrayList<Float>(vc))
+        datPos.addAll(ArrayList<Float>(vh))
+        // l7
+        datPos.addAll(ArrayList<Float>(vd))
+        datPos.addAll(ArrayList<Float>(vg))
+        // l8
+        datPos.addAll(ArrayList<Float>(ve))
+        datPos.addAll(ArrayList<Float>(vf))
+        // l9
+        datPos.addAll(ArrayList<Float>(vf))
+        datPos.addAll(ArrayList<Float>(vh))
+        // l10
+        datPos.addAll(ArrayList<Float>(vh))
+        datPos.addAll(ArrayList<Float>(vg))
+        // l11
+        datPos.addAll(ArrayList<Float>(vg))
+        datPos.addAll(ArrayList<Float>(ve))
+
+        // 色データ
+        (0..23).forEach { i ->
+            // ２頂点で１つの線を構成するため２で割る
+            val ii = i/2
+            // 立方体は１２線があるので１２で割る
+            var tc = MgColor.hsva(360/8*ii,1f,1f,1f)
+            datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
+        }
+    }
+
 }

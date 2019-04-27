@@ -1,24 +1,52 @@
 package milu.kiriu2010.gui.model
 
+import milu.kiriu2010.gui.color.MgColor
 import milu.kiriu2010.math.MyMathUtil
 import java.nio.*
 import kotlin.math.sqrt
 
-
+// ------------------------------------------
 // 正八面体
+// ------------------------------------------
+// 2019.04.27  点・線
+// ------------------------------------------
 class Octahedron01Model: MgModelAbs() {
 
     override fun createPath( opt: Map<String,Float> ) {
+        datPos.clear()
+        datNor.clear()
+        datCol.clear()
+        datTxc.clear()
+        datIdx.clear()
+
+        val pattern = opt["pattern"]?.toInt() ?: 1
+
+        when ( pattern ) {
+            // 面
+            1 -> createPathPattern1(opt)
+            // 点
+            10 -> createPathPattern10(opt)
+            // 線
+            20 -> createPathPattern20(opt)
+            else -> createPathPattern1(opt)
+        }
+
+        // バッファ割り当て
+        allocateBuffer()
+    }
+
+    // 面
+    private fun createPathPattern1( opt: Map<String,Float> ) {
         val sq2 = sqrt(2f)
 
         var scale = opt["scale"] ?: 1f
 
-        val va = arrayListOf(0f,-sq2*scale,0f)
-        val vb = arrayListOf(scale,0f,scale)
-        val vc = arrayListOf(-scale,0f,scale)
-        val vd = arrayListOf(-scale,0f,-scale)
-        val ve = arrayListOf(scale,0f,-scale)
-        val vf = arrayListOf(0f,sq2*scale,0f)
+        val va = arrayListOf(    0f,-sq2*scale,    0f)
+        val vb = arrayListOf( scale,        0f, scale)
+        val vc = arrayListOf(-scale,        0f, scale)
+        val vd = arrayListOf(-scale,        0f,-scale)
+        val ve = arrayListOf( scale,        0f,-scale)
+        val vf = arrayListOf(    0f, sq2*scale,    0f)
 
         // 頂点データ
         datPos.addAll(ArrayList<Float>(va))   // v0
@@ -113,50 +141,109 @@ class Octahedron01Model: MgModelAbs() {
         (21..23).forEach {
             datCol.addAll(arrayListOf<Float>(1f,0f,1f,1f))
         }
+        /*
+        (0..23).forEach { i ->
+            // ３頂点で１つの面を構成するため３で割る
+            val ii = i/3
+            // 正八面体は６つ頂点があるので６で割る
+            var tc = MgColor.hsva(360/6*ii,1f,1f,1f)
+            datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
+        }
+        */
 
         // インデックスデータ
         (0..23).forEach { it ->
             datIdx.addAll(arrayListOf<Short>(it.toShort()))
         }
+    }
 
-        // 頂点バッファ
-        bufPos = ByteBuffer.allocateDirect(datPos.toArray().size * 4).run {
-            order(ByteOrder.nativeOrder())
+    // 点
+    private fun createPathPattern10( opt: Map<String,Float> ) {
+        val sq2 = sqrt(2f)
 
-            asFloatBuffer().apply {
-                put(datPos.toFloatArray())
-                position(0)
-            }
+        var scale = opt["scale"] ?: 1f
+
+        val va = arrayListOf(    0f,-sq2*scale,    0f)
+        val vb = arrayListOf( scale,        0f, scale)
+        val vc = arrayListOf(-scale,        0f, scale)
+        val vd = arrayListOf(-scale,        0f,-scale)
+        val ve = arrayListOf( scale,        0f,-scale)
+        val vf = arrayListOf(    0f, sq2*scale,    0f)
+
+        // 頂点データ
+        datPos.addAll(ArrayList<Float>(va))
+        datPos.addAll(ArrayList<Float>(vb))
+        datPos.addAll(ArrayList<Float>(vc))
+        datPos.addAll(ArrayList<Float>(vd))
+        datPos.addAll(ArrayList<Float>(ve))
+        datPos.addAll(ArrayList<Float>(vf))
+
+        // 色データ
+        (0..23).forEach { i ->
+            // 正八面体は６つ頂点があるので６で割る
+            var tc = MgColor.hsva(360/6*i,1f,1f,1f)
+            datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
         }
+    }
 
-        // 法線バッファ
-        bufNor = ByteBuffer.allocateDirect(datNor.toArray().size * 4).run {
-            order(ByteOrder.nativeOrder())
+    // 線
+    private fun createPathPattern20( opt: Map<String,Float> ) {
+        val sq2 = sqrt(2f)
 
-            asFloatBuffer().apply {
-                put(datNor.toFloatArray())
-                position(0)
-            }
-        }
+        var scale = opt["scale"] ?: 1f
 
-        // 色バッファ
-        bufCol = ByteBuffer.allocateDirect(datCol.toArray().size * 4).run {
-            order(ByteOrder.nativeOrder())
+        val va = arrayListOf(    0f,-sq2*scale,    0f)
+        val vb = arrayListOf( scale,        0f, scale)
+        val vc = arrayListOf(-scale,        0f, scale)
+        val vd = arrayListOf(-scale,        0f,-scale)
+        val ve = arrayListOf( scale,        0f,-scale)
+        val vf = arrayListOf(    0f, sq2*scale,    0f)
 
-            asFloatBuffer().apply {
-                put(datCol.toFloatArray())
-                position(0)
-            }
-        }
+        // 頂点データ
+        // l0
+        datPos.addAll(ArrayList<Float>(va))
+        datPos.addAll(ArrayList<Float>(vb))
+        // l1
+        datPos.addAll(ArrayList<Float>(va))
+        datPos.addAll(ArrayList<Float>(vc))
+        // l2
+        datPos.addAll(ArrayList<Float>(va))
+        datPos.addAll(ArrayList<Float>(vd))
+        // l3
+        datPos.addAll(ArrayList<Float>(va))
+        datPos.addAll(ArrayList<Float>(ve))
+        // l4
+        datPos.addAll(ArrayList<Float>(vb))
+        datPos.addAll(ArrayList<Float>(vc))
+        // l5
+        datPos.addAll(ArrayList<Float>(vc))
+        datPos.addAll(ArrayList<Float>(vd))
+        // l6
+        datPos.addAll(ArrayList<Float>(vd))
+        datPos.addAll(ArrayList<Float>(ve))
+        // l7
+        datPos.addAll(ArrayList<Float>(ve))
+        datPos.addAll(ArrayList<Float>(vb))
+        // l8
+        datPos.addAll(ArrayList<Float>(vf))
+        datPos.addAll(ArrayList<Float>(vb))
+        // l9
+        datPos.addAll(ArrayList<Float>(vf))
+        datPos.addAll(ArrayList<Float>(vc))
+        // l10
+        datPos.addAll(ArrayList<Float>(vf))
+        datPos.addAll(ArrayList<Float>(vd))
+        // l11
+        datPos.addAll(ArrayList<Float>(vf))
+        datPos.addAll(ArrayList<Float>(ve))
 
-        // インデックスバッファ
-        bufIdx = ByteBuffer.allocateDirect(datIdx.toArray().size * 2).run {
-            order(ByteOrder.nativeOrder())
-
-            asShortBuffer().apply {
-                put(datIdx.toShortArray())
-                position(0)
-            }
+        // 色データ
+        (0..23).forEach { i ->
+            // ２頂点で１つの線を構成するため２で割る
+            val ii = i/2
+            // 正八面体は１２線があるので１２で割る
+            var tc = MgColor.hsva(360/12*ii,1f,1f,1f)
+            datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
         }
     }
 }

@@ -7,7 +7,7 @@ import milu.kiriu2010.gui.basic.MyGLFunc
 // ------------------------------------------
 // 特殊効果なし
 // ------------------------------------------
-// 2019.04.24  マージ
+// 2019.04.27 コメントアウト
 // ------------------------------------------
 class Simple01Shader: MgShader() {
     // 頂点シェーダ
@@ -78,6 +78,7 @@ class Simple01Shader: MgShader() {
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, modelAbs.datIdx.size, GLES20.GL_UNSIGNED_SHORT, modelAbs.bufIdx)
     }
 
+    /*
     // 頂点同士を線で結ぶ(GL_LINES)
     // ----------------------------------------------------
     //   unit
@@ -113,17 +114,16 @@ class Simple01Shader: MgShader() {
         }
 
         // モデルを描画
-        /*
-        GLES20.glDrawArrays(GLES20.GL_LINES,0,4)
-        GLES20.glDrawArrays(GLES20.GL_LINES,4,4)
-        GLES20.glDrawArrays(GLES20.GL_LINES,8,4)
-        */
+        //GLES20.glDrawArrays(GLES20.GL_LINES,0,4)
+        //GLES20.glDrawArrays(GLES20.GL_LINES,4,4)
+        //GLES20.glDrawArrays(GLES20.GL_LINES,8,4)
         // 描画点がXYZの３座標保持するため３割る
         val cnt = modelAbs.datPos.size/3/unit
         (0..(unit-1)).forEach { i ->
             GLES20.glDrawArrays(GLES20.GL_LINES,i*cnt,cnt)
         }
     }
+    */
 
     // ----------------------------------------------------
     // 頂点同士を線で結ぶ(GL_LINES)

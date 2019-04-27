@@ -11,6 +11,12 @@ import java.nio.*
 class Axis01Model: MgModelAbs() {
 
     override fun createPath( opt: Map<String,Float> ){
+        datPos.clear()
+        datNor.clear()
+        datCol.clear()
+        datTxc.clear()
+        datIdx.clear()
+
         var scale = opt["scale"] ?: 1f
 
         // 頂点データ

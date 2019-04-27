@@ -1,14 +1,42 @@
 package milu.kiriu2010.gui.model
 
+import milu.kiriu2010.gui.color.MgColor
 import milu.kiriu2010.math.MyMathUtil
 import java.nio.*
 import kotlin.math.sqrt
 
-
+// -------------------------------------------
 // 正十二面体
+// -------------------------------------------
+// 2019.04.27  クリア
+// -------------------------------------------
 class Dodecahedron01Model: MgModelAbs() {
 
     override fun createPath( opt: Map<String,Float> ) {
+        datPos.clear()
+        datNor.clear()
+        datCol.clear()
+        datTxc.clear()
+        datIdx.clear()
+
+        val pattern = opt["pattern"]?.toInt() ?: 1
+
+        when ( pattern ) {
+            // 面
+            1 -> createPathPattern1(opt)
+            // 点
+            10 -> createPathPattern10(opt)
+            // 線
+            20 -> createPathPattern20(opt)
+            else -> createPathPattern1(opt)
+        }
+
+        // バッファ割り当て
+        allocateBuffer()
+    }
+
+    // 面
+    private fun createPathPattern1( opt: Map<String,Float> ) {
         val sq2 = sqrt(2f)
 
         val goldR = MyMathUtil.GOLDEN_RATIO
@@ -298,6 +326,15 @@ class Dodecahedron01Model: MgModelAbs() {
         (99..107).forEach {
             datCol.addAll(arrayListOf<Float>(1f,0f,0.5f,1f))
         }
+        /*
+        (0..107).forEach { i ->
+            // ９頂点で１つの面を構成するため９で割る
+            val ii = i/9
+            // 正十二面体は２０頂点あるので２０で割る
+            var tc = MgColor.hsva(360/20*ii,1f,1f,1f)
+            datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
+        }
+        */
 
         // インデックスデータ
         (0..107).forEach {
@@ -307,46 +344,206 @@ class Dodecahedron01Model: MgModelAbs() {
                 2 -> datIdx.add((it-1).toShort())
             }
         }
+    }
 
-        // 頂点バッファ
-        bufPos = ByteBuffer.allocateDirect(datPos.toArray().size * 4).run {
-            order(ByteOrder.nativeOrder())
+    // 点
+    private fun createPathPattern10( opt: Map<String,Float> ) {
+        val sq2 = sqrt(2f)
 
-            asFloatBuffer().apply {
-                put(datPos.toFloatArray())
-                position(0)
-            }
+        val goldR = MyMathUtil.GOLDEN_RATIO
+        val cos36f = MyMathUtil.COS36F
+        val sin36f = MyMathUtil.SIN36F
+        val cos72f = MyMathUtil.COS72F
+        val sin72f = MyMathUtil.SIN72F
+
+        var scale = opt["scale"] ?: 1f
+
+        val va = arrayListOf(              scale,                 0f,              0f)
+        val vb = arrayListOf(       cos72f*scale,       sin72f*scale,              0f)
+        val vc = arrayListOf(      -cos36f*scale,       sin36f*scale,              0f)
+        val vd = arrayListOf(      -cos36f*scale,      -sin36f*scale,              0f)
+        val ve = arrayListOf(       cos72f*scale,      -sin72f*scale,              0f)
+        val vf = arrayListOf(        goldR*scale,                 0f,           scale)
+        val vg = arrayListOf( goldR*cos36f*scale, goldR*sin36f*scale,     goldR*scale)
+        val vh = arrayListOf( goldR*cos72f*scale, goldR*sin72f*scale,           scale)
+        val vi = arrayListOf(-goldR*cos72f*scale, goldR*sin72f*scale,     goldR*scale)
+        val vj = arrayListOf(-goldR*cos36f*scale, goldR*sin36f*scale,           scale)
+        val vk = arrayListOf(       -goldR*scale,                 0f,     goldR*scale)
+        val vl = arrayListOf(-goldR*cos36f*scale,-goldR*sin36f*scale,           scale)
+        val vm = arrayListOf(-goldR*cos72f*scale,-goldR*sin72f*scale,     goldR*scale)
+        val vn = arrayListOf( goldR*cos72f*scale,-goldR*sin72f*scale,           scale)
+        val vo = arrayListOf( goldR*cos36f*scale,-goldR*sin36f*scale,     goldR*scale)
+        val vp = arrayListOf(           -1*scale,                 0f,(goldR+1f)*scale)
+        val vq = arrayListOf(      -cos72f*scale,      -sin72f*scale,(goldR+1f)*scale)
+        val vr = arrayListOf(       cos36f*scale,      -sin36f*scale,(goldR+1f)*scale)
+        val vs = arrayListOf(       cos36f*scale,       sin36f*scale,(goldR+1f)*scale)
+        val vt = arrayListOf(      -cos72f*scale,       sin72f*scale,(goldR+1f)*scale)
+
+        // 頂点データ
+        // ABC
+        datPos.addAll(ArrayList<Float>(va))
+        datPos.addAll(ArrayList<Float>(vb))
+        datPos.addAll(ArrayList<Float>(vc))
+        datPos.addAll(ArrayList<Float>(vd))
+        datPos.addAll(ArrayList<Float>(ve))
+        datPos.addAll(ArrayList<Float>(vf))
+        datPos.addAll(ArrayList<Float>(vg))
+        datPos.addAll(ArrayList<Float>(vh))
+        datPos.addAll(ArrayList<Float>(vi))
+        datPos.addAll(ArrayList<Float>(vj))
+        datPos.addAll(ArrayList<Float>(vk))
+        datPos.addAll(ArrayList<Float>(vl))
+        datPos.addAll(ArrayList<Float>(vm))
+        datPos.addAll(ArrayList<Float>(vn))
+        datPos.addAll(ArrayList<Float>(vo))
+        datPos.addAll(ArrayList<Float>(vp))
+        datPos.addAll(ArrayList<Float>(vq))
+        datPos.addAll(ArrayList<Float>(vr))
+        datPos.addAll(ArrayList<Float>(vs))
+        datPos.addAll(ArrayList<Float>(vt))
+
+        // 色データ
+        (0..107).forEach { i ->
+            // 正十二面体は２０頂点あるので２０で割る
+            var tc = MgColor.hsva(360/20*i,1f,1f,1f)
+            datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
+        }
+    }
+
+    // 線
+    private fun createPathPattern20( opt: Map<String,Float> ) {
+        val sq2 = sqrt(2f)
+
+        val goldR = MyMathUtil.GOLDEN_RATIO
+        val cos36f = MyMathUtil.COS36F
+        val sin36f = MyMathUtil.SIN36F
+        val cos72f = MyMathUtil.COS72F
+        val sin72f = MyMathUtil.SIN72F
+
+        var scale = opt["scale"] ?: 1f
+
+        val va = arrayListOf(              scale,                 0f,              0f)
+        val vb = arrayListOf(       cos72f*scale,       sin72f*scale,              0f)
+        val vc = arrayListOf(      -cos36f*scale,       sin36f*scale,              0f)
+        val vd = arrayListOf(      -cos36f*scale,      -sin36f*scale,              0f)
+        val ve = arrayListOf(       cos72f*scale,      -sin72f*scale,              0f)
+        val vf = arrayListOf(        goldR*scale,                 0f,           scale)
+        val vg = arrayListOf( goldR*cos36f*scale, goldR*sin36f*scale,     goldR*scale)
+        val vh = arrayListOf( goldR*cos72f*scale, goldR*sin72f*scale,           scale)
+        val vi = arrayListOf(-goldR*cos72f*scale, goldR*sin72f*scale,     goldR*scale)
+        val vj = arrayListOf(-goldR*cos36f*scale, goldR*sin36f*scale,           scale)
+        val vk = arrayListOf(       -goldR*scale,                 0f,     goldR*scale)
+        val vl = arrayListOf(-goldR*cos36f*scale,-goldR*sin36f*scale,           scale)
+        val vm = arrayListOf(-goldR*cos72f*scale,-goldR*sin72f*scale,     goldR*scale)
+        val vn = arrayListOf( goldR*cos72f*scale,-goldR*sin72f*scale,           scale)
+        val vo = arrayListOf( goldR*cos36f*scale,-goldR*sin36f*scale,     goldR*scale)
+        val vp = arrayListOf(           -1*scale,                 0f,(goldR+1f)*scale)
+        val vq = arrayListOf(      -cos72f*scale,      -sin72f*scale,(goldR+1f)*scale)
+        val vr = arrayListOf(       cos36f*scale,      -sin36f*scale,(goldR+1f)*scale)
+        val vs = arrayListOf(       cos36f*scale,       sin36f*scale,(goldR+1f)*scale)
+        val vt = arrayListOf(      -cos72f*scale,       sin72f*scale,(goldR+1f)*scale)
+
+        // 頂点データ
+        // l0
+        datPos.addAll(ArrayList<Float>(va))
+        datPos.addAll(ArrayList<Float>(vb))
+        // l1
+        datPos.addAll(ArrayList<Float>(vb))
+        datPos.addAll(ArrayList<Float>(vc))
+        // l2
+        datPos.addAll(ArrayList<Float>(vc))
+        datPos.addAll(ArrayList<Float>(vd))
+        // l3
+        datPos.addAll(ArrayList<Float>(vd))
+        datPos.addAll(ArrayList<Float>(ve))
+        // l4
+        datPos.addAll(ArrayList<Float>(ve))
+        datPos.addAll(ArrayList<Float>(va))
+        // l5
+        datPos.addAll(ArrayList<Float>(va))
+        datPos.addAll(ArrayList<Float>(vf))
+        // l6
+        datPos.addAll(ArrayList<Float>(vb))
+        datPos.addAll(ArrayList<Float>(vh))
+        // l7
+        datPos.addAll(ArrayList<Float>(vc))
+        datPos.addAll(ArrayList<Float>(vj))
+        // l8
+        datPos.addAll(ArrayList<Float>(vd))
+        datPos.addAll(ArrayList<Float>(vl))
+        // l9
+        datPos.addAll(ArrayList<Float>(ve))
+        datPos.addAll(ArrayList<Float>(vn))
+        // l10
+        datPos.addAll(ArrayList<Float>(vf))
+        datPos.addAll(ArrayList<Float>(vg))
+        // l11
+        datPos.addAll(ArrayList<Float>(vg))
+        datPos.addAll(ArrayList<Float>(vh))
+        // l12
+        datPos.addAll(ArrayList<Float>(vh))
+        datPos.addAll(ArrayList<Float>(vi))
+        // l13
+        datPos.addAll(ArrayList<Float>(vi))
+        datPos.addAll(ArrayList<Float>(vj))
+        // l14
+        datPos.addAll(ArrayList<Float>(vj))
+        datPos.addAll(ArrayList<Float>(vk))
+        // l15
+        datPos.addAll(ArrayList<Float>(vk))
+        datPos.addAll(ArrayList<Float>(vl))
+        // l16
+        datPos.addAll(ArrayList<Float>(vl))
+        datPos.addAll(ArrayList<Float>(vm))
+        // l17
+        datPos.addAll(ArrayList<Float>(vm))
+        datPos.addAll(ArrayList<Float>(vn))
+        // l18
+        datPos.addAll(ArrayList<Float>(vn))
+        datPos.addAll(ArrayList<Float>(vo))
+        // l19
+        datPos.addAll(ArrayList<Float>(vo))
+        datPos.addAll(ArrayList<Float>(vf))
+        // l20
+        datPos.addAll(ArrayList<Float>(vg))
+        datPos.addAll(ArrayList<Float>(vs))
+        // l21
+        datPos.addAll(ArrayList<Float>(vi))
+        datPos.addAll(ArrayList<Float>(vt))
+        // l22
+        datPos.addAll(ArrayList<Float>(vk))
+        datPos.addAll(ArrayList<Float>(vp))
+        // l23
+        datPos.addAll(ArrayList<Float>(vm))
+        datPos.addAll(ArrayList<Float>(vq))
+        // l24
+        datPos.addAll(ArrayList<Float>(vo))
+        datPos.addAll(ArrayList<Float>(vr))
+        // l25
+        datPos.addAll(ArrayList<Float>(vp))
+        datPos.addAll(ArrayList<Float>(vq))
+        // l26
+        datPos.addAll(ArrayList<Float>(vq))
+        datPos.addAll(ArrayList<Float>(vr))
+        // l27
+        datPos.addAll(ArrayList<Float>(vr))
+        datPos.addAll(ArrayList<Float>(vs))
+        // l28
+        datPos.addAll(ArrayList<Float>(vs))
+        datPos.addAll(ArrayList<Float>(vt))
+        // l29
+        datPos.addAll(ArrayList<Float>(vt))
+        datPos.addAll(ArrayList<Float>(vp))
+
+        // 色データ
+        (0 until datPos.size).forEach { i ->
+            // ２頂点で１つの線を構成するため２で割る
+            val ii = i/2
+            // 正十二面体は３０あるので３０で割る
+            var tc = MgColor.hsva(360/30*ii,1f,1f,1f)
+            datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
         }
 
-        // 法線バッファ
-        bufNor = ByteBuffer.allocateDirect(datNor.toArray().size * 4).run {
-            order(ByteOrder.nativeOrder())
-
-            asFloatBuffer().apply {
-                put(datNor.toFloatArray())
-                position(0)
-            }
-        }
-
-        // 色バッファ
-        bufCol = ByteBuffer.allocateDirect(datCol.toArray().size * 4).run {
-            order(ByteOrder.nativeOrder())
-
-            asFloatBuffer().apply {
-                put(datCol.toFloatArray())
-                position(0)
-            }
-        }
-
-        // インデックスバッファ
-        bufIdx = ByteBuffer.allocateDirect(datIdx.toArray().size * 2).run {
-            order(ByteOrder.nativeOrder())
-
-            asShortBuffer().apply {
-                put(datIdx.toShortArray())
-                position(0)
-            }
-        }
     }
 
 }

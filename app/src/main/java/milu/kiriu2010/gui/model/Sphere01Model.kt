@@ -9,11 +9,20 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 
+// -------------------------------------------
 // 球
-// https://wgld.org/d/webgl/w025.html
+// -------------------------------------------
+// 2019.04.27-02
+// -------------------------------------------
 class Sphere01Model: MgModelAbs() {
 
     override fun createPath( opt: Map<String,Float> ) {
+        datPos.clear()
+        datNor.clear()
+        datCol.clear()
+        datTxc.clear()
+        datIdx.clear()
+
         // 緯度
         var row    = opt["row"]?.toInt() ?: 16
         // 経度
@@ -28,12 +37,6 @@ class Sphere01Model: MgModelAbs() {
 
 
         var rad = radius * scale
-
-        datPos.clear()
-        datNor.clear()
-        datCol.clear()
-        datTxc.clear()
-        datIdx.clear()
 
         (0..row).forEach { i ->
             var r = PI.toFloat() / row.toFloat() * i.toFloat()
@@ -68,44 +71,6 @@ class Sphere01Model: MgModelAbs() {
             }
         }
 
-        // 頂点バッファ
-        bufPos = ByteBuffer.allocateDirect(datPos.toArray().size * 4).run {
-            order(ByteOrder.nativeOrder())
-
-            asFloatBuffer().apply {
-                put(datPos.toFloatArray())
-                position(0)
-            }
-        }
-
-        // 法線バッファ
-        bufNor = ByteBuffer.allocateDirect(datNor.toArray().size * 4).run {
-            order(ByteOrder.nativeOrder())
-
-            asFloatBuffer().apply {
-                put(datNor.toFloatArray())
-                position(0)
-            }
-        }
-
-        // 色バッファ
-        bufCol = ByteBuffer.allocateDirect(datCol.toArray().size * 4).run {
-            order(ByteOrder.nativeOrder())
-
-            asFloatBuffer().apply {
-                put(datCol.toFloatArray())
-                position(0)
-            }
-        }
-
-        // インデックスバッファ
-        bufIdx = ByteBuffer.allocateDirect(datIdx.toArray().size * 2).run {
-            order(ByteOrder.nativeOrder())
-
-            asShortBuffer().apply {
-                put(datIdx.toShortArray())
-                position(0)
-            }
-        }
+        allocateBuffer()
     }
 }
