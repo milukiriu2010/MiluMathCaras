@@ -5,11 +5,12 @@ import milu.kiriu2010.math.MyMathUtil
 import java.nio.*
 import kotlin.math.sqrt
 
-// ------------------------------------------
+// --------------------------------------------
 // 立方体
-// ------------------------------------------
+// --------------------------------------------
 // 2019.04.27  点・線
-// ------------------------------------------
+// 2019.04.28  createPathPattern2 by wgld.org
+// --------------------------------------------
 class Cube01Model: MgModelAbs() {
 
     override fun createPath( opt: Map<String,Float> ) {
@@ -22,8 +23,10 @@ class Cube01Model: MgModelAbs() {
         val pattern = opt["pattern"]?.toInt() ?: 1
 
         when ( pattern ) {
-            // 面
+            // 面:自作
             1 -> createPathPattern1(opt)
+            // 面:wgld.org
+            2 -> createPathPattern2(opt)
             // 点
             10 -> createPathPattern10(opt)
             // 線
@@ -158,6 +161,123 @@ class Cube01Model: MgModelAbs() {
         datIdx.addAll(arrayListOf(21,23,22))
     }
 
+    // 面:wgld.org
+    private fun createPathPattern2( opt: Map<String,Float> ) {
+        var scale = opt["scale"] ?: 1f
+        var color  = FloatArray(4)
+        color[0] = opt["colorR"] ?: -1f
+        color[1] = opt["colorG"] ?: -1f
+        color[2] = opt["colorB"] ?: -1f
+        color[3] = opt["colorA"] ?: -1f
+
+        val hs = scale * 0.5f
+
+        val va = arrayListOf(-hs,-hs, hs)
+        val vb = arrayListOf( hs,-hs, hs)
+        val vc = arrayListOf( hs, hs, hs)
+        val vd = arrayListOf(-hs, hs, hs)
+        val ve = arrayListOf(-hs,-hs,-hs)
+        val vf = arrayListOf(-hs, hs,-hs)
+        val vg = arrayListOf( hs, hs,-hs)
+        val vh = arrayListOf( hs,-hs,-hs)
+
+        // 頂点データ
+        // 0-3
+        datPos.addAll(ArrayList<Float>(va))
+        datPos.addAll(ArrayList<Float>(vb))
+        datPos.addAll(ArrayList<Float>(vc))
+        datPos.addAll(ArrayList<Float>(vd))
+        // 4-7
+        datPos.addAll(ArrayList<Float>(ve))
+        datPos.addAll(ArrayList<Float>(vf))
+        datPos.addAll(ArrayList<Float>(vg))
+        datPos.addAll(ArrayList<Float>(vh))
+        // 8-11
+        datPos.addAll(ArrayList<Float>(vf))
+        datPos.addAll(ArrayList<Float>(vd))
+        datPos.addAll(ArrayList<Float>(vc))
+        datPos.addAll(ArrayList<Float>(vg))
+        // 12-15
+        datPos.addAll(ArrayList<Float>(ve))
+        datPos.addAll(ArrayList<Float>(vh))
+        datPos.addAll(ArrayList<Float>(vb))
+        datPos.addAll(ArrayList<Float>(va))
+        // 16-19
+        datPos.addAll(ArrayList<Float>(vh))
+        datPos.addAll(ArrayList<Float>(vg))
+        datPos.addAll(ArrayList<Float>(vc))
+        datPos.addAll(ArrayList<Float>(vb))
+        // 20-23
+        datPos.addAll(ArrayList<Float>(ve))
+        datPos.addAll(ArrayList<Float>(va))
+        datPos.addAll(ArrayList<Float>(vd))
+        datPos.addAll(ArrayList<Float>(vf))
+
+        // 法線データ
+        // 0-3
+        datNor.addAll(arrayListOf(-1f,-1f, 1f))
+        datNor.addAll(arrayListOf( 1f,-1f, 1f))
+        datNor.addAll(arrayListOf( 1f, 1f, 1f))
+        datNor.addAll(arrayListOf(-1f, 1f, 1f))
+        // 4-7
+        datNor.addAll(arrayListOf(-1f,-1f,-1f))
+        datNor.addAll(arrayListOf(-1f, 1f,-1f))
+        datNor.addAll(arrayListOf( 1f, 1f,-1f))
+        datNor.addAll(arrayListOf( 1f,-1f,-1f))
+        // 8-11
+        datNor.addAll(arrayListOf(-1f, 1f,-1f))
+        datNor.addAll(arrayListOf(-1f, 1f, 1f))
+        datNor.addAll(arrayListOf( 1f, 1f, 1f))
+        datNor.addAll(arrayListOf( 1f, 1f,-1f))
+        // 12-15
+        datNor.addAll(arrayListOf(-1f,-1f,-1f))
+        datNor.addAll(arrayListOf( 1f,-1f,-1f))
+        datNor.addAll(arrayListOf( 1f,-1f, 1f))
+        datNor.addAll(arrayListOf(-1f,-1f, 1f))
+        // 16-19
+        datNor.addAll(arrayListOf( 1f,-1f,-1f))
+        datNor.addAll(arrayListOf( 1f, 1f,-1f))
+        datNor.addAll(arrayListOf( 1f, 1f, 1f))
+        datNor.addAll(arrayListOf( 1f,-1f, 1f))
+        // 20-23
+        datNor.addAll(arrayListOf(-1f,-1f,-1f))
+        datNor.addAll(arrayListOf(-1f,-1f, 1f))
+        datNor.addAll(arrayListOf(-1f, 1f, 1f))
+        datNor.addAll(arrayListOf(-1f, 1f,-1f))
+
+        // 色データ
+        (0..datPos.size/3).forEach { i ->
+            if ( ( color[0] != -1f ) and ( color[1] != -1f ) and ( color[2] != -1f ) and ( color[3] != -1f ) ) {
+                datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
+            }
+            else {
+                val tc = MgColor.hsva(360/datPos.size/3*i,1f,1f,1f)
+                datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
+            }
+        }
+
+        // テクスチャコードのデータ
+        (0..5).forEach {
+            datTxc.addAll(arrayListOf(0f,0f))
+            datTxc.addAll(arrayListOf(1f,0f))
+            datTxc.addAll(arrayListOf(1f,1f))
+            datTxc.addAll(arrayListOf(0f,1f))
+        }
+
+        // インデックスデータ
+        datIdx.addAll(arrayListOf(0,1,2))
+        datIdx.addAll(arrayListOf(0,2,3))
+        datIdx.addAll(arrayListOf(4,5,6))
+        datIdx.addAll(arrayListOf(4,6,7))
+        datIdx.addAll(arrayListOf(8,9,10))
+        datIdx.addAll(arrayListOf(8,10,11))
+        datIdx.addAll(arrayListOf(12,13,14))
+        datIdx.addAll(arrayListOf(12,14,15))
+        datIdx.addAll(arrayListOf(16,17,18))
+        datIdx.addAll(arrayListOf(16,18,19))
+        datIdx.addAll(arrayListOf(20,21,22))
+        datIdx.addAll(arrayListOf(20,22,23))
+    }
 
     // 点
     private fun createPathPattern10( opt: Map<String,Float> ) {
