@@ -7,7 +7,9 @@ import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.gui.basic.MyQuaternion
 import kotlin.math.sqrt
 
-// 2019.04.25
+// --------------------------------------------
+// 2019.04.27 val => var
+// --------------------------------------------
 abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
     // モデル変換行列
     protected val matM = FloatArray(16)
@@ -22,15 +24,15 @@ abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
     // ビュー・プロジェクション行列
     protected val matVP = FloatArray(16)
     // 点光源の位置
-    protected val vecLight = floatArrayOf(2f,2f,2f)
+    protected var vecLight = floatArrayOf(2f,2f,2f)
     // 環境光の色
-    protected val vecAmbientColor = floatArrayOf(0.1f,0.1f,0.1f,1f)
+    protected var vecAmbientColor = floatArrayOf(0.1f,0.1f,0.1f,1f)
     // カメラの座標
-    protected val vecEye = floatArrayOf(0f,0f,5f)
+    protected var vecEye = floatArrayOf(0f,0f,5f)
     // カメラの上方向を表すベクトル
-    protected val vecEyeUp = floatArrayOf(0f,1f,0f)
+    protected var vecEyeUp = floatArrayOf(0f,1f,0f)
     // 中心座標
-    protected val vecCenter = floatArrayOf(0f,0f,0f)
+    protected var vecCenter = floatArrayOf(0f,0f,0f)
 
     // レンダリング領域の幅
     var renderW: Int = 512

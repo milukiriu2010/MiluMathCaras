@@ -128,7 +128,17 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
                 shaderPoints.draw(model,matMVP,u_pointSize)
             }
             // 線で描画(LINES)
-            7 -> shaderSimple.drawLines(model,matMVP)
+            7 -> {
+                when (modelType) {
+                    // 球
+                    5 -> shaderSimple.draw(model,matMVP,GLES20.GL_LINE_STRIP)
+                    // トーラス
+                    6 -> shaderSimple.draw(model,matMVP,GLES20.GL_LINE_STRIP)
+                    // その他
+                    else -> shaderSimple.draw(model,matMVP,GLES20.GL_LINES)
+                }
+
+            }
             else -> shaderSimple.draw(model,matMVP)
         }
 
@@ -138,7 +148,7 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
         if ( displayAxis ) {
             GLES20.glLineWidth(5f)
             //shaderSimple.drawLines(axisModel,matMVP,3)
-            shaderSimple.drawLines(axisModel,matMVP)
+            shaderSimple.draw(axisModel,matMVP,GLES20.GL_LINES)
         }
     }
 

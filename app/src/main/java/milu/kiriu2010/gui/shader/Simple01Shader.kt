@@ -49,7 +49,8 @@ class Simple01Shader: MgShader() {
 
     // 面塗りつぶし
     fun draw(modelAbs: MgModelAbs,
-             u_matMVP: FloatArray) {
+             u_matMVP: FloatArray,
+             mode: Int = GLES20.GL_TRIANGLES) {
         GLES20.glUseProgram(programHandle)
 
         // attribute(頂点)
@@ -75,7 +76,22 @@ class Simple01Shader: MgShader() {
         }
 
         // モデルを描画
-        GLES20.glDrawElements(GLES20.GL_TRIANGLES, modelAbs.datIdx.size, GLES20.GL_UNSIGNED_SHORT, modelAbs.bufIdx)
+        when (mode) {
+            // 面を描画
+            GLES20.GL_TRIANGLES -> {
+                GLES20.glDrawElements(GLES20.GL_TRIANGLES, modelAbs.datIdx.size, GLES20.GL_UNSIGNED_SHORT, modelAbs.bufIdx)
+            }
+            // 線を描画
+            GLES20.GL_LINES -> {
+                val cnt = modelAbs.datPos.size/3
+                GLES20.glDrawArrays(GLES20.GL_LINES,0,cnt)
+            }
+            // 線を描画
+            GLES20.GL_LINE_STRIP -> {
+                val cnt = modelAbs.datPos.size/3
+                GLES20.glDrawArrays(GLES20.GL_LINE_STRIP,0,cnt)
+            }
+        }
     }
 
     /*
@@ -125,6 +141,7 @@ class Simple01Shader: MgShader() {
     }
     */
 
+    /*
     // ----------------------------------------------------
     // 頂点同士を線で結ぶ(GL_LINES)
     // ----------------------------------------------------
@@ -158,5 +175,5 @@ class Simple01Shader: MgShader() {
         val cnt = modelAbs.datPos.size/3
         GLES20.glDrawArrays(GLES20.GL_LINES,0,cnt)
     }
-
+    */
 }

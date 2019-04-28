@@ -1,8 +1,13 @@
 package milu.kiriu2010.gui.basic
 
+import android.graphics.Bitmap
 import android.opengl.GLES20
 import android.util.Log
+import java.nio.ByteBuffer
 
+// --------------------------------------
+// 2019.04.27 createTexture
+// --------------------------------------
 class MyGLFunc {
 
     companion object {
@@ -129,5 +134,66 @@ class MyGLFunc {
             */
         }
 
+        // ----------------------------------------
+        // テクスチャを生成する
+        // ----------------------------------------
+        fun createTexture(id: Int, textures: IntArray, bmp: Bitmap, size: Int = -1, wrapParam: Int = GLES20.GL_REPEAT) {
+
+            // テクスチャをバインドする
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[id])
+            MyGLFunc.checkGlError("glBindTexture")
+
+            if ( size > 0 ) {
+                val resizedBmp = Bitmap.createScaledBitmap(bmp,size,size,false)
+
+                // ビットマップ⇒バッファへ変換
+                val buffer = ByteBuffer.allocate(resizedBmp.byteCount)
+                resizedBmp.copyPixelsToBuffer(buffer)
+                buffer.rewind()
+
+                // テクスチャへイメージを適用
+                GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D,0,GLES20.GL_RGBA,resizedBmp.width,resizedBmp.height,0,
+                    GLES20.GL_RGBA,GLES20.GL_UNSIGNED_BYTE,buffer)
+            }
+            else {
+                // ビットマップ⇒バッファへ変換
+                val buffer = ByteBuffer.allocate(bmp.byteCount)
+                bmp.copyPixelsToBuffer(buffer)
+                buffer.rewind()
+
+                // テクスチャへイメージを適用
+                GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D,0,GLES20.GL_RGBA,bmp.width,bmp.height,0,
+                    GLES20.GL_RGBA,GLES20.GL_UNSIGNED_BYTE,buffer)
+
+            }
+
+            /*
+            // GLES20.glTexImage2Dを使わないやり方
+            // ビットマップをテクスチャに設定
+            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bmp, 0)
+            MyGLFunc.checkGlError("texImage2D")
+            */
+
+            // ミップマップを生成
+            GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D)
+
+            // テクスチャパラメータを設定
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR)
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR)
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, wrapParam)
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, wrapParam)
+
+            // テクスチャのバインドを無効化
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0)
+
+            if ( bmp.isRecycled == false ) {
+                bmp.recycle()
+            }
+
+            if (textures[id] == 0) {
+                throw java.lang.RuntimeException("Error loading texture[${id}]")
+            }
+        }
     }
+
 }
