@@ -11,7 +11,7 @@ import kotlin.math.sqrt
 // -------------------------------------------
 // トーラス
 // -------------------------------------------
-// 2019.04.27  クリア
+// 2019.04.29  allocateBuffer
 // -------------------------------------------
 class Torus01Model: MgModelAbs() {
 
@@ -78,44 +78,6 @@ class Torus01Model: MgModelAbs() {
             }
         }
 
-        // 頂点バッファ
-        bufPos = ByteBuffer.allocateDirect(datPos.toArray().size * 4).run {
-            order(ByteOrder.nativeOrder())
-
-            asFloatBuffer().apply {
-                put(datPos.toFloatArray())
-                position(0)
-            }
-        }
-
-        // 法線バッファ
-        bufNor = ByteBuffer.allocateDirect(datNor.toArray().size * 4).run {
-            order(ByteOrder.nativeOrder())
-
-            asFloatBuffer().apply {
-                put(datNor.toFloatArray())
-                position(0)
-            }
-        }
-
-        // 色バッファ
-        bufCol = ByteBuffer.allocateDirect(datCol.toArray().size * 4).run {
-            order(ByteOrder.nativeOrder())
-
-            asFloatBuffer().apply {
-                put(datCol.toFloatArray())
-                position(0)
-            }
-        }
-
-        // インデックスバッファ
-        bufIdx = ByteBuffer.allocateDirect(datIdx.toArray().size * 2).run {
-            order(ByteOrder.nativeOrder())
-
-            asShortBuffer().apply {
-                put(datIdx.toShortArray())
-                position(0)
-            }
-        }
+        allocateBuffer()
     }
 }
