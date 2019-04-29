@@ -10,6 +10,7 @@ import kotlin.math.sqrt
 // --------------------------------------------
 // 2019.04.27  点・線
 // 2019.04.28  createPathPattern2 by wgld.org
+// 2019.04.29  色・テクスチャ
 // --------------------------------------------
 class Cube01Model: MgModelAbs() {
 
@@ -41,6 +42,11 @@ class Cube01Model: MgModelAbs() {
     // 面
     private fun createPathPattern1( opt: Map<String,Float> ) {
         var scale = opt["scale"] ?: 1f
+        val color = FloatArray(4)
+        color[0] = opt["colorR"] ?: -1f
+        color[1] = opt["colorG"] ?: -1f
+        color[2] = opt["colorB"] ?: -1f
+        color[3] = opt["colorA"] ?: -1f
 
         val va = arrayListOf(-scale,-scale, scale)
         val vb = arrayListOf( scale,-scale, scale)
@@ -112,39 +118,55 @@ class Cube01Model: MgModelAbs() {
 
 
         // 色データ
-        // ABDC(赤)
-        (0..3).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,0f,0f,1f))
+        if ( ( color[0] == -1f ) and ( color[1] == -1f ) and ( color[2] == -1f ) and ( color[3] == -1f ) ) {
+            // ABDC(赤)
+            (0..3).forEach {
+                datCol.addAll(arrayListOf<Float>(1f,0f,0f,1f))
+            }
+            // BEGD(黄色)
+            (4..7).forEach {
+                datCol.addAll(arrayListOf<Float>(1f,1f,0f,1f))
+            }
+            // EFGH(緑)
+            (8..11).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,1f,0f,1f))
+            }
+            // FACH(水色)
+            (12..15).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,1f,1f,1f))
+            }
+            // ABEF(青)
+            (16..19).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,0f,1f,1f))
+            }
+            // CDGH(紫)
+            (20..23).forEach {
+                datCol.addAll(arrayListOf<Float>(1f,0f,1f,1f))
+            }
+            /*
+            (0..23).forEach { i ->
+                // ４頂点で１つの面を構成するため４で割る
+                val ii = i/4
+                // 立方体は８つ頂点があるので８で割る
+                var tc = MgColor.hsva(360/8*ii,1f,1f,1f)
+                datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
+            }
+            */
         }
-        // BEGD(黄色)
-        (4..7).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,1f,0f,1f))
+        else {
+            (0..23).forEach { i ->
+                datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
+            }
         }
-        // EFGH(緑)
-        (8..11).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,1f,0f,1f))
+
+        // テクスチャ座標データ
+        // 立方体は６面あるので６回ループ
+        (0..5).forEach {
+            datTxc.addAll(arrayListOf(0f,0f))
+            datTxc.addAll(arrayListOf(1f,0f))
+            datTxc.addAll(arrayListOf(1f,1f))
+            datTxc.addAll(arrayListOf(0f,1f))
         }
-        // FACH(水色)
-        (12..15).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,1f,1f,1f))
-        }
-        // ABEF(青)
-        (16..19).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,0f,1f,1f))
-        }
-        // CDGH(紫)
-        (20..23).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,0f,1f,1f))
-        }
-        /*
-        (0..23).forEach { i ->
-            // ４頂点で１つの面を構成するため４で割る
-            val ii = i/4
-            // 立方体は８つ頂点があるので８で割る
-            var tc = MgColor.hsva(360/8*ii,1f,1f,1f)
-            datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
-        }
-        */
 
         // インデックスデータ
         datIdx.addAll(arrayListOf(0,1,2))
@@ -256,7 +278,7 @@ class Cube01Model: MgModelAbs() {
             }
         }
 
-        // テクスチャコードのデータ
+        // テクスチャ座標データ
         (0..5).forEach {
             datTxc.addAll(arrayListOf(0f,0f))
             datTxc.addAll(arrayListOf(1f,0f))

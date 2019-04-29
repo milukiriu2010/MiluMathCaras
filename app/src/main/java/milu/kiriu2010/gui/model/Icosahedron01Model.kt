@@ -5,8 +5,13 @@ import milu.kiriu2010.math.MyMathUtil
 import java.nio.*
 
 
+// --------------------------------------------
 // 正二十面体
+// --------------------------------------------
+// 2019.04.29  色・テクスチャ
+// --------------------------------------------
 // https://github.com/8q/Android-OpenGL-Icosahedron/blob/master/GL1/src/com/example/gl1/MyIcosa.java
+// --------------------------------------------
 class Icosahedron01Model: MgModelAbs() {
 
     override fun createPath( opt: Map<String,Float> ) {
@@ -37,6 +42,11 @@ class Icosahedron01Model: MgModelAbs() {
         val goldR = MyMathUtil.GOLDEN_RATIO
 
         var scale = opt["scale"] ?: 1f
+        val color = FloatArray(4)
+        color[0] = opt["colorR"] ?: -1f
+        color[1] = opt["colorG"] ?: -1f
+        color[2] = opt["colorB"] ?: -1f
+        color[3] = opt["colorA"] ?: -1f
 
         // 頂点
         val va = arrayListOf(       scale,          0f,-goldR*scale)
@@ -143,85 +153,100 @@ class Icosahedron01Model: MgModelAbs() {
         }
 
         // 色データ
-        // ABC(赤)
-        (0..2).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,0f,0f,1f))
+        if ( ( color[0] == -1f ) and ( color[1] == -1f ) and ( color[2] == -1f ) and ( color[3] == -1f ) ) {
+            // ABC(赤)
+            (0..2).forEach {
+                datCol.addAll(arrayListOf<Float>(1f,0f,0f,1f))
+            }
+            // ACE
+            (3..5).forEach {
+                datCol.addAll(arrayListOf<Float>(1f,0.25f,0f,1f))
+            }
+            // AEG(だいだい)
+            (6..8).forEach {
+                datCol.addAll(arrayListOf<Float>(1f,0.5f,0f,1f))
+            }
+            // AGF
+            (9..11).forEach {
+                datCol.addAll(arrayListOf<Float>(1f,0.75f,0f,1f))
+            }
+            // AFB(黄色)
+            (12..14).forEach {
+                datCol.addAll(arrayListOf<Float>(1f,1f,0f,1f))
+            }
+            // BFH
+            (15..17).forEach {
+                datCol.addAll(arrayListOf<Float>(0.75f,1f,0f,1f))
+            }
+            // BHD
+            (18..20).forEach {
+                datCol.addAll(arrayListOf<Float>(0.5f,1f,0f,1f))
+            }
+            // BDC
+            (21..23).forEach {
+                datCol.addAll(arrayListOf<Float>(0.25f,1f,0f,1f))
+            }
+            // CDI
+            (24..26).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,1f,0f,1f))
+            }
+            // CIE
+            (27..29).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,1f,0.25f,1f))
+            }
+            // EIK
+            (30..32).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,1f,0.5f,1f))
+            }
+            // EKG
+            (33..35).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,1f,0.75f,1f))
+            }
+            // GKL(水色)
+            (36..38).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,1f,1f,1f))
+            }
+            // GLF
+            (39..41).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,0.75f,1f,1f))
+            }
+            // KIJ
+            (42..44).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,0.5f,1f,1f))
+            }
+            // KJL
+            (45..47).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,0.25f,1f,1f))
+            }
+            // LJH(青)
+            (48..50).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,0f,1f,1f))
+            }
+            // LHF
+            (51..53).forEach {
+                datCol.addAll(arrayListOf<Float>(0.25f,0f,1f,1f))
+            }
+            // JID
+            (54..56).forEach {
+                datCol.addAll(arrayListOf<Float>(0.5f,0f,1f,1f))
+            }
+            // JDH
+            (57..59).forEach {
+                datCol.addAll(arrayListOf<Float>(0.75f,0f,1f,1f))
+            }
         }
-        // ACE
-        (3..5).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,0.25f,0f,1f))
+        else {
+            (0..59).forEach { i ->
+                datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
+            }
         }
-        // AEG(だいだい)
-        (6..8).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,0.5f,0f,1f))
-        }
-        // AGF
-        (9..11).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,0.75f,0f,1f))
-        }
-        // AFB(黄色)
-        (12..14).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,1f,0f,1f))
-        }
-        // BFH
-        (15..17).forEach {
-            datCol.addAll(arrayListOf<Float>(0.75f,1f,0f,1f))
-        }
-        // BHD
-        (18..20).forEach {
-            datCol.addAll(arrayListOf<Float>(0.5f,1f,0f,1f))
-        }
-        // BDC
-        (21..23).forEach {
-            datCol.addAll(arrayListOf<Float>(0.25f,1f,0f,1f))
-        }
-        // CDI
-        (24..26).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,1f,0f,1f))
-        }
-        // CIE
-        (27..29).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,1f,0.25f,1f))
-        }
-        // EIK
-        (30..32).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,1f,0.5f,1f))
-        }
-        // EKG
-        (33..35).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,1f,0.75f,1f))
-        }
-        // GKL(水色)
-        (36..38).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,1f,1f,1f))
-        }
-        // GLF
-        (39..41).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,0.75f,1f,1f))
-        }
-        // KIJ
-        (42..44).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,0.5f,1f,1f))
-        }
-        // KJL
-        (45..47).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,0.25f,1f,1f))
-        }
-        // LJH(青)
-        (48..50).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,0f,1f,1f))
-        }
-        // LHF
-        (51..53).forEach {
-            datCol.addAll(arrayListOf<Float>(0.25f,0f,1f,1f))
-        }
-        // JID
-        (54..56).forEach {
-            datCol.addAll(arrayListOf<Float>(0.5f,0f,1f,1f))
-        }
-        // JDH
-        (57..59).forEach {
-            datCol.addAll(arrayListOf<Float>(0.75f,0f,1f,1f))
+
+        // テクスチャ座標データ
+        // 正二十面体は２０面あるので２０回ループ
+        (0..19).forEach {
+            datTxc.addAll(arrayListOf(0f,0f))
+            datTxc.addAll(arrayListOf(1f,0f))
+            datTxc.addAll(arrayListOf(0f,0.5f))
         }
 
         // インデックスデータ

@@ -108,6 +108,8 @@ class D3x01Fragment : Fragment()
                     R.string.shader_gl_points -> 6
                     // 線で描画(LINES)
                     R.string.shader_gl_lines -> 7
+                    // テクスチャ
+                    R.string.shader_texture -> 8
                     else -> 0
                 }
                 // 使わなくなったら解放

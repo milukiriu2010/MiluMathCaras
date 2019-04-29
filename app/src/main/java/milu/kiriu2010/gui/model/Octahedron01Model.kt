@@ -9,6 +9,7 @@ import kotlin.math.sqrt
 // 正八面体
 // ------------------------------------------
 // 2019.04.27  点・線
+// 2019.04.29  色・テクスチャ
 // ------------------------------------------
 class Octahedron01Model: MgModelAbs() {
 
@@ -40,6 +41,11 @@ class Octahedron01Model: MgModelAbs() {
         val sq2 = sqrt(2f)
 
         var scale = opt["scale"] ?: 1f
+        val color = FloatArray(4)
+        color[0] = opt["colorR"] ?: -1f
+        color[1] = opt["colorG"] ?: -1f
+        color[2] = opt["colorB"] ?: -1f
+        color[3] = opt["colorA"] ?: -1f
 
         val va = arrayListOf(    0f,-sq2*scale,    0f)
         val vb = arrayListOf( scale,        0f, scale)
@@ -109,47 +115,62 @@ class Octahedron01Model: MgModelAbs() {
         }
 
         // 色データ
-        // ABC(赤)
-        (0..2).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,0f,0f,1f))
+        if ( ( color[0] == -1f ) and ( color[1] == -1f ) and ( color[2] == -1f ) and ( color[3] == -1f ) ) {
+            // ABC(赤)
+            (0..2).forEach {
+                datCol.addAll(arrayListOf<Float>(1f,0f,0f,1f))
+            }
+            // BFC(だいだい)
+            (3..5).forEach {
+                datCol.addAll(arrayListOf<Float>(1f,0.5f,0f,1f))
+            }
+            // BEF(黄色)
+            (6..8).forEach {
+                datCol.addAll(arrayListOf<Float>(1f,1f,0f,1f))
+            }
+            // EDF(緑)
+            (9..11).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,1f,0f,1f))
+            }
+            // EAD(水色)
+            (12..14).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,1f,1f,1f))
+            }
+            // ACD
+            (15..17).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,0.5f,1f,1f))
+            }
+            // FDC(青)
+            (18..20).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,0f,1f,1f))
+            }
+            // AEB(紫)
+            (21..23).forEach {
+                datCol.addAll(arrayListOf<Float>(1f,0f,1f,1f))
+            }
+            /*
+            (0..23).forEach { i ->
+                // ３頂点で１つの面を構成するため３で割る
+                val ii = i/3
+                // 正八面体は６つ頂点があるので６で割る
+                var tc = MgColor.hsva(360/6*ii,1f,1f,1f)
+                datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
+            }
+            */
         }
-        // BFC(だいだい)
-        (3..5).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,0.5f,0f,1f))
+        else {
+            (0..23).forEach { i ->
+                datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
+            }
         }
-        // BEF(黄色)
-        (6..8).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,1f,0f,1f))
+
+        // テクスチャ座標データ
+        // 正八面体は８面あるので８回ループ
+        (0..7).forEach {
+            datTxc.addAll(arrayListOf(0f,0f))
+            datTxc.addAll(arrayListOf(1f,0f))
+            datTxc.addAll(arrayListOf(0f,0.5f))
         }
-        // EDF(緑)
-        (9..11).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,1f,0f,1f))
-        }
-        // EAD(水色)
-        (12..14).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,1f,1f,1f))
-        }
-        // ACD
-        (15..17).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,0.5f,1f,1f))
-        }
-        // FDC(青)
-        (18..20).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,0f,1f,1f))
-        }
-        // AEB(紫)
-        (21..23).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,0f,1f,1f))
-        }
-        /*
-        (0..23).forEach { i ->
-            // ３頂点で１つの面を構成するため３で割る
-            val ii = i/3
-            // 正八面体は６つ頂点があるので６で割る
-            var tc = MgColor.hsva(360/6*ii,1f,1f,1f)
-            datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
-        }
-        */
 
         // インデックスデータ
         (0..23).forEach { it ->

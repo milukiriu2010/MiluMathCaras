@@ -1,12 +1,15 @@
 package milu.kiriu2010.milumathcaras.gui.draw.polyhedron
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.opengl.GLES20
 import android.opengl.Matrix
+import milu.kiriu2010.gui.basic.MyGLFunc
 import milu.kiriu2010.gui.model.*
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.renderer.Tetrahedron01Model
 import milu.kiriu2010.gui.shader.*
+import milu.kiriu2010.milumathcaras.R
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -26,6 +29,8 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
     private lateinit var shaderPhongShading: PhongShading01Shader
     // シェーダ(点光源)
     private lateinit var shaderPointLight: PointLight01Shader
+    // シェーダ(テクスチャ)
+    private lateinit var shaderTexture: Texture01Shader
 
     // 描画モデル
     private lateinit var model: MgModelAbs
@@ -39,6 +44,9 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
 
     // 前回利用したシェーダ
     private var shaderSwitchOld = shaderSwitch
+
+    // テクスチャ配列
+    private val textures = IntArray(1)
 
     // 描画に利用するデータを設定する
     override fun setMotionParam(motionParam: MutableMap<String,Float> ) {
@@ -95,6 +103,9 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
                 6 -> model.createPath( mapOf("scale" to scale, "pattern" to 10f) )
                 // 線で描画(LINES)
                 7 -> model.createPath( mapOf("scale" to scale, "pattern" to 20f) )
+                // テクスチャ
+                // テクスチャを張る場合は、モデルを白で描画する
+                8 -> model.createPath( mapOf("scale" to scale, "colorR" to 1f, "colorG" to 1f, "colorB" to 1f,  "colorA" to 1f) )
                 // 上記以外
                 else -> {
                     model.createPath( mapOf("scale" to scale) )
@@ -137,7 +148,15 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
                     // その他
                     else -> shaderSimple.draw(model,matMVP,GLES20.GL_LINES)
                 }
-
+            }
+            // テクスチャ
+            8 -> {
+                // テクスチャをバインド
+                GLES20.glActiveTexture(GLES20.GL_TEXTURE0)
+                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,textures[0])
+                shaderTexture.draw(model,matMVP,0)
+                // テクスチャのバインドを解除
+                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,0)
             }
             else -> shaderSimple.draw(model,matMVP)
         }
@@ -178,33 +197,44 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
             vecCenter[0], vecCenter[1], vecCenter[2],
             vecEyeUp[0], vecEyeUp[1], vecEyeUp[2])
 
-        // シェーダプログラム登録(特殊効果なし)
+        // テクスチャに張り付けるビットマップをロード
+        val bmp = BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher)
+
+        // テクスチャを生成
+        GLES20.glGenTextures(1,textures,0)
+        MyGLFunc.createTexture(0,textures,bmp)
+
+        // シェーダ(特殊効果なし)
         shaderSimple = Simple01Shader()
         shaderSimple.loadShader()
 
-        // シェーダプログラム登録(点で描画)
+        // シェーダ(点で描画)
         shaderPoints = Points01Shader()
         shaderPoints.loadShader()
 
-        // シェーダプログラム登録(平行光源)
+        // シェーダ(平行光源)
         shaderDirectionalLight = DirectionalLight01Shader()
         shaderDirectionalLight.loadShader()
 
-        // シェーダプログラム登録(環境光)
+        // シェーダ(環境光)
         shaderAmbientLight = AmbientLight01Shader()
         shaderAmbientLight.loadShader()
 
-        // シェーダプログラム登録(反射光)
+        // シェーダ(反射光)
         shaderSpecularLight = SpecularLight01Shader()
         shaderSpecularLight.loadShader()
 
-        // シェーダプログラム登録(フォンシェーディング)
+        // シェーダ(フォンシェーディング)
         shaderPhongShading = PhongShading01Shader()
         shaderPhongShading.loadShader()
 
-        // シェーダプログラム登録(点光源)
+        // シェーダ(点光源)
         shaderPointLight = PointLight01Shader()
         shaderPointLight.loadShader()
+
+        // シェーダ(テクスチャ)
+        shaderTexture = Texture01Shader()
+        shaderTexture.loadShader()
 
         // モデル生成
         model = when (modelType) {
@@ -235,8 +265,22 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
     // MgRenderer
     // シェーダ終了処理
     override fun closeShader() {
+        // シェーダ(特殊効果なし)
         shaderSimple.deleteShader()
-
+        // シェーダ(点で描画)
+        shaderPoints.deleteShader()
+        // シェーダ(平行光源)
+        shaderDirectionalLight.deleteShader()
+        // シェーダ(環境光)
+        shaderAmbientLight.deleteShader()
+        // シェーダ(反射光)
+        shaderSpecularLight.deleteShader()
+        // シェーダ(フォンシェーディング)
+        shaderPhongShading.deleteShader()
+        // シェーダ(点光源)
+        shaderPointLight.deleteShader()
+        // シェーダ(テクスチャ)
+        shaderTexture.deleteShader()
     }
 
 }

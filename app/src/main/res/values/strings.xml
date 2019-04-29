@@ -263,6 +263,7 @@
     <string name="shader_specular_light">Specular Light</string>
     <string name="shader_phong_shading">Phong Shading</string>
     <string name="shader_point_light">Point Light</string>
+    <string name="shader_texture">Texture</string>
 
     <string-array name="shaderlist">
         <item>@string/shader_simple</item>
@@ -273,6 +274,7 @@
         <item>@string/shader_specular_light</item>
         <item>@string/shader_phong_shading</item>
         <item>@string/shader_point_light</item>
+        <item>@string/shader_texture</item>
     </string-array>
 
 </resources>

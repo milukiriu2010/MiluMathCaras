@@ -9,6 +9,7 @@ import kotlin.math.sqrt
 // 正十二面体
 // -------------------------------------------
 // 2019.04.27  クリア
+// 2019.04.29  色・テクスチャ
 // -------------------------------------------
 class Dodecahedron01Model: MgModelAbs() {
 
@@ -46,6 +47,11 @@ class Dodecahedron01Model: MgModelAbs() {
         val sin72f = MyMathUtil.SIN72F
 
         var scale = opt["scale"] ?: 1f
+        val color = FloatArray(4)
+        color[0] = opt["colorR"] ?: -1f
+        color[1] = opt["colorG"] ?: -1f
+        color[2] = opt["colorB"] ?: -1f
+        color[3] = opt["colorA"] ?: -1f
 
         val va = arrayListOf(              scale,                 0f,              0f)
         val vb = arrayListOf(       cos72f*scale,       sin72f*scale,              0f)
@@ -278,63 +284,78 @@ class Dodecahedron01Model: MgModelAbs() {
         }
 
         // 色データ
-        // ABCDE(赤)
-        (0..8).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,0f,0f,1f))
+        if ( ( color[0] == -1f ) and ( color[1] == -1f ) and ( color[2] == -1f ) and ( color[3] == -1f ) ) {
+            // ABCDE(赤)
+            (0..8).forEach {
+                datCol.addAll(arrayListOf<Float>(1f,0f,0f,1f))
+            }
+            // BHIJC(オレンジ)
+            (9..17).forEach {
+                datCol.addAll(arrayListOf<Float>(1f,0.5f,0f,1f))
+            }
+            // CJKLD(黄色)
+            (18..26).forEach {
+                datCol.addAll(arrayListOf<Float>(1f,1f,0f,1f))
+            }
+            // DLMNE(黄緑)
+            (27..35).forEach {
+                datCol.addAll(arrayListOf<Float>(0.5f,1f,0f,1f))
+            }
+            // ENOFA(緑)
+            (36..44).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,1f,0f,1f))
+            }
+            // AFGHB
+            (45..53).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,1f,0.5f,1f))
+            }
+            // RQPTS
+            (54..62).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,1f,1f,1f))
+            }
+            // QMLKP
+            (63..71).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,0.5f,1f,1f))
+            }
+            // PKJIT
+            (72..80).forEach {
+                datCol.addAll(arrayListOf<Float>(0f,0f,1f,1f))
+            }
+            // TIHGS
+            (81..89).forEach {
+                datCol.addAll(arrayListOf<Float>(0.5f,0f,1f,1f))
+            }
+            // SGFOR
+            (90..98).forEach {
+                datCol.addAll(arrayListOf<Float>(1f,0f,1f,1f))
+            }
+            // RONMQ
+            (99..107).forEach {
+                datCol.addAll(arrayListOf<Float>(1f,0f,0.5f,1f))
+            }
+            /*
+            (0..107).forEach { i ->
+                // ９頂点で１つの面を構成するため９で割る
+                val ii = i/9
+                // 正十二面体は２０頂点あるので２０で割る
+                var tc = MgColor.hsva(360/20*ii,1f,1f,1f)
+                datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
+            }
+            */
         }
-        // BHIJC(オレンジ)
-        (9..17).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,0.5f,0f,1f))
+        else {
+            (0..107).forEach { i ->
+                datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
+            }
         }
-        // CJKLD(黄色)
-        (18..26).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,1f,0f,1f))
+
+        // テクスチャ座標データ
+        // 正十二面体は108頂点あるので36回ループ
+        (0..35).forEach {
+            datTxc.addAll(arrayListOf(0f,0f))
+            datTxc.addAll(arrayListOf(1f,0f))
+            datTxc.addAll(arrayListOf(0f,0.5f))
         }
-        // DLMNE(黄緑)
-        (27..35).forEach {
-            datCol.addAll(arrayListOf<Float>(0.5f,1f,0f,1f))
-        }
-        // ENOFA(緑)
-        (36..44).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,1f,0f,1f))
-        }
-        // AFGHB
-        (45..53).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,1f,0.5f,1f))
-        }
-        // RQPTS
-        (54..62).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,1f,1f,1f))
-        }
-        // QMLKP
-        (63..71).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,0.5f,1f,1f))
-        }
-        // PKJIT
-        (72..80).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,0f,1f,1f))
-        }
-        // TIHGS
-        (81..89).forEach {
-            datCol.addAll(arrayListOf<Float>(0.5f,0f,1f,1f))
-        }
-        // SGFOR
-        (90..98).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,0f,1f,1f))
-        }
-        // RONMQ
-        (99..107).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,0f,0.5f,1f))
-        }
-        /*
-        (0..107).forEach { i ->
-            // ９頂点で１つの面を構成するため９で割る
-            val ii = i/9
-            // 正十二面体は２０頂点あるので２０で割る
-            var tc = MgColor.hsva(360/20*ii,1f,1f,1f)
-            datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
-        }
-        */
 
         // インデックスデータ
         (0..107).forEach {
