@@ -9,7 +9,7 @@ import kotlin.math.sqrt
 // 正十二面体
 // -------------------------------------------
 // 2019.04.27  クリア
-// 2019.04.29  色・テクスチャ
+// 2019.04.29-02  色・テクスチャ
 // -------------------------------------------
 class Dodecahedron01Model: MgModelAbs() {
 
@@ -352,9 +352,9 @@ class Dodecahedron01Model: MgModelAbs() {
         // テクスチャ座標データ
         // 正十二面体は108頂点あるので36回ループ
         (0..35).forEach {
-            datTxc.addAll(arrayListOf(0f,0f))
-            datTxc.addAll(arrayListOf(1f,0f))
-            datTxc.addAll(arrayListOf(0f,0.5f))
+            datTxc.addAll(arrayListOf(0f,1f))
+            datTxc.addAll(arrayListOf(1f,1f))
+            datTxc.addAll(arrayListOf(0.5f,0f))
         }
 
         // インデックスデータ

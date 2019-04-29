@@ -8,7 +8,7 @@ import java.nio.*
 // --------------------------------------------
 // 正二十面体
 // --------------------------------------------
-// 2019.04.29  色・テクスチャ
+// 2019.04.29-02  色・テクスチャ
 // --------------------------------------------
 // https://github.com/8q/Android-OpenGL-Icosahedron/blob/master/GL1/src/com/example/gl1/MyIcosa.java
 // --------------------------------------------
@@ -244,9 +244,9 @@ class Icosahedron01Model: MgModelAbs() {
         // テクスチャ座標データ
         // 正二十面体は２０面あるので２０回ループ
         (0..19).forEach {
-            datTxc.addAll(arrayListOf(0f,0f))
-            datTxc.addAll(arrayListOf(1f,0f))
-            datTxc.addAll(arrayListOf(0f,0.5f))
+            datTxc.addAll(arrayListOf(0f,1f))
+            datTxc.addAll(arrayListOf(1f,1f))
+            datTxc.addAll(arrayListOf(0.5f,0f))
         }
 
         // インデックスデータ

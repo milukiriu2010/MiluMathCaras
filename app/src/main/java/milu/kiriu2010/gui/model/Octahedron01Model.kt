@@ -9,7 +9,7 @@ import kotlin.math.sqrt
 // 正八面体
 // ------------------------------------------
 // 2019.04.27  点・線
-// 2019.04.29  色・テクスチャ
+// 2019.04.29-02  色・テクスチャ
 // ------------------------------------------
 class Octahedron01Model: MgModelAbs() {
 
@@ -167,9 +167,9 @@ class Octahedron01Model: MgModelAbs() {
         // テクスチャ座標データ
         // 正八面体は８面あるので８回ループ
         (0..7).forEach {
-            datTxc.addAll(arrayListOf(0f,0f))
-            datTxc.addAll(arrayListOf(1f,0f))
-            datTxc.addAll(arrayListOf(0f,0.5f))
+            datTxc.addAll(arrayListOf(0f,1f))
+            datTxc.addAll(arrayListOf(1f,1f))
+            datTxc.addAll(arrayListOf(0.5f,0f))
         }
 
         // インデックスデータ

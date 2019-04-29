@@ -198,7 +198,8 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
             vecEyeUp[0], vecEyeUp[1], vecEyeUp[2])
 
         // テクスチャに張り付けるビットマップをロード
-        val bmp = BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher)
+        //val bmp = BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher)
+        val bmp = BitmapFactory.decodeResource(context.resources, R.drawable.texture_rabbit)
 
         // テクスチャを生成
         GLES20.glGenTextures(1,textures,0)

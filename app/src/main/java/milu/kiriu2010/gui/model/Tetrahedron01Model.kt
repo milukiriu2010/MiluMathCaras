@@ -9,7 +9,7 @@ import kotlin.math.sqrt
 // 正四面体
 // ------------------------------------------
 // 2019.04.27  点・線
-// 2019.04.29  色・テクスチャ
+// 2019.04.29-02  色・テクスチャ
 // ------------------------------------------
 class Tetrahedron01Model : MgModelAbs() {
 
@@ -135,9 +135,9 @@ class Tetrahedron01Model : MgModelAbs() {
         // テクスチャ座標データ
         // 正四面体は４面あるので４回ループ
         (0..3).forEach {
-            datTxc.addAll(arrayListOf(0f,0f))
-            datTxc.addAll(arrayListOf(1f,0f))
-            datTxc.addAll(arrayListOf(0f,0.5f))
+            datTxc.addAll(arrayListOf(0f,1f))
+            datTxc.addAll(arrayListOf(1f,1f))
+            datTxc.addAll(arrayListOf(0.5f,0f))
         }
 
         // インデックスデータ
