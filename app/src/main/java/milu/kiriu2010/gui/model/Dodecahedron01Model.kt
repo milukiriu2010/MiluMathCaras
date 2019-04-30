@@ -9,7 +9,8 @@ import kotlin.math.sqrt
 // 正十二面体
 // -------------------------------------------
 // 2019.04.27  クリア
-// 2019.04.29-02  色・テクスチャ
+// 2019.04.29  色・テクスチャ
+// 2019.04.30  テクスチャ座標修正
 // -------------------------------------------
 class Dodecahedron01Model: MgModelAbs() {
 
@@ -333,15 +334,13 @@ class Dodecahedron01Model: MgModelAbs() {
             (99..107).forEach {
                 datCol.addAll(arrayListOf<Float>(1f,0f,0.5f,1f))
             }
-            /*
-            (0..107).forEach { i ->
-                // ９頂点で１つの面を構成するため９で割る
-                val ii = i/9
-                // 正十二面体は２０頂点あるので２０で割る
-                var tc = MgColor.hsva(360/20*ii,1f,1f,1f)
-                datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
-            }
-            */
+            //(0..107).forEach { i ->
+            //    // ９頂点で１つの面を構成するため９で割る
+            //    val ii = i/9
+            //    // 正十二面体は２０頂点あるので２０で割る
+            //    var tc = MgColor.hsva(360/20*ii,1f,1f,1f)
+            //    datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
+            //}
         }
         else {
             (0..107).forEach { i ->
@@ -350,11 +349,17 @@ class Dodecahedron01Model: MgModelAbs() {
         }
 
         // テクスチャ座標データ
-        // 正十二面体は108頂点あるので36回ループ
-        (0..35).forEach {
-            datTxc.addAll(arrayListOf(0f,1f))
-            datTxc.addAll(arrayListOf(1f,1f))
-            datTxc.addAll(arrayListOf(0.5f,0f))
+        // 正十二面体は１２面あるので１２回ループ
+        (0..11).forEach {
+            datTxc.addAll(arrayListOf(   cos72f,    1f))  // 0:A
+            datTxc.addAll(arrayListOf(       0f,sin36f))  // 1:B
+            datTxc.addAll(arrayListOf(     0.5f,    0f))  // 2:C
+            datTxc.addAll(arrayListOf(   cos72f,    1f))  // 3:A
+            datTxc.addAll(arrayListOf(     0.5f,    0f))  // 4:C
+            datTxc.addAll(arrayListOf(       1f,sin36f))  // 5:D
+            datTxc.addAll(arrayListOf(   cos72f,    1f))  // 6:A
+            datTxc.addAll(arrayListOf(       1f,sin36f))  // 7:D
+            datTxc.addAll(arrayListOf(1f-cos72f,    1f))  // 8:E
         }
 
         // インデックスデータ
