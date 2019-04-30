@@ -5,13 +5,14 @@ import milu.kiriu2010.math.MyMathUtil
 import java.nio.*
 import kotlin.math.sqrt
 
-// --------------------------------------------
+// ----------------------------------------------
 // 立方体
-// --------------------------------------------
+// ----------------------------------------------
 // 2019.04.27  点・線
 // 2019.04.28  createPathPattern2 by wgld.org
 // 2019.04.29  色・テクスチャ
-// --------------------------------------------
+// 2019.04.30  テクスチャ座標・インデックス修正
+// ----------------------------------------------
 class Cube01Model: MgModelAbs() {
 
     override fun createPath( opt: Map<String,Float> ) {
@@ -160,6 +161,30 @@ class Cube01Model: MgModelAbs() {
         }
 
         // テクスチャ座標データ
+        // 立方体は６面あるので６回ループする
+        (0..5).forEach {
+            datTxc.addAll(arrayListOf(0f,1f)) // v0,v4, v8,v12,v16,v20
+            datTxc.addAll(arrayListOf(1f,1f)) // v1,v5, v9,v13,v17,v21
+            datTxc.addAll(arrayListOf(0f,0f)) // v2,v6,v10,v14,v18,v22
+            datTxc.addAll(arrayListOf(1f,0f)) // v3,v7,v11,v15,v19,v23
+        }
+
+        // インデックスデータ
+        datIdx.addAll(arrayListOf(0,1,2))
+        datIdx.addAll(arrayListOf(3,2,1))
+        datIdx.addAll(arrayListOf(4,5,6))
+        datIdx.addAll(arrayListOf(7,6,5))
+        datIdx.addAll(arrayListOf(8,9,10))
+        datIdx.addAll(arrayListOf(11,10,9))
+        datIdx.addAll(arrayListOf(12,13,14))
+        datIdx.addAll(arrayListOf(15,14,13))
+        datIdx.addAll(arrayListOf(16,17,18))
+        datIdx.addAll(arrayListOf(19,18,17))
+        datIdx.addAll(arrayListOf(20,21,22))
+        datIdx.addAll(arrayListOf(23,22,21))
+
+        /*
+        // テクスチャ座標データ
         // 立方体は６面あるので６回ループ
         (0..5).forEach {
             datTxc.addAll(arrayListOf(0f,0f))
@@ -181,6 +206,7 @@ class Cube01Model: MgModelAbs() {
         datIdx.addAll(arrayListOf(17,19,18))
         datIdx.addAll(arrayListOf(20,21,22))
         datIdx.addAll(arrayListOf(21,23,22))
+        */
     }
 
     // 面:wgld.org

@@ -2,14 +2,14 @@ package milu.kiriu2010.gui.model
 
 import milu.kiriu2010.gui.color.MgColor
 import milu.kiriu2010.math.MyMathUtil
-import java.nio.*
 import kotlin.math.sqrt
 
 // ------------------------------------------
 // 正八面体
 // ------------------------------------------
 // 2019.04.27  点・線
-// 2019.04.29-02  色・テクスチャ
+// 2019.04.29  色・テクスチャ
+// 2019.04.30  頂点・テクスチャ座標修正
 // ------------------------------------------
 class Octahedron01Model: MgModelAbs() {
 
@@ -58,27 +58,34 @@ class Octahedron01Model: MgModelAbs() {
         datPos.addAll(ArrayList<Float>(va))   // v0
         datPos.addAll(ArrayList<Float>(vb))   // v1
         datPos.addAll(ArrayList<Float>(vc))   // v2
-        datPos.addAll(ArrayList<Float>(vb))   // v3,v1
-        datPos.addAll(ArrayList<Float>(vf))   // v4
-        datPos.addAll(ArrayList<Float>(vc))   // v5,v2
-        datPos.addAll(ArrayList<Float>(vb))   // v6,v3,v1
-        datPos.addAll(ArrayList<Float>(ve))   // v7
-        datPos.addAll(ArrayList<Float>(vf))   // v8,v4
-        datPos.addAll(ArrayList<Float>(ve))   // v9,v7
-        datPos.addAll(ArrayList<Float>(vd))   // v10
-        datPos.addAll(ArrayList<Float>(vf))   // v11,v8,v4
-        datPos.addAll(ArrayList<Float>(ve))   // v12,v9,v7
-        datPos.addAll(ArrayList<Float>(va))   // v13,v0
-        datPos.addAll(ArrayList<Float>(vd))   // v14,v10
-        datPos.addAll(ArrayList<Float>(va))   // v15,v13,v0
-        datPos.addAll(ArrayList<Float>(vc))   // v16,v5,v2
-        datPos.addAll(ArrayList<Float>(vd))   // v17,v14,v10
-        datPos.addAll(ArrayList<Float>(vf))   // v18,v11,v8,v4
-        datPos.addAll(ArrayList<Float>(vd))   // v19,v17,v14,v10
-        datPos.addAll(ArrayList<Float>(vc))   // v20,v16,v5,v2
-        datPos.addAll(ArrayList<Float>(va))   // v21,v15,v13,v0
-        datPos.addAll(ArrayList<Float>(ve))   // v22,v12,v9,v7
-        datPos.addAll(ArrayList<Float>(vb))   // v23,v6,v3,v1
+
+        datPos.addAll(ArrayList<Float>(vf))   // v3
+        datPos.addAll(ArrayList<Float>(vc))   // v4
+        datPos.addAll(ArrayList<Float>(vb))   // v5
+
+        datPos.addAll(ArrayList<Float>(vf))   // v6
+        datPos.addAll(ArrayList<Float>(vb))   // v7
+        datPos.addAll(ArrayList<Float>(ve))   // v8
+
+        datPos.addAll(ArrayList<Float>(vf))   // v9
+        datPos.addAll(ArrayList<Float>(ve))   // v10
+        datPos.addAll(ArrayList<Float>(vd))   // v11
+
+        datPos.addAll(ArrayList<Float>(va))   // v12
+        datPos.addAll(ArrayList<Float>(vd))   // v13
+        datPos.addAll(ArrayList<Float>(ve))   // v14
+
+        datPos.addAll(ArrayList<Float>(va))   // v15
+        datPos.addAll(ArrayList<Float>(vc))   // v16
+        datPos.addAll(ArrayList<Float>(vd))   // v17
+
+        datPos.addAll(ArrayList<Float>(vf))   // v18
+        datPos.addAll(ArrayList<Float>(vd))   // v19
+        datPos.addAll(ArrayList<Float>(vc))   // v20
+
+        datPos.addAll(ArrayList<Float>(va))   // v21
+        datPos.addAll(ArrayList<Float>(ve))   // v22
+        datPos.addAll(ArrayList<Float>(vb))   // v23
 
         // 法線データ
         (0..2).forEach {
@@ -148,15 +155,13 @@ class Octahedron01Model: MgModelAbs() {
             (21..23).forEach {
                 datCol.addAll(arrayListOf<Float>(1f,0f,1f,1f))
             }
-            /*
-            (0..23).forEach { i ->
-                // ３頂点で１つの面を構成するため３で割る
-                val ii = i/3
-                // 正八面体は６つ頂点があるので６で割る
-                var tc = MgColor.hsva(360/6*ii,1f,1f,1f)
-                datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
-            }
-            */
+            //(0..23).forEach { i ->
+            //    // ３頂点で１つの面を構成するため３で割る
+            //    val ii = i/3
+            //    // 正八面体は６つ頂点があるので６で割る
+            //    var tc = MgColor.hsva(360/6*ii,1f,1f,1f)
+            //    datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
+            //}
         }
         else {
             (0..23).forEach { i ->
@@ -167,9 +172,9 @@ class Octahedron01Model: MgModelAbs() {
         // テクスチャ座標データ
         // 正八面体は８面あるので８回ループ
         (0..7).forEach {
+            datTxc.addAll(arrayListOf(0.5f,0f))
             datTxc.addAll(arrayListOf(0f,1f))
             datTxc.addAll(arrayListOf(1f,1f))
-            datTxc.addAll(arrayListOf(0.5f,0f))
         }
 
         // インデックスデータ
