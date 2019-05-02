@@ -11,6 +11,7 @@ import kotlin.math.sqrt
 // 2019.04.27  クリア
 // 2019.04.29  色・テクスチャ
 // 2019.04.30  テクスチャ座標修正
+// 2019.05.02  テクスチャ座標修正
 // -------------------------------------------
 class Dodecahedron01Model: MgModelAbs() {
 
@@ -351,6 +352,18 @@ class Dodecahedron01Model: MgModelAbs() {
         // テクスチャ座標データ
         // 正十二面体は１２面あるので１２回ループ
         (0..11).forEach {
+            datTxc.addAll(arrayListOf(     0.5f,    0f))  // 0:A
+            datTxc.addAll(arrayListOf(       1f,sin36f))  // 1:B
+            datTxc.addAll(arrayListOf(1f-cos72f,    1f))  // 2:C
+            datTxc.addAll(arrayListOf(     0.5f,    0f))  // 3:A
+            datTxc.addAll(arrayListOf(1f-cos72f,    1f))  // 4:C
+            datTxc.addAll(arrayListOf(   cos72f,    1f))  // 5:D
+            datTxc.addAll(arrayListOf(     0.5f,    0f))  // 6:A
+            datTxc.addAll(arrayListOf(   cos72f,    1f))  // 7:D
+            datTxc.addAll(arrayListOf(       0f,sin36f))  // 8:B
+        }
+        /*
+        (0..11).forEach {
             datTxc.addAll(arrayListOf(   cos72f,    1f))  // 0:A
             datTxc.addAll(arrayListOf(       0f,sin36f))  // 1:B
             datTxc.addAll(arrayListOf(     0.5f,    0f))  // 2:C
@@ -361,6 +374,7 @@ class Dodecahedron01Model: MgModelAbs() {
             datTxc.addAll(arrayListOf(       1f,sin36f))  // 7:D
             datTxc.addAll(arrayListOf(1f-cos72f,    1f))  // 8:E
         }
+        */
 
         // インデックスデータ
         (0..107).forEach {

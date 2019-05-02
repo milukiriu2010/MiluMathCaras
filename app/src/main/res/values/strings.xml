@@ -19,6 +19,7 @@
     <string name="menu_sub_curve_spiral_involute">Involute</string>
     <string name="menu_sub_curve_lissajous">Lissajous</string>
     <string name="menu_sub_curve_lemniscate">Lemniscate</string>
+    <string name="menu_sub_curve_limacon">Limaçon</string>
     <string name="menu_sub_fractal">Fractal</string>
     <string name="menu_sub_fractal_recursion">Recursion</string>
     <string name="menu_sub_fractal_tree_curve">Tree Curve</string>
@@ -55,6 +56,7 @@
     <string name="func_curve_lissajous">x = a * sin(p*t+d)\ny = b * sin(q*t)</string>
     <string name="func_curve_lemniscate">x = a * cos(t)/(1+sin(t)*sin(t))\ny = a * sin(t) * sin(t)/(1+sin(t)*sin(t))</string>
     <string name="func_curve_cassinian_oval">x = a * sqrt(cos(2t)+sqrt((b/a)^4-sin(2t)^2) * cos(t)\na * sqrt(cos(2t)+sqrt((b/a)^4-sin(2t)^2) * sin(t)</string>
+    <string name="func_curve_limacon">x = a * (1+b*cos(t)) * cos(t)\ny = a * (1+b*cos(t)) * sin(t)</string>
     <string name="func_triangle_center_of_gravity">G=(A+B+C)/3</string>
     <string name="func_triangle_circumcenter">O=(A*sin(2A)+B*sin(2B)+C*sin(2C))/(sin(2A)+sin(2B)+sin(2C))</string>
     <string name="func_triangle_incenter">I=(a*A+b*B+c*C)/(a+b+c)</string>
@@ -68,6 +70,7 @@
     <string name="draw_000006_curve_cassinian_oval">Cassinian Oval</string>
     <string name="draw_000007_curve_lemniscate">Lemniscate</string>
     <string name="draw_000008_curve_cassinian_oval">Cassinian Oval</string>
+    <string name="draw_000009_curve_limacon">Limaçon of Pascal</string>
     <string name="draw_000010_curve_logarithmic_spiral">Logarithmic Spiral</string>
     <string name="draw_000011_curve_logarithmic_spiral_circle01">Logarithmic Spiral\nCircle 01</string>
     <string name="draw_000012_curve_logarithmic_spiral_circle02">Logarithmic Spiral\nCircle 02</string>

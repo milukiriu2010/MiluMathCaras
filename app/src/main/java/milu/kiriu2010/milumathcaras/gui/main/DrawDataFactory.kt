@@ -161,6 +161,14 @@ class DrawDataFactory {
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_lemniscate), "autoParam" to "t", "handParam1" to "a"),
                         fragmentParamMap = mutableMapOf("maxA" to 10) ))
                 }
+                // パスカルの蝸牛形を選択したときの描画データの一覧
+                MenuItem.MENU_CURVE_LIMACON -> {
+                    // パスカルの蝸牛形
+                    drawDataLst.add(DrawData(DrawDataID.ID_000009_LIMACON,DrawFragmentType.FT_D2_05,resources.getString(R.string.draw_000009_curve_limacon),
+                        stillImageParam = floatArrayOf(0.5f), motionImageParam = floatArrayOf(0.5f), editParam = floatArrayOf(0f,2f,0f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_limacon), "autoParam" to "t", "handParam1" to "b"),
+                        fragmentParamMap = mutableMapOf("maxA" to 20) ))
+                }
                 // フラクタル(再帰)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_RECURSION -> {
                     // 高木曲線

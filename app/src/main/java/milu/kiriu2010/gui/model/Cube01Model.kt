@@ -12,6 +12,7 @@ import kotlin.math.sqrt
 // 2019.04.28  createPathPattern2 by wgld.org
 // 2019.04.29  色・テクスチャ
 // 2019.04.30  テクスチャ座標・インデックス修正
+// 2019.05.01  点・線の色修正
 // ----------------------------------------------
 class Cube01Model: MgModelAbs() {
 
@@ -330,6 +331,11 @@ class Cube01Model: MgModelAbs() {
     // 点
     private fun createPathPattern10( opt: Map<String,Float> ) {
         var scale = opt["scale"] ?: 1f
+        val color = FloatArray(4)
+        color[0] = opt["colorR"] ?: -1f
+        color[1] = opt["colorG"] ?: -1f
+        color[2] = opt["colorB"] ?: -1f
+        color[3] = opt["colorA"] ?: -1f
 
         val va = arrayListOf(-scale,-scale, scale)
         val vb = arrayListOf( scale,-scale, scale)
@@ -351,10 +357,17 @@ class Cube01Model: MgModelAbs() {
         datPos.addAll(ArrayList<Float>(vh))
 
         // 色データ
-        (0..7).forEach { i ->
-            // 立方体は８つ頂点があるので８で割る
-            var tc = MgColor.hsva(360/8*i,1f,1f,1f)
-            datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
+        if ( ( color[0] != -1f ) and ( color[1] != -1f ) and ( color[2] != -1f ) and ( color[3] != -1f ) ) {
+            (0..7).forEach { i ->
+                datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
+            }
+        }
+        else {
+            (0..7).forEach { i ->
+                // 立方体は８つ頂点があるので８で割る
+                var tc = MgColor.hsva(360/8*i,1f,1f,1f)
+                datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
+            }
         }
     }
 
@@ -362,6 +375,11 @@ class Cube01Model: MgModelAbs() {
     // 線
     private fun createPathPattern20( opt: Map<String,Float> ) {
         var scale = opt["scale"] ?: 1f
+        val color = FloatArray(4)
+        color[0] = opt["colorR"] ?: -1f
+        color[1] = opt["colorG"] ?: -1f
+        color[2] = opt["colorB"] ?: -1f
+        color[3] = opt["colorA"] ?: -1f
 
         val va = arrayListOf(-scale,-scale, scale)
         val vb = arrayListOf( scale,-scale, scale)
@@ -411,12 +429,19 @@ class Cube01Model: MgModelAbs() {
         datPos.addAll(ArrayList<Float>(ve))
 
         // 色データ
-        (0..23).forEach { i ->
-            // ２頂点で１つの線を構成するため２で割る
-            val ii = i/2
-            // 立方体は１２線があるので１２で割る
-            var tc = MgColor.hsva(360/8*ii,1f,1f,1f)
-            datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
+        if ( ( color[0] != -1f ) and ( color[1] != -1f ) and ( color[2] != -1f ) and ( color[3] != -1f ) ) {
+            (0..23).forEach { i ->
+                datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
+            }
+        }
+        else {
+            (0..23).forEach { i ->
+                // ２頂点で１つの線を構成するため２で割る
+                val ii = i/2
+                // 立方体は１２線があるので１２で割る
+                var tc = MgColor.hsva(360/8*ii,1f,1f,1f)
+                datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
+            }
         }
     }
 

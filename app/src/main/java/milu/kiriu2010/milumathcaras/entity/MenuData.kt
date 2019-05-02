@@ -39,6 +39,8 @@ enum class MenuItem(val title: String): Parcelable {
     MENU_CURVE_LISSAJOUS("Lissajous"),
     // レムニスケート曲線を描画するメニュー
     MENU_CURVE_LEMNISCATE("Lemniscate"),
+    // パスカルの蝸牛形を描画するメニュー
+    MENU_CURVE_LIMACON("Limacon"),
     // フラクタルを描画するメニュー
     MENU_FRACTAL("Fractal"),
     // フラクタル(再帰)を描画するメニュー

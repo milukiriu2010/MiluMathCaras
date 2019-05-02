@@ -173,6 +173,9 @@ class MenuFragment : Fragment() {
                     // [サブメニュー]
                     // レムニスケート曲線を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE_LEMNISCATE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve_lemniscate),false))
+                    // [サブメニュー]
+                    // パスカルの蝸牛形を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE_LIMACON, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve_limacon),false))
                     // [戻るメニュー]
                     menuDataLst.add(MenuData(MenuType.TYPE_BACK, MenuItem.MENU_BACK, FragmentID.ID_DUMMY,resources.getString(R.string.menu_back),false))
                 }

@@ -18,6 +18,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.lissajous.Lissajous01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.CassinianOval01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.CassinianOval02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.Lemniscate02Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.limacon.Limacon01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.involute.InvoluteCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.involute.InvoluteCurve02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.logarithmic.LogarithmicSpiral01Drawable
@@ -78,6 +79,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000007_LEMNISCATE -> Lemniscate02Drawable()
                 // カッシーニの卵形線
                 DrawDataID.ID_000008_CASSINIAN_OVAL -> CassinianOval02Drawable()
+                // パスカルの蝸牛形
+                DrawDataID.ID_000009_LIMACON -> Limacon01Drawable()
                 // 対数螺旋(描画点を回転させる方法)
                 DrawDataID.ID_000010_LOGARITHMIC_SPIRAL -> LogarithmicSpiral01Drawable()
                 // 対数螺旋上に円を描画
