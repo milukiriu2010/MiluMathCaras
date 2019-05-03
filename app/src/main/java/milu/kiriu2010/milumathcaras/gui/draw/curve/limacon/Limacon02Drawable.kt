@@ -14,12 +14,12 @@ import kotlin.math.*
 // -------------------------------------------------------------------------------------
 // パスカルの蝸牛形
 // -------------------------------------------------------------------------------------
-//   x = a * (1+b*cos(t)) * cos(t)
-//   y = a * (1+b*cos(t)) * sin(t)
+//   x = a / (1+b*cos(t)) * cos(t)
+//   y = a / (1+b*cos(t)) * sin(t)
 // -------------------------------------------------------------------------------------
 // https://www.mathcurve.com/courbes2d.gb/limacon/limacon.shtml
 // -------------------------------------------------------------------------------------
-class Limacon01Drawable: MyDrawable() {
+class Limacon02Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -180,8 +180,8 @@ class Limacon01Drawable: MyDrawable() {
             val f = it.toFloat()
             val cos = MyMathUtil.cosf(f)
             val sin = MyMathUtil.sinf(f)
-            val x = a*(1f+b*cos)*cos
-            val y = a*(1f+b*cos)*sin
+            val x = a*cos/(1f+b*cos)
+            val y = a*sin/(1f+b*cos)
             pointLst.add(MyPointF(x,y))
         }
 
@@ -230,7 +230,7 @@ class Limacon01Drawable: MyDrawable() {
         canvas.drawLine(0f,0f,0f,intrinsicHeight.toFloat(), framePaint)
         canvas.restore()
 
-        // 原点(x0,y0)を中心にパスカルの蝸牛形を描く
+        // 原点(x0,y0)を中心に対数螺旋を描く
         canvas.save()
         canvas.translate(x0,y0)
 

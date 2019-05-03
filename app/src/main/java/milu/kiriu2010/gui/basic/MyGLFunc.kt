@@ -4,10 +4,12 @@ import android.graphics.Bitmap
 import android.opengl.GLES20
 import android.util.Log
 import java.nio.ByteBuffer
+import kotlin.math.exp
 
-// --------------------------------------
-// 2019.04.27 createTexture
-// --------------------------------------
+// ------------------------------------------------
+// 2019.04.27 ビットマップをロードしテクスチャを生成
+// 2019.05.02 gaussianブラーの重みを計算
+// ------------------------------------------------
 class MyGLFunc {
 
     companion object {
@@ -135,7 +137,7 @@ class MyGLFunc {
         }
 
         // ----------------------------------------
-        // テクスチャを生成する
+        // ビットマップをロードしテクスチャを生成する
         // ----------------------------------------
         fun createTexture(id: Int, textures: IntArray, bmp: Bitmap, size: Int = -1, wrapParam: Int = GLES20.GL_REPEAT) {
 
@@ -194,6 +196,28 @@ class MyGLFunc {
                 throw java.lang.RuntimeException("Error loading texture[${id}]")
             }
         }
+
+        // ------------------------------------------------
+        // gaussianブラーの重みを計算
+        // ------------------------------------------------
+        fun gaussianWeigt(cnt: Int, dis: Float, denominator: Float = 10f): FloatArray {
+            val weight = FloatArray(cnt)
+            var t = 0f
+            var d = dis*dis/denominator
+            (0 until weight.size).forEach { i ->
+                val r = 1f + 2f*i.toFloat()
+                var w = exp(-0.5f*(r*r)/d)
+                weight[i] = w;
+                if (i > 0) w *= 2f
+                t += w
+            }
+            (0 until weight.size).forEach { i ->
+                weight[i] /= t
+            }
+            return weight
+        }
+
     }
+
 
 }

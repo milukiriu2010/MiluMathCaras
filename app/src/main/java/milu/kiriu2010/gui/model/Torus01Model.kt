@@ -12,6 +12,7 @@ import kotlin.math.sqrt
 // トーラス
 // -------------------------------------------
 // 2019.04.29  allocateBuffer
+// 2019.05.02  テクスチャ座標修正
 // -------------------------------------------
 class Torus01Model: MgModelAbs() {
 
@@ -61,7 +62,7 @@ class Torus01Model: MgModelAbs() {
                     datCol.addAll(arrayListOf<Float>(tc[0],tc[1],tc[2],tc[3]))
                 }
                 val rs = 1f/column.toFloat()*ii.toFloat()
-                var rt = 1f/row.toFloat()*ii.toFloat()+0.5f
+                var rt = 1f/row.toFloat()*i.toFloat()+0.5f
                 if (rt>1f) {
                     rt -= 1f
                 }

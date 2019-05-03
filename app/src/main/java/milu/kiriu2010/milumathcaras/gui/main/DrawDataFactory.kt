@@ -164,9 +164,14 @@ class DrawDataFactory {
                 // パスカルの蝸牛形を選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_LIMACON -> {
                     // パスカルの蝸牛形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000009_LIMACON,DrawFragmentType.FT_D2_05,resources.getString(R.string.draw_000009_curve_limacon),
-                        stillImageParam = floatArrayOf(0.5f), motionImageParam = floatArrayOf(0.5f), editParam = floatArrayOf(0f,2f,0f),
-                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_limacon), "autoParam" to "t", "handParam1" to "b"),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000017_LIMACON_02,DrawFragmentType.FT_D2_05,resources.getString(R.string.draw_000017_curve_limacon02),
+                        stillImageParam = floatArrayOf(1.5f), motionImageParam = floatArrayOf(1.5f), editParam = floatArrayOf(0f,2f,0f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_limacon02), "autoParam" to "t", "handParam1" to "b"),
+                        fragmentParamMap = mutableMapOf("maxA" to 20) ))
+                    // パスカルの蝸牛形
+                    drawDataLst.add(DrawData(DrawDataID.ID_000016_LIMACON_01,DrawFragmentType.FT_D2_05,resources.getString(R.string.draw_000016_curve_limacon01),
+                        stillImageParam = floatArrayOf(1.5f), motionImageParam = floatArrayOf(1.5f), editParam = floatArrayOf(0f,2f,0f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_limacon01), "autoParam" to "t", "handParam1" to "b"),
                         fragmentParamMap = mutableMapOf("maxA" to 20) ))
                 }
                 // フラクタル(再帰)を選択したときの描画データの一覧

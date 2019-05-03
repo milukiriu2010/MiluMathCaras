@@ -19,6 +19,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.CassinianOval01Dra
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.CassinianOval02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.Lemniscate02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.limacon.Limacon01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.limacon.Limacon02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.involute.InvoluteCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.involute.InvoluteCurve02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.logarithmic.LogarithmicSpiral01Drawable
@@ -79,8 +80,6 @@ class MyDrawableFactory {
                 DrawDataID.ID_000007_LEMNISCATE -> Lemniscate02Drawable()
                 // カッシーニの卵形線
                 DrawDataID.ID_000008_CASSINIAN_OVAL -> CassinianOval02Drawable()
-                // パスカルの蝸牛形
-                DrawDataID.ID_000009_LIMACON -> Limacon01Drawable()
                 // 対数螺旋(描画点を回転させる方法)
                 DrawDataID.ID_000010_LOGARITHMIC_SPIRAL -> LogarithmicSpiral01Drawable()
                 // 対数螺旋上に円を描画
@@ -93,6 +92,10 @@ class MyDrawableFactory {
                 DrawDataID.ID_000014_LOGARITHMIC_SPIRAL_TRIANGLE_01 -> LogarithmicSpiralTriangle01Drawable()
                 // インボリュート曲線
                 DrawDataID.ID_000015_INVOLUTE_CURVE_02 -> InvoluteCurve02Drawable()
+                // パスカルの蝸牛形
+                DrawDataID.ID_000016_LIMACON_01 -> Limacon01Drawable()
+                // パスカルの蝸牛形
+                DrawDataID.ID_000017_LIMACON_02 -> Limacon02Drawable()
                 // カージオイド曲線(cardioid)(k=1.0)
                 DrawDataID.ID_000021_CARDIOID -> Epicycloid01Drawable()
                 // エピサイクロイド曲線(k=4.0)

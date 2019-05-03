@@ -27,8 +27,6 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000007_LEMNISCATE(7),
     // カッシーニの卵形線
     ID_000008_CASSINIAN_OVAL(8),
-    // パスカルの蝸牛形
-    ID_000009_LIMACON(9),
     // 対数螺旋
     ID_000010_LOGARITHMIC_SPIRAL(10),
     // 対数螺旋上に円を描く
@@ -41,6 +39,10 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000014_LOGARITHMIC_SPIRAL_TRIANGLE_01(14),
     // インボリュート曲線
     ID_000015_INVOLUTE_CURVE_02(15),
+    // パスカルの蝸牛形
+    ID_000016_LIMACON_01(16),
+    // パスカルの蝸牛形
+    ID_000017_LIMACON_02(17),
     // カージオイド曲線(k=1.0)
     ID_000021_CARDIOID(21),
     // エピサイクロイド曲線(k=4.0)
