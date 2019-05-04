@@ -263,7 +263,8 @@
     <string name="draw_001004_gl_icosahedron_01">Icosahedron</string>
     <string name="draw_001005_gl_sphere_01">Sphere</string>
     <string name="draw_001006_gl_torus_01">Torus</string>
-    <string name="draw_001100_gl_cube_transform_01">Cube Transform 01</string>
+    <string name="draw_001100_gl_cube_transform_01">Cube Transform\n 01</string>
+    <string name="draw_001101_gl_cube_transform_02">Cube Transform\n 02</string>
 
     <string name="shader_simple">Simple</string>
     <string name="shader_gl_points">Points</string>

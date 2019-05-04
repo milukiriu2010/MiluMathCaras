@@ -407,7 +407,9 @@ enum class DrawDataID(val id: Int): Parcelable {
     // トーラス
     ID_001006_GL_TORUS_01(1006),
     // 立方体座標変換01
-    ID_001100_GL_CUBE_TRANSFORM_01(1100)
+    ID_001100_GL_CUBE_TRANSFORM_01(1100),
+    // 立方体座標変換02
+    ID_001101_GL_CUBE_TRANSFORM_02(1101)
 }
 
 // ------------------------------
