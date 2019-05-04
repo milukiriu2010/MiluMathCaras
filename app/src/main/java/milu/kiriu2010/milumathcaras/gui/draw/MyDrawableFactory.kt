@@ -20,6 +20,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.CassinianOval02Dra
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.Lemniscate02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.limacon.Limacon01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.limacon.Limacon02Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.limacon.Limacon03Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.involute.InvoluteCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.involute.InvoluteCurve02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.logarithmic.LogarithmicSpiral01Drawable
@@ -92,10 +93,12 @@ class MyDrawableFactory {
                 DrawDataID.ID_000014_LOGARITHMIC_SPIRAL_TRIANGLE_01 -> LogarithmicSpiralTriangle01Drawable()
                 // インボリュート曲線
                 DrawDataID.ID_000015_INVOLUTE_CURVE_02 -> InvoluteCurve02Drawable()
-                // パスカルの蝸牛形
+                // パスカルの蝸牛形01
                 DrawDataID.ID_000016_LIMACON_01 -> Limacon01Drawable()
-                // パスカルの蝸牛形
+                // パスカルの蝸牛形02
                 DrawDataID.ID_000017_LIMACON_02 -> Limacon02Drawable()
+                // パスカルの蝸牛形03
+                DrawDataID.ID_000018_LIMACON_03 -> Limacon03Drawable()
                 // カージオイド曲線(cardioid)(k=1.0)
                 DrawDataID.ID_000021_CARDIOID -> Epicycloid01Drawable()
                 // エピサイクロイド曲線(k=4.0)

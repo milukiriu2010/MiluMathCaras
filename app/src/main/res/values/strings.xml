@@ -58,6 +58,7 @@
     <string name="func_curve_cassinian_oval">x = a * sqrt(cos(2t)+sqrt((b/a)^4-sin(2t)^2) * cos(t)\na * sqrt(cos(2t)+sqrt((b/a)^4-sin(2t)^2) * sin(t)</string>
     <string name="func_curve_limacon01">x = a * (1+b*cos(t)) * cos(t)\ny = a * (1+b*cos(t)) * sin(t)</string>
     <string name="func_curve_limacon02">x = a / (1+b*cos(t)) * cos(t)\ny = a / (1+b*cos(t)) * sin(t)</string>
+    <string name="func_curve_limacon03">x = a*(cos(k*t)+b*cos(t)) * cos(t)\ny = a*(cos(k*t)+b*cos(t)) * sin(t)</string>
     <string name="func_triangle_center_of_gravity">G=(A+B+C)/3</string>
     <string name="func_triangle_circumcenter">O=(A*sin(2A)+B*sin(2B)+C*sin(2C))/(sin(2A)+sin(2B)+sin(2C))</string>
     <string name="func_triangle_incenter">I=(a*A+b*B+c*C)/(a+b+c)</string>
@@ -77,8 +78,9 @@
     <string name="draw_000013_curve_involute_curve01">Involute Curve 01</string>
     <string name="draw_000014_curve_logarithmic_spiral_triangle01">Logarithmic Spiral\nTriangle 01</string>
     <string name="draw_000015_curve_involute_curve02">Involute Curve 02</string>
-    <string name="draw_000016_curve_limacon01">Limaçon of Pascal 01</string>
-    <string name="draw_000017_curve_limacon02">Limaçon of Pascal 02</string>
+    <string name="draw_000016_curve_limacon01">Limaçon 01</string>
+    <string name="draw_000017_curve_limacon02">Limaçon 02</string>
+    <string name="draw_000018_curve_limacon03">Limaçon 03</string>
     <string name="draw_000021_curve_cardioid">Cardioid(k=1.0)</string>
     <string name="draw_000022_curve_epicycloid">Epicycloid(k=4.0)</string>
     <string name="draw_000023_curve_epicycloid">Epicycloid(k=2.1)</string>
