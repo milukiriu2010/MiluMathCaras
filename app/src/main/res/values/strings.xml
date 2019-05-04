@@ -41,6 +41,8 @@
     <string name="menu_sub_polygon_poutp">Polygon out Polygon</string>
     <string name="menu_sub_polygon_slide">Slide Polygon</string>
     <string name="menu_sub_polyhedron">Polyhedron</string>
+    <string name="menu_sub_polyhedron_view">Polyhedron View</string>
+    <string name="menu_sub_polyhedron_cube_transform">Cube Transform</string>
     <string name="menu_sub_nature">Nature of Code</string>
     <string name="menu_sub_nature_vectors">Vectors</string>
     <string name="menu_sub_nature_forces">Forces</string>
@@ -261,6 +263,7 @@
     <string name="draw_001004_gl_icosahedron_01">Icosahedron</string>
     <string name="draw_001005_gl_sphere_01">Sphere</string>
     <string name="draw_001006_gl_torus_01">Torus</string>
+    <string name="draw_001100_gl_cube_transform_01">Cube Transform 01</string>
 
     <string name="shader_simple">Simple</string>
     <string name="shader_gl_points">Points</string>

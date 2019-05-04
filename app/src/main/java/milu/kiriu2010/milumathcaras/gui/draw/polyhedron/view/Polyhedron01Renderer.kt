@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.polyhedron
+package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.view
 
 import android.content.Context
 import android.graphics.BitmapFactory
@@ -47,12 +47,6 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
 
     // テクスチャ配列
     private val textures = IntArray(1)
-
-    // 描画に利用するデータを設定する
-    override fun setMotionParam(motionParam: MutableMap<String,Float> ) {
-        modelType = motionParam["modelType"]?.toInt() ?: 0
-        scale = motionParam["scale"] ?: 1f
-    }
 
     override fun onDrawFrame(gl: GL10) {
         // canvasを初期化
@@ -261,6 +255,12 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
         axisModel = Axis01Model()
         axisModel.createPath( mapOf("scale" to 2f))
 
+    }
+
+    // 描画に利用するデータを設定する
+    override fun setMotionParam(motionParam: MutableMap<String,Float> ) {
+        modelType = motionParam["modelType"]?.toInt() ?: 0
+        scale = motionParam["scale"] ?: 1f
     }
 
     // MgRenderer

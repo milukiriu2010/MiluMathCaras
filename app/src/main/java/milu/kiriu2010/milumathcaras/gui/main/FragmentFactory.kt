@@ -44,7 +44,11 @@ class FragmentFactory {
                 // Drawableを使った描画を実施するフラグメントを生成(03＋関数式)
                 DrawFragmentType.FT_D2_06 -> D2x06Fragment.newInstance(drawData)
                 // OpenGLを使った描画を実施するフラグメントを生成
+                //   多面体に様々なエフェクトを施すためのパラメータを付与できる
                 DrawFragmentType.FT_D3_01 -> D3x01Fragment.newInstance(drawData)
+                // OpenGLを使った描画を実施するフラグメントを生成
+                //   パラメータなし
+                DrawFragmentType.FT_D3_02 -> D3x02Fragment.newInstance(drawData)
                 else -> throw RuntimeException("Not Found Fragment[${drawData.drawFragmentType}]")
             }
         }

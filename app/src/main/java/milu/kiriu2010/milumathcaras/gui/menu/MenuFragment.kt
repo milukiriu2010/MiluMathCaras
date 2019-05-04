@@ -133,7 +133,7 @@ class MenuFragment : Fragment() {
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon),true))
                      // [サブメニュー]
                      // 多面体一覧を表示するメニュー
-                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron),false))
+                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron),true))
                     // [サブメニュー]
                     // "Nature of Code"一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_NATURE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_nature),true))
@@ -241,6 +241,15 @@ class MenuFragment : Fragment() {
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYGON_SLIDE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polygon_slide),false))
                     // [戻るメニュー]
                     menuDataLst.add(MenuData(MenuType.TYPE_BACK, MenuItem.MENU_BACK, FragmentID.ID_DUMMY,resources.getString(R.string.menu_back),false))
+                }
+                // 多面体一覧を表示するメニュー
+                MenuItem.MENU_POLYHEDRON -> {
+                    // [サブメニュー]
+                    // 多面体に様々なエフェクトを施したものを描画するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON_VIEW, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron_view),false))
+                    // [サブメニュー]
+                    // 立方体に座標変換を施したものを描画するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON_CUBE_TRANSFORM, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron_cube_transform),false))
                 }
                 // "The Nature of Code"の一覧を表示するメニュー
                 MenuItem.MENU_NATURE -> {

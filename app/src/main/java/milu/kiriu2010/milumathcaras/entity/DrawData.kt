@@ -405,7 +405,9 @@ enum class DrawDataID(val id: Int): Parcelable {
     // 球
     ID_001005_GL_SPHERE_01(1005),
     // トーラス
-    ID_001006_GL_TORUS_01(1006)
+    ID_001006_GL_TORUS_01(1006),
+    // 立方体座標変換01
+    ID_001100_GL_CUBE_TRANSFORM_01(1100)
 }
 
 // ------------------------------
@@ -428,7 +430,11 @@ enum class DrawFragmentType: Parcelable {
     // Drawableを使った描画を実施するフラグメントを生成(03＋関数式)
     FT_D2_06,
     // OpenGLを使った描画を実施するフラグメントを生成
-    FT_D3_01
+    //   多面体に様々なエフェクトを施すためのパラメータを付与できる
+    FT_D3_01,
+    // OpenGLを使った描画を実施するフラグメントを生成
+    //   パラメータなし
+    FT_D3_02
 }
 
 // ------------------

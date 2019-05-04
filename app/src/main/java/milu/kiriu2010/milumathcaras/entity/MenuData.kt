@@ -93,7 +93,11 @@ enum class MenuItem(val title: String): Parcelable {
     // 錯覚を描画するメニュー
     MENU_OPTICAL_ILLUSION("Optical Illusion"),
     // 多面体を描画するメニュー
-    MENU_POLYHEDRON("Polyhedron")
+    MENU_POLYHEDRON("Polyhedron"),
+    // 多面体に様々なエフェクトを施したものを描画するメニュー
+    MENU_POLYHEDRON_VIEW("Polyhedron View"),
+    // 立方体に座標変換を施したものを描画するメニュー
+    MENU_POLYHEDRON_CUBE_TRANSFORM("Cube Transform")
 }
 
 // ------------------------------------

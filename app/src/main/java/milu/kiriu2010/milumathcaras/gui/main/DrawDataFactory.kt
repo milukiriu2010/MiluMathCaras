@@ -678,8 +678,8 @@ class DrawDataFactory {
                         stillImageParam = floatArrayOf(10f), motionImageParam = floatArrayOf(10f),
                         creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/dMgxWRrj") ))
                 }
-                // 多面体を選択したときの描画データの一覧
-                MenuItem.MENU_POLYHEDRON -> {
+                // 多面体に様々なエフェクトを施したものを描画するメニュー
+                MenuItem.MENU_POLYHEDRON_VIEW -> {
                     // トーラス
                     drawDataLst.add(DrawData(DrawDataID.ID_001006_GL_TORUS_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001006_gl_torus_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 6f, "scale" to 0.25f) ))
@@ -701,6 +701,12 @@ class DrawDataFactory {
                     // 正四面体
                     drawDataLst.add(DrawData(DrawDataID.ID_001000_GL_TETRAHEDRON_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001000_gl_tetrahedron_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 0f) ))
+                }
+                // 立方体に座標変換を施したものを描画するメニュー
+                MenuItem.MENU_POLYHEDRON_CUBE_TRANSFORM -> {
+                    // 立方体座標変換01
+                    drawDataLst.add(DrawData(DrawDataID.ID_001100_GL_CUBE_TRANSFORM_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001100_gl_cube_transform_01),
+                        drawViewType = DrawViewType.DVT_GL ))
                 }
                 // "Nature of Code"-"Vectors"を選択したときの描画データの一覧
                 MenuItem.MENU_NATURE_VECTORS -> {
