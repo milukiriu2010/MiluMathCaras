@@ -237,7 +237,19 @@ class CassinianOval01Drawable: MyDrawable() {
         val x0 = intrinsicWidth/2f
         val y0 = intrinsicHeight/2f
 
-        // 原点(x0,y0)を中心に対数螺旋を描く
+        // X軸を描画(上下中央)
+        canvas.save()
+        canvas.translate(0f,y0)
+        canvas.drawLine(0f,0f,intrinsicWidth.toFloat(),0f, framePaint)
+        canvas.restore()
+
+        // Y軸を描画(左右中央)
+        canvas.save()
+        canvas.translate(x0,0f)
+        canvas.drawLine(0f,0f,0f,intrinsicHeight.toFloat(), framePaint)
+        canvas.restore()
+
+        // 原点(x0,y0)を中心に描く
         canvas.save()
         canvas.translate(x0,y0)
 

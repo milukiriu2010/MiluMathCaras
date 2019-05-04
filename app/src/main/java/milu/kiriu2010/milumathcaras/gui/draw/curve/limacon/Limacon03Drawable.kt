@@ -128,7 +128,6 @@ class Limacon03Drawable: MyDrawable() {
         // 描画
         invalidateSelf()
 
-        /*
         // 描画に使うスレッド
         if ( isKickThread ) {
             runnable = Runnable {
@@ -159,7 +158,6 @@ class Limacon03Drawable: MyDrawable() {
             }
             handler.postDelayed(runnable, 1000)
         }
-        */
     }
 
     // -------------------------------------
@@ -187,6 +185,10 @@ class Limacon03Drawable: MyDrawable() {
         // 描画点リストをクリア
         pointLst.clear()
 
+        val scale = MyMathUtil.getScaleFromNumberOfDecimal(k)
+        Log.d(javaClass.simpleName,"scale[$scale]")
+        angleMax = scale * 360f
+
         // ------------------------------------------------
         // 係数tを変化させて描画点を生成
         // ------------------------------------------------
@@ -209,6 +211,16 @@ class Limacon03Drawable: MyDrawable() {
         //   k=1.8 => t=1800
         //     200=360/1.8
         //     200,360の最小公倍数
+        (0..angleMax.toInt() step 1).forEach {
+            val f = it.toFloat()
+            val cos = MyMathUtil.cosf(f)
+            val sin = MyMathUtil.sinf(f)
+            val cosk = MyMathUtil.cosf(k*f)
+            val x = a*(cosk+b*cos)*cos
+            val y = a*(cosk+b*cos)*sin
+            pointLst.add(MyPointF(x,y))
+        }
+        /*
         (0..3600 step 1).forEach {
             val f = it.toFloat()
             val cos = MyMathUtil.cosf(f)
@@ -218,6 +230,7 @@ class Limacon03Drawable: MyDrawable() {
             val y = a*(cosk+b*cos)*sin
             pointLst.add(MyPointF(x,y))
         }
+        */
         /*
         (0..360 step 1).forEach {
             val f = it.toFloat()
@@ -231,12 +244,16 @@ class Limacon03Drawable: MyDrawable() {
         */
 
         // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
-        //notifyCallback?.receive(angle)
+        notifyCallback?.receive(angle)
     }
 
     // パスカルの蝸牛形を回転する
     private fun rotatePath() {
-        angle += 5f
+        when {
+            angleMax >= 3600f -> angle += 360f
+            (angleMax < 3600f) and (angleMax >= 1800f) -> angle += 180f
+            else -> angle += 90f
+        }
 
         // ２回転したら
         // ・元の角度に戻す
@@ -244,7 +261,7 @@ class Limacon03Drawable: MyDrawable() {
             angle = 0f
         }
         // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
-        //notifyCallback?.receive(angle)
+        notifyCallback?.receive(angle)
     }
 
     // -------------------------------
@@ -279,6 +296,8 @@ class Limacon03Drawable: MyDrawable() {
         canvas.save()
         canvas.translate(x0,y0)
 
+        /*
+        // 赤線で描く
         var myPointF2: MyPointF? = null
         pointLst.forEachIndexed { index, myPointF1 ->
             if ( myPointF2 != null ) {
@@ -286,9 +305,9 @@ class Limacon03Drawable: MyDrawable() {
             }
             myPointF2 = myPointF1
         }
+        */
 
 
-        /*
         // 色インスタンス作成
         val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
 
@@ -305,7 +324,6 @@ class Limacon03Drawable: MyDrawable() {
             }
             myPointF2 = myPointF1
         }
-        */
 
         // 座標を元に戻す
         canvas.restore()

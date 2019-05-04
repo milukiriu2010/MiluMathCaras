@@ -1,11 +1,14 @@
 package milu.kiriu2010.math
 
+import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
 import java.util.Stack
 import kotlin.math.*
 
 // --------------------------------------
-// ver0.0.1  first merge
+// 数学演算ユーティリティ
+// --------------------------------------
+// 2019.05.04 小数点kから倍率を求める
 // --------------------------------------
 class MyMathUtil {
     companion object {
@@ -145,6 +148,66 @@ class MyMathUtil {
                 else -> strNum.substring(index+1).length
             }
         }
+
+        // --------------------------------------------
+        // 小数点kから倍率を求める
+        //   ちょっとだめだが、とりあえずよしとする
+        // --------------------------------------------
+        // 例:cos(kt)とcos(t)を同期させるために使う
+        // --------------------------------------------
+        // 以下参考
+        //   Limacon03Drawable
+        //
+        //   k=0.5 => t=720
+        //   k=0.7 => t=2520たぶん
+        //     360*7,360*10
+        //     252,360の最小公倍数
+        //   k=0.9 => t=3600
+        //     400=360/0.9
+        //     400,360の最小公倍数
+        //   k=1.5 => t=720
+        //     240=360/1.5
+        //     240,360の最小公倍数
+        //   k=1.8 => t=1800
+        //     200=360/1.8
+        //     200,360の最小公倍数
+        // ------------------------------------------------
+        fun getScaleFromNumberOfDecimal(k: Float): Float {
+            if ( ( k == 0f ) or ( k == 1f ) ) return 1f
+
+            Log.d("getScale", "k[$k]")
+            // 小数点以下の桁数
+            val nod = MyMathUtil.getNumberOfDecimals(k)
+            Log.d("getScale", "nod[$nod]")
+            // 比較対象の数
+            //   a0: 10の倍数
+            //   a1: numの小数点がなくなるまで桁を左シフト
+            val a0 = (10f.pow(nod)).toInt()
+            val a1 = (a0*k).toInt()
+            Log.d("getScale", "a0[$a0]")
+            Log.d("getScale", "a1[$a1]")
+            // a0とa1の最大公約数
+            val agcd = MyMathUtil.gcd(listOf(a0,a1))
+            Log.d("getScale", "agcd[$agcd]")
+            // 比較対象の数を最大公約数で割る
+            val b0 = a0/agcd
+            val b1 = a1/agcd
+            Log.d("getScale", "b0[$b0]")
+            Log.d("getScale", "b1[$b1]")
+
+            return when {
+                ( k > 1f ) -> {
+                    b1.toFloat()
+                }
+                ( k < 1f ) -> {
+                    b0.toFloat()
+                }
+                else -> {
+                    1f
+                }
+            }
+        }
+
 
         // --------------------------------------------
         // "線分A-B"の角度を求める

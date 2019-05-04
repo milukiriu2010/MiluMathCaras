@@ -259,7 +259,7 @@ class CassinianOval02Drawable: MyDrawable() {
         }
 
         // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
-        notifyCallback?.receive(t)
+        //notifyCallback?.receive(t)
     }
 
     // ---------------------------------------
