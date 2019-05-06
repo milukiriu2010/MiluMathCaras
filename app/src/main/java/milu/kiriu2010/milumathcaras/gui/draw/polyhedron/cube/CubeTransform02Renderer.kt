@@ -11,6 +11,10 @@ import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
 // 立方体座標変換02
+// -----------------------------------
+// (1) Z軸に平行な４つの線を回転
+// (2) X軸に平行な４つの線を回転
+// -----------------------------------
 class CubeTransform02Renderer(ctx: Context): MgRenderer(ctx) {
 
     // 描画モデル(立方体)
@@ -26,11 +30,14 @@ class CubeTransform02Renderer(ctx: Context): MgRenderer(ctx) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
 
         // 回転角度
-        angle[0] =(angle[0]+1)%360
+        if ( isRunning == true ) {
+            angle[0] =(angle[0]+1)%360
+        }
         val t0 = angle[0].toFloat()
 
         // ビュー×プロジェクション
-        vecEye = qtnNow.toVecIII(floatArrayOf(-15f,15f,-15f))
+        //vecEye = qtnNow.toVecIII(floatArrayOf(-15f,15f,-15f))
+        vecEye = qtnNow.toVecIII(floatArrayOf(20f,0f,0f))
         vecEyeUp = qtnNow.toVecIII(floatArrayOf(0f,1f,0f))
         Matrix.setLookAtM(matV, 0,
             vecEye[0], vecEye[1], vecEye[2],
@@ -50,7 +57,9 @@ class CubeTransform02Renderer(ctx: Context): MgRenderer(ctx) {
         // 回転するモデルを描画(右上)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
+        // Z軸回転
         val matA0 = transformModel(matM, floatArrayOf(-1f,-1f,0f), floatArrayOf(0f,0f,1f,t0))
+        // X軸回転
         transformModel(matA0.copyOf(), floatArrayOf(0f,-1f,-1f), floatArrayOf(1f,0f,0f,t0))
         transformModel(matA0.copyOf(), floatArrayOf(0f, 1f,-1f), floatArrayOf(1f,0f,0f,t0))
         transformModel(matA0.copyOf(), floatArrayOf(0f,-1f, 1f), floatArrayOf(1f,0f,0f,t0))
@@ -59,7 +68,9 @@ class CubeTransform02Renderer(ctx: Context): MgRenderer(ctx) {
         // 回転するモデルを描画(右下)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
+        // Z軸回転
         val matA1 = transformModel(matM, floatArrayOf(-1f, 1f,0f), floatArrayOf(0f,0f,1f,t0))
+        // X軸回転
         transformModel(matA1.copyOf(), floatArrayOf(0f,-1f,-1f), floatArrayOf(1f,0f,0f,t0))
         transformModel(matA1.copyOf(), floatArrayOf(0f, 1f,-1f), floatArrayOf(1f,0f,0f,t0))
         transformModel(matA1.copyOf(), floatArrayOf(0f,-1f, 1f), floatArrayOf(1f,0f,0f,t0))
@@ -68,7 +79,9 @@ class CubeTransform02Renderer(ctx: Context): MgRenderer(ctx) {
         // 回転するモデルを描画(左上)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
+        // Z軸回転
         val matA2 = transformModel(matM, floatArrayOf( 1f,-1f,0f), floatArrayOf(0f,0f,1f,t0))
+        // X軸回転
         transformModel(matA2.copyOf(), floatArrayOf(0f,-1f,-1f), floatArrayOf(1f,0f,0f,t0))
         transformModel(matA2.copyOf(), floatArrayOf(0f, 1f,-1f), floatArrayOf(1f,0f,0f,t0))
         transformModel(matA2.copyOf(), floatArrayOf(0f,-1f, 1f), floatArrayOf(1f,0f,0f,t0))
@@ -77,7 +90,9 @@ class CubeTransform02Renderer(ctx: Context): MgRenderer(ctx) {
         // 回転するモデルを描画(左下)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
+        // Z軸回転
         val matA3 = transformModel(matM, floatArrayOf( 1f, 1f,0f), floatArrayOf(0f,0f,1f,t0))
+        // X軸回転
         transformModel(matA3.copyOf(), floatArrayOf(0f,-1f,-1f), floatArrayOf(1f,0f,0f,t0))
         transformModel(matA3.copyOf(), floatArrayOf(0f, 1f,-1f), floatArrayOf(1f,0f,0f,t0))
         transformModel(matA3.copyOf(), floatArrayOf(0f,-1f, 1f), floatArrayOf(1f,0f,0f,t0))

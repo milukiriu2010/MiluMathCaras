@@ -12,6 +12,9 @@ import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
 // 立方体座標変換01
+// -----------------------------------
+// Z軸に平行な４つの線を回転
+// -----------------------------------
 class CubeTransform01Renderer(ctx: Context): MgRenderer(ctx) {
 
     // 描画モデル(立方体)
@@ -27,11 +30,13 @@ class CubeTransform01Renderer(ctx: Context): MgRenderer(ctx) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
 
         // 回転角度
-        angle[0] =(angle[0]+1)%360
+        if ( isRunning == true ) {
+            angle[0] =(angle[0]+1)%360
+        }
         val t0 = angle[0].toFloat()
 
         // ビュー×プロジェクション
-        vecEye = qtnNow.toVecIII(floatArrayOf(0f,6f,15f))
+        vecEye = qtnNow.toVecIII(floatArrayOf(0f,0f,15f))
         vecEyeUp = qtnNow.toVecIII(floatArrayOf(0f,1f,0f))
         Matrix.setLookAtM(matV, 0,
             vecEye[0], vecEye[1], vecEye[2],
