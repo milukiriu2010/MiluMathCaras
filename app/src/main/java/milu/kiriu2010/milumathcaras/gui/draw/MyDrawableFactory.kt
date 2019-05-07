@@ -50,10 +50,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.Fountain01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.RandomWalk01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.UniformMotion01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.*
-import milu.kiriu2010.milumathcaras.gui.draw.polygon.tile.RotateArrows01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.polygon.tile.Square2Diamond01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.polygon.tile.Square2Diamond02Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.polygon.tile.Triangle2Diamond01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.polygon.tile.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.center.*
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWave01Drawable
@@ -275,6 +272,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000605_TRIANGLE_2_DIAMOND -> Triangle2Diamond01Drawable()
                 // 正方形⇔ひし形02
                 DrawDataID.ID_000606_SQUARE_2_DIAMOND_02 -> Square2Diamond02Drawable()
+                // 六角形に沿って三角形が移動
+                DrawDataID.ID_000607_TRIANGLE_ALONG_HEXAGON -> TriangleAlongHexagon01Drawable()
                 // 三角形out三角形
                 DrawDataID.ID_000701_3_OUT_3 -> PolygonOutPolygon01Drawable()
                 // 三角形out四角形
