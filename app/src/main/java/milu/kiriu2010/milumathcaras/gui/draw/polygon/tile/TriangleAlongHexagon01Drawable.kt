@@ -13,29 +13,26 @@ import kotlin.math.sqrt
 // -----------------------------------------------------------------
 class TriangleAlongHexagon01Drawable: MyDrawable() {
 
-    // 三角形の向き(とがっている方向)
-    enum class ModeDir {
-        DOWN,
-        UP
-    }
-
-    // 行先頭の三角形の色
-    enum class ModeColor {
-        RED,
-        GREEN,
-        BLUE
+    // 描画パターン
+    enum class ModePtrn {
+        PTRN1,
+        PTRN2,
+        PTRN3,
+        PTRN4,
+        PTRN5,
+        PTRN6
     }
 
     // -------------------------------
     // 描画領域
     // -------------------------------
-    private val side = 1000f
+    private val side = 990f
     private val margin = 0f
 
     // -------------------------------
     // 描画領域の分割数
     // -------------------------------
-    private val split = 10f
+    private val split = 9f
     private val splitN = split.toInt()
     // -------------------------------
     // 三角形一辺の長さ
@@ -47,7 +44,7 @@ class TriangleAlongHexagon01Drawable: MyDrawable() {
     private val h = a*sqrt(3f)/2f
 
     // -------------------------------------
-    // 三角形の頂点(下向き)
+    // 三角形の頂点(DOWN)
     // -------------------------------------
     val a0 = MyPointF().also {
         it.x = 0f
@@ -70,7 +67,7 @@ class TriangleAlongHexagon01Drawable: MyDrawable() {
         it.y = a* MyMathUtil.sinf(60f)
     }
     // -------------------------------------
-    // 三角形の頂点(上向き)
+    // 三角形の頂点(DOWN_RIGHT)
     // -------------------------------------
     val b0 = MyPointF().also {
         it.x = 0f
@@ -92,22 +89,116 @@ class TriangleAlongHexagon01Drawable: MyDrawable() {
         it.x = a
         it.y = 0f
     }
+    // -------------------------------------
+    // 三角形の頂点(DOWN_LEFT)
+    // -------------------------------------
+    val c0 = MyPointF().also {
+        it.x = 0f
+        it.y = 0f
+    }
+    val c1 = MyPointF().also {
+        it.x = a
+        it.y = 0f
+    }
+    val c2 = MyPointF().also {
+        it.x = a*MyMathUtil.cosf(300f)
+        it.y = a*MyMathUtil.sinf(300f)
+    }
+    val c3 = MyPointF().also {
+        it.x = -a
+        it.y = 0f
+    }
+    val c4 = MyPointF().also {
+        it.x = a*MyMathUtil.cosf(120f)
+        it.y = a*MyMathUtil.sinf(120f)
+    }
+    // -------------------------------------
+    // 三角形の頂点(UP)
+    // -------------------------------------
+    val d0 = MyPointF().also {
+        it.x = 0f
+        it.y = 0f
+    }
+    val d1 = MyPointF().also {
+        it.x = a* MyMathUtil.cosf(120f)
+        it.y = a* MyMathUtil.sinf(120f)
+    }
+    val d2 = MyPointF().also {
+        it.x = a* MyMathUtil.cosf(60f)
+        it.y = a* MyMathUtil.sinf(60f)
+    }
+    val d3 = MyPointF().also {
+        it.x = a* MyMathUtil.cosf(300f)
+        it.y = a* MyMathUtil.sinf(300f)
+    }
+    val d4 = MyPointF().also {
+        it.x = a* MyMathUtil.cosf(240f)
+        it.y = a* MyMathUtil.sinf(240f)
+    }
+    // -------------------------------------
+    // 三角形の頂点(UP_RIGHT)
+    // -------------------------------------
+    val e0 = MyPointF().also {
+        it.x = 0f
+        it.y = 0f
+    }
+    val e1 = MyPointF().also {
+        it.x = -a
+        it.y = 0f
+    }
+    val e2 = MyPointF().also {
+        it.x = a*MyMathUtil.cosf(120f)
+        it.y = a*MyMathUtil.sinf(120f)
+    }
+    val e3 = MyPointF().also {
+        it.x = a
+        it.y = 0f
+    }
+    val e4 = MyPointF().also {
+        it.x = a*MyMathUtil.cosf(300f)
+        it.y = a*MyMathUtil.sinf(300f)
+    }
+    // -------------------------------------
+    // 三角形の頂点(UP_LEFT)
+    // -------------------------------------
+    val f0 = MyPointF().also {
+        it.x = 0f
+        it.y = 0f
+    }
+    val f1 = MyPointF().also {
+        it.x = a*MyMathUtil.cosf(60f)
+        it.y = a*MyMathUtil.sinf(60f)
+    }
+    val f2 = MyPointF().also {
+        it.x = a
+        it.y = 0f
+    }
+    val f3 = MyPointF().also {
+        it.x = a*MyMathUtil.cosf(240f)
+        it.y = a*MyMathUtil.sinf(240f)
+    }
+    val f4 = MyPointF().also {
+        it.x = -a
+        it.y = 0f
+    }
 
-    // 現在の三角形の向き
-    private var modeDirNow = ModeDir.DOWN
-    // 先頭行先頭列の三角形の色
-    private var modeColorNow = ModeColor.RED
+    // 現在の描画パターン
+    private var modePtrnNow = ModePtrn.PTRN1
 
     // 1ターン内の移動比率
     private var ratioNow = 0f
     private val ratioDiv = 0.1f
     private val ratioMax = 1f
 
+    // "描画点の初期位置設定"をしたかどうか
+    private var isInitialized = false
     // "描画点の初期位置設定"の実施回数
     private var nCnt = 0
 
-    // 描画点のリスト
-    private val vertexLst = mutableListOf<Vertex>()
+    // 描画点のリスト(偶数行)
+    private val vertex0Lst = mutableListOf<Vertex>()
+    // 描画点のリスト(奇数行)
+    private val vertex1Lst = mutableListOf<Vertex>()
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -165,6 +256,8 @@ class TriangleAlongHexagon01Drawable: MyDrawable() {
     //
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
+        // "描画点の初期位置設定"をしたかどうか
+        isInitialized = false
         // 描画点の初期位置設定
         createPath()
         // ビットマップに描画
@@ -175,7 +268,6 @@ class TriangleAlongHexagon01Drawable: MyDrawable() {
         // 描画に使うスレッド
         if ( isKickThread ) {
             runnable = Runnable {
-                /*
                 // "更新"状態
                 if ( isPaused == false ) {
                     // 描画点を移動する
@@ -198,7 +290,6 @@ class TriangleAlongHexagon01Drawable: MyDrawable() {
                 else {
                     handler.postDelayed(runnable, 100)
                 }
-                */
             }
             handler.postDelayed(runnable, 1000)
         }
@@ -228,100 +319,251 @@ class TriangleAlongHexagon01Drawable: MyDrawable() {
         // 移動比率=0の場合、描画点リストを構築しなおす
         if ( ratioNow != 0f ) return
 
+        vertex0Lst.clear()
+        vertex1Lst.clear()
 
-        vertexLst.clear()
         // 三角形の移動方向を切り替える
-        if (nCnt > 0) {
-            modeDirNow = when (modeDirNow) {
-                ModeDir.DOWN -> ModeDir.UP
-                ModeDir.UP -> ModeDir.DOWN
+        if ( isInitialized == true ) {
+            modePtrnNow = when (modePtrnNow) {
+                ModePtrn.PTRN1 -> ModePtrn.PTRN2
+                ModePtrn.PTRN2 -> ModePtrn.PTRN1
+                ModePtrn.PTRN3 -> ModePtrn.PTRN4
+                ModePtrn.PTRN4 -> ModePtrn.PTRN5
+                ModePtrn.PTRN5 -> ModePtrn.PTRN6
+                ModePtrn.PTRN6 -> ModePtrn.PTRN1
             }
         }
 
+        // "描画点の初期位置設定"をしたかどうか
+        if ( isInitialized == false ) {
+            isInitialized = true
+        }
+
         // 三角形の移動方向に合わせて、描画点の初期位置・移動方向を決定
-        when (modeDirNow) {
-            ModeDir.DOWN        -> createPathDOWN()
-            ModeDir.UP          -> createPathUP()
+        when (modePtrnNow) {
+            ModePtrn.PTRN1 -> createPathPtrn1()
+            ModePtrn.PTRN2 -> createPathPtrn2()
+            ModePtrn.PTRN3 -> createPathPtrn3()
+            ModePtrn.PTRN4 -> createPathPtrn4()
+            ModePtrn.PTRN5 -> createPathPtrn5()
+            ModePtrn.PTRN6 -> createPathPtrn6()
         }
 
         nCnt++
     }
 
     // -------------------------------
-    // 描画点のパス設定(下向き)
+    // 描画点のパス設定(パターン１)
     // -------------------------------
-    private fun createPathDOWN() {
-        // DOWN
+    private fun createPathPtrn1(color1: Int = Color.RED, color2: Int = Color.GREEN, color3: Int = Color.BLUE ) {
+        // R(DOWN)
         val v0 = Vertex().also {
             // 起点位置
             it.slst.add(a0.copy())
+            it.slst.add(a0.copy())
             it.slst.add(a1.copy())
             it.slst.add(a2.copy())
+            it.slst.add(a0.copy())
             it.slst.add(a0.copy())
             // 終端位置
             it.elst.add(a4.copy())
             it.elst.add(a0.copy())
             it.elst.add(a0.copy())
+            it.elst.add(a0.copy())
+            it.elst.add(a0.copy())
             it.elst.add(a3.copy())
+            // 色
+            it.color = color1
+            // 横方向シフト
+            it.shh = 0f
+            // 縦方向シフト
+            it.shv = 0f
         }
-
-
-
-
-
-
-
-
+        // G(UP_RIGHT)
         val v1 = Vertex().also {
             // 起点位置
-            it.slst.add(MyPointF(0f,a))
-            it.slst.add(MyPointF(a,a))
-            it.slst.add(MyPointF(0f,0f))
-            it.slst.add(MyPointF(0f,a))
+            it.slst.add(e0.copy())
+            it.slst.add(e0.copy())
+            it.slst.add(e1.copy())
+            it.slst.add(e2.copy())
+            it.slst.add(e0.copy())
+            it.slst.add(e0.copy())
             // 終端位置
-            it.elst.add(MyPointF(0f,a))
-            it.elst.add(MyPointF(0f,0f))
-            it.elst.add(MyPointF(0f,0f))
-            it.elst.add(MyPointF(-a,0f))
+            it.elst.add(e4.copy())
+            it.elst.add(e0.copy())
+            it.elst.add(e0.copy())
+            it.elst.add(e0.copy())
+            it.elst.add(e0.copy())
+            it.elst.add(e3.copy())
+            // 色
+            it.color = color2
+            // 横方向シフト
+            it.shh = a*1.5f
+            // 縦方向シフト
+            it.shv = -h
+        }
+        // B(UP_LEFT)
+        val v2 = Vertex().also {
+            // 起点位置
+            it.slst.add(f0.copy())
+            it.slst.add(f0.copy())
+            it.slst.add(f1.copy())
+            it.slst.add(f2.copy())
+            it.slst.add(f0.copy())
+            it.slst.add(f0.copy())
+            // 終端位置
+            it.elst.add(f4.copy())
+            it.elst.add(f0.copy())
+            it.elst.add(f0.copy())
+            it.elst.add(f0.copy())
+            it.elst.add(f0.copy())
+            it.elst.add(f3.copy())
+            // 色
+            it.color = color3
+            // 横方向シフト
+            it.shh = a*1.5f
+            // 縦方向シフト
+            it.shv = -h
         }
 
-        vertexLst.add(v0)
-        vertexLst.add(v1)
+        // 偶数行
+        vertex0Lst.add(v0.copy())
+        vertex0Lst.add(v1.copy())
+        vertex0Lst.add(v2.copy())
+        // 奇数行
+        vertex1Lst.add(v2.copy().also {
+            it.shh = 0f
+            it.shv = 0f
+        })
+        vertex1Lst.add(v0.copy().also {
+            it.shh = a*1.5f
+            it.shv = h
+        })
+        vertex1Lst.add(v1.copy().also {
+            it.shh = a*3f
+            it.shv = 0f
+        })
+    }
+
+    // -------------------------------
+    // 描画点のパス設定(パターン２)
+    // -------------------------------
+    private fun createPathPtrn2(color1: Int = Color.BLUE, color2: Int = Color.GREEN, color3: Int = Color.RED ) {
+        // B(DOWN_LEFT)
+        val v0 = Vertex().also {
+            // 起点位置
+            it.slst.add(c0.copy())
+            it.slst.add(c0.copy())
+            it.slst.add(c1.copy())
+            it.slst.add(c2.copy())
+            it.slst.add(c0.copy())
+            it.slst.add(c0.copy())
+            // 終端位置
+            it.elst.add(c4.copy())
+            it.elst.add(c0.copy())
+            it.elst.add(c0.copy())
+            it.elst.add(c0.copy())
+            it.elst.add(c0.copy())
+            it.elst.add(c3.copy())
+            // 色
+            it.color = color1
+            // 横方向シフト
+            it.shh = -a
+            // 縦方向シフト
+            it.shv = 0f
+        }
+        // G(UP)
+        val v1 = Vertex().also {
+            // 起点位置
+            it.slst.add(d0.copy())
+            it.slst.add(d0.copy())
+            it.slst.add(d1.copy())
+            it.slst.add(d2.copy())
+            it.slst.add(d0.copy())
+            it.slst.add(d0.copy())
+            // 終端位置
+            it.elst.add(d4.copy())
+            it.elst.add(d0.copy())
+            it.elst.add(d0.copy())
+            it.elst.add(d0.copy())
+            it.elst.add(d0.copy())
+            it.elst.add(d3.copy())
+            // 色
+            it.color = color2
+            // 横方向シフト
+            it.shh = a*0.5f
+            // 縦方向シフト
+            it.shv = -h
+        }
+        // R(DOWN_RIGHT)
+        val v2 = Vertex().also {
+            // 起点位置
+            it.slst.add(b0.copy())
+            it.slst.add(b0.copy())
+            it.slst.add(b1.copy())
+            it.slst.add(b2.copy())
+            it.slst.add(b0.copy())
+            it.slst.add(b0.copy())
+            // 終端位置
+            it.elst.add(b4.copy())
+            it.elst.add(b0.copy())
+            it.elst.add(b0.copy())
+            it.elst.add(b0.copy())
+            it.elst.add(b0.copy())
+            it.elst.add(b3.copy())
+            // 色
+            it.color = color3
+            // 横方向シフト
+            it.shh = a*2f
+            // 縦方向シフト
+            it.shv = 0f
+        }
+
+        // 偶数行
+        vertex0Lst.add(v0.copy())
+        vertex0Lst.add(v1.copy())
+        vertex0Lst.add(v2.copy())
+        // 奇数行
+        vertex1Lst.add(v2.copy().also {
+            it.shh = a*0.5f
+            it.shv = h
+        })
+        vertex1Lst.add(v0.copy().also {
+            it.shh = a*0.5f
+            it.shv = h
+        })
+        vertex1Lst.add(v1.copy().also {
+            it.shh = a*2f
+            it.shv = 0f
+        })
+    }
+
+    // -------------------------------
+    // 描画点のパス設定(パターン３)
+    // -------------------------------
+    private fun createPathPtrn3() {
 
     }
 
     // -------------------------------
-    // 描画点のパス設定(上向き)
+    // 描画点のパス設定(パターン４)
     // -------------------------------
-    private fun createPathUP() {
-        val v0 = Vertex().also {
-            // 起点位置
-            it.slst.add(MyPointF(a,a))
-            it.slst.add(MyPointF(a,0f))
-            it.slst.add(MyPointF(0f,a))
-            it.slst.add(MyPointF(a,a))
-            // 終端位置
-            it.elst.add(MyPointF(a,a))
-            it.elst.add(MyPointF(0f,a))
-            it.elst.add(MyPointF(0f,a))
-            it.elst.add(MyPointF(0f,2f*a))
-        }
+    private fun createPathPtrn4() {
 
-        val v1 = Vertex().also {
-            // 起点位置
-            it.slst.add(MyPointF(0f,0f))
-            it.slst.add(MyPointF(0f,a))
-            it.slst.add(MyPointF(a,0f))
-            it.slst.add(MyPointF(0f,0f))
-            // 終端位置
-            it.elst.add(MyPointF(0f,0f))
-            it.elst.add(MyPointF(a,0f))
-            it.elst.add(MyPointF(a,0f))
-            it.elst.add(MyPointF(a,-a))
-        }
+    }
 
-        vertexLst.add(v0)
-        vertexLst.add(v1)
+    // -------------------------------
+    // 描画点のパス設定(パターン５)
+    // -------------------------------
+    private fun createPathPtrn5() {
+
+    }
+
+    // -------------------------------
+    // 描画点のパス設定(パターン６)
+    // -------------------------------
+    private fun createPathPtrn6() {
+
     }
 
     // -------------------------------
@@ -351,25 +593,80 @@ class TriangleAlongHexagon01Drawable: MyDrawable() {
         // = (マージン,マージン)
 
         // 描画点を描く
-        (0..splitN+2).forEach row@{ row ->
+        (0..splitN+3).forEach row@{ row ->
             canvas.save()
             canvas.translate(margin,margin)
-            canvas.translate(-a*2f,h*(row-2).toFloat())
-            (0..splitN+2).forEach col@{ col ->
-                canvas.translate(a,0f)
+            var shiftL = -a*2f
+            var shiftU = -h*2f
+            /*
+            when {
+                (row%2 == 0) and (modePtrnNow == ModePtrn.PTRN1) -> {
+                    shiftL = -a*2f
+                    shiftU = -h*2f
+                }
+                (row%2 == 1) and (modePtrnNow == ModePtrn.PTRN1) -> {
+                    shiftL = -a*2f
+                    shiftU = -h*2f
+                }
+                (row%2 == 0) and (modePtrnNow == ModePtrn.PTRN2) -> {
+                    shiftL = -a*1.5f
+                }
+                (row%2 == 1) and (modePtrnNow == ModePtrn.PTRN2) -> {
+                    shiftL = -a*2f
+                }
+                (row%2 == 0) and (modePtrnNow == ModePtrn.PTRN3) -> {
+                    shiftL = -a*2f
+                }
+                (row%2 == 1) and (modePtrnNow == ModePtrn.PTRN3) -> {
+                    shiftL = -a*1.5f
+                }
+                (row%2 == 0) and (modePtrnNow == ModePtrn.PTRN4) -> {
+                    shiftL = -a*2.5f
+                }
+                (row%2 == 1) and (modePtrnNow == ModePtrn.PTRN4) -> {
+                    shiftL = -a*2f
+                }
+                (row%2 == 0) and (modePtrnNow == ModePtrn.PTRN5) -> {
+                    shiftL = -a*2f
+                }
+                (row%2 == 1) and (modePtrnNow == ModePtrn.PTRN5) -> {
+                    shiftL = -a*1.5f
+                }
+                (row%2 == 0) and (modePtrnNow == ModePtrn.PTRN6) -> {
+                    shiftL = -a*2.5f
+                }
+                (row%2 == 1) and (modePtrnNow == ModePtrn.PTRN6) -> {
+                    shiftL = -a*2f
+                }
+            }
+            */
+            canvas.translate(shiftL,shiftU+2f*h*(row/2).toFloat())
 
-                vertexLst.forEach { vertex ->
+            val vertexLst = when (row%2) {
+                0 -> vertex0Lst
+                1 -> vertex1Lst
+                else -> vertex0Lst
+            }
+
+            (0..splitN/3+1).forEach col@{ col ->
+                canvas.translate(a*3f,0f)
+
+                vertexLst.forEachIndexed { id1, vertex ->
                     val path = Path()
-                    vertex.slst.forEachIndexed { id, sp ->
-                        val ep = vertex.elst[id]
+                    vertex.slst.forEachIndexed { id2, sp ->
+                        val ep = vertex.elst[id2]
                         val p = sp.lerp(ep,ratioNow,ratioMax-ratioNow)
-                        when (id) {
+                        p.also {
+                            it.x += vertex.shh
+                            it.y += vertex.shv
+                        }
+                        when (id2) {
                             0 -> path.moveTo(p.x,p.y)
                             else -> path.lineTo(p.x,p.y)
                         }
-
                     }
                     path.close()
+                    linePaint.color = vertex.color
                     canvas.drawPath(path,linePaint)
                 }
             }
@@ -427,6 +724,12 @@ class TriangleAlongHexagon01Drawable: MyDrawable() {
         // 頂点の起点位置
         var slst: MutableList<MyPointF> = mutableListOf(),
         // 頂点の終端位置
-        var elst: MutableList<MyPointF> = mutableListOf()
+        var elst: MutableList<MyPointF> = mutableListOf(),
+        // 色
+        var color: Int = Color.RED,
+        // 横方向シフト
+        var shh: Float = 0f,
+        // 縦方向シフト
+        var shv: Float = 0f
     )
 }
