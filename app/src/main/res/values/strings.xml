@@ -171,7 +171,7 @@
     <string name="draw_000604_polygon_square_2_diamond_01">Square ⇔ \nDiamond 01</string>
     <string name="draw_000605_polygon_triangle_2_diamond">Triangle ⇔ \nDiamond</string>
     <string name="draw_000606_polygon_square_2_diamond_02">Square ⇔ \nDiamond 02</string>
-    <string name="draw_000607_polygon_triangle_along_hexagon">Triangle along\nHexagon</string>
+    <string name="draw_000607_polygon_triangle_2_hexagon">Triangle ⇔ \nHexagon</string>
     <string name="draw_000701_polygon_3_out_3">3 out 3</string>
     <string name="draw_000702_polygon_3_out_4">3 out 4</string>
     <string name="draw_000703_polygon_3_out_5">3 out 5</string>

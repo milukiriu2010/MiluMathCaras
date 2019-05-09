@@ -326,7 +326,7 @@ class DrawDataFactory {
                 // 敷き詰めた多角形を描画するメニュー
                 MenuItem.MENU_POLYGON_TILE -> {
                     // 六角形に沿って三角形が移動
-                    drawDataLst.add(DrawData(DrawDataID.ID_000607_TRIANGLE_ALONG_HEXAGON,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000607_polygon_triangle_along_hexagon) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000607_TRIANGLE_2_HEXAGON,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000607_polygon_triangle_2_hexagon) ))
                     // 正方形⇔ひし形02
                     drawDataLst.add(DrawData(DrawDataID.ID_000606_SQUARE_2_DIAMOND_02,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000606_polygon_square_2_diamond_02) ))
                     // 三角形⇔ひし形

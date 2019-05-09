@@ -272,8 +272,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000605_TRIANGLE_2_DIAMOND -> Triangle2Diamond01Drawable()
                 // 正方形⇔ひし形02
                 DrawDataID.ID_000606_SQUARE_2_DIAMOND_02 -> Square2Diamond02Drawable()
-                // 六角形に沿って三角形が移動
-                DrawDataID.ID_000607_TRIANGLE_ALONG_HEXAGON -> TriangleAlongHexagon01Drawable()
+                // 三角形⇔六角形
+                DrawDataID.ID_000607_TRIANGLE_2_HEXAGON -> Triangle2Hexagon01Drawable()
                 // 三角形out三角形
                 DrawDataID.ID_000701_3_OUT_3 -> PolygonOutPolygon01Drawable()
                 // 三角形out四角形

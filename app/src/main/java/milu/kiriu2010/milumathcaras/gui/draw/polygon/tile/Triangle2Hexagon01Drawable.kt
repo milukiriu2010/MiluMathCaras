@@ -9,9 +9,9 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.sqrt
 
 // -----------------------------------------------------------------
-// 六角形に沿って三角形が移動
+// 三角形⇔六角形
 // -----------------------------------------------------------------
-class TriangleAlongHexagon01Drawable: MyDrawable() {
+class Triangle2Hexagon01Drawable: MyDrawable() {
 
     // 描画パターン
     enum class ModePtrn {
@@ -326,7 +326,7 @@ class TriangleAlongHexagon01Drawable: MyDrawable() {
         if ( isInitialized == true ) {
             modePtrnNow = when (modePtrnNow) {
                 ModePtrn.PTRN1 -> ModePtrn.PTRN2
-                ModePtrn.PTRN2 -> ModePtrn.PTRN1
+                ModePtrn.PTRN2 -> ModePtrn.PTRN3
                 ModePtrn.PTRN3 -> ModePtrn.PTRN4
                 ModePtrn.PTRN4 -> ModePtrn.PTRN5
                 ModePtrn.PTRN5 -> ModePtrn.PTRN6
@@ -542,28 +542,28 @@ class TriangleAlongHexagon01Drawable: MyDrawable() {
     // 描画点のパス設定(パターン３)
     // -------------------------------
     private fun createPathPtrn3() {
-
+        createPathPtrn1(Color.BLUE,Color.RED,Color.GREEN)
     }
 
     // -------------------------------
     // 描画点のパス設定(パターン４)
     // -------------------------------
     private fun createPathPtrn4() {
-
+        createPathPtrn2(Color.GREEN,Color.RED,Color.BLUE)
     }
 
     // -------------------------------
     // 描画点のパス設定(パターン５)
     // -------------------------------
     private fun createPathPtrn5() {
-
+        createPathPtrn1(Color.GREEN,Color.BLUE,Color.RED)
     }
 
     // -------------------------------
     // 描画点のパス設定(パターン６)
     // -------------------------------
     private fun createPathPtrn6() {
-
+        createPathPtrn2(Color.RED,Color.BLUE,Color.GREEN)
     }
 
     // -------------------------------
@@ -593,53 +593,11 @@ class TriangleAlongHexagon01Drawable: MyDrawable() {
         // = (マージン,マージン)
 
         // 描画点を描く
-        (0..splitN+3).forEach row@{ row ->
+        (0..splitN+4).forEach row@{ row ->
             canvas.save()
             canvas.translate(margin,margin)
             var shiftL = -a*2f
             var shiftU = -h*2f
-            /*
-            when {
-                (row%2 == 0) and (modePtrnNow == ModePtrn.PTRN1) -> {
-                    shiftL = -a*2f
-                    shiftU = -h*2f
-                }
-                (row%2 == 1) and (modePtrnNow == ModePtrn.PTRN1) -> {
-                    shiftL = -a*2f
-                    shiftU = -h*2f
-                }
-                (row%2 == 0) and (modePtrnNow == ModePtrn.PTRN2) -> {
-                    shiftL = -a*1.5f
-                }
-                (row%2 == 1) and (modePtrnNow == ModePtrn.PTRN2) -> {
-                    shiftL = -a*2f
-                }
-                (row%2 == 0) and (modePtrnNow == ModePtrn.PTRN3) -> {
-                    shiftL = -a*2f
-                }
-                (row%2 == 1) and (modePtrnNow == ModePtrn.PTRN3) -> {
-                    shiftL = -a*1.5f
-                }
-                (row%2 == 0) and (modePtrnNow == ModePtrn.PTRN4) -> {
-                    shiftL = -a*2.5f
-                }
-                (row%2 == 1) and (modePtrnNow == ModePtrn.PTRN4) -> {
-                    shiftL = -a*2f
-                }
-                (row%2 == 0) and (modePtrnNow == ModePtrn.PTRN5) -> {
-                    shiftL = -a*2f
-                }
-                (row%2 == 1) and (modePtrnNow == ModePtrn.PTRN5) -> {
-                    shiftL = -a*1.5f
-                }
-                (row%2 == 0) and (modePtrnNow == ModePtrn.PTRN6) -> {
-                    shiftL = -a*2.5f
-                }
-                (row%2 == 1) and (modePtrnNow == ModePtrn.PTRN6) -> {
-                    shiftL = -a*2f
-                }
-            }
-            */
             canvas.translate(shiftL,shiftU+2f*h*(row/2).toFloat())
 
             val vertexLst = when (row%2) {
@@ -649,7 +607,6 @@ class TriangleAlongHexagon01Drawable: MyDrawable() {
             }
 
             (0..splitN/3+1).forEach col@{ col ->
-                canvas.translate(a*3f,0f)
 
                 vertexLst.forEachIndexed { id1, vertex ->
                     val path = Path()
@@ -669,6 +626,8 @@ class TriangleAlongHexagon01Drawable: MyDrawable() {
                     linePaint.color = vertex.color
                     canvas.drawPath(path,linePaint)
                 }
+
+                canvas.translate(a*3f,0f)
             }
             // 座標を元に戻す
             canvas.restore()
