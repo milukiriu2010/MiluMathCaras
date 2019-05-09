@@ -191,6 +191,9 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_000104_DRAGON_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000104_fractal_recursion_dragon_curve),
                         stillImageParam = floatArrayOf(6f), motionImageParam = floatArrayOf(0f) ))
                     // ヒルベルト曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_000106_HILBERT_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000106_fractal_recursion_hilbert_curve),
+                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
+                    // ヒルベルト曲線
                     drawDataLst.add(DrawData(DrawDataID.ID_000107_HILBERT_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000107_fractal_recursion_hilbert_curve),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
                     // ムーア曲線

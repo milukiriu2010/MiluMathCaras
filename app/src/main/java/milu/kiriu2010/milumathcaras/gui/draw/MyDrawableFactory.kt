@@ -34,6 +34,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.gosper.GosperCurv
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.gosper.GosperIsland01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.gosper.GosperIsland02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.HilbertCurve01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.HilbertCurve02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.MooreCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.koch.KochSnowflake01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski.*
@@ -138,6 +139,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000102_KOCH_SNOWFLAKE -> KochSnowflake01Drawable()
                 // ドラゴン曲線
                 DrawDataID.ID_000104_DRAGON_CURVE -> DragonCurve01Drawable()
+                // ヒルベルト曲線
+                DrawDataID.ID_000106_HILBERT_CURVE -> HilbertCurve02Drawable()
                 // ヒルベルト曲線
                 DrawDataID.ID_000107_HILBERT_CURVE -> HilbertCurve01Drawable()
                 // ムーア曲線

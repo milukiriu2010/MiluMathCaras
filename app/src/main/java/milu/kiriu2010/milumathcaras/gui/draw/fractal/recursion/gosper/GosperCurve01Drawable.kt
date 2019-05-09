@@ -220,7 +220,7 @@ class GosperCurve01Drawable: MyDrawable() {
         // ----------------------------------------
         // ゴスパー曲線を描くための最初のステップ
         // ----------------------------------------
-        creteCurveInit(nNow-1)
+        createCurveInit(nNow-1)
 
         // 描画中に呼び出すコールバックをキックし、現在の再帰レベルを通知する
         notifyCallback?.receive(nNow.toFloat())
@@ -229,7 +229,7 @@ class GosperCurve01Drawable: MyDrawable() {
     // ----------------------------------------
     // ゴスパー曲線を描くための初期処理
     // ----------------------------------------
-    private fun creteCurveInit(n: Int ) {
+    private fun createCurveInit(n: Int) {
         // ゴスパー曲線描画Turtleを初期化する
         myTurtle.clear()
         if ( n < 0 ) return
