@@ -11,24 +11,25 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.pow
 
 // --------------------------------------------------
-// ヒルベルト曲線
+// ムーア曲線
 // --------------------------------------------------
-// https://en.wikipedia.org/wiki/Hilbert_curve
+// https://en.wikipedia.org/wiki/Moore_curve
 // --------------------------------------------------
 // タートルを使って描画する
 // --------------------------------------------------
-// A: -BF+AFA+FB-
-// B: +AF-BFB-FA+
+// Axiom: LFL+F+LFL
+// L: -RF+LFL+FR-
+// R: +LF-RFR-FL+
 // --------------------------------------------------
 // F: 進む
 // -: 左へ90度
 // +: 右へ90度
 // --------------------------------------------------
-class HilbertCurve02Drawable: MyDrawable() {
+class MooreCurve02Drawable: MyDrawable() {
     // -------------------------------------
     // 描画領域
     // -------------------------------------
-    // ヒルベルト曲線は
+    // ムーア曲線は
     // 正方形を２分割するので２の階乗を選ぶ
     //   = 1024 = 2^10
     // -------------------------------------
@@ -76,7 +77,7 @@ class HilbertCurve02Drawable: MyDrawable() {
     }
 
     // -------------------------------------
-    // ヒルベルト曲線を描くペイント
+    // ムーア曲線を描くペイント
     // -------------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
@@ -118,7 +119,7 @@ class HilbertCurve02Drawable: MyDrawable() {
             }
         }
 
-        // ヒルベルト曲線を構築
+        // ムーア曲線を構築
         createPath()
         // ビットマップに描画
         drawBitmap()
@@ -175,10 +176,10 @@ class HilbertCurve02Drawable: MyDrawable() {
         this.notifyCallback = notifyCallback
     }
 
-    // ヒルベルト曲線を構築
+    // ムーア曲線を構築
     private fun createPath() {
         // ----------------------------------------
-        // ヒルベルト曲線を描くための最初のステップ
+        // ムーア曲線を描くための最初のステップ
         // ----------------------------------------
         createCurveInit(nNow)
 
@@ -187,7 +188,7 @@ class HilbertCurve02Drawable: MyDrawable() {
     }
 
     // ----------------------------------------
-    // ヒルベルト曲線を描くための最初のステップ
+    // ムーア曲線を描くための最初のステップ
     // ----------------------------------------
     private fun createCurveInit(n: Int) {
         // 描画用Turtleを初期化する
@@ -195,14 +196,14 @@ class HilbertCurve02Drawable: MyDrawable() {
         if ( n < 0 ) return
 
         // 分割数
-        val split = 2f.pow(n+1)+1
+        val split = 2f.pow(n+1)-1
 
         // 移動距離
         val dv = side/split
         // 初期位置
         val a = MyPointF().also {
-            it.x = dv
-            it.y = dv
+            it.x = dv*(split-1).toFloat()*0.5f
+            it.y = 0f
         }
 
         // 亀の初期設定
@@ -210,15 +211,34 @@ class HilbertCurve02Drawable: MyDrawable() {
             // 移動距離
             d = dv
             // 初期角度
-            t = 0f
+            t = 90f
         }
 
+        // --------------------------------
+        // LFL+F+LFLを設定
+        // --------------------------------
         // パターンAで描画
-        createCurveA(n)
+        createCurveA(n-1)
+        // 移動
+        myTurtle.move()
+        // パターンAで描画
+        createCurveA(n-1)
+        // 右90度
+        // 移動
+        // 右90度
+        myTurtle.turn(-90f)
+            .move()
+            .turn(-90f)
+        // パターンAで描画
+        createCurveA(n-1)
+        // 移動
+        myTurtle.move()
+        // パターンAで描画
+        createCurveA(n-1)
     }
 
     // -------------------------------------
-    // ヒルベルト曲線をパターンAで描画
+    // ムーア曲線をパターンAで描画
     // -------------------------------------
     private fun createCurveA( n: Int ) {
         if ( n > 0 ) {
@@ -245,7 +265,7 @@ class HilbertCurve02Drawable: MyDrawable() {
             // 左90度
             myTurtle.turn(90f)
         }
-        else {
+        else if ( n == 0 ) {
             // 左90度
             // 移動
             // 右90度
@@ -264,7 +284,7 @@ class HilbertCurve02Drawable: MyDrawable() {
     }
 
     // -------------------------------------
-    // ヒルベルト曲線をパターンBで描画
+    // ムーア曲線をパターンBで描画
     // -------------------------------------
     private fun createCurveB( n: Int ) {
         if ( n > 0 ) {
@@ -291,7 +311,7 @@ class HilbertCurve02Drawable: MyDrawable() {
             // 右90度
             myTurtle.turn(-90f)
         }
-        else {
+        else if ( n == 0 ) {
             // 右90度
             // 移動
             // 左90度
@@ -341,7 +361,7 @@ class HilbertCurve02Drawable: MyDrawable() {
         // 色インスタンス作成
         val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
 
-        // ヒルベルト曲線を描画
+        // ムーア曲線を描画
         // 1536色のグラデーション
         val bunchSize = myTurtle.pLst.size
         var myPointF2: MyPointF? = null

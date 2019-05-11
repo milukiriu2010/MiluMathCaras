@@ -190,15 +190,18 @@ class DrawDataFactory {
                     // ドラゴン曲線
                     drawDataLst.add(DrawData(DrawDataID.ID_000104_DRAGON_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000104_fractal_recursion_dragon_curve),
                         stillImageParam = floatArrayOf(6f), motionImageParam = floatArrayOf(0f) ))
-                    // ヒルベルト曲線
+                    // ヒルベルト曲線(タートル)
                     drawDataLst.add(DrawData(DrawDataID.ID_000106_HILBERT_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000106_fractal_recursion_hilbert_curve),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
-                    // ヒルベルト曲線
-                    drawDataLst.add(DrawData(DrawDataID.ID_000107_HILBERT_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000107_fractal_recursion_hilbert_curve),
-                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
-                    // ムーア曲線
+                    //// ヒルベルト曲線
+                    // drawDataLst.add(DrawData(DrawDataID.ID_000107_HILBERT_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000107_fractal_recursion_hilbert_curve),
+                    //     stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
+                    // ムーア曲線(タートル)
                     drawDataLst.add(DrawData(DrawDataID.ID_000108_MOORECURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000108_fractal_recursion_moore_curve),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
+                    // ムーア曲線
+                    //drawDataLst.add(DrawData(DrawDataID.ID_000109_MOORECURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000109_fractal_recursion_moore_curve),
+                    //    stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
                 }
                 // フラクタル(樹木曲線)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_TREE_CURVE -> {
