@@ -9,6 +9,7 @@ import kotlin.math.*
 // 数学演算ユーティリティ
 // --------------------------------------
 // 2019.05.04 小数点kから倍率を求める
+// 2019.05.10 Float配列正規化
 // --------------------------------------
 class MyMathUtil {
     companion object {
@@ -208,7 +209,6 @@ class MyMathUtil {
             }
         }
 
-
         // --------------------------------------------
         // "線分A-B"の角度を求める
         // --------------------------------------------
@@ -271,6 +271,24 @@ class MyMathUtil {
                 return b
             }
         }
+
+        // --------------------------------------------
+        // Float配列正規化
+        // --------------------------------------------
+        fun normalize(dat1: FloatArray): FloatArray {
+            val dat2 = FloatArray(dat1.size)
+            var sq = 0f
+            dat1.forEachIndexed { id, fl ->
+                dat2[id] = dat1[id]*dat1[id]
+                sq += dat2[id]
+            }
+            val sq2 = 1f/ sqrt(sq)
+            dat2.forEachIndexed { id, fl ->
+                dat2[id] *= sq2
+            }
+            return dat2
+        }
+
 
         // --------------------------------------------
         // cos(度)

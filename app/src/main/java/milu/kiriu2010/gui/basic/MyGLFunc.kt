@@ -3,12 +3,15 @@ package milu.kiriu2010.gui.basic
 import android.graphics.Bitmap
 import android.opengl.GLES20
 import android.util.Log
+import milu.kiriu2010.gui.model.MgModelAbs
+import milu.kiriu2010.gui.shader.MgShader
 import java.nio.ByteBuffer
 import kotlin.math.exp
 
 // ------------------------------------------------
 // 2019.04.27 ビットマップをロードしテクスチャを生成
 // 2019.05.02 gaussianブラーの重みを計算
+// 2019.05.11 OpenGLのエラー状態を出力2
 // ------------------------------------------------
 class MyGLFunc {
 
@@ -92,6 +95,17 @@ class MyGLFunc {
             var error = GLES20.glGetError()
             while ( error != GLES20.GL_NO_ERROR ) {
                 Log.d(TAG, "${str}:${error}")
+                error = GLES20.glGetError()
+            }
+        }
+
+        // -------------------------------------
+        // OpenGLのエラー状態を出力2
+        // -------------------------------------
+        fun checkGlError2( str: String, shader: MgShader, model: MgModelAbs ) {
+            var error = GLES20.glGetError()
+            while ( error != GLES20.GL_NO_ERROR ) {
+                Log.d(TAG, "${shader.javaClass.simpleName}:${str}:${model.javaClass.simpleName}:${error}")
                 error = GLES20.glGetError()
             }
         }
