@@ -7,14 +7,15 @@ import milu.kiriu2010.gui.model.Cube01Model
 import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.shader.Simple01Shader
+import milu.kiriu2010.math.MyMathUtil
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-// 立方体座標変換04
-// -----------------------------------
-// (1) ８つの頂点から飛び出て回転
-// -----------------------------------
-class CubeTransform04Renderer(ctx: Context): MgRenderer(ctx) {
+// 立方体座標変換05
+// -------------------------------------
+// (1) ８つの頂点から飛び出て回転＋伸縮
+// -------------------------------------
+class CubeTransform05Renderer(ctx: Context): MgRenderer(ctx) {
 
     // 描画モデル(立方体)
     private lateinit var model: MgModelAbs
@@ -33,6 +34,7 @@ class CubeTransform04Renderer(ctx: Context): MgRenderer(ctx) {
             angle[0] =(angle[0]+1)%360
         }
         val t0 = angle[0].toFloat()
+        val a = 2f * MyMathUtil.sinf(t0)
 
         // ビュー×プロジェクション
         vecEye = qtnNow.toVecIII(floatArrayOf(0f,15f,15f))
@@ -55,49 +57,49 @@ class CubeTransform04Renderer(ctx: Context): MgRenderer(ctx) {
         // 回転するモデルを描画(前右上)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
-        transformModel(matM, floatArrayOf(2f,2f,2f), floatArrayOf(1f,1f,1f,t0),4)
+        transformModel(matM, floatArrayOf(a,a,a), floatArrayOf(1f,1f,1f,t0),4)
 
         // ----------------------------------------------
         // 回転するモデルを描画(前右下)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
-        transformModel(matM, floatArrayOf(2f,-2f,2f), floatArrayOf(1f,-1f,1f,t0),4)
+        transformModel(matM, floatArrayOf(a,-a,a), floatArrayOf(1f,-1f,1f,t0),4)
 
         // ----------------------------------------------
         // 回転するモデルを描画(前左上)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
-        transformModel(matM, floatArrayOf(-2f,2f,2f), floatArrayOf(-1f,1f,1f,t0),4)
+        transformModel(matM, floatArrayOf(-a,a,a), floatArrayOf(-1f,1f,1f,t0),4)
 
         // ----------------------------------------------
         // 回転するモデルを描画(前左下)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
-        transformModel(matM, floatArrayOf(-2f,-2f,2f), floatArrayOf(-1f,-1f,1f,t0),4)
+        transformModel(matM, floatArrayOf(-a,-a,a), floatArrayOf(-1f,-1f,1f,t0),4)
 
         // ----------------------------------------------
         // 回転するモデルを描画(後右上)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
-        transformModel(matM, floatArrayOf(2f,2f,-2f), floatArrayOf(1f,1f,-1f,t0),4)
+        transformModel(matM, floatArrayOf(a,a,-a), floatArrayOf(1f,1f,-1f,t0),4)
 
         // ----------------------------------------------
         // 回転するモデルを描画(後右下)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
-        transformModel(matM, floatArrayOf(2f,-2f,-2f), floatArrayOf(1f,-1f,-1f,t0),4)
+        transformModel(matM, floatArrayOf(a,-a,-a), floatArrayOf(1f,-1f,-1f,t0),4)
 
         // ----------------------------------------------
         // 回転するモデルを描画(後左上)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
-        transformModel(matM, floatArrayOf(-2f,2f,-2f), floatArrayOf(-1f,1f,-1f,t0),4)
+        transformModel(matM, floatArrayOf(-a,a,-a), floatArrayOf(-1f,1f,-1f,t0),4)
 
         // ----------------------------------------------
         // 回転するモデルを描画(後左下)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
-        transformModel(matM, floatArrayOf(-2f,-2f,-2f), floatArrayOf(-1f,-1f,-1f,t0),4)
+        transformModel(matM, floatArrayOf(-a,-a,-a), floatArrayOf(-1f,-1f,-1f,t0),4)
     }
 
     // モデルを座標変換し描画する

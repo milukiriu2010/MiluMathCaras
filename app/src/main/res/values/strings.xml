@@ -270,6 +270,7 @@
     <string name="draw_001101_gl_cube_transform_02">Cube Transform\n 02</string>
     <string name="draw_001102_gl_cube_transform_03">Cube Transform\n 03</string>
     <string name="draw_001103_gl_cube_transform_04">Cube Transform\n 04</string>
+    <string name="draw_001104_gl_cube_transform_05">Cube Transform\n 05</string>
 
     <string name="shader_simple">Simple</string>
     <string name="shader_gl_points">Points</string>

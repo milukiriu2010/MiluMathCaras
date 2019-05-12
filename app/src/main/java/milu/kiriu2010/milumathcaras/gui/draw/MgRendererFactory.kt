@@ -3,10 +3,7 @@ package milu.kiriu2010.milumathcaras.gui.draw
 import android.content.Context
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
-import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.cube.CubeTransform01Renderer
-import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.cube.CubeTransform02Renderer
-import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.cube.CubeTransform03Renderer
-import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.cube.CubeTransform04Renderer
+import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.cube.*
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.view.Polyhedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import java.lang.RuntimeException
@@ -51,6 +48,8 @@ class MgRendererFactory {
                 DrawDataID.ID_001102_GL_CUBE_TRANSFORM_03 -> CubeTransform03Renderer(context)
                 // 立方体座標変換04
                 DrawDataID.ID_001103_GL_CUBE_TRANSFORM_04 -> CubeTransform04Renderer(context)
+                // 立方体座標変換05
+                DrawDataID.ID_001104_GL_CUBE_TRANSFORM_05 -> CubeTransform05Renderer(context)
                 else -> throw RuntimeException("Not Found GLSurfaceView.Renderer")
             }
 
