@@ -215,6 +215,8 @@ class DrawDataFactory {
                 }
                 // フラクタル(シェルピンスキー系)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_SIERPINSKI_FAMILY -> {
+                    // シェルピンスキーの五角形02
+                    drawDataLst.add(DrawData(DrawDataID.ID_000127_SIERPINSKI_PENTAGON_02,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000127_fractal_sierpinski_pentagon_02) ))
                     // シェルピンスキーの星
                     drawDataLst.add(DrawData(DrawDataID.ID_000126_SIERPINSKI_STAR,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000126_fractal_sierpinski_star),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))

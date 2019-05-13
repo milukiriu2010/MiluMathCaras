@@ -172,6 +172,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000125_SIERPINSKI_OCTAGON -> SierpinskiOctagon01Drawable()
                 // シェルピンスキーの星
                 DrawDataID.ID_000126_SIERPINSKI_STAR -> SierpinskiStar01Drawable()
+                // シェルピンスキーの五角形02
+                DrawDataID.ID_000127_SIERPINSKI_PENTAGON_02 -> SierpinskiPentagon02Drawable()
                 // マンデルブロ―集合(白黒)
                 DrawDataID.ID_000200_MANDELBRO_SET -> Mandelbrot00Drawable()
                 // マンデルブロ―集合(-1.5-1.0i～+0.5+1.0i)
