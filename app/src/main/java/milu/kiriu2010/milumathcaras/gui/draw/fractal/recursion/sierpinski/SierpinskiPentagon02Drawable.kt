@@ -3,8 +3,6 @@ package milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski
 import android.graphics.*
 import android.os.Handler
 import milu.kiriu2010.gui.basic.MyPointF
-import milu.kiriu2010.gui.color.ColorType
-import milu.kiriu2010.gui.color.MyColorFactory
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
@@ -43,10 +41,11 @@ class SierpinskiPentagon02Drawable: MyDrawable() {
     private var ratioDiv = 0.1f
     private var ratioMax = 1f
 
+    // 縮小比率(3-sqrt(5))/2
+    private val ratioShrink = (3f-sqrt(5f))/2f
+
     // "描画点の初期位置設定"をしたかどうか
     private var isInitialized = false
-    // "描画点の初期位置設定"の実施回数
-    private var nCnt = 0
 
     // ----------------------------------------
     // 再帰レベル
@@ -55,12 +54,21 @@ class SierpinskiPentagon02Drawable: MyDrawable() {
     // --------------------------------------------------------
     // 再帰レベルの最大値
     // --------------------------------------------------------
-    private val nMax = 1
+    private val nMax = 2
+
+    // ------------------------------
+    // シェルピンスキーの五角形の頂点
+    // ------------------------------
+    private val pentagon = Polygon().apply {
+        center = MyPointF()
+        r = side/2f
+    }
 
     // ----------------------------------------
     // 変形リスト
     // ----------------------------------------
-    private val morphLst = mutableListOf<Morph>()
+    // shrink用
+    private val morph0Lst = mutableListOf<Morph>()
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -150,17 +158,7 @@ class SierpinskiPentagon02Drawable: MyDrawable() {
                     // 描画
                     invalidateSelf()
 
-                    /*
-                    // 最初と最後は1秒後に描画
-                    if ( nNow == nMax || nNow == 0 ) {
-                        handler.postDelayed(runnable, 1000)
-                    }
-                    // 500msごとに描画
-                    else {
-                        handler.postDelayed(runnable, 500)
-                    }
-                    */
-                    handler.postDelayed(runnable, 500)
+                    handler.postDelayed(runnable, 50)
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
@@ -193,9 +191,6 @@ class SierpinskiPentagon02Drawable: MyDrawable() {
         // 移動比率=0の場合、描画点リストを構築しなおす
         if ( ratioNow != 0f ) return
 
-        // 変形リストをクリアする
-        morphLst.clear()
-
         // 変形モードを切り替える
         if ( isInitialized == true ) {
             when ( modeMorphNow ) {
@@ -203,13 +198,13 @@ class SierpinskiPentagon02Drawable: MyDrawable() {
                     modeMorphNow = ModeMorph.SPLIT
                 }
                 ModeMorph.SPLIT -> {
-                    when (nCnt) {
+                    when (nNow) {
                         nMax -> {
-                            nCnt = 0
+                            nNow = 0
                             modeMorphNow = ModeMorph.BACK
                         }
                         else -> {
-                            nCnt++
+                            nNow++
                             modeMorphNow = ModeMorph.SHRINK
                         }
                     }
@@ -225,22 +220,15 @@ class SierpinskiPentagon02Drawable: MyDrawable() {
             isInitialized = true
         }
 
-        // ------------------------------
-        // シェルピンスキーの五角形の頂点
-        // ------------------------------
-        val polygon = Polygon().apply {
-            center = MyPointF()
-            r = side/2f
-        }
-
         // 次レベルのシェルピンスキーの五角形の描画点を求める
         when (modeMorphNow) {
-            ModeMorph.SHRINK -> calNextLevelShrink(polygon,nNow)
+            ModeMorph.SHRINK -> {
+                // 変形リストをクリアする(shrink用)
+                morph0Lst.clear()
+                calNextLevelShrink(pentagon,nNow)
+            }
         }
 
-
-        // 描画中に呼び出すコールバックをキックし、現在の再帰レベルを通知する
-        notifyCallback?.receive(nNow.toFloat())
     }
 
     // 次レベルのシェルピンスキーの五角形の描画点を求める
@@ -252,41 +240,30 @@ class SierpinskiPentagon02Drawable: MyDrawable() {
         if ( n <= 0 ) {
             val dst = Polygon().also {
                 it.center = src.center.copy()
-                it.r = src.r/2f
+                // 半径が(3-sqrt(5))/2倍と小さくなる
+                it.r = src.r*ratioShrink
                 it.pointLst.clear()
+                // 108度回転する
+                // もともと18度傾いているので126度している
                 (0..4).forEach { i ->
-                    val x = it.r*MyMathUtil.cosf(i.toFloat()*72f+198f)
-                    val y = it.r*MyMathUtil.sinf(i.toFloat()*72f+198f)
+                    val x = it.r*MyMathUtil.cosf(i.toFloat()*72f+126f)
+                    val y = it.r*MyMathUtil.sinf(i.toFloat()*72f+126f)
                     it.pointLst.add(MyPointF(x,y))
                 }
             }
             val morph = Morph().also {
                 it.src = src
+                it.dst = dst
             }
-            morphLst.add(morph)
-            return
-        }
-
-    }
-
-    /*
-    // -----------------------------------------------
-    // 次レベルのシェルピンスキーの五角形の描画点を求める
-    // -----------------------------------------------
-    private fun calNextLevel(polygon0:Polygon, n: Int) {
-        // -----------------------------------------------------
-        // 再帰呼び出しの際、nを減らしていき0以下になったら終了
-        // -----------------------------------------------------
-        if ( n <= 0 ) {
-            polygonLst.add(polygon0)
+            morph0Lst.add(morph)
             return
         }
 
         // 次の五角形の半径 = 前の五角形の半径 * (3-sqrt(5))/2
-        val rN = polygon0.r * (3f- sqrt(5f))/2f
+        val rN = src.r * ratioShrink
 
         // "前の五角形の半径-次の五角形の半径"
-        val rC = polygon0.r - rN
+        val rC = src.r - rN
 
         // -------------------------------------------------------------------------
         // 次の五角形を描く
@@ -299,25 +276,17 @@ class SierpinskiPentagon02Drawable: MyDrawable() {
             val x = rC * MyMathUtil.cosf(it.toFloat()*72f+18f)
             val y = rC * MyMathUtil.sinf(it.toFloat()*72f+18f)
             val polygon = Polygon().apply {
-                center = polygon0.center.copy().plusSelf(MyPointF(x,y))
+                center = src.center.copy().plusSelf(MyPointF(x,y))
                 r = rN
             }
-            calNextLevel(polygon,n-1)
+            calNextLevelShrink(polygon,n-1)
         }
     }
-    */
 
     // -------------------------------------
     // 再帰レベルを１つ増やす
     // -------------------------------------
     private fun incrementLevel() {
-        /*
-        nNow++
-        // 最大値を超えたら０に戻す
-        if ( nNow > nMax ) {
-            nNow = 0
-        }
-        */
         ratioNow += ratioDiv
         // 描画点を移動する
         if (ratioNow > ratioMax) {
@@ -343,6 +312,80 @@ class SierpinskiPentagon02Drawable: MyDrawable() {
         canvas.save()
         canvas.translate(intrinsicWidth/2f, intrinsicHeight/2f)
 
+        when (modeMorphNow) {
+            ModeMorph.SHRINK -> {
+                morph0Lst.forEach { morph ->
+                    val path = Path()
+                    val n = morph.dst.pointLst.size
+                    (0 until n).forEach { i ->
+                        val x = morph.src.pointLst[i].x*(1f-ratioNow) + morph.dst.pointLst[i].x*ratioNow + morph.dst.center.x
+                        val y = morph.src.pointLst[i].y*(1f-ratioNow) + morph.dst.pointLst[i].y*ratioNow + morph.dst.center.y
+
+                        when (i) {
+                            0 -> path.moveTo(x,y)
+                            else -> path.lineTo(x,y)
+                        }
+                    }
+                    path.close()
+                    canvas.drawPath(path,linePaint)
+                }
+            }
+            ModeMorph.SPLIT -> {
+                morph0Lst.forEach { morph ->
+                    (0..4).forEach { i ->
+                        val path = Path()
+                        // 回転の中心となる頂点
+                        val c = morph.dst.pointLst[i]
+                        morph.dst.pointLst.forEachIndexed labelB@{ id, myPointF ->
+                            //if (id == i) return@labelB
+
+                            val p = myPointF.copy().rotate(108f*ratioNow,c)
+
+                            when (id) {
+                                0     -> path.moveTo(p.x+morph.dst.center.x,p.y+morph.dst.center.y)
+                                else -> path.lineTo(p.x+morph.dst.center.x,p.y+morph.dst.center.y)
+                            }
+                        }
+                        path.close()
+                        canvas.drawPath(path,linePaint)
+                    }
+                }
+            }
+            ModeMorph.BACK -> {
+                morph0Lst.forEach { morph ->
+                    (0..4).forEach { i ->
+                        val path = Path()
+                        // 回転の中心となる頂点
+                        val c = morph.dst.pointLst[i]
+                        morph.dst.pointLst.forEachIndexed labelB@{ id, myPointF ->
+                            //if (id == i) return@labelB
+
+                            val p = myPointF.copy().rotate(108f,c)
+
+                            when (id) {
+                                0     -> path.moveTo(p.x+morph.dst.center.x,p.y+morph.dst.center.y)
+                                else -> path.lineTo(p.x+morph.dst.center.x,p.y+morph.dst.center.y)
+                            }
+                        }
+                        path.close()
+                        canvas.drawPath(path,linePaint)
+                    }
+                }
+
+                val path = Path()
+                pentagon.pointLst.forEachIndexed { id, p ->
+                    when (id) {
+                        0    -> path.moveTo(p.x,p.y)
+                        else -> path.lineTo(p.x,p.y)
+                    }
+                }
+                path.close()
+                linePaint.alpha = (255f * ratioNow).toInt()
+                canvas.drawPath(path,linePaint)
+            }
+        }
+        // 座標を元に戻す
+        canvas.restore()
 
 
         /*
