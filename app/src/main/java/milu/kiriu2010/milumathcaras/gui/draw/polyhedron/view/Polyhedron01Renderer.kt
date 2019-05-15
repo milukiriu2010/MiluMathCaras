@@ -195,6 +195,8 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
             5 -> Sphere01Model()
             // トーラス
             6 -> Torus01Model()
+            // 円柱
+            7 -> Cylinder01Model()
             else -> Tetrahedron01Model()
         }
 
@@ -244,6 +246,8 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
                     5 -> (shader as Simple01Shader).draw(model,matMVP,GLES20.GL_LINE_STRIP)
                     // トーラス
                     6 -> (shader as Simple01Shader).draw(model,matMVP,GLES20.GL_LINE_STRIP)
+                    // 円柱
+                    7 -> (shader as Simple01Shader).draw(model,matMVP,GLES20.GL_LINE_STRIP)
                     // その他
                     else -> (shader as Simple01Shader).draw(model,matMVP,GLES20.GL_LINES)
                 }
