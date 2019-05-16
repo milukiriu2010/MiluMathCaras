@@ -4,12 +4,23 @@ import android.opengl.GLES20
 import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.gui.basic.MyGLFunc
 
+// -------------------------------------------------------------------
 // 点光源
+// -------------------------------------------------------------------
+// 平行光源は無限遠から降り注ぐような一定方向のベクトルに対し、
+// 点光源は、光源の位置が３次元空間上に固定されるため、
+// ３次元空間上のどこにモデリングされるかによって光の当たり方が変わる
+//
+// 光源から頂点に向かうベクトルをライトベクトルとする
+// -------------------------------------------------------------------
 // https://wgld.org/d/webgl/w025.html
+// -------------------------------------------------------------------
+// 2019.05.14  コメント追加
+// -------------------------------------------------------------------
 class PointLight01Shader: MgShader() {
     // 頂点シェーダ
     private val scv =
-            """
+        """
             attribute vec3 a_Position;
             attribute vec3 a_Normal;
             attribute vec4 a_Color;
@@ -21,6 +32,9 @@ class PointLight01Shader: MgShader() {
             varying   vec4 v_Color;
 
             void main() {
+                // モデル座標変換を行ったあとの頂点位置をフラグメントシェーダに渡す
+                //   a_Position ⇒ ローカル座標系
+                //   v_Position ⇒ ワールド座標系
                 v_Position     = (u_matM * vec4(a_Position,1.0)).xyz;
                 v_Normal       = a_Normal;
                 v_Color        = a_Color;
@@ -30,9 +44,9 @@ class PointLight01Shader: MgShader() {
 
     // フラグメントシェーダ
     private val scf =
-            """
+        """
             precision mediump float;
-            // 逆行列
+            // モデル座標変換行列の逆行列
             uniform   mat4 u_matINV;
             // 光源位置
             uniform   vec3 u_vecLight;

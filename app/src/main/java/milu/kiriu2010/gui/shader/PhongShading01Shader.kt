@@ -4,11 +4,26 @@ import android.opengl.GLES20
 import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.gui.basic.MyGLFunc
 
-// 反射光
+// ---------------------------------------------------------------
+// フォンシェーディング
+// ---------------------------------------------------------------
+// グーローシェーディング
+//   レンダリングされるポリゴンの色は頂点間で補間される
+//   よって頂点の数が少ないと美しいライティングを行うことが難しい
+//   頂点ごとに色を補間するため、色が変化する協会にジャギーが発生
+// フォンシェーディング
+//   各ピクセルごとに色の補間が行われる
+//   少ない頂点数のモデルをレンダリングする際のライティングでも
+//   自然な照明効果を得られる。
+//   ピクセルごとに色の補間が行われることで、
+//   不自然なジャギーが発生しなくなる
+// ---------------------------------------------------------------
+// 2019.05.14 コメント追加
+// ---------------------------------------------------------------
 class PhongShading01Shader: MgShader() {
     // 頂点シェーダ
     private val scv =
-            """
+        """
             attribute vec3 a_Position;
             attribute vec3 a_Normal;
             attribute vec4 a_Color;
@@ -25,7 +40,7 @@ class PhongShading01Shader: MgShader() {
 
     // フラグメントシェーダ
     private val scf =
-            """
+        """
             precision mediump float;
 
             uniform   mat4 u_matINV;
@@ -99,7 +114,7 @@ class PhongShading01Shader: MgShader() {
         }
         MyGLFunc.checkGlError("u_matMVP")
 
-+       // uniform(逆行列)
+        +       // uniform(逆行列)
         GLES20.glGetUniformLocation(programHandle,"u_matINV").also {
             GLES20.glUniformMatrix4fv(it,1,false,u_matINV,0)
         }
