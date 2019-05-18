@@ -723,6 +723,9 @@ class DrawDataFactory {
                 }
                 // 立方体に座標変換を施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_CUBE_TRANSFORM -> {
+                    // 立方体座標変換06
+                    drawDataLst.add(DrawData(DrawDataID.ID_001105_GL_CUBE_TRANSFORM_06,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001105_gl_cube_transform_06),
+                        drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換05
                     drawDataLst.add(DrawData(DrawDataID.ID_001104_GL_CUBE_TRANSFORM_05,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001104_gl_cube_transform_05),
                         drawViewType = DrawViewType.DVT_GL ))

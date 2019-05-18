@@ -52,6 +52,8 @@ class MgRendererFactory {
                 DrawDataID.ID_001103_GL_CUBE_TRANSFORM_04 -> CubeTransform04Renderer(context)
                 // 立方体座標変換05
                 DrawDataID.ID_001104_GL_CUBE_TRANSFORM_05 -> CubeTransform05Renderer(context)
+                // 立方体座標変換06
+                DrawDataID.ID_001105_GL_CUBE_TRANSFORM_06 -> CubeTransform06Renderer(context)
                 else -> throw RuntimeException("Not Found GLSurfaceView.Renderer")
             }
 
