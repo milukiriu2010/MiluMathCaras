@@ -62,11 +62,11 @@ class D2x04Fragment : Fragment()
         val view = inflater.inflate(R.layout.fragment_d2_04, container, false)
 
         // 関数式を表示するビュー
-        textViewFuncDesc = view.findViewById(R.id.textViewFuncDesc)
+        textViewFuncDesc = view.findViewById(R.id.textViewFuncDescD2x04)
         textViewFuncDesc.text = drawData.funcDescMap["funcDesc"] ?: ""
 
         // 描画するビュー
-        imageView = view.findViewById(R.id.imageView)
+        imageView = view.findViewById(R.id.imageViewD2x04)
         drawable = MyDrawableFactory.createInstance(drawData.id,this)
         imageView.setImageDrawable(drawable)
 
@@ -99,7 +99,7 @@ class D2x04Fragment : Fragment()
         }
 
         // 描画に使っている媒介変数の値を表示するビュー
-        textView1 = view.findViewById(R.id.textView1)
+        textView1 = view.findViewById(R.id.textView1D2x04)
 
         return view
     }

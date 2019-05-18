@@ -9,7 +9,7 @@
     <milu.kiriu2010.gui.view.MyGLES20View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:id="@+id/myGLES20View" android:layout_marginTop="8dp"
+            android:id="@+id/myGLES20ViewD3x01" android:layout_marginTop="8dp"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -17,8 +17,8 @@
             android:background="@drawable/frame_square"/>
     <Spinner
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/spinnerShader"
-            app:layout_constraintTop_toBottomOf="@+id/myGLES20View" app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="wrap_content" android:id="@+id/spinnerShaderD3x01"
+            app:layout_constraintTop_toBottomOf="@+id/myGLES20ViewD3x01" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="8dp" app:layout_constraintEnd_toEndOf="parent"
             android:entries="@array/shaderlist" android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
             android:layout_marginRight="8dp" android:layout_marginEnd="8dp" android:spinnerMode="dialog"/>
@@ -26,40 +26,40 @@
             android:text="Axis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/switchAxis"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerShader" app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/switchAxisD3x01"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerShaderD3x01" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:layout_marginTop="8dp"
             android:checked="true"/>
     <TextView
             android:text="Rotate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textViewD3x01Rotate" app:layout_constraintStart_toEndOf="@+id/switchAxis"
+            android:id="@+id/textViewRotateD3x01" app:layout_constraintStart_toEndOf="@+id/switchAxisD3x01"
             android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-            app:layout_constraintTop_toTopOf="@+id/switchAxis"
-            app:layout_constraintBottom_toBottomOf="@+id/switchAxis"/>
+            app:layout_constraintTop_toTopOf="@+id/switchAxisD3x01"
+            app:layout_constraintBottom_toBottomOf="@+id/switchAxisD3x01"/>
     <CheckBox
             android:text="X"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/checkBoxD3x01X" app:layout_constraintStart_toEndOf="@+id/textViewD3x01Rotate"
+            android:id="@+id/checkBoxXD3x01" app:layout_constraintStart_toEndOf="@+id/textViewRotateD3x01"
             android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-            app:layout_constraintTop_toTopOf="@+id/textViewD3x01Rotate"
-            app:layout_constraintBottom_toBottomOf="@+id/textViewD3x01Rotate"/>
+            app:layout_constraintTop_toTopOf="@+id/textViewRotateD3x01"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewRotateD3x01"/>
     <CheckBox
             android:text="Y"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/checkBoxD3x01Y"
-            app:layout_constraintStart_toEndOf="@+id/checkBoxD3x01X" android:layout_marginLeft="8dp"
+            android:layout_height="wrap_content" android:id="@+id/checkBoxYD3x01"
+            app:layout_constraintStart_toEndOf="@+id/checkBoxXD3x01" android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            app:layout_constraintTop_toTopOf="@+id/checkBoxD3x01X"
-            app:layout_constraintBottom_toBottomOf="@+id/checkBoxD3x01X"/>
+            app:layout_constraintTop_toTopOf="@+id/checkBoxXD3x01"
+            app:layout_constraintBottom_toBottomOf="@+id/checkBoxXD3x01"/>
     <CheckBox
             android:text="Z"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/checkBoxD3x01Z"
-            app:layout_constraintStart_toEndOf="@+id/checkBoxD3x01Y" android:layout_marginLeft="8dp"
+            android:layout_height="wrap_content" android:id="@+id/checkBoxZD3x01"
+            app:layout_constraintStart_toEndOf="@+id/checkBoxYD3x01" android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/checkBoxD3x01Y"
-            app:layout_constraintTop_toTopOf="@+id/checkBoxD3x01Y"/>
+            app:layout_constraintBottom_toBottomOf="@+id/checkBoxYD3x01"
+            app:layout_constraintTop_toTopOf="@+id/checkBoxYD3x01"/>
 </android.support.constraint.ConstraintLayout>
