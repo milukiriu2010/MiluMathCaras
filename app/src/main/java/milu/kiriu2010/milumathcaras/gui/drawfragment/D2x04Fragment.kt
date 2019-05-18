@@ -47,9 +47,6 @@ class D2x04Fragment : Fragment()
     // 描画に使っている媒介変数の値を表示するビュー
     private lateinit var textView1: TextView
 
-    // パラメータを表示するビュー
-    private lateinit var textView2: TextView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -103,9 +100,6 @@ class D2x04Fragment : Fragment()
 
         // 描画に使っている媒介変数の値を表示するビュー
         textView1 = view.findViewById(R.id.textView1)
-
-        // パラメータを表示するビュー
-        textView2 = view.findViewById(R.id.textView2)
 
         return view
     }

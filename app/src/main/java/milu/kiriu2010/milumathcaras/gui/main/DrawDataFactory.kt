@@ -179,6 +179,12 @@ class DrawDataFactory {
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_limacon01), "autoParam" to "t", "handParam1" to "b"),
                         fragmentParamMap = mutableMapOf("maxA" to 20) ))
                 }
+                // 特別な曲線の描画一覧
+                MenuItem.MENU_CURVE_SPECIAL -> {
+                    // ハート
+                    drawDataLst.add(DrawData(DrawDataID.ID_000009_HEART_01,DrawFragmentType.FT_D2_04,resources.getString(R.string.draw_000009_curve_heart_01),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_heart_01)) ))
+                }
                 // フラクタル(再帰)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_RECURSION -> {
                     // 高木曲線
