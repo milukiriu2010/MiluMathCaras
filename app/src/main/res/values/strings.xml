@@ -98,6 +98,7 @@
     <string name="draw_000040_wave_sine">Sine Wave</string>
     <string name="draw_000041_wave_sine_circle">Sine Wave\n around Circle</string>
     <string name="draw_000042_wave_sine_circle">Sine Wave\n around Circle</string>
+    <string name="draw_000043_wave_sine_point_01">Sine Wave\nby Points</string>
     <string name="draw_000050_curve_lissajous_1_2">Lissajous(p:q=1:2)</string>
     <string name="draw_000051_curve_lissajous_3_2">Lissajous(p:q=3:2)</string>
     <string name="draw_000052_curve_lissajous_3_4">Lissajous(p:q=3:4)</string>

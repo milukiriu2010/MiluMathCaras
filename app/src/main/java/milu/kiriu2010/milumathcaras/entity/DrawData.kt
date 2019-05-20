@@ -75,6 +75,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000041_SINE_WAVE_CIRCLE(41),
     // 円の周りを回転するサイン波
     ID_000042_SINE_WAVE_CIRCLE(42),
+    // 隣同士の点がサイン波を描く
+    ID_000043_SINE_WAVE_POINT_01(43),
     // リサージュ曲線(p:q=1:2)
     ID_000050_LISSAJOUS_CURVE_1_2(50),
     // リサージュ曲線(p:q=3:2)
