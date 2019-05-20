@@ -62,7 +62,7 @@ class D2xCredit01Fragment : Fragment()
         val view = inflater.inflate(R.layout.fragment_d2_credit_01, container, false)
 
         // 描画するビュー
-        imageView = view.findViewById(R.id.imageView)
+        imageView = view.findViewById(R.id.imageViewD2xC1)
         drawable = MyDrawableFactory.createInstance(drawData.id,this)
         imageView.setImageDrawable(drawable)
 
@@ -86,13 +86,13 @@ class D2xCredit01Fragment : Fragment()
         }
 
         // 製作者の名前を表示するビュー
-        textViewName = view.findViewById(R.id.textViewName)
+        textViewName = view.findViewById(R.id.textViewNameD2xC1)
         // 製作者名
         val name = drawData.creditMap["name"]
         textViewName.text = name
 
         // 製作者のURLを表示するビュー
-        textView = view.findViewById(R.id.textView)
+        textView = view.findViewById(R.id.textViewD2xC1)
         //textView.text = "Credit: %s".format(drawData.creditMap["name"])
         // URL
         val url = drawData.creditMap["url"]

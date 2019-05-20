@@ -179,6 +179,12 @@ class DrawDataFactory {
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_limacon01), "autoParam" to "t", "handParam1" to "b"),
                         fragmentParamMap = mutableMapOf("maxA" to 20) ))
                 }
+                // 特別な曲線の描画一覧
+                MenuItem.MENU_CURVE_SPECIAL -> {
+                    // ハート
+                    drawDataLst.add(DrawData(DrawDataID.ID_000009_HEART_01,DrawFragmentType.FT_D2_04,resources.getString(R.string.draw_000009_curve_heart_01),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_heart_01)) ))
+                }
                 // フラクタル(再帰)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_RECURSION -> {
                     // 高木曲線
@@ -720,6 +726,9 @@ class DrawDataFactory {
                 }
                 // 立方体に座標変換を施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_CUBE_TRANSFORM -> {
+                    // 立方体座標変換06
+                    drawDataLst.add(DrawData(DrawDataID.ID_001105_GL_CUBE_TRANSFORM_06,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001105_gl_cube_transform_06),
+                        drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換05
                     drawDataLst.add(DrawData(DrawDataID.ID_001104_GL_CUBE_TRANSFORM_05,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001104_gl_cube_transform_05),
                         drawViewType = DrawViewType.DVT_GL ))

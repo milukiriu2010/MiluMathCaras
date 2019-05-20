@@ -27,6 +27,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000007_LEMNISCATE(7),
     // カッシーニの卵形線
     ID_000008_CASSINIAN_OVAL(8),
+    // ハート
+    ID_000009_HEART_01(9),
     // 対数螺旋
     ID_000010_LOGARITHMIC_SPIRAL(10),
     // 対数螺旋上に円を描く
@@ -427,7 +429,9 @@ enum class DrawDataID(val id: Int): Parcelable {
     // 立方体座標変換04
     ID_001103_GL_CUBE_TRANSFORM_04(1103),
     // 立方体座標変換05
-    ID_001104_GL_CUBE_TRANSFORM_05(1104)
+    ID_001104_GL_CUBE_TRANSFORM_05(1104),
+    // 立方体座標変換06
+    ID_001105_GL_CUBE_TRANSFORM_06(1105)
 }
 
 // ------------------------------

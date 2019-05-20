@@ -74,24 +74,24 @@ class D2x03Fragment : Fragment()
         val view = inflater.inflate(R.layout.fragment_d2_03, container, false)
 
         // 描画するビュー
-        imageView = view.findViewById(R.id.imageView)
+        imageView = view.findViewById(R.id.imageViewD2x03)
         drawable = MyDrawableFactory.createInstance(drawData.id,this)
         imageView.setImageDrawable(drawable)
 
         // 描画に使っている媒介変数の値を表示するビュー
-        textView = view.findViewById(R.id.textView)
+        textView = view.findViewById(R.id.textViewD2x03)
 
         // 描画に使っている媒介変数の値を変更するシークバーA
-        seekBarA = view.findViewById(R.id.seekBarA)
+        seekBarA = view.findViewById(R.id.seekBarAD2x03)
 
         // シークバーAの値を表示するビュー
-        seekTextA = view.findViewById(R.id.seekTextA)
+        seekTextA = view.findViewById(R.id.seekTextAD2x03)
 
         // 描画に使っている媒介変数の値を変更するシークバーB
-        seekBarB = view.findViewById(R.id.seekBarB)
+        seekBarB = view.findViewById(R.id.seekBarBD2x03)
 
         // シークバーBの値を表示するビュー
-        seekTextB = view.findViewById(R.id.seekTextB)
+        seekTextB = view.findViewById(R.id.seekTextBD2x03)
 
         // "実際の値"をシークバーの仮想位置に反映
         value2seekBar(seekBarA,seekTextA, intArrayOf(0,1,2))

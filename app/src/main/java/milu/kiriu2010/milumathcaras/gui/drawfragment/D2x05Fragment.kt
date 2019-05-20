@@ -77,11 +77,11 @@ class D2x05Fragment : Fragment()
         val view = inflater.inflate(R.layout.fragment_d2_05, container, false)
 
         // 関数式を表示するビュー
-        textViewFuncDesc = view.findViewById(R.id.textViewFuncDesc)
+        textViewFuncDesc = view.findViewById(R.id.textViewFuncDescD2x05)
         textViewFuncDesc.text = drawData.funcDescMap["funcDesc"] ?: ""
 
         // 描画するビュー
-        imageView = view.findViewById(R.id.imageView)
+        imageView = view.findViewById(R.id.imageViewD2x05)
         drawable = MyDrawableFactory.createInstance(drawData.id,this)
         imageView.setImageDrawable(drawable)
         imageView.setOnTouchListener { v, event ->
@@ -104,15 +104,15 @@ class D2x05Fragment : Fragment()
         }
 
         // 描画に使っている媒介変数の値を表示するビュー
-        textView = view.findViewById(R.id.textView)
+        textView = view.findViewById(R.id.textViewD2x05)
 
         // 描画に使っている媒介変数の値を変更するシークバー
-        seekBar = view.findViewById(R.id.seekBarA)
+        seekBar = view.findViewById(R.id.seekBarAD2x05)
         // シークバーのMax値を設定
         seekBar.max = drawData.fragmentParamMap["maxA"] ?: 100
 
         // シークバーの値を表示するビュー
-        seekText = view.findViewById(R.id.seekTextA)
+        seekText = view.findViewById(R.id.seekTextAD2x05)
         // "実際の値"をシークバーの仮想位置に反映
         value2seekBar()
 

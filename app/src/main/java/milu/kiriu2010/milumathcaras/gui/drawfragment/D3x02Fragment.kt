@@ -60,7 +60,7 @@ class D3x02Fragment : Fragment()
         val view = inflater.inflate(R.layout.fragment_d3_02, container, false)
 
         // 描画するビュー
-        myGLES20View = view.findViewById(R.id.myGLES20View02)
+        myGLES20View = view.findViewById(R.id.myGLES20ViewD3x02)
         renderer = MgRendererFactory.createInstance(drawData.id,context!!,this)
         renderer.setMotionParam(drawData.motionImageV2Param)
         myGLES20View.setRenderer(renderer)
