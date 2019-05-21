@@ -6,13 +6,16 @@ import android.util.Log
 import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.gui.shader.MgShader
 import java.nio.ByteBuffer
+import java.nio.IntBuffer
 import kotlin.math.exp
 
-// ------------------------------------------------
+// ----------------------------------------------------------------
 // 2019.04.27 ビットマップをロードしテクスチャを生成
 // 2019.05.02 gaussianブラーの重みを計算
 // 2019.05.11 OpenGLのエラー状態を出力2
-// ------------------------------------------------
+// 2019.05.18 テクスチャパラメータの設定をしないパラメータ追加
+// 2019.05.19 フレームバッファを生成
+// ----------------------------------------------------------------
 class MyGLFunc {
 
     companion object {
@@ -36,6 +39,8 @@ class MyGLFunc {
                 val compileStatus = IntArray(1)
                 GLES20.glGetShaderiv(shader, GLES20.GL_COMPILE_STATUS, compileStatus,0)
                 if ( compileStatus[0] == 0 ) {
+                    // 何行目に誤りがあるか出力
+                    Log.d(TAG,GLES20.glGetShaderInfoLog(shader))
                     // コンパイル失敗
                     GLES20.glDeleteShader(shader)
                     throw RuntimeException("Compile Error:"+shaderCode)
@@ -180,7 +185,6 @@ class MyGLFunc {
                 // テクスチャへイメージを適用
                 GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D,0,GLES20.GL_RGBA,bmp.width,bmp.height,0,
                     GLES20.GL_RGBA,GLES20.GL_UNSIGNED_BYTE,buffer)
-
             }
 
             /*
@@ -194,10 +198,12 @@ class MyGLFunc {
             GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D)
 
             // テクスチャパラメータを設定
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR)
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR)
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, wrapParam)
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, wrapParam)
+            if ( wrapParam != -1 ) {
+                GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR)
+                GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR)
+                GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, wrapParam)
+                GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, wrapParam)
+            }
 
             // テクスチャのバインドを無効化
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0)
@@ -209,6 +215,41 @@ class MyGLFunc {
             if (textures[id] == 0) {
                 throw java.lang.RuntimeException("Error loading texture[${id}]")
             }
+        }
+
+        // --------------------------------------------------
+        // フレームバッファを生成する
+        // --------------------------------------------------
+        fun createFrameBuffer(width: Int, height: Int, id: Int, bufFrame: IntBuffer, bufDepthRender: IntBuffer, frameTexture: IntBuffer) {
+            // フレームバッファのバインド
+            GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER,bufFrame[id])
+
+            // 深度バッファ用レンダ―バッファのバインド
+            GLES20.glBindRenderbuffer(GLES20.GL_RENDERBUFFER,bufDepthRender[id])
+
+            // レンダ―バッファを深度バッファとして設定
+            GLES20.glRenderbufferStorage(GLES20.GL_RENDERBUFFER, GLES20.GL_DEPTH_COMPONENT16, width, height)
+
+            // フレームバッファにレンダ―バッファを関連付ける
+            GLES20.glFramebufferRenderbuffer(GLES20.GL_FRAMEBUFFER, GLES20.GL_DEPTH_ATTACHMENT, GLES20.GL_RENDERBUFFER,bufDepthRender[id])
+
+            // フレームバッファ用のテクスチャをバインド
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,frameTexture[id])
+
+            // フレームバッファ用のテクスチャにカラー用のメモリ領域を確保
+            GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D,0,GLES20.GL_RGBA,width,height,0,GLES20.GL_RGBA,GLES20.GL_UNSIGNED_BYTE,null)
+
+            // テクスチャパラメータ
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_MAG_FILTER,GLES20.GL_LINEAR)
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_MIN_FILTER,GLES20.GL_LINEAR)
+
+            // フレームバッファにテクスチャを関連付ける
+            GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_COLOR_ATTACHMENT0,GLES20.GL_TEXTURE_2D,frameTexture[id],0)
+
+            // 各種オブジェクトのバインドを解除
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,0)
+            GLES20.glBindRenderbuffer(GLES20.GL_RENDERBUFFER,0)
+            GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER,0)
         }
 
         // ------------------------------------------------

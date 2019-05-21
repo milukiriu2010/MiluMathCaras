@@ -253,6 +253,9 @@ class MenuFragment : Fragment() {
                     // [サブメニュー]
                     // 立方体に座標変換を施したものを描画するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON_CUBE_TRANSFORM, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron_cube_transform),false))
+                    // [サブメニュー]
+                    // 多面体の展開図を描画するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON_NET, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron_net),false))
                 }
                 // "The Nature of Code"の一覧を表示するメニュー
                 MenuItem.MENU_NATURE -> {

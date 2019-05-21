@@ -13,6 +13,7 @@ import kotlin.math.sqrt
 // -------------------------------------------
 // 2019.04.29  allocateBuffer
 // 2019.05.02  テクスチャ座標修正
+// 2019.05.21  頂点インデックス修正
 // -------------------------------------------
 class Torus01Model: MgModelAbs() {
 
@@ -24,9 +25,9 @@ class Torus01Model: MgModelAbs() {
         datIdx.clear()
 
         // パイプを形成する円を、いくつの頂点で表現するのかを指定する
-        var row = opt["row"]?.toInt() ?: 24
+        var row = opt["row"]?.toInt() ?: 32
         // パイプをどれくらい分割するのかを指定する
-        var column = opt["column"]?.toInt() ?: 24
+        var column = opt["column"]?.toInt() ?: 32
         // パイプそのものの半径
         var iradius = opt["iradius"]?.toFloat() ?: 1f
         // 原点からパイプの中心までの距離
@@ -69,13 +70,13 @@ class Torus01Model: MgModelAbs() {
                 rt = 1f-rt
                 datTxc.addAll(arrayListOf(rs,rt))
             }
+        }
 
-            (0 until row).forEach { i ->
-                (0 until column).forEach { ii ->
-                    val r = (column+1)*i+ii
-                    datIdx.addAll(arrayListOf<Short>(r.toShort(),(r+column+1).toShort(),(r+1).toShort()))
-                    datIdx.addAll(arrayListOf<Short>((r+column+1).toShort(),(r+column+2).toShort(),(r+1).toShort()))
-                }
+        (0 until row).forEach { i ->
+            (0 until column).forEach { ii ->
+                val r = (column+1)*i+ii
+                datIdx.addAll(arrayListOf<Short>(r.toShort(),(r+column+1).toShort(),(r+1).toShort()))
+                datIdx.addAll(arrayListOf<Short>((r+column+1).toShort(),(r+column+2).toShort(),(r+1).toShort()))
             }
         }
 

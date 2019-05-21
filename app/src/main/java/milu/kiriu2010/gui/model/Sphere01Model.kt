@@ -14,6 +14,7 @@ import kotlin.math.sqrt
 // -------------------------------------------
 // 2019.04.27  パターン１
 // 2019.05.12  パターン２
+// 2019.05.21  頂点インデックス修正
 // -------------------------------------------
 class Sphere01Model: MgModelAbs() {
 
@@ -38,9 +39,9 @@ class Sphere01Model: MgModelAbs() {
 
     private fun createPathPattern1( opt: Map<String,Float> ) {
         // 緯度
-        var row    = opt["row"]?.toInt() ?: 16
+        var row    = opt["row"]?.toInt() ?: 32
         // 経度
-        var column = opt["column"]?.toInt() ?: 16
+        var column = opt["column"]?.toInt() ?: 32
         var radius = opt["radius"]?.toFloat() ?: 1f
         var scale  = opt["scale"] ?: 1f
         var color  = FloatArray(4)
@@ -74,13 +75,13 @@ class Sphere01Model: MgModelAbs() {
                 datTxc.add(1f-1f/column.toFloat()*ii.toFloat())
                 datTxc.add(1f/row.toFloat()*i.toFloat())
             }
+        }
 
-            (0 until row).forEach { i ->
-                (0 until column).forEach { ii ->
-                    val r = (column+1)*i+ii
-                    datIdx.addAll(arrayListOf<Short>(r.toShort(),(r+1).toShort(),(r+column+2).toShort()))
-                    datIdx.addAll(arrayListOf<Short>(r.toShort(),(r+column+2).toShort(),(r+column+1).toShort()))
-                }
+        (0 until row).forEach { i ->
+            (0 until column).forEach { ii ->
+                val r = (column+1)*i+ii
+                datIdx.addAll(arrayListOf<Short>(r.toShort(),(r+1).toShort(),(r+column+2).toShort()))
+                datIdx.addAll(arrayListOf<Short>(r.toShort(),(r+column+2).toShort(),(r+column+1).toShort()))
             }
         }
     }

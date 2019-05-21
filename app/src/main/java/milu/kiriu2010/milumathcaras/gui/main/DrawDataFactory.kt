@@ -730,23 +730,22 @@ class DrawDataFactory {
                 // 立方体に座標変換を施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_CUBE_TRANSFORM -> {
                     // 立方体座標変換06
-                    drawDataLst.add(DrawData(DrawDataID.ID_001105_GL_CUBE_TRANSFORM_06,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001105_gl_cube_transform_06),
-                        drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001105_GL_CUBE_TRANSFORM_06,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001105_gl_cube_transform_06), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換05
-                    drawDataLst.add(DrawData(DrawDataID.ID_001104_GL_CUBE_TRANSFORM_05,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001104_gl_cube_transform_05),
-                        drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001104_GL_CUBE_TRANSFORM_05,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001104_gl_cube_transform_05), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換04
-                    drawDataLst.add(DrawData(DrawDataID.ID_001103_GL_CUBE_TRANSFORM_04,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001103_gl_cube_transform_04),
-                        drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001103_GL_CUBE_TRANSFORM_04,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001103_gl_cube_transform_04), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換03
-                    drawDataLst.add(DrawData(DrawDataID.ID_001102_GL_CUBE_TRANSFORM_03,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001102_gl_cube_transform_03),
-                        drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001102_GL_CUBE_TRANSFORM_03,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001102_gl_cube_transform_03), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換02
-                    drawDataLst.add(DrawData(DrawDataID.ID_001101_GL_CUBE_TRANSFORM_02,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001101_gl_cube_transform_02),
-                        drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001101_GL_CUBE_TRANSFORM_02,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001101_gl_cube_transform_02), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換01
-                    drawDataLst.add(DrawData(DrawDataID.ID_001100_GL_CUBE_TRANSFORM_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001100_gl_cube_transform_01),
-                        drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001100_GL_CUBE_TRANSFORM_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001100_gl_cube_transform_01), drawViewType = DrawViewType.DVT_GL ))
+                }
+                // 多面体の展開図を描画するメニュー
+                MenuItem.MENU_POLYHEDRON_NET -> {
+                    // 正四面体の展開図
+                    drawDataLst.add(DrawData(DrawDataID.ID_001200_GL_NET_TETRAHEDRON,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001200_gl_net_tetrahedron), drawViewType = DrawViewType.DVT_GL ))
                 }
                 // "Nature of Code"-"Vectors"を選択したときの描画データの一覧
                 MenuItem.MENU_NATURE_VECTORS -> {
