@@ -56,10 +56,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.tile.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.center.*
-import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWave01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWaveCircle01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWaveCircle02Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.SineWavePoint01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.*
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 class MyDrawableFactory {
@@ -134,6 +131,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000042_SINE_WAVE_CIRCLE -> SineWaveCircle02Drawable()
                 // 隣同士の点がサイン波を描く
                 DrawDataID.ID_000043_SINE_WAVE_POINT_01 -> SineWavePoint01Drawable()
+                // 隣同士の点がサイン波を描く
+                DrawDataID.ID_000044_SINE_WAVE_POINT_02 -> SineWavePoint02Drawable()
                 // リサージュ曲線(p:q=1:2)
                 DrawDataID.ID_000050_LISSAJOUS_CURVE_1_2 -> Lissajous01Drawable()
                 // リサージュ曲線(p:q=3:2)

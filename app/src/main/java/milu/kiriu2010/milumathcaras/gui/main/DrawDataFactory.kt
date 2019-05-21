@@ -278,6 +278,9 @@ class DrawDataFactory {
                 // 波を選択したときの描画データの一覧
                 MenuItem.MENU_WAVE -> {
                     // 隣同士の点がサイン波を描く
+                    drawDataLst.add(DrawData(DrawDataID.ID_000044_SINE_WAVE_POINT_02,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000044_wave_sine_point_02),
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/7b67b31dc375ebad6303869f997b3718/tumblr_mjrn2diIUo1r2geqjo1_500.gif") ))
+                    // 隣同士の点がサイン波を描く
                     drawDataLst.add(DrawData(DrawDataID.ID_000043_SINE_WAVE_POINT_01,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000043_wave_sine_point_01),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/352c06f02c2203e085213921a1579c3e/tumblr_mjrmkzlAPI1r2geqjo1_500.gif") ))
                     // 円の周りを回転するサイン波
