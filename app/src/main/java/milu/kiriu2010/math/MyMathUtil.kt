@@ -10,6 +10,7 @@ import kotlin.math.*
 // --------------------------------------
 // 2019.05.04 小数点kから倍率を求める
 // 2019.05.10 Float配列正規化
+// 2019.05.22 定義追加:SQRT3
 // --------------------------------------
 class MyMathUtil {
     companion object {
@@ -314,6 +315,7 @@ class MyMathUtil {
         // 定数
         val GOLDEN_RATIO = (sqrt(5f)+1f)/2f
         val SQRT2  = sqrt(2f)
+        val SQLT3  = sqrt(3f)
         val COS36F = (sqrt(5f)+1f)/4f
         val SIN36F = sqrt(10f-2f*sqrt(5f))/4f
         val COS72F = (sqrt(5f)-1f)/4f
