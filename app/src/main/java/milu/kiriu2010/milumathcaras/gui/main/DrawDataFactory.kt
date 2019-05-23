@@ -744,8 +744,10 @@ class DrawDataFactory {
                 }
                 // 多面体の展開図を描画するメニュー
                 MenuItem.MENU_POLYHEDRON_NET -> {
-                    // 正四面体の展開図
-                    drawDataLst.add(DrawData(DrawDataID.ID_001200_GL_NET_TETRAHEDRON,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001200_gl_net_tetrahedron), drawViewType = DrawViewType.DVT_GL ))
+                    // 正四面体の展開図02
+                    drawDataLst.add(DrawData(DrawDataID.ID_001201_GL_NET_TETRAHEDRON_02,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001201_gl_net_tetrahedron_02), drawViewType = DrawViewType.DVT_GL ))
+                    // 正四面体の展開図01
+                    //drawDataLst.add(DrawData(DrawDataID.ID_001200_GL_NET_TETRAHEDRON_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001200_gl_net_tetrahedron_01), drawViewType = DrawViewType.DVT_GL ))
                 }
                 // "Nature of Code"-"Vectors"を選択したときの描画データの一覧
                 MenuItem.MENU_NATURE_VECTORS -> {

@@ -1,9 +1,8 @@
-package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net
+package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.tetrahedron
 
 import android.content.Context
 import android.opengl.GLES20
 import android.opengl.Matrix
-import milu.kiriu2010.gui.model.Triangle4Tetrahedron01Model
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.shader.Simple01Shader
 import javax.microedition.khronos.egl.EGLConfig
@@ -12,6 +11,8 @@ import kotlin.math.sqrt
 
 // -------------------------------------
 // 正四面体の展開図
+// -------------------------------------
+// ぴったり合わないのでボツ
 // -------------------------------------
 class NetTetrahedron01Renderer(ctx: Context): MgRenderer(ctx) {
 

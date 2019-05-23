@@ -1,23 +1,15 @@
-package milu.kiriu2010.gui.model
+package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.tetrahedron
 
-import milu.kiriu2010.gui.color.MgColor
-import milu.kiriu2010.math.MyMathUtil
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
-import kotlin.math.sqrt
+import milu.kiriu2010.gui.model.MgModelAbs
 
 // --------------------------------------
 // 正四面体展開図用の三角形
 // --------------------------------------
 // 2019.05.21  初回
 // --------------------------------------
-class Triangle4Tetrahedron01Model: MgModelAbs() {
+class Triangle4Tetrahedron02Model: MgModelAbs() {
 
-    val ta = MyMathUtil.SQLT3/3f
-    val tb = MyMathUtil.SQLT3/6f
-    val tc = MyMathUtil.SQLT3*2f/3f
-    val td = 0.5f
-    val te = 1f
+    val sqrt3   = 1.73205f
 
     override fun createPath( opt: Map<String,Float> ) {
         datPos.clear()
@@ -29,13 +21,13 @@ class Triangle4Tetrahedron01Model: MgModelAbs() {
         val pattern = opt["pattern"]?.toInt() ?: 1
 
         when ( pattern ) {
-            // 正四面体展開図(0-1-2)
+            // 正四面体展開図(中央)
             1 -> createPathPattern1(opt)
-            // 正四面体展開図(3-4-5)
+            // 正四面体展開図(下)
             2 -> createPathPattern2(opt)
-            // 正四面体展開図(6-7-8)
+            // 正四面体展開図(右上)
             3 -> createPathPattern3(opt)
-            // 正四面体展開図(9-10-11)
+            // 正四面体展開図(左上)
             4 -> createPathPattern4(opt)
             else -> createPathPattern1(opt)
         }
@@ -46,17 +38,17 @@ class Triangle4Tetrahedron01Model: MgModelAbs() {
 
     // 正四面体展開図(0-1-2)
     private fun createPathPattern1(opt: Map<String, Float>) {
-
         // 頂点データ
-        datPos.addAll(arrayListOf(-td, tb,0f))
-        datPos.addAll(arrayListOf( 0f,-ta,0f))
-        datPos.addAll(arrayListOf( td, tb,0f))
+        datPos.addAll(arrayListOf( 0f,sqrt3,0f))
+        datPos.addAll(arrayListOf(-1f,   0f,0f))
+        datPos.addAll(arrayListOf( 1f,   0f,0f))
 
         // 法線データ
         datNor.addAll(arrayListOf(0f,0f,1f))
         datNor.addAll(arrayListOf(0f,0f,1f))
         datNor.addAll(arrayListOf(0f,0f,1f))
 
+        // 色データ
         // 色データ
         (0..2).forEach {
             datCol.addAll(arrayListOf(1f,0f,0f,1f))
@@ -66,19 +58,19 @@ class Triangle4Tetrahedron01Model: MgModelAbs() {
         datIdx.addAll(arrayListOf(0,1,2))
     }
 
-    // 正四面体展開図(3-4-5)
+    // 正四面体展開図(下)
     private fun createPathPattern2(opt: Map<String, Float>) {
-
         // 頂点データ
-        datPos.addAll(arrayListOf(-td, tb,0f))
-        datPos.addAll(arrayListOf(-te,-ta,0f))
-        datPos.addAll(arrayListOf( 0f,-ta,0f))
+        datPos.addAll(arrayListOf(-1f,    0f,0f))
+        datPos.addAll(arrayListOf( 0f,-sqrt3,0f))
+        datPos.addAll(arrayListOf( 1f,    0f,0f))
 
         // 法線データ
         datNor.addAll(arrayListOf(0f,0f,1f))
         datNor.addAll(arrayListOf(0f,0f,1f))
         datNor.addAll(arrayListOf(0f,0f,1f))
 
+        // 色データ
         // 色データ
         (0..2).forEach {
             datCol.addAll(arrayListOf(0f,1f,0f,1f))
@@ -88,19 +80,19 @@ class Triangle4Tetrahedron01Model: MgModelAbs() {
         datIdx.addAll(arrayListOf(0,1,2))
     }
 
-    // 正四面体展開図(6-7-8)
+    // 正四面体展開図(右上)
     private fun createPathPattern3(opt: Map<String, Float>) {
-
         // 頂点データ
-        datPos.addAll(arrayListOf( 0f,-ta,0f))
-        datPos.addAll(arrayListOf( te,-ta,0f))
-        datPos.addAll(arrayListOf( td, tb,0f))
+        datPos.addAll(arrayListOf( 1f,    0f,0f))
+        datPos.addAll(arrayListOf( 2f,sqrt3,0f))
+        datPos.addAll(arrayListOf( 0f,sqrt3,0f))
 
         // 法線データ
         datNor.addAll(arrayListOf(0f,0f,1f))
         datNor.addAll(arrayListOf(0f,0f,1f))
         datNor.addAll(arrayListOf(0f,0f,1f))
 
+        // 色データ
         // 色データ
         (0..2).forEach {
             datCol.addAll(arrayListOf(0f,0f,1f,1f))
@@ -110,19 +102,19 @@ class Triangle4Tetrahedron01Model: MgModelAbs() {
         datIdx.addAll(arrayListOf(0,1,2))
     }
 
-    // 正四面体展開図(9-10-11)
+    // 正四面体展開図(左上)
     private fun createPathPattern4(opt: Map<String, Float>) {
-
         // 頂点データ
-        datPos.addAll(arrayListOf( td, tb,0f))
-        datPos.addAll(arrayListOf( 0f, tc,0f))
-        datPos.addAll(arrayListOf(-td, tb,0f))
+        datPos.addAll(arrayListOf( 0f,sqrt3,0f))
+        datPos.addAll(arrayListOf(-2f,sqrt3,0f))
+        datPos.addAll(arrayListOf(-1f,   0f,0f))
 
         // 法線データ
         datNor.addAll(arrayListOf(0f,0f,1f))
         datNor.addAll(arrayListOf(0f,0f,1f))
         datNor.addAll(arrayListOf(0f,0f,1f))
 
+        // 色データ
         // 色データ
         (0..2).forEach {
             datCol.addAll(arrayListOf(1f,1f,0f,1f))

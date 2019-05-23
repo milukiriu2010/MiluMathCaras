@@ -4,7 +4,8 @@ import android.content.Context
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.cube.*
-import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.NetTetrahedron01Renderer
+import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.tetrahedron.NetTetrahedron01Renderer
+import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.tetrahedron.NetTetrahedron02Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.view.Polyhedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import java.lang.RuntimeException
@@ -41,8 +42,14 @@ class MgRendererFactory {
                 DrawDataID.ID_001104_GL_CUBE_TRANSFORM_05 -> CubeTransform05Renderer(context)
                 // 立方体座標変換06
                 DrawDataID.ID_001105_GL_CUBE_TRANSFORM_06 -> CubeTransform06Renderer(context)
-                // 正四面体の展開図
-                DrawDataID.ID_001200_GL_NET_TETRAHEDRON -> NetTetrahedron01Renderer(context)
+                // 正四面体の展開図01
+                DrawDataID.ID_001200_GL_NET_TETRAHEDRON_01 -> NetTetrahedron01Renderer(
+                    context
+                )
+                // 正四面体の展開図02
+                DrawDataID.ID_001201_GL_NET_TETRAHEDRON_02 -> NetTetrahedron02Renderer(
+                    context
+                )
                 else -> throw RuntimeException("Not Found GLSurfaceView.Renderer")
             }
 
