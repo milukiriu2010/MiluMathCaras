@@ -181,6 +181,9 @@ class DrawDataFactory {
                 }
                 // 特別な曲線の描画一覧
                 MenuItem.MENU_CURVE_SPECIAL -> {
+                    // 蝶々 Sautereau 01
+                    drawDataLst.add(DrawData(DrawDataID.ID_000019_BUTTERFLY_SAUTEREAU_01,DrawFragmentType.FT_D2_04,resources.getString(R.string.draw_000019_curve_butterfly_sautereau_01),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_butterfly_sautereau_01)) ))
                     // ハート
                     drawDataLst.add(DrawData(DrawDataID.ID_000009_HEART_01,DrawFragmentType.FT_D2_04,resources.getString(R.string.draw_000009_curve_heart_01),
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_heart_01)) ))
