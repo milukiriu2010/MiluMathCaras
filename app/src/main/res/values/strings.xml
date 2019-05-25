@@ -66,6 +66,7 @@
     <string name="func_curve_heart_01">x = 16sin(t)^3\ny = 13cos(t) - 5cos(2t) - 2cos(3t) - cos(4t)</string>
     <string name="func_curve_butterfly_sautereau_01">x = a*(sin(5t)±3*cos(t))*cos(t)\ny = a*(sin(5t)±3*cos(t))*sin(t)</string>
     <string name="func_curve_butterfly_sautereau_02">x = a*(-3*cos(2t)+sin(7t)-1)*cos(t)\ny = a*(-3*cos(2t)+sin(7t)-1)*sin(t)</string>
+    <string name="func_curve_butterfly_fay_01">x = a*(exp(cos(t))-2*cos(4t)+sin(t/12)^5)*cos(t)\ny = a*(exp(cos(t))-2*cos(4t)+sin(t/12)^5)*sin(t)</string>
     <string name="func_triangle_center_of_gravity">G=(A+B+C)/3</string>
     <string name="func_triangle_circumcenter">O=(A*sin(2A)+B*sin(2B)+C*sin(2C))/(sin(2A)+sin(2B)+sin(2C))</string>
     <string name="func_triangle_incenter">I=(a*A+b*B+c*C)/(a+b+c)</string>
@@ -97,6 +98,7 @@
     <string name="draw_000024_curve_epicycloid">Epicycloid(k=3.8)</string>
     <string name="draw_000025_curve_epicycloid">Epicycloid(k=5.5)</string>
     <string name="draw_000026_curve_epicycloid">Epicycloid(k=7.2)</string>
+    <string name="draw_000027_curve_butterfly_fay_01">Butterfly \nT.Fay 01</string>
     <string name="draw_000031_curve_deltoid">Deltoid(k=3.0)</string>
     <string name="draw_000032_curve_astroid">Astroid(k=4.0)</string>
     <string name="draw_000033_curve_hypocycloid">Hypocycloid\n(k=2.1)</string>

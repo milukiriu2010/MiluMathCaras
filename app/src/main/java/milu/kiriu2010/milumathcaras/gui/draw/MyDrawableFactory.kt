@@ -21,6 +21,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.Lemniscate02Drawab
 import milu.kiriu2010.milumathcaras.gui.draw.curve.limacon.Limacon01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.limacon.Limacon02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.limacon.Limacon03Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.special.ButterflyFay01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.special.ButterflySautereau01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.special.ButterflySautereau02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.special.Heart01Drawable
@@ -117,6 +118,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000025_EPICYCLOID -> Epicycloid01Drawable()
                 // エピサイクロイド曲線(k=7.2)
                 DrawDataID.ID_000026_EPICYCLOID -> Epicycloid01Drawable()
+                // 蝶々 T.Fay 01
+                DrawDataID.ID_000027_BUTTERFLY_FAY_01 -> ButterflyFay01Drawable()
                 // 三芒形/三尖形(deltoid)(k=3.0)
                 DrawDataID.ID_000031_DELTOID -> Hypocycloid01Drawable()
                 // アステロイド曲線(asteroid)(k=4.0)

@@ -47,9 +47,9 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000017_LIMACON_02(17),
     // パスカルの蝸牛形03
     ID_000018_LIMACON_03(18),
-    // 蝶々 Sautereau 01
+    // 蝶々 L.Sautereau 01
     ID_000019_BUTTERFLY_SAUTEREAU_01(19),
-    // 蝶々 Sautereau 02
+    // 蝶々 L.Sautereau 02
     ID_000020_BUTTERFLY_SAUTEREAU_02(20),
     // カージオイド曲線(k=1.0)
     ID_000021_CARDIOID(21),
@@ -63,6 +63,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000025_EPICYCLOID(25),
     // エピサイクロイド曲線(k=7.2)
     ID_000026_EPICYCLOID(26),
+    // 蝶々 T.Fay 01
+    ID_000027_BUTTERFLY_FAY_01(27),
     // 三芒形/三尖形(deltoid)(k=3.0)
     ID_000031_DELTOID(31),
     // アステロイド曲線(astroid)(k=4.0)
