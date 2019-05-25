@@ -22,6 +22,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.limacon.Limacon01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.limacon.Limacon02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.limacon.Limacon03Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.special.ButterflySautereau01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.special.ButterflySautereau02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.special.Heart01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.involute.InvoluteCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.involute.InvoluteCurve02Drawable
@@ -100,8 +101,10 @@ class MyDrawableFactory {
                 DrawDataID.ID_000017_LIMACON_02 -> Limacon02Drawable()
                 // パスカルの蝸牛形03
                 DrawDataID.ID_000018_LIMACON_03 -> Limacon03Drawable()
-                // 蝶々 Sautereau 01
+                // 蝶々 L.Sautereau 01
                 DrawDataID.ID_000019_BUTTERFLY_SAUTEREAU_01 -> ButterflySautereau01Drawable()
+                // 蝶々 L.Sautereau 02
+                DrawDataID.ID_000020_BUTTERFLY_SAUTEREAU_02 -> ButterflySautereau02Drawable()
                 // カージオイド曲線(cardioid)(k=1.0)
                 DrawDataID.ID_000021_CARDIOID -> Epicycloid01Drawable()
                 // エピサイクロイド曲線(k=4.0)

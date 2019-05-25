@@ -65,6 +65,7 @@
     <string name="func_curve_limacon03">x = a*(cos(k*t)+b*cos(t)) * cos(t)\ny = a*(cos(k*t)+b*cos(t)) * sin(t)</string>
     <string name="func_curve_heart_01">x = 16sin(t)^3\ny = 13cos(t) - 5cos(2t) - 2cos(3t) - cos(4t)</string>
     <string name="func_curve_butterfly_sautereau_01">x = a*(sin(5t)±3*cos(t))*cos(t)\ny = a*(sin(5t)±3*cos(t))*sin(t)</string>
+    <string name="func_curve_butterfly_sautereau_02">x = a*(-3*cos(2t)+sin(7t)-1)*cos(t)\ny = a*(-3*cos(2t)+sin(7t)-1)*sin(t)</string>
     <string name="func_triangle_center_of_gravity">G=(A+B+C)/3</string>
     <string name="func_triangle_circumcenter">O=(A*sin(2A)+B*sin(2B)+C*sin(2C))/(sin(2A)+sin(2B)+sin(2C))</string>
     <string name="func_triangle_incenter">I=(a*A+b*B+c*C)/(a+b+c)</string>
@@ -88,7 +89,8 @@
     <string name="draw_000016_curve_limacon01">Limaçon 01</string>
     <string name="draw_000017_curve_limacon02">Limaçon 02</string>
     <string name="draw_000018_curve_limacon03">Limaçon 03</string>
-    <string name="draw_000019_curve_butterfly_sautereau_01">Butterfly \nSautereau 01</string>
+    <string name="draw_000019_curve_butterfly_sautereau_01">Butterfly \nL.Sautereau 01</string>
+    <string name="draw_000020_curve_butterfly_sautereau_02">Butterfly \nL.Sautereau 02</string>
     <string name="draw_000021_curve_cardioid">Cardioid(k=1.0)</string>
     <string name="draw_000022_curve_epicycloid">Epicycloid(k=4.0)</string>
     <string name="draw_000023_curve_epicycloid">Epicycloid(k=2.1)</string>

@@ -181,7 +181,10 @@ class DrawDataFactory {
                 }
                 // 特別な曲線の描画一覧
                 MenuItem.MENU_CURVE_SPECIAL -> {
-                    // 蝶々 Sautereau 01
+                    // 蝶々 L.Sautereau 02
+                    drawDataLst.add(DrawData(DrawDataID.ID_000020_BUTTERFLY_SAUTEREAU_02,DrawFragmentType.FT_D2_04,resources.getString(R.string.draw_000020_curve_butterfly_sautereau_02),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_butterfly_sautereau_02)) ))
+                    // 蝶々 L.Sautereau 01
                     drawDataLst.add(DrawData(DrawDataID.ID_000019_BUTTERFLY_SAUTEREAU_01,DrawFragmentType.FT_D2_04,resources.getString(R.string.draw_000019_curve_butterfly_sautereau_01),
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_butterfly_sautereau_01)) ))
                     // ハート
