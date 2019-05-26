@@ -288,6 +288,7 @@
     <string name="draw_001105_gl_cube_transform_06">Cube Transform\n 06</string>
     <string name="draw_001200_gl_net_tetrahedron_01">Net of Tetrahedron\n 01</string>
     <string name="draw_001201_gl_net_tetrahedron_02">Net of Tetrahedron\n 02</string>
+    <string name="draw_001202_gl_net_cube_01">Net of Cube</string>
 
     <string name="shader_simple">Simple</string>
     <string name="shader_gl_points">Points</string>
