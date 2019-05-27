@@ -753,6 +753,8 @@ class DrawDataFactory {
                 }
                 // 多面体の展開図を描画するメニュー
                 MenuItem.MENU_POLYHEDRON_NET -> {
+                    // 正十二面体の展開図01
+                    drawDataLst.add(DrawData(DrawDataID.ID_001204_GL_NET_DODECAHEDRON_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001204_gl_net_dodecahedron_01), drawViewType = DrawViewType.DVT_GL ))
                     // 正八面体の展開図01
                     drawDataLst.add(DrawData(DrawDataID.ID_001203_GL_NET_OCTAHEDRON_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001203_gl_net_octahedron_01), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体の展開図01

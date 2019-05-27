@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.octahedron
+package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.dodecahedron
 
 import android.content.Context
 import android.opengl.GLES20
@@ -9,7 +9,7 @@ import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
 // -------------------------------------
-// 正八面体の展開図01
+// 正十二面体の展開図01
 // -------------------------------------
 // ２面のなす角で回転の向きを変更
 // -------------------------------------
@@ -17,10 +17,10 @@ import javax.microedition.khronos.opengles.GL10
 //   cos(t) = -1/3
 //       t  = 109.4712208497度
 // -------------------------------------
-class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
+class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
 
-    // 描画モデル(三角形)
-    private val modelLst = mutableListOf<Triangle4Octahedron01Model>()
+    // 描画モデル(五角形)
+    private val modelLst = mutableListOf<Pentagon4Dodecahedron01Model>()
 
     // シェーダ(特殊効果なし)
     private lateinit var shaderSimple: Simple01Shader
@@ -192,8 +192,8 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         shaderSimple = Simple01Shader()
         shaderSimple.loadShader()
 
-        // 描画モデル(三角形)
-        val model1 = Triangle4Octahedron01Model()
+        // 描画モデル(五角形)
+        val model1 = Pentagon4Dodecahedron01Model()
         model1.createPath(mapOf(
             "pattern" to 1f,
             "colorR" to 1f,
@@ -204,7 +204,7 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         modelLst.add(model1)
 
         // 描画モデル(三角形)
-        val model2 = Triangle4Octahedron01Model()
+        val model2 = Pentagon4Dodecahedron01Model()
         model2.createPath(mapOf(
             "pattern" to 2f,
             "colorR" to 1f,
@@ -215,7 +215,7 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         modelLst.add(model2)
 
         // 描画モデル(三角形)
-        val model3 = Triangle4Octahedron01Model()
+        val model3 = Pentagon4Dodecahedron01Model()
         model3.createPath(mapOf(
             "pattern" to 2f,
             "colorR" to 1f,
@@ -226,7 +226,7 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         modelLst.add(model3)
 
         // 描画モデル(三角形)
-        val model4 = Triangle4Octahedron01Model()
+        val model4 = Pentagon4Dodecahedron01Model()
         model4.createPath(mapOf(
             "pattern" to 2f,
             "colorR" to 0f,
@@ -237,7 +237,7 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         modelLst.add(model4)
 
         // 描画モデル(三角形)
-        val model5 = Triangle4Octahedron01Model()
+        val model5 = Pentagon4Dodecahedron01Model()
         model5.createPath(mapOf(
             "pattern" to 1f,
             "colorR" to 0f,
@@ -248,7 +248,7 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         modelLst.add(model5)
 
         // 描画モデル(三角形)
-        val model6 = Triangle4Octahedron01Model()
+        val model6 = Pentagon4Dodecahedron01Model()
         model6.createPath(mapOf(
             "pattern" to 1f,
             "colorR" to 0f,
@@ -259,7 +259,7 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         modelLst.add(model6)
 
         // 描画モデル(三角形)
-        val model7 = Triangle4Octahedron01Model()
+        val model7 = Pentagon4Dodecahedron01Model()
         model7.createPath(mapOf(
             "pattern" to 1f,
             "colorR" to 0f,
@@ -270,7 +270,7 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         modelLst.add(model7)
 
         // 描画モデル(三角形)
-        val model8 = Triangle4Octahedron01Model()
+        val model8 = Pentagon4Dodecahedron01Model()
         model8.createPath(mapOf(
             "pattern" to 2f,
             "colorR" to 1f,

@@ -5,6 +5,7 @@ import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.cube.*
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.cube.NetCube01Renderer
+import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.dodecahedron.NetDodecahedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.octahedron.NetOctahedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.tetrahedron.NetTetrahedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.tetrahedron.NetTetrahedron02Renderer
@@ -52,6 +53,8 @@ class MgRendererFactory {
                 DrawDataID.ID_001202_GL_NET_CUBE_01 -> NetCube01Renderer(context)
                 // 正八面体の展開図01
                 DrawDataID.ID_001203_GL_NET_OCTAHEDRON_01 -> NetOctahedron01Renderer(context)
+                // 正十二面体の展開図01
+                DrawDataID.ID_001204_GL_NET_DODECAHEDRON_01 -> NetDodecahedron01Renderer(context)
                 else -> throw RuntimeException("Not Found GLSurfaceView.Renderer")
             }
 

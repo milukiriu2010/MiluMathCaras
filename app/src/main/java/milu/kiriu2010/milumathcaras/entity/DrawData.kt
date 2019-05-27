@@ -447,7 +447,9 @@ enum class DrawDataID(val id: Int): Parcelable {
     // 立方体の展開図
     ID_001202_GL_NET_CUBE_01(1202),
     // 正八面体の展開図
-    ID_001203_GL_NET_OCTAHEDRON_01(1203)
+    ID_001203_GL_NET_OCTAHEDRON_01(1203),
+    // 正十二面体の展開図
+    ID_001204_GL_NET_DODECAHEDRON_01(1204)
 }
 
 // ------------------------------
