@@ -4,11 +4,11 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.opengl.GLES20
 import android.opengl.Matrix
-import milu.kiriu2010.gui.basic.MyGLFunc
+import milu.kiriu2010.gui.basic.MyGLES20Func
 import milu.kiriu2010.gui.model.*
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.renderer.Tetrahedron01Model
-import milu.kiriu2010.gui.shader.*
+import milu.kiriu2010.gui.shader.es20.*
 import milu.kiriu2010.milumathcaras.R
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -16,9 +16,9 @@ import javax.microedition.khronos.opengles.GL10
 class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
 
     // シェーダ(モデル描画)
-    private lateinit var shader: MgShader
+    private lateinit var shader: ES20MgShader
     // シェーダ(座標軸)
-    private lateinit var shaderAxis: Simple01Shader
+    private lateinit var shaderAxis: ES20Simple01Shader
 
     // 描画モデル
     private lateinit var model: MgModelAbs
@@ -132,13 +132,13 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
 
         // テクスチャを生成
         GLES20.glGenTextures(1,textures,0)
-        MyGLFunc.createTexture(0,textures,bmp)
+        MyGLES20Func.createTexture(0,textures,bmp)
 
         // シェーダ(モデル描画)生成
         createShader()
 
         // シェーダ(座標軸)
-        shaderAxis = Simple01Shader()
+        shaderAxis = ES20Simple01Shader()
         shaderAxis.loadShader()
 
         // モデル生成
@@ -156,24 +156,24 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
         }
         shader = when (shaderSwitch) {
             // 特殊効果なし
-            0 -> Simple01Shader()
+            0 -> ES20Simple01Shader()
             // 平行光源
-            1 -> DirectionalLight01Shader()
+            1 -> ES20DirectionalLight01Shader()
             // 環境光
-            2 -> AmbientLight01Shader()
+            2 -> ES20AmbientLight01Shader()
             // 反射光
-            3 -> SpecularLight01Shader()
+            3 -> ES20SpecularLight01Shader()
             // フォンシェーディング
-            4 -> PhongShading01Shader()
+            4 -> ES20PhongShading01Shader()
             // 点光源
-            5 -> PointLight01Shader()
+            5 -> ES20PointLight01Shader()
             // 点で描画
-            6 -> Points01Shader()
+            6 -> ES20Points01Shader()
             // 線で描画(LINES)
-            7 -> Simple01Shader()
+            7 -> ES20Simple01Shader()
             // テクスチャ
-            8 -> Texture01Shader()
-            else -> Simple01Shader()
+            8 -> ES20Texture01Shader()
+            else -> ES20Simple01Shader()
         }
         shader.loadShader()
     }
@@ -219,17 +219,17 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
     private fun drawModel() {
         when (shaderSwitch) {
             // 特殊効果なし
-            0 -> (shader as Simple01Shader).draw(model,matMVP)
+            0 -> (shader as ES20Simple01Shader).draw(model,matMVP)
             // 平行光源
-            1 -> (shader as DirectionalLight01Shader).draw(model,matMVP,matI,vecLight)
+            1 -> (shader as ES20DirectionalLight01Shader).draw(model,matMVP,matI,vecLight)
             // 環境光
-            2 -> (shader as AmbientLight01Shader).draw(model,matMVP,matI,vecLight,vecAmbientColor)
+            2 -> (shader as ES20AmbientLight01Shader).draw(model,matMVP,matI,vecLight,vecAmbientColor)
             // 反射光
-            3  -> (shader as SpecularLight01Shader).draw(model,matMVP,matI,vecLight,vecEye,vecAmbientColor)
+            3  -> (shader as ES20SpecularLight01Shader).draw(model,matMVP,matI,vecLight,vecEye,vecAmbientColor)
             // フォンシェーディング
-            4 -> (shader as PhongShading01Shader).draw(model,matMVP,matI,vecLight,vecEye,vecAmbientColor)
+            4 -> (shader as ES20PhongShading01Shader).draw(model,matMVP,matI,vecLight,vecEye,vecAmbientColor)
             // 点光源
-            5 -> (shader as PointLight01Shader).draw(model,matMVP,matM,matI,vecLight,vecEye,vecAmbientColor)
+            5 -> (shader as ES20PointLight01Shader).draw(model,matMVP,matM,matI,vecLight,vecEye,vecAmbientColor)
             // 点で描画
             6 -> {
                 val u_pointSize = when (modelType) {
@@ -237,19 +237,19 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
                     6 -> 10f
                     else -> 30f
                 }
-                (shader as Points01Shader).draw(model,matMVP,u_pointSize)
+                (shader as ES20Points01Shader).draw(model,matMVP,u_pointSize)
             }
             // 線で描画(LINES)
             7 -> {
                 when (modelType) {
                     // 球
-                    5 -> (shader as Simple01Shader).draw(model,matMVP,GLES20.GL_LINE_STRIP)
+                    5 -> (shader as ES20Simple01Shader).draw(model,matMVP,GLES20.GL_LINE_STRIP)
                     // トーラス
-                    6 -> (shader as Simple01Shader).draw(model,matMVP,GLES20.GL_LINE_STRIP)
+                    6 -> (shader as ES20Simple01Shader).draw(model,matMVP,GLES20.GL_LINE_STRIP)
                     // 円柱
-                    7 -> (shader as Simple01Shader).draw(model,matMVP,GLES20.GL_LINE_STRIP)
+                    7 -> (shader as ES20Simple01Shader).draw(model,matMVP,GLES20.GL_LINE_STRIP)
                     // その他
-                    else -> (shader as Simple01Shader).draw(model,matMVP,GLES20.GL_LINES)
+                    else -> (shader as ES20Simple01Shader).draw(model,matMVP,GLES20.GL_LINES)
                 }
             }
             // テクスチャ
@@ -257,11 +257,11 @@ class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
                 // テクスチャをバインド
                 GLES20.glActiveTexture(GLES20.GL_TEXTURE0)
                 GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,textures[0])
-                (shader as Texture01Shader).draw(model,matMVP,0)
+                (shader as ES20Texture01Shader).draw(model,matMVP,0)
                 // テクスチャのバインドを解除
                 GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,0)
             }
-            else -> (shader as Simple01Shader).draw(model,matMVP)
+            else -> (shader as ES20Simple01Shader).draw(model,matMVP)
         }
     }
 

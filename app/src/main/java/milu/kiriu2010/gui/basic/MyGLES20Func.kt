@@ -4,22 +4,24 @@ import android.graphics.Bitmap
 import android.opengl.GLES20
 import android.util.Log
 import milu.kiriu2010.gui.model.MgModelAbs
-import milu.kiriu2010.gui.shader.MgShader
+import milu.kiriu2010.gui.shader.es20.ES20MgShader
 import java.nio.ByteBuffer
 import java.nio.IntBuffer
-import kotlin.math.exp
 
-// ----------------------------------------------------------------
+// ----------------------------------------------------------------------
+// GLSL ES2.0用
+// ----------------------------------------------------------------------
 // 2019.04.27 ビットマップをロードしテクスチャを生成
 // 2019.05.02 gaussianブラーの重みを計算
 // 2019.05.11 OpenGLのエラー状態を出力2
 // 2019.05.18 テクスチャパラメータの設定をしないパラメータ追加
 // 2019.05.19 フレームバッファを生成
-// ----------------------------------------------------------------
-class MyGLFunc {
+// 2019.05.24 フレームバッファ生成の引数に"浮動小数点数テクスチャ"用を追加
+// ----------------------------------------------------------------------
+class MyGLES20Func {
 
     companion object {
-        private const val TAG = "MyGLFunc"
+        private const val TAG = "MyGLES20Func"
 
         // -------------------------------------
         // シェーダをロードする
@@ -59,11 +61,11 @@ class MyGLFunc {
             val programHandle = GLES20.glCreateProgram().also {
                 // 頂点シェーダをプログラムに追加
                 GLES20.glAttachShader(it,svhandle)
-                MyGLFunc.printShaderInfoLog(svhandle,"vertex shader")
+                MyGLES20Func.printShaderInfoLog(svhandle,"vertex shader")
 
                 // フラグメントシェーダをプログラムに追加
                 GLES20.glAttachShader(it,sfhandle)
-                MyGLFunc.printShaderInfoLog(sfhandle,"fragment shader")
+                MyGLES20Func.printShaderInfoLog(sfhandle,"fragment shader")
 
                 // シェーダオブジェクトを削除
                 GLES20.glDeleteShader(svhandle)
@@ -82,7 +84,7 @@ class MyGLFunc {
                 GLES20.glGetProgramiv(it,GLES20.GL_LINK_STATUS,linkStatus,0)
                 // リンク失敗
                 if (linkStatus[0] == 0) {
-                    MyGLFunc.printProgramInfoLog(it)
+                    MyGLES20Func.printProgramInfoLog(it)
                     GLES20.glDeleteProgram(it)
                     throw RuntimeException("Error creating program.")
                 }
@@ -107,7 +109,7 @@ class MyGLFunc {
         // -------------------------------------
         // OpenGLのエラー状態を出力2
         // -------------------------------------
-        fun checkGlError2( str: String, shader: MgShader, model: MgModelAbs ) {
+        fun checkGlError2(str: String, shader: ES20MgShader, model: MgModelAbs ) {
             var error = GLES20.glGetError()
             while ( error != GLES20.GL_NO_ERROR ) {
                 Log.d(TAG, "${shader.javaClass.simpleName}:${str}:${model.javaClass.simpleName}:${error}")
@@ -162,7 +164,7 @@ class MyGLFunc {
 
             // テクスチャをバインドする
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[id])
-            MyGLFunc.checkGlError("glBindTexture")
+            MyGLES20Func.checkGlError("glBindTexture")
 
             if ( size > 0 ) {
                 val resizedBmp = Bitmap.createScaledBitmap(bmp,size,size,false)
@@ -191,7 +193,7 @@ class MyGLFunc {
             // GLES20.glTexImage2Dを使わないやり方
             // ビットマップをテクスチャに設定
             GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bmp, 0)
-            MyGLFunc.checkGlError("texImage2D")
+            MyGLES20Func.checkGlError("texImage2D")
             */
 
             // ミップマップを生成
@@ -220,7 +222,7 @@ class MyGLFunc {
         // --------------------------------------------------
         // フレームバッファを生成する
         // --------------------------------------------------
-        fun createFrameBuffer(width: Int, height: Int, id: Int, bufFrame: IntBuffer, bufDepthRender: IntBuffer, frameTexture: IntBuffer) {
+        fun createFrameBuffer(width: Int, height: Int, id: Int, bufFrame: IntBuffer, bufDepthRender: IntBuffer, frameTexture: IntBuffer, type: Int = GLES20.GL_UNSIGNED_BYTE) {
             // フレームバッファのバインド
             GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER,bufFrame[id])
 
@@ -237,7 +239,10 @@ class MyGLFunc {
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,frameTexture[id])
 
             // フレームバッファ用のテクスチャにカラー用のメモリ領域を確保
-            GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D,0,GLES20.GL_RGBA,width,height,0,GLES20.GL_RGBA,GLES20.GL_UNSIGNED_BYTE,null)
+            //   type:
+            //     浮動小数点数テクスチャ⇒GLES20.GL_FLOATを指定
+            GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D,0,GLES20.GL_RGBA,width,height,0,
+                GLES20.GL_RGBA,type,null)
 
             // テクスチャパラメータ
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_MAG_FILTER,GLES20.GL_LINEAR)
@@ -251,28 +256,5 @@ class MyGLFunc {
             GLES20.glBindRenderbuffer(GLES20.GL_RENDERBUFFER,0)
             GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER,0)
         }
-
-        // ------------------------------------------------
-        // gaussianブラーの重みを計算
-        // ------------------------------------------------
-        fun gaussianWeigt(cnt: Int, dis: Float, denominator: Float = 10f): FloatArray {
-            val weight = FloatArray(cnt)
-            var t = 0f
-            var d = dis*dis/denominator
-            (0 until weight.size).forEach { i ->
-                val r = 1f + 2f*i.toFloat()
-                var w = exp(-0.5f*(r*r)/d)
-                weight[i] = w;
-                if (i > 0) w *= 2f
-                t += w
-            }
-            (0 until weight.size).forEach { i ->
-                weight[i] /= t
-            }
-            return weight
-        }
-
     }
-
-
 }

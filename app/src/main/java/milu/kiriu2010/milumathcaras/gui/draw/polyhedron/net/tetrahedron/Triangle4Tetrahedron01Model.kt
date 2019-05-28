@@ -10,9 +10,9 @@ import milu.kiriu2010.math.MyMathUtil
 // --------------------------------------
 class Triangle4Tetrahedron01Model: MgModelAbs() {
 
-    val ta = MyMathUtil.SQLT3/3f
-    val tb = MyMathUtil.SQLT3/6f
-    val tc = MyMathUtil.SQLT3*2f/3f
+    val ta = MyMathUtil.SQRT3/3f
+    val tb = MyMathUtil.SQRT3/6f
+    val tc = MyMathUtil.SQRT3*2f/3f
     val td = 0.5f
     val te = 1f
 

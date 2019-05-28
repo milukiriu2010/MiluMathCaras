@@ -6,7 +6,7 @@ import android.opengl.Matrix
 import milu.kiriu2010.gui.model.Cube01Model
 import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.gui.renderer.MgRenderer
-import milu.kiriu2010.gui.shader.Simple01Shader
+import milu.kiriu2010.gui.shader.es20.ES20Simple01Shader
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -20,7 +20,7 @@ class CubeTransform04Renderer(ctx: Context): MgRenderer(ctx) {
     private lateinit var model: MgModelAbs
 
     // シェーダ(特殊効果なし)
-    private lateinit var shaderSimple: Simple01Shader
+    private lateinit var shaderSimple: ES20Simple01Shader
 
     override fun onDrawFrame(gl: GL10?) {
         // canvasを初期化
@@ -140,7 +140,7 @@ class CubeTransform04Renderer(ctx: Context): MgRenderer(ctx) {
         GLES20.glEnable(GLES20.GL_CULL_FACE)
 
         // シェーダ(特殊効果なし)
-        shaderSimple = Simple01Shader()
+        shaderSimple = ES20Simple01Shader()
         shaderSimple.loadShader()
 
         // 描画モデル(立方体)

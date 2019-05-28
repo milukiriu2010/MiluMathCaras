@@ -1,29 +1,27 @@
-package milu.kiriu2010.gui.shader
+package milu.kiriu2010.gui.shader.es20
 
 import android.opengl.GLES20
 import milu.kiriu2010.gui.model.MgModelAbs
-import milu.kiriu2010.gui.basic.MyGLFunc
+import milu.kiriu2010.gui.basic.MyGLES20Func
 
 // ------------------------------------------
-// GL_POINTSにて描画
+// 特殊効果なし
 // ------------------------------------------
-// 2019.04.25  初回
-// 2019.05.22  リソース解放
+// 2019.04.27 コメントアウト
+// 2019.05.22 リソース解放
 // ------------------------------------------
-class Points01Shader: MgShader() {
+class ES20Simple01Shader: ES20MgShader() {
     // 頂点シェーダ
     private val scv =
             """
-            attribute vec3  a_Position;
-            attribute vec4  a_Color;
-            uniform   mat4  u_matMVP;
-            uniform   float u_pointSize;
-            varying   vec4  v_Color;
+            attribute vec3 a_Position;
+            attribute vec4 a_Color;
+            uniform   mat4 u_matMVP;
+            varying   vec4 v_Color;
 
             void main() {
-                v_Color      = a_Color;
-                gl_Position  = u_matMVP * vec4(a_Position,1.0);
-                gl_PointSize = u_pointSize;
+                v_Color        = a_Color;
+                gl_Position    = u_matMVP * vec4(a_Position,1.0);
             }
             """.trimIndent()
 
@@ -38,31 +36,33 @@ class Points01Shader: MgShader() {
             }
             """.trimIndent()
 
-    override fun loadShader(): MgShader {
+    override fun loadShader(): ES20MgShader {
         // 頂点シェーダを生成
-        svhandle = MyGLFunc.loadShader(GLES20.GL_VERTEX_SHADER, scv)
+        svhandle = MyGLES20Func.loadShader(GLES20.GL_VERTEX_SHADER, scv)
         // フラグメントシェーダを生成
-        sfhandle = MyGLFunc.loadShader(GLES20.GL_FRAGMENT_SHADER, scf)
+        sfhandle = MyGLES20Func.loadShader(GLES20.GL_FRAGMENT_SHADER, scf)
 
         // プログラムオブジェクトの生成とリンク
-        programHandle = MyGLFunc.createProgram(svhandle,sfhandle, arrayOf("a_Position","a_Color") )
+        programHandle = MyGLES20Func.createProgram(svhandle,sfhandle, arrayOf("a_Position","a_Color") )
 
         return this
     }
 
+    // 面塗りつぶし
     fun draw(model: MgModelAbs,
              u_matMVP: FloatArray,
-             u_pointSize: Float) {
+             mode: Int = GLES20.GL_TRIANGLES) {
         GLES20.glUseProgram(programHandle)
-        MyGLFunc.checkGlError2("UseProgram",this,model)
+        MyGLES20Func.checkGlError2("UseProgram",this,model)
 
         // attribute(頂点)
         model.bufPos.position(0)
+        // get handle to vertex shader's vPosition member
         val hPosition = GLES20.glGetAttribLocation(programHandle, "a_Position").also {
             GLES20.glVertexAttribPointer(it,3,GLES20.GL_FLOAT,false,3*4,model.bufPos)
             GLES20.glEnableVertexAttribArray(it)
         }
-        MyGLFunc.checkGlError2("a_Position",this,model)
+        MyGLES20Func.checkGlError2("a_Position",this,model)
 
         // attribute(色)
         model.bufCol.position(0)
@@ -70,22 +70,30 @@ class Points01Shader: MgShader() {
             GLES20.glVertexAttribPointer(it,3,GLES20.GL_FLOAT,false, 4*4, model.bufCol)
             GLES20.glEnableVertexAttribArray(it)
         }
-        MyGLFunc.checkGlError2("a_Color",this,model)
+        MyGLES20Func.checkGlError2("a_Color",this,model)
 
         // uniform(モデル×ビュー×プロジェクション)
         GLES20.glGetUniformLocation(programHandle,"u_matMVP").also {
             GLES20.glUniformMatrix4fv(it,1,false,u_matMVP,0)
         }
-        MyGLFunc.checkGlError2("u_matMVP",this,model)
-
-        // uniform(描画する点の大きさ)
-        GLES20.glGetUniformLocation(programHandle,"u_pointSize").also {
-            GLES20.glUniform1f(it,u_pointSize)
-        }
-        MyGLFunc.checkGlError2("u_pointSize",this,model)
 
         // モデルを描画
-        GLES20.glDrawArrays(GLES20.GL_POINTS, 0, model.datPos.size/3)
+        when (mode) {
+            // 面を描画
+            GLES20.GL_TRIANGLES -> {
+                GLES20.glDrawElements(GLES20.GL_TRIANGLES, model.datIdx.size, GLES20.GL_UNSIGNED_SHORT, model.bufIdx)
+            }
+            // 線を描画
+            GLES20.GL_LINES -> {
+                val cnt = model.datPos.size/3
+                GLES20.glDrawArrays(GLES20.GL_LINES,0,cnt)
+            }
+            // 線を描画
+            GLES20.GL_LINE_STRIP -> {
+                val cnt = model.datPos.size/3
+                GLES20.glDrawArrays(GLES20.GL_LINE_STRIP,0,cnt)
+            }
+        }
 
         // リソース解放
         GLES20.glDisableVertexAttribArray(hPosition)

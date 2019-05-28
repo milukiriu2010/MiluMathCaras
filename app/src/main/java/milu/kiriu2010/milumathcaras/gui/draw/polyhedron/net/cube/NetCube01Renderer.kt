@@ -4,7 +4,7 @@ import android.content.Context
 import android.opengl.GLES20
 import android.opengl.Matrix
 import milu.kiriu2010.gui.renderer.MgRenderer
-import milu.kiriu2010.gui.shader.Simple01Shader
+import milu.kiriu2010.gui.shader.es20.ES20Simple01Shader
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -22,7 +22,7 @@ class NetCube01Renderer(ctx: Context): MgRenderer(ctx) {
     private val modelLst = mutableListOf<Triangle4Cube01Model>()
 
     // シェーダ(特殊効果なし)
-    private lateinit var shaderSimple: Simple01Shader
+    private lateinit var shaderSimple: ES20Simple01Shader
 
     var angleFDiv = 1f
     var cnt = 0
@@ -155,7 +155,7 @@ class NetCube01Renderer(ctx: Context): MgRenderer(ctx) {
         GLES20.glDepthFunc(GLES20.GL_LEQUAL)
 
         // シェーダ(特殊効果なし)
-        shaderSimple = Simple01Shader()
+        shaderSimple = ES20Simple01Shader()
         shaderSimple.loadShader()
 
         // 描画モデル(四角形)

@@ -1,4 +1,4 @@
-package milu.kiriu2010.gui.shader
+package milu.kiriu2010.gui.shader.es20
 
 import android.opengl.GLES20
 
@@ -7,7 +7,7 @@ import android.opengl.GLES20
 // --------------------------------------
 // 2019.05.22 リソース解放
 // --------------------------------------
-abstract class MgShader {
+abstract class ES20MgShader {
     // 頂点シェーダのハンドル
     var svhandle: Int = -1
     // フラグメントシェーダのハンドル
@@ -29,5 +29,5 @@ abstract class MgShader {
         }
     }
 
-    abstract fun loadShader(): MgShader
+    abstract fun loadShader(): ES20MgShader
 }
