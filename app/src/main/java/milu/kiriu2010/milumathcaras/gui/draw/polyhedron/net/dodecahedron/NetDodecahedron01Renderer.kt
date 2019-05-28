@@ -5,8 +5,10 @@ import android.opengl.GLES20
 import android.opengl.Matrix
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.shader.es20.ES20Simple01Shader
+import milu.kiriu2010.math.MyMathUtil
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
+import kotlin.math.sqrt
 
 // -------------------------------------
 // 正十二面体の展開図01
@@ -14,8 +16,8 @@ import javax.microedition.khronos.opengles.GL10
 // ２面のなす角で回転の向きを変更
 // -------------------------------------
 // ２面のなす角
-//   cos(t) = -1/3
-//       t  = 109.4712208497度
+//   cos(t) = -1/sqrt(5)
+//       t  = 116.565051051度
 // -------------------------------------
 class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
 
@@ -26,22 +28,31 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
     private lateinit var shaderSimple: ES20Simple01Shader
 
     // 定数
-    val sqrt3   = 1.73205f
-    val sqrt3_3 = 0.57735f
-    val sqrt3_2 = 0.866025f
-    val l2_3    = 0.66667f
+    val cos36 = MyMathUtil.COS36F
+    val sin36 = MyMathUtil.SIN36F
+    val cos72 = MyMathUtil.COS72F
+    val sin72 = MyMathUtil.SIN72F
+    val hH = sqrt(5f+2f* sqrt(5f))
+    val hh = sqrt(10f+2f* sqrt(5f)) /2f
+    val ww = (sqrt(5f) +1f)/2f
 
-    // 35.2643895751
-    // = (180-109.4712208497)/2
-    //var angleFDiv0 = 0.35264389f
-    // 70.5287791503
-    //  = 180 - 109.4712208497
-    var angleFDiv0 = 0.70528779f
+
+    // 63.434948949
+    // = (180-116.565051051)
+    val angleFDiv0 =  0.63434948949f
+    /*
+    // 31.7174744745
+    // = (180-116.565051051)/2
+    var angleFDiv1 = 0.317174744745f
+    val angleFDivX = 31.7174744745f
+    */
     var cnt = 0
     var cntMax = 100
     var cntMin = -100
     var cntDir = 1
     var still = 0
+    // 初回サークルかどうか
+    var isFirstCycle = true
 
     override fun onDrawFrame(gl: GL10?) {
         // canvasを初期化
@@ -55,7 +66,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
             // stillが0のときだけ、
             // 展開図が開閉するようにする
             if ( still == 0 ) {
-                // 正八面体を形成した場合、
+                // 十二面体を形成した場合、
                 // 回転する向きを変更する
                 if ( cnt >= cntMax ) {
                     cntDir = -1
@@ -76,13 +87,23 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
                 still = (still+1)%30
                 if ( still == 0 ) {
                     cnt += cntDir
+                    if (isFirstCycle === true) {
+                        isFirstCycle = false
+                    }
                 }
             }
         }
         val t0 = angleFDiv0 * cnt.toFloat()
+        /*
+        val t1 = angleFDiv1 * cnt.toFloat()
+        val tt = when (isFirstCycle) {
+            true  -> t0
+            false -> t1
+        }
+        */
 
         // ビュー×プロジェクション
-        vecEye = qtnNow.toVecIII(floatArrayOf(0f,0f,12f))
+        vecEye = qtnNow.toVecIII(floatArrayOf(0f,0f,15f))
         vecEyeUp = qtnNow.toVecIII(floatArrayOf(0f,1f,0f))
         Matrix.setLookAtM(matV, 0,
             vecEye[0], vecEye[1], vecEye[2],
@@ -92,7 +113,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.multiplyMM(matVP,0,matP,0,matV,0)
 
         // ----------------------------------------------
-        // 回転するモデルを描画(１：静止)
+        // 回転するモデルを描画(１：上)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
@@ -107,25 +128,29 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         shaderSimple.draw(modelLst[1],matMVP)
 
         // ----------------------------------------------
-        // 回転するモデルを描画(３：右下)
+        // 回転するモデルを描画(３：左上)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
-        Matrix.translateM(matM,0,0.5f,sqrt3_2,0f)
-        Matrix.rotateM(matM,0,t0,1f,-sqrt3,0f)
-        Matrix.translateM(matM,0,0.5f,sqrt3_2,0f)
+        Matrix.translateM(matM,0,-ww,hh,0f)
+        Matrix.rotateM(matM,0,t0,cos36,sin36,0f)
+        Matrix.translateM(matM,0,0f,hH,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
         shaderSimple.draw(modelLst[2],matMVP)
 
         // ----------------------------------------------
-        // 回転するモデルを描画(４：左下)
+        // 回転するモデルを描画(４：右上←３：左上)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
-        Matrix.translateM(matM,0,-0.5f,sqrt3_2,0f)
-        Matrix.rotateM(matM,0,t0,1f,sqrt3,0f)
-        Matrix.translateM(matM,0,-0.5f,sqrt3_2,0f)
+        /*
+        Matrix.rotateM(matM,0,t0,cos36,sin36,0f)
+        Matrix.translateM(matM,0,0f,hH,0f)
+        */
+        Matrix.rotateM(matM,0,t0,cos72,-sin72,0f)
+        Matrix.translateM(matM,0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
         shaderSimple.draw(modelLst[3],matMVP)
 
+        /*
         // ----------------------------------------------
         // 回転するモデルを描画(５：上←右上)
         // ----------------------------------------------
@@ -174,6 +199,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.translateM(matM,0,0.5f,sqrt3_2,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
         shaderSimple.draw(modelLst[7],matMVP)
+        */
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
@@ -203,7 +229,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         ))
         modelLst.add(model1)
 
-        // 描画モデル(三角形)
+        // 描画モデル(五角形)
         val model2 = Pentagon4Dodecahedron01Model()
         model2.createPath(mapOf(
             "pattern" to 2f,
@@ -214,7 +240,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         ))
         modelLst.add(model2)
 
-        // 描画モデル(三角形)
+        // 描画モデル(五角形)
         val model3 = Pentagon4Dodecahedron01Model()
         model3.createPath(mapOf(
             "pattern" to 2f,
@@ -225,10 +251,10 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         ))
         modelLst.add(model3)
 
-        // 描画モデル(三角形)
+        // 描画モデル(五角形)
         val model4 = Pentagon4Dodecahedron01Model()
         model4.createPath(mapOf(
-            "pattern" to 2f,
+            "pattern" to 1f,
             "colorR" to 0f,
             "colorG" to 1f,
             "colorB" to 0f,
@@ -236,7 +262,8 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         ))
         modelLst.add(model4)
 
-        // 描画モデル(三角形)
+        /*
+        // 描画モデル(五角形)
         val model5 = Pentagon4Dodecahedron01Model()
         model5.createPath(mapOf(
             "pattern" to 1f,
@@ -247,7 +274,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         ))
         modelLst.add(model5)
 
-        // 描画モデル(三角形)
+        // 描画モデル(五角形)
         val model6 = Pentagon4Dodecahedron01Model()
         model6.createPath(mapOf(
             "pattern" to 1f,
@@ -258,7 +285,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         ))
         modelLst.add(model6)
 
-        // 描画モデル(三角形)
+        // 描画モデル(五角形)
         val model7 = Pentagon4Dodecahedron01Model()
         model7.createPath(mapOf(
             "pattern" to 1f,
@@ -269,7 +296,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         ))
         modelLst.add(model7)
 
-        // 描画モデル(三角形)
+        // 描画モデル(五角形)
         val model8 = Pentagon4Dodecahedron01Model()
         model8.createPath(mapOf(
             "pattern" to 2f,
@@ -279,6 +306,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
             "colorA" to 1f
         ))
         modelLst.add(model8)
+        */
     }
 
     override fun setMotionParam(motionParam: MutableMap<String, Float>) {
