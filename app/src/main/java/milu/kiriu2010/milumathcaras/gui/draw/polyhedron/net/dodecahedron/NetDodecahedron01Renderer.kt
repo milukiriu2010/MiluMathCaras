@@ -40,12 +40,6 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
     // 63.434948949
     // = (180-116.565051051)
     val angleFDiv0 =  0.63434948949f
-    /*
-    // 31.7174744745
-    // = (180-116.565051051)/2
-    var angleFDiv1 = 0.317174744745f
-    val angleFDivX = 31.7174744745f
-    */
     var cnt = 0
     var cntMax = 100
     var cntMin = -100
@@ -94,16 +88,9 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
             }
         }
         val t0 = angleFDiv0 * cnt.toFloat()
-        /*
-        val t1 = angleFDiv1 * cnt.toFloat()
-        val tt = when (isFirstCycle) {
-            true  -> t0
-            false -> t1
-        }
-        */
 
         // ビュー×プロジェクション
-        vecEye = qtnNow.toVecIII(floatArrayOf(0f,0f,15f))
+        vecEye = qtnNow.toVecIII(floatArrayOf(0f,0f,24f))
         vecEyeUp = qtnNow.toVecIII(floatArrayOf(0f,1f,0f))
         Matrix.setLookAtM(matV, 0,
             vecEye[0], vecEye[1], vecEye[2],
@@ -141,36 +128,36 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         // 回転するモデルを描画(４：右上←３：左上)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
-        /*
+        Matrix.translateM(matM,0,-cos36,hH-sin36,0f)
         Matrix.rotateM(matM,0,t0,cos36,sin36,0f)
-        Matrix.translateM(matM,0,0f,hH,0f)
-        */
+        Matrix.translateM(matM,0,cos36,sin36,0f)
         Matrix.rotateM(matM,0,t0,cos72,-sin72,0f)
         Matrix.translateM(matM,0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
         shaderSimple.draw(modelLst[3],matMVP)
 
-        /*
         // ----------------------------------------------
-        // 回転するモデルを描画(５：上←右上)
+        // 回転するモデルを描画(５：上←３：左上)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
-        Matrix.translateM(matM,0,0.5f,sqrt3_2,0f)
-        Matrix.rotateM(matM,0,t0,1f,-sqrt3,0f)
-        Matrix.translateM(matM,0,0.5f,sqrt3_2,0f)
+        Matrix.translateM(matM,0,-cos36,hh+sin36,0f)
+        Matrix.rotateM(matM,0,t0,cos36,sin36,0f)
+        Matrix.translateM(matM,0,-cos36,hH-sin36,0f)
         Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
         shaderSimple.draw(modelLst[4],matMVP)
 
         // ----------------------------------------------
-        // 回転するモデルを描画(６：右２上←３：右下)
+        // 回転するモデルを描画(６：左上←３：左上)
         // ----------------------------------------------
+        // 回転したとき、ちょっとずれてる
         Matrix.setIdentityM(matM,0)
-        Matrix.translateM(matM,0,0.5f,sqrt3_2,0f)
-        Matrix.rotateM(matM,0,t0,1f,-sqrt3,0f)
-        Matrix.translateM(matM,0,1f,0f,0f)
-        Matrix.rotateM(matM,0,-t0,1f,sqrt3,0f)
-        Matrix.translateM(matM,0,0.5f,-sqrt3_2,0f)
+        Matrix.translateM(matM,0,-2f*cos36,hh,0f)
+        Matrix.rotateM(matM,0,t0,cos36,sin36,0f)
+        Matrix.translateM(matM,0,-2f*cos36,2f*sin36,0f)
+        Matrix.rotateM(matM,0,t0,cos72,sin72,0f)
+        Matrix.translateM(matM,0,-1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
         shaderSimple.draw(modelLst[5],matMVP)
 
@@ -178,28 +165,73 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         // 回転するモデルを描画(７：左２上←４：左上)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
-        Matrix.translateM(matM,0,-0.5f,sqrt3_2,0f)
-        Matrix.rotateM(matM,0,t0,1f,sqrt3,0f)
-        Matrix.translateM(matM,0,-1f,0f,0f)
-        Matrix.rotateM(matM,0,-t0,1f,-sqrt3,0f)
-        Matrix.translateM(matM,0,-0.5f,-sqrt3_2,0f)
+        Matrix.translateM(matM,0,-cos36,hH-sin36,0f)
+        Matrix.rotateM(matM,0,t0,cos36,sin36,0f)
+        Matrix.translateM(matM,0,-2f*cos36,0f,0f)
+        Matrix.rotateM(matM,0,-t0,cos36,-sin36,0f)
+        Matrix.translateM(matM,0,-cos36,-sin36-hh,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
         shaderSimple.draw(modelLst[6],matMVP)
 
         // --------------------------------------------------------
-        // 回転するモデルを描画(８：右３下←６：右２上←３：右下)
+        // 回転するモデルを描画(８：右下←２：下)
         // --------------------------------------------------------
         Matrix.setIdentityM(matM,0)
-        Matrix.translateM(matM,0,0.5f,sqrt3_2,0f)
-        Matrix.rotateM(matM,0,t0,1f,-sqrt3,0f)
-        Matrix.translateM(matM,0,1f,0f,0f)
-        Matrix.rotateM(matM,0,-t0,1f,sqrt3,0f)
-        Matrix.translateM(matM,0,1f,0f,0f)
-        Matrix.rotateM(matM,0,t0,1f,-sqrt3,0f)
-        Matrix.translateM(matM,0,0.5f,sqrt3_2,0f)
+        Matrix.rotateM(matM,0,-t0,1f,0f,0f)
+        Matrix.translateM(matM,0,cos36,-hH+sin36,0f)
+        Matrix.rotateM(matM,0,-t0,cos36,sin36,0f)
+        Matrix.translateM(matM,0,cos36,-hH+sin36,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
         shaderSimple.draw(modelLst[7],matMVP)
-        */
+
+        // --------------------------------------------------------
+        // 回転するモデルを描画(９：左←８：右下←２：下)
+        // --------------------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        Matrix.rotateM(matM,0,-t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,-hH,0f)
+        Matrix.rotateM(matM,0,-t0,cos36,sin36,0f)
+        Matrix.rotateM(matM,0,-t0,cos72,-sin72,0f)
+        Matrix.translateM(matM,0,-1f,0f,0f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(modelLst[8],matMVP)
+
+        // --------------------------------------------------------
+        // 回転するモデルを描画(１０：下←８：右下←２：下)
+        // --------------------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        Matrix.rotateM(matM,0,-t0,1f,0f,0f)
+        Matrix.translateM(matM,0,ww,-hh,0f)
+        Matrix.rotateM(matM,0,-t0,cos36,sin36,0f)
+        Matrix.translateM(matM,0,0f,-hH,0f)
+        Matrix.rotateM(matM,0,-t0,1f,0f,0f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(modelLst[9],matMVP)
+
+        // --------------------------------------------------------
+        // 回転するモデルを描画(１１：右←８：右下←２：下)
+        // --------------------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        Matrix.rotateM(matM,0,-t0,1f,0f,0f)
+        Matrix.translateM(matM,0,2f*cos36,-hh,0f)
+        Matrix.rotateM(matM,0,-t0,cos36,sin36,0f)
+        Matrix.translateM(matM,0,2f*cos36,hh-hH,0f)
+        Matrix.rotateM(matM,0,-t0,cos72,sin72,0f)
+        Matrix.translateM(matM,0,1f,0f,0f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(modelLst[10],matMVP)
+
+        // --------------------------------------------------------
+        // 回転するモデルを描画(１２：右上←８：右下←２：下)
+        // --------------------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        Matrix.rotateM(matM,0,-t0,1f,0f,0f)
+        Matrix.translateM(matM,0,2f*cos36,-hh,0f)
+        Matrix.rotateM(matM,0,-t0,cos36,sin36,0f)
+        Matrix.rotateM(matM,0,t0,cos36,-sin36,0f)
+        Matrix.translateM(matM,0,2f*cos36,hh,0f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(modelLst[11],matMVP)
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
@@ -255,21 +287,20 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         val model4 = Pentagon4Dodecahedron01Model()
         model4.createPath(mapOf(
             "pattern" to 1f,
-            "colorR" to 0f,
+            "colorR" to 0.5f,
             "colorG" to 1f,
             "colorB" to 0f,
             "colorA" to 1f
         ))
         modelLst.add(model4)
 
-        /*
         // 描画モデル(五角形)
         val model5 = Pentagon4Dodecahedron01Model()
         model5.createPath(mapOf(
             "pattern" to 1f,
             "colorR" to 0f,
             "colorG" to 1f,
-            "colorB" to 1f,
+            "colorB" to 0f,
             "colorA" to 1f
         ))
         modelLst.add(model5)
@@ -279,8 +310,8 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         model6.createPath(mapOf(
             "pattern" to 1f,
             "colorR" to 0f,
-            "colorG" to 0.5f,
-            "colorB" to 1f,
+            "colorG" to 1f,
+            "colorB" to 0.5f,
             "colorA" to 1f
         ))
         modelLst.add(model6)
@@ -290,7 +321,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         model7.createPath(mapOf(
             "pattern" to 1f,
             "colorR" to 0f,
-            "colorG" to 0f,
+            "colorG" to 1f,
             "colorB" to 1f,
             "colorA" to 1f
         ))
@@ -299,14 +330,57 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         // 描画モデル(五角形)
         val model8 = Pentagon4Dodecahedron01Model()
         model8.createPath(mapOf(
+            "pattern" to 1f,
+            "colorR" to 0f,
+            "colorG" to 0.5f,
+            "colorB" to 1f,
+            "colorA" to 1f
+        ))
+        modelLst.add(model8)
+
+        // 描画モデル(五角形)
+        val model9 = Pentagon4Dodecahedron01Model()
+        model9.createPath(mapOf(
+            "pattern" to 2f,
+            "colorR" to 0f,
+            "colorG" to 0f,
+            "colorB" to 1f,
+            "colorA" to 1f
+        ))
+        modelLst.add(model9)
+
+        // 描画モデル(五角形)
+        val model10 = Pentagon4Dodecahedron01Model()
+        model10.createPath(mapOf(
+            "pattern" to 2f,
+            "colorR" to 0.5f,
+            "colorG" to 0f,
+            "colorB" to 1f,
+            "colorA" to 1f
+        ))
+        modelLst.add(model10)
+
+        // 描画モデル(五角形)
+        val model11 = Pentagon4Dodecahedron01Model()
+        model11.createPath(mapOf(
             "pattern" to 2f,
             "colorR" to 1f,
             "colorG" to 0f,
             "colorB" to 1f,
             "colorA" to 1f
         ))
-        modelLst.add(model8)
-        */
+        modelLst.add(model11)
+
+        // 描画モデル(五角形)
+        val model12 = Pentagon4Dodecahedron01Model()
+        model12.createPath(mapOf(
+            "pattern" to 2f,
+            "colorR" to 1f,
+            "colorG" to 0f,
+            "colorB" to 0.5f,
+            "colorA" to 1f
+        ))
+        modelLst.add(model12)
     }
 
     override fun setMotionParam(motionParam: MutableMap<String, Float>) {
