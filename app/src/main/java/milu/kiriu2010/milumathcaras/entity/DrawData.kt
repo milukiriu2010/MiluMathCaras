@@ -65,6 +65,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000026_EPICYCLOID(26),
     // 蝶々 T.Fay 01
     ID_000027_BUTTERFLY_FAY_01(27),
+    // 陰陽
+    ID_000028_YING_YANG_01(28),
     // 三芒形/三尖形(deltoid)(k=3.0)
     ID_000031_DELTOID(31),
     // アステロイド曲線(astroid)(k=4.0)

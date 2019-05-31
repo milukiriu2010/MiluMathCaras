@@ -3,9 +3,10 @@ package milu.kiriu2010.gui.shader.es20
 import android.opengl.GLES20
 
 // --------------------------------------
-// シェーダ
+// GLSL ES20用シェーダ
 // --------------------------------------
 // 2019.05.22 リソース解放
+// 2019.05.30 attribute/uniformハンドル
 // --------------------------------------
 abstract class ES20MgShader {
     // 頂点シェーダのハンドル
@@ -15,6 +16,11 @@ abstract class ES20MgShader {
 
     // シェーダが登録されたプログラムオブジェクトのハンドル
     protected var programHandle = -1
+
+    // attributeのハンドル
+    lateinit var hATTR: IntArray
+    // uniformのハンドル
+    lateinit var hUNI: IntArray
 
     // シェーダを削除
     fun deleteShader() {
@@ -26,6 +32,11 @@ abstract class ES20MgShader {
         }
         if ( programHandle != -1 ) {
             GLES20.glDeleteProgram(programHandle)
+        }
+        if ( this::hATTR.isInitialized ) {
+            (0 until hATTR.size).forEach {
+                GLES20.glDisableVertexAttribArray(it)
+            }
         }
     }
 

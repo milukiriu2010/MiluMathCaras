@@ -181,6 +181,9 @@ class DrawDataFactory {
                 }
                 // 特別な曲線の描画一覧
                 MenuItem.MENU_CURVE_SPECIAL -> {
+                    // 陰陽 01
+                    drawDataLst.add(DrawData(DrawDataID.ID_000028_YING_YANG_01,DrawFragmentType.FT_D2_04,resources.getString(R.string.draw_000028_curve_ying_yang_01),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_ying_yang_01)) ))
                     // 蝶々 T.Fay 01
                     drawDataLst.add(DrawData(DrawDataID.ID_000027_BUTTERFLY_FAY_01,DrawFragmentType.FT_D2_04,resources.getString(R.string.draw_000027_curve_butterfly_fay_01),
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_butterfly_fay_01)) ))
