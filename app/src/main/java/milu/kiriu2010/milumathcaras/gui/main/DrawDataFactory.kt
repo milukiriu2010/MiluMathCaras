@@ -181,6 +181,11 @@ class DrawDataFactory {
                 }
                 // 特別な曲線の描画一覧
                 MenuItem.MENU_CURVE_SPECIAL -> {
+                    // Trèfle de Habenicht
+                    drawDataLst.add(DrawData(DrawDataID.ID_000030_TREFLE_01,DrawFragmentType.FT_D2_05,resources.getString(R.string.draw_000030_curve_trefle_habenicht_01),
+                        stillImageParam = floatArrayOf(3f), motionImageParam = floatArrayOf(3f), editParam = floatArrayOf(0f,8f,0f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_trefle_habenicht_01), "autoParam" to "t", "handParam1" to "n"),
+                        fragmentParamMap = mutableMapOf("maxA" to 8) ))
                     // 陰陽 02
                     drawDataLst.add(DrawData(DrawDataID.ID_000029_YING_YANG_02,DrawFragmentType.FT_D2_04,resources.getString(R.string.draw_000029_curve_ying_yang_02),
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_ying_yang_02)) ))

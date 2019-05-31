@@ -121,6 +121,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000028_YING_YANG_01 -> YingYang01Drawable()
                 // 陰陽02
                 DrawDataID.ID_000029_YING_YANG_02 -> YingYang02Drawable()
+                // Trèfle de Habenicht
+                DrawDataID.ID_000030_TREFLE_01 -> TrefleHabenicht01Drawable()
                 // 三芒形/三尖形(deltoid)(k=3.0)
                 DrawDataID.ID_000031_DELTOID -> Hypocycloid01Drawable()
                 // アステロイド曲線(asteroid)(k=4.0)
