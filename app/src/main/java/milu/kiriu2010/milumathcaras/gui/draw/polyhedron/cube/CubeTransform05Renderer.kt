@@ -6,7 +6,8 @@ import android.opengl.Matrix
 import milu.kiriu2010.gui.model.Cube01Model
 import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.gui.renderer.MgRenderer
-import milu.kiriu2010.gui.shader.es20.ES20Simple01Shader
+import milu.kiriu2010.gui.shader.es20.wvbo.ES20VBOSimple01Shader
+import milu.kiriu2010.gui.vbo.es20.ES20VBOIpc
 import milu.kiriu2010.math.MyMathUtil
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -20,8 +21,11 @@ class CubeTransform05Renderer(ctx: Context): MgRenderer(ctx) {
     // 描画モデル(立方体)
     private lateinit var model: MgModelAbs
 
+    // VBO
+    private lateinit var bo: ES20VBOIpc
+
     // シェーダ(特殊効果なし)
-    private lateinit var shaderSimple: ES20Simple01Shader
+    private lateinit var shaderSimple: ES20VBOSimple01Shader
 
     override fun onDrawFrame(gl: GL10?) {
         // canvasを初期化
@@ -51,7 +55,7 @@ class CubeTransform05Renderer(ctx: Context): MgRenderer(ctx) {
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(model,matMVP)
+        shaderSimple.draw(model,bo,matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(前右上)
@@ -117,7 +121,7 @@ class CubeTransform05Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matA,0,axis[3],axis[0],axis[1],axis[2])
         // モデル×ビュー×プロジェクション
         Matrix.multiplyMM(matMVP,0,matVP,0,matA,0)
-        shaderSimple.draw(model,matMVP)
+        shaderSimple.draw(model,bo,matMVP)
 
         // 再帰呼び出し
         transformModel(matA.copyOf(),p,axis,n-1)
@@ -142,12 +146,16 @@ class CubeTransform05Renderer(ctx: Context): MgRenderer(ctx) {
         GLES20.glEnable(GLES20.GL_CULL_FACE)
 
         // シェーダ(特殊効果なし)
-        shaderSimple = ES20Simple01Shader()
+        shaderSimple = ES20VBOSimple01Shader()
         shaderSimple.loadShader()
 
         // 描画モデル(立方体)
         model = Cube01Model()
         model.createPath()
+
+        // VBO
+        bo = ES20VBOIpc()
+        bo.makeVIBO(model)
     }
 
     override fun setMotionParam(motionParam: MutableMap<String, Float>) {
@@ -156,7 +164,7 @@ class CubeTransform05Renderer(ctx: Context): MgRenderer(ctx) {
     // MgRenderer
     // シェーダ終了処理
     override fun closeShader() {
-        // シェーダ(特殊効果なし)
+        bo.deleteVIBO()
         shaderSimple.deleteShader()
     }
 

@@ -9,6 +9,7 @@ import milu.kiriu2010.gui.model.*
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.renderer.Tetrahedron01Model
 import milu.kiriu2010.gui.shader.es20.*
+import milu.kiriu2010.gui.shader.es20.nvbo.*
 import milu.kiriu2010.milumathcaras.R
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10

@@ -1,8 +1,9 @@
-package milu.kiriu2010.gui.shader.es20
+package milu.kiriu2010.gui.shader.es20.nvbo
 
 import android.opengl.GLES20
 import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.gui.basic.MyGLES20Func
+import milu.kiriu2010.gui.shader.es20.ES20MgShader
 
 // -------------------------------------------------------------------
 // 点光源

@@ -4,7 +4,8 @@ import android.content.Context
 import android.opengl.GLES20
 import android.opengl.Matrix
 import milu.kiriu2010.gui.renderer.MgRenderer
-import milu.kiriu2010.gui.shader.es20.ES20Simple01Shader
+import milu.kiriu2010.gui.shader.es20.wvbo.ES20VBOSimple01Shader
+import milu.kiriu2010.gui.vbo.es20.ES20VBOIpc
 import milu.kiriu2010.math.MyMathUtil
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -24,8 +25,11 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
     // 描画モデル(五角形)
     private val modelLst = mutableListOf<Pentagon4Dodecahedron01Model>()
 
+    // VBO
+    private var boLst = mutableListOf<ES20VBOIpc>()
+
     // シェーダ(特殊効果なし)
-    private lateinit var shaderSimple: ES20Simple01Shader
+    private lateinit var shaderSimple: ES20VBOSimple01Shader
 
     // 定数
     val cos36 = MyMathUtil.COS36F
@@ -104,7 +108,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[0],matMVP)
+        shaderSimple.draw(modelLst[0],boLst[0],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(２：下)
@@ -112,7 +116,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.setIdentityM(matM,0)
         Matrix.rotateM(matM,0,-t0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[1],matMVP)
+        shaderSimple.draw(modelLst[1],boLst[1],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(３：左上)
@@ -122,7 +126,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,t0,cos36,sin36,0f)
         Matrix.translateM(matM,0,0f,hH,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[2],matMVP)
+        shaderSimple.draw(modelLst[2],boLst[2],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(４：右上←３：左上)
@@ -134,7 +138,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,t0,cos72,-sin72,0f)
         Matrix.translateM(matM,0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[3],matMVP)
+        shaderSimple.draw(modelLst[3],boLst[3],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(５：上←３：左上)
@@ -146,7 +150,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,t0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[4],matMVP)
+        shaderSimple.draw(modelLst[4],boLst[4],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(６：左上←３：左上)
@@ -159,7 +163,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,t0,cos72,sin72,0f)
         Matrix.translateM(matM,0,-1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[5],matMVP)
+        shaderSimple.draw(modelLst[5],boLst[5],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(７：左２上←４：左上)
@@ -171,7 +175,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,-t0,cos36,-sin36,0f)
         Matrix.translateM(matM,0,-cos36,-sin36-hh,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[6],matMVP)
+        shaderSimple.draw(modelLst[6],boLst[6],matMVP)
 
         // --------------------------------------------------------
         // 回転するモデルを描画(８：右下←２：下)
@@ -182,7 +186,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,-t0,cos36,sin36,0f)
         Matrix.translateM(matM,0,cos36,-hH+sin36,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[7],matMVP)
+        shaderSimple.draw(modelLst[7],boLst[7],matMVP)
 
         // --------------------------------------------------------
         // 回転するモデルを描画(９：左←８：右下←２：下)
@@ -194,7 +198,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,-t0,cos72,-sin72,0f)
         Matrix.translateM(matM,0,-1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[8],matMVP)
+        shaderSimple.draw(modelLst[8],boLst[8],matMVP)
 
         // --------------------------------------------------------
         // 回転するモデルを描画(１０：下←８：右下←２：下)
@@ -206,7 +210,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.translateM(matM,0,0f,-hH,0f)
         Matrix.rotateM(matM,0,-t0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[9],matMVP)
+        shaderSimple.draw(modelLst[9],boLst[9],matMVP)
 
         // --------------------------------------------------------
         // 回転するモデルを描画(１１：右←８：右下←２：下)
@@ -219,7 +223,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,-t0,cos72,sin72,0f)
         Matrix.translateM(matM,0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[10],matMVP)
+        shaderSimple.draw(modelLst[10],boLst[10],matMVP)
 
         // --------------------------------------------------------
         // 回転するモデルを描画(１２：右上←８：右下←２：下)
@@ -231,7 +235,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,t0,cos36,-sin36,0f)
         Matrix.translateM(matM,0,2f*cos36,hh,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[11],matMVP)
+        shaderSimple.draw(modelLst[11],boLst[11],matMVP)
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
@@ -247,7 +251,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         GLES20.glDepthFunc(GLES20.GL_LEQUAL)
 
         // シェーダ(特殊効果なし)
-        shaderSimple = ES20Simple01Shader()
+        shaderSimple = ES20VBOSimple01Shader()
         shaderSimple.loadShader()
 
         // 描画モデル(五角形)
@@ -381,6 +385,12 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
             "colorA" to 1f
         ))
         modelLst.add(model12)
+
+        modelLst.forEach { model ->
+            val bo = ES20VBOIpc()
+            bo.makeVIBO(model)
+            boLst.add(bo)
+        }
     }
 
     override fun setMotionParam(motionParam: MutableMap<String, Float>) {
@@ -389,7 +399,9 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
     // MgRenderer
     // シェーダ終了処理
     override fun closeShader() {
-        // シェーダ(特殊効果なし)
+        boLst.forEach { bo ->
+            bo.deleteVIBO()
+        }
         shaderSimple.deleteShader()
     }
 

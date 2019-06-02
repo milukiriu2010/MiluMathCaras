@@ -4,7 +4,8 @@ import android.content.Context
 import android.opengl.GLES20
 import android.opengl.Matrix
 import milu.kiriu2010.gui.renderer.MgRenderer
-import milu.kiriu2010.gui.shader.es20.ES20Simple01Shader
+import milu.kiriu2010.gui.shader.es20.wvbo.ES20VBOSimple01Shader
+import milu.kiriu2010.gui.vbo.es20.ES20VBOIpc
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -22,8 +23,11 @@ class NetTetrahedron02Renderer(ctx: Context): MgRenderer(ctx) {
     // 描画モデル(三角形)
     private val modelLst = mutableListOf<Triangle4Tetrahedron02Model>()
 
+    // VBO
+    private var boLst = mutableListOf<ES20VBOIpc>()
+
     // シェーダ(特殊効果なし)
-    private lateinit var shaderSimple: ES20Simple01Shader
+    private lateinit var shaderSimple: ES20VBOSimple01Shader
 
     // 定数
     val sqrt3   = 1.73205f
@@ -94,7 +98,7 @@ class NetTetrahedron02Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.setIdentityM(matM,0)
         Matrix.translateM(matM,0,0f,-sqrt3_3,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[0],matMVP)
+        shaderSimple.draw(modelLst[0],boLst[0],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(下)
@@ -103,7 +107,7 @@ class NetTetrahedron02Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.translateM(matM,0,0f,-sqrt3_3,0f)
         Matrix.rotateM(matM,0,-t0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[1],matMVP)
+        shaderSimple.draw(modelLst[1],boLst[1],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(右上)
@@ -113,7 +117,7 @@ class NetTetrahedron02Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,t0,1f,-sqrt3,0f)
         Matrix.translateM(matM,0,-l2_3,-sqrt3_3,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[2],matMVP)
+        shaderSimple.draw(modelLst[2],boLst[2],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(右下)
@@ -123,7 +127,7 @@ class NetTetrahedron02Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,t0,1f, sqrt3,0f)
         Matrix.translateM(matM,0, l2_3,-sqrt3_3,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[3],matMVP)
+        shaderSimple.draw(modelLst[3],boLst[3],matMVP)
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
@@ -139,7 +143,7 @@ class NetTetrahedron02Renderer(ctx: Context): MgRenderer(ctx) {
         GLES20.glDepthFunc(GLES20.GL_LEQUAL)
 
         // シェーダ(特殊効果なし)
-        shaderSimple = ES20Simple01Shader()
+        shaderSimple = ES20VBOSimple01Shader()
         shaderSimple.loadShader()
 
         // 描画モデル(三角形)
@@ -151,6 +155,10 @@ class NetTetrahedron02Renderer(ctx: Context): MgRenderer(ctx) {
                 "pattern" to it.toFloat()
             ))
             modelLst.add(model)
+
+            val bo = ES20VBOIpc()
+            bo.makeVIBO(model)
+            boLst.add(bo)
         }
     }
 
@@ -160,7 +168,9 @@ class NetTetrahedron02Renderer(ctx: Context): MgRenderer(ctx) {
     // MgRenderer
     // シェーダ終了処理
     override fun closeShader() {
-        // シェーダ(特殊効果なし)
+        boLst.forEach { bo ->
+            bo.deleteVIBO()
+        }
         shaderSimple.deleteShader()
     }
 

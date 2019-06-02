@@ -1,16 +1,28 @@
-package milu.kiriu2010.gui.shader.es20
+package milu.kiriu2010.gui.shader.es20.nvbo
 
 import android.opengl.GLES20
 import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.gui.basic.MyGLES20Func
+import milu.kiriu2010.gui.shader.es20.ES20MgShader
 
-// --------------------------------------
-// 平行光源
-// --------------------------------------
-// 2019.05.13 コメント追加
+// ---------------------------------------------------------------
+// フォンシェーディング
+// ---------------------------------------------------------------
+// グーローシェーディング
+//   レンダリングされるポリゴンの色は頂点間で補間される
+//   よって頂点の数が少ないと美しいライティングを行うことが難しい
+//   頂点ごとに色を補間するため、色が変化する協会にジャギーが発生
+// フォンシェーディング
+//   各ピクセルごとに色の補間が行われる
+//   少ない頂点数のモデルをレンダリングする際のライティングでも
+//   自然な照明効果を得られる。
+//   ピクセルごとに色の補間が行われることで、
+//   不自然なジャギーが発生しなくなる
+// ---------------------------------------------------------------
+// 2019.05.14 コメント追加
 // 2019.05.22 リソース解放
-// --------------------------------------
-class ES20DirectionalLight01Shader: ES20MgShader() {
+// ---------------------------------------------------------------
+class ES20PhongShading01Shader: ES20MgShader() {
     // 頂点シェーダ
     private val scv =
         """
@@ -18,31 +30,13 @@ class ES20DirectionalLight01Shader: ES20MgShader() {
             attribute vec3 a_Normal;
             attribute vec4 a_Color;
             uniform   mat4 u_matMVP;
-            // モデル座標変換行列の逆行列
-            uniform   mat4 u_matINV;
-            // 光の向きを表すベクトル
-            uniform   vec3 u_vecLight;
+            varying   vec3 v_Normal;
             varying   vec4 v_Color;
 
             void main() {
-                // ---------------------------------------------------------
-                // 光の向きベクトルにモデル座標変換行列の逆行列を掛ける
-                // ---------------------------------------------------------
-                // モデル座標変換行列は外部プログラムで座標変換されるのに対し、
-                // 光の向きは一定でなければならないので、こうしている
-                // ---------------------------------------------------------
-                vec3  invLight = normalize(u_matINV * vec4(u_vecLight,0.0)).xyz;
-                // ---------------------------------------------------------
-                // 光の拡散の強さをライトベクトルと法線ベクトルの内積で表す
-                // ---------------------------------------------------------
-                // ライトベクトルと法線ベクトルによって形成される角度が
-                // 90度以上の場合は、光の影響力がなくなる。
-                // これを内積で実装している。
-                // ---------------------------------------------------------
-                float diffuse  = clamp(dot(a_Normal,invLight), 0.1, 1.0);
-                // 頂点の色成分に拡散光の成分を掛ける
-                v_Color        = a_Color * vec4(vec3(diffuse), 1.0);
-                gl_Position    = u_matMVP * vec4(a_Position,1.0);
+                v_Normal    = a_Normal;
+                v_Color     = a_Color;
+                gl_Position = u_matMVP * vec4(a_Position,1.0);
             }
             """.trimIndent()
 
@@ -51,10 +45,22 @@ class ES20DirectionalLight01Shader: ES20MgShader() {
         """
             precision mediump float;
 
+            uniform   mat4 u_matINV;
+            uniform   vec3 u_vecLight;
+            uniform   vec3 u_vecEye;
+            uniform   vec4 u_ambientColor;
+            varying   vec3 v_Normal;
             varying   vec4 v_Color;
 
             void main() {
-                gl_FragColor   = v_Color;
+                vec3  invLight  = normalize(u_matINV * vec4(u_vecLight,0.0)).xyz;
+                vec3  invEye    = normalize(u_matINV * vec4(u_vecEye  ,0.0)).xyz;
+                vec3  halfLE    = normalize(invLight + invEye);
+                float diffuse   = clamp(dot(v_Normal,invLight), 0.0, 1.0);
+                float specular  = pow(clamp(dot(v_Normal, halfLE), 0.0, 1.0), 50.0);
+                vec4  destColor = v_Color * vec4(vec3(diffuse),1.0) + vec4(vec3(specular),1.0);
+                destColor       = destColor + u_ambientColor;
+                gl_FragColor    = destColor;
             }
             """.trimIndent()
 
@@ -66,13 +72,16 @@ class ES20DirectionalLight01Shader: ES20MgShader() {
 
         // プログラムオブジェクトの生成とリンク
         programHandle = MyGLES20Func.createProgram(svhandle,sfhandle, arrayOf("a_Position","a_Normal","a_Color") )
+
         return this
     }
 
     fun draw(model: MgModelAbs,
-             matMVP: FloatArray,
-             matI: FloatArray,
-             vecLight: FloatArray) {
+             u_matMVP: FloatArray,
+             u_matINV: FloatArray,
+             u_vecLight: FloatArray,
+             u_vecEye: FloatArray,
+             u_ambientColor: FloatArray) {
 
         GLES20.glUseProgram(programHandle)
         MyGLES20Func.checkGlError2("UseProgram",this,model)
@@ -103,21 +112,33 @@ class ES20DirectionalLight01Shader: ES20MgShader() {
 
         // uniform(モデル×ビュー×プロジェクション)
         GLES20.glGetUniformLocation(programHandle,"u_matMVP").also {
-            GLES20.glUniformMatrix4fv(it,1,false,matMVP,0)
+            GLES20.glUniformMatrix4fv(it,1,false,u_matMVP,0)
         }
         MyGLES20Func.checkGlError2("u_matMVP",this,model)
 
-        // uniform(逆行列)
+        +       // uniform(逆行列)
         GLES20.glGetUniformLocation(programHandle,"u_matINV").also {
-            GLES20.glUniformMatrix4fv(it,1,false,matI,0)
+            GLES20.glUniformMatrix4fv(it,1,false,u_matINV,0)
         }
         MyGLES20Func.checkGlError2("u_matINV",this,model)
 
         // uniform(平行光源)
         GLES20.glGetUniformLocation(programHandle,"u_vecLight").also {
-            GLES20.glUniform3fv(it,1,vecLight,0)
+            GLES20.glUniform3fv(it,1,u_vecLight,0)
         }
         MyGLES20Func.checkGlError2("u_vecLight",this,model)
+
+        // uniform(視点座標)
+        GLES20.glGetUniformLocation(programHandle,"u_vecEye").also {
+            GLES20.glUniform3fv(it,1,u_vecEye,0)
+        }
+        MyGLES20Func.checkGlError2("u_vecEye",this,model)
+
+        // uniform(環境光)
+        GLES20.glGetUniformLocation(programHandle,"u_ambientColor").also {
+            GLES20.glUniform4fv(it,1,u_ambientColor,0)
+        }
+        MyGLES20Func.checkGlError2("u_ambientColor",this,model)
 
         // モデルを描画
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, model.datIdx.size, GLES20.GL_UNSIGNED_SHORT, model.bufIdx)

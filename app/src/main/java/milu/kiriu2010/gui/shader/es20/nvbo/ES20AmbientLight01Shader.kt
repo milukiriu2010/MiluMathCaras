@@ -1,25 +1,17 @@
-package milu.kiriu2010.gui.shader.es20
+package milu.kiriu2010.gui.shader.es20.nvbo
 
 import android.opengl.GLES20
 import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.gui.basic.MyGLES20Func
+import milu.kiriu2010.gui.shader.es20.ES20MgShader
 
-// -------------------------------------------------------------------------
-// 反射光
-// -------------------------------------------------------------------------
-// 反射光を取り入れることでモデルに光沢や輝きを持たせることが可能になる
-// 金属のような輝きのある面や、表面のツルツルした質感を表現することができる
-//
-// モデルを見つめる視線と光の向きとを考慮してライティングすることで、
-// 自然なハイライトを表現する。
-// 光源から放たれた光がモデルにぶつかって反射し、
-// その反射した光と視線がまっすぎに向き合ている場合、
-// 最も強く光が視線に向かう。
-// -------------------------------------------------------------------------
-// 2019.05.14  コメント追加
-// 2019.05.22  リソース解放
-// -------------------------------------------------------------------------
-class ES20SpecularLight01Shader: ES20MgShader() {
+// ----------------------------------------
+// 環境光
+// ----------------------------------------
+// 2019.05.14 コメント追加
+// 2019.05.22 リソース解放
+// ----------------------------------------
+class ES20AmbientLight01Shader: ES20MgShader() {
     // 頂点シェーダ
     private val scv =
         """
@@ -29,22 +21,16 @@ class ES20SpecularLight01Shader: ES20MgShader() {
             uniform   mat4 u_matMVP;
             uniform   mat4 u_matINV;
             uniform   vec3 u_vecLight;
-            uniform   vec3 u_vecEye;
             uniform   vec4 u_ambientColor;
             varying   vec4 v_Color;
 
+            // 環境光
+            // 現実世界における自然光の乱反射をシミュレートする
             void main() {
                 vec3  invLight = normalize(u_matINV * vec4(u_vecLight,0.0)).xyz;
-                vec3  invEye   = normalize(u_matINV * vec4(u_vecEye  ,0.0)).xyz;
-                // ライトベクトルと視線ベクトルとのハーフベクトル
-                vec3  halfLE   = normalize(invLight + invEye);
-                float diffuse  = clamp(dot(a_Normal,invLight), 0.0, 1.0);
-                // ハーフベクトルと面の法線ベクトルとの内積を取ることで反射光の強さを決定する
-                // powを使うことで、弱い光をさらに弱く、強い光は、そのまま残している
-                float specular = pow(clamp(dot(a_Normal, halfLE), 0.0, 1.0), 50.0);
-                vec4  light    = a_Color * vec4(vec3(diffuse),1.0) + vec4(vec3(specular),1.0);
-                // 色 = 頂点色 * 拡散光 + 反射光 + 環境光
-                v_Color        = light + u_ambientColor;
+                float diffuse  = clamp(dot(a_Normal,invLight), 0.1, 1.0);
+                // 平行光源(頂点の色成分に拡散光の成分を掛ける)による色成分、環境光の成分を足す
+                v_Color        = a_Color * vec4(vec3(diffuse), 1.0) + u_ambientColor;
                 gl_Position    = u_matMVP * vec4(a_Position,1.0);
             }
             """.trimIndent()
@@ -77,7 +63,6 @@ class ES20SpecularLight01Shader: ES20MgShader() {
              u_matMVP: FloatArray,
              u_matINV: FloatArray,
              u_vecLight: FloatArray,
-             u_vecEye: FloatArray,
              u_ambientColor: FloatArray) {
 
         GLES20.glUseProgram(programHandle)
@@ -85,6 +70,7 @@ class ES20SpecularLight01Shader: ES20MgShader() {
 
         // attribute(頂点)
         model.bufPos.position(0)
+        // get handle to vertex shader's vPosition member
         val hPosition = GLES20.glGetAttribLocation(programHandle, "a_Position").also {
             GLES20.glVertexAttribPointer(it,3,GLES20.GL_FLOAT,false,3*4,model.bufPos)
             GLES20.glEnableVertexAttribArray(it)
@@ -113,7 +99,7 @@ class ES20SpecularLight01Shader: ES20MgShader() {
         }
         MyGLES20Func.checkGlError2("u_matMVP",this,model)
 
-        +       // uniform(逆行列)
+        // uniform(逆行列)
         GLES20.glGetUniformLocation(programHandle,"u_matINV").also {
             GLES20.glUniformMatrix4fv(it,1,false,u_matINV,0)
         }
@@ -124,12 +110,6 @@ class ES20SpecularLight01Shader: ES20MgShader() {
             GLES20.glUniform3fv(it,1,u_vecLight,0)
         }
         MyGLES20Func.checkGlError2("u_vecLight",this,model)
-
-        // uniform(視点座標)
-        GLES20.glGetUniformLocation(programHandle,"u_vecEye").also {
-            GLES20.glUniform3fv(it,1,u_vecEye,0)
-        }
-        MyGLES20Func.checkGlError2("u_vecEye",this,model)
 
         // uniform(環境光)
         GLES20.glGetUniformLocation(programHandle,"u_ambientColor").also {

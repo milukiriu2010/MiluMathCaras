@@ -12,11 +12,11 @@ import java.nio.IntBuffer
 // GLSL ES2.0用
 // ----------------------------------------------------------------------
 // 2019.04.27 ビットマップをロードしテクスチャを生成
-// 2019.05.02 gaussianブラーの重みを計算
 // 2019.05.11 OpenGLのエラー状態を出力2
 // 2019.05.18 テクスチャパラメータの設定をしないパラメータ追加
 // 2019.05.19 フレームバッファを生成
 // 2019.05.24 フレームバッファ生成の引数に"浮動小数点数テクスチャ"用を追加
+// 2019.06.02 createProgramの属性引数デフォルト化
 // ----------------------------------------------------------------------
 class MyGLES20Func {
 
@@ -57,7 +57,7 @@ class MyGLES20Func {
         //  頂点シェーダのハンドル
         // sfhandle
         //  フラグメントシェーダのハンドル
-        fun createProgram(svhandle: Int, sfhandle: Int, attrStrArray: Array<String>): Int {
+        fun createProgram(svhandle: Int, sfhandle: Int, attrStrArray: Array<String> = arrayOf()): Int {
             val programHandle = GLES20.glCreateProgram().also {
                 // 頂点シェーダをプログラムに追加
                 GLES20.glAttachShader(it,svhandle)
