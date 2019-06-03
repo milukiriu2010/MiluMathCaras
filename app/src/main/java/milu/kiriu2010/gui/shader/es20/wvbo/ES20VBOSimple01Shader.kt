@@ -10,6 +10,7 @@ import milu.kiriu2010.gui.vbo.es20.ES20VBOAbs
 // 特殊効果なし(glDrawElements)
 // ------------------------------------------
 // 2019.05.31
+// 2019.06.03 ログ追加
 // ------------------------------------------
 class ES20VBOSimple01Shader: ES20MgShader() {
     // 頂点シェーダ
@@ -44,7 +45,7 @@ class ES20VBOSimple01Shader: ES20MgShader() {
         sfhandle = MyGLES20Func.loadShader(GLES20.GL_FRAGMENT_SHADER, scf)
 
         // プログラムオブジェクトの生成とリンク
-        programHandle = MyGLES20Func.createProgram(svhandle,sfhandle, arrayOf("a_Position","a_Color") )
+        programHandle = MyGLES20Func.createProgram(svhandle,sfhandle)
 
         // ----------------------------------------------
         // attributeハンドルに値をセット
@@ -55,7 +56,7 @@ class ES20VBOSimple01Shader: ES20MgShader() {
             // attribute属性を有効にする
             // ここで呼ばないと描画されない
             GLES20.glEnableVertexAttribArray(it)
-            MyGLES20Func.checkGlError("a_Position:glEnableVertexAttribArray")
+            MyGLES20Func.checkGlError("a_Position:glEnableVertexAttribArray:${it}")
             // attribute属性を登録
             GLES20.glVertexAttribPointer(it,3,GLES20.GL_FLOAT,false,0,0)
             MyGLES20Func.checkGlError("a_Position:glVertexAttribPointer")
@@ -67,7 +68,7 @@ class ES20VBOSimple01Shader: ES20MgShader() {
             // attribute属性を有効にする
             // ここで呼ばないと描画されない
             GLES20.glEnableVertexAttribArray(it)
-            MyGLES20Func.checkGlError("a_Color:glEnableVertexAttribArray")
+            MyGLES20Func.checkGlError("a_Color:glEnableVertexAttribArray:${it}")
             // attribute属性を登録
             GLES20.glVertexAttribPointer(it,4,GLES20.GL_FLOAT,false,0,0)
             MyGLES20Func.checkGlError("a_Color:glVertexAttribPointer")

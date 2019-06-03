@@ -10,6 +10,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.octahedron.NetOctahe
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.tetrahedron.NetTetrahedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.tetrahedron.NetTetrahedron02Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.view.Polyhedron01Renderer
+import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.view.Polyhedron02Renderer
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import java.lang.RuntimeException
 
@@ -18,21 +19,21 @@ class MgRendererFactory {
         fun createInstance(id: DrawDataID, context: Context, notifyCallback: NotifyCallback? = null): MgRenderer {
             val renderer = when (id) {
                 // 正四面体
-                DrawDataID.ID_001000_GL_TETRAHEDRON_01 -> Polyhedron01Renderer(context)
+                DrawDataID.ID_001000_GL_TETRAHEDRON_01 -> Polyhedron02Renderer(context)
                 // 立方体
-                DrawDataID.ID_001001_GL_CUBE_01 -> Polyhedron01Renderer(context)
+                DrawDataID.ID_001001_GL_CUBE_01 -> Polyhedron02Renderer(context)
                 // 正八面体
-                DrawDataID.ID_001002_GL_OCTAHEDRON_01 -> Polyhedron01Renderer(context)
+                DrawDataID.ID_001002_GL_OCTAHEDRON_01 -> Polyhedron02Renderer(context)
                 // 正十二面体
-                DrawDataID.ID_001003_GL_DODECAHEDRON_01 -> Polyhedron01Renderer(context)
+                DrawDataID.ID_001003_GL_DODECAHEDRON_01 -> Polyhedron02Renderer(context)
                 // 正二十面体
-                DrawDataID.ID_001004_GL_ICOSAHEDRON_01 -> Polyhedron01Renderer(context)
+                DrawDataID.ID_001004_GL_ICOSAHEDRON_01 -> Polyhedron02Renderer(context)
                 // 球
-                DrawDataID.ID_001005_GL_SPHERE_01 -> Polyhedron01Renderer(context)
+                DrawDataID.ID_001005_GL_SPHERE_01 -> Polyhedron02Renderer(context)
                 // トーラス
-                DrawDataID.ID_001006_GL_TORUS_01 -> Polyhedron01Renderer(context)
+                DrawDataID.ID_001006_GL_TORUS_01 -> Polyhedron02Renderer(context)
                 // 円柱
-                DrawDataID.ID_001007_GL_CYLINDER_01 -> Polyhedron01Renderer(context)
+                DrawDataID.ID_001007_GL_CYLINDER_01 -> Polyhedron02Renderer(context)
                 // 立方体座標変換01
                 DrawDataID.ID_001100_GL_CUBE_TRANSFORM_01 -> CubeTransform01Renderer(context)
                 // 立方体座標変換02

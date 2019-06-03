@@ -1,50 +1,52 @@
 package milu.kiriu2010.gui.shader.es20.wvbo
 
 import android.opengl.GLES20
-import milu.kiriu2010.gui.basic.MyGLES20Func
 import milu.kiriu2010.gui.model.MgModelAbs
+import milu.kiriu2010.gui.basic.MyGLES20Func
 import milu.kiriu2010.gui.shader.es20.ES20MgShader
 import milu.kiriu2010.gui.vbo.es20.ES20VBOAbs
 
 // ------------------------------------------
-// 特殊効果なし(DrawArrays)
+// GL_POINTSにて描画
 // ------------------------------------------
-// 2019.05.31
+// 2019.06.03  VBO
 // ------------------------------------------
-class ES20VBOSimple00Shader: ES20MgShader() {
+class ES20VBOPoints01Shader: ES20MgShader() {
     // 頂点シェーダ
     private val scv =
             """
             attribute vec3  a_Position;
             attribute vec4  a_Color;
             uniform   mat4  u_matMVP;
+            uniform   float u_pointSize;
             varying   vec4  v_Color;
 
             void main() {
-                v_Color        = a_Color;
-                gl_Position    = u_matMVP * vec4(a_Position,1.0);
+                v_Color      = a_Color;
+                gl_Position  = u_matMVP * vec4(a_Position,1.0);
+                gl_PointSize = u_pointSize;
             }
             """.trimIndent()
 
     // フラグメントシェーダ
     private val scf =
             """
-            precision mediump   float;
-            varying   vec4      v_Color;
+            precision mediump float;
+            varying   vec4 v_Color;
 
             void main() {
-                gl_FragColor  = v_Color;
+                gl_FragColor   = v_Color;
             }
             """.trimIndent()
 
     override fun loadShader(): ES20MgShader {
         // 頂点シェーダを生成
-        val svhandle = MyGLES20Func.loadShader(GLES20.GL_VERTEX_SHADER, scv)
+        svhandle = MyGLES20Func.loadShader(GLES20.GL_VERTEX_SHADER, scv)
         // フラグメントシェーダを生成
-        val sfhandle = MyGLES20Func.loadShader(GLES20.GL_FRAGMENT_SHADER, scf)
+        sfhandle = MyGLES20Func.loadShader(GLES20.GL_FRAGMENT_SHADER, scf)
 
         // プログラムオブジェクトの生成とリンク
-        programHandle = MyGLES20Func.createProgram(svhandle,sfhandle, arrayOf() )
+        programHandle = MyGLES20Func.createProgram(svhandle,sfhandle)
 
         // ----------------------------------------------
         // attributeハンドルに値をセット
@@ -77,17 +79,22 @@ class ES20VBOSimple00Shader: ES20MgShader() {
         // ----------------------------------------------
         // uniformハンドルに値をセット
         // ----------------------------------------------
-        hUNI = IntArray(1)
+        hUNI = IntArray(2)
         // uniform(モデル×ビュー×プロジェクション)
         hUNI[0] = GLES20.glGetUniformLocation(programHandle,"u_matMVP")
         MyGLES20Func.checkGlError("u_matMVP:glGetUniformLocation")
+
+        // uniform(描画する点の大きさ)
+        hUNI[1] = GLES20.glGetUniformLocation(programHandle,"u_pointSize")
+        MyGLES20Func.checkGlError("u_pointSize:glGetUniformLocation")
 
         return this
     }
 
     fun draw(model: MgModelAbs,
              bo: ES20VBOAbs,
-             u_matMVP: FloatArray) {
+             u_matMVP: FloatArray,
+             u_pointSize: Float) {
         GLES20.glUseProgram(programHandle)
         MyGLES20Func.checkGlError2("UseProgram",this,model)
 
@@ -105,12 +112,16 @@ class ES20VBOSimple00Shader: ES20MgShader() {
         GLES20.glUniformMatrix4fv(hUNI[0],1,false,u_matMVP,0)
         MyGLES20Func.checkGlError2("u_matMVP",this,model)
 
-        val cnt = model.datPos.size/3
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES,0,cnt)
+        // uniform(描画する点の大きさ)
+        GLES20.glUniform1f(hUNI[1],u_pointSize)
+        MyGLES20Func.checkGlError2("u_pointSize",this,model)
+
+        // モデルを描画
+        GLES20.glDrawArrays(GLES20.GL_POINTS, 0, model.datPos.size/3)
 
         // リソース解放
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER,0)
-        // ここで呼ぶと描画されない
-        //GLES20.glDisableVertexAttribArray(hATTR[0])
+        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER,0)
     }
+
 }
