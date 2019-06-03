@@ -123,8 +123,10 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000116_GOSPER_ISLAND_01(116),
     // ゴスパー島02
     ID_000117_GOSPER_ISLAND_02(117),
-    // ゴスパー曲線
-    ID_000118_GOSPER_CURVE(118),
+    // ゴスパー曲線01
+    ID_000118_GOSPER_CURVE_01(118),
+    // ゴスパー曲線02
+    ID_000119_GOSPER_CURVE_02(119),
     // シェルピンスキーの三角形
     ID_000121_SIERPINSKI_TRIANGLE(121),
     // シェルピンスキーのカーペット

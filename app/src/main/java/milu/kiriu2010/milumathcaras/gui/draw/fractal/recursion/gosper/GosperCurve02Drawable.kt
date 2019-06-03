@@ -1,38 +1,39 @@
-package milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert
+package milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.gosper
 
 import android.graphics.*
 import android.os.Handler
+import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.gui.basic.MyTurtle
 import milu.kiriu2010.gui.color.ColorType
 import milu.kiriu2010.gui.color.MyColorFactory
+import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
-import kotlin.math.pow
+import kotlin.math.*
 
-// --------------------------------------------------
-// ヒルベルト曲線
-// --------------------------------------------------
-// https://en.wikipedia.org/wiki/Hilbert_curve
-// --------------------------------------------------
-// タートルを使って描画する
-// --------------------------------------------------
-// A: -BF+AFA+FB-
-// B: +AF-BFB-FA+
-// --------------------------------------------------
-// F: 進む
-// -: 左へ90度
-// +: 右へ90度
-// --------------------------------------------------
-class HilbertCurve02Drawable: MyDrawable() {
-    // -------------------------------------
+// -----------------------------------------------
+// ゴスパー曲線02
+// -----------------------------------------------
+// Axiom: A
+// A: A-B--B+A++AA+B-
+// B: +A-BB--B-A++A+B
+// -----------------------------------------------
+// A,B: 進む
+// +  : 左へ60度
+// -  : 右へ60度
+// -----------------------------------------------
+// https://en.wikipedia.org/wiki/Gosper_curve
+// https://www.mathcurve.com/fractals/gosper/gosper.shtml
+// http://ecademy.agnesscott.edu/~lriddle/ifs/ksnow/flowsnake.htm
+// -----------------------------------------------
+// 2019.06.03
+// -----------------------------------------------
+class GosperCurve02Drawable: MyDrawable() {
+    // ---------------------------------
     // 描画領域
-    // -------------------------------------
-    // ヒルベルト曲線は
-    // 正方形を２分割するので２の階乗を選ぶ
-    //   = 1024 = 2^10
-    // -------------------------------------
-    private val side = 1024f
+    // ---------------------------------
+    private val side = 1000f
     private val margin = 50f
 
     // ----------------------------------------
@@ -41,12 +42,41 @@ class HilbertCurve02Drawable: MyDrawable() {
     private var nNow = 0
     // --------------------------------------------------------
     // 再帰レベルの最大値
-    //  7回以上描くと、塗りつぶされていしまうので6回としている
+    //  5回描くと、遅い＆線で埋め尽くされるので、4回で終了
     // --------------------------------------------------------
-    private val nMax = 6
+    private val nMax = 5
 
     // ----------------------------------------
-    // 描画に使うタートル
+    // ゴスパー島の回転角度
+    // ----------------------------------------
+    // arcsin(sqrt(3)/(2*sqrt(7))) = 19.1066
+    // ----------------------------------------
+    private val angle = asin( sqrt(3f)/(2f*sqrt(7f)) ).toFloat()*180f/ PI.toFloat()
+
+    // -----------------------------------------------------
+    // ゴスパー曲線を描く際に基準となる正六角形の一辺の長さ
+    //   r=2*sqrt(7)a
+    // -----------------------------------------------------
+    private var r = side/2f
+
+    // -----------------------------------------------------
+    // 係数a=r/(2sqrt(7))
+    // -----------------------------------------------------
+    private val ac = 1f/(2f*sqrt(7f))
+
+    // -----------------------------------------------------
+    // 係数b(=移動距離)=r*sqrt(21)/7
+    // -----------------------------------------------------
+    private var bc = sqrt(21f)/7f
+
+    // -----------------------------------------------------
+    // 係数c(=次の正六角形との相似比)=1/sqrt(7)
+    // -----------------------------------------------------
+    private var cc = 1f/sqrt(7f)
+
+
+    // ----------------------------------------
+    // ゴスパー曲線の描画Turtle
     // ----------------------------------------
     private val myTurtle = MyTurtle()
 
@@ -75,10 +105,19 @@ class HilbertCurve02Drawable: MyDrawable() {
         style = Paint.Style.FILL
     }
 
-    // -------------------------------------
-    // ヒルベルト曲線を描くペイント
-    // -------------------------------------
-    private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    // -------------------------------
+    // ゴスパー島を描くペイント
+    // -------------------------------
+    private val linePaintA = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.BLACK
+        style = Paint.Style.STROKE
+        strokeWidth = 1f
+    }
+
+    // -------------------------------
+    // ゴスパー曲線を描くペイント
+    // -------------------------------
+    private val linePaintB = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
         style = Paint.Style.STROKE
         strokeWidth = 5f
@@ -118,7 +157,7 @@ class HilbertCurve02Drawable: MyDrawable() {
             }
         }
 
-        // ヒルベルト曲線を構築
+        // ゴスパー島を構築
         createPath()
         // ビットマップに描画
         drawBitmap()
@@ -133,7 +172,7 @@ class HilbertCurve02Drawable: MyDrawable() {
                 if ( isPaused == false ) {
                     // 再帰レベルを１つ増やす
                     incrementLevel()
-                    // ヒルベルト曲線を構築
+                    // ゴスパー島を構築
                     createPath()
                     // ビットマップに描画
                     drawBitmap()
@@ -175,137 +214,212 @@ class HilbertCurve02Drawable: MyDrawable() {
         this.notifyCallback = notifyCallback
     }
 
-    // ヒルベルト曲線を構築
+    // ゴスパー島を構築
     private fun createPath() {
+        /*
+        // ------------------------------
+        // ゴスパー島の頂点
+        // 正六角形の時の初期位置
+        // ------------------------------
+        //  ef
+        // d  a
+        //  cb
+        // ------------------------------
+        val r = side*2f/5f
+        val a = MyPointF(r,0f)
+        val b = MyPointF(r*cos(300f*PI/180f).toFloat(),r*sin(300f*PI/180f).toFloat())
+        val c = MyPointF(r*cos(240f*PI/180f).toFloat(),r*sin(240f*PI/180f).toFloat())
+        val d = MyPointF(-r,0f)
+        val e = MyPointF(r*cos(120f*PI/180f).toFloat(),r*sin(120f*PI/180f).toFloat())
+        val f = MyPointF(r*cos(60f*PI/180f).toFloat(),r*sin(60f*PI/180f).toFloat())
+
+        // 次レベルのゴスパー島の描画点を求める
+        calNextLevel(a,b,nNow)
+        calNextLevel(b,c,nNow)
+        calNextLevel(c,d,nNow)
+        calNextLevel(d,e,nNow)
+        calNextLevel(e,f,nNow)
+        calNextLevel(f,a,nNow)
+
         // ----------------------------------------
-        // ヒルベルト曲線を描くための最初のステップ
+        // ゴスパー曲線を描くための最初のステップ
+        // ----------------------------------------
+        createCurveInit(nNow-1)
+        */
+
+        // ----------------------------------------
+        // ゴスパー曲線を描くための最初のステップ
         // ----------------------------------------
         createCurveInit(nNow)
+
 
         // 描画中に呼び出すコールバックをキックし、現在の再帰レベルを通知する
         notifyCallback?.receive(nNow.toFloat())
     }
 
     // ----------------------------------------
-    // ヒルベルト曲線を描くための最初のステップ
+    // ゴスパー曲線を描くための初期処理
     // ----------------------------------------
     private fun createCurveInit(n: Int) {
-        // 描画用Turtleを初期化する
+        // ゴスパー曲線描画Turtleを初期化する
         myTurtle.clear()
         if ( n < 0 ) return
 
-        // 分割数
-        val split = 2f.pow(n+1)+1
-
         // 移動距離
-        val dv = side/split
+        val dv = bc*r*cc.pow(nNow)
+
         // 初期位置
         val a = MyPointF().also {
-            it.x = dv
-            it.y = dv
+            it.x = r
+            it.y = 0f
         }
 
-        // 亀の初期設定
+        // ---------------------------------
+        // ゴスパー曲線を描く亀に以下を設定
+        // ・初期位置
+        // ・移動距離
+        // ・初期角度
+        // ---------------------------------
         myTurtle.addPoint(a).apply {
-            // 移動距離
             d = dv
-            // 初期角度
-            t = 0f
+            t = 240f+angle*(nNow.toFloat()-0.5f)
         }
 
-        // パターンAで描画
+        // ゴスパー曲線をパターンAで描画
         createCurveA(n)
     }
 
     // -------------------------------------
-    // ヒルベルト曲線をパターンAで描画
+    // ゴスパー曲線をパターンAで描画
     // -------------------------------------
     private fun createCurveA( n: Int ) {
         if ( n > 0 ) {
-            // 左90度
-            myTurtle.turn(90f)
-            // パターンB
-            createCurveB(n-1)
-            // 移動
-            myTurtle.move()
-            // 右90度
-            myTurtle.turn(-90f)
             // パターンA
             createCurveA(n-1)
-            // 移動
-            myTurtle.move()
-            // パターンA
-            createCurveA(n-1)
-            // 右90度
-            myTurtle.turn(-90f)
-            // 移動
-            myTurtle.move()
+            // 右60度
+            myTurtle.turn(-60f)
             // パターンB
             createCurveB(n-1)
-            // 左90度
-            myTurtle.turn(90f)
+            // 右120度
+            myTurtle.turn(-120f)
+            // パターンB
+            createCurveB(n-1)
+            // 左60度
+            myTurtle.turn(60f)
+            // パターンA
+            createCurveA(n-1)
+            // 左120度
+            myTurtle.turn(120f)
+            // パターンA
+            createCurveA(n-1)
+            // パターンA
+            createCurveA(n-1)
+            // 左60度
+            myTurtle.turn(60f)
+            // パターンB
+            createCurveB(n-1)
+            // 右60度
+            myTurtle.turn(-60f)
         }
         else {
-            // 左90度
-            // 移動
-            // 右90度
-            // 移動
-            // 右90度
-            // 移動
-            // 左90度
-            myTurtle.turn(90f)
+            // --------------------------
+            // 亀の軌跡
+            // --------------------------
+            // ・移動
+            // ・右60度
+            // ・移動
+            // ・右120度
+            // ・移動
+            // ・左60度
+            // ・移動
+            // ・左120度
+            // ・移動
+            // ・移動
+            // ・左60度
+            // ・移動
+            // ・右60度
+            // --------------------------
+            myTurtle.move()
+                .turn(-60f)
                 .move()
-                .turn(-90f)
+                .turn(-120f)
                 .move()
-                .turn(-90f)
+                .turn(60f)
                 .move()
-                .turn(90f)
+                .turn(120f)
+                .move()
+                .move()
+                .turn(60f)
+                .move()
+                .turn(-60f)
         }
     }
 
+
     // -------------------------------------
-    // ヒルベルト曲線をパターンBで描画
+    // ゴスパー曲線をパターンBで描画
     // -------------------------------------
     private fun createCurveB( n: Int ) {
         if ( n > 0 ) {
-            // 右90度
-            myTurtle.turn(-90f)
+            // 左60度
+            myTurtle.turn(60f)
             // パターンA
             createCurveA(n-1)
-            // 移動
-            myTurtle.move()
-            // 左90度
-            myTurtle.turn(90f)
+            // 右60度
+            myTurtle.turn(-60f)
             // パターンB
             createCurveB(n-1)
-            // 移動
-            myTurtle.move()
             // パターンB
             createCurveB(n-1)
-            // 左90度
-            myTurtle.turn(90f)
-            // 移動
-            myTurtle.move()
+            // 右120度
+            myTurtle.turn(-120f)
+            // パターンB
+            createCurveB(n-1)
+            // 右60度
+            myTurtle.turn(-60f)
             // パターンA
             createCurveA(n-1)
-            // 右90度
-            myTurtle.turn(-90f)
+            // 左120度
+            myTurtle.turn(120f)
+            // パターンA
+            createCurveA(n-1)
+            // 左60度
+            myTurtle.turn(60f)
+            // パターンB
+            createCurveB(n-1)
         }
         else {
-            // 右90度
-            // 移動
-            // 左90度
-            // 移動
-            // 左90度
-            // 移動
-            // 右90度
-            myTurtle.turn(-90f)
+            // --------------------------
+            // 亀の軌跡
+            // --------------------------
+            // ・左60度
+            // ・移動
+            // ・右60度
+            // ・移動
+            // ・移動
+            // ・右120度
+            // ・移動
+            // ・右60度
+            // ・移動
+            // ・左120度
+            // ・移動
+            // ・移動
+            // ・左60度
+            // ・移動
+            // --------------------------
+            myTurtle.turn(60f)
                 .move()
-                .turn(90f)
+                .turn(-60f)
                 .move()
-                .turn(90f)
                 .move()
-                .turn(-90f)
+                .turn(-120f)
+                .move()
+                .turn(-60f)
+                .move()
+                .turn(120f)
+                .move()
+                .turn(60f)
+                .move()
         }
     }
 
@@ -333,33 +447,53 @@ class HilbertCurve02Drawable: MyDrawable() {
 
         // ---------------------------------------------------------------------
         // 原点(0,0)の位置
-        //  = (マージン,マージン)
+        //  = (左右中央,上下中央)
         // ---------------------------------------------------------------------
         canvas.save()
-        canvas.translate(margin, margin)
+        canvas.translate(intrinsicWidth/2f, intrinsicHeight/2f)
 
-        // 色インスタンス作成
-        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
-
-        // ヒルベルト曲線を描画
-        // 1536色のグラデーション
-        val bunchSize = myTurtle.pLst.size
-        var myPointF2: MyPointF? = null
-        myTurtle.pLst.forEachIndexed { index, myPointF1 ->
-            if ( myPointF2 != null ) {
-                val color = myColor.create(index,bunchSize)
-                linePaint.color = color.toInt()
-                canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaint)
+        // ゴスパー曲線を描画
+        // 赤で描画
+        if ( nNow <= 3 ) {
+            val pathB = Path()
+            myTurtle.pLst.forEachIndexed { index, myPointF ->
+                //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
+                if ( index == 0 ) {
+                    pathB.moveTo(myPointF.x,myPointF.y)
+                }
+                else {
+                    pathB.lineTo(myPointF.x,myPointF.y)
+                }
             }
-            myPointF2 = myPointF1
+            canvas.drawPath(pathB,linePaintB)
         }
+        // ゴスパー曲線を描画
+        // 虹色で描画
+        else {
+            // 色インスタンス作成
+            val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
+
+            // ゴスパー曲線を描画
+            val bunchSize = myTurtle.pLst.size
+            var myPointF2: MyPointF? = null
+            myTurtle.pLst.forEachIndexed { index, myPointF1 ->
+                //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
+                if ( myPointF2 != null ) {
+                    val color = myColor.create(index,bunchSize)
+                    linePaintB.color = color.toInt()
+                    canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaintB)
+                }
+                myPointF2 = myPointF1
+            }
+        }
+
 
         // 座標を元に戻す
         canvas.restore()
 
-        // これまでの描画は上下逆なので反転する
+        // これまでの描画はテンポラリなので実体にコピーする
         val matrix = Matrix()
-        matrix.postScale(1f,-1f)
+        matrix.postScale(1f,1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
     }
 
@@ -377,7 +511,7 @@ class HilbertCurve02Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun setAlpha(alpha: Int) {
-        linePaint.alpha = alpha
+        linePaintA.alpha = alpha
     }
 
     // -------------------------------
@@ -389,7 +523,7 @@ class HilbertCurve02Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun setColorFilter(colorFilter: ColorFilter?) {
-        linePaint.colorFilter = colorFilter
+        linePaintA.colorFilter = colorFilter
     }
 
     // -------------------------------

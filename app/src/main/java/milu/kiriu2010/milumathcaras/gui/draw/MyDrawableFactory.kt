@@ -32,6 +32,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid.Trochoid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.mandelbrot.Mandelbrot00Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.dragon.DragonCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.gosper.GosperCurve01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.gosper.GosperCurve02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.gosper.GosperIsland01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.gosper.GosperIsland02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.HilbertCurve01Drawable
@@ -175,8 +176,10 @@ class MyDrawableFactory {
                 DrawDataID.ID_000116_GOSPER_ISLAND_01 -> GosperIsland01Drawable()
                 // ゴスパー島02
                 DrawDataID.ID_000117_GOSPER_ISLAND_02 -> GosperIsland02Drawable()
-                // ゴスパー曲線
-                DrawDataID.ID_000118_GOSPER_CURVE -> GosperCurve01Drawable()
+                // ゴスパー曲線01
+                DrawDataID.ID_000118_GOSPER_CURVE_01 -> GosperCurve01Drawable()
+                // ゴスパー曲線02
+                DrawDataID.ID_000119_GOSPER_CURVE_02 -> GosperCurve02Drawable()
                 // シェルピンスキーの三角形
                 DrawDataID.ID_000121_SIERPINSKI_TRIANGLE -> SierpinskiTriangle01Drawable()
                 // シェルピンスキーのカーペット

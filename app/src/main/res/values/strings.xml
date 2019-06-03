@@ -131,7 +131,8 @@
     <string name="draw_000113_fractal_recursion_tree_curve_03">Tree Curve 03</string>
     <string name="draw_000116_fractal_gosper_island_01">Gosper Island 01</string>
     <string name="draw_000117_fractal_gosper_island_02">Gosper Island 02</string>
-    <string name="draw_000118_fractal_gosper_curve">Gosper Curve</string>
+    <string name="draw_000118_fractal_gosper_curve_01">Gosper Curve 01</string>
+    <string name="draw_000119_fractal_gosper_curve_02">Gosper Curve 02</string>
     <string name="draw_000121_fractal_sierpinski_triangle">Sierpinski Triangle</string>
     <string name="draw_000122_fractal_sierpinski_carpet">Sierpinski Carpet</string>
     <string name="draw_000123_fractal_sierpinski_pentagon">Sierpinski Pentagon</string>
