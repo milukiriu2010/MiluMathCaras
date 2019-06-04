@@ -34,6 +34,8 @@ class MgRendererFactory {
                 DrawDataID.ID_001006_GL_TORUS_01 -> Polyhedron02Renderer(context)
                 // 円柱
                 DrawDataID.ID_001007_GL_CYLINDER_01 -> Polyhedron02Renderer(context)
+                // 円錐
+                DrawDataID.ID_001008_GL_CONE_01 -> Polyhedron02Renderer(context)
                 // 立方体座標変換01
                 DrawDataID.ID_001100_GL_CUBE_TRANSFORM_01 -> CubeTransform01Renderer(context)
                 // 立方体座標変換02

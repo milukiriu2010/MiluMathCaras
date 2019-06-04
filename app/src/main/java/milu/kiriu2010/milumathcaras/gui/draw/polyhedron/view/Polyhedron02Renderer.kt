@@ -176,6 +176,11 @@ class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
         // VBO(座標軸モデル)
         boAxis = ES20VBOpc()
         boAxis.makeVIBO(modelAxis)
+
+        // 点光源の位置
+        vecLight[0] = 2f
+        vecLight[1] = 2f
+        vecLight[2] = 2f
     }
 
     // シェーダ(モデル描画)生成
@@ -226,6 +231,8 @@ class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
             6 -> Torus01Model()
             // 円柱
             7 -> Cylinder01Model()
+            // 円錐
+            8 -> Cone01Model()
             else -> Tetrahedron01Model()
         }
 
