@@ -5,6 +5,7 @@ import android.os.Handler
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
+import kotlin.math.abs
 import kotlin.math.sqrt
 
 // -----------------------------------------------------------------
@@ -17,7 +18,8 @@ class SquareCross01Drawable: MyDrawable() {
         RIGHT,
         LEFT,
         DOWN,
-        UP
+        UP,
+        STILL
     }
 
     // -------------------------------
@@ -31,11 +33,8 @@ class SquareCross01Drawable: MyDrawable() {
     // -------------------------------
     private val a = 100f
 
-    // "描画点の初期位置設定"の実施回数
-    private var nCnt = 0
-
     // 描画点のリスト
-    private val vertexLst = mutableListOf<Vertex>()
+    private val squareLst = mutableListOf<Square>()
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -66,7 +65,8 @@ class SquareCross01Drawable: MyDrawable() {
     // 頂点を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = 0xff19b5fe.toInt()
+        //color = 0xff19b5fe.toInt()
+        color = Color.BLACK
         style = Paint.Style.FILL
     }
 
@@ -107,8 +107,6 @@ class SquareCross01Drawable: MyDrawable() {
                 if ( isPaused == false ) {
                     // 描画点を移動する
                     movePath()
-                    // 描画点の初期位置設定
-                    createPath()
                     // ビットマップに描画
                     drawBitmap()
                     // 描画
@@ -146,108 +144,84 @@ class SquareCross01Drawable: MyDrawable() {
     // 描画点の初期位置設定
     // -------------------------------
     private fun createPath() {
-        /*
-        // 移動比率=0の場合、描画点リストを構築しなおす
-        if ( ratioNow != 0f ) return
+        squareLst.clear()
 
-        vertexLst.clear()
-
-        // 分裂方向を切り替える
-        if (nCnt > 0) {
-            modeSplitNow = if (modeSplitNow == ModeSplit.VERTICAL) ModeSplit.HORIZONTAL else ModeSplit.VERTICAL
+        // 初期状態は"×印"で並べ、右回りで動いていく
+        (-4..4).forEach { y ->
+            (-4..4).forEach { x ->
+                if ( abs(x) == abs(y) ) {
+                    val square = Square().also {
+                        it.s = x
+                        it.t = y
+                        it.l = abs(x)
+                        it.d = when {
+                            ((x < 0) and (y < 0)) -> MoveDir.RIGHT
+                            ((x > 0) and (y < 0)) -> MoveDir.DOWN
+                            ((x < 0) and (y > 0)) -> MoveDir.UP
+                            ((x > 0) and (y > 0)) -> MoveDir.LEFT
+                            else -> MoveDir.STILL
+                        }
+                    }
+                    squareLst.add(square)
+                }
+            }
         }
 
-        // 分裂方向に合わせて、描画点の初期位置・移動方向を決定
-        when (modeSplitNow) {
-            ModeSplit.HORIZONTAL -> createPathHORIZONTAL()
-            ModeSplit.VERTICAL   -> createPathVERTICAL()
-        }
-        */
 
-        nCnt++
-    }
-
-    // -------------------------------
-    // 描画点のパス設定(HORIZONTAL)
-    // -------------------------------
-    private fun createPathHORIZONTAL() {
-        val v0 = Vertex().also {
-            // 起点位置
-            it.slst.add(MyPointF(a,0f))
-            it.slst.add(MyPointF(0f,0f))
-            it.slst.add(MyPointF(a,a))
-            it.slst.add(MyPointF(a,0f))
-            // 終端位置
-            it.elst.add(MyPointF(a,0f))
-            it.elst.add(MyPointF(a,a))
-            it.elst.add(MyPointF(a,a))
-            it.elst.add(MyPointF(2f*a,a))
-        }
-
-        val v1 = Vertex().also {
-            // 起点位置
-            it.slst.add(MyPointF(0f,a))
-            it.slst.add(MyPointF(a,a))
-            it.slst.add(MyPointF(0f,0f))
-            it.slst.add(MyPointF(0f,a))
-            // 終端位置
-            it.elst.add(MyPointF(0f,a))
-            it.elst.add(MyPointF(0f,0f))
-            it.elst.add(MyPointF(0f,0f))
-            it.elst.add(MyPointF(-a,0f))
-        }
-
-        vertexLst.add(v0)
-        vertexLst.add(v1)
-
-    }
-
-    // -------------------------------
-    // 描画点のパス設定(VERTICAL)
-    // -------------------------------
-    private fun createPathVERTICAL() {
-        val v0 = Vertex().also {
-            // 起点位置
-            it.slst.add(MyPointF(a,a))
-            it.slst.add(MyPointF(a,0f))
-            it.slst.add(MyPointF(0f,a))
-            it.slst.add(MyPointF(a,a))
-            // 終端位置
-            it.elst.add(MyPointF(a,a))
-            it.elst.add(MyPointF(0f,a))
-            it.elst.add(MyPointF(0f,a))
-            it.elst.add(MyPointF(0f,2f*a))
-        }
-
-        val v1 = Vertex().also {
-            // 起点位置
-            it.slst.add(MyPointF(0f,0f))
-            it.slst.add(MyPointF(0f,a))
-            it.slst.add(MyPointF(a,0f))
-            it.slst.add(MyPointF(0f,0f))
-            // 終端位置
-            it.elst.add(MyPointF(0f,0f))
-            it.elst.add(MyPointF(a,0f))
-            it.elst.add(MyPointF(a,0f))
-            it.elst.add(MyPointF(a,-a))
-        }
-
-        vertexLst.add(v0)
-        vertexLst.add(v1)
     }
 
     // -------------------------------
     // 描画点を移動する
     // -------------------------------
     private fun movePath() {
-
-        /*
-        ratioNow += ratioDiv
-        // 描画点を移動する
-        if (ratioNow > ratioMax) {
-            ratioNow = 0f
+        squareLst.forEach { square ->
+            when (square.d) {
+                MoveDir.RIGHT -> {
+                    // 右へ移動
+                    if (square.s < square.l) {
+                        square.s++
+                    }
+                    // 下へ向きを変える
+                    else {
+                        square.d = MoveDir.DOWN
+                        square.t++
+                    }
+                }
+                MoveDir.LEFT -> {
+                    // 左へ移動
+                    if (square.s > -square.l) {
+                        square.s--
+                    }
+                    // 上へ向きを変える
+                    else {
+                        square.d = MoveDir.UP
+                        square.t--
+                    }
+                }
+                MoveDir.DOWN -> {
+                    // 下へ移動
+                    if (square.t < square.l) {
+                        square.t++
+                    }
+                    // 左へ向きを変える
+                    else {
+                        square.d = MoveDir.LEFT
+                        square.s--
+                    }
+                }
+                MoveDir.UP -> {
+                    // 上へ移動
+                    if (square.t > -square.l) {
+                        square.t--
+                    }
+                    // 右へ向きを変える
+                    else {
+                        square.d = MoveDir.RIGHT
+                        square.s++
+                    }
+                }
+            }
         }
-        */
     }
 
     // -------------------------------
@@ -262,42 +236,27 @@ class SquareCross01Drawable: MyDrawable() {
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
         // 原点(0,0)の位置
-        // = (マージン,マージン)
+        // = (中央,中央)
+        canvas.save()
+        canvas.translate(intrinsicWidth/2f,intrinsicHeight/2f)
 
-        /*
-        // 描画点を描く
-        (0..splitN+1).forEach row@{ row ->
-            canvas.save()
-            canvas.translate(margin,margin)
-            canvas.translate(-a*1.5f,a*(row-1).toFloat())
-            (0..splitN+2).forEach col@{ col ->
-                canvas.translate(a,0f)
-                when {
-                    (modeSplitNow == ModeSplit.HORIZONTAL) and (row%2 == 0) and (col%2 == 1) -> return@col
-                    (modeSplitNow == ModeSplit.HORIZONTAL) and (row%2 == 1) and (col%2 == 0) -> return@col
-                    (modeSplitNow == ModeSplit.VERTICAL) and (row%2 == 0) and (col%2 == 0) -> return@col
-                    (modeSplitNow == ModeSplit.VERTICAL) and (row%2 == 1) and (col%2 == 1) -> return@col
-                }
-
-                vertexLst.forEach { vertex ->
-                    val path = Path()
-                    vertex.slst.forEachIndexed { id, sp ->
-                        val ep = vertex.elst[id]
-                        val p = sp.lerp(ep,ratioNow,ratioMax-ratioNow)
-                        when (id) {
-                            0 -> path.moveTo(p.x,p.y)
-                            else -> path.lineTo(p.x,p.y)
-                        }
-
-                    }
-                    path.close()
-                    canvas.drawPath(path,linePaint)
-                }
+        squareLst.forEach { square ->
+            val x = a * (square.s.toFloat()-0.5f)
+            val y = a * (square.t.toFloat()-0.5f)
+            /*
+            linePaint.color = when(square.d) {
+                MoveDir.RIGHT -> Color.RED
+                MoveDir.LEFT -> Color.GREEN
+                MoveDir.DOWN -> Color.BLUE
+                MoveDir.UP -> Color.YELLOW
+                MoveDir.STILL -> Color.BLACK
             }
-            // 座標を元に戻す
-            canvas.restore()
+            */
+            canvas.drawRect(x,y,x+a,y+a,linePaint)
         }
-        */
+
+        // 座標を元に戻す
+        canvas.restore()
 
         // これまでの描画はテンポラリなので、実体にコピーする
         val matrix = Matrix()
@@ -345,10 +304,24 @@ class SquareCross01Drawable: MyDrawable() {
     // --------------------------------------
     // 描画点
     // --------------------------------------
+    /*
     private data class Vertex(
         // 頂点の起点位置
         var slst: MutableList<MyPointF> = mutableListOf(),
         // 頂点の終端位置
         var elst: MutableList<MyPointF> = mutableListOf()
     )
+    */
+
+    private data class Square(
+        // 現在位置(横)
+        var s: Int = 0,
+        // 現在位置(縦)
+        var t: Int = 0,
+        // レベル
+        var l: Int = 0,
+        // 現在移動方向
+        var d: MoveDir = MoveDir.STILL
+    )
+
 }
