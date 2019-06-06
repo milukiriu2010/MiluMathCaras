@@ -113,6 +113,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000108_MOORECURVE(108),
     // ムーア曲線
     ID_000109_MOORECURVE(109),
+    // Lévy C
+    ID_000110_LEVY(110),
     // 樹木曲線01
     ID_000111_TREE_CURVE(111),
     // 樹木曲線02

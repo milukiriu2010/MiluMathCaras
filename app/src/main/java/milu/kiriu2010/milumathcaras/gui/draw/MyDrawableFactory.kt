@@ -31,6 +31,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.logarithmic.Logarithmi
 import milu.kiriu2010.milumathcaras.gui.draw.curve.trochoid.Trochoid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.mandelbrot.Mandelbrot00Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.dragon.DragonCurve01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.dragon.LevyCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.gosper.GosperCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.gosper.GosperCurve02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.gosper.GosperIsland01Drawable
@@ -166,6 +167,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000108_MOORECURVE -> MooreCurve02Drawable()
                 // ムーア曲線
                 DrawDataID.ID_000109_MOORECURVE -> MooreCurve01Drawable()
+                // Lévy C
+                DrawDataID.ID_000110_LEVY -> LevyCurve01Drawable()
                 // 樹木曲線01
                 DrawDataID.ID_000111_TREE_CURVE -> TreeCurve01Drawable()
                 // 樹木曲線02

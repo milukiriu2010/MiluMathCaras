@@ -207,27 +207,30 @@ class DrawDataFactory {
                 }
                 // フラクタル(再帰)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_RECURSION -> {
-                    // 高木曲線
-                    drawDataLst.add(DrawData(DrawDataID.ID_000101_TAKAGI_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000101_fractal_recursion_takagi_curve),
-                        stillImageParam = floatArrayOf(6f), motionImageParam = floatArrayOf(0f) ))
-                    // コッホ雪片
-                    drawDataLst.add(DrawData(DrawDataID.ID_000102_KOCH_SNOWFLAKE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000102_fractal_recursion_koch_snowflake),
-                        stillImageParam = floatArrayOf(4f), motionImageParam = floatArrayOf(0f) ))
-                    // ドラゴン曲線
-                    drawDataLst.add(DrawData(DrawDataID.ID_000104_DRAGON_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000104_fractal_recursion_dragon_curve),
-                        stillImageParam = floatArrayOf(6f), motionImageParam = floatArrayOf(0f) ))
-                    // ヒルベルト曲線(タートル)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000106_HILBERT_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000106_fractal_recursion_hilbert_curve),
+                    // Lévy C
+                    drawDataLst.add(DrawData(DrawDataID.ID_000110_LEVY,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000110_fractal_recursion_levyc_curve),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
-                    //// ヒルベルト曲線
-                    // drawDataLst.add(DrawData(DrawDataID.ID_000107_HILBERT_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000107_fractal_recursion_hilbert_curve),
-                    //     stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
                     // ムーア曲線(タートル)
                     drawDataLst.add(DrawData(DrawDataID.ID_000108_MOORECURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000108_fractal_recursion_moore_curve),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
                     // ムーア曲線
                     //drawDataLst.add(DrawData(DrawDataID.ID_000109_MOORECURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000109_fractal_recursion_moore_curve),
                     //    stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
+                    // ヒルベルト曲線(タートル)
+                    drawDataLst.add(DrawData(DrawDataID.ID_000106_HILBERT_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000106_fractal_recursion_hilbert_curve),
+                        stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
+                    //// ヒルベルト曲線
+                    // drawDataLst.add(DrawData(DrawDataID.ID_000107_HILBERT_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000107_fractal_recursion_hilbert_curve),
+                    //     stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
+                    // ドラゴン曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_000104_DRAGON_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000104_fractal_recursion_dragon_curve),
+                        stillImageParam = floatArrayOf(6f), motionImageParam = floatArrayOf(0f) ))
+                    // コッホ雪片
+                    drawDataLst.add(DrawData(DrawDataID.ID_000102_KOCH_SNOWFLAKE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000102_fractal_recursion_koch_snowflake),
+                        stillImageParam = floatArrayOf(4f), motionImageParam = floatArrayOf(0f) ))
+                    // 高木曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_000101_TAKAGI_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000101_fractal_recursion_takagi_curve),
+                        stillImageParam = floatArrayOf(6f), motionImageParam = floatArrayOf(0f) ))
                 }
                 // フラクタル(樹木曲線)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_TREE_CURVE -> {

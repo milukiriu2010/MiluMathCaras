@@ -19,6 +19,8 @@ import javax.microedition.khronos.opengles.GL10
 // 　⇔
 // 　分身が周りで回転
 // -----------------------------------------
+// 2019.06.06
+// -----------------------------------------
 class CubeTransform07Renderer(ctx: Context): MgRenderer(ctx) {
 
     // 描画モデル(立方体)

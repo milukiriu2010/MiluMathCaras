@@ -126,6 +126,7 @@
     <string name="draw_000107_fractal_recursion_hilbert_curve">Hilbert Curve</string>
     <string name="draw_000108_fractal_recursion_moore_curve">Moore Curve</string>
     <string name="draw_000109_fractal_recursion_moore_curve">Moore Curve</string>
+    <string name="draw_000110_fractal_recursion_levyc_curve">Lévy C Curve</string>
     <string name="draw_000111_fractal_recursion_tree_curve_01">Tree Curve 01</string>
     <string name="draw_000112_fractal_recursion_tree_curve_02">Tree Curve 02</string>
     <string name="draw_000113_fractal_recursion_tree_curve_03">Tree Curve 03</string>
