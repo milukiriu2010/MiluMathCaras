@@ -780,6 +780,11 @@ class DrawDataFactory {
                     // 立方体座標変換01
                     drawDataLst.add(DrawData(DrawDataID.ID_001100_GL_CUBE_TRANSFORM_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001100_gl_cube_transform_01), drawViewType = DrawViewType.DVT_GL ))
                 }
+                // 球体に座標変換を施したものを描画するメニュー
+                MenuItem.MENU_POLYHEDRON_SPHERE_TRANSFORM -> {
+                    // 球体座標変換01
+                    drawDataLst.add(DrawData(DrawDataID.ID_001300_GL_SPHERE_TRANSFORM_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001300_gl_sphere_transform_01), drawViewType = DrawViewType.DVT_GL ))
+                }
                 // 多面体の展開図を描画するメニュー
                 MenuItem.MENU_POLYHEDRON_NET -> {
                     // 正十二面体の展開図01

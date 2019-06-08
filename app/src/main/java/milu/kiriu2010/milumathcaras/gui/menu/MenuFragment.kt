@@ -254,6 +254,9 @@ class MenuFragment : Fragment() {
                     // 立方体に座標変換を施したものを描画するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON_CUBE_TRANSFORM, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron_cube_transform),false))
                     // [サブメニュー]
+                    // 球体に座標変換を施したものを描画するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON_SPHERE_TRANSFORM, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron_sphere_transform),false))
+                    // [サブメニュー]
                     // 多面体の展開図を描画するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON_NET, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron_net),false))
                 }

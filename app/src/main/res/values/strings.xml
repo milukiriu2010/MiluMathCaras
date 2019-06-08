@@ -44,6 +44,7 @@
     <string name="menu_sub_polyhedron">Polyhedron</string>
     <string name="menu_sub_polyhedron_view">Polyhedron View</string>
     <string name="menu_sub_polyhedron_cube_transform">Cube Transform</string>
+    <string name="menu_sub_polyhedron_sphere_transform">Sphere Transform</string>
     <string name="menu_sub_polyhedron_net">Net of Polyhedron</string>
     <string name="menu_sub_nature">Nature of Code</string>
     <string name="menu_sub_nature_vectors">Vectors</string>
@@ -304,6 +305,7 @@
     <string name="draw_001202_gl_net_cube_01">Net of Cube</string>
     <string name="draw_001203_gl_net_octahedron_01">Net of Octahedron</string>
     <string name="draw_001204_gl_net_dodecahedron_01">Net of Dodecahedron</string>
+    <string name="draw_001300_gl_sphere_transform_01">Sphere Transform\n 01</string>
 
     <string name="shader_simple">Simple</string>
     <string name="shader_gl_points">Points</string>

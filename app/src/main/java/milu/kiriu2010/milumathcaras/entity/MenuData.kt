@@ -100,6 +100,8 @@ enum class MenuItem(val title: String): Parcelable {
     MENU_POLYHEDRON_VIEW("Polyhedron View"),
     // 立方体に座標変換を施したものを描画するメニュー
     MENU_POLYHEDRON_CUBE_TRANSFORM("Cube Transform"),
+    // 球体に座標変換を施したものを描画するメニュー
+    MENU_POLYHEDRON_SPHERE_TRANSFORM("Sphere Transform"),
     // 多面体の展開図を描画するメニュー
     MENU_POLYHEDRON_NET("Net of Polyhedron")
 }
