@@ -182,8 +182,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000118_GOSPER_CURVE_01 -> GosperCurve01Drawable()
                 // ゴスパー曲線02
                 DrawDataID.ID_000119_GOSPER_CURVE_02 -> GosperCurve02Drawable()
-                // シェルピンスキーの三角形
-                DrawDataID.ID_000121_SIERPINSKI_TRIANGLE -> SierpinskiTriangle01Drawable()
+                // シェルピンスキーの三角形01
+                DrawDataID.ID_000121_SIERPINSKI_TRIANGLE_01 -> SierpinskiTriangle01Drawable()
                 // シェルピンスキーのカーペット
                 DrawDataID.ID_000122_SIERPINSKI_CARPET -> SierpinskiCarpet01Drawable()
                 // シェルピンスキーの五角形
@@ -196,6 +196,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000126_SIERPINSKI_STAR -> SierpinskiStar01Drawable()
                 // シェルピンスキーの五角形02
                 DrawDataID.ID_000127_SIERPINSKI_PENTAGON_02 -> SierpinskiPentagon02Drawable()
+                // シェルピンスキーの三角形08
+                DrawDataID.ID_000128_SIERPINSKI_TRIANGLE_02 -> SierpinskiTriangle02Drawable()
                 // マンデルブロ―集合(白黒)
                 DrawDataID.ID_000200_MANDELBRO_SET -> Mandelbrot00Drawable()
                 // マンデルブロ―集合(-1.5-1.0i～+0.5+1.0i)

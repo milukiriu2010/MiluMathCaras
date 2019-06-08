@@ -13,10 +13,13 @@ import milu.kiriu2010.math.MyMathUtil
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
+// -----------------------------------
 // 球体座標変換01
 // -----------------------------------
 // トーラスを円を描くように並べ
 // その間を球体が通り抜ける
+// -----------------------------------
+// 2019.06.08
 // -----------------------------------
 class SphereTransform01Renderer(ctx: Context): MgRenderer(ctx) {
 

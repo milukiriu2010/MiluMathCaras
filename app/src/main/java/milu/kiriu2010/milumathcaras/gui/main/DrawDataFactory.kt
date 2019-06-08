@@ -249,6 +249,8 @@ class DrawDataFactory {
                 }
                 // フラクタル(シェルピンスキー系)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_SIERPINSKI_FAMILY -> {
+                    // シェルピンスキーの三角形02
+                    drawDataLst.add(DrawData(DrawDataID.ID_000128_SIERPINSKI_TRIANGLE_02,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000128_fractal_sierpinski_triangle_02) ))
                     // シェルピンスキーの五角形02
                     drawDataLst.add(DrawData(DrawDataID.ID_000127_SIERPINSKI_PENTAGON_02,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000127_fractal_sierpinski_pentagon_02) ))
                     // シェルピンスキーの星
@@ -266,8 +268,8 @@ class DrawDataFactory {
                     // シェルピンスキーのカーペット
                     drawDataLst.add(DrawData(DrawDataID.ID_000122_SIERPINSKI_CARPET,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000122_fractal_sierpinski_carpet),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
-                    // シェルピンスキーの三角形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000121_SIERPINSKI_TRIANGLE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000121_fractal_sierpinski_triangle),
+                    // シェルピンスキーの三角形01
+                    drawDataLst.add(DrawData(DrawDataID.ID_000121_SIERPINSKI_TRIANGLE_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000121_fractal_sierpinski_triangle_01),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
                 }
                 // フラクタル(ごスパー曲線)を選択したときの描画データの一覧

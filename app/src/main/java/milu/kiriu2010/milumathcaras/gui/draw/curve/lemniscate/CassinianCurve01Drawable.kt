@@ -21,6 +21,8 @@ import kotlin.math.*
 // -------------------------------------------------------------------------------------
 // http://www.mathcurve.com/courbes2d.gb/cassinienne/cassinienne.shtml
 // -------------------------------------------------------------------------------------
+// 2019.06.08
+// -------------------------------------------------------------------------------------
 class CassinianCurve01Drawable: MyDrawable() {
 
     // -------------------------------
@@ -187,7 +189,7 @@ class CassinianCurve01Drawable: MyDrawable() {
 
         aLst.forEachIndexed { id, a ->
             val b = bLst[id]
-            (0 until 360).forEach {
+            (0..360).forEach {
                 val t = it.toFloat()
                 val cos = MyMathUtil.cosf(t)
                 val sin = MyMathUtil.sinf(t)
@@ -205,7 +207,7 @@ class CassinianCurve01Drawable: MyDrawable() {
                 pointLst.add(MyPointF(x,y))
             }
 
-            (0 until 360).forEach {
+            (0..360).forEach {
                 val t = it.toFloat()
                 val cos = MyMathUtil.cosf(t)
                 val sin = MyMathUtil.sinf(t)
@@ -261,27 +263,12 @@ class CassinianCurve01Drawable: MyDrawable() {
         canvas.save()
         canvas.translate(x0,y0)
 
-        /*
-        // カッシニアン曲線を描く
-        // 赤色で線を描く
-        val path = Path()
-        circleLst.forEachIndexed { index, myPointF ->
-            when (index) {
-                0 -> path.moveTo(myPointF.x,myPointF.y)
-                else -> path.lineTo(myPointF.x,myPointF.y)
-            }
-        }
-        path.close()
-        canvas.drawPath(path,linePaint)
-        */
-
         // 色インスタンス作成
         val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
 
         // カッシニアン曲線を描く
         // 1536色のグラデーション
-        //val bunchSize = pointLst.size/aLst.size
-        val bunchSize = 360
+        val bunchSize = 361
         var myPointF2: MyPointF? = null
         pointLst.forEachIndexed { id, myPointF1 ->
             if ( myPointF2 != null ) {
@@ -298,6 +285,33 @@ class CassinianCurve01Drawable: MyDrawable() {
                 myPointF2 = myPointF1
             }
         }
+
+
+        /*
+        // カッシニアン曲線を描く
+        // 1536色のグラデーション
+        //val bunchSize = pointLst.size/aLst.size
+        val bunchSize = 360
+        var myPointF2: MyPointF? = null
+        val path = Path()
+        pointLst.forEachIndexed { id, myPointF1 ->
+            when (id%360) {
+                0 -> {
+                    path.close()
+                    val color = myColor.create((id+angle.toInt())%bunchSize,bunchSize)
+                    linePaint.color = color.toInt()
+                    canvas.drawPath(path,linePaint)
+                    path.moveTo(myPointF1.x,myPointF1.y)
+                }
+                else -> {
+                    path.lineTo(myPointF1.x,myPointF1.y)
+                }
+            }
+        }
+        path.close()
+        linePaint.color = Color.RED
+        canvas.drawPath(path,linePaint)
+        */
 
         // 座標を元に戻す
         canvas.restore()
