@@ -144,6 +144,11 @@ class DrawDataFactory {
                 }
                 // レムニスケート曲線を選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_LEMNISCATE -> {
+                    // カッシニアン曲線
+                    drawDataLst.add(DrawData(DrawDataID.ID_000037_CASSINIAN_CURVE,DrawFragmentType.FT_D2_05,resources.getString(R.string.draw_000037_curve_cassinian),
+                        stillImageParam = floatArrayOf(3f), motionImageParam = floatArrayOf(3f), editParam = floatArrayOf(0f,10f,0f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_cassinian), "autoParam" to "t", "handParam1" to "n"),
+                        fragmentParamMap = mutableMapOf("maxA" to 10) ))
                     // カッシーニの卵型線
                     drawDataLst.add(DrawData(DrawDataID.ID_000008_CASSINIAN_OVAL,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000008_curve_cassinian_oval),
                         stillImageParam = floatArrayOf(360f*10f), motionImageParam = floatArrayOf(360f*0f) ))

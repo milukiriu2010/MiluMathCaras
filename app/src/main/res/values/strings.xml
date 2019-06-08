@@ -60,6 +60,7 @@
     <string name="func_curve_lissajous">x = a * sin(p*t+d)\ny = b * sin(q*t)</string>
     <string name="func_curve_lemniscate">x = a * cos(t)/(1+sin(t)*sin(t))\ny = a * sin(t) * sin(t)/(1+sin(t)*sin(t))</string>
     <string name="func_curve_cassinian_oval">x = a * sqrt(cos(2t)+sqrt((b/a)^4-sin(2t)^2) * cos(t)\na * sqrt(cos(2t)+sqrt((b/a)^4-sin(2t)^2) * sin(t)</string>
+    <string name="func_curve_cassinian">x = a * sqrt(cos(nt)±sqrt(((b/a)^2n-sin(nt)^2)) * cos(t)\ny = a * sqrt(cos(nt)±sqrt(((b/a)^2n-sin(nt)^2)) * sin(t)</string>
     <string name="func_curve_limacon01">x = a * (1+b*cos(t)) * cos(t)\ny = a * (1+b*cos(t)) * sin(t)</string>
     <string name="func_curve_limacon02">x = a / (1+b*cos(t)) * cos(t)\ny = a / (1+b*cos(t)) * sin(t)</string>
     <string name="func_curve_limacon03">x = a*(cos(k*t)+b*cos(t)) * cos(t)\ny = a*(cos(k*t)+b*cos(t)) * sin(t)</string>
@@ -111,6 +112,7 @@
     <string name="draw_000034_curve_hypocycloid">Hypocycloid\n(k=3.8)</string>
     <string name="draw_000035_curve_hypocycloid">Hypocycloid\n(k=5.5)</string>
     <string name="draw_000036_curve_hypocycloid">Hypocycloid\n(k=7.2)</string>
+    <string name="draw_000037_curve_cassinian">Cassinian Curve</string>
     <string name="draw_000040_wave_sine">Sine Wave</string>
     <string name="draw_000041_wave_sine_circle">Sine Wave\n around Circle</string>
     <string name="draw_000042_wave_sine_circle">Sine Wave\n around Circle</string>

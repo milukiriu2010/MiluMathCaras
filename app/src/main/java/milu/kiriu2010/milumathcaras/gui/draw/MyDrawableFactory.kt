@@ -13,11 +13,8 @@ import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.julia.Julia01Drawab
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.mandelbrot.Mandelbrot01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.epicycloid.Epicycloid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.hypocycloid.Hypocycloid01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.Lemniscate01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.*
 import milu.kiriu2010.milumathcaras.gui.draw.curve.lissajous.Lissajous01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.CassinianOval01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.CassinianOval02Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.curve.lemniscate.Lemniscate02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.limacon.Limacon01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.limacon.Limacon02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.limacon.Limacon03Drawable
@@ -137,6 +134,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000035_HYPO_CYCLOID -> Hypocycloid01Drawable()
                 // ハイポサイクロイド曲線(hypocycloid)(k=7.2)
                 DrawDataID.ID_000036_HYPO_CYCLOID -> Hypocycloid01Drawable()
+                // カッシニアン曲線
+                DrawDataID.ID_000037_CASSINIAN_CURVE -> CassinianCurve01Drawable()
                 // サイン波
                 DrawDataID.ID_000040_SINE_WAVE -> SineWave01Drawable()
                 // 円の周りを回転するサイン波

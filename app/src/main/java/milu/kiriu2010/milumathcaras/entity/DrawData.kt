@@ -83,6 +83,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000035_HYPO_CYCLOID(35),
     // ハイポサイクロイド曲線(hypocycloid)(k=7.2)
     ID_000036_HYPO_CYCLOID(36),
+    // カッシニアン曲線
+    ID_000037_CASSINIAN_CURVE(37),
     // サイン波
     ID_000040_SINE_WAVE(40),
     // 円の周りを回転するサイン波
