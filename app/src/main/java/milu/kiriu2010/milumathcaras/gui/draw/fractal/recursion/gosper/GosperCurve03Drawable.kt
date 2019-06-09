@@ -23,7 +23,7 @@ import kotlin.math.*
 // https://www.mathcurve.com/fractals/gosper/gosper.shtml
 // http://ecademy.agnesscott.edu/~lriddle/ifs/ksnow/flowsnake.htm
 // -----------------------------------------------
-// 2019.06.03
+// 2019.06.09
 // -----------------------------------------------
 class GosperCurve03Drawable: MyDrawable() {
     // ---------------------------------
