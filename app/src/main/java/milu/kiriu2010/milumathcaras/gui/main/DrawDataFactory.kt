@@ -274,6 +274,8 @@ class DrawDataFactory {
                 }
                 // フラクタル(ごスパー曲線)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_GOSPER_CURVE -> {
+                    // ゴスパー曲線03
+                    drawDataLst.add(DrawData(DrawDataID.ID_000120_GOSPER_CURVE_03,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000120_fractal_gosper_curve_03) ))
                     // ゴスパー曲線02
                     drawDataLst.add(DrawData(DrawDataID.ID_000119_GOSPER_CURVE_02,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000119_fractal_gosper_curve_02),
                         stillImageParam = floatArrayOf(2f), motionImageParam = floatArrayOf(0f) ))
