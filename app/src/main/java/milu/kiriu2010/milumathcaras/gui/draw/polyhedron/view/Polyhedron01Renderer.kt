@@ -14,6 +14,11 @@ import milu.kiriu2010.milumathcaras.R
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
+// ------------------------------------
+// 多面体のビューを描画
+// ------------------------------------
+// 2019.04.14 VBOの利用なし
+// ------------------------------------
 class Polyhedron01Renderer(ctx: Context): MgRenderer(ctx) {
 
     // シェーダ(モデル描画)

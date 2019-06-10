@@ -295,6 +295,7 @@
     <string name="draw_001006_gl_torus_01">Torus</string>
     <string name="draw_001007_gl_cylinder_01">Cylinder</string>
     <string name="draw_001008_gl_cone_01">Cone</string>
+    <string name="draw_001009_gl_cone_truncated_01">Truncated Cone</string>
     <string name="draw_001100_gl_cube_transform_01">Cube Transform\n 01</string>
     <string name="draw_001101_gl_cube_transform_02">Cube Transform\n 02</string>
     <string name="draw_001102_gl_cube_transform_03">Cube Transform\n 03</string>

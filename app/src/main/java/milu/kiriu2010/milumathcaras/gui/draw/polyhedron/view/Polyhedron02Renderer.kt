@@ -19,7 +19,7 @@ import javax.microedition.khronos.opengles.GL10
 // ------------------------------------
 // 多面体のビューを描画
 // ------------------------------------
-// 2019.06.03 VBO
+// 2019.06.03 VBOの利用あり
 // ------------------------------------
 class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
 
@@ -233,6 +233,8 @@ class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
             7 -> Cylinder01Model()
             // 円錐
             8 -> Cone01Model()
+            // 円錐台
+            9 -> ConeTruncated01Model()
             else -> Tetrahedron01Model()
         }
 
