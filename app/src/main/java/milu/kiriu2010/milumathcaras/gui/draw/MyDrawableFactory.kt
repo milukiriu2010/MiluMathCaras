@@ -35,6 +35,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.HilbertCu
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.MooreCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.MooreCurve02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.koch.KochSnowflake01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.koch.KochSnowflake02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski.*
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.takagi.TakagiCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve01Drawable
@@ -151,8 +152,10 @@ class MyDrawableFactory {
                 DrawDataID.ID_000052_LISSAJOUS_CURVE_3_4 -> Lissajous01Drawable()
                 // 高木曲線
                 DrawDataID.ID_000101_TAKAGI_CURVE -> TakagiCurve01Drawable()
-                // コッホ雪片
-                DrawDataID.ID_000102_KOCH_SNOWFLAKE -> KochSnowflake01Drawable()
+                // コッホ雪片01
+                DrawDataID.ID_000102_KOCH_SNOWFLAKE_01 -> KochSnowflake01Drawable()
+                // コッホ雪片02
+                DrawDataID.ID_000103_KOCH_SNOWFLAKE_02 -> KochSnowflake02Drawable()
                 // ドラゴン曲線
                 DrawDataID.ID_000104_DRAGON_CURVE -> DragonCurve01Drawable()
                 // ヒルベルト曲線(タートル)

@@ -2,6 +2,11 @@ package milu.kiriu2010.gui.color
 
 import kotlin.math.floor
 
+// -------------------------------------
+// 色生成
+// -------------------------------------
+// 2019.06.11 範囲外の場合、白を返却
+// -------------------------------------
 class MgColor {
 
     companion object {
@@ -21,9 +26,9 @@ class MgColor {
         // https://wgld.org/sitemap.html
         // ---------------------------------------------------------
         fun hsva(h: Int, s: Float, v: Float, a: Float): ArrayList<Float> {
-            val color = arrayListOf<Float>()
-            if ( (s > 1f) or (v > 1f) or (a > 1f) ) return color
+            if ( (s > 1f) or (v > 1f) or (a > 1f) ) return arrayListOf<Float>(1f,1f,1f,1f)
 
+            val color = arrayListOf<Float>()
             val th = h%360
             val i = floor(th.toFloat()/60f)
             val f = th.toFloat()/60f - i
@@ -34,10 +39,10 @@ class MgColor {
                 color.addAll(arrayListOf<Float>(v,v,v,a))
             }
             else {
-                var r = arrayListOf<Float>(v,n,m,m,k,v)
-                var g = arrayListOf<Float>(k,v,v,n,m,m)
-                var b = arrayListOf<Float>(m,m,k,v,v,n)
-                color.addAll(arrayListOf<Float>(r[i.toInt()],g[i.toInt()],b[i.toInt()],a))
+                var r = arrayListOf(v,n,m,m,k,v)
+                var g = arrayListOf(k,v,v,n,m,m)
+                var b = arrayListOf(m,m,k,v,v,n)
+                color.addAll(arrayListOf(r[i.toInt()],g[i.toInt()],b[i.toInt()],a))
             }
             return color
         }

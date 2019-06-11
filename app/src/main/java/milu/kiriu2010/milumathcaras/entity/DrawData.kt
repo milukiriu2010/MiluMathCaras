@@ -103,8 +103,10 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000052_LISSAJOUS_CURVE_3_4(52),
     // 高木曲線
     ID_000101_TAKAGI_CURVE(101),
-    // コッホ雪片
-    ID_000102_KOCH_SNOWFLAKE(102),
+    // コッホ雪片01
+    ID_000102_KOCH_SNOWFLAKE_01(102),
+    // コッホ雪片02
+    ID_000103_KOCH_SNOWFLAKE_02(103),
     // ドラゴン曲線
     ID_000104_DRAGON_CURVE(104),
     // ヒルベルト曲線(タートル)
@@ -481,7 +483,9 @@ enum class DrawDataID(val id: Int): Parcelable {
     // 正二十面体の展開図
     ID_001205_GL_NET_ICOSAHEDRON_01(1205),
     // 球体座標変換01
-    ID_001300_GL_SPHERE_TRANSFORM_01(1300)
+    ID_001300_GL_SPHERE_TRANSFORM_01(1300),
+    // 球体座標変換02
+    ID_001301_GL_SPHERE_TRANSFORM_02(1301)
 }
 
 // ------------------------------

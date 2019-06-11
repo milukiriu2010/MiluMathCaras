@@ -230,9 +230,12 @@ class DrawDataFactory {
                     // ドラゴン曲線
                     drawDataLst.add(DrawData(DrawDataID.ID_000104_DRAGON_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000104_fractal_recursion_dragon_curve),
                         stillImageParam = floatArrayOf(6f), motionImageParam = floatArrayOf(0f) ))
-                    // コッホ雪片
-                    drawDataLst.add(DrawData(DrawDataID.ID_000102_KOCH_SNOWFLAKE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000102_fractal_recursion_koch_snowflake),
+                    // コッホ雪片02
+                    drawDataLst.add(DrawData(DrawDataID.ID_000103_KOCH_SNOWFLAKE_02,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000103_fractal_recursion_koch_snowflake_02),
                         stillImageParam = floatArrayOf(4f), motionImageParam = floatArrayOf(0f) ))
+                    // コッホ雪片01
+                    //drawDataLst.add(DrawData(DrawDataID.ID_000102_KOCH_SNOWFLAKE_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000102_fractal_recursion_koch_snowflake_01),
+                    //    stillImageParam = floatArrayOf(4f), motionImageParam = floatArrayOf(0f) ))
                     // 高木曲線
                     drawDataLst.add(DrawData(DrawDataID.ID_000101_TAKAGI_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000101_fractal_recursion_takagi_curve),
                         stillImageParam = floatArrayOf(6f), motionImageParam = floatArrayOf(0f) ))
@@ -793,6 +796,8 @@ class DrawDataFactory {
                 }
                 // 球体に座標変換を施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_SPHERE_TRANSFORM -> {
+                    // 球体座標変換02
+                    drawDataLst.add(DrawData(DrawDataID.ID_001301_GL_SPHERE_TRANSFORM_02,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001301_gl_sphere_transform_02), drawViewType = DrawViewType.DVT_GL ))
                     // 球体座標変換01
                     drawDataLst.add(DrawData(DrawDataID.ID_001300_GL_SPHERE_TRANSFORM_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001300_gl_sphere_transform_01), drawViewType = DrawViewType.DVT_GL ))
                 }

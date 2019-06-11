@@ -11,6 +11,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.octahedron.NetOctahe
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.tetrahedron.NetTetrahedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.tetrahedron.NetTetrahedron02Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.sphere.SphereTransform01Renderer
+import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.sphere.SphereTransform02Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.view.Polyhedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.view.Polyhedron02Renderer
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
@@ -72,6 +73,8 @@ class MgRendererFactory {
                 DrawDataID.ID_001205_GL_NET_ICOSAHEDRON_01 -> NetIcosahedron01Renderer(context)
                 // 球体座標変換01
                 DrawDataID.ID_001300_GL_SPHERE_TRANSFORM_01 -> SphereTransform01Renderer(context)
+                // 球体座標変換02
+                DrawDataID.ID_001301_GL_SPHERE_TRANSFORM_02 -> SphereTransform02Renderer(context)
                 // 該当なし
                 else -> throw RuntimeException("Not Found GLSurfaceView.Renderer")
             }

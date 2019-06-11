@@ -1,40 +1,48 @@
-package milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.gosper
+package milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.koch
 
 import android.graphics.*
 import android.os.Handler
-import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.gui.basic.MyTurtle
 import milu.kiriu2010.gui.color.ColorType
 import milu.kiriu2010.gui.color.MyColorFactory
-import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.*
 
 // -----------------------------------------------
-// ゴスパー曲線02
+// コッホ雪片02
 // -----------------------------------------------
-// Axiom: A
-// A: A-B--B+A++AA+B-
-// B: +A-BB--B-A++A+B
+// コッホ曲線一辺
+// Axiom: F
+// F: F+F--F+F
 // -----------------------------------------------
-// A,B: 進む
-// +  : 左へ60度
-// -  : 右へ60度
+// コッホ雪片とするには
+// F--F--F
 // -----------------------------------------------
-// https://en.wikipedia.org/wiki/Gosper_curve
-// https://www.mathcurve.com/fractals/gosper/gosper.shtml
-// http://ecademy.agnesscott.edu/~lriddle/ifs/ksnow/flowsnake.htm
+// F: 進む
+// +: 左へ60度
+// -: 右へ60度
 // -----------------------------------------------
-// 2019.06.03
+// https://en.wikipedia.org/wiki/Koch_snowflake
 // -----------------------------------------------
-class GosperCurve02Drawable: MyDrawable() {
+// 2019.06.11
+// -----------------------------------------------
+class KochSnowflake02Drawable: MyDrawable() {
     // ---------------------------------
     // 描画領域
     // ---------------------------------
-    private val side = 1000f
-    private val margin = 50f
+    // "線分を3等分し、中央は正三角形を生成"
+    // をレベルごとに繰り返すので
+    // 6の累乗にしている
+    // = 1296 = 6^4
+    // ---------------------------------
+    private val side = 1296f
+    // ----------------------------------------------
+    // コッホ雪片のレベル１の高さ分マージンをとる
+    //   = side/2/sqrt(3)
+    // ----------------------------------------------
+    private val margin = side/2f/sqrt(3f)
 
     // ----------------------------------------
     // 再帰レベル
@@ -42,37 +50,21 @@ class GosperCurve02Drawable: MyDrawable() {
     private var nNow = 0
     // --------------------------------------------------------
     // 再帰レベルの最大値
-    //  5回描くと、遅い＆線で埋め尽くされるので、4回で終了
+    //  4回描くと、それ以降は違いがわからないので6回としている
     // --------------------------------------------------------
-    private val nMax = 5
+    private val nMax = 6
 
     // ----------------------------------------
-    // ゴスパー島の回転角度
-    // ----------------------------------------
-    // arcsin(sqrt(3)/(2*sqrt(7))) = 19.1066
-    // ----------------------------------------
-    private val angle = asin( sqrt(3f)/(2f*sqrt(7f)) ).toFloat()*180f/ PI.toFloat()
-
-    // -----------------------------------------------------
-    // ゴスパー曲線を描く際に基準となる正六角形の一辺の長さ
-    //   r=2*sqrt(7)a
-    // -----------------------------------------------------
-    private var r = side/2f
-
-    // -----------------------------------------------------
-    // 係数b(=移動距離)=r*sqrt(21)/7
-    // -----------------------------------------------------
-    private var bc = sqrt(21f)/7f
-
-    // -----------------------------------------------------
-    // 係数c(=次の正六角形との相似比)=1/sqrt(7)
-    // -----------------------------------------------------
-    private var cc = 1f/sqrt(7f)
-
-    // ----------------------------------------
-    // ゴスパー曲線の描画Turtle
+    // コッホ雪片の描画Turtle
     // ----------------------------------------
     private val myTurtle = MyTurtle()
+
+    /*
+    // ----------------------------------------
+    // コッホ雪片の描画点リスト
+    // ----------------------------------------
+    private val pointLst = mutableListOf<MyPointF>()
+    */
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -100,21 +92,12 @@ class GosperCurve02Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // ゴスパー島を描くペイント
+    // コッホ雪片を描くペイント
     // -------------------------------
-    private val linePaintA = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.BLACK
-        style = Paint.Style.STROKE
-        strokeWidth = 1f
-    }
-
-    // -------------------------------
-    // ゴスパー曲線を描くペイント
-    // -------------------------------
-    private val linePaintB = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
         style = Paint.Style.STROKE
-        strokeWidth = 5f
+        strokeWidth = 10f
     }
 
     // -------------------------------------
@@ -151,12 +134,13 @@ class GosperCurve02Drawable: MyDrawable() {
             }
         }
 
-        // ゴスパー島を構築
+        // コッホ雪片を構築
         createPath()
         // ビットマップに描画
         drawBitmap()
         // 描画
         invalidateSelf()
+
 
         // 描画に使うスレッド
         if (isKickThread) {
@@ -165,7 +149,7 @@ class GosperCurve02Drawable: MyDrawable() {
                 if ( isPaused == false ) {
                     // 再帰レベルを１つ増やす
                     incrementLevel()
-                    // ゴスパー島を構築
+                    // コッホ雪片を構築
                     createPath()
                     // ビットマップに描画
                     drawBitmap()
@@ -207,10 +191,15 @@ class GosperCurve02Drawable: MyDrawable() {
         this.notifyCallback = notifyCallback
     }
 
-    // ゴスパー島を構築
+    // コッホ雪片を構築
     private fun createPath() {
+        /*
+        // コッホ雪片の描画点リストをクリアする
+        pointLst.clear()
+        */
+
         // ----------------------------------------
-        // ゴスパー曲線を描くための最初のステップ
+        // コッホ雪片を描くための最初のステップ
         // ----------------------------------------
         createCurveInit(nNow)
 
@@ -219,167 +208,86 @@ class GosperCurve02Drawable: MyDrawable() {
     }
 
     // ----------------------------------------
-    // ゴスパー曲線を描くための初期処理
+    // コッホ雪片を描くための初期処理
     // ----------------------------------------
     private fun createCurveInit(n: Int) {
-        // ゴスパー曲線描画Turtleを初期化する
+        // 描画Turtleを初期化する
         myTurtle.clear()
         if ( n < 0 ) return
 
         // 移動距離
-        val dv = bc*r*cc.pow(nNow)
+        val dv = side/3f.pow(nNow)
 
-        // 初期位置
-        val a = MyPointF().also {
-            it.x = r
-            it.y = 0f
-        }
+        // ------------------------------
+        // コッホ雪片の初期位置
+        // ------------------------------
+        val a = MyPointF(0f,0f)
 
         // ---------------------------------
-        // ゴスパー曲線を描く亀に以下を設定
+        // コッホ雪片を描く亀に以下を設定
         // ・初期位置
         // ・移動距離
         // ・初期角度
         // ---------------------------------
         myTurtle.addPoint(a).apply {
             d = dv
-            t = 240f+angle*(nNow.toFloat()-0.5f)
+            t = 0f
         }
 
-        // ゴスパー曲線をパターンAで描画
-        createCurveA(n)
+        // コッホ雪片をパターンAで描画
+        createCurveA(nNow)
+        // タートル右120度
+        myTurtle.turn(120f)
+        // コッホ雪片をパターンAで描画
+        createCurveA(nNow)
+        // タートル右120度
+        myTurtle.turn(120f)
+        // コッホ雪片をパターンAで描画
+        createCurveA(nNow)
     }
 
     // -------------------------------------
-    // ゴスパー曲線をパターンAで描画
+    // コッホ雪片をパターンAで描画
     // -------------------------------------
     private fun createCurveA( n: Int ) {
         if ( n > 0 ) {
             // パターンA
             createCurveA(n-1)
-            // 右60度
-            myTurtle.turn(-60f)
-            // パターンB
-            createCurveB(n-1)
-            // 右120度
-            myTurtle.turn(-120f)
-            // パターンB
-            createCurveB(n-1)
             // 左60度
-            myTurtle.turn(60f)
+            myTurtle.turn(-60f)
             // パターンA
             createCurveA(n-1)
-            // 左120度
+            // 右120度
             myTurtle.turn(120f)
             // パターンA
             createCurveA(n-1)
+            // 左60度
+            myTurtle.turn(-60f)
             // パターンA
             createCurveA(n-1)
-            // 左60度
-            myTurtle.turn(60f)
-            // パターンB
-            createCurveB(n-1)
-            // 右60度
-            myTurtle.turn(-60f)
         }
-        else {
+        else if ( n == 1 ){
             // --------------------------
             // 亀の軌跡
             // --------------------------
             // ・移動
-            // ・右60度
+            // ・左60度
             // ・移動
             // ・右120度
             // ・移動
             // ・左60度
             // ・移動
-            // ・左120度
-            // ・移動
-            // ・移動
-            // ・左60度
-            // ・移動
-            // ・右60度
             // --------------------------
             myTurtle.move()
                 .turn(-60f)
                 .move()
-                .turn(-120f)
-                .move()
-                .turn(60f)
-                .move()
                 .turn(120f)
                 .move()
-                .move()
-                .turn(60f)
-                .move()
                 .turn(-60f)
+                .move()
         }
-    }
-
-    // -------------------------------------
-    // ゴスパー曲線をパターンBで描画
-    // -------------------------------------
-    private fun createCurveB( n: Int ) {
-        if ( n > 0 ) {
-            // 左60度
-            myTurtle.turn(60f)
-            // パターンA
-            createCurveA(n-1)
-            // 右60度
-            myTurtle.turn(-60f)
-            // パターンB
-            createCurveB(n-1)
-            // パターンB
-            createCurveB(n-1)
-            // 右120度
-            myTurtle.turn(-120f)
-            // パターンB
-            createCurveB(n-1)
-            // 右60度
-            myTurtle.turn(-60f)
-            // パターンA
-            createCurveA(n-1)
-            // 左120度
-            myTurtle.turn(120f)
-            // パターンA
-            createCurveA(n-1)
-            // 左60度
-            myTurtle.turn(60f)
-            // パターンB
-            createCurveB(n-1)
-        }
-        else {
-            // --------------------------
-            // 亀の軌跡
-            // --------------------------
-            // ・左60度
-            // ・移動
-            // ・右60度
-            // ・移動
-            // ・移動
-            // ・右120度
-            // ・移動
-            // ・右60度
-            // ・移動
-            // ・左120度
-            // ・移動
-            // ・移動
-            // ・左60度
-            // ・移動
-            // --------------------------
-            myTurtle.turn(60f)
-                .move()
-                .turn(-60f)
-                .move()
-                .move()
-                .turn(-120f)
-                .move()
-                .turn(-60f)
-                .move()
-                .turn(120f)
-                .move()
-                .turn(60f)
-                .move()
+        else if ( n == 0 ) {
+            myTurtle.move()
         }
     }
 
@@ -406,54 +314,66 @@ class GosperCurve02Drawable: MyDrawable() {
         canvas.drawRect(RectF(0f, 0f, intrinsicWidth.toFloat(), intrinsicHeight.toFloat()), framePaint)
 
         // ---------------------------------------------------------------------
-        // 原点(0,0)の位置
-        //  = (左右中央,上下中央)
+        // 原点(0,0)の位置 => 正三角形が中央にくるようにする
+        //  = (マージン,マージン+"領域の高さ-正三角形の高さ"/2)
+        // と、思ったがレベル１の正三角形分下に表示されることがわかったのでコメントアウト
         // ---------------------------------------------------------------------
+        // val ymargin = margin+(side-side*sqrt(3f)/2f)/2f
+        // ---------------------------------------------------------------------
+        // 原点(0,0)の位置 => コッホ曲線が中央に来るようにしたい
+        //   よって、
+        //   "描画領域の高さ－コッホ曲線の高さ"/2＋再帰レベル１の正三角形の高さ
+        //   をY座標のマージンとする
+        //
+        //   コッホ曲線の高さ=正三角形の高さ＋再帰レベル１の正三角形の高さ
+        // ---------------------------------------------------------------------
+        val kochH = side*sqrt(3f)/2f + side/2f/sqrt(3f)
+        val ymargin = (intrinsicHeight - kochH)/2f + side/2f/sqrt(3f)
+
         canvas.save()
-        canvas.translate(intrinsicWidth/2f, intrinsicHeight/2f)
+        //Log.d(javaClass.simpleName, "ymargin[$ymargin]kochH[$kochH]intrinsicHeight[$intrinsicHeight]")
+        canvas.translate(margin, ymargin)
 
-        // ゴスパー曲線を描画
-        // 赤で描画
-        if ( nNow <= 3 ) {
-            val pathB = Path()
-            myTurtle.pLst.forEachIndexed { index, myPointF ->
-                //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
-                if ( index == 0 ) {
-                    pathB.moveTo(myPointF.x,myPointF.y)
-                }
-                else {
-                    pathB.lineTo(myPointF.x,myPointF.y)
-                }
+        /*
+        //Log.d(javaClass.simpleName,"===============================")
+        // コッホ雪片を描画
+        val path = Path()
+        circleLst.forEachIndexed { index, myPointF ->
+            //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
+            if ( index == 0 ) {
+                path.moveTo(myPointF.x,myPointF.y)
             }
-            canvas.drawPath(pathB,linePaintB)
-        }
-        // ゴスパー曲線を描画
-        // 虹色で描画
-        else {
-            // 色インスタンス作成
-            val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
-
-            // ゴスパー曲線を描画
-            val bunchSize = myTurtle.pLst.size
-            var myPointF2: MyPointF? = null
-            myTurtle.pLst.forEachIndexed { index, myPointF1 ->
-                //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
-                if ( myPointF2 != null ) {
-                    val color = myColor.create(index,bunchSize)
-                    linePaintB.color = color.toInt()
-                    canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaintB)
-                }
-                myPointF2 = myPointF1
+            else {
+                path.lineTo(myPointF.x,myPointF.y)
             }
         }
+        path.close()
+        canvas.drawPath(path,linePaint)
+        */
 
+        // 色インスタンス作成
+        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
+
+        // コッホ雪片を描画
+        // 1536色のグラデーション
+        val bunchSize = myTurtle.pLst.size
+        var myPointF2: MyPointF? = null
+        myTurtle.pLst.forEachIndexed { index, myPointF1 ->
+            //Log.d(javaClass.simpleName,"index[$index]x[${myPointF.x}]y[${myPointF.y}]")
+            if ( myPointF2 != null ) {
+                val color = myColor.create(index,bunchSize)
+                linePaint.color = color.toInt()
+                canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaint)
+            }
+            myPointF2 = myPointF1
+        }
 
         // 座標を元に戻す
         canvas.restore()
 
-        // これまでの描画はテンポラリなので実体にコピーする
+        // これまでの描画は上下逆なので反転する
         val matrix = Matrix()
-        matrix.postScale(1f,1f)
+        matrix.postScale(1f,-1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
     }
 
@@ -471,7 +391,6 @@ class GosperCurve02Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun setAlpha(alpha: Int) {
-        linePaintA.alpha = alpha
     }
 
     // -------------------------------
@@ -483,7 +402,6 @@ class GosperCurve02Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun setColorFilter(colorFilter: ColorFilter?) {
-        linePaintA.colorFilter = colorFilter
     }
 
     // -------------------------------

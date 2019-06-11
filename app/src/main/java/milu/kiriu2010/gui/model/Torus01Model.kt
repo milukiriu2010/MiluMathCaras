@@ -8,13 +8,14 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-// -------------------------------------------
+// ------------------------------------------------------
 // トーラス
-// -------------------------------------------
+// ------------------------------------------------------
 // 2019.04.29  allocateBuffer
 // 2019.05.02  テクスチャ座標修正
 // 2019.05.21  頂点インデックス修正
-// -------------------------------------------
+// 2019.06.11  A成分を指定ありで色を自動生成可能とする
+// ------------------------------------------------------
 class Torus01Model: MgModelAbs() {
 
     override fun createPath( opt: Map<String,Float> ) {
@@ -55,9 +56,16 @@ class Torus01Model: MgModelAbs() {
                 val rz = rr * sin(tr)
                 datPos.addAll(arrayListOf<Float>(tx,ty,tz))
                 datNor.addAll(arrayListOf<Float>(rx,ry,rz))
+                // RGBA全成分の指定あり
                 if ( ( color[0] != -1f ) and ( color[1] != -1f ) and ( color[2] != -1f ) and ( color[3] != -1f ) ) {
                     datCol.addAll(arrayListOf<Float>(color[0],color[1],color[2],color[3]))
                 }
+                // A成分のみ指定あり
+                else if ( ( color[0] == -1f ) and ( color[1] == -1f ) and ( color[2] == -1f ) and ( color[3] != -1f ) ) {
+                    val tc = MgColor.hsva(360/column*ii,1f,1f,color[3])
+                    datCol.addAll(arrayListOf<Float>(tc[0],tc[1],tc[2],tc[3]))
+                }
+                // RGBA全成分の指定なし
                 else {
                     val tc = MgColor.hsva(360/column*ii,1f,1f,1f)
                     datCol.addAll(arrayListOf<Float>(tc[0],tc[1],tc[2],tc[3]))
