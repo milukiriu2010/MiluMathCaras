@@ -103,10 +103,6 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000052_LISSAJOUS_CURVE_3_4(52),
     // 高木曲線
     ID_000101_TAKAGI_CURVE(101),
-    // コッホ雪片01
-    ID_000102_KOCH_SNOWFLAKE_01(102),
-    // コッホ雪片02
-    ID_000103_KOCH_SNOWFLAKE_02(103),
     // ドラゴン曲線
     ID_000104_DRAGON_CURVE(104),
     // ヒルベルト曲線(タートル)
@@ -151,6 +147,12 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000127_SIERPINSKI_PENTAGON_02(127),
     // シェルピンスキーの三角形02
     ID_000128_SIERPINSKI_TRIANGLE_02(128),
+    // コッホ雪片01
+    ID_000130_KOCH_SNOWFLAKE_01(130),
+    // コッホ雪片02
+    ID_000131_KOCH_SNOWFLAKE_02(131),
+    // コッホ雪片03
+    ID_000132_KOCH_SNOWFLAKE_03(132),
     // マンデルブロ―集合(白黒)
     ID_000200_MANDELBRO_SET(200),
     // マンデルブロ―集合(-1.5-1.0i～+0.5+1.0i)

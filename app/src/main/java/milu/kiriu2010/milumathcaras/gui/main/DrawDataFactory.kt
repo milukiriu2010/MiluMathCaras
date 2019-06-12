@@ -230,11 +230,6 @@ class DrawDataFactory {
                     // ドラゴン曲線
                     drawDataLst.add(DrawData(DrawDataID.ID_000104_DRAGON_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000104_fractal_recursion_dragon_curve),
                         stillImageParam = floatArrayOf(6f), motionImageParam = floatArrayOf(0f) ))
-                    // コッホ雪片02
-                    drawDataLst.add(DrawData(DrawDataID.ID_000103_KOCH_SNOWFLAKE_02,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000103_fractal_recursion_koch_snowflake_02),
-                        stillImageParam = floatArrayOf(4f), motionImageParam = floatArrayOf(0f) ))
-                    // コッホ雪片01
-                    //drawDataLst.add(DrawData(DrawDataID.ID_000102_KOCH_SNOWFLAKE_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000102_fractal_recursion_koch_snowflake_01),
                     //    stillImageParam = floatArrayOf(4f), motionImageParam = floatArrayOf(0f) ))
                     // 高木曲線
                     drawDataLst.add(DrawData(DrawDataID.ID_000101_TAKAGI_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000101_fractal_recursion_takagi_curve),
@@ -249,6 +244,16 @@ class DrawDataFactory {
                     // 樹木曲線01
                     drawDataLst.add(DrawData(DrawDataID.ID_000111_TREE_CURVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000111_fractal_recursion_tree_curve_01),
                         stillImageParam = floatArrayOf(6f), motionImageParam = floatArrayOf(0f) ))
+                }
+                // フラクタル(コッホ曲線)を選択したときの描画データの一覧
+                MenuItem.MENU_FRACTAL_KOCH_CURVE -> {
+                    // コッホ雪片03
+                    drawDataLst.add(DrawData(DrawDataID.ID_000132_KOCH_SNOWFLAKE_03,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000132_fractal_recursion_koch_snowflake_03) ))
+                    // コッホ雪片02
+                    drawDataLst.add(DrawData(DrawDataID.ID_000131_KOCH_SNOWFLAKE_02,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000131_fractal_recursion_koch_snowflake_02),
+                        stillImageParam = floatArrayOf(4f), motionImageParam = floatArrayOf(0f) ))
+                    // コッホ雪片01
+                    //drawDataLst.add(DrawData(DrawDataID.ID_000130_KOCH_SNOWFLAKE_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000102_fractal_recursion_koch_snowflake_01),
                 }
                 // フラクタル(シェルピンスキー系)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_SIERPINSKI_FAMILY -> {

@@ -24,6 +24,7 @@
     <string name="menu_sub_fractal">Fractal</string>
     <string name="menu_sub_fractal_recursion">Recursion</string>
     <string name="menu_sub_fractal_tree_curve">Tree Curve</string>
+    <string name="menu_sub_fractal_koch_curve">Koch Curve</string>
     <string name="menu_sub_fractal_sierpinski_family">Sierpinski Family</string>
     <string name="menu_sub_fractal_gosper_curve">Gosper Curve</string>
     <string name="menu_sub_fractal_complex">Complex Number</string>
@@ -123,8 +124,6 @@
     <string name="draw_000051_curve_lissajous_3_2">Lissajous(p:q=3:2)</string>
     <string name="draw_000052_curve_lissajous_3_4">Lissajous(p:q=3:4)</string>
     <string name="draw_000101_fractal_recursion_takagi_curve">Takagi Curve</string>
-    <string name="draw_000102_fractal_recursion_koch_snowflake_01">Koch Snowflake 01</string>
-    <string name="draw_000103_fractal_recursion_koch_snowflake_02">Koch Snowflake 02</string>
     <string name="draw_000104_fractal_recursion_dragon_curve">Dragon Curve</string>
     <string name="draw_000106_fractal_recursion_hilbert_curve">Hilbert Curve</string>
     <string name="draw_000107_fractal_recursion_hilbert_curve">Hilbert Curve</string>
@@ -147,6 +146,9 @@
     <string name="draw_000126_fractal_sierpinski_star">Sierpinski Star</string>
     <string name="draw_000127_fractal_sierpinski_pentagon_02">Sierpinski Pentagon\n02</string>
     <string name="draw_000128_fractal_sierpinski_triangle_02">Sierpinski Triangle\n02</string>
+    <string name="draw_000130_fractal_recursion_koch_snowflake_01">Koch Snowflake 01</string>
+    <string name="draw_000131_fractal_recursion_koch_snowflake_02">Koch Snowflake 02</string>
+    <string name="draw_000132_fractal_recursion_koch_snowflake_03">Koch Snowflake 03</string>
     <string name="draw_000200_fractal_complex_mandelbrot_set">Mandelbrot</string>
     <string name="draw_000201_fractal_complex_mandelbrot_set">-1.5-1.0i～\n+1.5+1.0i</string>
     <string name="draw_000202_fractal_complex_mandelbrot_set">-1.3+0.0i～\n-1.1+0.2i</string>

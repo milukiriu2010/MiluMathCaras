@@ -17,6 +17,7 @@ import java.nio.ShortBuffer
 //    20:線
 // ----------------------------------
 // 2019.04.25
+// 2019.06.12 オフセット
 // ----------------------------------
 abstract class MgModelAbs {
     // 頂点バッファ
@@ -29,6 +30,8 @@ abstract class MgModelAbs {
     lateinit var bufTxc: FloatBuffer
     // インデックスバッファ
     lateinit var bufIdx: ShortBuffer
+    // オフセットバッファ
+    lateinit var bufOff: FloatBuffer
 
     // 頂点データ
     var datPos = arrayListOf<Float>()
@@ -40,6 +43,8 @@ abstract class MgModelAbs {
     var datTxc = arrayListOf<Float>()
     // インデックスデータ
     var datIdx = arrayListOf<Short>()
+    // オフセットデータ
+    var datOff = arrayListOf<Float>()
 
     protected fun allocateBuffer() {
         // 頂点バッファ
@@ -88,6 +93,16 @@ abstract class MgModelAbs {
 
             asShortBuffer().apply {
                 put(datIdx.toShortArray())
+                position(0)
+            }
+        }
+
+        // オフセットバッファ
+        bufOff = ByteBuffer.allocateDirect(datOff.toArray().size * 4).run {
+            order(ByteOrder.nativeOrder())
+
+            asFloatBuffer().apply {
+                put(datOff.toFloatArray())
                 position(0)
             }
         }

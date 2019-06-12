@@ -36,6 +36,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.MooreCurv
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.MooreCurve02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.koch.KochSnowflake01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.koch.KochSnowflake02Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.koch.KochSnowflake03Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski.*
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.takagi.TakagiCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve01Drawable
@@ -152,10 +153,6 @@ class MyDrawableFactory {
                 DrawDataID.ID_000052_LISSAJOUS_CURVE_3_4 -> Lissajous01Drawable()
                 // 高木曲線
                 DrawDataID.ID_000101_TAKAGI_CURVE -> TakagiCurve01Drawable()
-                // コッホ雪片01
-                DrawDataID.ID_000102_KOCH_SNOWFLAKE_01 -> KochSnowflake01Drawable()
-                // コッホ雪片02
-                DrawDataID.ID_000103_KOCH_SNOWFLAKE_02 -> KochSnowflake02Drawable()
                 // ドラゴン曲線
                 DrawDataID.ID_000104_DRAGON_CURVE -> DragonCurve01Drawable()
                 // ヒルベルト曲線(タートル)
@@ -200,6 +197,12 @@ class MyDrawableFactory {
                 DrawDataID.ID_000127_SIERPINSKI_PENTAGON_02 -> SierpinskiPentagon02Drawable()
                 // シェルピンスキーの三角形08
                 DrawDataID.ID_000128_SIERPINSKI_TRIANGLE_02 -> SierpinskiTriangle02Drawable()
+                // コッホ雪片01
+                DrawDataID.ID_000130_KOCH_SNOWFLAKE_01 -> KochSnowflake01Drawable()
+                // コッホ雪片02
+                DrawDataID.ID_000131_KOCH_SNOWFLAKE_02 -> KochSnowflake02Drawable()
+                // コッホ雪片03
+                DrawDataID.ID_000132_KOCH_SNOWFLAKE_03 -> KochSnowflake03Drawable()
                 // マンデルブロ―集合(白黒)
                 DrawDataID.ID_000200_MANDELBRO_SET -> Mandelbrot00Drawable()
                 // マンデルブロ―集合(-1.5-1.0i～+0.5+1.0i)

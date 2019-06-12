@@ -191,6 +191,9 @@ class MenuFragment : Fragment() {
                     // フラクタル(樹木曲線)一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL_TREE_CURVE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal_tree_curve),false))
                     // [サブメニュー]
+                    // フラクタル(コッホ曲線)を描画するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL_KOCH_CURVE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal_koch_curve),false))
+                    // [サブメニュー]
                     // フラクタル(シェルピンスキー系)一覧を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL_SIERPINSKI_FAMILY, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal_sierpinski_family),false))
                     // [サブメニュー]

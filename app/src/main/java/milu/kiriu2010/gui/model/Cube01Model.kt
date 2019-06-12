@@ -13,6 +13,7 @@ import kotlin.math.sqrt
 // 2019.04.29  色・テクスチャ
 // 2019.04.30  テクスチャ座標・インデックス修正
 // 2019.05.01  点・線の色修正
+// 2019.06.12  コメント追加
 // ----------------------------------------------
 class Cube01Model: MgModelAbs() {
 
@@ -28,7 +29,7 @@ class Cube01Model: MgModelAbs() {
         when ( pattern ) {
             // 面:自作
             1 -> createPathPattern1(opt)
-            // 面:wgld.org
+            // 面:wgld.org:テクスチャマップ
             2 -> createPathPattern2(opt)
             // 点
             10 -> createPathPattern10(opt)
@@ -91,33 +92,6 @@ class Cube01Model: MgModelAbs() {
             // (v1-v0) x (v2-v0)
             datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*(4*m+1), 3*(4*m+2), 3*(4*m) ) )
         }
-        /*
-        // ABCD
-        (0..3).forEach {
-            datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*1, 3*2, 3*0 ) )
-        }
-        // BEGD
-        (4..7).forEach {
-            datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*5, 3*6, 3*4 ) )
-        }
-        // EFGH
-        (8..11).forEach {
-            datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*9, 3*10, 3*8 ) )
-        }
-        // FACH
-        (12..15).forEach {
-            datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*13, 3*14, 3*12 ) )
-        }
-        // ABEF
-        (16..19).forEach {
-            datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*17, 3*18, 3*16 ) )
-        }
-        // CDGH
-        (20..23).forEach {
-            datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*21, 3*22, 3*20 ) )
-        }
-        */
-
 
         // 色データ
         if ( ( color[0] == -1f ) and ( color[1] == -1f ) and ( color[2] == -1f ) and ( color[3] == -1f ) ) {
@@ -145,15 +119,6 @@ class Cube01Model: MgModelAbs() {
             (20..23).forEach {
                 datCol.addAll(arrayListOf<Float>(1f,0f,1f,1f))
             }
-            /*
-            (0..23).forEach { i ->
-                // ４頂点で１つの面を構成するため４で割る
-                val ii = i/4
-                // 立方体は８つ頂点があるので８で割る
-                var tc = MgColor.hsva(360/8*ii,1f,1f,1f)
-                datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
-            }
-            */
         }
         else {
             (0..23).forEach { i ->
@@ -183,31 +148,6 @@ class Cube01Model: MgModelAbs() {
         datIdx.addAll(arrayListOf(19,18,17))
         datIdx.addAll(arrayListOf(20,21,22))
         datIdx.addAll(arrayListOf(23,22,21))
-
-        /*
-        // テクスチャ座標データ
-        // 立方体は６面あるので６回ループ
-        (0..5).forEach {
-            datTxc.addAll(arrayListOf(0f,0f))
-            datTxc.addAll(arrayListOf(1f,0f))
-            datTxc.addAll(arrayListOf(1f,1f))
-            datTxc.addAll(arrayListOf(0f,1f))
-        }
-
-        // インデックスデータ
-        datIdx.addAll(arrayListOf(0,1,2))
-        datIdx.addAll(arrayListOf(1,3,2))
-        datIdx.addAll(arrayListOf(4,5,6))
-        datIdx.addAll(arrayListOf(5,7,6))
-        datIdx.addAll(arrayListOf(8,9,10))
-        datIdx.addAll(arrayListOf(9,11,10))
-        datIdx.addAll(arrayListOf(12,13,14))
-        datIdx.addAll(arrayListOf(13,15,14))
-        datIdx.addAll(arrayListOf(16,17,18))
-        datIdx.addAll(arrayListOf(17,19,18))
-        datIdx.addAll(arrayListOf(20,21,22))
-        datIdx.addAll(arrayListOf(21,23,22))
-        */
     }
 
     // 面:wgld.org
@@ -231,64 +171,64 @@ class Cube01Model: MgModelAbs() {
         val vh = arrayListOf( hs,-hs,-hs)
 
         // 頂点データ
-        // 0-3
+        // 0-3(前)
         datPos.addAll(ArrayList<Float>(va))
         datPos.addAll(ArrayList<Float>(vb))
         datPos.addAll(ArrayList<Float>(vc))
         datPos.addAll(ArrayList<Float>(vd))
-        // 4-7
+        // 4-7(後)
         datPos.addAll(ArrayList<Float>(ve))
         datPos.addAll(ArrayList<Float>(vf))
         datPos.addAll(ArrayList<Float>(vg))
         datPos.addAll(ArrayList<Float>(vh))
-        // 8-11
+        // 8-11(上)
         datPos.addAll(ArrayList<Float>(vf))
         datPos.addAll(ArrayList<Float>(vd))
         datPos.addAll(ArrayList<Float>(vc))
         datPos.addAll(ArrayList<Float>(vg))
-        // 12-15
+        // 12-15(底)
         datPos.addAll(ArrayList<Float>(ve))
         datPos.addAll(ArrayList<Float>(vh))
         datPos.addAll(ArrayList<Float>(vb))
         datPos.addAll(ArrayList<Float>(va))
-        // 16-19
+        // 16-19(右)
         datPos.addAll(ArrayList<Float>(vh))
         datPos.addAll(ArrayList<Float>(vg))
         datPos.addAll(ArrayList<Float>(vc))
         datPos.addAll(ArrayList<Float>(vb))
-        // 20-23
+        // 20-23(左)
         datPos.addAll(ArrayList<Float>(ve))
         datPos.addAll(ArrayList<Float>(va))
         datPos.addAll(ArrayList<Float>(vd))
         datPos.addAll(ArrayList<Float>(vf))
 
         // 法線データ
-        // 0-3
+        // 0-3(前)
         datNor.addAll(arrayListOf(-1f,-1f, 1f))
         datNor.addAll(arrayListOf( 1f,-1f, 1f))
         datNor.addAll(arrayListOf( 1f, 1f, 1f))
         datNor.addAll(arrayListOf(-1f, 1f, 1f))
-        // 4-7
+        // 4-7(後)
         datNor.addAll(arrayListOf(-1f,-1f,-1f))
         datNor.addAll(arrayListOf(-1f, 1f,-1f))
         datNor.addAll(arrayListOf( 1f, 1f,-1f))
         datNor.addAll(arrayListOf( 1f,-1f,-1f))
-        // 8-11
+        // 8-11(上)
         datNor.addAll(arrayListOf(-1f, 1f,-1f))
         datNor.addAll(arrayListOf(-1f, 1f, 1f))
         datNor.addAll(arrayListOf( 1f, 1f, 1f))
         datNor.addAll(arrayListOf( 1f, 1f,-1f))
-        // 12-15
+        // 12-15(底)
         datNor.addAll(arrayListOf(-1f,-1f,-1f))
         datNor.addAll(arrayListOf( 1f,-1f,-1f))
         datNor.addAll(arrayListOf( 1f,-1f, 1f))
         datNor.addAll(arrayListOf(-1f,-1f, 1f))
-        // 16-19
+        // 16-19(右)
         datNor.addAll(arrayListOf( 1f,-1f,-1f))
         datNor.addAll(arrayListOf( 1f, 1f,-1f))
         datNor.addAll(arrayListOf( 1f, 1f, 1f))
         datNor.addAll(arrayListOf( 1f,-1f, 1f))
-        // 20-23
+        // 20-23(下)
         datNor.addAll(arrayListOf(-1f,-1f,-1f))
         datNor.addAll(arrayListOf(-1f,-1f, 1f))
         datNor.addAll(arrayListOf(-1f, 1f, 1f))
