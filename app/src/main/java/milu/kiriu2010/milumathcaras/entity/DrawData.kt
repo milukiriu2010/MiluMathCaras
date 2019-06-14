@@ -153,6 +153,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000131_KOCH_SNOWFLAKE_02(131),
     // コッホ雪片03
     ID_000132_KOCH_SNOWFLAKE_03(132),
+    // コッホ雪片04
+    ID_000133_KOCH_SNOWFLAKE_04(133),
     // マンデルブロ―集合(白黒)
     ID_000200_MANDELBRO_SET(200),
     // マンデルブロ―集合(-1.5-1.0i～+0.5+1.0i)
@@ -472,6 +474,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_001107_GL_CUBE_TRANSFORM_08(1107),
     // 立方体座標変換09
     ID_001108_GL_CUBE_TRANSFORM_09(1108),
+    // 立方体座標変換09
+    ID_001109_GL_CUBE_TRANSFORM_10(1109),
     // 正四面体の展開図01
     ID_001200_GL_NET_TETRAHEDRON_01(1200),
     // 正四面体の展開図02

@@ -149,6 +149,7 @@
     <string name="draw_000130_fractal_recursion_koch_snowflake_01">Koch Snowflake 01</string>
     <string name="draw_000131_fractal_recursion_koch_snowflake_02">Koch Snowflake 02</string>
     <string name="draw_000132_fractal_recursion_koch_snowflake_03">Koch Snowflake 03</string>
+    <string name="draw_000133_fractal_recursion_koch_snowflake_04">Koch Snowflake 04</string>
     <string name="draw_000200_fractal_complex_mandelbrot_set">Mandelbrot</string>
     <string name="draw_000201_fractal_complex_mandelbrot_set">-1.5-1.0i～\n+1.5+1.0i</string>
     <string name="draw_000202_fractal_complex_mandelbrot_set">-1.3+0.0i～\n-1.1+0.2i</string>
@@ -308,6 +309,7 @@
     <string name="draw_001106_gl_cube_transform_07">Cube Transform\n 07</string>
     <string name="draw_001107_gl_cube_transform_08">Cube Transform\n 08</string>
     <string name="draw_001108_gl_cube_transform_09">Cube Transform\n 09</string>
+    <string name="draw_001109_gl_cube_transform_10">Cube Transform\n 10</string>
     <string name="draw_001200_gl_net_tetrahedron_01">Net of Tetrahedron\n 01</string>
     <string name="draw_001201_gl_net_tetrahedron_02">Net of Tetrahedron\n 02</string>
     <string name="draw_001202_gl_net_cube_01">Net of Cube</string>

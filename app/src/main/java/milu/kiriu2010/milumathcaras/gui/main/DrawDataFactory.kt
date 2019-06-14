@@ -247,6 +247,8 @@ class DrawDataFactory {
                 }
                 // フラクタル(コッホ曲線)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_KOCH_CURVE -> {
+                    // コッホ雪片04
+                    drawDataLst.add(DrawData(DrawDataID.ID_000133_KOCH_SNOWFLAKE_04,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000133_fractal_recursion_koch_snowflake_04) ))
                     // コッホ雪片03
                     drawDataLst.add(DrawData(DrawDataID.ID_000132_KOCH_SNOWFLAKE_03,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000132_fractal_recursion_koch_snowflake_03) ))
                     // コッホ雪片02
@@ -780,6 +782,8 @@ class DrawDataFactory {
                 }
                 // 立方体に座標変換を施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_CUBE_TRANSFORM -> {
+                    // 立方体座標変換10
+                    drawDataLst.add(DrawData(DrawDataID.ID_001109_GL_CUBE_TRANSFORM_10,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001109_gl_cube_transform_10), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換09
                     drawDataLst.add(DrawData(DrawDataID.ID_001108_GL_CUBE_TRANSFORM_09,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001108_gl_cube_transform_09), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換08

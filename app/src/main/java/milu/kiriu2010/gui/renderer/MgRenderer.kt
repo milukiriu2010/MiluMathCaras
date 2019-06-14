@@ -1,14 +1,19 @@
 package milu.kiriu2010.gui.renderer
 
 import android.content.Context
+import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.view.MotionEvent
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.gui.basic.MyQuaternion
+import java.nio.IntBuffer
 import kotlin.math.sqrt
 
 // --------------------------------------------
+// レンダリング親玉クラス
+// --------------------------------------------
 // 2019.04.27 val => var
+// 2019.06.14 フレームバッファ用変数追加
 // --------------------------------------------
 abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
     // モデル変換行列
@@ -19,9 +24,9 @@ abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
     protected val matV = FloatArray(16)
     // プロジェクション変換行列
     protected val matP = FloatArray(16)
-    // モデル・ビュー・プロジェクション行列
+    // モデル×ビュー×プロジェクション行列
     protected val matMVP = FloatArray(16)
-    // ビュー・プロジェクション行列
+    // ビュー×プロジェクション行列
     protected val matVP = FloatArray(16)
     // 点光源の位置
     protected var vecLight = floatArrayOf(2f,2f,2f)
@@ -70,6 +75,12 @@ abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
     // 座標軸による回転ON/OFF
     val rotateAxis = booleanArrayOf(false,false,false)
 
+    // フレームバッファ
+    lateinit var frameBuf : IntBuffer
+    // 深度バッファ用レンダ―バッファ
+    lateinit var depthRenderBuf: IntBuffer
+    // フレームバッファ用のテクスチャ
+    lateinit var frameTex : IntBuffer
 
     // ---------------------------------------------------------------
     // タッチイベントを取得

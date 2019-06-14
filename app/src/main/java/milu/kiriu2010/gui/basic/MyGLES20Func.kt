@@ -17,6 +17,7 @@ import java.nio.IntBuffer
 // 2019.05.19 フレームバッファを生成
 // 2019.05.24 フレームバッファ生成の引数に"浮動小数点数テクスチャ"用を追加
 // 2019.06.02 createProgramの属性引数デフォルト化
+// 2019.06.13 キューブマップ用のフレームバッファ生成関数追加
 // ----------------------------------------------------------------------
 class MyGLES20Func {
 
@@ -250,6 +251,54 @@ class MyGLES20Func {
 
             // フレームバッファにテクスチャを関連付ける
             GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_COLOR_ATTACHMENT0,GLES20.GL_TEXTURE_2D,frameTexture[id],0)
+
+            // 各種オブジェクトのバインドを解除
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,0)
+            GLES20.glBindRenderbuffer(GLES20.GL_RENDERBUFFER,0)
+            GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER,0)
+        }
+
+        // --------------------------------------------------
+        // キューブマップ用のフレームバッファを生成する
+        // --------------------------------------------------
+        fun createFrameBuffer4CubeMap(width: Int, height: Int, id: Int, bufFrame: IntBuffer, bufDepthRender: IntBuffer, frameTexture: IntBuffer, type: Int = GLES20.GL_UNSIGNED_BYTE) {
+            // フレームバッファのバインド
+            GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER,bufFrame[id])
+
+            // 深度バッファ用レンダ―バッファのバインド
+            GLES20.glBindRenderbuffer(GLES20.GL_RENDERBUFFER,bufDepthRender[id])
+
+            // レンダ―バッファを深度バッファとして設定
+            GLES20.glRenderbufferStorage(GLES20.GL_RENDERBUFFER, GLES20.GL_DEPTH_COMPONENT16, width, height)
+
+            // フレームバッファにレンダ―バッファを関連付ける
+            GLES20.glFramebufferRenderbuffer(GLES20.GL_FRAMEBUFFER, GLES20.GL_DEPTH_ATTACHMENT, GLES20.GL_RENDERBUFFER,bufDepthRender[id])
+
+            // フレームバッファ用のテクスチャをバインド
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_CUBE_MAP,frameTexture[id])
+
+            // フレームバッファ用のテクスチャにカラー用のメモリ領域を確保(６面分)
+            //   type:
+            //     浮動小数点数テクスチャ⇒GLES20.GL_FLOATを指定
+            (0..5).forEach {
+                val target = when (it) {
+                    0 -> GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_X
+                    1 -> GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_Y
+                    2 -> GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_Z
+                    3 -> GLES20.GL_TEXTURE_CUBE_MAP_NEGATIVE_X
+                    4 -> GLES20.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y
+                    5 -> GLES20.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+                    else -> GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_X
+                }
+                GLES20.glTexImage2D(target,0,GLES20.GL_RGBA,width,height,0,
+                    GLES20.GL_RGBA,type,null)
+            }
+
+            // テクスチャパラメータ
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_CUBE_MAP,GLES20.GL_TEXTURE_MAG_FILTER,GLES20.GL_LINEAR)
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_CUBE_MAP,GLES20.GL_TEXTURE_MIN_FILTER,GLES20.GL_LINEAR)
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_CUBE_MAP,GLES20.GL_TEXTURE_WRAP_S,GLES20.GL_REPEAT)
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_CUBE_MAP,GLES20.GL_TEXTURE_WRAP_T,GLES20.GL_REPEAT)
 
             // 各種オブジェクトのバインドを解除
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,0)
