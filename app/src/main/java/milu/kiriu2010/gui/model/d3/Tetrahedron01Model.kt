@@ -11,8 +11,13 @@ import kotlin.math.sqrt
 // 2019.04.27  点・線
 // 2019.04.29  色・テクスチャ
 // 2019.04.30  テクスチャ座標修正
+// 2019.06.14  頂点座標修正
 // ------------------------------------------
 class Tetrahedron01Model : MgModelAbs() {
+
+    private val ta = sqrt(3f)/2f
+    private val tb = 0.5f
+    private val tc = sqrt(2f)
 
     override fun createPath( opt: Map<String,Float> ) {
         datPos.clear()
@@ -41,10 +46,6 @@ class Tetrahedron01Model : MgModelAbs() {
 
     // 面：底面が三角形
     private fun createPathPattern1( opt: Map<String,Float> ) {
-        val ta = sqrt(3f)/2f
-        val tb = 0.5f
-        val tc = sqrt(2f)/2f
-
         var scale = opt["scale"] ?: 1f
         val color = FloatArray(4)
         color[0] = opt["colorR"] ?: -1f
@@ -53,11 +54,11 @@ class Tetrahedron01Model : MgModelAbs() {
         color[3] = opt["colorA"] ?: -1f
 
         // v0,v3,v11
-        val va = arrayListOf(-ta*scale,-tc*scale,-tb*scale)
+        val va = arrayListOf(-ta*scale, 0f,-tb*scale)
         // v1,v5,v6
-        val vb = arrayListOf(       0f,-tc*scale, 1f*scale)
+        val vb = arrayListOf(       0f, 0f, 1f*scale)
         // v2,v8,v9
-        val vc = arrayListOf( ta*scale,-tc*scale,-tb*scale)
+        val vc = arrayListOf( ta*scale, 0f,-tb*scale)
         // v4,v7,v10
         val vd = arrayListOf(       0f, tc*scale,       0f)
 
@@ -106,20 +107,6 @@ class Tetrahedron01Model : MgModelAbs() {
         }
 
         // 色データ
-        /*
-        (0..2).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,0f,0f,1f))
-        }
-        (3..5).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,1f,0f,1f))
-        }
-        (6..8).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,0f,1f,1f))
-        }
-        (9..11).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,1f,0f,1f))
-        }
-        */
         (0..11).forEach { i ->
             if ( ( color[0] == -1f ) and ( color[1] == -1f ) and ( color[2] == -1f ) and ( color[3] == -1f ) ) {
                 // ３頂点で１つの面を構成するため３で割る
@@ -201,20 +188,6 @@ class Tetrahedron01Model : MgModelAbs() {
         }
 
         // 色データ
-        /*
-        (0..2).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,0f,0f,1f))
-        }
-        (3..5).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,1f,0f,1f))
-        }
-        (6..8).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,0f,1f,1f))
-        }
-        (9..11).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,1f,0f,1f))
-        }
-        */
         (0..11).forEach { i ->
             if ( ( color[0] == -1f ) and ( color[1] == -1f ) and ( color[2] == -1f ) and ( color[3] == -1f ) ) {
                 // ３頂点で１つの面を構成するため３で割る
@@ -245,18 +218,14 @@ class Tetrahedron01Model : MgModelAbs() {
 
     // 点：底面が三角形
     private fun createPathPattern10( opt: Map<String,Float> ) {
-        val ta = sqrt(3f)/2f
-        val tb = 0.5f
-        val tc = sqrt(2f)/2f
-
         var scale = opt["scale"] ?: 1f
 
         // v0,v3,v11
-        val va = arrayListOf(-ta*scale,-tc*scale,-tb*scale)
+        val va = arrayListOf(-ta*scale, 0f,-tb*scale)
         // v1,v5,v6
-        val vb = arrayListOf(       0f,-tc*scale, 1f*scale)
+        val vb = arrayListOf(       0f, 0f, 1f*scale)
         // v2,v8,v9
-        val vc = arrayListOf( ta*scale,-tc*scale,-tb*scale)
+        val vc = arrayListOf( ta*scale, 0f,-tb*scale)
         // v4,v7,v10
         val vd = arrayListOf(       0f, tc*scale,       0f)
 
@@ -277,18 +246,14 @@ class Tetrahedron01Model : MgModelAbs() {
 
     // 線：底面が三角形
     private fun createPathPattern20( opt: Map<String,Float> ) {
-        val ta = sqrt(3f)/2f
-        val tb = 0.5f
-        val tc = sqrt(2f)/2f
-
         var scale = opt["scale"] ?: 1f
 
         // v0,v3,v11
-        val va = arrayListOf(-ta*scale,-tc*scale,-tb*scale)
+        val va = arrayListOf(-ta*scale, 0f,-tb*scale)
         // v1,v5,v6
-        val vb = arrayListOf(       0f,-tc*scale, 1f*scale)
+        val vb = arrayListOf(       0f, 0f, 1f*scale)
         // v2,v8,v9
-        val vc = arrayListOf( ta*scale,-tc*scale,-tb*scale)
+        val vc = arrayListOf( ta*scale, 0f,-tb*scale)
         // v4,v7,v10
         val vd = arrayListOf(       0f, tc*scale,       0f)
 
@@ -313,32 +278,6 @@ class Tetrahedron01Model : MgModelAbs() {
         datPos.addAll(ArrayList<Float>(vc))
 
         // 色データ
-        /*
-        // l0
-        (0..1).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,0f,0f,1f))
-        }
-        // l1
-        (2..3).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,1f,0f,1f))
-        }
-        // l2
-        (4..5).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,1f,0f,1f))
-        }
-        /// l3
-        (6..7).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,1f,1f,1f))
-        }
-        /// l4
-        (8..9).forEach {
-            datCol.addAll(arrayListOf<Float>(0f,0f,1f,1f))
-        }
-        /// l5
-        (10..11).forEach {
-            datCol.addAll(arrayListOf<Float>(1f,0f,1f,1f))
-        }
-        */
         (0..11).forEach { i ->
             // ２頂点で１つの線を構成するため２で割る
             val ii = i/2
