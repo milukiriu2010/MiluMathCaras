@@ -324,6 +324,7 @@
     <string name="draw_001301_gl_sphere_transform_02">Sphere Transform\n 02</string>
     <string name="draw_001400_gl_koch_snowflake_01">Koch Snowflake\n 01</string>
     <string name="draw_001500_gl_helix_01">Helix 01</string>
+    <string name="draw_001501_gl_circle_phase_shift_01">Circle Phase\nShift 01</string>
 
     <string name="shader_simple">Simple</string>
     <string name="shader_gl_points">Points</string>

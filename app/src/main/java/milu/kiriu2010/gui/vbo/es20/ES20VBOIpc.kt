@@ -3,12 +3,13 @@ package milu.kiriu2010.gui.vbo.es20
 import android.opengl.GLES20
 import milu.kiriu2010.gui.model.MgModelAbs
 
-// --------------------------------
+// ----------------------------------------------
 // VBO(頂点位置＋色)
 // IBO
-// --------------------------------
+// ----------------------------------------------
 // 2019.05.31
-// --------------------------------
+// 2019.06.14  位置のBufferData引数を可変にする
+// ----------------------------------------------
 class ES20VBOIpc: ES20VBOAbs() {
 
     override fun makeVIBO(model: MgModelAbs) {
@@ -21,7 +22,7 @@ class ES20VBOIpc: ES20VBOAbs() {
         // 位置
         model.bufPos.position(0)
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER,hVBO[0])
-        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER,model.bufPos.capacity()*4, model.bufPos,GLES20.GL_STATIC_DRAW)
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER,model.bufPos.capacity()*4, model.bufPos,usagePos)
 
         // 色
         model.bufCol.position(0)

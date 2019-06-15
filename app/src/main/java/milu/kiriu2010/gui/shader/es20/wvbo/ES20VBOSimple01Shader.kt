@@ -5,6 +5,7 @@ import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.gui.basic.MyGLES20Func
 import milu.kiriu2010.gui.shader.es20.ES20MgShader
 import milu.kiriu2010.gui.vbo.es20.ES20VBOAbs
+import java.nio.FloatBuffer
 
 // ------------------------------------------
 // 特殊効果なし(glDrawElements)
@@ -12,6 +13,7 @@ import milu.kiriu2010.gui.vbo.es20.ES20VBOAbs
 // 2019.05.31
 // 2019.06.03 ログ追加
 // 2019.06.15 LINE_LOOP追加
+// 2019.06.15 位置のダイナミック描画
 // ------------------------------------------
 class ES20VBOSimple01Shader: ES20MgShader() {
     // 頂点シェーダ
@@ -98,6 +100,61 @@ class ES20VBOSimple01Shader: ES20MgShader() {
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER,bo.hVBO[0])
         GLES20.glVertexAttribPointer(hATTR[0],3,GLES20.GL_FLOAT,false,0,0)
         MyGLES20Func.checkGlError2("a_Position",this,model)
+
+        // attribute(色)
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER,bo.hVBO[1])
+        GLES20.glVertexAttribPointer(hATTR[1],4,GLES20.GL_FLOAT,false,0,0)
+        MyGLES20Func.checkGlError2("a_Color",this,model)
+
+        // uniform(モデル×ビュー×プロジェクション)
+        GLES20.glUniformMatrix4fv(hUNI[0],1,false,u_matMVP,0)
+        MyGLES20Func.checkGlError2("u_matMVP",this,model)
+
+        // モデルを描画
+        when (mode) {
+            // 面を描画
+            GLES20.GL_TRIANGLES -> {
+                GLES20.glDrawElements(GLES20.GL_TRIANGLES, model.datIdx.size, GLES20.GL_UNSIGNED_SHORT, model.bufIdx)
+            }
+            // 線を描画
+            GLES20.GL_LINES -> {
+                val cnt = model.datPos.size/3
+                GLES20.glDrawArrays(GLES20.GL_LINES,0,cnt)
+            }
+            // 線を描画
+            GLES20.GL_LINE_STRIP -> {
+                val cnt = model.datPos.size/3
+                GLES20.glDrawArrays(GLES20.GL_LINE_STRIP,0,cnt)
+            }
+            // 線を描画
+            GLES20.GL_LINE_LOOP -> {
+                val cnt = model.datPos.size/3
+                GLES20.glDrawArrays(GLES20.GL_LINE_LOOP,0,cnt)
+            }
+        }
+
+        // リソース解放
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER,0)
+        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER,0)
+        // ここで呼ぶと描画されない
+        //GLES20.glDisableVertexAttribArray(hATTR[0])
+    }
+
+    fun drawDynamicPos(model: MgModelAbs,
+                       bo: ES20VBOAbs,
+                       u_matMVP: FloatArray,
+                       mode: Int,
+                       chgBuf: () -> FloatBuffer ) {
+        GLES20.glUseProgram(programHandle)
+        MyGLES20Func.checkGlError2("UseProgram",this,model)
+
+        // attribute(位置)
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER,bo.hVBO[0])
+        GLES20.glVertexAttribPointer(hATTR[0],3,GLES20.GL_FLOAT,false,0,0)
+        MyGLES20Func.checkGlError2("a_Position",this,model)
+        val buf = chgBuf()
+        GLES20.glBufferSubData(GLES20.GL_ARRAY_BUFFER,0,buf.capacity()*4,buf)
+        MyGLES20Func.checkGlError2("a_Position:glBufferSubData",this,model)
 
         // attribute(色)
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER,bo.hVBO[1])

@@ -14,6 +14,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.tetrahedron.NetTetra
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.sphere.SphereTransform01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.sphere.SphereTransform02Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.view.Polyhedron02Renderer
+import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.wave.CirclePhaseShift01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.wave.Helix01Renderer
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import java.lang.RuntimeException
@@ -82,6 +83,8 @@ class MgRendererFactory {
                 DrawDataID.ID_001400_GL_KOCH_SNOWFLAKE_01 -> KochSnowflake01Renderer(context)
                 // 線でHelixを描画
                 DrawDataID.ID_001500_GL_HELIX_01 -> Helix01Renderer(context)
+                // 円の位相をずらして描画
+                DrawDataID.ID_001501_GL_CIRCLE_PHASE_SHIFT_01 -> CirclePhaseShift01Renderer(context)
                 // 該当なし
                 else -> throw RuntimeException("Not Found GLSurfaceView.Renderer")
             }
