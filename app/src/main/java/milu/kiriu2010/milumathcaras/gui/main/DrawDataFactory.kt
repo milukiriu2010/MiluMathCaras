@@ -750,85 +750,91 @@ class DrawDataFactory {
                 // 多面体に様々なエフェクトを施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_VIEW -> {
                     // 円錐台
-                    drawDataLst.add(DrawData(DrawDataID.ID_001009_GL_CONE_TRUNCATED_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001009_gl_cone_truncated_01),
+                    drawDataLst.add(DrawData(DrawDataID.ID_001009_GL_CONE_TRUNCATED_01,DrawFragmentType.FT_D3_ES20_01,resources.getString(R.string.draw_001009_gl_cone_truncated_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 9f, "scale" to 1f) ))
                     // 円錐
-                    drawDataLst.add(DrawData(DrawDataID.ID_001008_GL_CONE_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001008_gl_cone_01),
+                    drawDataLst.add(DrawData(DrawDataID.ID_001008_GL_CONE_01,DrawFragmentType.FT_D3_ES20_01,resources.getString(R.string.draw_001008_gl_cone_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 8f, "scale" to 1f) ))
                     // 円柱
-                    drawDataLst.add(DrawData(DrawDataID.ID_001007_GL_CYLINDER_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001007_gl_cylinder_01),
+                    drawDataLst.add(DrawData(DrawDataID.ID_001007_GL_CYLINDER_01,DrawFragmentType.FT_D3_ES20_01,resources.getString(R.string.draw_001007_gl_cylinder_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 7f, "scale" to 1f) ))
                     // トーラス
-                    drawDataLst.add(DrawData(DrawDataID.ID_001006_GL_TORUS_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001006_gl_torus_01),
+                    drawDataLst.add(DrawData(DrawDataID.ID_001006_GL_TORUS_01,DrawFragmentType.FT_D3_ES20_01,resources.getString(R.string.draw_001006_gl_torus_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 6f, "scale" to 0.25f) ))
                     // 球
-                    drawDataLst.add(DrawData(DrawDataID.ID_001005_GL_SPHERE_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001005_gl_sphere_01),
+                    drawDataLst.add(DrawData(DrawDataID.ID_001005_GL_SPHERE_01,DrawFragmentType.FT_D3_ES20_01,resources.getString(R.string.draw_001005_gl_sphere_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 5f, "scale" to 1f) ))
                     // 正二十面体
-                    drawDataLst.add(DrawData(DrawDataID.ID_001004_GL_ICOSAHEDRON_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001004_gl_icosahedron_01),
+                    drawDataLst.add(DrawData(DrawDataID.ID_001004_GL_ICOSAHEDRON_01,DrawFragmentType.FT_D3_ES20_01,resources.getString(R.string.draw_001004_gl_icosahedron_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 4f, "scale" to 0.5f) ))
                     // 正十二面体
-                    drawDataLst.add(DrawData(DrawDataID.ID_001003_GL_DODECAHEDRON_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001003_gl_dodecahedron_01),
+                    drawDataLst.add(DrawData(DrawDataID.ID_001003_GL_DODECAHEDRON_01,DrawFragmentType.FT_D3_ES20_01,resources.getString(R.string.draw_001003_gl_dodecahedron_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 3f, "scale" to 0.5f) ))
                     // 正八面体
-                    drawDataLst.add(DrawData(DrawDataID.ID_001002_GL_OCTAHEDRON_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001002_gl_octahedron_01),
+                    drawDataLst.add(DrawData(DrawDataID.ID_001002_GL_OCTAHEDRON_01,DrawFragmentType.FT_D3_ES20_01,resources.getString(R.string.draw_001002_gl_octahedron_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 2f, "scale" to 0.8f) ))
                     // 立方体
-                    drawDataLst.add(DrawData(DrawDataID.ID_001001_GL_CUBE_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001001_gl_cube_01),
+                    drawDataLst.add(DrawData(DrawDataID.ID_001001_GL_CUBE_01,DrawFragmentType.FT_D3_ES20_01,resources.getString(R.string.draw_001001_gl_cube_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 1f, "scale" to 0.6f) ))
                     // 正四面体
-                    drawDataLst.add(DrawData(DrawDataID.ID_001000_GL_TETRAHEDRON_01,DrawFragmentType.FT_D3_01,resources.getString(R.string.draw_001000_gl_tetrahedron_01),
+                    drawDataLst.add(DrawData(DrawDataID.ID_001000_GL_TETRAHEDRON_01,DrawFragmentType.FT_D3_ES20_01,resources.getString(R.string.draw_001000_gl_tetrahedron_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 0f) ))
                 }
                 // 立方体に座標変換を施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_CUBE_TRANSFORM -> {
                     // 立方体座標変換10
-                    drawDataLst.add(DrawData(DrawDataID.ID_001109_GL_CUBE_TRANSFORM_10,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001109_gl_cube_transform_10), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001109_GL_CUBE_TRANSFORM_10,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001109_gl_cube_transform_10), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換09
-                    drawDataLst.add(DrawData(DrawDataID.ID_001108_GL_CUBE_TRANSFORM_09,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001108_gl_cube_transform_09), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001108_GL_CUBE_TRANSFORM_09,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001108_gl_cube_transform_09), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換08
-                    drawDataLst.add(DrawData(DrawDataID.ID_001107_GL_CUBE_TRANSFORM_08,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001107_gl_cube_transform_08), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001107_GL_CUBE_TRANSFORM_08,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001107_gl_cube_transform_08), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換07
-                    drawDataLst.add(DrawData(DrawDataID.ID_001106_GL_CUBE_TRANSFORM_07,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001106_gl_cube_transform_07), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001106_GL_CUBE_TRANSFORM_07,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001106_gl_cube_transform_07), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換06
-                    drawDataLst.add(DrawData(DrawDataID.ID_001105_GL_CUBE_TRANSFORM_06,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001105_gl_cube_transform_06), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001105_GL_CUBE_TRANSFORM_06,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001105_gl_cube_transform_06), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換05
-                    drawDataLst.add(DrawData(DrawDataID.ID_001104_GL_CUBE_TRANSFORM_05,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001104_gl_cube_transform_05), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001104_GL_CUBE_TRANSFORM_05,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001104_gl_cube_transform_05), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換04
-                    drawDataLst.add(DrawData(DrawDataID.ID_001103_GL_CUBE_TRANSFORM_04,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001103_gl_cube_transform_04), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001103_GL_CUBE_TRANSFORM_04,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001103_gl_cube_transform_04), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換03
-                    drawDataLst.add(DrawData(DrawDataID.ID_001102_GL_CUBE_TRANSFORM_03,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001102_gl_cube_transform_03), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001102_GL_CUBE_TRANSFORM_03,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001102_gl_cube_transform_03), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換02
-                    drawDataLst.add(DrawData(DrawDataID.ID_001101_GL_CUBE_TRANSFORM_02,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001101_gl_cube_transform_02), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001101_GL_CUBE_TRANSFORM_02,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001101_gl_cube_transform_02), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換01
-                    drawDataLst.add(DrawData(DrawDataID.ID_001100_GL_CUBE_TRANSFORM_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001100_gl_cube_transform_01), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001100_GL_CUBE_TRANSFORM_01,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001100_gl_cube_transform_01), drawViewType = DrawViewType.DVT_GL ))
                 }
                 // 球体に座標変換を施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_SPHERE_TRANSFORM -> {
                     // 球体座標変換02
-                    drawDataLst.add(DrawData(DrawDataID.ID_001301_GL_SPHERE_TRANSFORM_02,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001301_gl_sphere_transform_02), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001301_GL_SPHERE_TRANSFORM_02,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001301_gl_sphere_transform_02), drawViewType = DrawViewType.DVT_GL ))
                     // 球体座標変換01
-                    drawDataLst.add(DrawData(DrawDataID.ID_001300_GL_SPHERE_TRANSFORM_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001300_gl_sphere_transform_01), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001300_GL_SPHERE_TRANSFORM_01,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001300_gl_sphere_transform_01), drawViewType = DrawViewType.DVT_GL ))
                 }
                 // 多面体の展開図を描画するメニュー
                 MenuItem.MENU_POLYHEDRON_NET -> {
                     // 正二十面体の展開図01
-                    drawDataLst.add(DrawData(DrawDataID.ID_001205_GL_NET_ICOSAHEDRON_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001205_gl_net_icosahedron_01), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001205_GL_NET_ICOSAHEDRON_01,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001205_gl_net_icosahedron_01), drawViewType = DrawViewType.DVT_GL ))
                     // 正十二面体の展開図01
-                    drawDataLst.add(DrawData(DrawDataID.ID_001204_GL_NET_DODECAHEDRON_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001204_gl_net_dodecahedron_01), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001204_GL_NET_DODECAHEDRON_01,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001204_gl_net_dodecahedron_01), drawViewType = DrawViewType.DVT_GL ))
                     // 正八面体の展開図01
-                    drawDataLst.add(DrawData(DrawDataID.ID_001203_GL_NET_OCTAHEDRON_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001203_gl_net_octahedron_01), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001203_GL_NET_OCTAHEDRON_01,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001203_gl_net_octahedron_01), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体の展開図01
-                    drawDataLst.add(DrawData(DrawDataID.ID_001202_GL_NET_CUBE_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001202_gl_net_cube_01), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001202_GL_NET_CUBE_01,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001202_gl_net_cube_01), drawViewType = DrawViewType.DVT_GL ))
                     // 正四面体の展開図02
-                    drawDataLst.add(DrawData(DrawDataID.ID_001201_GL_NET_TETRAHEDRON_02,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001201_gl_net_tetrahedron_02), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001201_GL_NET_TETRAHEDRON_02,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001201_gl_net_tetrahedron_02), drawViewType = DrawViewType.DVT_GL ))
                     // 正四面体の展開図01
-                    //drawDataLst.add(DrawData(DrawDataID.ID_001200_GL_NET_TETRAHEDRON_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001200_gl_net_tetrahedron_01), drawViewType = DrawViewType.DVT_GL ))
+                    //drawDataLst.add(DrawData(DrawDataID.ID_001200_GL_NET_TETRAHEDRON_01,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001200_gl_net_tetrahedron_01), drawViewType = DrawViewType.DVT_GL ))
                 }
                 // 多面体内にフラクタルを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_FRACTAL -> {
                     // 立方体の中をコッホ雪片が回転
-                    drawDataLst.add(DrawData(DrawDataID.ID_001400_GL_KOCH_SNOWFLAKE_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001400_gl_koch_snowflake_01), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001400_GL_KOCH_SNOWFLAKE_01,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001400_gl_koch_snowflake_01), drawViewType = DrawViewType.DVT_GL ))
+                }
+                // ３次元波を描画するメニュー
+                MenuItem.MENU_POLYHEDRON_WAVE -> {
+                    // 線でHelixを描画
+                    drawDataLst.add(DrawData(DrawDataID.ID_001500_GL_HELIX_01,DrawFragmentType.FT_D3_ES20_CREDIT_01,resources.getString(R.string.draw_001500_gl_helix_01), drawViewType = DrawViewType.DVT_GL,
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/4c437d88df4fa9bac581e50310a02a51/tumblr_milgzyY8vO1r2geqjo1_500.gif") ))
                 }
                 // "Nature of Code"-"Vectors"を選択したときの描画データの一覧
                 MenuItem.MENU_NATURE_VECTORS -> {

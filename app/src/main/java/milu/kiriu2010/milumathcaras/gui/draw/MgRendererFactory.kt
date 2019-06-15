@@ -14,6 +14,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.tetrahedron.NetTetra
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.sphere.SphereTransform01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.sphere.SphereTransform02Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.view.Polyhedron02Renderer
+import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.wave.Helix01Renderer
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import java.lang.RuntimeException
 
@@ -61,10 +62,6 @@ class MgRendererFactory {
                 DrawDataID.ID_001108_GL_CUBE_TRANSFORM_09 -> CubeTransform09Renderer(context)
                 // 立方体座標変換10
                 DrawDataID.ID_001109_GL_CUBE_TRANSFORM_10 -> CubeTransform10Renderer(context)
-                // 立方体座標変換11
-                DrawDataID.ID_001400_GL_KOCH_SNOWFLAKE_01 -> KochSnowflake01Renderer(
-                    context
-                )
                 // 正四面体の展開図01
                 DrawDataID.ID_001200_GL_NET_TETRAHEDRON_01 -> NetTetrahedron01Renderer(context)
                 // 正四面体の展開図02
@@ -81,6 +78,10 @@ class MgRendererFactory {
                 DrawDataID.ID_001300_GL_SPHERE_TRANSFORM_01 -> SphereTransform01Renderer(context)
                 // 球体座標変換02
                 DrawDataID.ID_001301_GL_SPHERE_TRANSFORM_02 -> SphereTransform02Renderer(context)
+                // 立方体の中をコッホ雪片が回転
+                DrawDataID.ID_001400_GL_KOCH_SNOWFLAKE_01 -> KochSnowflake01Renderer(context)
+                // 線でHelixを描画
+                DrawDataID.ID_001500_GL_HELIX_01 -> Helix01Renderer(context)
                 // 該当なし
                 else -> throw RuntimeException("Not Found GLSurfaceView.Renderer")
             }

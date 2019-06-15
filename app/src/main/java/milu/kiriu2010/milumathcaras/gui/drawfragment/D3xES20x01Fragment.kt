@@ -22,9 +22,9 @@ private const val ARG_PARAM1 = "drawdata"
 // ----------------------------------------
 // OpenGLコンテンツを描画をするフラグメント
 // ----------------------------------------
-// ・パラメータなし
+// ・描画用のMyGLES20View１つ
 // ----------------------------------------
-class D3x02Fragment : Fragment()
+class D3x01Fragment : Fragment()
     , NotifyCallback {
 
     // 描画データ
@@ -57,11 +57,12 @@ class D3x02Fragment : Fragment()
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_d3_02, container, false)
+        val view = inflater.inflate(R.layout.fragment_d3_es20_01, container, false)
 
         // 描画するビュー
-        myGLES20View = view.findViewById(R.id.myGLES20ViewD3x02)
+        myGLES20View = view.findViewById(R.id.myGLES20ViewD3x01)
         renderer = MgRendererFactory.createInstance(drawData.id,context!!,this)
+        //renderer.setMotionParam(*drawData.motionImageParam)
         renderer.setMotionParam(drawData.motionImageV2Param)
         myGLES20View.setRenderer(renderer)
         myGLES20View.setOnTouchListener { v, event ->
@@ -78,6 +79,66 @@ class D3x02Fragment : Fragment()
                 }
             }
             true
+        }
+
+        // シェーダ選択用スピナ―
+        spinnerShader = view.findViewById<Spinner>(R.id.spinnerShaderD3x01)
+        spinnerShader.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // http://android-note.open-memo.net/sub/spinner--get-resource-id-for-selected-item.html
+                val array = resources.obtainTypedArray(R.array.shaderlist)
+                val itemId = array.getResourceId(position,R.string.shader_simple)
+                renderer.shaderSwitch = when (itemId) {
+                    // 特殊効果なし
+                    R.string.shader_simple -> 0
+                    // 平行光源
+                    R.string.shader_directional_light -> 1
+                    // 環境光
+                    R.string.shader_ambient_light -> 2
+                    // 拡散光
+                    R.string.shader_specular_light -> 3
+                    // フォーンシェーディング
+                    R.string.shader_phong_shading -> 4
+                    // 点光源
+                    R.string.shader_point_light -> 5
+                    // 点で描画(POINTS)
+                    R.string.shader_gl_points -> 6
+                    // 線で描画(LINES)
+                    R.string.shader_gl_lines -> 7
+                    // テクスチャ
+                    R.string.shader_texture -> 8
+                    else -> 0
+                }
+                // 使わなくなったら解放
+                array.recycle()
+            }
+        }
+
+        // 座標軸ON/OFF
+        val switchAxis = view.findViewById<Switch>(R.id.switchAxisD3x01)
+        switchAxis.setOnCheckedChangeListener { buttonView, isChecked ->
+            renderer.displayAxis = isChecked
+        }
+
+        // X座標軸による回転ON/OFF
+        val checkBoxD3x01X = view.findViewById<CheckBox>(R.id.checkBoxXD3x01)
+        checkBoxD3x01X.setOnCheckedChangeListener { buttonView, isChecked ->
+            renderer.rotateAxis[0] = isChecked
+        }
+
+        // Y座標軸による回転ON/OFF
+        val checkBoxD3x01Y = view.findViewById<CheckBox>(R.id.checkBoxYD3x01)
+        checkBoxD3x01Y.setOnCheckedChangeListener { buttonView, isChecked ->
+            renderer.rotateAxis[1] = isChecked
+        }
+
+        // Z座標軸による回転ON/OFF
+        val checkBoxD3x01Z = view.findViewById<CheckBox>(R.id.checkBoxZD3x01)
+        checkBoxD3x01Z.setOnCheckedChangeListener { buttonView, isChecked ->
+            renderer.rotateAxis[2] = isChecked
         }
 
         return view
@@ -170,7 +231,7 @@ class D3x02Fragment : Fragment()
     companion object {
         @JvmStatic
         fun newInstance(drawData: DrawData) =
-            D3x02Fragment().apply {
+            D3x01Fragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_PARAM1,drawData)
                 }

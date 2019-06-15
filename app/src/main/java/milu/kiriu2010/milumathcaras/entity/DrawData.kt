@@ -493,7 +493,9 @@ enum class DrawDataID(val id: Int): Parcelable {
     // 球体座標変換02
     ID_001301_GL_SPHERE_TRANSFORM_02(1301),
     // 立方体の中をコッホ雪片が回転
-    ID_001400_GL_KOCH_SNOWFLAKE_01(1110)
+    ID_001400_GL_KOCH_SNOWFLAKE_01(1400),
+    // 線でHelixを描画
+    ID_001500_GL_HELIX_01(1500)
 }
 
 // ------------------------------
@@ -517,10 +519,12 @@ enum class DrawFragmentType: Parcelable {
     FT_D2_06,
     // OpenGLを使った描画を実施するフラグメントを生成
     //   多面体に様々なエフェクトを施すためのパラメータを付与できる
-    FT_D3_01,
+    FT_D3_ES20_01,
     // OpenGLを使った描画を実施するフラグメントを生成
     //   パラメータなし
-    FT_D3_02
+    FT_D3_ES20_02,
+    // OpenGLを使った描画を実施するフラグメントを生成(製作者名を表示)
+    FT_D3_ES20_CREDIT_01
 }
 
 // ------------------

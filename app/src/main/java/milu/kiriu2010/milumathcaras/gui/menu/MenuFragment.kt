@@ -254,6 +254,9 @@ class MenuFragment : Fragment() {
                     // 多面体内にフラクタルを描画するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON_FRACTAL, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron_fractal),false))
                     // [サブメニュー]
+                    // ３次元波を描画するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON_WAVE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron_wave),false))
+                    // [サブメニュー]
                     // 立方体に座標変換を施したものを描画するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON_CUBE_TRANSFORM, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron_cube_transform),false))
                     // [サブメニュー]
