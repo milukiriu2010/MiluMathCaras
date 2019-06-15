@@ -136,6 +136,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000036_HYPO_CYCLOID -> Hypocycloid01Drawable()
                 // カッシニアン曲線
                 DrawDataID.ID_000037_CASSINIAN_CURVE -> CassinianCurve01Drawable()
+                // Caustic of a Circle
+                DrawDataID.ID_000038_CAUSTIC_CIRCLE_01 -> CausticCircle01Drawable()
                 // サイン波
                 DrawDataID.ID_000040_SINE_WAVE -> SineWave01Drawable()
                 // 円の周りを回転するサイン波

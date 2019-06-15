@@ -75,6 +75,7 @@
     <string name="func_curve_ying_yang_01">x = ±a*sqrt(t*(360-t))*cos(t)\ny = ±a*sqrt(t*(360-t))*sin(t)\n 0 ≦ t ≦ 180\n plus, x=180a*cos(t) y= 180a*sin(t)</string>
     <string name="func_curve_ying_yang_02">x = ±a*sqrt(t/(90/PI+t))*cos(t)\ny = ±a*sqrt(t/(90/PI+t))*sin(t)</string>
     <string name="func_curve_trefle_habenicht_01">x = a*(1+cos(n*t)+sin(n*t)^2)*cos(t)\ny = a*(1+cos(n*t)+sin(n*t)^2)*sin(t)</string>
+    <string name="func_curve_caustic_circle_01">x = ab*(b*cos(t)*(1+2*sin(t)^2)-a)/(a^2+2*b^2-3ab*cos(t))\ny = ab*(a*sin(t)^3)/(a^2+2*b^2-3ab*cos(t))</string>
     <string name="func_triangle_center_of_gravity">G=(A+B+C)/3</string>
     <string name="func_triangle_circumcenter">O=(A*sin(2A)+B*sin(2B)+C*sin(2C))/(sin(2A)+sin(2B)+sin(2C))</string>
     <string name="func_triangle_incenter">I=(a*A+b*B+c*C)/(a+b+c)</string>
@@ -117,6 +118,7 @@
     <string name="draw_000035_curve_hypocycloid">Hypocycloid\n(k=5.5)</string>
     <string name="draw_000036_curve_hypocycloid">Hypocycloid\n(k=7.2)</string>
     <string name="draw_000037_curve_cassinian">Cassinian Curve</string>
+    <string name="draw_000038_curve_caustic_circle_01">Caustic of a Circle</string>
     <string name="draw_000040_wave_sine">Sine Wave</string>
     <string name="draw_000041_wave_sine_circle">Sine Wave\n around Circle</string>
     <string name="draw_000042_wave_sine_circle">Sine Wave\n around Circle</string>

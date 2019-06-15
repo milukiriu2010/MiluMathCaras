@@ -186,6 +186,11 @@ class DrawDataFactory {
                 }
                 // 特別な曲線の描画一覧
                 MenuItem.MENU_CURVE_SPECIAL -> {
+                    // Caustic of a Circle
+                    drawDataLst.add(DrawData(DrawDataID.ID_000038_CAUSTIC_CIRCLE_01,DrawFragmentType.FT_D2_06,resources.getString(R.string.draw_000038_curve_caustic_circle_01),
+                        stillImageParam = floatArrayOf(50f,50f), motionImageParam = floatArrayOf(50f,50f), editParam = floatArrayOf(-100f,100f,0f,-100f,100f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_caustic_circle_01), "autoParam" to "t", "handParam1" to "a", "handParam2" to "b"),
+                        fragmentParamMap = mutableMapOf("maxA" to 20, "maxB" to 20) ))
                     // Trèfle de Habenicht
                     drawDataLst.add(DrawData(DrawDataID.ID_000030_TREFLE_01,DrawFragmentType.FT_D2_05,resources.getString(R.string.draw_000030_curve_trefle_habenicht_01),
                         stillImageParam = floatArrayOf(3f), motionImageParam = floatArrayOf(3f), editParam = floatArrayOf(0f,8f,0f),

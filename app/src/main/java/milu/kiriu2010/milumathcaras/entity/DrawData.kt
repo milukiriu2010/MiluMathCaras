@@ -85,6 +85,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000036_HYPO_CYCLOID(36),
     // カッシニアン曲線
     ID_000037_CASSINIAN_CURVE(37),
+    // Caustic of a circle
+    ID_000038_CAUSTIC_CIRCLE_01(38),
     // サイン波
     ID_000040_SINE_WAVE(40),
     // 円の周りを回転するサイン波
