@@ -4,6 +4,7 @@ import android.content.Context
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.cube.*
+import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.fractal.KochSnowflake01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.cube.NetCube01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.dodecahedron.NetDodecahedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.icosahedron.NetIcosahedron01Renderer
@@ -12,7 +13,6 @@ import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.tetrahedron.NetTetra
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.tetrahedron.NetTetrahedron02Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.sphere.SphereTransform01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.sphere.SphereTransform02Renderer
-import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.view.Polyhedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.view.Polyhedron02Renderer
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import java.lang.RuntimeException
@@ -61,6 +61,10 @@ class MgRendererFactory {
                 DrawDataID.ID_001108_GL_CUBE_TRANSFORM_09 -> CubeTransform09Renderer(context)
                 // 立方体座標変換10
                 DrawDataID.ID_001109_GL_CUBE_TRANSFORM_10 -> CubeTransform10Renderer(context)
+                // 立方体座標変換11
+                DrawDataID.ID_001400_GL_KOCH_SNOWFLAKE_01 -> KochSnowflake01Renderer(
+                    context
+                )
                 // 正四面体の展開図01
                 DrawDataID.ID_001200_GL_NET_TETRAHEDRON_01 -> NetTetrahedron01Renderer(context)
                 // 正四面体の展開図02

@@ -474,7 +474,7 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_001107_GL_CUBE_TRANSFORM_08(1107),
     // 立方体座標変換09
     ID_001108_GL_CUBE_TRANSFORM_09(1108),
-    // 立方体座標変換09
+    // 立方体座標変換10
     ID_001109_GL_CUBE_TRANSFORM_10(1109),
     // 正四面体の展開図01
     ID_001200_GL_NET_TETRAHEDRON_01(1200),
@@ -491,7 +491,9 @@ enum class DrawDataID(val id: Int): Parcelable {
     // 球体座標変換01
     ID_001300_GL_SPHERE_TRANSFORM_01(1300),
     // 球体座標変換02
-    ID_001301_GL_SPHERE_TRANSFORM_02(1301)
+    ID_001301_GL_SPHERE_TRANSFORM_02(1301),
+    // 立方体の中をコッホ雪片が回転
+    ID_001400_GL_KOCH_SNOWFLAKE_01(1110)
 }
 
 // ------------------------------

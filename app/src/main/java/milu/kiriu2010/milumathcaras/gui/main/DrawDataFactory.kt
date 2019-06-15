@@ -825,6 +825,11 @@ class DrawDataFactory {
                     // 正四面体の展開図01
                     //drawDataLst.add(DrawData(DrawDataID.ID_001200_GL_NET_TETRAHEDRON_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001200_gl_net_tetrahedron_01), drawViewType = DrawViewType.DVT_GL ))
                 }
+                // 多面体内にフラクタルを描画するメニュー
+                MenuItem.MENU_POLYHEDRON_FRACTAL -> {
+                    // 立方体の中をコッホ雪片が回転
+                    drawDataLst.add(DrawData(DrawDataID.ID_001400_GL_KOCH_SNOWFLAKE_01,DrawFragmentType.FT_D3_02,resources.getString(R.string.draw_001400_gl_koch_snowflake_01), drawViewType = DrawViewType.DVT_GL ))
+                }
                 // "Nature of Code"-"Vectors"を選択したときの描画データの一覧
                 MenuItem.MENU_NATURE_VECTORS -> {
                     // 等速度運動

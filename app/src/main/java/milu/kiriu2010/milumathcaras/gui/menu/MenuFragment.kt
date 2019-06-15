@@ -251,14 +251,17 @@ class MenuFragment : Fragment() {
                 // 多面体一覧を表示するメニュー
                 MenuItem.MENU_POLYHEDRON -> {
                     // [サブメニュー]
-                    // 多面体に様々なエフェクトを施したものを描画するメニュー
-                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON_VIEW, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron_view),false))
+                    // 多面体内にフラクタルを描画するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON_FRACTAL, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron_fractal),false))
                     // [サブメニュー]
                     // 立方体に座標変換を施したものを描画するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON_CUBE_TRANSFORM, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron_cube_transform),false))
                     // [サブメニュー]
                     // 球体に座標変換を施したものを描画するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON_SPHERE_TRANSFORM, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron_sphere_transform),false))
+                    // [サブメニュー]
+                    // 多面体に様々なエフェクトを施したものを描画するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON_VIEW, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron_view),false))
                     // [サブメニュー]
                     // 多面体の展開図を描画するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON_NET, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron_net),false))

@@ -105,7 +105,9 @@ enum class MenuItem(val title: String): Parcelable {
     // 球体に座標変換を施したものを描画するメニュー
     MENU_POLYHEDRON_SPHERE_TRANSFORM("Sphere Transform"),
     // 多面体の展開図を描画するメニュー
-    MENU_POLYHEDRON_NET("Net of Polyhedron")
+    MENU_POLYHEDRON_NET("Net of Polyhedron"),
+    // 多面体内にフラクタルを描画するメニュー
+    MENU_POLYHEDRON_FRACTAL("Fractal in Polyhedron")
 }
 
 // ------------------------------------

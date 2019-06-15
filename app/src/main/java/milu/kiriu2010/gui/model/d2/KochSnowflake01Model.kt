@@ -1,5 +1,6 @@
 package milu.kiriu2010.gui.model
 
+import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.gui.basic.MyTurtle
 import milu.kiriu2010.gui.color.MgColor
@@ -18,7 +19,6 @@ class KochSnowflake01Model: MgModelAbs() {
     private val myTurtle = MyTurtle()
 
     private val sqrt3_1 = sqrt(3f)/3f
-    private val sqrt3_2 = 2f*sqrt(3f)/3f
 
     override fun createPath( opt: Map<String,Float> ) {
         datPos.clear()
@@ -51,9 +51,9 @@ class KochSnowflake01Model: MgModelAbs() {
         // 再帰レベル
         val nNow = opt["nNow"] ?: 4f
 
-
         // 移動距離
         val dv = scale * 2f/3f.pow(nNow)
+        Log.d(javaClass.simpleName,"dv[$dv]")
 
         // コッホ雪片の初期位置
         val a = MyPointF().apply {
@@ -69,7 +69,7 @@ class KochSnowflake01Model: MgModelAbs() {
         // ---------------------------------
         myTurtle.addPoint(a).apply {
             d = dv
-            t = 60f
+            t = 0f
         }
 
         // コッホ雪片をパターンAで描画
@@ -84,11 +84,11 @@ class KochSnowflake01Model: MgModelAbs() {
         createCurveA(nNow.toInt())
 
         myTurtle.pLst.forEachIndexed { id, myPointF ->
-            // 頂点データ
+            // 位置
             datPos.addAll(arrayListOf(myPointF.x,myPointF.y,0f))
-            // 法線データ
+            // 法線
             datNor.addAll(arrayListOf(0f,0f,1f))
-            // 色データ
+            // 色
             if ( ( color[0] == -1f ) and ( color[1] == -1f ) and ( color[2] == -1f ) and ( color[3] == -1f ) ) {
                 datCol.addAll(arrayListOf<Float>(1f,0f,0f,1f))
             }
@@ -99,7 +99,6 @@ class KochSnowflake01Model: MgModelAbs() {
             datIdx.add(id.toShort())
         }
     }
-
 
     // -------------------------------------
     // コッホ雪片をパターンAで描画

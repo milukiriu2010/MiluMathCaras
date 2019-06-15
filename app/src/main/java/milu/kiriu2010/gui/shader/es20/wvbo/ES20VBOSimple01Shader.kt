@@ -11,6 +11,7 @@ import milu.kiriu2010.gui.vbo.es20.ES20VBOAbs
 // ------------------------------------------
 // 2019.05.31
 // 2019.06.03 ログ追加
+// 2019.06.15 LINE_LOOP追加
 // ------------------------------------------
 class ES20VBOSimple01Shader: ES20MgShader() {
     // 頂点シェーダ
@@ -122,6 +123,11 @@ class ES20VBOSimple01Shader: ES20MgShader() {
             GLES20.GL_LINE_STRIP -> {
                 val cnt = model.datPos.size/3
                 GLES20.glDrawArrays(GLES20.GL_LINE_STRIP,0,cnt)
+            }
+            // 線を描画
+            GLES20.GL_LINE_LOOP -> {
+                val cnt = model.datPos.size/3
+                GLES20.glDrawArrays(GLES20.GL_LINE_LOOP,0,cnt)
             }
         }
 
