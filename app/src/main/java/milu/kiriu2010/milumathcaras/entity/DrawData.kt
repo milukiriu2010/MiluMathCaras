@@ -246,9 +246,9 @@ enum class DrawDataID(val id: Int): Parcelable {
     // 摩擦の効果
     ID_000406_NATURE_FRICTION_EFFECT(406),
     // 1536色
-    ID_000500_COLOR_1536(500),
+    ID_000045_COLOR_1536(500),
     // 768色(暗色)
-    ID_000501_COLOR_768_DARK(501),
+    ID_000046_COLOR_768_DARK(501),
     // 三角形でEXILE
     ID_000600_TRIANGLE_EXILE(600),
     // 多角形のラップ

@@ -63,6 +63,10 @@ enum class MenuItem(val title: String): Parcelable {
     MENU_FRACTAL_JULIA("Julia"),
     // 波を描画するメニュー
     MENU_WAVE("Wave"),
+    // SIN/COS波を描画するメニュー
+    MENU_WAVE_SINCOS("Sin/Cos"),
+    // 色を描画するメニュー
+    MENU_WAVE_COLOR("Color"),
     // 円を描画するメニュー
     MENU_CIRCLE("Circle"),
     // 複数円を描画するメニュー
@@ -92,8 +96,6 @@ enum class MenuItem(val title: String): Parcelable {
     MENU_NATURE_VECTORS( "Vectors"),
     // "The Nature of Code" - "Forces"
     MENU_NATURE_FORCES( "Forces"),
-    // 色を描画するメニュー
-    MENU_COLOR("Color"),
     // 錯覚を描画するメニュー
     MENU_OPTICAL_ILLUSION("Optical Illusion"),
     // 多面体を描画するメニュー

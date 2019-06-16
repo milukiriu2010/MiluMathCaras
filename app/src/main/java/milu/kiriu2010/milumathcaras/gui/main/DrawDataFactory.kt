@@ -326,7 +326,7 @@ class DrawDataFactory {
                         stillImageParam = floatArrayOf(0.1f), motionImageParam = floatArrayOf(0.001f) ))
                 }
                 // 波を選択したときの描画データの一覧
-                MenuItem.MENU_WAVE -> {
+                MenuItem.MENU_WAVE_SINCOS -> {
                     // 隣同士の点がサイン波を描く
                     drawDataLst.add(DrawData(DrawDataID.ID_000044_SINE_WAVE_POINT_02,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000044_wave_sine_point_02),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/7b67b31dc375ebad6303869f997b3718/tumblr_mjrn2diIUo1r2geqjo1_500.gif") ))
@@ -339,6 +339,13 @@ class DrawDataFactory {
                     //drawDataLst.add(DrawData(DrawDataID.ID_000041_SINE_WAVE_CIRCLE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000041_wave_sine_circle) ))
                     // サイン波
                     drawDataLst.add(DrawData(DrawDataID.ID_000040_SINE_WAVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000040_wave_sine) ))
+                }
+                // 波を選択したときの描画データの一覧
+                MenuItem.MENU_WAVE_COLOR -> {
+                    // 1536色
+                    drawDataLst.add(DrawData(DrawDataID.ID_000045_COLOR_1536,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000045_wave_color_1536)))
+                    // 768色(暗色)
+                    drawDataLst.add(DrawData(DrawDataID.ID_000046_COLOR_768_DARK,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000046_wave_color_768_dark)))
                 }
                 // "複数円"を選択したときの描画データの一覧
                 MenuItem.MENU_CIRCLE_CIRCLES -> {
@@ -875,13 +882,6 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_000406_NATURE_FRICTION_EFFECT,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000406_nature_friction_effect),
                         stillImageParam = floatArrayOf(10f), motionImageParam = floatArrayOf(10f),
                         creditMap = mutableMapOf<String,String>("name" to "The Nature of Code", "url" to "https://natureofcode.com/book/chapter-2-forces/") ))
-                }
-                // 色を選択したときの描画データの一覧
-                MenuItem.MENU_COLOR -> {
-                    // 1536色
-                    drawDataLst.add(DrawData(DrawDataID.ID_000500_COLOR_1536,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000500_color_1536)))
-                    // 768色(暗色)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000501_COLOR_768_DARK,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000501_color_768_dark)))
                 }
                 // 錯覚を選択したときの描画データの一覧
                 MenuItem.MENU_OPTICAL_ILLUSION -> {

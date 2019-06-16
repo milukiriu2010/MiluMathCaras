@@ -31,6 +31,8 @@
     <string name="menu_sub_fractal_mandelbrot">Mandelbrot Set</string>
     <string name="menu_sub_fractal_julia">Julia Set</string>
     <string name="menu_sub_wave">Wave</string>
+    <string name="menu_sub_wave_sincos">sin cos</string>
+    <string name="menu_sub_wave_color">Color</string>
     <string name="menu_sub_circle">Circle</string>
     <string name="menu_sub_circle_circles">Circles</string>
     <string name="menu_sub_circle_morph">Morphing Circle</string>
@@ -52,7 +54,6 @@
     <string name="menu_sub_nature">Nature of Code</string>
     <string name="menu_sub_nature_vectors">Vectors</string>
     <string name="menu_sub_nature_forces">Forces</string>
-    <string name="menu_sub_color">Color</string>
     <string name="menu_sub_optical_Illusion">Optical Illusion</string>
     <string name="menu_sub_about">About Me</string>
     <string name="menu_back">Back</string>
@@ -124,6 +125,8 @@
     <string name="draw_000042_wave_sine_circle">Sine Wave\n around Circle</string>
     <string name="draw_000043_wave_sine_point_01">Sine Wave\nby Points 01</string>
     <string name="draw_000044_wave_sine_point_02">Sine Wave\nby Points 02</string>
+    <string name="draw_000045_wave_color_1536">color 1536</string>
+    <string name="draw_000046_wave_color_768_dark">color 768 dark</string>
     <string name="draw_000050_curve_lissajous_1_2">Lissajous(p:q=1:2)</string>
     <string name="draw_000051_curve_lissajous_3_2">Lissajous(p:q=3:2)</string>
     <string name="draw_000052_curve_lissajous_3_4">Lissajous(p:q=3:4)</string>
@@ -198,8 +201,6 @@
     <string name="draw_000404_nature_accelerate_towards_touch_point">Accelerate towards\n the touch point</string>
     <string name="draw_000405_nature_mass_effect">Mass Effect</string>
     <string name="draw_000406_nature_friction_effect">Friction Effect</string>
-    <string name="draw_000500_color_1536">color 1536</string>
-    <string name="draw_000501_color_768_dark">color 768 dark</string>
     <string name="draw_000600_polygon_triangle_exile">Triangle Exile</string>
     <string name="draw_000601_polygon_lap">Polygon Lap</string>
     <string name="draw_000602_polygon_rotate_arrows">Rotate Arrows</string>

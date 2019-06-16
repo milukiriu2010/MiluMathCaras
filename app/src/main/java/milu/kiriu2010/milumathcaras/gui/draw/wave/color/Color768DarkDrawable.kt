@@ -1,9 +1,7 @@
-package milu.kiriu2010.milumathcaras.gui.draw.color
+package milu.kiriu2010.milumathcaras.gui.draw.wave.color
 
 import android.graphics.*
 import android.os.Handler
-import android.util.Log
-import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.gui.color.ColorType
 import milu.kiriu2010.gui.color.MyColorFactory
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable

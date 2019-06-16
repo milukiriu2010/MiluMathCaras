@@ -8,8 +8,8 @@ import milu.kiriu2010.milumathcaras.gui.draw.circle.morph.SunMorph01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.circle.tile.Circle2SqaureTile01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.circle.tile.RotateCircleTile01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.circle.tile.XmasTreeCircle01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.color.Color1536Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.color.Color768DarkDrawable
+import milu.kiriu2010.milumathcaras.gui.draw.wave.color.Color1536Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.wave.color.Color768DarkDrawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.julia.Julia01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.mandelbrot.Mandelbrot01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.epicycloid.Epicycloid01Drawable
@@ -149,6 +149,10 @@ class MyDrawableFactory {
                 DrawDataID.ID_000043_SINE_WAVE_POINT_01 -> SineWavePoint01Drawable()
                 // 隣同士の点がサイン波を描く
                 DrawDataID.ID_000044_SINE_WAVE_POINT_02 -> SineWavePoint02Drawable()
+                // 1536色
+                DrawDataID.ID_000045_COLOR_1536 -> Color1536Drawable()
+                // 768色(暗色)
+                DrawDataID.ID_000046_COLOR_768_DARK -> Color768DarkDrawable()
                 // リサージュ曲線(p:q=1:2)
                 DrawDataID.ID_000050_LISSAJOUS_CURVE_1_2 -> Lissajous01Drawable()
                 // リサージュ曲線(p:q=3:2)
@@ -297,10 +301,6 @@ class MyDrawableFactory {
                 DrawDataID.ID_000405_NATURE_MASS_EFFECT -> MassEffect01Drawable()
                 // 摩擦の効果
                 DrawDataID.ID_000406_NATURE_FRICTION_EFFECT -> FrictionEffect01Drawable()
-                // 1536色
-                DrawDataID.ID_000500_COLOR_1536 -> Color1536Drawable()
-                // 768色(暗色)
-                DrawDataID.ID_000501_COLOR_768_DARK -> Color768DarkDrawable()
                 // 三角形でEXILE
                 DrawDataID.ID_000600_TRIANGLE_EXILE -> TriangleExile01Drawable()
                 // 多角形のラップ

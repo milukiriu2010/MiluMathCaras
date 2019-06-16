@@ -124,7 +124,7 @@ class MenuFragment : Fragment() {
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal),true))
                     // [サブメニュー]
                     // 波一覧を表示するメニュー
-                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_WAVE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_wave),false))
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_WAVE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_wave),true))
                      // [サブメニュー]
                      // 円一覧を表示するメニュー
                      menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CIRCLE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_circle),true))
@@ -140,9 +140,6 @@ class MenuFragment : Fragment() {
                      // [サブメニュー]
                      // 錯覚一覧を表示するメニュー
                      menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_OPTICAL_ILLUSION, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_optical_Illusion),false))
-                     // [サブメニュー]
-                     // 色一覧を表示するメニュー
-                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_COLOR, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_color),false))
                     // [メインメニュー]
                     // ヘルプ
                     menuDataLst.add(MenuData(MenuType.TYPE_MAIN, MenuItem.MENU_DUMMY,FragmentID.ID_DUMMY,resources.getString(R.string.menu_main_help),false))
@@ -210,6 +207,15 @@ class MenuFragment : Fragment() {
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_FRACTAL_JULIA, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_fractal_julia),false))
                     // [戻るメニュー]
                     menuDataLst.add(MenuData(MenuType.TYPE_BACK, MenuItem.MENU_BACK, FragmentID.ID_DUMMY,resources.getString(R.string.menu_back),false))
+                }
+                // 波一覧を表示するメニュー
+                MenuItem.MENU_WAVE -> {
+                    // [サブメニュー]
+                    // SIN/COS波を描画するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_WAVE_SINCOS, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_wave_sincos),false))
+                    // [サブメニュー]
+                    // 色一覧を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_WAVE_COLOR, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_wave_color),false))
                 }
                 // 円一覧を表示するメニュー
                 MenuItem.MENU_CIRCLE -> {
