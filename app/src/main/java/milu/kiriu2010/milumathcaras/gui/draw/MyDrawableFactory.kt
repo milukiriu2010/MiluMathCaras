@@ -4,6 +4,7 @@ import milu.kiriu2010.milumathcaras.entity.DrawDataID
 import milu.kiriu2010.milumathcaras.gui.draw.circle.circles.*
 import milu.kiriu2010.milumathcaras.gui.draw.circle.morph.Circle2SqaureMorph01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.circle.morph.Circle2SqaureMorph02Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.circle.morph.SunMorph01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.circle.tile.Circle2SqaureTile01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.circle.tile.RotateCircleTile01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.circle.tile.XmasTreeCircle01Drawable
@@ -478,6 +479,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE -> Circle2SqaureMorph01Drawable()
                 // "円⇔正方形の変形"のタイリング
                 DrawDataID.ID_000811_CIRCLE_MORPH_CIRCLE2SQUARE -> Circle2SqaureMorph02Drawable()
+                // 太陽
+                DrawDataID.ID_000812_CIRCLE_MORPH_SUN -> SunMorph01Drawable()
                 // "正方形の中で大きくなる円"のタイリング
                 DrawDataID.ID_000820_CIRCLE_TILE_CIRCLE2SQUARE -> Circle2SqaureTile01Drawable()
                 // クリスマスツリー(円を三角形上に並べる)

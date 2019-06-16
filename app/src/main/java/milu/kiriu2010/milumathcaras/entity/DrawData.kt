@@ -428,6 +428,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE(810),
     // "円⇔正方形の変形"のタイリング
     ID_000811_CIRCLE_MORPH_CIRCLE2SQUARE(811),
+    // 太陽
+    ID_000812_CIRCLE_MORPH_SUN(812),
     // "正方形の中で大きくなる円"のタイリング
     ID_000820_CIRCLE_TILE_CIRCLE2SQUARE(820),
     // クリスマスツリー(円を三角形上に並べる)

@@ -363,6 +363,9 @@ class DrawDataFactory {
                 }
                 // "変形する円"を選択したときの描画データの一覧
                 MenuItem.MENU_CIRCLE_MORPH -> {
+                    // 太陽
+                    drawDataLst.add(DrawData(DrawDataID.ID_000812_CIRCLE_MORPH_SUN,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000812_circle_morph_sun),
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/e915741f2047ea59304cd90240b92baa/tumblr_mji84mNDUm1r2geqjo1_500.gif") ))
                     // "円⇔正方形の変形"のタイリング
                     drawDataLst.add(DrawData(DrawDataID.ID_000811_CIRCLE_MORPH_CIRCLE2SQUARE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000811_circle_morph_circle2square),
                         stillImageParam = floatArrayOf(0.2f), motionImageParam = floatArrayOf(0f) ))
