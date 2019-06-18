@@ -97,6 +97,12 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000043_SINE_WAVE_POINT_01(43),
     // 隣同士の点がサイン波を描く
     ID_000044_SINE_WAVE_POINT_02(44),
+    // 1536色
+    ID_000045_COLOR_1536(45),
+    // 768色(暗色)
+    ID_000046_COLOR_768_DARK(46),
+    // RGBの棒線で紡ぐ
+    ID_000047_WAVE_RGB_WEAVE_01(47),
     // リサージュ曲線(p:q=1:2)
     ID_000050_LISSAJOUS_CURVE_1_2(50),
     // リサージュ曲線(p:q=3:2)
@@ -245,10 +251,6 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000405_NATURE_MASS_EFFECT(405),
     // 摩擦の効果
     ID_000406_NATURE_FRICTION_EFFECT(406),
-    // 1536色
-    ID_000045_COLOR_1536(500),
-    // 768色(暗色)
-    ID_000046_COLOR_768_DARK(501),
     // 三角形でEXILE
     ID_000600_TRIANGLE_EXILE(600),
     // 多角形のラップ

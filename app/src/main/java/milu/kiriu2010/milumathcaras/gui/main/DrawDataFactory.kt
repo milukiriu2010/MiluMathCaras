@@ -342,6 +342,9 @@ class DrawDataFactory {
                 }
                 // 波を選択したときの描画データの一覧
                 MenuItem.MENU_WAVE_COLOR -> {
+                    // RGBの棒線で紡ぐ
+                    drawDataLst.add(DrawData(DrawDataID.ID_000047_WAVE_RGB_WEAVE_01,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000047_wave_rgb_weave_01),
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/8bff3f4741cf6436d878c88e3afddb54/tumblr_mjxn87AdVk1r2geqjo1_500.gif") ))
                     // 1536色
                     drawDataLst.add(DrawData(DrawDataID.ID_000045_COLOR_1536,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000045_wave_color_1536)))
                     // 768色(暗色)

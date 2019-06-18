@@ -56,6 +56,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.tile.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.center.*
+import milu.kiriu2010.milumathcaras.gui.draw.wave.color.RgbWeaveWave01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.sine.*
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
@@ -153,6 +154,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000045_COLOR_1536 -> Color1536Drawable()
                 // 768色(暗色)
                 DrawDataID.ID_000046_COLOR_768_DARK -> Color768DarkDrawable()
+                // RGBの棒線で紡ぐ
+                DrawDataID.ID_000047_WAVE_RGB_WEAVE_01 -> RgbWeaveWave01Drawable()
                 // リサージュ曲線(p:q=1:2)
                 DrawDataID.ID_000050_LISSAJOUS_CURVE_1_2 -> Lissajous01Drawable()
                 // リサージュ曲線(p:q=3:2)
