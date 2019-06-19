@@ -5,8 +5,6 @@ import android.os.Handler
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
-import kotlin.math.abs
-import kotlin.math.sqrt
 
 // -----------------------------------------------------------------
 // RGBの棒線で紡ぐ
@@ -54,6 +52,8 @@ class RgbWeaveWave01Drawable: MyDrawable() {
     // 比率
     private val ratioMax = 1.6f
     private val ratioMin = 0.1f
+    private val ratioDv = 0.3f
+    private val ratioLst = floatArrayOf(1.6f,1.3f,1.0f,0.7f,0.4f,0.1f,0.4f,0.7f,1.0f,1.3f)
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -123,8 +123,8 @@ class RgbWeaveWave01Drawable: MyDrawable() {
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
-                    // 描画点を移動する
-                    movePath()
+                    // 棒線のスケールを変更
+                    scalePath()
                     // ビットマップに描画
                     drawBitmap()
                     // 描画
@@ -169,6 +169,7 @@ class RgbWeaveWave01Drawable: MyDrawable() {
                 val square = Square().also {
                     // 棒線の方向
                     it.dir = if ((i+j)%2 == 0) LineDir.HORIZONTAL else LineDir.VERTICAL
+                    // 棒線の色
                     it.color = when {
                         // 1行目1列目
                         (j%3 == 0) and (i%3 == 0) -> Color.RED
@@ -190,6 +191,16 @@ class RgbWeaveWave01Drawable: MyDrawable() {
                         (j%3 == 2) and (i%3 == 2) -> Color.RED
                         else -> Color.BLACK
                     }
+
+                    val k0 = ratioLst[(i+j)%ratioLst.size]
+                    val k1 = ratioLst[(i+j+1)%ratioLst.size]
+                    // 長さ比率
+                    it.ratio = k0
+                    // スケール
+                    it.scale = when {
+                        (k0 < k1) -> Scale.EXPAND
+                        else -> Scale.SHRINK
+                    }
                 }
 
                 squareLst.add(square)
@@ -199,9 +210,24 @@ class RgbWeaveWave01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 描画点を移動する
+    // 棒線のスケールを変更
     // -------------------------------
-    private fun movePath() {
+    private fun scalePath() {
+        squareLst.forEachIndexed { id, square ->
+            val sign = when (square.scale) {
+                Scale.EXPAND -> 1f
+                Scale.SHRINK -> -1f
+            }
+
+            square.ratio += sign * ratioDv
+
+            if ( square.ratio >= ratioMax ) {
+                square.scale = Scale.SHRINK
+            }
+            else if ( square.ratio <= ratioMin ) {
+                square.scale = Scale.EXPAND
+            }
+        }
     }
 
     // -------------------------------
@@ -245,7 +271,6 @@ class RgbWeaveWave01Drawable: MyDrawable() {
             // 座標を元に戻す
             canvas.restore()
         }
-
 
         // これまでの描画はテンポラリなので、実体にコピーする
         val matrix = Matrix()
@@ -299,7 +324,9 @@ class RgbWeaveWave01Drawable: MyDrawable() {
         // 棒線の色
         var color: Int = Color.RED,
         // 長さ比率
-        var ratio: Float = 1f
+        var ratio: Float = 1f,
+        // スケール
+        var scale: Scale = Scale.EXPAND
     )
 
 }
