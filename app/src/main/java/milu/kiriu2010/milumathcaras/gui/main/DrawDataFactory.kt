@@ -408,6 +408,8 @@ class DrawDataFactory {
                 }
                 // 敷き詰めた多角形を描画するメニュー
                 MenuItem.MENU_POLYGON_TILE -> {
+                    // 六角形が波打つようにスケールを変更
+                    drawDataLst.add(DrawData(DrawDataID.ID_000609_HEXAGON_SCALE_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000609_polygon_hexagon_scale_01) ))
                     // 正方形を×印で並べる
                     drawDataLst.add(DrawData(DrawDataID.ID_000608_SQUARE_CROSS_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000608_polygon_square_cross_01) ))
                     // 六角形に沿って三角形が移動
