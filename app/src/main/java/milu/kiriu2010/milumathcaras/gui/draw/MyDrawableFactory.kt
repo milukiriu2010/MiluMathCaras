@@ -322,8 +322,10 @@ class MyDrawableFactory {
                 DrawDataID.ID_000607_TRIANGLE_2_HEXAGON -> Triangle2Hexagon01Drawable()
                 // 正方形を×印で並べる
                 DrawDataID.ID_000608_SQUARE_CROSS_01 -> SquareCross01Drawable()
-                // 六角形が波打つようにスケールを変更
+                // 六角形が波打つようにスケールを変更01
                 DrawDataID.ID_000609_HEXAGON_SCALE_01 -> HexagonScale01Drawable()
+                // 六角形が波打つようにスケールを変更02
+                DrawDataID.ID_000610_HEXAGON_SCALE_02 -> HexagonScale02Drawable()
                 // 三角形out三角形
                 DrawDataID.ID_000701_3_OUT_3 -> PolygonOutPolygon01Drawable()
                 // 三角形out四角形

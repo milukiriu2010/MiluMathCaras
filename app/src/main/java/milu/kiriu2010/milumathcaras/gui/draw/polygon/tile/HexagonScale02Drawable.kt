@@ -10,11 +10,11 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.sqrt
 
 // -----------------------------------------------------------------
-// 六角形が波打つようにスケールを変更01
+// 六角形が波打つようにスケールを変更02
 // -----------------------------------------------------------------
 // https://66.media.tumblr.com/b7ed4a9b13d54c3469d9372dd662df70/tumblr_mviec26tSc1r2geqjo1_500.gif
 // -----------------------------------------------------------------
-class HexagonScale01Drawable: MyDrawable() {
+class HexagonScale02Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -189,7 +189,7 @@ class HexagonScale01Drawable: MyDrawable() {
             Log.d(javaClass.simpleName,"ratio[$ratio]hexagon[${hexagon.size}]")
             (0..5).forEach { j ->
                 val jj = j.toFloat()
-                val rr = r3*ii
+                val rr = r*ii
                 val cos = rr*MyMathUtil.cosf(60f * j)
                 val sin = rr*MyMathUtil.sinf(60f * j)
 
@@ -197,6 +197,7 @@ class HexagonScale01Drawable: MyDrawable() {
                 canvas.translate(cos,sin)
                 drawHexagon(canvas,ratio)
 
+                /*
                 // 途中のパスに六角形を描く
                 val kmax = if ( i <= 1 ) 0 else i-1
                 val cos1 = r3*MyMathUtil.cosf(120f+60f*jj)
@@ -206,6 +207,7 @@ class HexagonScale01Drawable: MyDrawable() {
                     canvas.translate(cos1,sin1)
                     drawHexagon(canvas,ratio)
                 }
+                */
 
                 canvas.restore()
             }
