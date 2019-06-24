@@ -297,6 +297,7 @@
     <string name="draw_000820_circle_tile_circle2square">Circle&lt;=&gt;Square</string>
     <string name="draw_000821_circle_xmastree">Xmas Tree</string>
     <string name="draw_000822_circle_tile_rotate_01">Rotate Circle Tile</string>
+    <string name="draw_000823_circle_tile_slide_01">Circle Slide 01</string>
     <string name="draw_000900_optical_illusion_stepping_feet">Stepping Feet</string>
     <string name="draw_000901_optical_illusion_stereokinetic_effect">Stereokinetic Effect</string>
     <string name="draw_001000_gl_tetrahedron_01">Tetrahedron</string>

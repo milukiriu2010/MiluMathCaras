@@ -384,6 +384,9 @@ class DrawDataFactory {
                 }
                 // 敷き詰めた円を描画するメニュー
                 MenuItem.MENU_CIRCLE_TILE -> {
+                    // 円のタイリング(左右・左下右上・右下左上の順でスライド)
+                    drawDataLst.add(DrawData(DrawDataID.ID_000823_CIRCLE_TILE_SLIDE_01,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000823_circle_tile_slide_01),
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/4724d7f3ebfb87faf6c1c89532a5b122/tumblr_n39wd4r7tp1r2geqjo1_500.gif") ))
                     // 青・赤・黄３つの円を回転する
                     drawDataLst.add(DrawData(DrawDataID.ID_000822_CIRCLE_TILE_ROTATE_CIRCLE_01,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000822_circle_tile_rotate_01),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/a465c018e4c0ff6a7c8228b729821d56/tumblr_moni0oFXm71r2geqjo1_500.gif") ))
