@@ -2,7 +2,6 @@ package milu.kiriu2010.milumathcaras.gui.draw.circle.tile
 
 import android.graphics.*
 import android.os.Handler
-import android.util.Log
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
@@ -46,6 +45,7 @@ class SlideCircleTile01Drawable: MyDrawable() {
     private val ratioMin = 0f
     private var ratioNow = ratioMin
     private val ratioDv = 0.1f
+
 
     // モード
     private var modeNow = Mode.UL_DR
@@ -124,7 +124,7 @@ class SlideCircleTile01Drawable: MyDrawable() {
                     // 描画
                     invalidateSelf()
 
-                    handler.postDelayed(runnable, 100)
+                    handler.postDelayed(runnable, 50)
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
@@ -165,6 +165,11 @@ class SlideCircleTile01Drawable: MyDrawable() {
         ratioNow += ratioDv
         if ( ratioNow >= ratioMax ) {
             ratioNow = ratioMin
+            modeNow = when (modeNow) {
+                Mode.L_R   -> Mode.UR_DL
+                Mode.UR_DL -> Mode.UL_DR
+                Mode.UL_DR -> Mode.L_R
+            }
         }
     }
 
@@ -180,6 +185,12 @@ class SlideCircleTile01Drawable: MyDrawable() {
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
 
+        // UR_DL
+        val dx1 = 4f*r*MyMathUtil.cosf(120f)*ratioNow
+        val dy1 = 4f*r*MyMathUtil.sinf(120f)*ratioNow
+        // UL_DR
+        val dx2 = 4f*r*MyMathUtil.cosf(60f)*ratioNow
+        val dy2 = 4f*r*MyMathUtil.sinf(60f)*ratioNow
         (0..splitN+1).forEach { i ->
             val ii = i.toFloat()
             val ix = if ((i%2) == 0) -4f*r else -6f*r
@@ -188,59 +199,82 @@ class SlideCircleTile01Drawable: MyDrawable() {
             (0..splitN+1).forEach { j ->
                 val jj = j.toFloat()
                 canvas.translate(4f*r,0f)
+                var ddx = 0f
+                var ddy = 0f
 
                 when (modeNow) {
                     // 偶数行 ⇒ 左
                     // 奇数行 ⇒ 右
                     Mode.L_R -> {
-                        val jx = if ((i%2) == 0) -4f*r*ratioNow else 4f*r*ratioNow
+                        ddx = if ((i%2) == 0) -4f*r*ratioNow else 4f*r*ratioNow
                         linePaint.color = Color.BLACK
-                        canvas.drawCircle(jx,0f,r,linePaint)
                     }
                     // 行/2=偶数・偶数列 ⇒ 左下
-                    // 行/2=偶数・偶数列 ⇒ 左下
-                    // 行/2=奇数・奇数列 ⇒ 右上
-                    // 行/2=奇数・奇数列 ⇒ 右上
-                    Mode.UL_DR -> {
-                        val dx = 4f*r*MyMathUtil.cosf(120f)*ratioNow
-                        val dy = 4f*r*MyMathUtil.sinf(120f)*ratioNow
-                        /*
-                        val ddx = if ((j%2) == 0) dx else -dx
-                        val ddy = if ((j%2) == 0) dy else -dy
-                        linePaint.color = if ((j%2) == 0 ) Color.BLACK else Color.RED
-                        canvas.drawCircle(ddx,ddy,r,linePaint)
-                        */
-                        var ddx = 0f
-                        var ddy = 0f
+                    // 行/2=偶数・奇数列 ⇒ 右上
+                    // 行/2=奇数・偶数列 ⇒ 右上
+                    // 行/2=奇数・奇数列 ⇒ 左下
+                    Mode.UR_DL -> {
                         when ((i/2)%2){
                             0 -> {
                                 when (j%2) {
                                     0 -> {
-                                        ddx = dx
-                                        ddy = dy
+                                        ddx = dx1
+                                        ddy = dy1
                                     }
                                     1 -> {
-                                        ddx = -dx
-                                        ddy = -dy
+                                        ddx = -dx1
+                                        ddy = -dy1
                                     }
                                 }
                             }
                             1 -> {
                                 when (j%2) {
                                     0 -> {
-                                        ddx = -dx
-                                        ddy = -dy
+                                        ddx = -dx1
+                                        ddy = -dy1
                                     }
                                     1 -> {
-                                        ddx = dx
-                                        ddy = dy
+                                        ddx = dx1
+                                        ddy = dy1
                                     }
                                 }
                             }
                         }
-                        canvas.drawCircle(ddx,ddy,r,linePaint)
+                    }
+                    // 行/2=偶数・(行＋列)=偶数 ⇒ 左上
+                    // 行/2=偶数・(行＋列)=奇数 ⇒ 右下
+                    // 行/2=奇数・(行＋列)=偶数 ⇒ 右下
+                    // 行/2=奇数・(行＋列)=奇数 ⇒ 左上
+                    Mode.UL_DR -> {
+                        when ((i/2)%2){
+                            0 -> {
+                                when ((i+j)%2) {
+                                    0 -> {
+                                        ddx = -dx2
+                                        ddy = -dy2
+                                    }
+                                    1 -> {
+                                        ddx = dx2
+                                        ddy = dy2
+                                    }
+                                }
+                            }
+                            1 -> {
+                                when ((i+j)%2) {
+                                    0 -> {
+                                        ddx = dx2
+                                        ddy = dy2
+                                    }
+                                    1 -> {
+                                        ddx = -dx2
+                                        ddy = -dy2
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
+                canvas.drawCircle(ddx,ddy,r,linePaint)
             }
             canvas.restore()
         }

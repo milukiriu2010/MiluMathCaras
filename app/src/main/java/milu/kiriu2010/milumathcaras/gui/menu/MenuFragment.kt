@@ -174,8 +174,11 @@ class MenuFragment : Fragment() {
                     // パスカルの蝸牛形を表示するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE_LIMACON, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve_limacon),false))
                     // [サブメニュー]
-                    // 特別な曲線を表示するメニュー
-                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE_SPECIAL, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve_special),false))
+                    // SIN/COSのミックスを描画するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE_MIX_SINCOS, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve_mix_sincos),false))
+                    // [サブメニュー]
+                    // 特別な形の曲線を表示するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_CURVE_SPECIAL_SHAPE, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_curve_special_shape),false))
                     // [戻るメニュー]
                     menuDataLst.add(MenuData(MenuType.TYPE_BACK, MenuItem.MENU_BACK, FragmentID.ID_DUMMY,resources.getString(R.string.menu_back),false))
                 }

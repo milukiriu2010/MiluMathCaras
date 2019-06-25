@@ -184,8 +184,8 @@ class DrawDataFactory {
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_limacon01), "autoParam" to "t", "handParam1" to "b"),
                         fragmentParamMap = mutableMapOf("maxA" to 20) ))
                 }
-                // 特別な曲線の描画一覧
-                MenuItem.MENU_CURVE_SPECIAL -> {
+                // SIN/COSのミックスを描画するメニュー
+                MenuItem.MENU_CURVE_MIX_SINCOS -> {
                     // Caustic of a Circle
                     drawDataLst.add(DrawData(DrawDataID.ID_000038_CAUSTIC_CIRCLE_01,DrawFragmentType.FT_D2_06,resources.getString(R.string.draw_000038_curve_caustic_circle_01),
                         stillImageParam = floatArrayOf(50f,50f), motionImageParam = floatArrayOf(50f,50f), editParam = floatArrayOf(-100f,100f,0f,-100f,100f,1f),
@@ -196,6 +196,9 @@ class DrawDataFactory {
                         stillImageParam = floatArrayOf(3f), motionImageParam = floatArrayOf(3f), editParam = floatArrayOf(0f,8f,0f),
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_trefle_habenicht_01), "autoParam" to "t", "handParam1" to "n"),
                         fragmentParamMap = mutableMapOf("maxA" to 8) ))
+                }
+                // 特別な形の曲線の描画一覧
+                MenuItem.MENU_CURVE_SPECIAL_SHAPE -> {
                     // 陰陽 02
                     drawDataLst.add(DrawData(DrawDataID.ID_000029_YING_YANG_02,DrawFragmentType.FT_D2_04,resources.getString(R.string.draw_000029_curve_ying_yang_02),
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_ying_yang_02)) ))

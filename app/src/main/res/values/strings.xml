@@ -20,7 +20,8 @@
     <string name="menu_sub_curve_lissajous">Lissajous</string>
     <string name="menu_sub_curve_lemniscate">Lemniscate</string>
     <string name="menu_sub_curve_limacon">Limaçon</string>
-    <string name="menu_sub_curve_special">Special</string>
+    <string name="menu_sub_curve_mix_sincos">Mix sin/cos</string>
+    <string name="menu_sub_curve_special_shape">Special Shape</string>
     <string name="menu_sub_fractal">Fractal</string>
     <string name="menu_sub_fractal_recursion">Recursion</string>
     <string name="menu_sub_fractal_tree_curve">Tree Curve</string>
