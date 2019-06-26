@@ -52,6 +52,7 @@
     <string name="menu_sub_polyhedron_net">Net of Polyhedron</string>
     <string name="menu_sub_polyhedron_fractal">Fractal in Polyhedron</string>
     <string name="menu_sub_polyhedron_wave">3D Wave</string>
+    <string name="menu_sub_polyhedron_glsl">GLSL</string>
     <string name="menu_sub_nature">Nature of Code</string>
     <string name="menu_sub_nature_vectors">Vectors</string>
     <string name="menu_sub_nature_forces">Forces</string>
@@ -332,6 +333,8 @@
     <string name="draw_001400_gl_koch_snowflake_01">Koch Snowflake\n 01</string>
     <string name="draw_001500_gl_helix_01">Helix 01</string>
     <string name="draw_001501_gl_circle_phase_shift_01">Circle Phase\nShift 01</string>
+    <string name="draw_001600_glsl_concentric_circle">Concentric Circle</string>
+    <string name="draw_001601_glsl_orb">Orb</string>
 
     <string name="shader_simple">Simple</string>
     <string name="shader_gl_points">Points</string>

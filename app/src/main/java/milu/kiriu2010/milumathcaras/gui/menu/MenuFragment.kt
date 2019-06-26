@@ -277,6 +277,9 @@ class MenuFragment : Fragment() {
                     // [サブメニュー]
                     // 多面体の展開図を描画するメニュー
                     menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON_NET, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron_net),false))
+                    // [サブメニュー]
+                    // GLSLを用いて描画するメニュー
+                    menuDataLst.add(MenuData(MenuType.TYPE_SUB, MenuItem.MENU_POLYHEDRON_GLSL, FragmentID.ID_DRAW_LST,resources.getString(R.string.menu_sub_polyhedron_glsl),false))
                 }
                 // "The Nature of Code"の一覧を表示するメニュー
                 MenuItem.MENU_NATURE -> {

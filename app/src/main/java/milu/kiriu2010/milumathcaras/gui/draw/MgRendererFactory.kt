@@ -5,6 +5,7 @@ import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.cube.*
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.fractal.KochSnowflake01Renderer
+import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.glsl.GLSL01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.cube.NetCube01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.dodecahedron.NetDodecahedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.icosahedron.NetIcosahedron01Renderer
@@ -85,6 +86,10 @@ class MgRendererFactory {
                 DrawDataID.ID_001500_GL_HELIX_01 -> Helix01Renderer(context)
                 // 円の位相をずらして描画
                 DrawDataID.ID_001501_GL_CIRCLE_PHASE_SHIFT_01 -> CirclePhaseShift01Renderer(context)
+                // 同心円を描画
+                DrawDataID.ID_001600_GLSL_CONCENTRIC_CIRCLE -> GLSL01Renderer(context)
+                // オーブを描画
+                DrawDataID.ID_001601_GLSL_ORB -> GLSL01Renderer(context)
                 // 該当なし
                 else -> throw RuntimeException("Not Found GLSurfaceView.Renderer")
             }

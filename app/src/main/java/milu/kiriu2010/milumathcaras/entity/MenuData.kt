@@ -113,7 +113,9 @@ enum class MenuItem(val title: String): Parcelable {
     // 多面体内にフラクタルを描画するメニュー
     MENU_POLYHEDRON_FRACTAL("Fractal in Polyhedron"),
     // ３次元波を描画するメニュー
-    MENU_POLYHEDRON_WAVE("3D Wave")
+    MENU_POLYHEDRON_WAVE("3D Wave"),
+    // GLSL
+    MENU_POLYHEDRON_GLSL("GLSL")
 }
 
 // ------------------------------------

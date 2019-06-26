@@ -1,6 +1,7 @@
-package milu.kiriu2010.gui.model
+package milu.kiriu2010.gui.model.d2
 
 import milu.kiriu2010.gui.basic.MyPointF
+import milu.kiriu2010.gui.model.MgModelAbs
 import kotlin.math.pow
 
 // ----------------------------------------------

@@ -866,6 +866,17 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_001500_GL_HELIX_01,DrawFragmentType.FT_D3_ES20_CREDIT_01,resources.getString(R.string.draw_001500_gl_helix_01), drawViewType = DrawViewType.DVT_GL,
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/4c437d88df4fa9bac581e50310a02a51/tumblr_milgzyY8vO1r2geqjo1_500.gif") ))
                 }
+                // GLSLを用いて描画するメニュー
+                MenuItem.MENU_POLYHEDRON_GLSL -> {
+                    // オーブを描画
+                    drawDataLst.add(DrawData(DrawDataID.ID_001601_GLSL_ORB,DrawFragmentType.FT_GS_ES32_CREDIT_01,resources.getString(R.string.draw_001601_glsl_orb), drawViewType = DrawViewType.DVT_GL,
+                        creditMap = mutableMapOf<String,String>("name" to "wgld.org", "url" to "https://wgld.org/d/glsl/g003.html"),
+                        motionImageV2Param = mutableMapOf<String,Float>( "shader" to R.raw.es32_1601.toFloat()  )  ))
+                    // 同心円を描画
+                    drawDataLst.add(DrawData(DrawDataID.ID_001600_GLSL_CONCENTRIC_CIRCLE,DrawFragmentType.FT_GS_ES32_CREDIT_01,resources.getString(R.string.draw_001600_glsl_concentric_circle), drawViewType = DrawViewType.DVT_GL,
+                        creditMap = mutableMapOf<String,String>("name" to "wgld.org", "url" to "https://wgld.org/d/glsl/g002.html"),
+                        motionImageV2Param = mutableMapOf<String,Float>( "shader" to R.raw.es32_1600.toFloat()  )  ))
+                }
                 // "Nature of Code"-"Vectors"を選択したときの描画データの一覧
                 MenuItem.MENU_NATURE_VECTORS -> {
                     // 等速度運動

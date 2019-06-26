@@ -509,7 +509,11 @@ enum class DrawDataID(val id: Int): Parcelable {
     // 線でHelixを描画
     ID_001500_GL_HELIX_01(1500),
     // 円の位相をずらして描画
-    ID_001501_GL_CIRCLE_PHASE_SHIFT_01(1501)
+    ID_001501_GL_CIRCLE_PHASE_SHIFT_01(1501),
+    // 同心円を描画
+    ID_001600_GLSL_CONCENTRIC_CIRCLE(1600),
+    // オーブを描画
+    ID_001601_GLSL_ORB(1601),
 }
 
 // ------------------------------
@@ -538,7 +542,17 @@ enum class DrawFragmentType: Parcelable {
     //   パラメータなし
     FT_D3_ES20_02,
     // OpenGLを使った描画を実施するフラグメントを生成(製作者名を表示)
-    FT_D3_ES20_CREDIT_01
+    FT_D3_ES20_CREDIT_01,
+    // OpenGLを使った描画を実施するフラグメントを生成
+    //   多面体に様々なエフェクトを施すためのパラメータを付与できる
+    FT_D3_ES32_01,
+    // OpenGLを使った描画を実施するフラグメントを生成
+    //   パラメータなし
+    FT_D3_ES32_02,
+    // OpenGLを使った描画を実施するフラグメントを生成(製作者名を表示)
+    FT_D3_ES32_CREDIT_01,
+    // GLSLを使った描画を実施するフラグメントを生成(製作者名を表示)
+    FT_GS_ES32_CREDIT_01,
 }
 
 // ------------------

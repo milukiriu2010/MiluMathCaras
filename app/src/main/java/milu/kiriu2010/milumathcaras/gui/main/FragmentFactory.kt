@@ -51,6 +51,10 @@ class FragmentFactory {
                 DrawFragmentType.FT_D3_ES20_02 -> D3x02Fragment.newInstance(drawData)
                 // OpenGLを使った描画を実施するフラグメントを生成(製作者名を表示)
                 DrawFragmentType.FT_D3_ES20_CREDIT_01 -> D3xES20xCredit01Fragment.newInstance(drawData)
+                // OpenGLを使った描画を実施するフラグメントを生成(製作者名を表示)
+                DrawFragmentType.FT_D3_ES32_CREDIT_01 -> D3xES32xCredit01Fragment.newInstance(drawData)
+                // GLSLを使った描画を実施するフラグメントを生成(製作者名を表示)
+                DrawFragmentType.FT_GS_ES32_CREDIT_01 -> GSxES32xCredit01Fragment.newInstance(drawData)
                 else -> throw RuntimeException("Not Found Fragment[${drawData.drawFragmentType}]")
             }
         }
