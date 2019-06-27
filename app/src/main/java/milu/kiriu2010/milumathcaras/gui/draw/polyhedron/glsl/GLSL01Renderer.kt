@@ -85,12 +85,20 @@ class GLSL01Renderer(ctx: Context): MgRenderer(ctx) {
     }
 
     override fun setMotionParam(motionParam: MutableMap<String, Float>) {
+        /*
         shader.sfResId = motionParam["shader"]?.toInt() ?: -1
         // app\build\generated\not_namespaced_r_class_sources\debug\processDebugResources\r\milu\kiriu2010\milumathcaras
         // 0x7f0d0000<=>2131558400
         Log.d(javaClass.simpleName,"sfResId[${shader.sfResId}]")
         Log.d(javaClass.simpleName,"cir:${R.raw.es32_1600}")
         Log.d(javaClass.simpleName,"orb:${R.raw.es32_1601}")
+        */
+        val id = motionParam["shader"]?.toInt() ?: -1
+        shader.sfResId = when (id) {
+            1600 -> R.raw.es32_1600
+            1601 -> R.raw.es32_1601
+            else -> -1
+        }
     }
 
     override fun closeShader() {

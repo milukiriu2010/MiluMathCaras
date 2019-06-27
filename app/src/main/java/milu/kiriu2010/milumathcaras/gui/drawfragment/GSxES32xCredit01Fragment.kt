@@ -3,6 +3,7 @@ package milu.kiriu2010.milumathcaras.gui.drawfragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.*
 import android.widget.TextView
 import milu.kiriu2010.gui.view.MyGLES32View
@@ -62,6 +63,9 @@ class GSxES32xCredit01Fragment : Fragment()
         // 描画するビュー
         myGLES32View = view.findViewById(R.id.myGLES32ViewD3x02)
         renderer = MgRendererFactory.createInstance(drawData.id,context!!,this)
+        drawData.motionImageV2Param.forEach {
+            Log.d(javaClass.simpleName,"motion:${it.key}:${it.value.toInt()}")
+        }
         renderer.setMotionParam(drawData.motionImageV2Param)
         myGLES32View.setRenderer(renderer)
         myGLES32View.setOnTouchListener { v, event ->

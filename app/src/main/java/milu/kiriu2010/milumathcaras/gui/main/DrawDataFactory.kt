@@ -871,11 +871,11 @@ class DrawDataFactory {
                     // オーブを描画
                     drawDataLst.add(DrawData(DrawDataID.ID_001601_GLSL_ORB,DrawFragmentType.FT_GS_ES32_CREDIT_01,resources.getString(R.string.draw_001601_glsl_orb), drawViewType = DrawViewType.DVT_GL,
                         creditMap = mutableMapOf<String,String>("name" to "wgld.org", "url" to "https://wgld.org/d/glsl/g003.html"),
-                        motionImageV2Param = mutableMapOf<String,Float>( "shader" to R.raw.es32_1601.toFloat()  )  ))
+                        motionImageV2Param = mutableMapOf<String,Float>( "shader" to 1601f  )  ))
                     // 同心円を描画
                     drawDataLst.add(DrawData(DrawDataID.ID_001600_GLSL_CONCENTRIC_CIRCLE,DrawFragmentType.FT_GS_ES32_CREDIT_01,resources.getString(R.string.draw_001600_glsl_concentric_circle), drawViewType = DrawViewType.DVT_GL,
                         creditMap = mutableMapOf<String,String>("name" to "wgld.org", "url" to "https://wgld.org/d/glsl/g002.html"),
-                        motionImageV2Param = mutableMapOf<String,Float>( "shader" to R.raw.es32_1600.toFloat()  )  ))
+                        motionImageV2Param = mutableMapOf<String,Float>( "shader" to 1600f  )  ))
                 }
                 // "Nature of Code"-"Vectors"を選択したときの描画データの一覧
                 MenuItem.MENU_NATURE_VECTORS -> {
