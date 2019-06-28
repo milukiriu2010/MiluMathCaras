@@ -90,6 +90,10 @@ class MgRendererFactory {
                 DrawDataID.ID_001600_GLSL_CONCENTRIC_CIRCLE -> GLSL01Renderer(context)
                 // オーブを描画
                 DrawDataID.ID_001601_GLSL_ORB -> GLSL01Renderer(context)
+                // オーブを描画
+                DrawDataID.ID_001601_GLSL_ORB -> GLSL01Renderer(context)
+                // 放射状に広がる線を描画
+                DrawDataID.ID_001602_GLSL_ZOOM_LINE -> GLSL01Renderer(context)
                 // 該当なし
                 else -> throw RuntimeException("Not Found GLSurfaceView.Renderer")
             }

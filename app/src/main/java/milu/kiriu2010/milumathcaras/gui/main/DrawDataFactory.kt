@@ -868,6 +868,10 @@ class DrawDataFactory {
                 }
                 // GLSLを用いて描画するメニュー
                 MenuItem.MENU_POLYHEDRON_GLSL -> {
+                    // 放射状に広がるを描画
+                    drawDataLst.add(DrawData(DrawDataID.ID_001602_GLSL_ZOOM_LINE,DrawFragmentType.FT_GS_ES32_CREDIT_01,resources.getString(R.string.draw_001602_glsl_zoom_line), drawViewType = DrawViewType.DVT_GL,
+                        creditMap = mutableMapOf<String,String>("name" to "wgld.org", "url" to "https://wgld.org/d/glsl/g004.html"),
+                        motionImageV2Param = mutableMapOf<String,Float>( "shader" to 1602f  )  ))
                     // オーブを描画
                     drawDataLst.add(DrawData(DrawDataID.ID_001601_GLSL_ORB,DrawFragmentType.FT_GS_ES32_CREDIT_01,resources.getString(R.string.draw_001601_glsl_orb), drawViewType = DrawViewType.DVT_GL,
                         creditMap = mutableMapOf<String,String>("name" to "wgld.org", "url" to "https://wgld.org/d/glsl/g003.html"),

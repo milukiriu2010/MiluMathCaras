@@ -1,15 +1,11 @@
-package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.glsl
+package milu.kiriu2010.gui.shader.es32
 
 import android.content.Context
 import android.opengl.GLES32
 import android.util.Log
 import milu.kiriu2010.gui.basic.MyGLES32Func
-import milu.kiriu2010.gui.shader.es32.ES32MgShader
 import milu.kiriu2010.gui.vbo.es32.ES32VAOAbs
-import milu.kiriu2010.milumathcaras.R
-import java.io.BufferedReader
 import java.io.IOException
-import java.io.InputStreamReader
 import java.lang.RuntimeException
 
 // ---------------------------------------
@@ -17,7 +13,7 @@ import java.lang.RuntimeException
 // ---------------------------------------
 // 2019.06.26
 // ---------------------------------------
-class GLSL01Shader(ctx: Context): ES32MgShader(ctx) {
+class ES32GLSL01Shader(ctx: Context): ES32MgShader(ctx) {
     // 頂点シェーダ
     private val scv =
             """#version 300 es

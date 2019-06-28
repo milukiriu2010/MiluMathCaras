@@ -21,6 +21,7 @@ import java.nio.IntBuffer
 // 2019.06.11 TAG変更
 // 2019.06.19 MRT用のフレームバッファを生成
 // 2019.06.20 プログラムオブジェクトの生成(TransformFeedback用)
+// 2019.06.27 キューブマップ用のフレームバッファ生成関数追加
 // --------------------------------------------------------------------------
 class MyGLES32Func {
 
@@ -215,7 +216,7 @@ class MyGLES32Func {
 
                 // テクスチャへイメージを適用
                 GLES32.glTexImage2D(GLES32.GL_TEXTURE_2D,0,GLES32.GL_RGBA,resizedBmp.width,resizedBmp.height,0,
-                        GLES32.GL_RGBA,GLES32.GL_UNSIGNED_BYTE,buffer)
+                    GLES32.GL_RGBA,GLES32.GL_UNSIGNED_BYTE,buffer)
             }
             else {
                 // ビットマップ⇒バッファへ変換
@@ -225,7 +226,7 @@ class MyGLES32Func {
 
                 // テクスチャへイメージを適用
                 GLES32.glTexImage2D(GLES32.GL_TEXTURE_2D,0,GLES32.GL_RGBA,bmp.width,bmp.height,0,
-                        GLES32.GL_RGBA,GLES32.GL_UNSIGNED_BYTE,buffer)
+                    GLES32.GL_RGBA,GLES32.GL_UNSIGNED_BYTE,buffer)
             }
 
             /*
@@ -281,7 +282,7 @@ class MyGLES32Func {
             //   type:
             //     浮動小数点数テクスチャ⇒GLES32.GL_FLOATを指定
             GLES32.glTexImage2D(GLES32.GL_TEXTURE_2D,0,GLES32.GL_RGBA,width,height,0,
-                    GLES32.GL_RGBA,type,null)
+                GLES32.GL_RGBA,type,null)
 
             // テクスチャパラメータ
             GLES32.glTexParameteri(GLES32.GL_TEXTURE_2D,GLES32.GL_TEXTURE_MAG_FILTER,GLES32.GL_LINEAR)
@@ -298,6 +299,53 @@ class MyGLES32Func {
             GLES32.glBindFramebuffer(GLES32.GL_FRAMEBUFFER,0)
         }
 
+        // --------------------------------------------------
+        // キューブマップ用のフレームバッファを生成する
+        // --------------------------------------------------
+        fun createFrameBuffer4CubeMap(width: Int, height: Int, id: Int, bufFrame: IntBuffer, bufDepthRender: IntBuffer, frameTexture: IntBuffer, type: Int = GLES32.GL_UNSIGNED_BYTE) {
+            // フレームバッファのバインド
+            GLES32.glBindFramebuffer(GLES32.GL_FRAMEBUFFER,bufFrame[id])
+
+            // 深度バッファ用レンダ―バッファのバインド
+            GLES32.glBindRenderbuffer(GLES32.GL_RENDERBUFFER,bufDepthRender[id])
+
+            // レンダ―バッファを深度バッファとして設定
+            GLES32.glRenderbufferStorage(GLES32.GL_RENDERBUFFER, GLES32.GL_DEPTH_COMPONENT16, width, height)
+
+            // フレームバッファにレンダ―バッファを関連付ける
+            GLES32.glFramebufferRenderbuffer(GLES32.GL_FRAMEBUFFER, GLES32.GL_DEPTH_ATTACHMENT, GLES32.GL_RENDERBUFFER,bufDepthRender[id])
+
+            // フレームバッファ用のテクスチャをバインド
+            GLES32.glBindTexture(GLES32.GL_TEXTURE_CUBE_MAP,frameTexture[id])
+
+            // フレームバッファ用のテクスチャにカラー用のメモリ領域を確保(６面分)
+            //   type:
+            //     浮動小数点数テクスチャ⇒GLES32.GL_FLOATを指定
+            (0..5).forEach {
+                val target = when (it) {
+                    0 -> GLES32.GL_TEXTURE_CUBE_MAP_POSITIVE_X
+                    1 -> GLES32.GL_TEXTURE_CUBE_MAP_POSITIVE_Y
+                    2 -> GLES32.GL_TEXTURE_CUBE_MAP_POSITIVE_Z
+                    3 -> GLES32.GL_TEXTURE_CUBE_MAP_NEGATIVE_X
+                    4 -> GLES32.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y
+                    5 -> GLES32.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+                    else -> GLES32.GL_TEXTURE_CUBE_MAP_POSITIVE_X
+                }
+                GLES32.glTexImage2D(target,0,GLES32.GL_RGBA,width,height,0,
+                    GLES32.GL_RGBA,type,null)
+            }
+
+            // テクスチャパラメータ
+            GLES32.glTexParameteri(GLES32.GL_TEXTURE_CUBE_MAP,GLES32.GL_TEXTURE_MAG_FILTER,GLES32.GL_LINEAR)
+            GLES32.glTexParameteri(GLES32.GL_TEXTURE_CUBE_MAP,GLES32.GL_TEXTURE_MIN_FILTER,GLES32.GL_LINEAR)
+            GLES32.glTexParameteri(GLES32.GL_TEXTURE_CUBE_MAP,GLES32.GL_TEXTURE_WRAP_S,GLES32.GL_REPEAT)
+            GLES32.glTexParameteri(GLES32.GL_TEXTURE_CUBE_MAP,GLES32.GL_TEXTURE_WRAP_T,GLES32.GL_REPEAT)
+
+            // 各種オブジェクトのバインドを解除
+            GLES32.glBindTexture(GLES32.GL_TEXTURE_2D,0)
+            GLES32.glBindRenderbuffer(GLES32.GL_RENDERBUFFER,0)
+            GLES32.glBindFramebuffer(GLES32.GL_FRAMEBUFFER,0)
+        }
 
         // --------------------------------------------------
         // MRT用フレームバッファを生成する

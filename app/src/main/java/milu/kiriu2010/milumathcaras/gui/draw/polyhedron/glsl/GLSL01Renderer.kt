@@ -5,9 +5,9 @@ import android.opengl.GLES32
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 import android.os.SystemClock
-import android.util.Log
 import milu.kiriu2010.gui.model.d2.Board01Model
 import milu.kiriu2010.gui.renderer.MgRenderer
+import milu.kiriu2010.gui.shader.es32.ES32GLSL01Shader
 import milu.kiriu2010.gui.vbo.es32.ES32VAOIp
 import milu.kiriu2010.milumathcaras.R
 
@@ -24,7 +24,7 @@ class GLSL01Renderer(ctx: Context): MgRenderer(ctx) {
     private val vao = ES32VAOIp()
 
     // シェーダ
-    private val shader = GLSL01Shader(ctx)
+    private val shader = ES32GLSL01Shader(ctx)
 
     // 時間管理
     private var startTime = SystemClock.uptimeMillis()
@@ -97,6 +97,7 @@ class GLSL01Renderer(ctx: Context): MgRenderer(ctx) {
         shader.sfResId = when (id) {
             1600 -> R.raw.es32_1600
             1601 -> R.raw.es32_1601
+            1602 -> R.raw.es32_1602
             else -> -1
         }
     }

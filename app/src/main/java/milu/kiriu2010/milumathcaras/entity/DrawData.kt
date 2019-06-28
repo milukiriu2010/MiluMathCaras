@@ -514,6 +514,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_001600_GLSL_CONCENTRIC_CIRCLE(1600),
     // オーブを描画
     ID_001601_GLSL_ORB(1601),
+    // 放射状に広がる線を描画
+    ID_001602_GLSL_ZOOM_LINE(1602),
 }
 
 // ------------------------------
