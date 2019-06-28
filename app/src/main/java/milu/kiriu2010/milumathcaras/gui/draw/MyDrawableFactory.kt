@@ -20,6 +20,9 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.lissajous.Lissajous01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.limacon.Limacon01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.limacon.Limacon02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.limacon.Limacon03Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.mix.CausticCircle01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.mix.Cochleoid01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.curve.mix.TrefleHabenicht01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.special.*
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.involute.InvoluteCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.involute.InvoluteCurve02Drawable
@@ -141,22 +144,24 @@ class MyDrawableFactory {
                 DrawDataID.ID_000037_CASSINIAN_CURVE -> CassinianCurve01Drawable()
                 // Caustic of a Circle
                 DrawDataID.ID_000038_CAUSTIC_CIRCLE_01 -> CausticCircle01Drawable()
+                // Cochleoid
+                DrawDataID.ID_000039_COCHLEOID_01 -> Cochleoid01Drawable()
                 // サイン波
-                DrawDataID.ID_000040_SINE_WAVE -> SineWave01Drawable()
+                DrawDataID.ID_000200_SINE_WAVE -> SineWave01Drawable()
                 // 円の周りを回転するサイン波
-                DrawDataID.ID_000041_SINE_WAVE_CIRCLE -> SineWaveCircle01Drawable()
+                DrawDataID.ID_000201_SINE_WAVE_CIRCLE -> SineWaveCircle01Drawable()
                 // 円の周りを回転するサイン波
-                DrawDataID.ID_000042_SINE_WAVE_CIRCLE -> SineWaveCircle02Drawable()
+                DrawDataID.ID_000202_SINE_WAVE_CIRCLE -> SineWaveCircle02Drawable()
                 // 隣同士の点がサイン波を描く
-                DrawDataID.ID_000043_SINE_WAVE_POINT_01 -> SineWavePoint01Drawable()
+                DrawDataID.ID_000203_SINE_WAVE_POINT_01 -> SineWavePoint01Drawable()
                 // 隣同士の点がサイン波を描く
-                DrawDataID.ID_000044_SINE_WAVE_POINT_02 -> SineWavePoint02Drawable()
+                DrawDataID.ID_000204_SINE_WAVE_POINT_02 -> SineWavePoint02Drawable()
                 // 1536色
-                DrawDataID.ID_000045_COLOR_1536 -> Color1536Drawable()
+                DrawDataID.ID_000205_COLOR_1536 -> Color1536Drawable()
                 // 768色(暗色)
-                DrawDataID.ID_000046_COLOR_768_DARK -> Color768DarkDrawable()
+                DrawDataID.ID_000206_COLOR_768_DARK -> Color768DarkDrawable()
                 // RGBの棒線で紡ぐ
-                DrawDataID.ID_000047_WAVE_RGB_WEAVE_01 -> RgbWeaveWave01Drawable()
+                DrawDataID.ID_000207_WAVE_RGB_WEAVE_01 -> RgbWeaveWave01Drawable()
                 // リサージュ曲線(p:q=1:2)
                 DrawDataID.ID_000050_LISSAJOUS_CURVE_1_2 -> Lissajous01Drawable()
                 // リサージュ曲線(p:q=3:2)
@@ -218,15 +223,15 @@ class MyDrawableFactory {
                 // コッホ雪片04
                 DrawDataID.ID_000133_KOCH_SNOWFLAKE_04 -> KochSnowflake04Drawable()
                 // マンデルブロ―集合(白黒)
-                DrawDataID.ID_000200_MANDELBRO_SET -> Mandelbrot00Drawable()
+                DrawDataID.ID_000140_MANDELBRO_SET -> Mandelbrot00Drawable()
                 // マンデルブロ―集合(-1.5-1.0i～+0.5+1.0i)
-                DrawDataID.ID_000201_MANDELBRO_SET -> Mandelbrot01Drawable()
+                DrawDataID.ID_000141_MANDELBRO_SET -> Mandelbrot01Drawable()
                 // マンデルブロ―集合(-1.3+0.0i～-1.1+0.2i)
-                DrawDataID.ID_000202_MANDELBRO_SET -> Mandelbrot01Drawable()
+                DrawDataID.ID_000142_MANDELBRO_SET -> Mandelbrot01Drawable()
                 // マンデルブロ―集合(-1.28+0.18i～-1.26+0.20i)
-                DrawDataID.ID_000203_MANDELBRO_SET -> Mandelbrot01Drawable()
+                DrawDataID.ID_000143_MANDELBRO_SET -> Mandelbrot01Drawable()
                 // ジュリア集合
-                DrawDataID.ID_000251_JULIA_SET -> Julia01Drawable()
+                DrawDataID.ID_000144_JULIA_SET -> Julia01Drawable()
                 // 三角形in四角形
                 DrawDataID.ID_000300_3_IN_4 -> PolygonInPolygon01Drawable()
                 // 三角形in五角形

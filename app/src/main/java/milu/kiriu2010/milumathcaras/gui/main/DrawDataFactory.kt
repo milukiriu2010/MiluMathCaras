@@ -186,6 +186,9 @@ class DrawDataFactory {
                 }
                 // SIN/COSのミックスを描画するメニュー
                 MenuItem.MENU_CURVE_MIX_SINCOS -> {
+                    // Cochleoid
+                    drawDataLst.add(DrawData(DrawDataID.ID_000039_COCHLEOID_01,DrawFragmentType.FT_D2_04,resources.getString(R.string.draw_000039_curve_cochleoid_01),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_cochleoid_01)) ))
                     // Caustic of a Circle
                     drawDataLst.add(DrawData(DrawDataID.ID_000038_CAUSTIC_CIRCLE_01,DrawFragmentType.FT_D2_06,resources.getString(R.string.draw_000038_curve_caustic_circle_01),
                         stillImageParam = floatArrayOf(50f,50f), motionImageParam = floatArrayOf(50f,50f), editParam = floatArrayOf(-100f,100f,0f,-100f,100f,1f),
@@ -310,48 +313,48 @@ class DrawDataFactory {
                 // フラクタル(マンデルブロ―集合)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_MANDELBROT -> {
                     // マンデルブロ―集合(白黒)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000200_MANDELBRO_SET,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000200_fractal_complex_mandelbrot_set),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000140_MANDELBRO_SET,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000140_fractal_complex_mandelbrot_set),
                         stillImageParam = floatArrayOf(0.1f), motionImageParam = floatArrayOf(0.001f) ))
                     // マンデルブロ―集合(-1.5-1.0i～+1.5+1.0i)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000201_MANDELBRO_SET,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000201_fractal_complex_mandelbrot_set),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000141_MANDELBRO_SET,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000141_fractal_complex_mandelbrot_set),
                         stillImageParam = floatArrayOf(0.1f), motionImageParam = floatArrayOf(0.001f) ))
                     // マンデルブロ―集合(-1.3+0.0i～-1.1+0.2i)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000202_MANDELBRO_SET,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000202_fractal_complex_mandelbrot_set),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000142_MANDELBRO_SET,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000142_fractal_complex_mandelbrot_set),
                         stillImageParam = floatArrayOf(0.01f,-1.3f,-1.1f,0f,0.2f), motionImageParam = floatArrayOf(0.0001f,-1.3f,-1.1f,0f,0.2f) ))
                     // マンデルブロ―集合(-1.28+0.18i～-1.26+0.20i)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000203_MANDELBRO_SET,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000203_fractal_complex_mandelbrot_set),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000143_MANDELBRO_SET,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000143_fractal_complex_mandelbrot_set),
                         stillImageParam = floatArrayOf(0.001f,-1.28f,-1.26f,0.18f,0.2f), motionImageParam = floatArrayOf(0.00001f,-1.28f,-1.26f,0.18f,0.2f) ))
                 }
                 // フラクタル(ジュリア集合)を選択したときの描画データの一覧
                 MenuItem.MENU_FRACTAL_JULIA -> {
                     // ジュリア集合
-                    drawDataLst.add(DrawData(DrawDataID.ID_000251_JULIA_SET,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000251_fractal_complex_julia_set),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000144_JULIA_SET,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000144_fractal_complex_julia_set),
                         stillImageParam = floatArrayOf(0.1f), motionImageParam = floatArrayOf(0.001f) ))
                 }
                 // 波を選択したときの描画データの一覧
                 MenuItem.MENU_WAVE_SINCOS -> {
                     // 隣同士の点がサイン波を描く
-                    drawDataLst.add(DrawData(DrawDataID.ID_000044_SINE_WAVE_POINT_02,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000044_wave_sine_point_02),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000204_SINE_WAVE_POINT_02,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000204_wave_sine_point_02),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/7b67b31dc375ebad6303869f997b3718/tumblr_mjrn2diIUo1r2geqjo1_500.gif") ))
                     // 隣同士の点がサイン波を描く
-                    drawDataLst.add(DrawData(DrawDataID.ID_000043_SINE_WAVE_POINT_01,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000043_wave_sine_point_01),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000203_SINE_WAVE_POINT_01,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000203_wave_sine_point_01),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/352c06f02c2203e085213921a1579c3e/tumblr_mjrmkzlAPI1r2geqjo1_500.gif") ))
                     // 円の周りを回転するサイン波
-                    drawDataLst.add(DrawData(DrawDataID.ID_000042_SINE_WAVE_CIRCLE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000042_wave_sine_circle) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000202_SINE_WAVE_CIRCLE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000202_wave_sine_circle) ))
                     // 円の周りを回転するサイン波
-                    //drawDataLst.add(DrawData(DrawDataID.ID_000041_SINE_WAVE_CIRCLE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000041_wave_sine_circle) ))
+                    //drawDataLst.add(DrawData(DrawDataID.ID_000201_SINE_WAVE_CIRCLE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000041_wave_sine_circle) ))
                     // サイン波
-                    drawDataLst.add(DrawData(DrawDataID.ID_000040_SINE_WAVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000040_wave_sine) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000200_SINE_WAVE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000200_wave_sine) ))
                 }
                 // 波を選択したときの描画データの一覧
                 MenuItem.MENU_WAVE_COLOR -> {
                     // RGBの棒線で紡ぐ
-                    drawDataLst.add(DrawData(DrawDataID.ID_000047_WAVE_RGB_WEAVE_01,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000047_wave_rgb_weave_01),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000207_WAVE_RGB_WEAVE_01,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000207_wave_rgb_weave_01),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/8bff3f4741cf6436d878c88e3afddb54/tumblr_mjxn87AdVk1r2geqjo1_500.gif") ))
                     // 1536色
-                    drawDataLst.add(DrawData(DrawDataID.ID_000045_COLOR_1536,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000045_wave_color_1536)))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000205_COLOR_1536,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000205_wave_color_1536)))
                     // 768色(暗色)
-                    drawDataLst.add(DrawData(DrawDataID.ID_000046_COLOR_768_DARK,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000046_wave_color_768_dark)))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000206_COLOR_768_DARK,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000206_wave_color_768_dark)))
                 }
                 // "複数円"を選択したときの描画データの一覧
                 MenuItem.MENU_CIRCLE_CIRCLES -> {

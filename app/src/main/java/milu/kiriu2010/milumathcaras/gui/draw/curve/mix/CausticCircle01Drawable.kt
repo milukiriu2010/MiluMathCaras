@@ -1,52 +1,46 @@
-package milu.kiriu2010.milumathcaras.gui.draw.curve.special
+package milu.kiriu2010.milumathcaras.gui.draw.curve.mix
 
 import android.graphics.*
 import android.os.Handler
-import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.gui.color.ColorType
 import milu.kiriu2010.gui.color.MyColorFactory
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
-import kotlin.math.sqrt
 
 // -------------------------------------------------------------------------------------
-// Trèfle de Habenicht
+// Caustic of a Circle 01
 // -------------------------------------------------------------------------------------
-//   x = a*(1+cos(n*t)+sin(n*t)^2)*cos(t)
-//   y = a*(1+cos(n*t)+sin(n*t)^2)*sin(t)
+//   x = ab*(b*cos(t)*(1+2*sin(t)^2)-a)/(a*a+2*b*b-3ab*cos(t))
+//   y = ab*(a*sin(t)^3)/(a*a+2*b*b-3ab*cos(t))
 // -------------------------------------------------------------------------------------
-// https://www.mathcurve.com/courbes2d/ornementales/ornementales.shtml
+// https://www.mathcurve.com/courbes2d.gb/caustic/causticdecercle.shtml
 // -------------------------------------------------------------------------------------
-// 2019.05.31
+// 2019.06.15
 // -------------------------------------------------------------------------------------
-class TrefleHabenicht01Drawable: MyDrawable() {
+class CausticCircle01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
     // -------------------------------
-    private val side = 1000f
+    private val side = 200f
     private val margin = 50f
 
     // ---------------------------------
-    // Trèfleの変数a
+    // 曲線の変数
     // ---------------------------------
-    private var a = 200f
-
-    // ---------------------------------
-    // Trèfleの変数n
-    // ---------------------------------
-    private var n = 3
+    private var a = 100f
+    private var b = 100f
 
     // ----------------------------------
-    // Trèfleの位相(変数tに相当)
+    // 曲線の位相(変数tに相当)
     // ----------------------------------
     private var angle = 0f
     private var angleMax = 360f
 
     // -------------------------------
-    // Trèfleの描画点リスト
+    // 曲線の描画点リスト
     // -------------------------------
     val pointLst = mutableListOf<MyPointF>()
 
@@ -64,7 +58,7 @@ class TrefleHabenicht01Drawable: MyDrawable() {
     private val framePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLACK
         style = Paint.Style.STROKE
-        strokeWidth = 10f
+        strokeWidth = 5f
     }
 
     // -------------------------------
@@ -76,12 +70,12 @@ class TrefleHabenicht01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // Trèfleを描くペイント
+    // 曲線を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
         style = Paint.Style.STROKE
-        strokeWidth = 10f
+        strokeWidth = 5f
     }
 
     // -------------------------------------
@@ -104,18 +98,21 @@ class TrefleHabenicht01Drawable: MyDrawable() {
     // 描画に使うデータを計算する
     // --------------------------------------
     // values
-    // 第１引数:変数n
+    // 第１引数: Caustic of a Circleの係数a
+    // 第２引数: Caustic of a Circleの係数b
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
         values.forEachIndexed { index, fl ->
             //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
             when (index) {
-                // 変数n
-                0 -> n = fl.toInt()
+                // Caustic of a Circleの係数a
+                0 -> a = fl
+                // Caustic of a Circleの係数b
+                1 -> b = fl
             }
         }
 
-        // Trèfleの描画点リストを生成
+        // 曲線の描画点リストを生成
         createPath()
         // ビットマップに描画
         drawBitmap()
@@ -127,9 +124,9 @@ class TrefleHabenicht01Drawable: MyDrawable() {
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
-                    // Trèfleの描画点リストを生成
+                    // 曲線の描画点リストを生成
                     createPath()
-                    // Trèfleを回転する
+                    // 曲線を回転する
                     rotatePath()
                     // ビットマップに描画
                     drawBitmap()
@@ -172,21 +169,18 @@ class TrefleHabenicht01Drawable: MyDrawable() {
     }
 
     // -----------------------------------
-    // Trèfleの描画点リストを生成
+    // 曲線の描画点リストを生成
     // -----------------------------------
     private fun createPath() {
         // 描画点リストをクリア
         pointLst.clear()
 
-
         (0..360 step 1).forEach {
             val t = it.toFloat()
-            val cos1 = MyMathUtil.cosf(t)
-            val cosn = MyMathUtil.cosf(n.toFloat()*t)
-            val sin1 = MyMathUtil.sinf(t)
-            val sinn = MyMathUtil.sinf(n.toFloat()*t)
-            val x = a*(1f+cosn+sinn*sinn)*cos1
-            val y = a*(1f+cosn+sinn*sinn)*sin1
+            val cos = MyMathUtil.cosf(t)
+            val sin = MyMathUtil.sinf(t)
+            val x = a*b*(b*cos*(1f+2*sin*sin)-a)/(a*a+2*b*b-3*a*b*cos)
+            val y = a*b*(b*sin*sin*sin)/(a*a+2*b*b-3*a*b*cos)
             pointLst.add(MyPointF(x,y))
         }
 
@@ -194,7 +188,7 @@ class TrefleHabenicht01Drawable: MyDrawable() {
         notifyCallback?.receive(angle)
     }
 
-    // Trèfleを回転する
+    // 曲線を回転する
     private fun rotatePath() {
         angle += 5f
 
@@ -234,14 +228,14 @@ class TrefleHabenicht01Drawable: MyDrawable() {
         canvas.drawLine(0f,0f,0f,intrinsicHeight.toFloat(), framePaint)
         canvas.restore()
 
-        // 原点(x0,y0)を中心にTrèfleを描く
+        // 原点(x0,y0)を中心に曲線を描く
         canvas.save()
         canvas.translate(x0,y0)
 
         // 色インスタンス作成
         val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
 
-        // Trèfleを描く
+        // 曲線を描く
         // 1536色のグラデーション
         val bunchSize = pointLst.size
         var myPointF2: MyPointF? = null
@@ -252,7 +246,6 @@ class TrefleHabenicht01Drawable: MyDrawable() {
                 linePaint.color = color.toInt()
                 canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaint)
             }
-
             myPointF2 = myPointF1
         }
 

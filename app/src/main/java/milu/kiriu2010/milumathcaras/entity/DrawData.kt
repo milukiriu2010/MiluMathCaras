@@ -87,22 +87,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000037_CASSINIAN_CURVE(37),
     // Caustic of a circle
     ID_000038_CAUSTIC_CIRCLE_01(38),
-    // サイン波
-    ID_000040_SINE_WAVE(40),
-    // 円の周りを回転するサイン波
-    ID_000041_SINE_WAVE_CIRCLE(41),
-    // 円の周りを回転するサイン波
-    ID_000042_SINE_WAVE_CIRCLE(42),
-    // 隣同士の点がサイン波を描く
-    ID_000043_SINE_WAVE_POINT_01(43),
-    // 隣同士の点がサイン波を描く
-    ID_000044_SINE_WAVE_POINT_02(44),
-    // 1536色
-    ID_000045_COLOR_1536(45),
-    // 768色(暗色)
-    ID_000046_COLOR_768_DARK(46),
-    // RGBの棒線で紡ぐ
-    ID_000047_WAVE_RGB_WEAVE_01(47),
+    // Cochleoid
+    ID_000039_COCHLEOID_01(39),
     // リサージュ曲線(p:q=1:2)
     ID_000050_LISSAJOUS_CURVE_1_2(50),
     // リサージュ曲線(p:q=3:2)
@@ -164,15 +150,31 @@ enum class DrawDataID(val id: Int): Parcelable {
     // コッホ雪片04
     ID_000133_KOCH_SNOWFLAKE_04(133),
     // マンデルブロ―集合(白黒)
-    ID_000200_MANDELBRO_SET(200),
+    ID_000140_MANDELBRO_SET(140),
     // マンデルブロ―集合(-1.5-1.0i～+0.5+1.0i)
-    ID_000201_MANDELBRO_SET(201),
+    ID_000141_MANDELBRO_SET(141),
     // マンデルブロ―集合(-1.3+0.0i～-1.1+0.2i)
-    ID_000202_MANDELBRO_SET(202),
+    ID_000142_MANDELBRO_SET(142),
     // マンデルブロ―集合(-1.28+0.18i～-1.26+0.20i)
-    ID_000203_MANDELBRO_SET(203),
+    ID_000143_MANDELBRO_SET(143),
     // ジュリア集合
-    ID_000251_JULIA_SET(251),
+    ID_000144_JULIA_SET(144),
+    // サイン波
+    ID_000200_SINE_WAVE(200),
+    // 円の周りを回転するサイン波
+    ID_000201_SINE_WAVE_CIRCLE(201),
+    // 円の周りを回転するサイン波
+    ID_000202_SINE_WAVE_CIRCLE(202),
+    // 隣同士の点がサイン波を描く
+    ID_000203_SINE_WAVE_POINT_01(203),
+    // 隣同士の点がサイン波を描く
+    ID_000204_SINE_WAVE_POINT_02(204),
+    // 1536色
+    ID_000205_COLOR_1536(205),
+    // 768色(暗色)
+    ID_000206_COLOR_768_DARK(206),
+    // RGBの棒線で紡ぐ
+    ID_000207_WAVE_RGB_WEAVE_01(207),
     // 三角形in四角形
     ID_000300_3_IN_4(300),
     // 三角形in五角形
