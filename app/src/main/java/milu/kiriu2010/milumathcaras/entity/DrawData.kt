@@ -89,6 +89,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000038_CAUSTIC_CIRCLE_01(38),
     // Cochleoid
     ID_000039_COCHLEOID_01(39),
+    // Cyclic-Harmonic Curve
+    ID_000040_CURVE_CYCLIC_HARMONIC_01(40),
     // リサージュ曲線(p:q=1:2)
     ID_000050_LISSAJOUS_CURVE_1_2(50),
     // リサージュ曲線(p:q=3:2)

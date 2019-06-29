@@ -186,6 +186,11 @@ class DrawDataFactory {
                 }
                 // SIN/COSのミックスを描画するメニュー
                 MenuItem.MENU_CURVE_MIX_SINCOS -> {
+                    // Cyclic Harmony Curve
+                    drawDataLst.add(DrawData(DrawDataID.ID_000040_CURVE_CYCLIC_HARMONIC_01,DrawFragmentType.FT_D2_06,resources.getString(R.string.draw_000040_curve_cyclic_harmonic_01),
+                        stillImageParam = floatArrayOf(3f,1f), motionImageParam = floatArrayOf(3f,1f), editParam = floatArrayOf(0f,5f,0f,0f,2f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_cyclic_harmonic_01), "autoParam" to "t", "handParam1" to "n", "handParam2" to "e"),
+                        fragmentParamMap = mutableMapOf("maxA" to 20, "maxB" to 20) ))
                     // Cochleoid
                     drawDataLst.add(DrawData(DrawDataID.ID_000039_COCHLEOID_01,DrawFragmentType.FT_D2_04,resources.getString(R.string.draw_000039_curve_cochleoid_01),
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_cochleoid_01)) ))
