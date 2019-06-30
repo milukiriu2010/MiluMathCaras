@@ -64,6 +64,8 @@ class MgRendererFactory {
                 DrawDataID.ID_001108_GL_CUBE_TRANSFORM_09 -> CubeTransform09Renderer(context)
                 // 立方体座標変換10
                 DrawDataID.ID_001109_GL_CUBE_TRANSFORM_10 -> CubeTransform10Renderer(context)
+                // 立方体座標変換11
+                DrawDataID.ID_001110_GL_CUBE_TRANSFORM_11 -> CubeTransform11Renderer(context)
                 // 正四面体の展開図01
                 DrawDataID.ID_001200_GL_NET_TETRAHEDRON_01 -> NetTetrahedron01Renderer(context)
                 // 正四面体の展開図02
