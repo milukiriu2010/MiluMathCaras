@@ -363,6 +363,8 @@ class DrawDataFactory {
                 }
                 // "複数円"を選択したときの描画データの一覧
                 MenuItem.MENU_CIRCLE_CIRCLES -> {
+                    // 円を１つおきに位置を入れ替える
+                    drawDataLst.add(DrawData(DrawDataID.ID_000806_CIRCLE_SPIN_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000806_circle_spin_01) ))
                     // 実験：円の中に円を描き,すべての円を回転させる
                     //drawDataLst.add(DrawData(DrawDataID.ID_000805_CIRCLE_TEST_ROTATE_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000805_circle_rotate) ))
                     // 円の中に円を描き,すべての円を回転させる

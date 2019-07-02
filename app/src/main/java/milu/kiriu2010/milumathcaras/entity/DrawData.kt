@@ -434,6 +434,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000804_CIRCLE_ROTATE_02(804),
     // 円の中に円を描き,すべての円を回転させる(テスト)
     ID_000805_CIRCLE_TEST_ROTATE_01(805),
+    // 円を１つおきに位置を入れ替える
+    ID_000806_CIRCLE_SPIN_01(806),
     // 円⇔正方形の変形
     ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE(810),
     // "円⇔正方形の変形"のタイリング
