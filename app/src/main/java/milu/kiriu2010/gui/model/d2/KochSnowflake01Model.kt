@@ -1,11 +1,9 @@
-package milu.kiriu2010.gui.model
+package milu.kiriu2010.gui.model.d2
 
 import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.gui.basic.MyTurtle
-import milu.kiriu2010.gui.color.MgColor
-import milu.kiriu2010.math.MyMathUtil
-import java.nio.*
+import milu.kiriu2010.gui.model.MgModelAbs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -13,6 +11,7 @@ import kotlin.math.sqrt
 // コッホ雪片
 // ----------------------------------------------
 // 2019.06.14
+// 2019.07.02  パッケージ修正
 // ----------------------------------------------
 class KochSnowflake01Model: MgModelAbs() {
 

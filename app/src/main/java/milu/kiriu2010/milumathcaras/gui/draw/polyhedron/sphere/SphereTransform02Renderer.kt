@@ -4,8 +4,8 @@ import android.content.Context
 import android.opengl.GLES20
 import android.opengl.Matrix
 import milu.kiriu2010.gui.model.MgModelAbs
-import milu.kiriu2010.gui.model.Sphere01Model
-import milu.kiriu2010.gui.model.Torus01Model
+import milu.kiriu2010.gui.model.d3.Sphere01Model
+import milu.kiriu2010.gui.model.d3.Torus01Model
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.shader.es20.wvbo.ES20VBOSimple01Shader
 import milu.kiriu2010.gui.vbo.es20.ES20VBOIpc

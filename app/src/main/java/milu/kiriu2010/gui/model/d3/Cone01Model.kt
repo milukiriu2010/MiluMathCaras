@@ -1,6 +1,7 @@
-package milu.kiriu2010.gui.model
+package milu.kiriu2010.gui.model.d3
 
 import milu.kiriu2010.gui.color.MgColor
+import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.math.MyMathUtil
 
 
@@ -8,6 +9,7 @@ import milu.kiriu2010.math.MyMathUtil
 // 円錐
 // -------------------------------------------
 // 2019.06.04  初回
+// 2019.07.02  パッケージ修正
 // -------------------------------------------
 class Cone01Model: MgModelAbs() {
 

@@ -1,4 +1,4 @@
-package milu.kiriu2010.gui.renderer
+package milu.kiriu2010.gui.model.d3
 
 import milu.kiriu2010.gui.color.MgColor
 import milu.kiriu2010.math.MyMathUtil
@@ -12,6 +12,7 @@ import kotlin.math.sqrt
 // 2019.04.29  色・テクスチャ
 // 2019.04.30  テクスチャ座標修正
 // 2019.06.14  頂点座標修正
+// 2019.07.02  パッケージ修正
 // ------------------------------------------
 class Tetrahedron01Model : MgModelAbs() {
 

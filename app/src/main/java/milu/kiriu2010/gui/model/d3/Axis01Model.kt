@@ -1,7 +1,12 @@
-package milu.kiriu2010.gui.model
+package milu.kiriu2010.gui.model.d3
 
+import milu.kiriu2010.gui.model.MgModelAbs
 
+// ----------------------------
 // 座標軸
+// ----------------------------
+// 2019.07.02  パッケージ修正
+// ----------------------------
 class Axis01Model: MgModelAbs() {
 
     override fun createPath( opt: Map<String,Float> ){

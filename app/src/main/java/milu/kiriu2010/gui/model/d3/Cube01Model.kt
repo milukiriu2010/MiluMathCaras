@@ -1,9 +1,8 @@
-package milu.kiriu2010.gui.model
+package milu.kiriu2010.gui.model.d3
 
 import milu.kiriu2010.gui.color.MgColor
+import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.math.MyMathUtil
-import java.nio.*
-import kotlin.math.sqrt
 
 // ----------------------------------------------
 // 立方体
@@ -14,6 +13,7 @@ import kotlin.math.sqrt
 // 2019.04.30  テクスチャ座標・インデックス修正
 // 2019.05.01  点・線の色修正
 // 2019.06.12  コメント追加
+// 2019.07.02  パッケージ修正
 // ----------------------------------------------
 class Cube01Model: MgModelAbs() {
 

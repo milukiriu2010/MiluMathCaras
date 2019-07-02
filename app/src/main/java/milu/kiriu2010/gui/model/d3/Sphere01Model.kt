@@ -1,12 +1,10 @@
-package milu.kiriu2010.gui.model
+package milu.kiriu2010.gui.model.d3
 
 import milu.kiriu2010.gui.color.MgColor
-import milu.kiriu2010.math.MyMathUtil
-import java.nio.*
+import milu.kiriu2010.gui.model.MgModelAbs
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
-import kotlin.math.sqrt
 
 
 // ----------------------------------------------------
@@ -16,6 +14,7 @@ import kotlin.math.sqrt
 // 2019.05.12  パターン２
 // 2019.05.21  頂点インデックス修正
 // 2019.06.11  A成分を指定ありで色を自動生成可能とする
+// 2019.07.02  パッケージ修正
 // ----------------------------------------------------
 class Sphere01Model: MgModelAbs() {
 

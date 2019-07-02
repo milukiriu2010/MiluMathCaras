@@ -1,12 +1,12 @@
-package milu.kiriu2010.gui.model
+package milu.kiriu2010.gui.model.d2
 
-import milu.kiriu2010.gui.basic.MyPointF
-import kotlin.math.pow
+import milu.kiriu2010.gui.model.MgModelAbs
 
 // ----------------------------------------------
 // 線
 // ----------------------------------------------
 // 2019.06.15
+// 2019.07.02  パッケージ修正
 // ----------------------------------------------
 class Line01Model: MgModelAbs() {
 

@@ -1,15 +1,15 @@
-package milu.kiriu2010.gui.model
+package milu.kiriu2010.gui.model.d3
 
 import milu.kiriu2010.gui.color.MgColor
+import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.math.MyMathUtil
-import java.nio.*
-
 
 // --------------------------------------------
 // 正二十面体
 // --------------------------------------------
 // 2019.04.29  色・テクスチャ
 // 2019.04.30  頂点データ修正 for テクスチャ
+// 2019.07.02  パッケージ修正
 // --------------------------------------------
 // https://github.com/8q/Android-OpenGL-Icosahedron/blob/master/GL1/src/com/example/gl1/MyIcosa.java
 // --------------------------------------------

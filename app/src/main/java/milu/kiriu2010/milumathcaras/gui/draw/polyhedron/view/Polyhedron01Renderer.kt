@@ -6,8 +6,8 @@ import android.opengl.GLES20
 import android.opengl.Matrix
 import milu.kiriu2010.gui.basic.MyGLES20Func
 import milu.kiriu2010.gui.model.*
+import milu.kiriu2010.gui.model.d3.*
 import milu.kiriu2010.gui.renderer.MgRenderer
-import milu.kiriu2010.gui.renderer.Tetrahedron01Model
 import milu.kiriu2010.gui.shader.es20.*
 import milu.kiriu2010.gui.shader.es20.nvbo.*
 import milu.kiriu2010.milumathcaras.R

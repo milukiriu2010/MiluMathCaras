@@ -3,21 +3,13 @@ package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.wave
 import android.content.Context
 import android.opengl.GLES20
 import android.opengl.Matrix
-import android.util.Log
-import milu.kiriu2010.gui.basic.MyGLES20Func
-import milu.kiriu2010.gui.model.Circle01Model
-import milu.kiriu2010.gui.model.Cube01Model
-import milu.kiriu2010.gui.model.KochSnowflake01Model
-import milu.kiriu2010.gui.model.Line01Model
+import milu.kiriu2010.gui.model.d2.Circle01Model
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.shader.es20.wvbo.ES20VBOSimple01Shader
-import milu.kiriu2010.gui.shader.es20.wvbo.ES20VBOTexture01Shader
 import milu.kiriu2010.gui.vbo.es20.ES20VBOIpc
-import milu.kiriu2010.gui.vbo.es20.ES20VBOIpct
 import milu.kiriu2010.math.MyMathUtil
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import java.nio.IntBuffer
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 

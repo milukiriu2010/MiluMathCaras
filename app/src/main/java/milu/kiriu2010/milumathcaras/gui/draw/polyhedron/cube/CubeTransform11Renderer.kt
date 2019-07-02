@@ -3,7 +3,7 @@ package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.cube
 import android.content.Context
 import android.opengl.GLES20
 import android.opengl.Matrix
-import milu.kiriu2010.gui.model.Cube01Model
+import milu.kiriu2010.gui.model.d3.Cube01Model
 import milu.kiriu2010.gui.model.d2.Board01Model
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.shader.es32.ES32Simple01Shader
