@@ -2,7 +2,6 @@ package milu.kiriu2010.milumathcaras.gui.draw.circle.circles
 
 import android.graphics.*
 import android.os.Handler
-import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
@@ -10,11 +9,11 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.sqrt
 
 // --------------------------------------------
-// 円を２つおきに位置を入れ替える
+// 花火01
 // --------------------------------------------
 // 2019.07.02
 // --------------------------------------------
-class SpinCircle01Drawable: MyDrawable() {
+class Fireworks01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -28,12 +27,23 @@ class SpinCircle01Drawable: MyDrawable() {
     private val rC = rB*0.5f
     // "入れ替え円の中心⇔大円中心"の距離
     private val rD = rC*sqrt(3f)
+    // 描画円の半径
+    private val rE = rB*0.1f
+
+    // 初期角度
+    private val initAngles = floatArrayOf(
+        300f, 330f,   0f,  30f,
+         60f,  90f, 120f, 150f,
+        180f, 210f, 240f, 270f
+    )
+    // 色位置
+    private var cPos = 0
 
     // -------------------------------
     // 円の回転角度
     // -------------------------------
-    private var angle = 0f
     private var angleMax = 360f
+    private var angleNow = 0f
 
     // -------------------------------------
     // 円リスト
@@ -73,6 +83,17 @@ class SpinCircle01Drawable: MyDrawable() {
         style = Paint.Style.FILL
     }
 
+    // 色リスト
+    private val colors = intArrayOf(
+        Color.MAGENTA,
+        Color.CYAN,
+        Color.BLUE,
+        Color.GREEN,
+        Color.YELLOW,
+        0xffff8000.toInt(),
+        Color.RED
+    )
+
     // -------------------------------------
     // 描画中に呼び出すコールバックを設定
     // -------------------------------------
@@ -107,8 +128,6 @@ class SpinCircle01Drawable: MyDrawable() {
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
-                    // 円を生成
-                    //createCircle()
                     // 円を移動する
                     moveCircle()
                     // ビットマップに描画
@@ -152,12 +171,11 @@ class SpinCircle01Drawable: MyDrawable() {
 
         (0..11).forEach { i ->
             val ii = i.toFloat()
-            val x = rB * MyMathUtil.cosf(ii*30f)
-            val y = rB * MyMathUtil.sinf(ii*30f)
-            val circle = Circle().apply {
-                c = MyPointF(x,y)
-                r = side*0.02f
-                color = Color.BLACK
+            val x = rD * MyMathUtil.cosf((ii+1f)*30f)
+            val y = rD * MyMathUtil.sinf((ii+1f)*30f)
+            val circle = Circle().also {
+                it.t = initAngles[i]
+                it.cC = MyPointF(x,y)
             }
             circleLst.add(circle)
         }
@@ -168,9 +186,10 @@ class SpinCircle01Drawable: MyDrawable() {
     // 円を移動する
     // -------------------------------
     private fun moveCircle() {
-        angle += 5f
-        if ( angle >= angleMax ) {
-            angle = 0f
+        angleNow += 5f
+        cPos++
+        if ( angleNow >= angleMax ) {
+            angleNow = 0f
         }
     }
 
@@ -195,8 +214,20 @@ class SpinCircle01Drawable: MyDrawable() {
         canvas.translate(x0,y0)
 
         // 円を描く
-        circleLst.forEach { circle ->
-            canvas.drawCircle(circle.c.x,circle.c.y,circle.r,linePaint)
+        val start = 2
+        (0..6).forEach { j ->
+            val scale = (j+start).toFloat()*0.1f
+            circleLst.forEach { circle ->
+                canvas.save()
+                canvas.translate(scale*circle.cC.x,scale*circle.cC.y)
+
+                val x = scale*rC * MyMathUtil.cosf(circle.t+angleNow)
+                val y = scale*rC * MyMathUtil.sinf(circle.t+angleNow)
+                linePaint.color = colors[(j+cPos)%colors.size]
+                canvas.drawCircle(x,y,scale*rE,linePaint)
+
+                canvas.restore()
+            }
         }
 
         canvas.restore()
@@ -249,20 +280,16 @@ class SpinCircle01Drawable: MyDrawable() {
     // ---------------------------------
     data class Circle (
         // ---------------------------------
-        // 中心
+        // 角度
         // ---------------------------------
-        var c: MyPointF = MyPointF(),
-        // ---------------------------------
-        // 半径
-        // ---------------------------------
-        var r: Float = 0f,
-        // ---------------------------------
-        // 色
-        // ---------------------------------
-        var color: Int = 0,
+        var t: Float = 0f,
         // ---------------------------------
         // 入れ替えの中心点
         // ---------------------------------
-        var cC: MyPointF = MyPointF()
+        var cC: MyPointF = MyPointF(),
+        // ---------------------------------
+        // 入れ替えの中心点
+        // ---------------------------------
+        var color: Int = Color.BLACK
     )
 }

@@ -86,7 +86,7 @@ class ES32VAOIpnto: ES32VAOAbs() {
         MyGLES32Func.checkGlError("a_Offset:glEnableVertexAttribArray")
         GLES32.glVertexAttribPointer(3,3,GLES32.GL_FLOAT,false,0,0)
         MyGLES32Func.checkGlError("a_Offset:glVertexAttribPointer")
-        GLES32.glVertexAttribDivisor(3,1)
+        GLES32.glVertexAttribDivisor(3,divisor)
         MyGLES32Func.checkGlError("a_Offset:glVertexAttribDivisor")
 
         // ------------------------------------------------

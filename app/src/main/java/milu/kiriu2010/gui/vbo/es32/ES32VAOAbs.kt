@@ -13,6 +13,7 @@ import milu.kiriu2010.gui.model.MgModelAbs
 // 2019.06.11 VAO追加
 // 2019.06.14 バッファにデータを設定するときの変数名を位置用に変更
 // 2019.06.17 ES3.0用をコピー
+// 2019.07.03 インスタンス化の除数
 // ----------------------------------------------------------------
 abstract class ES32VAOAbs {
     // 描画モデル
@@ -26,6 +27,9 @@ abstract class ES32VAOAbs {
 
     // VBOバッファにデータを設定するときのusage(位置)
     var usagePos = GLES32.GL_STATIC_DRAW
+    // インスタンス化するデータの除数
+    // オブジェクトいくつに対してインスタンスのインデックスを繰り上げるか
+    var divisor = 1
 
     abstract fun makeVIBO(modelAbs: MgModelAbs)
 
