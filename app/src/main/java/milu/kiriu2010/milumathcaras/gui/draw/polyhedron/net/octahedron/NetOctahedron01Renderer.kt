@@ -1,11 +1,11 @@
 package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.octahedron
 
 import android.content.Context
-import android.opengl.GLES20
+import android.opengl.GLES32
 import android.opengl.Matrix
 import milu.kiriu2010.gui.renderer.MgRenderer
-import milu.kiriu2010.gui.shader.es20.wvbo.ES20VBOSimple01Shader
-import milu.kiriu2010.gui.vbo.es20.ES20VBOIpc
+import milu.kiriu2010.gui.shader.es32.ES32Simple01Shader
+import milu.kiriu2010.gui.vbo.es32.ES32VAOIpc
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -23,17 +23,15 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
     // 描画モデル(三角形)
     private val modelLst = mutableListOf<Triangle4Octahedron01Model>()
 
-    // VBO
-    private var boLst = mutableListOf<ES20VBOIpc>()
+    // VAO
+    private var vaoLst = mutableListOf<ES32VAOIpc>()
 
     // シェーダ(特殊効果なし)
-    private lateinit var shaderSimple: ES20VBOSimple01Shader
+    private val shaderSimple = ES32Simple01Shader(ctx)
 
     // 定数
     val sqrt3   = 1.73205f
-    val sqrt3_3 = 0.57735f
     val sqrt3_2 = 0.866025f
-    val l2_3    = 0.66667f
 
     // 35.2643895751
     // = (180-109.4712208497)/2
@@ -49,9 +47,9 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
 
     override fun onDrawFrame(gl: GL10?) {
         // canvasを初期化
-        GLES20.glClearColor(1f, 1f, 1f, 1f)
-        GLES20.glClearDepthf(1f)
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
+        GLES32.glClearColor(1f, 1f, 1f, 1f)
+        GLES32.glClearDepthf(1f)
+        GLES32.glClear(GLES32.GL_COLOR_BUFFER_BIT or GLES32.GL_DEPTH_BUFFER_BIT)
 
         // 回転角度
         if ( isRunning == true ) {
@@ -100,7 +98,7 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[0],boLst[0],matMVP)
+        shaderSimple.draw(vaoLst[0],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(２：下)
@@ -108,7 +106,7 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.setIdentityM(matM,0)
         Matrix.rotateM(matM,0,-t0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[1],boLst[1],matMVP)
+        shaderSimple.draw(vaoLst[1],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(３：右下)
@@ -118,7 +116,7 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,t0,1f,-sqrt3,0f)
         Matrix.translateM(matM,0,0.5f,sqrt3_2,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[2],boLst[2],matMVP)
+        shaderSimple.draw(vaoLst[2],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(４：左下)
@@ -128,7 +126,7 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,t0,1f,sqrt3,0f)
         Matrix.translateM(matM,0,-0.5f,sqrt3_2,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[3],boLst[3],matMVP)
+        shaderSimple.draw(vaoLst[3],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(５：上←右上)
@@ -139,7 +137,7 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.translateM(matM,0,0.5f,sqrt3_2,0f)
         Matrix.rotateM(matM,0,t0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[4],boLst[4],matMVP)
+        shaderSimple.draw(vaoLst[4],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(６：右２上←３：右下)
@@ -151,7 +149,7 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,-t0,1f,sqrt3,0f)
         Matrix.translateM(matM,0,0.5f,-sqrt3_2,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[5],boLst[5],matMVP)
+        shaderSimple.draw(vaoLst[5],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(７：左２上←４：左上)
@@ -163,7 +161,7 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,-t0,1f,-sqrt3,0f)
         Matrix.translateM(matM,0,-0.5f,-sqrt3_2,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[6],boLst[6],matMVP)
+        shaderSimple.draw(vaoLst[6],matMVP)
 
         // --------------------------------------------------------
         // 回転するモデルを描画(８：右３下←６：右２上←３：右下)
@@ -177,11 +175,11 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,t0,1f,-sqrt3,0f)
         Matrix.translateM(matM,0,0.5f,sqrt3_2,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[7],boLst[7],matMVP)
+        shaderSimple.draw(vaoLst[7],matMVP)
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
-        GLES20.glViewport(0, 0, width, height)
+        GLES32.glViewport(0, 0, width, height)
     }
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
@@ -189,11 +187,10 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         isRunning = true
 
         // 深度テストを有効にする
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST)
-        GLES20.glDepthFunc(GLES20.GL_LEQUAL)
+        GLES32.glEnable(GLES32.GL_DEPTH_TEST)
+        GLES32.glDepthFunc(GLES32.GL_LEQUAL)
 
         // シェーダ(特殊効果なし)
-        shaderSimple = ES20VBOSimple01Shader()
         shaderSimple.loadShader()
 
         // 描画モデル(三角形)
@@ -285,9 +282,9 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         modelLst.add(model8)
 
         modelLst.forEach { model ->
-            val bo = ES20VBOIpc()
-            bo.makeVIBO(model)
-            boLst.add(bo)
+            val vao = ES32VAOIpc()
+            vao.makeVIBO(model)
+            vaoLst.add(vao)
         }
     }
 
@@ -297,8 +294,8 @@ class NetOctahedron01Renderer(ctx: Context): MgRenderer(ctx) {
     // MgRenderer
     // シェーダ終了処理
     override fun closeShader() {
-        boLst.forEach { bo ->
-            bo.deleteVIBO()
+        vaoLst.forEach { vao ->
+            vao.deleteVIBO()
         }
         shaderSimple.deleteShader()
     }

@@ -1,11 +1,12 @@
 package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.icosahedron
 
 import android.content.Context
-import android.opengl.GLES20
+import android.opengl.GLES32
 import android.opengl.Matrix
 import milu.kiriu2010.gui.renderer.MgRenderer
-import milu.kiriu2010.gui.shader.es20.wvbo.ES20VBOSimple01Shader
-import milu.kiriu2010.gui.vbo.es20.ES20VBOIpc
+import milu.kiriu2010.gui.shader.es32.ES32Simple01Shader
+import milu.kiriu2010.gui.vbo.es32.ES32VAOIpc
+import milu.kiriu2010.gui.vbo.es32.ES32VBOIpc
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -25,16 +26,14 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
     // 描画モデル(三角形)
     private val modelLst = mutableListOf<Triangle4Icosahedron01Model>()
 
-    // VBO
-    private var boLst = mutableListOf<ES20VBOIpc>()
+    // VAO
+    private var vaoLst = mutableListOf<ES32VAOIpc>()
 
     // シェーダ(特殊効果なし)
-    private lateinit var shaderSimple: ES20VBOSimple01Shader
+    private val shaderSimple = ES32Simple01Shader(ctx)
 
     // 定数
     val sqrt3   = 1.73205f
-    val sqrt3_3 = 0.57735f
-    val sqrt3_2 = 0.866025f
     val l2_3    = 0.66667f
 
     // 41.810314744
@@ -48,9 +47,9 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
 
     override fun onDrawFrame(gl: GL10?) {
         // canvasを初期化
-        GLES20.glClearColor(1f, 1f, 1f, 1f)
-        GLES20.glClearDepthf(1f)
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
+        GLES32.glClearColor(1f, 1f, 1f, 1f)
+        GLES32.glClearDepthf(1f)
+        GLES32.glClear(GLES32.GL_COLOR_BUFFER_BIT or GLES32.GL_DEPTH_BUFFER_BIT)
 
         // 回転角度
         if ( isRunning == true ) {
@@ -99,7 +98,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[0],boLst[0],matMVP)
+        shaderSimple.draw(vaoLst[0],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(１：下)
@@ -107,7 +106,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.setIdentityM(matM,0)
         Matrix.rotateM(matM,0,-t0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[1],boLst[1],matMVP)
+        shaderSimple.draw(vaoLst[1],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(２：右←０)
@@ -117,7 +116,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,t0,1f,-sqrt3,0f)
         Matrix.translateM(matM,0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[2],boLst[2],matMVP)
+        shaderSimple.draw(vaoLst[2],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(３：左←０)
@@ -127,7 +126,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,t0,1f,sqrt3,0f)
         Matrix.translateM(matM,0,-1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[3],boLst[3],matMVP)
+        shaderSimple.draw(vaoLst[3],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(４←２←０)
@@ -138,7 +137,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,-t0,1f,sqrt3,0f)
         Matrix.translateM(matM,0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[4],boLst[4],matMVP)
+        shaderSimple.draw(vaoLst[4],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(５←３←０)
@@ -149,7 +148,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,-t0,1f,-sqrt3,0f)
         Matrix.translateM(matM,0,-1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[5],boLst[5],matMVP)
+        shaderSimple.draw(vaoLst[5],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(６←４←２←０)
@@ -161,7 +160,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.translateM(matM,0,1f,0f,0f)
         Matrix.rotateM(matM,0,-t0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[6],boLst[6],matMVP)
+        shaderSimple.draw(vaoLst[6],matMVP)
 
         // --------------------------------------------------------
         // 回転するモデルを描画(７←５←３←０)
@@ -173,7 +172,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.translateM(matM,0,-1f,0f,0f)
         Matrix.rotateM(matM,0,-t0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[7],boLst[7],matMVP)
+        shaderSimple.draw(vaoLst[7],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(８←２←０)
@@ -184,7 +183,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.translateM(matM,0,1f,0f,0f)
         Matrix.rotateM(matM,0,t0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[8],boLst[8],matMVP)
+        shaderSimple.draw(vaoLst[8],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(９←３←０)
@@ -195,7 +194,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.translateM(matM,0,-1f,0f,0f)
         Matrix.rotateM(matM,0,t0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[9],boLst[9],matMVP)
+        shaderSimple.draw(vaoLst[9],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(１０←４←２←０)
@@ -209,7 +208,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,t0,1f,-sqrt3,0f)
         Matrix.translateM(matM,0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[10],boLst[10],matMVP)
+        shaderSimple.draw(vaoLst[10],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(１１←５←３←０)
@@ -223,7 +222,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,t0,1f,sqrt3,0f)
         Matrix.translateM(matM,0,-1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[11],boLst[11],matMVP)
+        shaderSimple.draw(vaoLst[11],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(１２←１０←４←２←０)
@@ -238,7 +237,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.translateM(matM,0,1f,0f,0f)
         Matrix.rotateM(matM,0,t0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[12],boLst[12],matMVP)
+        shaderSimple.draw(vaoLst[12],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(１３←１１←５←３←０)
@@ -253,7 +252,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.translateM(matM,0,-1f,0f,0f)
         Matrix.rotateM(matM,0,t0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[13],boLst[13],matMVP)
+        shaderSimple.draw(vaoLst[13],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(１４←１０←４←２←０)
@@ -267,7 +266,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,-t0,1f,sqrt3,0f)
         Matrix.translateM(matM,0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[14],boLst[14],matMVP)
+        shaderSimple.draw(vaoLst[14],matMVP)
 
         // ----------------------------------------------
         // 回転するモデルを描画(１５←１１←５←３←０)
@@ -281,7 +280,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,-t0,1f,-sqrt3,0f)
         Matrix.translateM(matM,0,-1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[15],boLst[15],matMVP)
+        shaderSimple.draw(vaoLst[15],matMVP)
 
         // ------------------------------------------------
         // 回転するモデルを描画(１６←１４←１０←４←２←０)
@@ -296,7 +295,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.translateM(matM,0,1f,0f,0f)
         Matrix.rotateM(matM,0,-t0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[16],boLst[16],matMVP)
+        shaderSimple.draw(vaoLst[16],matMVP)
 
         // ------------------------------------------------
         // 回転するモデルを描画(１７←１５←１１←５←３←０)
@@ -311,7 +310,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.translateM(matM,0,-1f,0f,0f)
         Matrix.rotateM(matM,0,-t0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[17],boLst[17],matMVP)
+        shaderSimple.draw(vaoLst[17],matMVP)
 
         // ------------------------------------------------
         // 回転するモデルを描画(１８←１５←１１←５←３←０)
@@ -328,7 +327,7 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.rotateM(matM,0,t0,1f,sqrt3,0f)
         Matrix.translateM(matM,0,-1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[18],boLst[18],matMVP)
+        shaderSimple.draw(vaoLst[18],matMVP)
 
         // ------------------------------------------------------
         // 回転するモデルを描画(１９←１８←１５←１１←５←３←０)
@@ -346,11 +345,11 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.translateM(matM,0,-1f,0f,0f)
         Matrix.rotateM(matM,0,t0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelLst[19],boLst[19],matMVP)
+        shaderSimple.draw(vaoLst[19],matMVP)
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
-        GLES20.glViewport(0, 0, width, height)
+        GLES32.glViewport(0, 0, width, height)
     }
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
@@ -358,11 +357,10 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         isRunning = true
 
         // 深度テストを有効にする
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST)
-        GLES20.glDepthFunc(GLES20.GL_LEQUAL)
+        GLES32.glEnable(GLES32.GL_DEPTH_TEST)
+        GLES32.glDepthFunc(GLES32.GL_LEQUAL)
 
         // シェーダ(特殊効果なし)
-        shaderSimple = ES20VBOSimple01Shader()
         shaderSimple.loadShader()
 
         val paramLst = mutableListOf<Float>(
@@ -401,9 +399,9 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
         }
 
         modelLst.forEach { model ->
-            val bo = ES20VBOIpc()
-            bo.makeVIBO(model)
-            boLst.add(bo)
+            val vao = ES32VAOIpc()
+            vao.makeVIBO(model)
+            vaoLst.add(vao)
         }
     }
 
@@ -413,10 +411,9 @@ class NetIcosahedron01Renderer(ctx: Context): MgRenderer(ctx) {
     // MgRenderer
     // シェーダ終了処理
     override fun closeShader() {
-        boLst.forEach { bo ->
-            bo.deleteVIBO()
+        vaoLst.forEach { vao ->
+            vao.deleteVIBO()
         }
         shaderSimple.deleteShader()
     }
-
 }

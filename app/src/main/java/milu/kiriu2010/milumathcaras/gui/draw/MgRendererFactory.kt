@@ -10,7 +10,6 @@ import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.cube.NetCube01Render
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.dodecahedron.NetDodecahedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.icosahedron.NetIcosahedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.octahedron.NetOctahedron01Renderer
-import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.tetrahedron.NetTetrahedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.net.tetrahedron.NetTetrahedron02Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.sphere.SphereTransform01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.polyhedron.sphere.SphereTransform02Renderer
@@ -66,8 +65,6 @@ class MgRendererFactory {
                 DrawDataID.ID_001109_GL_CUBE_TRANSFORM_10 -> CubeTransform10Renderer(context)
                 // 立方体座標変換11
                 DrawDataID.ID_001110_GL_CUBE_TRANSFORM_11 -> CubeTransform11Renderer(context)
-                // 正四面体の展開図01
-                DrawDataID.ID_001200_GL_NET_TETRAHEDRON_01 -> NetTetrahedron01Renderer(context)
                 // 正四面体の展開図02
                 DrawDataID.ID_001201_GL_NET_TETRAHEDRON_02 -> NetTetrahedron02Renderer(context)
                 // 立方体の展開図01

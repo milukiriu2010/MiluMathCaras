@@ -328,8 +328,7 @@
     <string name="draw_001108_gl_cube_transform_09">Cube Transform\n 09</string>
     <string name="draw_001109_gl_cube_transform_10">Cube Transform\n 10</string>
     <string name="draw_001110_gl_cube_transform_11">Cube Transform\n 11</string>
-    <string name="draw_001200_gl_net_tetrahedron_01">Net of Tetrahedron\n 01</string>
-    <string name="draw_001201_gl_net_tetrahedron_02">Net of Tetrahedron\n 02</string>
+    <string name="draw_001201_gl_net_tetrahedron_02">Net of Tetrahedron</string>
     <string name="draw_001202_gl_net_cube_01">Net of Cube</string>
     <string name="draw_001203_gl_net_octahedron_01">Net of Octahedron</string>
     <string name="draw_001204_gl_net_dodecahedron_01">Net of Dodecahedron</string>

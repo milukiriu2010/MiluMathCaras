@@ -496,8 +496,6 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_001109_GL_CUBE_TRANSFORM_10(1109),
     // 立方体座標変換11
     ID_001110_GL_CUBE_TRANSFORM_11(1110),
-    // 正四面体の展開図01
-    ID_001200_GL_NET_TETRAHEDRON_01(1200),
     // 正四面体の展開図02
     ID_001201_GL_NET_TETRAHEDRON_02(1201),
     // 立方体の展開図
