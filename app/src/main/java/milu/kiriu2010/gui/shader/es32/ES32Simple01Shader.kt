@@ -4,6 +4,8 @@ import android.content.Context
 import android.opengl.GLES32
 import milu.kiriu2010.gui.basic.MyGLES32Func
 import milu.kiriu2010.gui.vbo.es32.ES32VAOAbs
+import milu.kiriu2010.gui.vbo.es32.ES32VBOAbs
+import java.nio.FloatBuffer
 
 // ------------------------------------------
 // 特殊効果なし
@@ -13,6 +15,7 @@ import milu.kiriu2010.gui.vbo.es32.ES32VAOAbs
 // 2019.04.27 コメントアウト
 // 2019.05.22 リソース解放
 // 2019.06.17 ES3.0用をコピー
+// 2019.07.04 動的位置変更
 // ------------------------------------------
 class ES32Simple01Shader(ctx: Context): ES32MgShader(ctx) {
     // 頂点シェーダ
@@ -59,6 +62,54 @@ class ES32Simple01Shader(ctx: Context): ES32MgShader(ctx) {
         // ----------------------------------------------
         hUNI = IntArray(1)
 
+        // uniform(モデル×ビュー×プロジェクション)
+        hUNI[0] = GLES32.glGetUniformLocation(programHandle,"u_matMVP")
+        MyGLES32Func.checkGlError("u_matMVP:glGetUniformLocation")
+
+        return this
+    }
+    
+    fun loadShaderDynamicPos(): ES32MgShader {
+        // 頂点シェーダを生成
+        svhandle = MyGLES32Func.loadShader(GLES32.GL_VERTEX_SHADER, scv)
+        // フラグメントシェーダを生成
+        sfhandle = MyGLES32Func.loadShader(GLES32.GL_FRAGMENT_SHADER, scf)
+
+        // プログラムオブジェクトの生成とリンク
+        programHandle = MyGLES32Func.createProgram(svhandle,sfhandle)
+
+        // ----------------------------------------------
+        // attributeハンドルに値をセット
+        // ----------------------------------------------
+        hATTR = IntArray(2)
+        // 属性(頂点)
+        hATTR[0] = GLES32.glGetAttribLocation(programHandle, "a_Position").also {
+            // attribute属性を有効にする
+            // ここで呼ばないと描画されない
+            GLES32.glEnableVertexAttribArray(it)
+            MyGLES32Func.checkGlError("a_Position:glEnableVertexAttribArray:${it}")
+            // attribute属性を登録
+            GLES32.glVertexAttribPointer(it,3,GLES32.GL_FLOAT,false,0,0)
+            MyGLES32Func.checkGlError("a_Position:glVertexAttribPointer")
+        }
+        MyGLES32Func.checkGlError("a_Position:glGetAttribLocation")
+
+        // 属性(色)
+        hATTR[1] = GLES32.glGetAttribLocation(programHandle, "a_Color").also {
+            // attribute属性を有効にする
+            // ここで呼ばないと描画されない
+            GLES32.glEnableVertexAttribArray(it)
+            MyGLES32Func.checkGlError("a_Color:glEnableVertexAttribArray:${it}")
+            // attribute属性を登録
+            GLES32.glVertexAttribPointer(it,4,GLES32.GL_FLOAT,false,0,0)
+            MyGLES32Func.checkGlError("a_Color:glVertexAttribPointer")
+        }
+        MyGLES32Func.checkGlError("a_Color:glGetAttribLocation")
+
+        // ----------------------------------------------
+        // uniformハンドルに値をセット
+        // ----------------------------------------------
+        hUNI = IntArray(1)
         // uniform(モデル×ビュー×プロジェクション)
         hUNI[0] = GLES32.glGetUniformLocation(programHandle,"u_matMVP")
         MyGLES32Func.checkGlError("u_matMVP:glGetUniformLocation")
@@ -119,4 +170,59 @@ class ES32Simple01Shader(ctx: Context): ES32MgShader(ctx) {
         GLES32.glBindVertexArray(0)
     }
 
+    fun drawDynamicPos(vbo: ES32VBOAbs,
+                       u_matMVP: FloatArray,
+                       mode: Int,
+                       chgBuf: () -> FloatBuffer ) {
+        val model = vbo.model
+
+        GLES32.glUseProgram(programHandle)
+        MyGLES32Func.checkGlError("UseProgram",this,model)
+
+        // attribute(位置)
+        GLES32.glBindBuffer(GLES32.GL_ARRAY_BUFFER,vbo.hVBO[0])
+        GLES32.glVertexAttribPointer(hATTR[0],3,GLES32.GL_FLOAT,false,0,0)
+        MyGLES32Func.checkGlError("a_Position",this,model)
+        val buf = chgBuf()
+        GLES32.glBufferSubData(GLES32.GL_ARRAY_BUFFER,0,buf.capacity()*4,buf)
+        MyGLES32Func.checkGlError("a_Position:glBufferSubData",this,model)
+
+        // attribute(色)
+        GLES32.glBindBuffer(GLES32.GL_ARRAY_BUFFER,vbo.hVBO[1])
+        GLES32.glVertexAttribPointer(hATTR[1],4,GLES32.GL_FLOAT,false,0,0)
+        MyGLES32Func.checkGlError("a_Color",this,model)
+
+        // uniform(モデル×ビュー×プロジェクション)
+        GLES32.glUniformMatrix4fv(hUNI[0],1,false,u_matMVP,0)
+        MyGLES32Func.checkGlError("u_matMVP",this,model)
+
+        // モデルを描画
+        when (mode) {
+            // 面を描画
+            GLES32.GL_TRIANGLES -> {
+                GLES32.glDrawElements(GLES32.GL_TRIANGLES, model.datIdx.size, GLES32.GL_UNSIGNED_SHORT, model.bufIdx)
+            }
+            // 線を描画
+            GLES32.GL_LINES -> {
+                val cnt = model.datPos.size/3
+                GLES32.glDrawArrays(GLES32.GL_LINES,0,cnt)
+            }
+            // 線を描画
+            GLES32.GL_LINE_STRIP -> {
+                val cnt = model.datPos.size/3
+                GLES32.glDrawArrays(GLES32.GL_LINE_STRIP,0,cnt)
+            }
+            // 線を描画
+            GLES32.GL_LINE_LOOP -> {
+                val cnt = model.datPos.size/3
+                GLES32.glDrawArrays(GLES32.GL_LINE_LOOP,0,cnt)
+            }
+        }
+
+        // リソース解放
+        GLES32.glBindBuffer(GLES32.GL_ARRAY_BUFFER,0)
+        GLES32.glBindBuffer(GLES32.GL_ELEMENT_ARRAY_BUFFER,0)
+        // ここで呼ぶと描画されない
+        //GLES32.glDisableVertexAttribArray(hATTR[0])
+    }
 }

@@ -1,12 +1,12 @@
 package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.wave
 
 import android.content.Context
-import android.opengl.GLES20
+import android.opengl.GLES32
 import android.opengl.Matrix
 import milu.kiriu2010.gui.model.d2.Circle01Model
 import milu.kiriu2010.gui.renderer.MgRenderer
-import milu.kiriu2010.gui.shader.es20.wvbo.ES20VBOSimple01Shader
-import milu.kiriu2010.gui.vbo.es20.ES20VBOIpc
+import milu.kiriu2010.gui.shader.es32.ES32Simple01Shader
+import milu.kiriu2010.gui.vbo.es32.ES32VBOIpc
 import milu.kiriu2010.math.MyMathUtil
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -23,10 +23,10 @@ class CirclePhaseShift01Renderer(ctx: Context): MgRenderer(ctx) {
     private val model = Circle01Model()
 
     // VBO(特殊効果なし)
-    private lateinit var vboSimple: ES20VBOIpc
+    private val vboSimple = ES32VBOIpc()
 
     // シェーダ(特殊効果なし)
-    private lateinit var shaderSimple: ES20VBOSimple01Shader
+    private val shaderSimple = ES32Simple01Shader(ctx)
 
     // 位相角度
     private var angleMax = 45
@@ -58,9 +58,9 @@ class CirclePhaseShift01Renderer(ctx: Context): MgRenderer(ctx) {
 
 
         // デフォルトバッファを初期化
-        GLES20.glClearColor(1f, 1f, 1f, 1f)
-        GLES20.glClearDepthf(1f)
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
+        GLES32.glClearColor(1f, 1f, 1f, 1f)
+        GLES32.glClearDepthf(1f)
+        GLES32.glClear(GLES32.GL_COLOR_BUFFER_BIT or GLES32.GL_DEPTH_BUFFER_BIT)
 
         // ビュー×プロジェクション
         vecEye = qtnNow.toVecIII(floatArrayOf(0f,3f,3f))
@@ -76,8 +76,8 @@ class CirclePhaseShift01Renderer(ctx: Context): MgRenderer(ctx) {
             Matrix.setIdentityM(matM,0)
             Matrix.rotateM(matM,0,t1+i.toFloat(),0f,1f,0f)
             Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-            GLES20.glLineWidth(10f)
-            shaderSimple.drawDynamicPos(model,vboSimple,matMVP,GLES20.GL_LINE_LOOP, {
+            GLES32.glLineWidth(10f)
+            shaderSimple.drawDynamicPos(vboSimple,matMVP,GLES32.GL_LINE_LOOP, {
                 model.bufPos.position(0)
                 val buf = ByteBuffer.allocateDirect(model.datPos.toArray().size*4).run {
                     order(ByteOrder.nativeOrder())
@@ -108,18 +108,17 @@ class CirclePhaseShift01Renderer(ctx: Context): MgRenderer(ctx) {
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
-        GLES20.glViewport(0, 0, width, height)
+        GLES32.glViewport(0, 0, width, height)
     }
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
         // カリングと深度テストを有効にする
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST)
-        GLES20.glDepthFunc(GLES20.GL_LEQUAL)
-        GLES20.glEnable(GLES20.GL_CULL_FACE)
+        GLES32.glEnable(GLES32.GL_DEPTH_TEST)
+        GLES32.glDepthFunc(GLES32.GL_LEQUAL)
+        GLES32.glEnable(GLES32.GL_CULL_FACE)
 
         // シェーダ(特殊効果なし)
-        shaderSimple = ES20VBOSimple01Shader()
-        shaderSimple.loadShader()
+        shaderSimple.loadShaderDynamicPos()
 
         // 描画モデル(円)
         model.createPath(mapOf(
@@ -131,8 +130,7 @@ class CirclePhaseShift01Renderer(ctx: Context): MgRenderer(ctx) {
         ))
 
         // VBO(特殊効果なし)
-        vboSimple = ES20VBOIpc()
-        vboSimple.usagePos = GLES20.GL_DYNAMIC_DRAW
+        vboSimple.usagePos = GLES32.GL_DYNAMIC_DRAW
         vboSimple.makeVIBO(model)
     }
 

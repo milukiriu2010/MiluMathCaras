@@ -846,9 +846,9 @@ class DrawDataFactory {
                 // 球体に座標変換を施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_SPHERE_TRANSFORM -> {
                     // 球体座標変換02
-                    drawDataLst.add(DrawData(DrawDataID.ID_001301_GL_SPHERE_TRANSFORM_02,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001301_gl_sphere_transform_02), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001301_GL_SPHERE_TRANSFORM_02,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001301_gl_sphere_transform_02), drawViewType = DrawViewType.DVT_GL ))
                     // 球体座標変換01
-                    drawDataLst.add(DrawData(DrawDataID.ID_001300_GL_SPHERE_TRANSFORM_01,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001300_gl_sphere_transform_01), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001300_GL_SPHERE_TRANSFORM_01,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001300_gl_sphere_transform_01), drawViewType = DrawViewType.DVT_GL ))
                 }
                 // 多面体の展開図を描画するメニュー
                 MenuItem.MENU_POLYHEDRON_NET -> {
@@ -871,7 +871,7 @@ class DrawDataFactory {
                 // ３次元波を描画するメニュー
                 MenuItem.MENU_POLYHEDRON_WAVE -> {
                     // 円の位相をずらして描画
-                    drawDataLst.add(DrawData(DrawDataID.ID_001501_GL_CIRCLE_PHASE_SHIFT_01,DrawFragmentType.FT_D3_ES20_02,resources.getString(R.string.draw_001501_gl_circle_phase_shift_01), drawViewType = DrawViewType.DVT_GL ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_001501_GL_CIRCLE_PHASE_SHIFT_01,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001501_gl_circle_phase_shift_01), drawViewType = DrawViewType.DVT_GL ))
                     // 線でHelixを描画
                     drawDataLst.add(DrawData(DrawDataID.ID_001500_GL_HELIX_01,DrawFragmentType.FT_D3_ES20_CREDIT_01,resources.getString(R.string.draw_001500_gl_helix_01), drawViewType = DrawViewType.DVT_GL,
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/4c437d88df4fa9bac581e50310a02a51/tumblr_milgzyY8vO1r2geqjo1_500.gif") ))

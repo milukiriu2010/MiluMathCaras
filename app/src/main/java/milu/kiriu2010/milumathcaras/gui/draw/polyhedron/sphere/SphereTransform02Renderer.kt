@@ -1,14 +1,13 @@
 package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.sphere
 
 import android.content.Context
-import android.opengl.GLES20
+import android.opengl.GLES32
 import android.opengl.Matrix
-import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.gui.model.d3.Sphere01Model
 import milu.kiriu2010.gui.model.d3.Torus01Model
 import milu.kiriu2010.gui.renderer.MgRenderer
-import milu.kiriu2010.gui.shader.es20.wvbo.ES20VBOSimple01Shader
-import milu.kiriu2010.gui.vbo.es20.ES20VBOIpc
+import milu.kiriu2010.gui.shader.es32.ES32Simple01Shader
+import milu.kiriu2010.gui.vbo.es32.ES32VAOIpc
 import milu.kiriu2010.math.MyMathUtil
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -24,26 +23,26 @@ import javax.microedition.khronos.opengles.GL10
 class SphereTransform02Renderer(ctx: Context): MgRenderer(ctx) {
 
     // 描画モデル(球体)
-    private lateinit var modelSphere: MgModelAbs
+    private val modelSphere = Sphere01Model()
     // 描画モデル(トーラス)
-    private lateinit var modelTorus: MgModelAbs
+    private val modelTorus = Torus01Model()
 
-    // VBO(球体)
-    private lateinit var boSphere: ES20VBOIpc
-    // VBO(トーラス)
-    private lateinit var boTorus: ES20VBOIpc
+    // VAO(球体)
+    private val vaoSphere = ES32VAOIpc()
+    // VAO(トーラス)
+    private val vaoTorus = ES32VAOIpc()
 
     // シェーダ(特殊効果なし)
-    private lateinit var shaderSimple: ES20VBOSimple01Shader
+    private val shaderSimple = ES32Simple01Shader(ctx)
 
     // 係数
     private val a = 6f
 
     override fun onDrawFrame(gl: GL10?) {
         // canvasを初期化
-        GLES20.glClearColor(1f, 1f, 1f, 1f)
-        GLES20.glClearDepthf(1f)
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
+        GLES32.glClearColor(1f, 1f, 1f, 1f)
+        GLES32.glClearDepthf(1f)
+        GLES32.glClear(GLES32.GL_COLOR_BUFFER_BIT or GLES32.GL_DEPTH_BUFFER_BIT)
 
         // 回転角度
         if ( isRunning == true ) {
@@ -72,7 +71,7 @@ class SphereTransform02Renderer(ctx: Context): MgRenderer(ctx) {
             Matrix.translateM(matM,0,0f,a*cos0,a*sin0)
             Matrix.rotateM(matM,0,8f*t0,0f,1f,0f)
             Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-            shaderSimple.draw(modelSphere,boSphere,matMVP)
+            shaderSimple.draw(vaoSphere,matMVP)
         }
 
         // ----------------------------------------------
@@ -84,7 +83,7 @@ class SphereTransform02Renderer(ctx: Context): MgRenderer(ctx) {
             Matrix.translateM(matM,0,a*sin0,0f,a*cos0)
             Matrix.rotateM(matM,0,8f*t0,0f,1f,0f)
             Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-            shaderSimple.draw(modelSphere,boSphere,matMVP)
+            shaderSimple.draw(vaoSphere,matMVP)
         }
 
         // ----------------------------------------------
@@ -96,7 +95,7 @@ class SphereTransform02Renderer(ctx: Context): MgRenderer(ctx) {
             Matrix.translateM(matM,0,a*cos0,a*sin0,0f)
             Matrix.rotateM(matM,0,8f*t0,0f,1f,0f)
             Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-            shaderSimple.draw(modelSphere,boSphere,matMVP)
+            shaderSimple.draw(vaoSphere,matMVP)
         }
 
         // ----------------------------------------------
@@ -105,14 +104,14 @@ class SphereTransform02Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.setIdentityM(matM,0)
         Matrix.rotateM(matM,0,90f,0f,0f,1f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelTorus,boTorus,matMVP)
+        shaderSimple.draw(vaoTorus,matMVP)
 
         // ----------------------------------------------
         // トーラスを描画(ZX平面)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelTorus,boTorus,matMVP)
+        shaderSimple.draw(vaoTorus,matMVP)
 
         // ----------------------------------------------
         // トーラスを描画(XY平面)
@@ -120,48 +119,43 @@ class SphereTransform02Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.setIdentityM(matM,0)
         Matrix.rotateM(matM,0,90f,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(modelTorus,boTorus,matMVP)
+        shaderSimple.draw(vaoTorus,matMVP)
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
-        GLES20.glViewport(0, 0, width, height)
+        GLES32.glViewport(0, 0, width, height)
     }
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
         // カリングと深度テストを有効にする
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST)
-        GLES20.glDepthFunc(GLES20.GL_LEQUAL)
-        GLES20.glEnable(GLES20.GL_CULL_FACE)
+        GLES32.glEnable(GLES32.GL_DEPTH_TEST)
+        GLES32.glDepthFunc(GLES32.GL_LEQUAL)
+        GLES32.glEnable(GLES32.GL_CULL_FACE)
 
         // ブレンドの有効化
-        GLES20.glEnable(GLES20.GL_BLEND)
-        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA,GLES20.GL_ONE_MINUS_SRC_ALPHA)
+        GLES32.glEnable(GLES32.GL_BLEND)
+        GLES32.glBlendFunc(GLES32.GL_SRC_ALPHA,GLES32.GL_ONE_MINUS_SRC_ALPHA)
 
         // シェーダ(特殊効果なし)
-        shaderSimple = ES20VBOSimple01Shader()
         shaderSimple.loadShader()
 
         // 描画モデル(球体)
-        modelSphere = Sphere01Model()
         modelSphere.createPath(mapOf(
             "colorA" to 0.8f
         ))
 
         // 描画モデル(トーラス)
-        modelTorus = Torus01Model()
         modelTorus.createPath(mapOf(
             "iradius" to 1.0f,
             "oradius" to a,
             "colorA"  to 0.2f
         ))
 
-        // VBO(球体)
-        boSphere = ES20VBOIpc()
-        boSphere.makeVIBO(modelSphere)
+        // VAO(球体)
+        vaoSphere.makeVIBO(modelSphere)
 
-        // VBO(トーラス)
-        boTorus = ES20VBOIpc()
-        boTorus.makeVIBO(modelTorus)
+        // VAO(トーラス)
+        vaoTorus.makeVIBO(modelTorus)
     }
 
     override fun setMotionParam(motionParam: MutableMap<String, Float>) {
@@ -170,9 +164,8 @@ class SphereTransform02Renderer(ctx: Context): MgRenderer(ctx) {
     // MgRenderer
     // シェーダ終了処理
     override fun closeShader() {
-        boSphere.deleteVIBO()
-        boTorus.deleteVIBO()
+        vaoSphere.deleteVIBO()
+        vaoTorus.deleteVIBO()
         shaderSimple.deleteShader()
     }
-
 }
