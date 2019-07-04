@@ -1,7 +1,7 @@
 package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.cube
 
 import android.content.Context
-import android.opengl.GLES20
+import android.opengl.GLES32
 import android.opengl.Matrix
 import milu.kiriu2010.gui.model.d3.Cube01Model
 import milu.kiriu2010.gui.model.d2.Board01Model
@@ -63,9 +63,9 @@ class CubeTransform11Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.multiplyMM(matVP,0,matP,0,matV,0)
 
         // デフォルトバッファを初期化
-        GLES20.glClearColor(1f, 1f, 1f, 1f)
-        GLES20.glClearDepthf(1f)
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
+        GLES32.glClearColor(1f, 1f, 1f, 1f)
+        GLES32.glClearDepthf(1f)
+        GLES32.glClear(GLES32.GL_COLOR_BUFFER_BIT or GLES32.GL_DEPTH_BUFFER_BIT)
 
         (0..n).forEach { i ->
             val ii = i.toFloat()
@@ -96,19 +96,17 @@ class CubeTransform11Renderer(ctx: Context): MgRenderer(ctx) {
                 }
             }
         }
-
-
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
-        GLES20.glViewport(0, 0, width, height)
+        GLES32.glViewport(0, 0, width, height)
     }
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
         // カリングと深度テストを有効にする
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST)
-        GLES20.glDepthFunc(GLES20.GL_LEQUAL)
-        //GLES20.glEnable(GLES20.GL_CULL_FACE)
+        GLES32.glEnable(GLES32.GL_DEPTH_TEST)
+        GLES32.glDepthFunc(GLES32.GL_LEQUAL)
+        //GLES32.glEnable(GLES32.GL_CULL_FACE)
 
         // シェーダ(特殊効果なし)
         shader.loadShader()
