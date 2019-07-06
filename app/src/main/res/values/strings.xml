@@ -342,6 +342,7 @@
     <string name="draw_001600_glsl_concentric_circle">Concentric Circle</string>
     <string name="draw_001601_glsl_orb">Orb</string>
     <string name="draw_001602_glsl_zoom_line">Zoom Line</string>
+    <string name="draw_001603_glsl_circle10_run">Circle Run</string>
 
     <string name="shader_simple">Simple</string>
     <string name="shader_gl_points">Points</string>

@@ -524,6 +524,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_001601_GLSL_ORB(1601),
     // 放射状に広がる線を描画
     ID_001602_GLSL_ZOOM_LINE(1602),
+    // 10個の円が競争する
+    ID_001603_GLSL_CIRCLE10_RUN(1603),
 }
 
 // ------------------------------
@@ -561,6 +563,8 @@ enum class DrawFragmentType: Parcelable {
     FT_D3_ES32_02,
     // OpenGLを使った描画を実施するフラグメントを生成(製作者名を表示)
     FT_D3_ES32_CREDIT_01,
+    // GLSLを使った描画を実施するフラグメントを生成
+    FT_GS_ES32_02,
     // GLSLを使った描画を実施するフラグメントを生成(製作者名を表示)
     FT_GS_ES32_CREDIT_01,
 }

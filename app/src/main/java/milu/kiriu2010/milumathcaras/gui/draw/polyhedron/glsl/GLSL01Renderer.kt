@@ -98,6 +98,7 @@ class GLSL01Renderer(ctx: Context): MgRenderer(ctx) {
             1600 -> R.raw.es32_1600
             1601 -> R.raw.es32_1601
             1602 -> R.raw.es32_1602
+            1603 -> R.raw.es32_1603
             else -> -1
         }
     }

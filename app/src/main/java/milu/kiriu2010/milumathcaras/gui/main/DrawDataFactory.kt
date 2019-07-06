@@ -883,6 +883,9 @@ class DrawDataFactory {
                 }
                 // GLSLを用いて描画するメニュー
                 MenuItem.MENU_POLYHEDRON_GLSL -> {
+                    // 10個の円が競争する
+                    drawDataLst.add(DrawData(DrawDataID.ID_001603_GLSL_CIRCLE10_RUN,DrawFragmentType.FT_GS_ES32_02,resources.getString(R.string.draw_001603_glsl_circle10_run), drawViewType = DrawViewType.DVT_GL,
+                        motionImageV2Param = mutableMapOf<String,Float>( "shader" to 1603f  )  ))
                     // 放射状に広がるを描画
                     drawDataLst.add(DrawData(DrawDataID.ID_001602_GLSL_ZOOM_LINE,DrawFragmentType.FT_GS_ES32_CREDIT_01,resources.getString(R.string.draw_001602_glsl_zoom_line), drawViewType = DrawViewType.DVT_GL,
                         creditMap = mutableMapOf<String,String>("name" to "wgld.org", "url" to "https://wgld.org/d/glsl/g004.html"),
