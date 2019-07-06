@@ -267,6 +267,11 @@ class DrawDataFactory {
                     drawDataLst.add(DrawData(DrawDataID.ID_000133_KOCH_SNOWFLAKE_04,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000133_fractal_recursion_koch_snowflake_04) ))
                     // コッホ雪片03
                     drawDataLst.add(DrawData(DrawDataID.ID_000132_KOCH_SNOWFLAKE_03,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000132_fractal_recursion_koch_snowflake_03) ))
+                    // コッホ雪片05
+                    drawDataLst.add(DrawData(DrawDataID.ID_000134_KOCH_SNOWFLAKE_05,DrawFragmentType.FT_D2_05,resources.getString(R.string.draw_000134_fractal_recursion_koch_snowflake_05),
+                        stillImageParam = floatArrayOf(3f,85f), motionImageParam = floatArrayOf(0f,85f), editParam = floatArrayOf(45f,90f,1f),
+                        funcDescMap = mutableMapOf( "autoParam" to "n", "handParam1" to "angle"),
+                        fragmentParamMap = mutableMapOf("maxA" to 9) ))
                     // コッホ雪片02
                     drawDataLst.add(DrawData(DrawDataID.ID_000131_KOCH_SNOWFLAKE_02,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000131_fractal_recursion_koch_snowflake_02),
                         stillImageParam = floatArrayOf(4f), motionImageParam = floatArrayOf(0f) ))

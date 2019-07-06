@@ -151,6 +151,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000132_KOCH_SNOWFLAKE_03(132),
     // コッホ雪片04
     ID_000133_KOCH_SNOWFLAKE_04(133),
+    // コッホ雪片05
+    ID_000134_KOCH_SNOWFLAKE_05(134),
     // マンデルブロ―集合(白黒)
     ID_000140_MANDELBRO_SET(140),
     // マンデルブロ―集合(-1.5-1.0i～+0.5+1.0i)

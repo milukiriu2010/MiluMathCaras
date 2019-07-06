@@ -40,10 +40,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.HilbertCu
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.HilbertCurve02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.MooreCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.hilbert.MooreCurve02Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.koch.KochSnowflake01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.koch.KochSnowflake02Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.koch.KochSnowflake03Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.koch.KochSnowflake04Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.koch.*
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.sierpinski.*
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.takagi.TakagiCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.recursion.tree.TreeCurve01Drawable
@@ -225,6 +222,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000132_KOCH_SNOWFLAKE_03 -> KochSnowflake03Drawable()
                 // コッホ雪片04
                 DrawDataID.ID_000133_KOCH_SNOWFLAKE_04 -> KochSnowflake04Drawable()
+                // コッホ雪片05
+                DrawDataID.ID_000134_KOCH_SNOWFLAKE_05 -> KochSnowflake05Drawable()
                 // マンデルブロ―集合(白黒)
                 DrawDataID.ID_000140_MANDELBRO_SET -> Mandelbrot00Drawable()
                 // マンデルブロ―集合(-1.5-1.0i～+0.5+1.0i)
