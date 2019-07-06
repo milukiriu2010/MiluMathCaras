@@ -2,16 +2,17 @@ package milu.kiriu2010.milumathcaras.gui.draw.polyhedron.view
 
 import android.content.Context
 import android.graphics.BitmapFactory
-import android.opengl.GLES20
+import android.opengl.GLES32
 import android.opengl.Matrix
-import milu.kiriu2010.gui.basic.MyGLES20Func
+import milu.kiriu2010.gui.basic.MyGLES32Func
 import milu.kiriu2010.gui.model.*
 import milu.kiriu2010.gui.model.d3.*
 import milu.kiriu2010.gui.renderer.MgRenderer
-import milu.kiriu2010.gui.shader.es20.*
-import milu.kiriu2010.gui.shader.es20.nvbo.*
-import milu.kiriu2010.gui.shader.es20.wvbo.*
-import milu.kiriu2010.gui.vbo.es20.*
+import milu.kiriu2010.gui.shader.es32.*
+import milu.kiriu2010.gui.vbo.es32.ES32VAOAbs
+import milu.kiriu2010.gui.vbo.es32.ES32VAOIpc
+import milu.kiriu2010.gui.vbo.es32.ES32VAOIpct
+import milu.kiriu2010.gui.vbo.es32.ES32VAOIpnc
 import milu.kiriu2010.milumathcaras.R
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -24,20 +25,20 @@ import javax.microedition.khronos.opengles.GL10
 class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
 
     // シェーダ(モデル描画)
-    private lateinit var shader: ES20MgShader
+    private lateinit var shader: ES32MgShader
     // シェーダ(座標軸)
-    private lateinit var shaderAxis: ES20VBOSimple01Shader
+    private val shaderAxis = ES32Simple01Shader(ctx)
 
     // 描画モデル
     private lateinit var model: MgModelAbs
-    // VBO(描画モデル用)
-    private lateinit var boModel: ES20VBOAbs
+    // VAO(描画モデル用)
+    private lateinit var vaoModel: ES32VAOAbs
     // 描画するモデルの種類
     private var modelType = -1
     // 座標軸モデル
     private lateinit var modelAxis: Axis01Model
-    // VBO(座標軸モデル用)
-    private lateinit var boAxis: ES20VBOpc
+    // VAO(座標軸モデル用)
+    private val vaoAxis = ES32VAOIpc()
 
     // スケール
     private var scale = 1f
@@ -48,16 +49,9 @@ class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
     // テクスチャ配列
     private val textures = IntArray(1)
 
-    /*
-    init {
-        shaderSwitch = 2
-        shaderSwitchOld = shaderSwitch
-    }
-    */
-
     override fun onDrawFrame(gl: GL10) {
         // canvasを初期化
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
+        GLES32.glClear(GLES32.GL_COLOR_BUFFER_BIT or GLES32.GL_DEPTH_BUFFER_BIT)
 
         // 回転角度
         if ( isRunning ) {
@@ -116,13 +110,13 @@ class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
 
         // 座標軸を描画
         if ( displayAxis ) {
-            GLES20.glLineWidth(5f)
-            shaderAxis.draw(modelAxis,boAxis,matMVP,GLES20.GL_LINES)
+            GLES32.glLineWidth(5f)
+            shaderAxis.draw(vaoAxis,matMVP,GLES32.GL_LINES)
         }
     }
 
     override fun onSurfaceChanged(gl: GL10, width: Int, height: Int) {
-        GLES20.glViewport(0, 0, width, height)
+        GLES32.glViewport(0, 0, width, height)
 
         val ratio = width.toFloat()/height.toFloat()
 
@@ -131,15 +125,15 @@ class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
 
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
         // canvasを初期化する色を設定する
-        GLES20.glClearColor(0f, 0f, 0f, 1f)
+        GLES32.glClearColor(0f, 0f, 0f, 1f)
 
         // canvasを初期化する際の深度を設定する
-        GLES20.glClearDepthf(1f)
+        GLES32.glClearDepthf(1f)
 
         // カリングと深度テストを有効にする
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST)
-        GLES20.glDepthFunc(GLES20.GL_LEQUAL)
-        GLES20.glEnable(GLES20.GL_CULL_FACE)
+        GLES32.glEnable(GLES32.GL_DEPTH_TEST)
+        GLES32.glDepthFunc(GLES32.GL_LEQUAL)
+        GLES32.glEnable(GLES32.GL_CULL_FACE)
 
         // カメラの位置
         Matrix.setLookAtM(matV, 0,
@@ -152,8 +146,8 @@ class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
         val bmp = BitmapFactory.decodeResource(context.resources, R.drawable.texture_rabbit)
 
         // テクスチャを生成
-        GLES20.glGenTextures(1,textures,0)
-        MyGLES20Func.createTexture(0,textures,bmp)
+        GLES32.glGenTextures(1,textures,0)
+        MyGLES32Func.createTexture(0,textures,bmp)
 
         // シェーダ(モデル描画)生成
         createShader()
@@ -161,11 +155,10 @@ class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
         // モデル生成
         createModel()
 
-        // VBO生成
+        // VAO生成
         createVBO()
 
         // シェーダ(座標軸)
-        shaderAxis = ES20VBOSimple01Shader()
         shaderAxis.loadShader()
 
         // 座標軸モデル生成
@@ -173,8 +166,7 @@ class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
         modelAxis.createPath( mapOf("scale" to 2f))
 
         // VBO(座標軸モデル)
-        boAxis = ES20VBOpc()
-        boAxis.makeVIBO(modelAxis)
+        vaoAxis.makeVIBO(modelAxis)
 
         // 点光源の位置
         vecLight[0] = 2f
@@ -189,24 +181,24 @@ class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
         }
         shader = when (shaderSwitch) {
             // 特殊効果なし
-            0 -> ES20VBOSimple01Shader()
+            0 -> ES32Simple01Shader(context)
             // 平行光源
-            1 -> ES20VBODirectionalLight01Shader()
+            1 -> ES32DirectionalLight01Shader(context)
             // 環境光
-            2 -> ES20VBOAmbientLight01Shader()
+            2 -> ES32AmbientLight01Shader(context)
             // 反射光
-            3 -> ES20VBOSpecularLight01Shader()
+            3 -> ES32SpecularLight01Shader(context)
             // フォンシェーディング
-            4 -> ES20VBOPhongShading01Shader()
+            4 -> ES32PhongShading01Shader(context)
             // 点光源
-            5 -> ES20VBOPointLight01Shader()
+            5 -> ES32PointLight01Shader(context)
             // 点で描画
-            6 -> ES20VBOPoints01Shader()
+            6 -> ES32Points01Shader(context)
             // 線で描画(LINES)
-            7 -> ES20VBOSimple01Shader()
+            7 -> ES32Simple01Shader(context)
             // テクスチャ
-            8 -> ES20VBOTexture01Shader()
-            else -> ES20Simple01Shader()
+            8 -> ES32Texture01Shader(context)
+            else -> ES32Simple01Shader(context)
         }
         shader.loadShader()
     }
@@ -254,48 +246,48 @@ class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
 
     // VBO生成
     private fun createVBO() {
-        if (this::boModel.isInitialized) {
-            boModel.deleteVIBO()
+        if (this::vaoModel.isInitialized) {
+            vaoModel.deleteVIBO()
         }
-        boModel = when (shaderSwitch) {
+        vaoModel = when (shaderSwitch) {
             // 特殊効果なし
-            0 -> ES20VBOIpc()
+            0 -> ES32VAOIpc()
             // 平行光源
-            1 -> ES20VBOIpnc()
+            1 -> ES32VAOIpnc()
             // 環境光
-            2 -> ES20VBOIpnc()
+            2 -> ES32VAOIpnc()
             // 反射光
-            3 -> ES20VBOIpnc()
+            3 -> ES32VAOIpnc()
             // フォンシェーディング
-            4 -> ES20VBOIpnc()
+            4 -> ES32VAOIpnc()
             // 点光源
-            5 -> ES20VBOIpnc()
+            5 -> ES32VAOIpnc()
             // 点で描画
-            6 -> ES20VBOpc()
+            6 -> ES32VAOIpc()
             // 線で描画(LINES)
-            7 -> ES20VBOpc()
+            7 -> ES32VAOIpc()
             // テクスチャ
-            8 -> ES20VBOIpct()
-            else -> ES20VBOIpc()
+            8 -> ES32VAOIpct()
+            else -> ES32VAOIpc()
         }
-        boModel.makeVIBO(model)
+        vaoModel.makeVIBO(model)
     }
 
     // モデルを描画
     private fun drawModel() {
         when (shaderSwitch) {
             // 特殊効果なし
-            0 -> (shader as ES20VBOSimple01Shader).draw(model,boModel,matMVP)
+            0 -> (shader as ES32Simple01Shader).draw(vaoModel,matMVP)
             // 平行光源
-            1 -> (shader as ES20VBODirectionalLight01Shader).draw(model,boModel,matMVP,matI,vecLight)
+            1 -> (shader as ES32DirectionalLight01Shader).draw(vaoModel,matMVP,matI,vecLight)
             // 環境光
-            2 -> (shader as ES20VBOAmbientLight01Shader).draw(model,boModel,matMVP,matI,vecLight,vecAmbientColor)
+            2 -> (shader as ES32AmbientLight01Shader).draw(vaoModel,matMVP,matI,vecLight,vecAmbientColor)
             // 反射光
-            3  -> (shader as ES20VBOSpecularLight01Shader).draw(model,boModel,matMVP,matI,vecLight,vecEye,vecAmbientColor)
+            3  -> (shader as ES32SpecularLight01Shader).draw(vaoModel,matMVP,matI,vecLight,vecEye,vecAmbientColor)
             // フォンシェーディング
-            4 -> (shader as ES20VBOPhongShading01Shader).draw(model,boModel,matMVP,matI,vecLight,vecEye,vecAmbientColor)
+            4 -> (shader as ES32PhongShading01Shader).draw(vaoModel,matMVP,matI,vecLight,vecEye,vecAmbientColor)
             // 点光源
-            5 -> (shader as ES20VBOPointLight01Shader).draw(model,boModel,matMVP,matM,matI,vecLight,vecEye,vecAmbientColor)
+            5 -> (shader as ES32PointLight01Shader).draw(vaoModel,matMVP,matM,matI,vecLight,vecEye,vecAmbientColor)
             // 点で描画
             6 -> {
                 val u_pointSize = when (modelType) {
@@ -303,31 +295,31 @@ class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
                     6 -> 10f
                     else -> 30f
                 }
-                (shader as ES20VBOPoints01Shader).draw(model,boModel,matMVP,u_pointSize)
+                (shader as ES32Points01Shader).draw(vaoModel,matMVP,u_pointSize)
             }
             // 線で描画(LINES)
             7 -> {
                 when (modelType) {
                     // 球
-                    5 -> (shader as ES20VBOSimple01Shader).draw(model,boModel,matMVP,GLES20.GL_LINE_STRIP)
+                    5 -> (shader as ES32Simple01Shader).draw(vaoModel,matMVP,GLES32.GL_LINE_STRIP)
                     // トーラス
-                    6 -> (shader as ES20VBOSimple01Shader).draw(model,boModel,matMVP,GLES20.GL_LINE_STRIP)
+                    6 -> (shader as ES32Simple01Shader).draw(vaoModel,matMVP,GLES32.GL_LINE_STRIP)
                     // 円柱
-                    7 -> (shader as ES20VBOSimple01Shader).draw(model,boModel,matMVP,GLES20.GL_LINE_STRIP)
+                    7 -> (shader as ES32Simple01Shader).draw(vaoModel,matMVP,GLES32.GL_LINE_STRIP)
                     // その他
-                    else -> (shader as ES20VBOSimple01Shader).draw(model,boModel,matMVP,GLES20.GL_LINES)
+                    else -> (shader as ES32Simple01Shader).draw(vaoModel,matMVP,GLES32.GL_LINES)
                 }
             }
             // テクスチャ
             8 -> {
                 // テクスチャをバインド
-                GLES20.glActiveTexture(GLES20.GL_TEXTURE0)
-                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,textures[0])
-                (shader as ES20VBOTexture01Shader).draw(model,boModel,matMVP,0)
+                GLES32.glActiveTexture(GLES32.GL_TEXTURE0)
+                GLES32.glBindTexture(GLES32.GL_TEXTURE_2D,textures[0])
+                (shader as ES32Texture01Shader).draw(vaoModel,matMVP,0)
                 // テクスチャのバインドを解除
-                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,0)
+                GLES32.glBindTexture(GLES32.GL_TEXTURE_2D,0)
             }
-            else -> (shader as ES20VBOSimple01Shader).draw(model,boModel,matMVP)
+            else -> (shader as ES32Simple01Shader).draw(vaoModel,matMVP)
         }
     }
 
@@ -340,8 +332,8 @@ class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
     // MgRenderer
     // シェーダ終了処理
     override fun closeShader() {
-        boModel.deleteVIBO()
-        boAxis.deleteVIBO()
+        vaoModel.deleteVIBO()
+        vaoAxis.deleteVIBO()
         // シェーダ(モデル描画)
         shader.deleteShader()
         // シェーダ(座標軸)
