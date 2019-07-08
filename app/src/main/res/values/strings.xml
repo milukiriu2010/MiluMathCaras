@@ -220,6 +220,7 @@
     <string name="draw_000608_polygon_square_cross_01">Square Cross 01</string>
     <string name="draw_000609_polygon_hexagon_scale_01">Hexagon Scale 01</string>
     <string name="draw_000610_polygon_hexagon_scale_02">Hexagon Scale 02</string>
+    <string name="draw_000611_polygon_square_2_cross_01">Square ⇔ \nCross 01</string>
     <string name="draw_000701_polygon_3_out_3">3 out 3</string>
     <string name="draw_000702_polygon_3_out_4">3 out 4</string>
     <string name="draw_000703_polygon_3_out_5">3 out 5</string>

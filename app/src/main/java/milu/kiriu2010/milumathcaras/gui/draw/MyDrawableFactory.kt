@@ -55,6 +55,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.Fountain01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.RandomWalk01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.nature.vectors.UniformMotion01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.polygon.*
+import milu.kiriu2010.milumathcaras.gui.draw.polygon.square.Square2Cross01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.tile.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.*
 import milu.kiriu2010.milumathcaras.gui.draw.polygon.triangle.center.*
@@ -334,6 +335,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000609_HEXAGON_SCALE_01 -> HexagonScale01Drawable()
                 // 六角形が波打つようにスケールを変更02
                 DrawDataID.ID_000610_HEXAGON_SCALE_02 -> HexagonScale02Drawable()
+                // 正方形⇔十字01
+                DrawDataID.ID_000611_SQUARE_2_CROSS_01 -> Square2Cross01Drawable()
                 // 三角形out三角形
                 DrawDataID.ID_000701_3_OUT_3 -> PolygonOutPolygon01Drawable()
                 // 三角形out四角形
