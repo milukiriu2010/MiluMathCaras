@@ -12,6 +12,7 @@ import kotlin.math.*
 // 2019.05.10 Float配列正規化
 // 2019.05.22 定義追加:SQRT3
 // 2019.05.28 gaussianブラーの重みを計算
+// 2019.07.09 asin
 // --------------------------------------
 class MyMathUtil {
     companion object {
@@ -331,6 +332,13 @@ class MyMathUtil {
         // --------------------------------------------
         fun tanf(angle: Float): Float {
             return tan(angle*PI/180f).toFloat()
+        }
+
+        // --------------------------------------------
+        // asin(度)
+        // --------------------------------------------
+        fun asinf(d: Float): Float {
+            return asin(d)*180f/PI.toFloat()
         }
 
         // 定数
