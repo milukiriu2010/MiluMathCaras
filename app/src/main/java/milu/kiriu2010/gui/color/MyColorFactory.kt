@@ -17,7 +17,7 @@ class MyColorFactory {
                 ColorType.COLOR_1536 -> MyColor1536()
                 // 768色(暗色系)
                 ColorType.COLOR_768_DARK -> MyColor768Dark()
-                else -> throw RuntimeException("Not Found ColorType")
+                //else -> throw RuntimeException("Not Found ColorType")
             }
         }
     }

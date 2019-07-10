@@ -6,6 +6,7 @@ import kotlin.math.floor
 // 色生成
 // -------------------------------------
 // 2019.06.11 範囲外の場合、白を返却
+// 2019.07.10 warning消す
 // -------------------------------------
 class MgColor {
 
@@ -35,7 +36,7 @@ class MgColor {
             val m = v*(1f-s)
             val n = v*(1f-s*f)
             val k = v*(1-s*(1-f))
-            if ( ((s>0f) === false) and ((s<0f) === false) ) {
+            if ( ((s>0f) == false) and ((s<0f) == false) ) {
                 color.addAll(arrayListOf<Float>(v,v,v,a))
             }
             else {

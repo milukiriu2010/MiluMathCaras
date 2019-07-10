@@ -10,6 +10,7 @@ import milu.kiriu2010.math.MyMathUtil
 // 2019.04.29  色・テクスチャ
 // 2019.04.30  頂点データ修正 for テクスチャ
 // 2019.07.02  パッケージ修正
+// 2019.07.10  warning消す
 // --------------------------------------------
 // https://github.com/8q/Android-OpenGL-Icosahedron/blob/master/GL1/src/com/example/gl1/MyIcosa.java
 // --------------------------------------------
@@ -236,7 +237,7 @@ class Icosahedron01Model: MgModelAbs() {
             }
         }
         else {
-            (0..59).forEach { i ->
+            (0..59).forEach { _ ->
                 datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
             }
         }

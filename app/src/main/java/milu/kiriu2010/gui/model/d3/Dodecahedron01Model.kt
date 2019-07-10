@@ -13,6 +13,7 @@ import kotlin.math.sqrt
 // 2019.04.30  テクスチャ座標修正
 // 2019.05.02  テクスチャ座標修正
 // 2019.07.02  パッケージ修正
+// 2019.07.10  warning消す
 // -------------------------------------------
 class Dodecahedron01Model: MgModelAbs() {
 
@@ -41,8 +42,6 @@ class Dodecahedron01Model: MgModelAbs() {
 
     // 面
     private fun createPathPattern1( opt: Map<String,Float> ) {
-        val sq2 = sqrt(2f)
-
         val goldR = MyMathUtil.GOLDEN_RATIO
         val cos36f = MyMathUtil.COS36F
         val sin36f = MyMathUtil.SIN36F
@@ -226,62 +225,62 @@ class Dodecahedron01Model: MgModelAbs() {
 
         // 法線データ
         // ABCDE
-        (0..8).forEach { i ->
+        (0..8).forEach { _ ->
             // (B-A) x (C-A)
             datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*2, 3*1, 3*0 ) )
         }
         // BHIJC
-        (9..17).forEach { i ->
+        (9..17).forEach { _ ->
             // (H-B) x (I-B)
             datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*11, 3*10, 3*9 ) )
         }
         // CJKLD
-        (18..26).forEach { i ->
+        (18..26).forEach { _ ->
             // (J-C) x (K-C)
             datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*20, 3*19, 3*18 ) )
         }
         // DLMNE
-        (27..35).forEach { i ->
+        (27..35).forEach { _ ->
             // (L-D) x (M-D)
             datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*29, 3*28, 3*27 ) )
         }
         // ENOFA
-        (36..44).forEach { i ->
+        (36..44).forEach { _ ->
             // (N-E) x (O-E)
             datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*38, 3*37, 3*36 ) )
         }
         // AFGHB
-        (45..53).forEach { i ->
+        (45..53).forEach { _ ->
             // (F-A) x (G-A)
             datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*47, 3*46, 3*45 ) )
         }
         // RQPTS
-        (54..62).forEach { i ->
+        (54..62).forEach { _ ->
             // (Q-R) x (P-R)
             datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*56, 3*55, 3*54 ) )
         }
         // QMLKP
-        (63..71).forEach { i ->
+        (63..71).forEach { _ ->
             // (M-Q) x (L-Q)
             datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*65, 3*64, 3*63 ) )
         }
         // PKJIT
-        (72..80).forEach { i ->
+        (72..80).forEach { _ ->
             // (K-P) x (J-P)
             datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*74, 3*73, 3*72 ) )
         }
         // TIHGS
-        (81..89).forEach { i ->
+        (81..89).forEach { _ ->
             // (I-T) x (H-T)
             datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*83, 3*82, 3*81 ) )
         }
         // SGFOR
-        (90..98).forEach { i ->
+        (90..98).forEach { _ ->
             // (G-S) x (F-S)
             datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*92, 3*91, 3*90 ) )
         }
         // RONMQ
-        (99..107).forEach { i ->
+        (99..107).forEach { _ ->
             // (O-R) x (N-R)
             datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*101, 3*100, 3*99 ) )
         }
@@ -345,7 +344,7 @@ class Dodecahedron01Model: MgModelAbs() {
             //}
         }
         else {
-            (0..107).forEach { i ->
+            (0..107).forEach { _ ->
                 datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
             }
         }
@@ -389,8 +388,6 @@ class Dodecahedron01Model: MgModelAbs() {
 
     // 点
     private fun createPathPattern10( opt: Map<String,Float> ) {
-        val sq2 = sqrt(2f)
-
         val goldR = MyMathUtil.GOLDEN_RATIO
         val cos36f = MyMathUtil.COS36F
         val sin36f = MyMathUtil.SIN36F
@@ -453,8 +450,6 @@ class Dodecahedron01Model: MgModelAbs() {
 
     // 線
     private fun createPathPattern20( opt: Map<String,Float> ) {
-        val sq2 = sqrt(2f)
-
         val goldR = MyMathUtil.GOLDEN_RATIO
         val cos36f = MyMathUtil.COS36F
         val sin36f = MyMathUtil.SIN36F

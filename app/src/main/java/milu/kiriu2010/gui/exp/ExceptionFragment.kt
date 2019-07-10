@@ -65,7 +65,7 @@ class ExceptionFragment: Fragment(), View.OnTouchListener {
         // XMLからエラー情報を表示するビューを生成
         val view = inflater.inflate( R.layout.fragment_exception, container, false )
 
-        val ctx = context ?: return view
+        //val ctx = context ?: return view
 
         // エラーメッセージを表示
         val editMsg = view.findViewById<EditText>(R.id.editMsg)

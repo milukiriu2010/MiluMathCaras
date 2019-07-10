@@ -16,6 +16,7 @@ import kotlin.math.sqrt
 //  3:角度
 // ------------------------------------
 // 2019.04.24  マージ
+// 2019.07.10  warning消す
 // ------------------------------------
 data class MyQuaternion(
     val q: FloatArray = floatArrayOf(0f,0f,0f,1f)
@@ -48,7 +49,7 @@ data class MyQuaternion(
         val z = q[2]
         val w = q[3]
         val l = sqrt(x*x+y*y+z*z+w*w)
-        if ( l === 0f ) {
+        if ( l == 0f ) {
             q[0] = 0f
             q[1] = 0f
             q[2] = 0f

@@ -4,7 +4,11 @@ import milu.kiriu2010.math.MyMathUtil
 import java.lang.RuntimeException
 import kotlin.math.*
 
+// --------------------------------
 // X,Y座標
+// --------------------------------
+// 2019.07.10 warning消す
+// --------------------------------
 data class MyPointF(
         var x: Float = 0f,
         var y: Float = 0f
@@ -109,7 +113,7 @@ data class MyPointF(
         // 各頂点の角度の合計
         var angleTotal = 0f
         var p2: MyPointF = pointLst[pointLst.size-1]
-        pointLst.forEachIndexed { id, p1 ->
+        pointLst.forEachIndexed { _, p1 ->
             val angle = getAngle(p2,p1)
             angleTotal += angle
             p2 = p1

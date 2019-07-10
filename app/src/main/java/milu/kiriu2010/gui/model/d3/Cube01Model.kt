@@ -14,6 +14,7 @@ import milu.kiriu2010.math.MyMathUtil
 // 2019.05.01  点・線の色修正
 // 2019.06.12  コメント追加
 // 2019.07.02  パッケージ修正
+// 2019.07.10  warningを消す
 // ----------------------------------------------
 class Cube01Model: MgModelAbs() {
 
@@ -121,7 +122,7 @@ class Cube01Model: MgModelAbs() {
             }
         }
         else {
-            (0..23).forEach { i ->
+            (0..23).forEach { _ ->
                 datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
             }
         }
@@ -298,7 +299,7 @@ class Cube01Model: MgModelAbs() {
 
         // 色データ
         if ( ( color[0] != -1f ) and ( color[1] != -1f ) and ( color[2] != -1f ) and ( color[3] != -1f ) ) {
-            (0..7).forEach { i ->
+            (0..7).forEach { _ ->
                 datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
             }
         }
@@ -370,7 +371,7 @@ class Cube01Model: MgModelAbs() {
 
         // 色データ
         if ( ( color[0] != -1f ) and ( color[1] != -1f ) and ( color[2] != -1f ) and ( color[3] != -1f ) ) {
-            (0..23).forEach { i ->
+            (0..23).forEach { _ ->
                 datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
             }
         }

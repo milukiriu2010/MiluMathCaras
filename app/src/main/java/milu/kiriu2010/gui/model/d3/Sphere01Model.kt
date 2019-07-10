@@ -15,6 +15,7 @@ import kotlin.math.sin
 // 2019.05.21  頂点インデックス修正
 // 2019.06.11  A成分を指定ありで色を自動生成可能とする
 // 2019.07.02  パッケージ修正
+// 2019.07.10  warning消す
 // ----------------------------------------------------
 class Sphere01Model: MgModelAbs() {
 
@@ -139,8 +140,8 @@ class Sphere01Model: MgModelAbs() {
                 datTxc.add(1f/row.toFloat()*i.toFloat())
             }
 
-            (0 until datPos.size/3).forEach { i ->
-                datIdx.add(i.toShort())
+            (0 until datPos.size/3).forEach { ii ->
+                datIdx.add(ii.toShort())
             }
 
         }
