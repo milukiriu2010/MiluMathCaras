@@ -7,6 +7,7 @@ import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.asin
+import kotlin.math.sqrt
 
 // -------------------------------------------
 // 正方形⇔十字
@@ -37,7 +38,7 @@ class Square2Cross01Drawable: MyDrawable() {
     // 座標中心から円の中心までの距離
     private val rA = side*0.5f*0.5f
     // 円の半径
-    private val rB = side*0.5f*0.3f
+    private val rB = side*0.5f/sqrt(10f)
     // 円の中心リスト
     private val centerLst = mutableListOf<MyPointF>()
 
@@ -49,12 +50,13 @@ class Square2Cross01Drawable: MyDrawable() {
     // -------------------------------
     // 描画点の回転角度
     // -------------------------------
+    private val ratio = 0.1f
     private var angleMax1 = 90f
-    private var angleMax2 = MyMathUtil.asinf(0.15f)*2f
+    private var angleMax2 = MyMathUtil.atanf(0.5f)
     private var angleMax = angleMax1
     private var angleMin = 0f
     private var angleNow = angleMin
-    private var angleDv = angleMax1*0.1f
+    private var angleDv = angleMax1*ratio
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -183,20 +185,25 @@ class Square2Cross01Drawable: MyDrawable() {
     // 多角形を生成
     // -------------------------------
     private fun createPolygon() {
+        if ( angleNow >= angleMax ) {
+            angleNow = angleMin
+        }
         if ( angleNow > 0f ) return
 
         polygonLst.clear()
 
         modeNow = when (modeNow) {
             Mode.SQUARE -> Mode.SQUARE2CROSS
-            else -> Mode.SQUARE
+            Mode.SQUARE2CROSS -> Mode.CROSS
+            Mode.CROSS -> Mode.CROSS2SQUARE
+            Mode.CROSS2SQUARE -> Mode.SQUARE
         }
 
         // 多角形を生成する
         when (modeNow) {
             Mode.SQUARE -> {
                 angleMax = angleMax1
-                angleDv = angleMax*0.1f
+                angleDv = angleMax*ratio
 
                 val x0 = rA * MyMathUtil.cosf(45f)
                 val y0 = rA * MyMathUtil.sinf(45f)
@@ -208,7 +215,35 @@ class Square2Cross01Drawable: MyDrawable() {
             }
             Mode.SQUARE2CROSS -> {
                 angleMax = angleMax2
-                angleDv = angleMax*0.1f
+                angleDv = angleMax*ratio
+
+                val x0 = rA * MyMathUtil.cosf(45f)
+                val y0 = rA * MyMathUtil.sinf(45f)
+
+                // 正方形１
+                polygonLst.add(MyPointF(x0,y0))
+                polygonLst.add(MyPointF(x0-rB,y0))
+                polygonLst.add(MyPointF(x0-rB,y0-rB))
+                polygonLst.add(MyPointF(x0,y0-rB))
+                // 正方形２
+                polygonLst.add(MyPointF(-x0,y0))
+                polygonLst.add(MyPointF(-x0,y0-rB))
+                polygonLst.add(MyPointF(-x0+rB,y0-rB))
+                polygonLst.add(MyPointF(-x0+rB,y0))
+                // 正方形３
+                polygonLst.add(MyPointF(-x0,-y0))
+                polygonLst.add(MyPointF(-x0+rB,-y0))
+                polygonLst.add(MyPointF(-x0+rB,-y0+rB))
+                polygonLst.add(MyPointF(-x0,-y0+rB))
+                // 正方形４
+                polygonLst.add(MyPointF(x0,-y0))
+                polygonLst.add(MyPointF(x0,-y0+rB))
+                polygonLst.add(MyPointF(x0-rB,-y0+rB))
+                polygonLst.add(MyPointF(x0-rB,-y0))
+            }
+            Mode.CROSS -> {
+                angleMax = angleMax1
+                angleDv = angleMax*ratio
 
                 val x0 = rA * MyMathUtil.cosf(45f)
                 val y0 = rA * MyMathUtil.sinf(45f)
@@ -218,7 +253,27 @@ class Square2Cross01Drawable: MyDrawable() {
                 // 正方形１
                 polygonLst.add(MyPointF(x0,y0))
                 polygonLst.add(MyPointF(x0-x1,y0+y1))
-                polygonLst.add(MyPointF(x0-x1-y1,y0+y1-x1))
+                polygonLst.add(MyPointF(-x0,-y0))
+                polygonLst.add(MyPointF(-x0+x1,-y0-y1))
+                // 正方形２
+                polygonLst.add(MyPointF(-x0,y0))
+                polygonLst.add(MyPointF(-x0-y1,y0-x1))
+                polygonLst.add(MyPointF(x0,-y0))
+                polygonLst.add(MyPointF(x0+y1,-y0+x1))
+            }
+            Mode.CROSS2SQUARE -> {
+                angleMax = angleMax2
+                angleDv = angleMax*ratio
+
+                val x0 = rA * MyMathUtil.cosf(45f)
+                val y0 = rA * MyMathUtil.sinf(45f)
+                val x1 = rB * MyMathUtil.cosf(angleMax2)
+                val y1 = rB * MyMathUtil.sinf(angleMax2)
+
+                // 正方形１
+                polygonLst.add(MyPointF(x0,y0))
+                polygonLst.add(MyPointF(x0-x1,y0+y1))
+                polygonLst.add(MyPointF(-x0+x1,y0-y1))
                 polygonLst.add(MyPointF(x0-y1,y0-x1))
                 // 正方形２
                 polygonLst.add(MyPointF(-x0,y0))
@@ -245,9 +300,6 @@ class Square2Cross01Drawable: MyDrawable() {
     private fun movePolygon() {
         angleNow += angleDv
 
-        if ( angleNow >= angleMax ) {
-            angleNow = angleMin
-        }
     }
 
     // -------------------------------
@@ -279,7 +331,9 @@ class Square2Cross01Drawable: MyDrawable() {
         // 多角形を描く
         when (modeNow) {
             Mode.SQUARE -> drawModeSquare(canvas)
-            Mode.SQUARE2CROSS -> drawModeSquare2Cross(canvas)
+            Mode.SQUARE2CROSS -> drawModeSquare2Cross(canvas,-1f)
+            Mode.CROSS -> drawModeCross(canvas)
+            Mode.CROSS2SQUARE -> drawModeSquare2Cross(canvas,1f)
         }
 
         // 座標を元に戻す
@@ -293,6 +347,7 @@ class Square2Cross01Drawable: MyDrawable() {
 
     // １つの正方形を回転
     private fun drawModeSquare(canvas: Canvas) {
+        //backPaint.color = Color.RED
         val path = Path()
         polygonLst.forEachIndexed { id, p ->
             val q = p.copy()
@@ -309,8 +364,15 @@ class Square2Cross01Drawable: MyDrawable() {
     }
 
     // ４つの正方形を描画
-    private fun drawModeSquare2Cross(canvas: Canvas) {
-        backPaint.color = Color.RED
+    private fun drawModeSquare2Cross(canvas: Canvas,sign: Float) {
+        /*
+        if ( sign > 0f ) {
+            backPaint.color = Color.YELLOW
+        }
+        else {
+            backPaint.color = Color.GREEN
+        }
+        */
         var path = Path()
         var o = MyPointF()
         polygonLst.forEachIndexed { id, p ->
@@ -324,7 +386,30 @@ class Square2Cross01Drawable: MyDrawable() {
                 path.moveTo(q.x,q.y)
             }
             else {
-                q.rotate(angleNow,o)
+                q.rotate(sign*angleNow,o)
+                path.lineTo(q.x,q.y)
+            }
+        }
+        path.close()
+        canvas.drawPath(path,backPaint)
+    }
+
+    // ２つの正方形を描画
+    private fun drawModeCross(canvas: Canvas) {
+        //backPaint.color = Color.BLUE
+        var path = Path()
+        polygonLst.forEachIndexed { id, p ->
+            val q = p.copy()
+            if (id%4 == 0) {
+                path.close()
+                canvas.drawPath(path,backPaint)
+                path.reset()
+
+                q.rotate(-angleNow)
+                path.moveTo(q.x,q.y)
+            }
+            else {
+                q.rotate(-angleNow)
                 path.lineTo(q.x,q.y)
             }
         }
