@@ -226,9 +226,6 @@ class SierpinskiTriangle02Drawable: MyDrawable() {
         //Log.d(javaClass.simpleName, "ymargin[$ymargin]intrinsicHeight[$intrinsicHeight]")
         canvas.translate(margin, ymargin)
 
-        // 色インスタンス作成
-        val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
-
         // シェルピンスキーの三角形を描画
         var path: Path = Path()
         pointLst.forEachIndexed { index, myPointF ->

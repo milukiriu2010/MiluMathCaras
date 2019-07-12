@@ -226,8 +226,8 @@ class SineWaveCircle01Drawable: MyDrawable() {
     // -------------------------------
     private fun createPath() {
         // サイン波を回転させるときの中心点
-        val mX = side/2f
-        val mY = side/2f
+        //val mX = side/2f
+        //val mY = side/2f
 
         /*
         // サイン波の描画点を生成

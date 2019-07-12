@@ -181,7 +181,6 @@ class LogarithmicSpiralTriangle01Drawable: MyDrawable() {
 
         val d = 15
         (0 until 360 step d).forEach { id1 ->
-            val ii = id1/d
             val t1 = id1.toFloat()
             (0 until 360 step angleDv.toInt()).forEach { id2 ->
                 val t2 = id2.toFloat()

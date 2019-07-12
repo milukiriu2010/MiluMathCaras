@@ -163,7 +163,7 @@ class TriangleExCenter01Drawable: MyDrawable() {
                     it.y = 2f*event.y - event.rawY
                 }
                 var d = Float.MAX_VALUE
-                pointLst.forEachIndexed { id, myPointF ->
+                pointLst.forEachIndexed { _, myPointF ->
                     val dV = myPointF.distance(MyPointF(basePoint.x,basePoint.y))
                     //Log.d(javaClass.simpleName, "d[$dV]X[${myPointF.x}]Y[${myPointF.y}]")
                     if ( dV < d ) {

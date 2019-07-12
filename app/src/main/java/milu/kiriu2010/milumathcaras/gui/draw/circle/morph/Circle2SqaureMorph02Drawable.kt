@@ -288,7 +288,7 @@ class Circle2SqaureMorph02Drawable: MyDrawable() {
     // -------------------------------
     private fun morph() {
 
-        polygonLst.forEachIndexed{ id1, polygon ->
+        polygonLst.forEachIndexed{ _, polygon ->
             polygon.vlst.clear()
             when {
                 (polygon.ratio >= 0f) and (polygon.ratio < ratioCircle ) -> {

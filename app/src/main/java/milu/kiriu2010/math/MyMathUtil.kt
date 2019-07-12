@@ -12,7 +12,7 @@ import kotlin.math.*
 // 2019.05.10 Float配列正規化
 // 2019.05.22 定義追加:SQRT3
 // 2019.05.28 gaussianブラーの重みを計算
-// 2019.07.09 asin
+// 2019.07.09 asin,acos,atan
 // --------------------------------------
 class MyMathUtil {
     companion object {
@@ -281,12 +281,12 @@ class MyMathUtil {
         fun normalize(dat1: FloatArray): FloatArray {
             val dat2 = FloatArray(dat1.size)
             var sq = 0f
-            dat1.forEachIndexed { id, fl ->
+            dat1.forEachIndexed { id, _ ->
                 dat2[id] = dat1[id]*dat1[id]
                 sq += dat2[id]
             }
             val sq2 = 1f/ sqrt(sq)
-            dat2.forEachIndexed { id, fl ->
+            dat2.forEachIndexed { id, _ ->
                 dat2[id] *= sq2
             }
             return dat2

@@ -112,7 +112,7 @@ class TriangleExile01Drawable: MyDrawable() {
             0xffff00ff.toInt()
         )
 
-        colorLst.forEachIndexed { index, color0 ->
+        colorLst.forEachIndexed { _, color0 ->
             polygonLst.add(Triangle().apply {
                 a = a0
                 b = b0
@@ -258,7 +258,7 @@ class TriangleExile01Drawable: MyDrawable() {
 
         // 三角形を描く
         //Log.d(javaClass.simpleName,"********************************")
-        polygonLst.reversed().forEachIndexed { index, polygon ->
+        polygonLst.reversed().forEachIndexed { _, polygon ->
             val path = Path()
             path.moveTo(polygon.a.x,polygon.a.y)
             path.lineTo(polygon.b.x,polygon.b.y)

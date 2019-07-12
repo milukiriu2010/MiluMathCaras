@@ -188,7 +188,6 @@ class HexagonScale02Drawable: MyDrawable() {
             val ratio = ratioLst[ratioA]
             Log.d(javaClass.simpleName,"ratio[$ratio]hexagon[${hexagon.size}]")
             (0..5).forEach { j ->
-                val jj = j.toFloat()
                 val rr = r*ii
                 val cos = rr*MyMathUtil.cosf(60f * j)
                 val sin = rr*MyMathUtil.sinf(60f * j)

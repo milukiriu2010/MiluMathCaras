@@ -321,7 +321,7 @@ class Mandelbrot00Drawable: MyDrawable() {
         canvas.translate(margin,margin)
 
         val dv = 100
-        (dv until side.toInt() step dv).forEachIndexed { index, i ->
+        (dv until side.toInt() step dv).forEachIndexed { _, i ->
             // X軸に平行なスケールを描画
             canvas.drawLine(0f,i.toFloat(),side,i.toFloat(),scalePaint)
             // Y軸に平行なスケールを描画

@@ -220,6 +220,7 @@ class SquareCross01Drawable: MyDrawable() {
                         square.s++
                     }
                 }
+                else -> {}
             }
         }
     }

@@ -383,7 +383,6 @@ class Triangle2Diamond01Drawable: MyDrawable() {
                 ModeDir.DOWN2 -> ModeDir.UP1
                 ModeDir.UP1 -> ModeDir.UP2
                 ModeDir.UP2 -> ModeDir.DOWN1
-                else -> ModeDir.DOWN1
             }
         }
 
@@ -1903,6 +1902,7 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             when(modeDirNow) {
                 ModeDir.UP1 -> canvas.translate(0f,-r1.toFloat())
                 ModeDir.UP2 -> canvas.translate(0f,-r1.toFloat())
+                else -> {}
             }
 
             // 描画する頂点パターンを選択
@@ -1931,7 +1931,7 @@ class Triangle2Diamond01Drawable: MyDrawable() {
                 canvas.translate(a,0f)
 
                 // 各パターンを２つずつ描く
-                val vLst = vertexLst.filterIndexed { id, vertex -> ( id == (col%3)*2 ) or ( id == (col%3)*2+1 ) }
+                val vLst = vertexLst.filterIndexed { id, _ -> ( id == (col%3)*2 ) or ( id == (col%3)*2+1 ) }
                 //Log.d(javaClass.simpleName,"vLst.size[${vLst.size}]")
 
                 vLst.forEach { vertex ->

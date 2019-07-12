@@ -303,7 +303,7 @@ class TriangleUnite01Drawable: MyDrawable() {
         //Log.d(javaClass.simpleName,"********************************")
         Log.d(javaClass.simpleName,"polygonOrgLst.size[${polygonOrgLst.size}]")
         Log.d(javaClass.simpleName,"polygonLst.size[${polygonLst.size}]")
-        polygonLst.forEachIndexed { id1, polygon ->
+        polygonLst.forEachIndexed { _, polygon ->
             val path = Path()
             polygon.pointLst.forEachIndexed { id2, myPointF ->
                 when (id2) {
@@ -392,7 +392,7 @@ class TriangleUnite01Drawable: MyDrawable() {
             t = tX
 
 
-            (0..2).forEach { i ->
+            (0..2).forEach { _ ->
                 // 三角形の頂点リスト
                 (0..2).forEach { i ->
                     val x = c.x + r * MyMathUtil.cosf(i.toFloat()*120f+t)

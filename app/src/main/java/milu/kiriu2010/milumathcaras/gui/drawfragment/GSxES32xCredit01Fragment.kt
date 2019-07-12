@@ -12,6 +12,8 @@ import milu.kiriu2010.milumathcaras.R
 
 import milu.kiriu2010.milumathcaras.entity.DrawData
 import milu.kiriu2010.gui.renderer.MgRenderer
+import milu.kiriu2010.milumathcaras.entity.DrawDataID
+import milu.kiriu2010.milumathcaras.entity.DrawFragmentType
 import milu.kiriu2010.milumathcaras.gui.draw.MgRendererFactory
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
@@ -49,7 +51,9 @@ class GSxES32xCredit01Fragment : Fragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            drawData = it.getParcelable(ARG_PARAM1)
+            drawData = it.getParcelable(ARG_PARAM1) ?: DrawData(
+                DrawDataID.ID_000001_CYCLOID,
+                DrawFragmentType.FT_D2_01,"")
         }
     }
 
@@ -68,7 +72,7 @@ class GSxES32xCredit01Fragment : Fragment()
         }
         renderer.setMotionParam(drawData.motionImageV2Param)
         myGLES32View.setRenderer(renderer)
-        myGLES32View.setOnTouchListener { v, event ->
+        myGLES32View.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_UP -> {
                     renderer.touchP.x = event.x/renderer.renderW.toFloat()
@@ -126,7 +130,7 @@ class GSxES32xCredit01Fragment : Fragment()
     // ---------------------------------
     override fun receive(data: Float) {
         // 小数点以下の桁数
-        val numOfDecimals = MyMathUtil.getNumberOfDecimals(data)
+        //val numOfDecimals = MyMathUtil.getNumberOfDecimals(data)
 
         // 媒介変数の値をビューに表示する
         /*
@@ -170,7 +174,7 @@ class GSxES32xCredit01Fragment : Fragment()
     // アクションバーのアイコンをタップすると呼ばれる
     // ----------------------------------------------------
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item?.itemId) {
+        return when (item.itemId) {
             // 再開
             R.id.menuItemResume -> {
                 renderer.isRunning = true

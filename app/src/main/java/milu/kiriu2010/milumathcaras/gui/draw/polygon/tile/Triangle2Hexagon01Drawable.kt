@@ -606,9 +606,9 @@ class Triangle2Hexagon01Drawable: MyDrawable() {
                 else -> vertex0Lst
             }
 
-            (0..splitN/3+1).forEach col@{ col ->
+            (0..splitN/3+1).forEach col@{ _ ->
 
-                vertexLst.forEachIndexed { id1, vertex ->
+                vertexLst.forEachIndexed { _, vertex ->
                     val path = Path()
                     vertex.slst.forEachIndexed { id2, sp ->
                         val ep = vertex.elst[id2]

@@ -213,7 +213,7 @@ class RgbWeaveWave01Drawable: MyDrawable() {
     // 棒線のスケールを変更
     // -------------------------------
     private fun scalePath() {
-        squareLst.forEachIndexed { id, square ->
+        squareLst.forEachIndexed { _, square ->
             val sign = when (square.scale) {
                 Scale.EXPAND -> 1f
                 Scale.SHRINK -> -1f

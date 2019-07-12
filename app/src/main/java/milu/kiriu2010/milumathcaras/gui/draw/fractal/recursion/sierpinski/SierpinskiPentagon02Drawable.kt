@@ -227,6 +227,8 @@ class SierpinskiPentagon02Drawable: MyDrawable() {
                 morph0Lst.clear()
                 calNextLevelShrink(pentagon,nNow)
             }
+            ModeMorph.SPLIT -> {}
+            ModeMorph.BACK -> {}
         }
 
     }

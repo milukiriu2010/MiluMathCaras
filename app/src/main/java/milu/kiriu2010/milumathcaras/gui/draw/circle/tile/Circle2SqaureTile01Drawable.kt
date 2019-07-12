@@ -119,21 +119,8 @@ class Circle2SqaureTile01Drawable: MyDrawable() {
     // 第１引数:初期状態の変形比率
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
-        // 初期状態の変形比率
-        var ratioInit = 0f
-        values.forEachIndexed { index, fl ->
-            //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
-            when (index) {
-                // 初期状態の変形比率
-                0 -> ratioInit = fl
-            }
-        }
-
-
         // 正方形のリストを生成
         createPolygon()
-        // 初期状態の変形比率まで変形する
-        //while (polygonLst[0].ratio < ratioInit) morph()
         // ビットマップに描画
         drawBitmap()
         // 描画

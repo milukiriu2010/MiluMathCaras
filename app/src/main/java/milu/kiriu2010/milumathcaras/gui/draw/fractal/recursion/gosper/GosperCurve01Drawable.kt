@@ -395,7 +395,7 @@ class GosperCurve01Drawable: MyDrawable() {
     // -------------------------------------
     // 次レベルのゴスパー島の描画点を求める
     // -------------------------------------
-    private fun calNextLevel(a: MyPointF, g: MyPointF, m: Int, n: Int = 0) {
+    private fun calNextLevel(a: MyPointF, g: MyPointF, m: Int) {
         // -----------------------------------------------------
         // 再帰呼び出しの際、mを減らしていき0以下になったら終了
         // -----------------------------------------------------

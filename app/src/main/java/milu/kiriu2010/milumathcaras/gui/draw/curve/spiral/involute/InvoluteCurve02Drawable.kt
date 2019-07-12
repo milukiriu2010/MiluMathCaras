@@ -279,8 +279,7 @@ class InvoluteCurve02Drawable: MyDrawable() {
             canvas.save()
             canvas.translate(x0,y0)
             canvas.translate(-a*d,rowf*a*d)
-            (0..4).forEach { col ->
-                val colf = col.toFloat()
+            (0..4).forEach { _ ->
                 canvas.translate(a*d,0f)
 
                 // インボリュート曲線を描く

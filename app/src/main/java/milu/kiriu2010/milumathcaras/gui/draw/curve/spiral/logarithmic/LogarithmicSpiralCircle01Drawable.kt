@@ -229,7 +229,7 @@ class LogarithmicSpiralCircle01Drawable: MyDrawable() {
 
         // 対数螺旋を描く
         val path = Path()
-        circleLst.forEachIndexed { id, circle ->
+        circleLst.forEachIndexed { _, circle ->
             val x = circle.c.x * MyMathUtil.cosf(sign*angle) - circle.c.y * MyMathUtil.sinf(sign*angle)
             val y = circle.c.x * MyMathUtil.sinf(sign*angle) + circle.c.y * MyMathUtil.cosf(sign*angle)
 

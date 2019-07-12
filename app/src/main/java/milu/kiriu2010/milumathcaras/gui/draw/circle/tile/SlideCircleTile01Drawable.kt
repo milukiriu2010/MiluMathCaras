@@ -197,7 +197,6 @@ class SlideCircleTile01Drawable: MyDrawable() {
             canvas.save()
             canvas.translate(ix,2f*sqrt(3f)*r*ii)
             (0..splitN+1).forEach { j ->
-                val jj = j.toFloat()
                 canvas.translate(4f*r,0f)
                 var ddx = 0f
                 var ddy = 0f

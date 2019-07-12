@@ -241,7 +241,7 @@ class SineWaveCircle02Drawable: MyDrawable() {
         //Log.d(javaClass.simpleName,"angle[$angle]nextPathEffectPos[$nextPathEffectPos]angleThreshHold1[$angleThreshHold1]")
         /**/
         // 波を回転する
-        wave.pointLst.forEachIndexed { index, myPointF ->
+        wave.pointLst.forEachIndexed { _, myPointF ->
             //if ( index == 0 ) {
             //    Log.d(javaClass.simpleName,"x[${myPointF.x}]y[${myPointF.y}]")
             //}
@@ -303,7 +303,7 @@ class SineWaveCircle02Drawable: MyDrawable() {
 
         // サイン波を描く
         var myPointF2: MyPointF? = null
-        val bunchSize = wave.pointLst.size
+        //val bunchSize = wave.pointLst.size
         wave.pointLst.forEachIndexed { index, myPointF1 ->
             if ( myPointF2 != null ) {
                 //wave.linePaint.color = myColor.create(index,bunchSize).toInt()

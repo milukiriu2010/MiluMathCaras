@@ -244,8 +244,6 @@ class RandomWalk01Drawable: MyDrawable() {
 
         // 原点(0,0)の位置
         // = (左右中央,上下中央)
-        val x0 = (intrinsicWidth/2).toFloat()
-        val y0 = (intrinsicHeight/2).toFloat()
 
         // 等速度運動をする円を描画
         val colorCnt = colorLst.size

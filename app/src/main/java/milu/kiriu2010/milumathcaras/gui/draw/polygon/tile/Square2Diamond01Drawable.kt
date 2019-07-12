@@ -341,6 +341,7 @@ class Square2Diamond01Drawable: MyDrawable() {
                     Direction.LEFT  -> vertex.p.x -= sideE*ratioDiv
                     Direction.UP    -> vertex.p.y += sideE*ratioDiv
                     Direction.DOWN  -> vertex.p.y -= sideE*ratioDiv
+                    else -> {}
                 }
             }
         }

@@ -230,7 +230,7 @@ class FrictionEffect01Drawable: MyDrawable() {
     // 円を移動する
     // -------------------------------
     private fun moveMover() {
-        circleLst.forEachIndexed { index, circleF ->
+        circleLst.forEachIndexed { _, circleF ->
             /*
             if ( index == 0 ) {
                 Log.d(javaClass.simpleName,"====================================")
@@ -311,11 +311,9 @@ class FrictionEffect01Drawable: MyDrawable() {
 
         // 原点(0,0)の位置
         // = (左右中央,上下中央)
-        val x0 = (intrinsicWidth/2).toFloat()
-        val y0 = (intrinsicHeight/2).toFloat()
 
         // 円を描画
-        circleLst.reversed().forEachIndexed { index, myCircleF ->
+        circleLst.reversed().forEachIndexed { _, myCircleF ->
             linePaint.color = myCircleF.color
             canvas.drawCircle(myCircleF.p.x,myCircleF.p.y,myCircleF.r,linePaint)
         }

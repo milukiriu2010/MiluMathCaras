@@ -181,7 +181,6 @@ class LogarithmicSpiralCircle02Drawable: MyDrawable() {
         //val d = 15
         val d = 30
         (0 until 360 step d).forEach { id1 ->
-            val ii = id1/d
             val t1 = id1.toFloat()
             (0..360 step 5).forEach { id2 ->
                 val t2 = id2.toFloat()
@@ -240,7 +239,7 @@ class LogarithmicSpiralCircle02Drawable: MyDrawable() {
 
         // 対数螺旋を描く
         val path = Path()
-        circleLst.forEachIndexed { id, circle ->
+        circleLst.forEachIndexed { _, circle ->
             val x = circle.c.x * MyMathUtil.cosf(sign*angle) - circle.c.y * MyMathUtil.sinf(sign*angle)
             val y = circle.c.x * MyMathUtil.sinf(sign*angle) + circle.c.y * MyMathUtil.cosf(sign*angle)
 

@@ -9,6 +9,8 @@ import android.widget.TextView
 import milu.kiriu2010.milumathcaras.R
 
 import milu.kiriu2010.milumathcaras.entity.DrawData
+import milu.kiriu2010.milumathcaras.entity.DrawDataID
+import milu.kiriu2010.milumathcaras.entity.DrawFragmentType
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.draw.MyDrawableFactory
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
@@ -50,7 +52,9 @@ class D2xCredit01Fragment : Fragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            drawData = it.getParcelable(ARG_PARAM1)
+            drawData = it.getParcelable(ARG_PARAM1) ?: DrawData(
+                DrawDataID.ID_000001_CYCLOID,
+                DrawFragmentType.FT_D2_01,"")
         }
     }
 
@@ -66,7 +70,7 @@ class D2xCredit01Fragment : Fragment()
         drawable = MyDrawableFactory.createInstance(drawData.id,this)
         imageView.setImageDrawable(drawable)
 
-        imageView.setOnTouchListener { v, event ->
+        imageView.setOnTouchListener { _, event ->
             // ---------------------------------------------
             // x,y    => view    の左上からの位置
             // rawX,Y => デバイスの左上からの位置
@@ -155,7 +159,7 @@ class D2xCredit01Fragment : Fragment()
     // アクションバーのアイコンをタップすると呼ばれる
     // ----------------------------------------------------
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item?.itemId) {
+        return when (item.itemId) {
             // 再開
             R.id.menuItemResume -> {
                 drawable.resume()

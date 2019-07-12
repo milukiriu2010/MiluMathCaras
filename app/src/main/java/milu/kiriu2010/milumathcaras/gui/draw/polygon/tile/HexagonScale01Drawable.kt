@@ -201,8 +201,7 @@ class HexagonScale01Drawable: MyDrawable() {
                 val kmax = if ( i <= 1 ) 0 else i-1
                 val cos1 = r3*MyMathUtil.cosf(120f+60f*jj)
                 val sin1 = r3*MyMathUtil.sinf(120f+60f*jj)
-                (1..kmax).forEach { k ->
-                    val kk = k.toFloat()
+                (1..kmax).forEach { _ ->
                     canvas.translate(cos1,sin1)
                     drawHexagon(canvas,ratio)
                 }

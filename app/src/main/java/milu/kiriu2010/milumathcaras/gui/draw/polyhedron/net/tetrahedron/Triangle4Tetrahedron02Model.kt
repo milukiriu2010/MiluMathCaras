@@ -22,14 +22,14 @@ class Triangle4Tetrahedron02Model: MgModelAbs() {
 
         when ( pattern ) {
             // 正四面体展開図(中央)
-            1 -> createPathPattern1(opt)
+            1 -> createPathPattern1()
             // 正四面体展開図(下)
-            2 -> createPathPattern2(opt)
+            2 -> createPathPattern2()
             // 正四面体展開図(右上)
-            3 -> createPathPattern3(opt)
+            3 -> createPathPattern3()
             // 正四面体展開図(左上)
-            4 -> createPathPattern4(opt)
-            else -> createPathPattern1(opt)
+            4 -> createPathPattern4()
+            else -> createPathPattern1()
         }
 
         // バッファ割り当て
@@ -37,7 +37,7 @@ class Triangle4Tetrahedron02Model: MgModelAbs() {
     }
 
     // 正四面体展開図(0-1-2)
-    private fun createPathPattern1(opt: Map<String, Float>) {
+    private fun createPathPattern1() {
         // 頂点データ
         datPos.addAll(arrayListOf( 0f,sqrt3,0f))
         datPos.addAll(arrayListOf(-1f,   0f,0f))
@@ -59,7 +59,7 @@ class Triangle4Tetrahedron02Model: MgModelAbs() {
     }
 
     // 正四面体展開図(下)
-    private fun createPathPattern2(opt: Map<String, Float>) {
+    private fun createPathPattern2() {
         // 頂点データ
         datPos.addAll(arrayListOf(-1f,    0f,0f))
         datPos.addAll(arrayListOf( 0f,-sqrt3,0f))
@@ -81,7 +81,7 @@ class Triangle4Tetrahedron02Model: MgModelAbs() {
     }
 
     // 正四面体展開図(右上)
-    private fun createPathPattern3(opt: Map<String, Float>) {
+    private fun createPathPattern3() {
         // 頂点データ
         datPos.addAll(arrayListOf( 1f,    0f,0f))
         datPos.addAll(arrayListOf( 2f,sqrt3,0f))
@@ -103,7 +103,7 @@ class Triangle4Tetrahedron02Model: MgModelAbs() {
     }
 
     // 正四面体展開図(左上)
-    private fun createPathPattern4(opt: Map<String, Float>) {
+    private fun createPathPattern4() {
         // 頂点データ
         datPos.addAll(arrayListOf( 0f,sqrt3,0f))
         datPos.addAll(arrayListOf(-2f,sqrt3,0f))

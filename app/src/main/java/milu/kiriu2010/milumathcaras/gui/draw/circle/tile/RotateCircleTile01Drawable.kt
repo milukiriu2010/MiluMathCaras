@@ -237,7 +237,7 @@ class RotateCircleTile01Drawable: MyDrawable() {
                 canvas.translate(x0,y0)
                 canvas.translate(-sideE/2f,sideE*(row.toFloat()+0.5f))
                 // X軸方向
-                (0 until splitN).forEach { col ->
+                (0 until splitN).forEach { _ ->
                     canvas.translate(sideE, 0f)
                     val x = circle.l * MyMathUtil.cosf(circle.t+angle)
                     val y = circle.l * MyMathUtil.sinf(circle.t+angle)

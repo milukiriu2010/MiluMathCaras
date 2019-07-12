@@ -85,7 +85,7 @@ class NetDodecahedron01Renderer(ctx: Context): MgRenderer(ctx) {
                 still = (still+1)%30
                 if ( still == 0 ) {
                     cnt += cntDir
-                    if (isFirstCycle === true) {
+                    if (isFirstCycle == true) {
                         isFirstCycle = false
                     }
                 }
