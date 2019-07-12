@@ -795,13 +795,16 @@ class DrawDataFactory {
                 }
                 // 多面体に様々なエフェクトを施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_VIEW -> {
+                    // 円柱02
+                    drawDataLst.add(DrawData(DrawDataID.ID_001010_GL_CYLINDER_02,DrawFragmentType.FT_D3_ES32_01,resources.getString(R.string.draw_001010_gl_cylinder_02),
+                        drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 10f, "scale" to 1f) ))
                     // 円錐台
                     drawDataLst.add(DrawData(DrawDataID.ID_001009_GL_CONE_TRUNCATED_01,DrawFragmentType.FT_D3_ES32_01,resources.getString(R.string.draw_001009_gl_cone_truncated_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 9f, "scale" to 1f) ))
                     // 円錐
                     drawDataLst.add(DrawData(DrawDataID.ID_001008_GL_CONE_01,DrawFragmentType.FT_D3_ES32_01,resources.getString(R.string.draw_001008_gl_cone_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 8f, "scale" to 1f) ))
-                    // 円柱
+                    // 円柱01
                     drawDataLst.add(DrawData(DrawDataID.ID_001007_GL_CYLINDER_01,DrawFragmentType.FT_D3_ES32_01,resources.getString(R.string.draw_001007_gl_cylinder_01),
                         drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 7f, "scale" to 1f) ))
                     // トーラス

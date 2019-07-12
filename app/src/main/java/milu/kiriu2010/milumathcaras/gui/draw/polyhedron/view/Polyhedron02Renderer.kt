@@ -220,12 +220,14 @@ class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
             5 -> Sphere01Model()
             // トーラス
             6 -> Torus01Model()
-            // 円柱
+            // 円柱01
             7 -> Cylinder01Model()
             // 円錐
             8 -> Cone01Model()
             // 円錐台
             9 -> ConeTruncated01Model()
+            // 円柱02
+            10 -> Cylinder02Model()
             else -> Tetrahedron01Model()
         }
 
@@ -304,7 +306,7 @@ class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
                     5 -> (shader as ES32Simple01Shader).draw(vaoModel,matMVP,GLES32.GL_LINE_STRIP)
                     // トーラス
                     6 -> (shader as ES32Simple01Shader).draw(vaoModel,matMVP,GLES32.GL_LINE_STRIP)
-                    // 円柱
+                    // 円柱01
                     7 -> (shader as ES32Simple01Shader).draw(vaoModel,matMVP,GLES32.GL_LINE_STRIP)
                     // その他
                     else -> (shader as ES32Simple01Shader).draw(vaoModel,matMVP,GLES32.GL_LINES)
