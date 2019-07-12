@@ -63,7 +63,7 @@ class MenuFragment : Fragment() {
         menuDataLst = createMenuDataLst(resources,menuDataParent)
 
         // メニューを表示するリサイクラービューのアダプタ
-        adapter = MenuAdapter(ctx, menuDataLst ) {
+        adapter = MenuAdapter(menuDataLst ) {
             // 描画データ一覧を表示する
             drawDataCallback?.showLst(it)
         }
@@ -292,6 +292,7 @@ class MenuFragment : Fragment() {
                     // [戻るメニュー]
                     menuDataLst.add(MenuData(MenuType.TYPE_BACK, MenuItem.MENU_BACK, FragmentID.ID_DUMMY,resources.getString(R.string.menu_back),false))
                 }
+                else -> {}
             }
 
             return menuDataLst

@@ -108,6 +108,7 @@ class MainActivity : DrawerActivity()
                         .commit()
                     return
                 }
+                else -> {}
             }
 
             when (menuData.hasChildMenu) {

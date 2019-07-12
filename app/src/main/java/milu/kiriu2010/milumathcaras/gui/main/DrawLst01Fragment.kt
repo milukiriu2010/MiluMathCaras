@@ -13,6 +13,9 @@ import android.view.ViewGroup
 
 import milu.kiriu2010.milumathcaras.R
 import milu.kiriu2010.milumathcaras.entity.MenuData
+import milu.kiriu2010.milumathcaras.entity.MenuItem
+import milu.kiriu2010.milumathcaras.entity.MenuType
+import milu.kiriu2010.milumathcaras.id.FragmentID
 
 private const val ARG_PARAM1 = "menudata"
 
@@ -36,7 +39,7 @@ class DrawLst01Fragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            menuData = it.getParcelable(ARG_PARAM1)
+            menuData = it.getParcelable(ARG_PARAM1) ?: MenuData(MenuType.TYPE_BACK,MenuItem.MENU_BACK,FragmentID.ID_DUMMY,"",false)
         }
     }
 

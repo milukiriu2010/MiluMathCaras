@@ -25,6 +25,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.curve.mix.Cochleoid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.mix.CyclicHarmonic01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.mix.TrefleHabenicht01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.special.*
+import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.fermat.FermatSpiral01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.involute.InvoluteCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.involute.InvoluteCurve02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.curve.spiral.logarithmic.LogarithmicSpiral01Drawable
@@ -147,6 +148,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000039_COCHLEOID_01 -> Cochleoid01Drawable()
                 // Cyclic Harmonic Curve
                 DrawDataID.ID_000040_CURVE_CYCLIC_HARMONIC_01 -> CyclicHarmonic01Drawable()
+                // Fermat Spiral
+                DrawDataID.ID_000041_FERMAT_SPIRAL_01 -> FermatSpiral01Drawable()
                 // サイン波
                 DrawDataID.ID_000200_SINE_WAVE -> SineWave01Drawable()
                 // 円の周りを回転するサイン波

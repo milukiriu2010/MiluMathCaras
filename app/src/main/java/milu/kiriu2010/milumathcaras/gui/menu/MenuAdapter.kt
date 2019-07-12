@@ -12,7 +12,6 @@ import milu.kiriu2010.milumathcaras.entity.MenuType
 import java.lang.RuntimeException
 
 class MenuAdapter(
-    context: Context,
     // メニューを表示するリサイクラービューのアダプタに表示するメニュー一覧
     private val menuDataLst: MutableList<MenuData> = mutableListOf(),
     // メニューをクリックしたとき呼び出されるコールバック

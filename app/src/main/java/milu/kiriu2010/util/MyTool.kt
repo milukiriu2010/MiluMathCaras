@@ -12,13 +12,18 @@ import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
+// -------------------------------------------------
 // 2018.11.12  数値(BigDecimal)→文字列変換
 // 2018.10.25  階乗
 // 2018.10.06  rawファイルの中身をString型に変換
 // 2018.09.25  今日の日付をYYYYMMDD形式で取得
 // 2018.09.15  String(ISO8601+RFC3339)をDateへ変換
+// 2019.07.10  warning消す
+// -------------------------------------------------
 class MyTool {
     companion object {
+        private val TAG = "MyTool"
+
         // ----------------------------------------
         // 2018.11.12
         // ----------------------------------------
@@ -29,7 +34,7 @@ class MyTool {
         fun fromBigDeimal2String(num: BigDecimal, numDecimalPlaces: Int): String {
             val numScale = num.scale()
             val numPrecision = num.precision()
-            Log.d( javaClass.simpleName, "ans[$num]scale[$numScale]precision[$numPrecision]")
+            Log.d(TAG, "ans[$num]scale[$numScale]precision[$numPrecision]")
 
             return when {
                 // 整数部のみ
