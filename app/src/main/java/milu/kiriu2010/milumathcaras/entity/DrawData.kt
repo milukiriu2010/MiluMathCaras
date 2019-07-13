@@ -456,6 +456,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000822_CIRCLE_TILE_ROTATE_CIRCLE_01(822),
     // 円のタイリング(左右・左下右上・右下左上の順でスライド)
     ID_000823_CIRCLE_TILE_SLIDE_01(823),
+    // 円弧
+    ID_000824_CIRCLE_TILE_ARC_01(824),
     // "Stepping Feet"
     ID_000900_OPTICAL_ILLUSION_STEPPING_FEET(900),
     // "Stereokinetic Effect(SKE)"

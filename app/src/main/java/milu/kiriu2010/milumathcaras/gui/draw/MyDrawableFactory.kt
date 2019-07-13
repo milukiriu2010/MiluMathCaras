@@ -5,10 +5,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.circle.circles.*
 import milu.kiriu2010.milumathcaras.gui.draw.circle.morph.Circle2SqaureMorph01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.circle.morph.Circle2SqaureMorph02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.circle.morph.SunMorph01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.circle.tile.Circle2SqaureTile01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.circle.tile.RotateCircleTile01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.circle.tile.SlideCircleTile01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.circle.tile.XmasTreeCircle01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.circle.tile.*
 import milu.kiriu2010.milumathcaras.gui.draw.wave.color.Color1536Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.wave.color.Color768DarkDrawable
 import milu.kiriu2010.milumathcaras.gui.draw.fractal.complex.julia.Julia01Drawable
@@ -512,6 +509,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000822_CIRCLE_TILE_ROTATE_CIRCLE_01 -> RotateCircleTile01Drawable()
                 // 円のタイリング(左右・左下右上・右下左上の順でスライド)
                 DrawDataID.ID_000823_CIRCLE_TILE_SLIDE_01 -> SlideCircleTile01Drawable()
+                // 円弧のタイリング
+                DrawDataID.ID_000824_CIRCLE_TILE_ARC_01 -> SlideArcTile01Drawable()
                 // "Stepping Feet"
                 DrawDataID.ID_000900_OPTICAL_ILLUSION_STEPPING_FEET -> SteppingFeet01Drawable()
                 // "Stereokinetic Effect(SKE)"
