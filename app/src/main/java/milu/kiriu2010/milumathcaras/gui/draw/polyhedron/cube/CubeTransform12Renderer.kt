@@ -7,10 +7,7 @@ import milu.kiriu2010.gui.model.d3.Cube01Model
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.shader.es32.ES32Simple02Shader
 import milu.kiriu2010.gui.vbo.es32.ES32VAOIpco
-import milu.kiriu2010.gui.vbo.es32.ES32VBOIpco
 import milu.kiriu2010.math.MyMathUtil
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -23,18 +20,23 @@ import javax.microedition.khronos.opengles.GL10
 // -----------------------------------------
 class CubeTransform12Renderer(ctx: Context): MgRenderer(ctx) {
 
-    // 描画モデル(立方体)
-    private val model = Cube01Model()
+    // 描画モデル(立方体:X軸回転)
+    private val model1 = Cube01Model()
+    // 描画モデル(立方体:Y軸回転)
+    private val model2 = Cube01Model()
 
-    // VAO
-    private val vao = ES32VAOIpco()
+    // VAO(X軸)
+    private val vao1 = ES32VAOIpco()
+    // VAO(Y軸)
+    private val vao2 = ES32VAOIpco()
 
     // シェーダ(特殊効果なし)
     private val shaderSimple = ES32Simple02Shader(ctx)
 
     val a = 2f
+    val b = 0.5f
 
-    val cnt = 10
+    val cnt = 45
 
     override fun onDrawFrame(gl: GL10?) {
         // canvasを初期化
@@ -49,44 +51,26 @@ class CubeTransform12Renderer(ctx: Context): MgRenderer(ctx) {
         val t0 = angle[0].toFloat()
 
         // ビュー×プロジェクション
-        vecEye = qtnNow.toVecIII(floatArrayOf(0f,0f,100f))
+        vecEye = qtnNow.toVecIII(floatArrayOf(0f,0f,150f))
         vecEyeUp = qtnNow.toVecIII(floatArrayOf(0f,1f,0f))
         Matrix.setLookAtM(matV, 0,
             vecEye[0], vecEye[1], vecEye[2],
             vecCenter[0], vecCenter[1], vecCenter[2],
             vecEyeUp[0], vecEyeUp[1], vecEyeUp[2])
-        Matrix.perspectiveM(matP,0,45f,1f,0.1f,200f)
+        Matrix.perspectiveM(matP,0,45f,1f,0.1f,1000f)
         Matrix.multiplyMM(matVP,0,matP,0,matV,0)
 
+        // X軸回転
         Matrix.setIdentityM(matM,0)
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(vao,matMVP,GLES32.GL_TRIANGLES)
-        /*
-        shaderSimple.drawDynamicOff(vao,matMVP,GLES32.GL_TRIANGLES,{
-            model.bufOff.position(0)
-            val buf = ByteBuffer.allocateDirect(model.datOff.toArray().size*4).run {
-                order(ByteOrder.nativeOrder())
+        shaderSimple.draw(vao1,matMVP,GLES32.GL_TRIANGLES)
 
-                asFloatBuffer().apply {
-                    put(model.datOff.toFloatArray())
-                    position(0)
-                }
-            }
-
-            (-cnt..cnt).forEach {
-                val ii = it.toFloat()
-                val offX = a * ii
-                val offY = a * ii * MyMathUtil.cosf(t0+ii)
-                val offZ = a * ii * MyMathUtil.sinf(t0+ii)
-                buf.put(it+cnt,offX)
-                buf.put(it+cnt+1,offY)
-                buf.put(it+cnt+2,offZ)
-            }
-
-            buf.position(0)
-            buf
-        })
-        */
+        // Y軸回転
+        Matrix.setIdentityM(matM,0)
+        Matrix.rotateM(matM,0,t0,0f,1f,0f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vao2,matMVP,GLES32.GL_TRIANGLES)
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
@@ -106,21 +90,47 @@ class CubeTransform12Renderer(ctx: Context): MgRenderer(ctx) {
         GLES32.glEnable(GLES32.GL_CULL_FACE)
 
         // シェーダ(特殊効果なし)
-        //shaderSimple.loadShaderDynamic()
         shaderSimple.loadShader()
 
-        // モデルにオフセットを設定
-        (-cnt..cnt).forEach {
-            val off = a * it.toFloat()
-            model.datOff.addAll(arrayListOf(off,0f,0f))
+        // X軸を中心に回転
+        (0..5).forEach { j ->
+            val jj = j.toFloat()
+            (-cnt..cnt).forEach { i ->
+                val ii = i.toFloat()
+                Matrix.setIdentityM(matM,0)
+                val rx = 1f
+                val ry = MyMathUtil.cosf(3f*ii+60f*jj)
+                val rz = MyMathUtil.sinf(3f*ii+60f*jj)
+                model1.datOff.addAll(arrayListOf(a*ii*rx,b*ii*ry,b*ii*rz))
+            }
         }
 
-        // 描画モデル(立方体)
-        model.createPath()
+        // 描画モデル(立方体:X軸)
+        model1.createPath()
 
-        // VAO
-        //vao.usageOff = GLES32.GL_DYNAMIC_DRAW
-        vao.makeVIBO(model)
+        // VAO:X軸
+        vao1.makeVIBO(model1)
+
+        // -------------------------------------------------------------
+
+        // Y軸を中心に回転
+        (0..5).forEach { j ->
+            val jj = j.toFloat()
+            (-cnt..cnt).forEach { i ->
+                val ii = i.toFloat()
+                Matrix.setIdentityM(matM,0)
+                val rx = MyMathUtil.cosf(3f*ii+60f*jj)
+                val ry = 1f
+                val rz = MyMathUtil.sinf(3f*ii+60f*jj)
+                model2.datOff.addAll(arrayListOf(b*ii*rx,a*ii*ry,b*ii*rz))
+            }
+        }
+
+        // 描画モデル(立方体:X軸)
+        model2.createPath()
+
+        // VAO:Y軸
+        vao2.makeVIBO(model2)
     }
 
     override fun setMotionParam(motionParam: MutableMap<String, Float>) {
@@ -129,7 +139,8 @@ class CubeTransform12Renderer(ctx: Context): MgRenderer(ctx) {
     // MgRenderer
     // シェーダ終了処理
     override fun closeShader() {
-        vao.deleteVIBO()
+        vao1.deleteVIBO()
+        vao2.deleteVIBO()
         shaderSimple.deleteShader()
     }
 }

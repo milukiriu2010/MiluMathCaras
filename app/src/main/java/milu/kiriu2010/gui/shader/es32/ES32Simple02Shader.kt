@@ -205,7 +205,7 @@ class ES32Simple02Shader(ctx: Context): ES32MgShader(ctx) {
         GLES32.glVertexAttribPointer(hATTR[2],3,GLES32.GL_FLOAT,false,0,0)
         MyGLES32Func.checkGlError("a_Offset",this,model)
         val buf = chgBuf()
-        //GLES32.glBufferSubData(GLES32.GL_ARRAY_BUFFER,0,buf.capacity()*4,buf)
+        GLES32.glBufferSubData(GLES32.GL_ARRAY_BUFFER,0,buf.capacity()*4,buf)
         MyGLES32Func.checkGlError("a_Offset:glBufferSubData",this,model)
 
         // uniform(モデル×ビュー×プロジェクション)
