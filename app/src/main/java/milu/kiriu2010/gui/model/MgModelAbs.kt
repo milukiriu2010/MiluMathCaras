@@ -18,6 +18,7 @@ import java.nio.ShortBuffer
 // ----------------------------------
 // 2019.04.25
 // 2019.06.12 オフセット
+// 2019.07.13 warning消す
 // ----------------------------------
 abstract class MgModelAbs {
     // 頂点バッファ
@@ -48,7 +49,7 @@ abstract class MgModelAbs {
 
     protected fun allocateBuffer() {
         // 頂点バッファ
-        bufPos = ByteBuffer.allocateDirect(datPos.toArray().size * 4).run {
+        bufPos = ByteBuffer.allocateDirect(datPos.size * 4).run {
             order(ByteOrder.nativeOrder())
 
             asFloatBuffer().apply {
@@ -58,7 +59,7 @@ abstract class MgModelAbs {
         }
 
         // 法線バッファ
-        bufNor = ByteBuffer.allocateDirect(datNor.toArray().size * 4).run {
+        bufNor = ByteBuffer.allocateDirect(datNor.size * 4).run {
             order(ByteOrder.nativeOrder())
 
             asFloatBuffer().apply {
@@ -68,7 +69,7 @@ abstract class MgModelAbs {
         }
 
         // 色バッファ
-        bufCol = ByteBuffer.allocateDirect(datCol.toArray().size * 4).run {
+        bufCol = ByteBuffer.allocateDirect(datCol.size * 4).run {
             order(ByteOrder.nativeOrder())
 
             asFloatBuffer().apply {
@@ -78,7 +79,7 @@ abstract class MgModelAbs {
         }
 
         // テクスチャ座標バッファ
-        bufTxc = ByteBuffer.allocateDirect(datTxc.toArray().size * 4).run {
+        bufTxc = ByteBuffer.allocateDirect(datTxc.size * 4).run {
             order(ByteOrder.nativeOrder())
 
             asFloatBuffer().apply {
@@ -88,7 +89,7 @@ abstract class MgModelAbs {
         }
 
         // インデックスバッファ
-        bufIdx = ByteBuffer.allocateDirect(datIdx.toArray().size * 2).run {
+        bufIdx = ByteBuffer.allocateDirect(datIdx.size * 2).run {
             order(ByteOrder.nativeOrder())
 
             asShortBuffer().apply {
@@ -98,7 +99,7 @@ abstract class MgModelAbs {
         }
 
         // オフセットバッファ
-        bufOff = ByteBuffer.allocateDirect(datOff.toArray().size * 4).run {
+        bufOff = ByteBuffer.allocateDirect(datOff.size * 4).run {
             order(ByteOrder.nativeOrder())
 
             asFloatBuffer().apply {

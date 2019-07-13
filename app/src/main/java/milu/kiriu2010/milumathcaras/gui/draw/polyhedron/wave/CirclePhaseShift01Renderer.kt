@@ -79,7 +79,7 @@ class CirclePhaseShift01Renderer(ctx: Context): MgRenderer(ctx) {
             GLES32.glLineWidth(10f)
             shaderSimple.drawDynamicPos(vboSimple,matMVP,GLES32.GL_LINE_LOOP, {
                 model.bufPos.position(0)
-                val buf = ByteBuffer.allocateDirect(model.datPos.toArray().size*4).run {
+                val buf = ByteBuffer.allocateDirect(model.datPos.size*4).run {
                     order(ByteOrder.nativeOrder())
 
                     asFloatBuffer().apply {

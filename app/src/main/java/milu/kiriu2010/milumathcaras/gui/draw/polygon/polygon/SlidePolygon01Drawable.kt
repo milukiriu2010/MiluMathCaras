@@ -212,8 +212,8 @@ class SlidePolygon01Drawable: MyDrawable() {
         }
 
         // 六角形を描く座標
-        var x = 0f
-        var y = 0f
+        var x: Float
+        var y: Float
         when ( nVertexDv ) {
             // 頂点までたどり着く
             nVertexDvMax-1 -> {
