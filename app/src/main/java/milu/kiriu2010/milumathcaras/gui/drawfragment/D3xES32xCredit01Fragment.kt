@@ -187,7 +187,7 @@ class D3xES32xCredit01Fragment : Fragment()
     companion object {
         @JvmStatic
         fun newInstance(drawData: DrawData) =
-            D3xES20xCredit01Fragment().apply {
+            D3xES32xCredit01Fragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_PARAM1,drawData)
                 }

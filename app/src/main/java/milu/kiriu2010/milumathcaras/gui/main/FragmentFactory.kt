@@ -45,14 +45,6 @@ class FragmentFactory {
                 DrawFragmentType.FT_D2_06 -> D2x06Fragment.newInstance(drawData)
                 // OpenGLを使った描画を実施するフラグメントを生成
                 //   多面体に様々なエフェクトを施すためのパラメータを付与できる
-                DrawFragmentType.FT_D3_ES20_01 -> D3x01Fragment.newInstance(drawData)
-                // OpenGLを使った描画を実施するフラグメントを生成
-                //   パラメータなし
-                DrawFragmentType.FT_D3_ES20_02 -> D3x02Fragment.newInstance(drawData)
-                // OpenGLを使った描画を実施するフラグメントを生成(製作者名を表示)
-                DrawFragmentType.FT_D3_ES20_CREDIT_01 -> D3xES20xCredit01Fragment.newInstance(drawData)
-                // OpenGLを使った描画を実施するフラグメントを生成
-                //   多面体に様々なエフェクトを施すためのパラメータを付与できる
                 DrawFragmentType.FT_D3_ES32_01 -> D3xES32x01Fragment.newInstance(drawData)
                 // OpenGLを使った描画を実施するフラグメントを生成
                 //   パラメータなし
