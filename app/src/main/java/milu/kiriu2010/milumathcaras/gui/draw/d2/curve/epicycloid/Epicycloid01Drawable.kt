@@ -1,0 +1,451 @@
+package milu.kiriu2010.milumathcaras.gui.draw.d2.curve.epicycloid
+
+import android.graphics.*
+import android.os.Handler
+import milu.kiriu2010.gui.basic.MyPointF
+import milu.kiriu2010.math.MyMathUtil
+import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
+import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.pow
+import kotlin.math.sin
+
+// -------------------------------------------------------------------------------------
+// エピサイクロイド曲線
+// -------------------------------------------------------------------------------------
+//   x = r * (k+1) * cos(t) - r * cos((k+1)*t)
+//   y = r * (k+1) * sin(t) - r * sin((k+1)*t)
+// -------------------------------------------------------------------------------------
+//   x = r * (1+1/k) * cos(t) - r/k * cos((k+1)*t)
+//   y = r * (1+1/k) * sin(t) - r/k * sin((k+1)*t)
+// -------------------------------------------------------------------------------------
+//   k = 1.0 => カージオイド(cardioid)
+// -------------------------------------------------------------------------------------
+// https://en.wikipedia.org/wiki/Epicycloid
+// -------------------------------------------------------------------------------------
+class Epicycloid01Drawable: MyDrawable() {
+
+    // -------------------------------
+    // 描画領域
+    // -------------------------------
+    private val side = 1000f
+    private val margin = 50f
+
+    // -------------------------------------------
+    // エピサイクロイド曲線描画に使う外円の半径
+    // -------------------------------------------
+    // とりあえず、k=1.0のとき
+    // 外周する円の全体が描かれるようにすると、
+    // 1000f/2/(外円の半径+外周する円の直径)
+    //  = 1000f/2/3
+    // -------------------------------------------
+    private var rR = side/6f
+
+    // -------------------------------------------
+    // エピサイクロイド曲線描画に使う外周する円の係数
+    // -------------------------------------------
+    private var k = 1.0f
+
+    // -------------------------------
+    // 現在値として描画する円の半径
+    // -------------------------------
+    private val nr = 10f
+
+    // ------------------------------------
+    // エピサイクロイド曲線の媒介変数(度)
+    // ------------------------------------
+    private var angle = 0f
+    private var angleMax = 360f
+
+    // ------------------------------------
+    // エピサイクロイド曲線の描画点リスト
+    // ------------------------------------
+    val pointLst = mutableListOf<MyPointF>()
+
+    // ---------------------------------------------------------------------
+    // 描画領域として使うビットマップ
+    // ---------------------------------------------------------------------
+    // 画面にタッチするとdrawが呼び出されるようなのでビットマップに描画する
+    // ---------------------------------------------------------------------
+    private lateinit var imageBitmap: Bitmap
+    private val tmpBitmap = Bitmap.createBitmap(intrinsicWidth,intrinsicHeight, Bitmap.Config.ARGB_8888)
+
+    // -------------------------------
+    // 枠に使うペイント
+    // -------------------------------
+    private val framePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.BLACK
+        style = Paint.Style.STROKE
+        strokeWidth = 10f
+    }
+
+    // -------------------------------
+    // バックグラウンドに使うペイント
+    // -------------------------------
+    private val backPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.WHITE
+        style = Paint.Style.FILL
+    }
+
+    // -------------------------------
+    // エピサイクロイド曲線を描くペイント
+    // -------------------------------
+    private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.RED
+        style = Paint.Style.STROKE
+        strokeWidth = 5f
+    }
+
+    // ---------------------------------------
+    // エピサイクロイド曲線の現在値を描くペイント
+    // ---------------------------------------
+    private val lineNowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.RED
+        style = Paint.Style.FILL
+    }
+
+    // ---------------------------------------
+    // エピサイクロイド曲線に沿う円を描くペイント
+    // ---------------------------------------
+    private val circlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.BLUE
+        style = Paint.Style.STROKE
+        strokeWidth = 3f
+    }
+
+    // -----------------------------------------------
+    // エピサイクロイド曲線に沿う円の現在値を描くペイント
+    // -----------------------------------------------
+    private val circleNowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.BLUE
+        style = Paint.Style.FILL
+    }
+
+    // -------------------------------------
+    // 描画中に呼び出すコールバックを設定
+    // -------------------------------------
+    private var notifyCallback: NotifyCallback? = null
+
+    // ---------------------------------------
+    // 別スレッドで描画するためのハンドラ
+    // ---------------------------------------
+    val handler = Handler()
+
+    // ---------------------------------------
+    // 描画に使うスレッド
+    // ---------------------------------------
+    private lateinit var runnable: Runnable
+
+    // -------------------------------------------------------
+    // CalculationCallback
+    // 描画に使うデータを計算する
+    // -------------------------------------------------------
+    // 可変変数 values の引数位置による意味合い
+    //
+    // 第１引数:媒介変数の初期位置(通常は0度)
+    // 第２引数:エピサイクロイド曲線描画に使う外周する円の係数
+    // -------------------------------------------------------
+    override fun calStart(isKickThread: Boolean, vararg values: Float) {
+        // 媒介変数の初期位置
+        var angleInit = 0f
+        // 可変変数 values を初期値として、このクラスで使う変数に当てはめる
+        values.forEachIndexed { index, fl ->
+            //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
+            when (index) {
+                // 媒介変数の初期位置
+                0 -> angleInit = fl
+                // エピサイクロイド曲線描画に使う外周する円の係数
+                1 -> k = fl
+            }
+        }
+        // 外円の半径
+        rR = side/2f / (1f+2f/k)
+
+        // 描画に使うパラメータを初期化
+        init()
+
+        // エピサイクロイド曲線の媒介変数(度)の最大値を求める
+        calAngleMax()
+
+        // エピサイクロイド曲線の描画点を追加
+        addPoint()
+        // 初期位置に車で描画点を追加する
+        while ( angle < angleInit )  {
+            // エピサイクロイド曲線の描画点を移動
+            movePoint()
+            // エピサイクロイド曲線の描画点を追加
+            addPoint()
+        }
+        // ビットマップに描画
+        drawBitmap()
+        // 描画
+        invalidateSelf()
+
+        // 描画に使うスレッド
+        if ( isKickThread ) {
+            runnable = Runnable {
+                // "更新"状態
+                if ( isPaused == false ) {
+                    // エピサイクロイド曲線の描画点を移動
+                    movePoint()
+                    // エピサイクロイド曲線の描画点を追加
+                    addPoint()
+                    // ビットマップに描画
+                    drawBitmap()
+                    // 描画
+                    invalidateSelf()
+
+                    // 最初と最後は1秒後に描画
+                    if (angle == angleMax || angle == 0f) {
+                        handler.postDelayed(runnable, 1000)
+                    }
+                    // 100msごとに描画
+                    else {
+                        handler.postDelayed(runnable, 100)
+                    }
+                }
+                // "停止"状態のときは、更新されないよう処理をスキップする
+                else {
+                    handler.postDelayed(runnable, 100)
+                }
+            }
+            handler.postDelayed(runnable, 1000)
+        }
+    }
+
+    // -------------------------------
+    // 描画に使うパラメータを初期化
+    // -------------------------------
+    private fun init() {
+        angle = 0f
+        pointLst.clear()
+    }
+
+    // -----------------------------------------------------
+    // エピサイクロイド曲線の媒介変数(度)の最大値を求める
+    // -----------------------------------------------------
+    private fun calAngleMax() {
+        // エピサイクロイド曲線描画に使う外周する円の係数の小数点以下の桁数
+        val numOfDecimals = MyMathUtil.getNumberOfDecimals(k)
+        //Log.d(javaClass.simpleName,"numOfDecimals[$numOfDecimals]")
+
+        // "エピサイクロイド曲線描画に使う外周する円の係数"が整数となるよう補正する値(分母)
+        // kが整数になるように10の倍数を掛けた値
+        val kD = 10f.pow(numOfDecimals).toInt()
+        // kDを"kDとkNの最大公約数"で割った値
+        var kd = kD
+
+        // "エピサイクロイド曲線描画に使う外周する円の係数"が整数となるよう補正された値(分子)
+        // kが整数になるように掛けた値(10の倍数)
+        val kN = (k * kD).toInt()
+        // kNを"kDとkNの最大公約数"で割った値
+        var kn = kN
+
+        // ----------------------------------------------------------------------------
+        // k=3.0 => kD= 1,kN= 3 => kd= 1,kn= 3
+        // k=4.0 => kD= 1,kN= 4 => kd= 1,kn= 4
+        // k=2.1 => kD=10,kN=21 => kd=10,kn=21
+        // k=3.8 => kD=10,kN=38 => kd= 5,kn=19
+        // k=5.5 => kD=10,kN=55 => kd= 2,kn=11
+        // k=7.2 => kD=10,kN=72 => kd= 5,kn=36
+        //   kd:エピサイクロイド曲線を描く点が元の位置に戻るために外円を周回する回数
+        //   kn:エピサイクロイド曲線を描く点が外円と接する回数(外周する円が回転する回数)
+        // ----------------------------------------------------------------------------
+        // 少しわかりづらいので、書き直すと、
+        // k=3.0の場合、外周する円が外円を1周する間に、外周する円自身は 3周自転している
+        // k=5.5の場合、外周する円が外円を2周する間に、外周する円自身は11周自転している
+        // ----------------------------------------------------------------------------
+        // kdとknは、kDとkNそれぞれに10の倍数を掛けた値なので、
+        // 2 or 5で割り切れる可能性がある
+        // ----------------------------------------------------------------------------
+        (1..numOfDecimals).forEach {
+            // 分母・分子ともに2で割り切れれば、2で割る
+            if ( (kd%2 == 0) and (kn%2 == 0) ) {
+                kd=kd/2
+                kn=kn/2
+            }
+            // 分母・分子ともに5で割り切れれば、5で割る
+            if ( (kd%5 == 0) and (kn%5 == 0) ) {
+                kd=kd/5
+                kn=kn/5
+            }
+        }
+
+        angleMax = 360f * kd.toFloat()
+        //Log.d(javaClass.simpleName,"angleMax[$angleMax]")
+    }
+
+    // ------------------------------------
+    // エピサイクロイド曲線の描画点を追加
+    // ------------------------------------
+    private fun addPoint() {
+        // エピサイクロイド曲線を描く外周する円の半径
+        val rR1 = rR/k
+
+        // エピサイクロイド曲線の描画点リストに現在の描画点
+        val x = (rR + rR1) * cos(angle*PI/180f).toFloat() - rR1 * cos((k+1)*angle*PI/180f).toFloat()
+        val y = (rR + rR1) * sin(angle*PI/180f).toFloat() - rR1 * sin((k+1)*angle*PI/180f).toFloat()
+        // エピサイクロイド曲線の描画点リストに現在の描画点を加える
+        val pointNow = MyPointF(x,y)
+        pointLst.add(pointNow)
+
+        // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
+        notifyCallback?.receive(angle)
+    }
+
+    // -------------------------------
+    // エピサイクロイド曲線の描画点を移動
+    // -------------------------------
+    private fun movePoint() {
+        // 5度ずつ移動する
+        angle = angle + 5f
+        //Log.d(javaClass.simpleName,"angle[{$angle}]")
+
+        // 最大値を超えたら
+        // ・元の位置に戻す
+        // ・エピサイクロイド曲線の描画点リストをクリアする
+        if ( angle > angleMax ) {
+            init()
+        }
+    }
+
+    // -------------------------------
+    // ビットマップに描画
+    // -------------------------------
+    private fun drawBitmap() {
+        val canvas = Canvas(tmpBitmap)
+        // バックグランドを描画
+        canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),backPaint)
+
+        // 枠を描画
+        canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
+
+        // 原点(0,0)の位置
+        // = (左右中央,上下中央)
+        val x0 = (intrinsicWidth/2).toFloat()
+        val y0 = (intrinsicHeight/2).toFloat()
+
+        // X軸を描画(上下中央)
+        canvas.save()
+        canvas.translate(0f,y0)
+        canvas.drawLine(0f,0f,intrinsicWidth.toFloat(),0f, framePaint)
+        canvas.restore()
+
+        // Y軸を描画(左右中央)
+        canvas.save()
+        canvas.translate(x0,0f)
+        canvas.drawLine(0f,0f,0f,intrinsicHeight.toFloat(), framePaint)
+        canvas.restore()
+
+        // 原点(x0,y0)を中心に円・エピサイクロイド曲線を描く
+        canvas.save()
+        canvas.translate(x0,y0)
+
+        // エピサイクロイド曲線を描く外円を描画
+        //canvas.drawCircle(0f,0f,rR,backPaint)
+        canvas.drawCircle(0f,0f,rR,framePaint)
+
+        // エピサイクロイド曲線を描く外周する円の半径
+        val rR1 = rR/k
+        // エピサイクロイド曲線を描く外周する円の中心が軌道を描く円の半径
+        val rR2 = rR + rR1
+        // エピサイクロイド曲線を描く外周する円の中心が軌道を描く円の媒介変数
+        val t2 = angle*PI.toFloat()/180f
+        // エピサイクロイド曲線を描く外周する円を描画
+        // 初期    の中心座標  (rR + rR/k,0)
+        canvas.drawCircle(rR2*cos(t2),rR2*sin(t2),rR1,backPaint)
+        canvas.drawCircle(rR2*cos(t2),rR2*sin(t2),rR1,circlePaint)
+
+        // エピサイクロイド曲線の現在値を取得
+        val nowPointF = when ( pointLst.size ) {
+            0 -> MyPointF(0f,0f)
+            else -> pointLst[pointLst.size-1]
+        }
+
+        // "外周する円の中心"と"エピサイクロイド曲線の現在値"を結ぶ
+        canvas.drawLine(rR2*cos(t2),rR2*sin(t2),nowPointF.x,nowPointF.y,circlePaint)
+
+        // エピサイクロイド曲線を描く
+        val path = Path()
+        pointLst.forEachIndexed { index, myPointF ->
+            if ( index == 0 ) {
+                path.moveTo(myPointF.x,myPointF.y)
+            }
+            else {
+                path.lineTo(myPointF.x,myPointF.y)
+            }
+        }
+        canvas.drawPath(path,linePaint)
+
+        // エピサイクロイド曲線を描く外周する円の中心の現在値をドットで描く
+        canvas.drawCircle(rR2*cos(t2),rR2*sin(t2),nr,circleNowPaint)
+
+        // エピサイクロイド曲線の現在値をドットで描く
+        canvas.drawCircle(nowPointF.x,nowPointF.y,nr,lineNowPaint)
+
+        // 座標を元に戻す
+        canvas.restore()
+
+        // これまでの描画は上下逆なので反転する
+        val matrix = Matrix()
+        matrix.postScale(1f,-1f)
+        imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
+    }
+
+    // -------------------------------------
+    // CalculationCallback
+    // 描画中に呼び出すコールバックを設定
+    // -------------------------------------
+    override fun setNotifyCallback(notifyCallback: NotifyCallback) {
+        this.notifyCallback = notifyCallback
+    }
+
+    // -------------------------------------
+    // CalculationCallback
+    // 描画ビューを閉じる際,呼び出す後処理
+    // -------------------------------------
+    override fun calStop() {
+        // 描画に使うスレッドを解放する
+        handler.removeCallbacks(runnable)
+    }
+
+    // -------------------------------
+    // Drawable
+    // -------------------------------
+    override fun draw(canvas: Canvas) {
+        // 描画用ビットマップがインスタンス化されていなければ描画はスキップする
+        if ( this::imageBitmap.isInitialized == false ) return
+
+        canvas.drawBitmap(imageBitmap,0f,0f,framePaint)
+    }
+
+    // -------------------------------
+    // Drawable
+    // -------------------------------
+    override fun setAlpha(alpha: Int) {
+        linePaint.alpha = alpha
+    }
+
+    // -------------------------------
+    // Drawable
+    // -------------------------------
+    override fun getOpacity(): Int = PixelFormat.TRANSLUCENT
+
+    // -------------------------------
+    // Drawable
+    // -------------------------------
+    override fun setColorFilter(colorFilter: ColorFilter?) {
+        linePaint.colorFilter = colorFilter
+    }
+
+    // -------------------------------
+    // Drawable
+    // -------------------------------
+    override fun getIntrinsicWidth(): Int = (side+margin*2).toInt()
+
+    // -------------------------------
+    // Drawable
+    // -------------------------------
+    override fun getIntrinsicHeight(): Int = (side+margin*2).toInt()
+}
