@@ -16,7 +16,8 @@ import milu.kiriu2010.milumathcaras.gui.draw.d3.sphere.SphereTransform02Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.view.Polyhedron02Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.wave.CirclePhaseShift01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.wave.Helix01Renderer
-import milu.kiriu2010.milumathcaras.gui.draw.d3.wave.sin.SinFloor01Renderer
+import milu.kiriu2010.milumathcaras.gui.draw.d3.wave.floor.WaveFloor01Renderer
+import milu.kiriu2010.milumathcaras.gui.draw.d3.wave.floor.WaveFloor02Renderer
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import java.lang.RuntimeException
 
@@ -90,8 +91,10 @@ class MgRendererFactory {
                 DrawDataID.ID_001500_GL_HELIX_01 -> Helix01Renderer(context)
                 // 円の位相をずらして描画
                 DrawDataID.ID_001501_GL_CIRCLE_PHASE_SHIFT_01 -> CirclePhaseShift01Renderer(context)
-                // サイン波の床
-                DrawDataID.ID_001502_GL_SIN_FLOOR_01 -> SinFloor01Renderer(context)
+                // 波うつ床01
+                DrawDataID.ID_001502_GL_WAVE_FLOOR_01 -> WaveFloor01Renderer(context)
+                // 波うつ床02
+                DrawDataID.ID_001503_GL_WAVE_FLOOR_02 -> WaveFloor02Renderer(context)
                 // 同心円を描画
                 DrawDataID.ID_001600_GLSL_CONCENTRIC_CIRCLE -> GLSL01Renderer(context)
                 // オーブを描画

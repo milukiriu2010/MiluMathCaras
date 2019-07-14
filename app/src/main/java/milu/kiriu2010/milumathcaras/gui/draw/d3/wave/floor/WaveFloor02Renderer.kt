@@ -1,8 +1,9 @@
-package milu.kiriu2010.milumathcaras.gui.draw.d3.wave.sin
+package milu.kiriu2010.milumathcaras.gui.draw.d3.wave.floor
 
 import android.content.Context
 import android.opengl.GLES32
 import android.opengl.Matrix
+import milu.kiriu2010.gui.model.d2.Line02Model
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.shader.es32.ES32Simple01Shader
 import milu.kiriu2010.gui.vbo.es32.ES32VBOIpc
@@ -11,15 +12,16 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
+import kotlin.math.abs
 
 // -----------------------------------------
-// サイン波の床
+// 波うつ床02
 // -----------------------------------------
-// 2019.07.13
+// 2019.07.14
 // -----------------------------------------
-class SinFloor01Renderer(ctx: Context): MgRenderer(ctx) {
+class WaveFloor02Renderer(ctx: Context): MgRenderer(ctx) {
     // 描画モデル(サイン波)
-    private val model = Sin01Model()
+    private val model = Line02Model()
 
     // VBO(特殊効果なし)
     private val vboSimple = ES32VBOIpc()
@@ -27,13 +29,16 @@ class SinFloor01Renderer(ctx: Context): MgRenderer(ctx) {
     // シェーダ(特殊効果なし)
     private val shaderSimple = ES32Simple01Shader(ctx)
 
-    // 位相角度
-    private var angleDv = 1
+    private lateinit var hs: FloatArray
 
-    // 円の分割数
-    val row = 64f
-    // 北緯45度/南緯45度で位相のずれが最大となるように8で割っている
-    val ta = 90f/(row/8)
+    init {
+        hs = FloatArray(21)
+        (-10..10).forEach { i ->
+            val ii = i.toFloat()
+            hs[i+10] = 3f*ii
+        }
+
+    }
 
     override fun onDrawFrame(gl: GL10?) {
         if ( isRunning == true ) {
@@ -48,7 +53,7 @@ class SinFloor01Renderer(ctx: Context): MgRenderer(ctx) {
         GLES32.glClear(GLES32.GL_COLOR_BUFFER_BIT or GLES32.GL_DEPTH_BUFFER_BIT)
 
         // ビュー×プロジェクション
-        vecEye = qtnNow.toVecIII(floatArrayOf(0f,30f,50f))
+        vecEye = qtnNow.toVecIII(floatArrayOf(0f,15f,30f))
         vecEyeUp = qtnNow.toVecIII(floatArrayOf(0f,1f,0f))
         Matrix.setLookAtM(matV, 0,
             vecEye[0], vecEye[1], vecEye[2],
@@ -75,12 +80,13 @@ class SinFloor01Renderer(ctx: Context): MgRenderer(ctx) {
                     }
                 }
 
-                (-360..360 step 5).forEach { i ->
+                (-72..72).forEach { i ->
                     val ii = i.toFloat()
-                    val i2 = i+360
-                    buf.put(3*i2/5,ii/36f)
-                    buf.put(3*i2/5+1,MyMathUtil.sinf(ii+t0+jj*36f))
-                    buf.put(3*i2/5+2,jj)
+                    val i2 = i+72
+                    buf.put(3*i2,ii*5f/36f)
+                    buf.put(3*i2+1,MyMathUtil.sinf(hs[(abs(i)+angle[0])%hs.size]+t0))
+                    //buf.put(3*i2+1,MyMathUtil.sinf(hs[abs(i)%hs.size]+t0))
+                    buf.put(3*i2+2,jj)
                 }
 
                 buf.position(0)
@@ -104,19 +110,18 @@ class SinFloor01Renderer(ctx: Context): MgRenderer(ctx) {
                     }
                 }
 
-                (-360..360 step 5).forEach { i ->
+                (-72..72).forEach { i ->
                     val ii = i.toFloat()
-                    val i2 = i+360
-                    buf.put(3*i2/5,jj)
-                    buf.put(3*i2/5+1,MyMathUtil.sinf(ii+t0+jj*36f))
-                    buf.put(3*i2/5+2,ii/36f)
+                    val i2 = i+72
+                    buf.put(3*i2,jj)
+                    buf.put(3*i2+1,MyMathUtil.sinf(hs[(abs(i)+angle[0])%hs.size]+t0))
+                    buf.put(3*i2+2,ii*5f/36f)
                 }
 
                 buf.position(0)
                 buf
             })
         }
-
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {

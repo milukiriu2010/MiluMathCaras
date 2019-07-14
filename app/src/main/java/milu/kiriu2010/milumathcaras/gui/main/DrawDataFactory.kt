@@ -888,8 +888,10 @@ class DrawDataFactory {
                 }
                 // ３次元波を描画するメニュー
                 MenuItem.MENU_POLYHEDRON_WAVE -> {
-                    // サイン波の床
-                    drawDataLst.add(DrawData(DrawDataID.ID_001502_GL_SIN_FLOOR_01,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001502_gl_sin_floor_01), drawViewType = DrawViewType.DVT_GL ))
+                    // 波うつ床02
+                    drawDataLst.add(DrawData(DrawDataID.ID_001503_GL_WAVE_FLOOR_02,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001503_gl_wave_floor_02), drawViewType = DrawViewType.DVT_GL ))
+                    // 波うつ床01
+                    drawDataLst.add(DrawData(DrawDataID.ID_001502_GL_WAVE_FLOOR_01,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001502_gl_wave_floor_01), drawViewType = DrawViewType.DVT_GL ))
                     // 円の位相をずらして描画
                     drawDataLst.add(DrawData(DrawDataID.ID_001501_GL_CIRCLE_PHASE_SHIFT_01,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001501_gl_circle_phase_shift_01), drawViewType = DrawViewType.DVT_GL ))
                     // 線でHelixを描画

@@ -345,7 +345,8 @@
     <string name="draw_001400_gl_koch_snowflake_01">Koch Snowflake\n 01</string>
     <string name="draw_001500_gl_helix_01">Helix 01</string>
     <string name="draw_001501_gl_circle_phase_shift_01">Circle Phase\nShift 01</string>
-    <string name="draw_001502_gl_sin_floor_01">Sin Floor 01</string>
+    <string name="draw_001502_gl_wave_floor_01">Wave Floor 01</string>
+    <string name="draw_001503_gl_wave_floor_02">Wave Floor 02</string>
     <string name="draw_001600_glsl_concentric_circle">Concentric Circle</string>
     <string name="draw_001601_glsl_orb">Orb</string>
     <string name="draw_001602_glsl_zoom_line">Zoom Line</string>

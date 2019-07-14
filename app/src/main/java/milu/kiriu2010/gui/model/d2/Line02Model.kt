@@ -1,14 +1,14 @@
-package milu.kiriu2010.milumathcaras.gui.draw.d3.wave.sin
+package milu.kiriu2010.gui.model.d2
 
 import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.math.MyMathUtil
 
 // ----------------------------------------------
-// 曲線(sin)
+// 曲線(床用)
 // ----------------------------------------------
 // 2019.07.13
 // ----------------------------------------------
-class Sin01Model: MgModelAbs() {
+class Line02Model: MgModelAbs() {
 
     override fun createPath( opt: Map<String,Float> ) {
         datPos.clear()

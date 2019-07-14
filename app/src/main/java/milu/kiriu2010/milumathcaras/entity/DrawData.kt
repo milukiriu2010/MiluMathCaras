@@ -528,8 +528,10 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_001500_GL_HELIX_01(1500),
     // 円の位相をずらして描画
     ID_001501_GL_CIRCLE_PHASE_SHIFT_01(1501),
-    // サイン波の床
-    ID_001502_GL_SIN_FLOOR_01(1502),
+    // 波うつ床01
+    ID_001502_GL_WAVE_FLOOR_01(1502),
+    // 波うつ床02
+    ID_001503_GL_WAVE_FLOOR_02(1503),
     // 同心円を描画
     ID_001600_GLSL_CONCENTRIC_CIRCLE(1600),
     // オーブを描画
