@@ -29,7 +29,7 @@ class WaveFloor02Renderer(ctx: Context): MgRenderer(ctx) {
     // シェーダ(特殊効果なし)
     private val shaderSimple = ES32Simple01Shader(ctx)
 
-    private lateinit var hs: FloatArray
+    private var hs: FloatArray
 
     init {
         hs = FloatArray(21)
