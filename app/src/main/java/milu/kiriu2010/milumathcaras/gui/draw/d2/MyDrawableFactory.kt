@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw
+package milu.kiriu2010.milumathcaras.gui.draw.d2
 
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
 import milu.kiriu2010.milumathcaras.gui.draw.d2.circle.circles.*

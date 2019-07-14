@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw
+package milu.kiriu2010.milumathcaras.gui.draw.d2
 
 import android.view.MotionEvent
 

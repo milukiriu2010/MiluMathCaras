@@ -3,7 +3,7 @@ package milu.kiriu2010.milumathcaras.gui.draw.d2.illusion
 import android.graphics.*
 import android.os.Handler
 import android.view.MotionEvent
-import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 // -------------------------------------------------

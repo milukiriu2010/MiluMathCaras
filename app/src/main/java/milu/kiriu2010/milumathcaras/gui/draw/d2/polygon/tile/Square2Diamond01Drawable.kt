@@ -3,7 +3,7 @@ package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.tile
 import android.graphics.*
 import android.os.Handler
 import milu.kiriu2010.gui.basic.MyPointF
-import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 // -----------------------------------------------------------------

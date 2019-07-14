@@ -5,7 +5,7 @@ import android.os.Handler
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.gui.color.ColorType
 import milu.kiriu2010.gui.color.MyColorFactory
-import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 // ---------------------------------------------------------------------

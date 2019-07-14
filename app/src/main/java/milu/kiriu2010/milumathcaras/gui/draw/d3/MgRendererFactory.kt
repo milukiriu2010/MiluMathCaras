@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw
+package milu.kiriu2010.milumathcaras.gui.draw.d3
 
 import android.content.Context
 import milu.kiriu2010.gui.renderer.MgRenderer

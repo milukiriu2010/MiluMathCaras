@@ -4,7 +4,7 @@ import android.graphics.*
 import android.os.Handler
 import milu.kiriu2010.gui.basic.MyVectorF
 import milu.kiriu2010.math.MyMathUtil
-import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 // ---------------------------------------------

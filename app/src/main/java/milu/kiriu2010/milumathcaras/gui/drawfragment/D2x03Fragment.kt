@@ -16,8 +16,8 @@ import milu.kiriu2010.milumathcaras.R
 import milu.kiriu2010.milumathcaras.entity.DrawData
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
 import milu.kiriu2010.milumathcaras.entity.DrawFragmentType
-import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
-import milu.kiriu2010.milumathcaras.gui.draw.MyDrawableFactory
+import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawableFactory
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import java.lang.RuntimeException
 

@@ -7,14 +7,13 @@ import android.util.Log
 import android.view.*
 import android.widget.TextView
 import milu.kiriu2010.gui.view.MyGLES32View
-import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.R
 
 import milu.kiriu2010.milumathcaras.entity.DrawData
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
 import milu.kiriu2010.milumathcaras.entity.DrawFragmentType
-import milu.kiriu2010.milumathcaras.gui.draw.MgRendererFactory
+import milu.kiriu2010.milumathcaras.gui.draw.d3.MgRendererFactory
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 private const val ARG_PARAM1 = "drawdata"

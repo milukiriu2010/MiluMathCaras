@@ -10,8 +10,7 @@ import android.widget.TextView
 import milu.kiriu2010.milumathcaras.R
 import milu.kiriu2010.milumathcaras.entity.DrawData
 import milu.kiriu2010.milumathcaras.entity.DrawViewType
-import milu.kiriu2010.milumathcaras.gui.draw.MgRendererFactory
-import milu.kiriu2010.milumathcaras.gui.draw.MyDrawableFactory
+import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawableFactory
 import java.lang.RuntimeException
 
 class DrawDataV2Adapter(

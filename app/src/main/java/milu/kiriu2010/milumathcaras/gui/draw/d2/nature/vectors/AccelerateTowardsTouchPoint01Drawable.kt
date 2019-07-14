@@ -5,7 +5,7 @@ import android.os.Handler
 import android.view.MotionEvent
 import milu.kiriu2010.gui.basic.MyCircleF
 import milu.kiriu2010.gui.basic.MyVectorF
-import milu.kiriu2010.milumathcaras.gui.draw.MyDrawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 // ------------------------------------------------------------------
