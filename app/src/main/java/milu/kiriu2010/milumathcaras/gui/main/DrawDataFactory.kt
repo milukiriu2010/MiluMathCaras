@@ -891,6 +891,8 @@ class DrawDataFactory {
                 }
                 // ３次元波を描画するメニュー
                 MenuItem.MENU_POLYHEDRON_WAVE -> {
+                    // 円が床を境に円運動
+                    drawDataLst.add(DrawData(DrawDataID.ID_001504_GL_WAVE_CIRCLE_01,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001504_gl_wave_circle_01), drawViewType = DrawViewType.DVT_GL ))
                     // 波うつ床02
                     drawDataLst.add(DrawData(DrawDataID.ID_001503_GL_WAVE_FLOOR_02,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001503_gl_wave_floor_02), drawViewType = DrawViewType.DVT_GL ))
                     // 波うつ床01
