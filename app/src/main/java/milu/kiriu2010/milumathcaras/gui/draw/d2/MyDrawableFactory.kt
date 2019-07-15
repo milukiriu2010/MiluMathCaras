@@ -54,6 +54,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.d2.nature.vectors.RandomWalk01Drawa
 import milu.kiriu2010.milumathcaras.gui.draw.d2.nature.vectors.UniformMotion01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.polygon.*
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.square.Square2Cross01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.square.SquareInSquare01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.tile.*
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.triangle.*
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.triangle.center.*
@@ -339,6 +340,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000611_SQUARE_2_CROSS_01 -> Square2Cross01Drawable()
                 // 三角形内を線が移動
                 DrawDataID.ID_000612_LINES_IN_TRIANGLE_01 -> LinesInTriangle01Drawable()
+                // 正方形内を正方形が移動
+                DrawDataID.ID_000613_SQUARE_IN_SQUARE_01 -> SquareInSquare01Drawable()
                 // 三角形out三角形
                 DrawDataID.ID_000701_3_OUT_3 -> PolygonOutPolygon01Drawable()
                 // 三角形out四角形

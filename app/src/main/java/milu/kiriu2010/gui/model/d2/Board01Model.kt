@@ -42,13 +42,7 @@ class Board01Model: MgModelAbs() {
         color[2] = opt["colorB"] ?: -1f
         color[3] = opt["colorA"] ?: -1f
 
-        /*
-        // 位置(Zを描くような順序)
-        datPos.addAll(arrayListOf(-scale,-scale,0f))
-        datPos.addAll(arrayListOf( scale,-scale,0f))
-        datPos.addAll(arrayListOf(-scale, scale,0f))
-        datPos.addAll(arrayListOf( scale, scale,0f))
-        */
+        // 位置
         datPos.addAll(arrayListOf(-scale,-scale,0f))
         datPos.addAll(arrayListOf(-scale, scale,0f))
         datPos.addAll(arrayListOf( scale, scale,0f))
@@ -79,7 +73,7 @@ class Board01Model: MgModelAbs() {
         color[2] = opt["colorB"] ?: -1f
         color[3] = opt["colorA"] ?: -1f
 
-        // 位置(Zを描くような順序)
+        // 位置
         datPos.addAll(arrayListOf(-scale,0f,-scale))
         datPos.addAll(arrayListOf(-scale,0f, scale))
         datPos.addAll(arrayListOf( scale,0f, scale))

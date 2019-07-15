@@ -94,19 +94,19 @@ class ES32Simple02Shader(ctx: Context): ES32MgShader(ctx) {
             // 線を描画
             GLES32.GL_LINES -> {
                 val cnt = model.datPos.size/3
-                GLES32.glDrawArrays(GLES32.GL_LINES,0,cnt)
+                GLES32.glDrawArraysInstanced(GLES32.GL_LINES,0,cnt,model.datOff.size/3)
                 MyGLES32Func.checkGlError("glDrawArrays:GL_LINES",this,model)
             }
             // 線を描画
             GLES32.GL_LINE_STRIP -> {
                 val cnt = model.datPos.size/3
-                GLES32.glDrawArrays(GLES32.GL_LINE_STRIP,0,cnt)
+                GLES32.glDrawArraysInstanced(GLES32.GL_LINE_STRIP,0,cnt,model.datOff.size/3)
                 MyGLES32Func.checkGlError("glDrawArrays:GL_LINE_STRIP",this,model)
             }
             // 線を描画
             GLES32.GL_LINE_LOOP -> {
                 val cnt = model.datPos.size/3
-                GLES32.glDrawArrays(GLES32.GL_LINE_LOOP,0,cnt)
+                GLES32.glDrawArraysInstanced(GLES32.GL_LINE_LOOP,0,cnt,model.datOff.size/3)
                 MyGLES32Func.checkGlError("glDrawArrays:GL_LINE_LOOP",this,model)
             }
         }
@@ -222,17 +222,17 @@ class ES32Simple02Shader(ctx: Context): ES32MgShader(ctx) {
             // 線を描画
             GLES32.GL_LINES -> {
                 val cnt = model.datPos.size/3
-                GLES32.glDrawArrays(GLES32.GL_LINES,0,cnt)
+                GLES32.glDrawArraysInstanced(GLES32.GL_LINES,0,cnt,model.datOff.size/3)
             }
             // 線を描画
             GLES32.GL_LINE_STRIP -> {
                 val cnt = model.datPos.size/3
-                GLES32.glDrawArrays(GLES32.GL_LINE_STRIP,0,cnt)
+                GLES32.glDrawArraysInstanced(GLES32.GL_LINE_STRIP,0,cnt,model.datOff.size/3)
             }
             // 線を描画
             GLES32.GL_LINE_LOOP -> {
                 val cnt = model.datPos.size/3
-                GLES32.glDrawArrays(GLES32.GL_LINE_LOOP,0,cnt)
+                GLES32.glDrawArraysInstanced(GLES32.GL_LINE_LOOP,0,cnt,model.datOff.size/3)
             }
         }
 

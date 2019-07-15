@@ -24,13 +24,17 @@ import kotlin.math.abs
 class WaveCircle01Renderer(ctx: Context): MgRenderer(ctx) {
     // 描画モデル(円)
     private val modelCircle = Circle01Model()
-    // 描画モデル(床)
-    private val modelBoard = Board01Model()
+    // 描画モデル(床:黒)
+    private val modelBoardB = Board01Model()
+    // 描画モデル(床:白)
+    private val modelBoardW = Board01Model()
 
     // VAO(円)
     private val vaoCircle = ES32VAOIpc()
-    // VAO(床)
-    private val vaoBoard = ES32VAOIpco()
+    // VAO(床:黒)
+    private val vaoBoardB = ES32VAOIpco()
+    // VAO(床:白)
+    private val vaoBoardW = ES32VAOIpco()
 
     // シェーダ(円)
     private val shaderCircle = ES32Simple01Shader(ctx)
@@ -89,7 +93,9 @@ class WaveCircle01Renderer(ctx: Context): MgRenderer(ctx) {
         // 床を描画
         Matrix.setIdentityM(matM,0)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderBoard.draw(vaoBoard,matMVP)
+        shaderBoard.draw(vaoBoardW,matMVP)
+        GLES32.glLineWidth(10f)
+        shaderBoard.draw(vaoBoardB,matMVP,GLES32.GL_LINE_LOOP)
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
@@ -128,21 +134,33 @@ class WaveCircle01Renderer(ctx: Context): MgRenderer(ctx) {
             (-n..n).forEach { j ->
                 val jj = j.toFloat()
                 if (((i+j)%2)==0) {
-                    modelBoard.datOff.addAll(arrayListOf(a*jj,a*ii,0f))
+                    modelBoardB.datOff.addAll(arrayListOf(a*jj,a*ii,0f))
+                    modelBoardW.datOff.addAll(arrayListOf(a*jj,a*ii,0f))
                 }
             }
         }
 
-        // 描画モデル(床)
-        modelBoard.createPath(mapOf(
+        // 描画モデル(床:黒)
+        modelBoardB.createPath(mapOf(
             "colorR" to 0f,
             "colorG" to 0f,
             "colorB" to 0f,
             "colorA" to 1f
         ))
 
-        // VAO(床)
-        vaoBoard.makeVIBO(modelBoard)
+        // VAO(床:黒)
+        vaoBoardB.makeVIBO(modelBoardB)
+
+        // 描画モデル(床:白)
+        modelBoardW.createPath(mapOf(
+            "colorR" to 1f,
+            "colorG" to 1f,
+            "colorB" to 1f,
+            "colorA" to 1f
+        ))
+
+        // VAO(床:白)
+        vaoBoardW.makeVIBO(modelBoardW)
     }
 
     override fun setMotionParam(motionParam: MutableMap<String, Float>) {
@@ -152,7 +170,9 @@ class WaveCircle01Renderer(ctx: Context): MgRenderer(ctx) {
     // シェーダ終了処理
     override fun closeShader() {
         vaoCircle.deleteVIBO()
-        vaoBoard.deleteVIBO()
+        vaoBoardB.deleteVIBO()
+        vaoBoardW.deleteVIBO()
         shaderCircle.deleteShader()
+        shaderBoard.deleteShader()
     }
 }

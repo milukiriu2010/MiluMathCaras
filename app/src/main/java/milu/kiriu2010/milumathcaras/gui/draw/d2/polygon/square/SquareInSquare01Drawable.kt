@@ -9,13 +9,11 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.sqrt
 
 // -------------------------------------------
-// 正方形⇔十字
+// 正方形内を正方形が移動
 // -------------------------------------------
-// https://66.media.tumblr.com/2222aaac0c1642796c14e59a59ec7486/tumblr_ocmkngaCFl1r2geqjo1_540.gif
+// 2019.07.15
 // -------------------------------------------
-// 2019.07.10
-// -------------------------------------------
-class Square2Cross01Drawable: MyDrawable() {
+class SquareInSquare01Drawable: MyDrawable() {
 
     private enum class Mode {
         SQUARE,
