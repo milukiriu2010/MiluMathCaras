@@ -868,6 +868,8 @@ class DrawDataFactory {
                 }
                 // 球体に座標変換を施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_SPHERE_TRANSFORM -> {
+                    // 球体色シフト
+                    drawDataLst.add(DrawData(DrawDataID.ID_001302_GL_SPHERE_COLOR_SHIFT,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001302_gl_sphere_color_shift_01), drawViewType = DrawViewType.DVT_GL ))
                     // 球体座標変換02
                     drawDataLst.add(DrawData(DrawDataID.ID_001301_GL_SPHERE_TRANSFORM_02,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001301_gl_sphere_transform_02), drawViewType = DrawViewType.DVT_GL ))
                     // 球体座標変換01

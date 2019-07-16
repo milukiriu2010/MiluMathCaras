@@ -118,7 +118,7 @@ class CirclePhaseShift01Renderer(ctx: Context): MgRenderer(ctx) {
         GLES32.glEnable(GLES32.GL_CULL_FACE)
 
         // シェーダ(特殊効果なし)
-        shaderSimple.loadShaderDynamicPos()
+        shaderSimple.loadShaderDynamic()
 
         // 描画モデル(円)
         model.createPath(mapOf(

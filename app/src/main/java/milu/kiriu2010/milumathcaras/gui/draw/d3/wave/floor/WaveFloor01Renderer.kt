@@ -123,7 +123,7 @@ class WaveFloor01Renderer(ctx: Context): MgRenderer(ctx) {
         GLES32.glEnable(GLES32.GL_CULL_FACE)
 
         // シェーダ(特殊効果なし)
-        shaderSimple.loadShaderDynamicPos()
+        shaderSimple.loadShaderDynamic()
 
         // 描画モデル(サイン波)
         model.createPath()

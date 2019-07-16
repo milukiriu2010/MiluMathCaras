@@ -16,6 +16,7 @@ import kotlin.math.sin
 // 2019.06.11  A成分を指定ありで色を自動生成可能とする
 // 2019.07.02  パッケージ修正
 // 2019.07.10  warning消す
+// 2019.07.16  色を緯度・経度で変更できるように修正
 // ----------------------------------------------------
 class Sphere01Model: MgModelAbs() {
 
@@ -50,6 +51,9 @@ class Sphere01Model: MgModelAbs() {
         color[1] = opt["colorG"] ?: -1f
         color[2] = opt["colorB"] ?: -1f
         color[3] = opt["colorA"] ?: -1f
+        // 経度:1/緯度:2
+        var latlng = opt["latlng"] ?: 1f
+
 
 
         var rad = radius * scale
@@ -70,12 +74,26 @@ class Sphere01Model: MgModelAbs() {
                 }
                 // A成分のみ指定あり
                 else if ( ( color[0] == -1f ) and ( color[1] == -1f ) and ( color[2] == -1f ) and ( color[3] != -1f ) ) {
-                    val tc = MgColor.hsva(360/column*ii,1f,1f,color[3])
+                    val tc = if ( latlng == 1f ) {
+                        // 経度で色を変更
+                        MgColor.hsva(360/column*ii,1f,1f,color[3])
+                    }
+                    else {
+                        // 緯度で色を変更
+                        MgColor.hsva(360/row*i,1f,1f,color[3])
+                    }
                     datCol.addAll(arrayListOf<Float>(tc[0],tc[1],tc[2],tc[3]))
                 }
                 // RGBA全成分の指定なし
                 else {
-                    val tc = MgColor.hsva(360/column*ii,1f,1f,1f)
+                    val tc = if ( latlng == 1f ) {
+                        // 経度で色を変更
+                        MgColor.hsva(360 / column * ii, 1f, 1f, 1f)
+                    }
+                    else {
+                        // 緯度で色を変更
+                        MgColor.hsva(360 / row * i, 1f, 1f, 1f)
+                    }
                     datCol.addAll(arrayListOf<Float>(tc[0],tc[1],tc[2],tc[3]))
                 }
                 datPos.addAll(arrayListOf(tx,ty,tz))

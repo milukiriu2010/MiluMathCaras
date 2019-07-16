@@ -11,6 +11,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.d3.net.dodecahedron.NetDodecahedron
 import milu.kiriu2010.milumathcaras.gui.draw.d3.net.icosahedron.NetIcosahedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.net.octahedron.NetOctahedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.net.tetrahedron.NetTetrahedron02Renderer
+import milu.kiriu2010.milumathcaras.gui.draw.d3.sphere.SphereColorShift01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.sphere.SphereTransform01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.sphere.SphereTransform02Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.view.Polyhedron02Renderer
@@ -86,6 +87,8 @@ class MgRendererFactory {
                 DrawDataID.ID_001300_GL_SPHERE_TRANSFORM_01 -> SphereTransform01Renderer(context)
                 // 球体座標変換02
                 DrawDataID.ID_001301_GL_SPHERE_TRANSFORM_02 -> SphereTransform02Renderer(context)
+                // 球体色シフト01
+                DrawDataID.ID_001302_GL_SPHERE_COLOR_SHIFT -> SphereColorShift01Renderer(context)
                 // 立方体の中をコッホ雪片が回転
                 DrawDataID.ID_001400_GL_KOCH_SNOWFLAKE_01 -> KochSnowflake01Renderer(context)
                 // 線でHelixを描画

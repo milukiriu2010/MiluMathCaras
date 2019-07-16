@@ -152,7 +152,7 @@ class SquareInSquare01Drawable: MyDrawable() {
         val c = MyPointF(side,side)
         val d = MyPointF(0f,side)
 
-        (0..9).forEach {
+        (0..14).forEach {
             polygonLst.add(a.copy())
             polygonLst.add(b.copy())
             polygonLst.add(c.copy())
