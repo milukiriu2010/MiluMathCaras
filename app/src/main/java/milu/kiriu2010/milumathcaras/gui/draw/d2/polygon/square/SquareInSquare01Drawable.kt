@@ -15,31 +15,16 @@ import kotlin.math.sqrt
 // -------------------------------------------
 class SquareInSquare01Drawable: MyDrawable() {
 
-    private enum class Mode {
-        SQUARE,
-        SQUARE2CROSS,
-        CROSS,
-        CROSS2SQUARE
-    }
-
     // -------------------------------
     // 描画領域
     // -------------------------------
     private val side = 1000f
     private val margin = 50f
 
-    // 現在のモード
-    private var modeNow = Mode.SQUARE
-
     // -------------------------------
-    // 円関連のパラメータ
+    // 0次正方形の一辺の長さ
     // -------------------------------
-    // 座標中心から円の中心までの距離
-    private val rA = side*0.5f*0.5f
-    // 円の半径
-    private val rB = side*0.5f/sqrt(10f)
-    // 円の中心リスト
-    private val centerLst = mutableListOf<MyPointF>()
+    private val a = side
 
     // -------------------------------
     // 描画点のリスト
@@ -47,15 +32,10 @@ class SquareInSquare01Drawable: MyDrawable() {
     private val polygonLst = mutableListOf<MyPointF>()
 
     // -------------------------------
-    // 描画点の回転角度
+    // 描画点の位置
     // -------------------------------
-    private val ratio = 0.1f
-    private var angleMax1 = 90f
-    private var angleMax2 = MyMathUtil.atanf(0.5f)
-    private var angleMax = angleMax1
-    private var angleMin = 0f
-    private var angleNow = angleMin
-    private var angleDv = angleMax1*ratio
+    private var ratioNow = 0f
+    private val ratioDv = 0.05f
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -83,11 +63,12 @@ class SquareInSquare01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 円を描くペイント
+    // 正方形を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLACK
-        style = Paint.Style.FILL
+        style = Paint.Style.STROKE
+        strokeWidth = 10f
     }
 
     // -------------------------------------
@@ -112,9 +93,7 @@ class SquareInSquare01Drawable: MyDrawable() {
     // values
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
-        // 円の中心リスト
-        createCircle()
-        // 三角形を生成
+        // 四角形を生成
         createPolygon()
         // ビットマップに描画
         drawBitmap()
@@ -126,8 +105,6 @@ class SquareInSquare01Drawable: MyDrawable() {
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
-                    // 三角形を生成
-                    createPolygon()
                     // 三角形を移動
                     movePolygon()
                     // ビットマップに描画
@@ -136,7 +113,7 @@ class SquareInSquare01Drawable: MyDrawable() {
                     invalidateSelf()
 
                     // 100msごとに描画
-                    handler.postDelayed(runnable, 100)
+                    handler.postDelayed(runnable, 50)
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
@@ -165,140 +142,32 @@ class SquareInSquare01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 円の中心リストを生成
-    // -------------------------------
-    private fun createCircle() {
-        centerLst.clear()
-
-        (0..3).forEach { i ->
-            val ii = i.toFloat()
-            val p = MyPointF().also {
-                it.x = rA * MyMathUtil.cosf(90f*ii+45f)
-                it.y = rA * MyMathUtil.sinf(90f*ii+45f)
-            }
-            centerLst.add(p)
-        }
-    }
-
-    // -------------------------------
-    // 多角形を生成
+    // 四角形を生成
     // -------------------------------
     private fun createPolygon() {
-        if ( angleNow >= angleMax ) {
-            angleNow = angleMin
-        }
-        if ( angleNow > 0f ) return
-
         polygonLst.clear()
 
-        modeNow = when (modeNow) {
-            Mode.SQUARE -> Mode.SQUARE2CROSS
-            Mode.SQUARE2CROSS -> Mode.CROSS
-            Mode.CROSS -> Mode.CROSS2SQUARE
-            Mode.CROSS2SQUARE -> Mode.SQUARE
-        }
+        val a = MyPointF()
+        val b = MyPointF(side,0f)
+        val c = MyPointF(side,side)
+        val d = MyPointF(0f,side)
 
-        // 多角形を生成する
-        when (modeNow) {
-            Mode.SQUARE -> {
-                angleMax = angleMax1
-                angleDv = angleMax*ratio
-
-                val x0 = rA * MyMathUtil.cosf(45f)
-                val y0 = rA * MyMathUtil.sinf(45f)
-                // 正方形１
-                polygonLst.add(MyPointF(x0,y0))
-                polygonLst.add(MyPointF(-x0,y0))
-                polygonLst.add(MyPointF(-x0,-y0))
-                polygonLst.add(MyPointF(x0,-y0))
-            }
-            Mode.SQUARE2CROSS -> {
-                angleMax = angleMax2
-                angleDv = angleMax*ratio
-
-                val x0 = rA * MyMathUtil.cosf(45f)
-                val y0 = rA * MyMathUtil.sinf(45f)
-
-                // 正方形１
-                polygonLst.add(MyPointF(x0,y0))
-                polygonLst.add(MyPointF(x0-rB,y0))
-                polygonLst.add(MyPointF(x0-rB,y0-rB))
-                polygonLst.add(MyPointF(x0,y0-rB))
-                // 正方形２
-                polygonLst.add(MyPointF(-x0,y0))
-                polygonLst.add(MyPointF(-x0,y0-rB))
-                polygonLst.add(MyPointF(-x0+rB,y0-rB))
-                polygonLst.add(MyPointF(-x0+rB,y0))
-                // 正方形３
-                polygonLst.add(MyPointF(-x0,-y0))
-                polygonLst.add(MyPointF(-x0+rB,-y0))
-                polygonLst.add(MyPointF(-x0+rB,-y0+rB))
-                polygonLst.add(MyPointF(-x0,-y0+rB))
-                // 正方形４
-                polygonLst.add(MyPointF(x0,-y0))
-                polygonLst.add(MyPointF(x0,-y0+rB))
-                polygonLst.add(MyPointF(x0-rB,-y0+rB))
-                polygonLst.add(MyPointF(x0-rB,-y0))
-            }
-            Mode.CROSS -> {
-                angleMax = angleMax1
-                angleDv = angleMax*ratio
-
-                val x0 = rA * MyMathUtil.cosf(45f)
-                val y0 = rA * MyMathUtil.sinf(45f)
-                val x1 = rB * MyMathUtil.cosf(angleMax2)
-                val y1 = rB * MyMathUtil.sinf(angleMax2)
-
-                // 正方形１
-                polygonLst.add(MyPointF(x0,y0))
-                polygonLst.add(MyPointF(x0-x1,y0+y1))
-                polygonLst.add(MyPointF(-x0,-y0))
-                polygonLst.add(MyPointF(-x0+x1,-y0-y1))
-                // 正方形２
-                polygonLst.add(MyPointF(-x0,y0))
-                polygonLst.add(MyPointF(-x0-y1,y0-x1))
-                polygonLst.add(MyPointF(x0,-y0))
-                polygonLst.add(MyPointF(x0+y1,-y0+x1))
-            }
-            Mode.CROSS2SQUARE -> {
-                angleMax = angleMax2
-                angleDv = angleMax*ratio
-
-                val x0 = rA * MyMathUtil.cosf(45f)
-                val y0 = rA * MyMathUtil.sinf(45f)
-                val x1 = rB * MyMathUtil.cosf(angleMax2)
-                val y1 = rB * MyMathUtil.sinf(angleMax2)
-
-                // 正方形１
-                polygonLst.add(MyPointF(x0,y0))
-                polygonLst.add(MyPointF(x0-x1,y0+y1))
-                polygonLst.add(MyPointF(-x0+x1,y0-y1))
-                polygonLst.add(MyPointF(x0-y1,y0-x1))
-                // 正方形２
-                polygonLst.add(MyPointF(-x0,y0))
-                polygonLst.add(MyPointF(-x0-y1,y0-x1))
-                polygonLst.add(MyPointF(-x0+y1,-y0+x1))
-                polygonLst.add(MyPointF(-x0+x1,y0-y1))
-                // 正方形３
-                polygonLst.add(MyPointF(-x0,-y0))
-                polygonLst.add(MyPointF(-x0+x1,-y0-y1))
-                polygonLst.add(MyPointF(x0-x1,-y0+y1))
-                polygonLst.add(MyPointF(-x0+y1,-y0+x1))
-                // 正方形４
-                polygonLst.add(MyPointF(x0,-y0))
-                polygonLst.add(MyPointF(x0+y1,-y0+x1))
-                polygonLst.add(MyPointF(x0-y1,y0-x1))
-                polygonLst.add(MyPointF(x0-x1,-y0+y1))
-            }
+        (0..9).forEach {
+            polygonLst.add(a.copy())
+            polygonLst.add(b.copy())
+            polygonLst.add(c.copy())
+            polygonLst.add(d.copy())
         }
     }
 
     // -------------------------------
-    // 三角形を移動
+    // 四角形を移動
     // -------------------------------
     private fun movePolygon() {
-        angleNow += angleDv
-
+        ratioNow += ratioDv
+        if ( ratioNow >= 1f ) {
+            ratioNow = 0f
+        }
     }
 
     // -------------------------------
@@ -314,26 +183,41 @@ class SquareInSquare01Drawable: MyDrawable() {
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
         // 原点(0,0)の位置
-        // = (左右中央,上下中央)
-        val x0 = (intrinsicWidth/2).toFloat()
-        val y0 = (intrinsicHeight/2).toFloat()
+        val x0 = margin
+        val y0 = margin
 
-        // 原点(x0,y0)を中心に円・三角形を描く
         canvas.save()
         canvas.translate(x0,y0)
 
-        // 円を描く
-        centerLst.forEach { center ->
-            canvas.drawCircle(center.x,center.y,rB,linePaint)
-        }
+        // 四角形を描く
+        var path = Path()
+        polygonLst.forEachIndexed { id, p ->
+            val id0 = id%4
+            val q: MyPointF
+            if (id < 4) {
+                q = p
+            }
+            else {
+                val p0= polygonLst[id-4]
+                val p1 = if (id0 < 3) polygonLst[id-3] else polygonLst[id-7]
 
-        // 多角形を描く
-        when (modeNow) {
-            Mode.SQUARE -> drawModeSquare(canvas)
-            Mode.SQUARE2CROSS -> drawModeSquare2Cross(canvas,-1f)
-            Mode.CROSS -> drawModeCross(canvas)
-            Mode.CROSS2SQUARE -> drawModeSquare2Cross(canvas,1f)
+                q = p0.lerp(p1,ratioNow,1f-ratioNow)
+            }
+            p.x = q.x
+            p.y = q.y
+
+            if (id0==0) {
+                path.close()
+                canvas.drawPath(path,linePaint)
+
+                path.moveTo(q.x, q.y)
+            }
+            else {
+                path.lineTo(q.x,q.y)
+            }
         }
+        path.close()
+        canvas.drawPath(path,linePaint)
 
         // 座標を元に戻す
         canvas.restore()
@@ -342,78 +226,6 @@ class SquareInSquare01Drawable: MyDrawable() {
         val matrix = Matrix()
         matrix.postScale(1f,1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
-    }
-
-    // １つの正方形を回転
-    private fun drawModeSquare(canvas: Canvas) {
-        //backPaint.color = Color.RED
-        val path = Path()
-        polygonLst.forEachIndexed { id, p ->
-            val q = p.copy()
-            q.rotate(angleNow)
-            if (id == 0) {
-                path.moveTo(q.x,q.y)
-            }
-            else {
-                path.lineTo(q.x,q.y)
-            }
-        }
-        path.close()
-        canvas.drawPath(path,backPaint)
-    }
-
-    // ４つの正方形を描画
-    private fun drawModeSquare2Cross(canvas: Canvas,sign: Float) {
-        /*
-        if ( sign > 0f ) {
-            backPaint.color = Color.YELLOW
-        }
-        else {
-            backPaint.color = Color.GREEN
-        }
-        */
-        var path = Path()
-        var o = MyPointF()
-        polygonLst.forEachIndexed { id, p ->
-            val q = p.copy()
-            if (id%4 == 0) {
-                path.close()
-                canvas.drawPath(path,backPaint)
-                path.reset()
-
-                o = q
-                path.moveTo(q.x,q.y)
-            }
-            else {
-                q.rotate(sign*angleNow,o)
-                path.lineTo(q.x,q.y)
-            }
-        }
-        path.close()
-        canvas.drawPath(path,backPaint)
-    }
-
-    // ２つの正方形を描画
-    private fun drawModeCross(canvas: Canvas) {
-        //backPaint.color = Color.BLUE
-        var path = Path()
-        polygonLst.forEachIndexed { id, p ->
-            val q = p.copy()
-            if (id%4 == 0) {
-                path.close()
-                canvas.drawPath(path,backPaint)
-                path.reset()
-
-                q.rotate(-angleNow)
-                path.moveTo(q.x,q.y)
-            }
-            else {
-                q.rotate(-angleNow)
-                path.lineTo(q.x,q.y)
-            }
-        }
-        path.close()
-        canvas.drawPath(path,backPaint)
     }
 
     // -------------------------------
