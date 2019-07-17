@@ -218,13 +218,14 @@
     <string name="draw_000604_polygon_square_2_diamond_01">Square ⇔ \nDiamond 01</string>
     <string name="draw_000605_polygon_triangle_2_diamond">Triangle ⇔ \nDiamond</string>
     <string name="draw_000606_polygon_square_2_diamond_02">Square ⇔ \nDiamond 02</string>
-    <string name="draw_000607_polygon_triangle_2_hexagon">Triangle ⇔ \nHexagon</string>
+    <string name="draw_000607_polygon_triangle_2_hexagon_01">Triangle ⇔ \nHexagon 01</string>
     <string name="draw_000608_polygon_square_cross_01">Square Cross 01</string>
     <string name="draw_000609_polygon_hexagon_scale_01">Hexagon Scale 01</string>
     <string name="draw_000610_polygon_hexagon_scale_02">Hexagon Scale 02</string>
     <string name="draw_000611_polygon_square_2_cross_01">Square ⇔ \nCross 01</string>
     <string name="draw_000612_polygon_lines_in_triangle_01">Lines in \nTriangle 01</string>
     <string name="draw_000613_polygon_square_in_square_01">Square in \nSquare 01</string>
+    <string name="draw_000614_polygon_triangle_2_hexagon_02">Triangle ⇔ \nHexagon 02</string>
     <string name="draw_000701_polygon_3_out_3">3 out 3</string>
     <string name="draw_000702_polygon_3_out_4">3 out 4</string>
     <string name="draw_000703_polygon_3_out_5">3 out 5</string>

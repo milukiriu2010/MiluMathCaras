@@ -442,6 +442,9 @@ class DrawDataFactory {
                 }
                 // 敷き詰めた多角形を描画するメニュー
                 MenuItem.MENU_POLYGON_TILE -> {
+                    // 三角形⇔ひし形02
+                    drawDataLst.add(DrawData(DrawDataID.ID_000614_TRIANGLE_2_HEXAGON_02,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000614_polygon_triangle_2_hexagon_02),
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/9d2270db688ea684dd5e86b6c718e334/tumblr_oqhhibwGeV1r2geqjo1_540.gif") ))
                     // 六角形が波打つようにスケールを変更02
                     drawDataLst.add(DrawData(DrawDataID.ID_000610_HEXAGON_SCALE_02,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000610_polygon_hexagon_scale_02) ))
                     // 六角形が波打つようにスケールを変更01
@@ -449,10 +452,10 @@ class DrawDataFactory {
                     // 正方形を×印で並べる
                     drawDataLst.add(DrawData(DrawDataID.ID_000608_SQUARE_CROSS_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000608_polygon_square_cross_01) ))
                     // 六角形に沿って三角形が移動
-                    drawDataLst.add(DrawData(DrawDataID.ID_000607_TRIANGLE_2_HEXAGON,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000607_polygon_triangle_2_hexagon) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000607_TRIANGLE_2_HEXAGON_01,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000607_polygon_triangle_2_hexagon_01) ))
                     // 正方形⇔ひし形02
                     drawDataLst.add(DrawData(DrawDataID.ID_000606_SQUARE_2_DIAMOND_02,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000606_polygon_square_2_diamond_02) ))
-                    // 三角形⇔ひし形
+                    // 三角形⇔ひし形01
                     drawDataLst.add(DrawData(DrawDataID.ID_000605_TRIANGLE_2_DIAMOND,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000605_polygon_triangle_2_diamond),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/6fbe92faf0c058002dfee6c5485a0187/tumblr_mo0n7hepeL1ql82o1o1_r3_500.gif") ))
                     // 正方形⇔ひし形01

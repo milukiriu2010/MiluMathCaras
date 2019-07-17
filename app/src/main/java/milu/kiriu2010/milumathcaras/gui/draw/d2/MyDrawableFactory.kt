@@ -328,8 +328,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000605_TRIANGLE_2_DIAMOND -> Triangle2Diamond01Drawable()
                 // 正方形⇔ひし形02
                 DrawDataID.ID_000606_SQUARE_2_DIAMOND_02 -> Square2Diamond02Drawable()
-                // 三角形⇔六角形
-                DrawDataID.ID_000607_TRIANGLE_2_HEXAGON -> Triangle2Hexagon01Drawable()
+                // 三角形⇔六角形01
+                DrawDataID.ID_000607_TRIANGLE_2_HEXAGON_01 -> Triangle2Hexagon01Drawable()
                 // 正方形を×印で並べる
                 DrawDataID.ID_000608_SQUARE_CROSS_01 -> SquareCross01Drawable()
                 // 六角形が波打つようにスケールを変更01
@@ -342,6 +342,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000612_LINES_IN_TRIANGLE_01 -> LinesInTriangle01Drawable()
                 // 正方形内を正方形が移動
                 DrawDataID.ID_000613_SQUARE_IN_SQUARE_01 -> SquareInSquare01Drawable()
+                // 三角形⇔六角形02
+                DrawDataID.ID_000614_TRIANGLE_2_HEXAGON_02 -> Triangle2Hexagon02Drawable()
                 // 三角形out三角形
                 DrawDataID.ID_000701_3_OUT_3 -> PolygonOutPolygon01Drawable()
                 // 三角形out四角形

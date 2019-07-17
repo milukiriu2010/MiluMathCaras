@@ -43,6 +43,10 @@ class Square2Cross01Drawable: MyDrawable() {
     // 円の中心リスト
     private val centerLst = mutableListOf<MyPointF>()
 
+
+    // "描画点の初期位置設定"をしたかどうか
+    private var isInitialized = false
+
     // -------------------------------
     // 描画点のリスト
     // -------------------------------
@@ -114,6 +118,8 @@ class Square2Cross01Drawable: MyDrawable() {
     // values
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
+        // "描画点の初期位置設定"をしたかどうか
+        isInitialized = false
         // 円の中心リスト
         createCircle()
         // 三角形を生成
@@ -193,11 +199,19 @@ class Square2Cross01Drawable: MyDrawable() {
 
         polygonLst.clear()
 
-        modeNow = when (modeNow) {
-            Mode.SQUARE -> Mode.SQUARE2CROSS
-            Mode.SQUARE2CROSS -> Mode.CROSS
-            Mode.CROSS -> Mode.CROSS2SQUARE
-            Mode.CROSS2SQUARE -> Mode.SQUARE
+        // "描画点の初期位置設定"をしたかどうか
+        // 設定している  ⇒モード変更
+        // 設定していない⇒モードそのまま
+        if ( isInitialized == true ) {
+            modeNow = when (modeNow) {
+                Mode.SQUARE -> Mode.SQUARE2CROSS
+                Mode.SQUARE2CROSS -> Mode.CROSS
+                Mode.CROSS -> Mode.CROSS2SQUARE
+                Mode.CROSS2SQUARE -> Mode.SQUARE
+            }
+        }
+        else {
+            isInitialized = true
         }
 
         // 多角形を生成する

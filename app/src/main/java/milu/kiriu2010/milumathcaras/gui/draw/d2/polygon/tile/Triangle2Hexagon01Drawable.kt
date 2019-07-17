@@ -9,7 +9,7 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.sqrt
 
 // -----------------------------------------------------------------
-// 三角形⇔六角形
+// 三角形⇔六角形01
 // -----------------------------------------------------------------
 class Triangle2Hexagon01Drawable: MyDrawable() {
 
