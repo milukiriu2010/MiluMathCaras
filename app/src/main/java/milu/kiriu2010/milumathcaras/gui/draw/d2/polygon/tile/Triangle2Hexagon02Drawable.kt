@@ -6,6 +6,7 @@ import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
+import kotlin.math.sqrt
 
 // -----------------------------------------------------------------
 // 三角形⇔六角形02
@@ -40,126 +41,16 @@ class Triangle2Hexagon02Drawable: MyDrawable() {
     // -------------------------------
     private val a = side/split/3
 
-    // -------------------------------------
-    // 三角形の頂点(開いた状態:A)
-    // -------------------------------------
-    val a00 = MyPointF().also {
-        it.x = a * MyMathUtil.cosf(0f)
-        it.y = a * MyMathUtil.sinf(0f)
-    }
-    val a01 = MyPointF().also {
-        it.x = 2f*a * MyMathUtil.cosf(30f)
-        it.y = 2f*a * MyMathUtil.sinf(30f)
-    }
-    val a02 = MyPointF().also {
-        it.x = a * MyMathUtil.cosf(60f)
-        it.y = a * MyMathUtil.sinf(60f)
-    }
-    // -------------------------------------
-    // 三角形の頂点(開いた状態:B)
-    // -------------------------------------
-    val b00 = MyPointF().also {
-        it.x = a * MyMathUtil.cosf(60f)
-        it.y = a * MyMathUtil.sinf(60f)
-    }
-    val b01 = MyPointF().also {
-        it.x = 2f*a * MyMathUtil.cosf(90f)
-        it.y = 2f*a * MyMathUtil.sinf(90f)
-    }
-    val b02 = MyPointF().also {
-        it.x = a * MyMathUtil.cosf(120f)
-        it.y = a * MyMathUtil.sinf(120f)
-    }
-    // -------------------------------------
-    // 三角形の頂点(開いた状態:C)
-    // -------------------------------------
-    val c00 = MyPointF().also {
-        it.x = a * MyMathUtil.cosf(120f)
-        it.y = a * MyMathUtil.sinf(120f)
-    }
-    val c01 = MyPointF().also {
-        it.x = 2f*a * MyMathUtil.cosf(150f)
-        it.y = 2f*a * MyMathUtil.sinf(150f)
-    }
-    val c02 = MyPointF().also {
-        it.x = a * MyMathUtil.cosf(180f)
-        it.y = a * MyMathUtil.sinf(180f)
-    }
-    // -------------------------------------
-    // 三角形の頂点(閉じた状態:D)
-    // -------------------------------------
-    val d00 = MyPointF().also {
-        it.x = a * MyMathUtil.cosf(180f)
-        it.y = a * MyMathUtil.sinf(180f)
-    }
-    val d01 = MyPointF().also {
-        it.x = 2f*a * MyMathUtil.cosf(210f)
-        it.y = 2f*a * MyMathUtil.sinf(210f)
-    }
-    val d02 = MyPointF().also {
-        it.x = a * MyMathUtil.cosf(240f)
-        it.y = a * MyMathUtil.sinf(240f)
-    }
-    // -------------------------------------
-    // 三角形の頂点(UP_RIGHT)
-    // -------------------------------------
-    val e0 = MyPointF().also {
-        it.x = 0f
-        it.y = 0f
-    }
-    val e1 = MyPointF().also {
-        it.x = -a
-        it.y = 0f
-    }
-    val e2 = MyPointF().also {
-        it.x = a*MyMathUtil.cosf(120f)
-        it.y = a*MyMathUtil.sinf(120f)
-    }
-    val e3 = MyPointF().also {
-        it.x = a
-        it.y = 0f
-    }
-    val e4 = MyPointF().also {
-        it.x = a*MyMathUtil.cosf(300f)
-        it.y = a*MyMathUtil.sinf(300f)
-    }
-    // -------------------------------------
-    // 三角形の頂点(UP_LEFT)
-    // -------------------------------------
-    val f0 = MyPointF().also {
-        it.x = 0f
-        it.y = 0f
-    }
-    val f1 = MyPointF().also {
-        it.x = a*MyMathUtil.cosf(60f)
-        it.y = a*MyMathUtil.sinf(60f)
-    }
-    val f2 = MyPointF().also {
-        it.x = a
-        it.y = 0f
-    }
-    val f3 = MyPointF().also {
-        it.x = a*MyMathUtil.cosf(240f)
-        it.y = a*MyMathUtil.sinf(240f)
-    }
-    val f4 = MyPointF().also {
-        it.x = -a
-        it.y = 0f
-    }
-
-    // 現在の描画パターン
-    private var modeNow = Mode.TRI2HEX
-
     // "描画点の初期位置設定"をしたかどうか
     private var isInitialized = false
 
-    // 描画点のリスト
-    private val vertexLst = mutableListOf<Vertex>()
+    // 描画する三角形のリスト
+    private val triangleLst = mutableListOf<Triangle>()
 
     // 移動比率
     private val ratios = floatArrayOf(
-        0.0f,0.0f,0.0f,0.0f,0.0f,
-        0.2f,0.4f,0.6f,0.8f,1.0f)
+        0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,
+        0.0f,0.2f,0.4f,0.6f,0.8f,1.0f)
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -182,7 +73,7 @@ class Triangle2Hexagon02Drawable: MyDrawable() {
     // バックグラウンドに使うペイント
     // -------------------------------
     private val backPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.WHITE
+        color = Color.BLACK
         style = Paint.Style.FILL
     }
 
@@ -276,19 +167,78 @@ class Triangle2Hexagon02Drawable: MyDrawable() {
         // 設定していない⇒初期化を実施
         // 設定している  ⇒移動比率の位置により、モードを変更
         if ( isInitialized == false ) {
-            vertexLst.clear()
+            triangleLst.clear()
+            isInitialized = true
 
-
+            // -------------------------------
+            // 三角形の初期化
+            // -------------------------------
+            (0..0).forEach {
+                initPath(it)
+            }
         }
         else {
-
         }
     }
 
     // -------------------------------
-    // 描画点を移動する
+    // 三角形の初期化
+    // -------------------------------
+    private fun initPath(lv: Int) {
+        // ６つの三角形
+        (0..5).forEach { i ->
+            val ii = i.toFloat()
+
+            val triangle = Triangle()
+            // 三角形の頂点
+            (0..2).forEach { j ->
+                val jj = j.toFloat()
+
+                // 開始点
+                val s0 = if (j%2 == 0) a else sqrt(3f)*a
+                val ps = MyPointF().also {
+                    it.x = s0 * MyMathUtil.cosf(60f*ii+30f*jj)
+                    it.y = s0 * MyMathUtil.sinf(60f*ii+30f*jj)
+                }
+                triangle.slst.add(ps)
+
+                // 終了点
+                val e0 = if (j == 0) 0f else a
+                val pe = MyPointF().also {
+                    it.x = e0 * MyMathUtil.cosf(60f*ii+60f*jj)
+                    it.y = e0 * MyMathUtil.sinf(60f*ii+60f*jj)
+                }
+                triangle.elst.add(pe)
+            }
+
+            // 描画モード
+            triangle.mode = Mode.TRI2HEX
+            // 色
+            triangle.color = if (i%2==0) 0xff19b5fe.toInt() else Color.WHITE
+            // 移動比率の位置
+            triangle.ratioId = 5-lv
+
+            triangleLst.add(triangle)
+        }
+    }
+
+
+    // -------------------------------
+    // 三角形を移動する
     // -------------------------------
     private fun movePath() {
+        triangleLst.forEachIndexed { id, triangle ->
+            if (triangle.ratioId >= (ratios.size-1)) {
+                // モードを変更する＆三角形の始点・終点を変更
+
+                // 暫定
+                triangle.ratioId = 0
+            }
+            else {
+                // 移動比率の位置をインクリメントする
+                triangle.ratioId++
+            }
+        }
     }
 
     // -------------------------------
@@ -303,7 +253,92 @@ class Triangle2Hexagon02Drawable: MyDrawable() {
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
         // 原点(0,0)の位置
-        // = (マージン,マージン)
+        // = (中央,中央)
+        val x0 = intrinsicWidth.toFloat()*0.5f
+        val y0 = intrinsicHeight.toFloat()*0.5f
+
+        canvas.save()
+        canvas.translate(x0,y0)
+
+        // レベル(最大)
+        val lvMax = triangleLst.size/6-1
+
+        // レベルごとに描画
+        (0..lvMax).forEach { lv0 ->
+            canvas.save()
+
+            // ６つずつ三角形を描画する
+            (0..5).forEach { lv1 ->
+                val triangle = triangleLst[lv0*6+lv1]
+
+                // 移動比率
+                val ratio = ratios[triangle.ratioId]
+                // 三角形の色
+                linePaint.color = triangle.color
+
+                val path = Path()
+                (0..2).forEach { i ->
+                    // 始点
+                    val ps = triangle.slst[i]
+                    // 終点
+                    val pe = triangle.elst[i]
+                    // 移動後の点の位置
+                    val p = ps.lerp(pe,ratio,1f-ratio)
+
+                    if (i==0) {
+                        path.moveTo(p.x,p.y)
+                    }
+                    else {
+                        path.lineTo(p.x,p.y)
+                    }
+                }
+                path.close()
+                canvas.drawPath(path,linePaint)
+            }
+
+
+
+            canvas.restore()
+        }
+
+        /*
+        triangleLst.forEachIndexed { id0, triangle ->
+            canvas.save()
+            // 中心から離れているレベル
+            val lv0 = id0/6
+            // 描画する三角形のID
+            val lv1 = id0%6
+
+            // 移動比率
+            val ratio = ratios[triangle.ratioId]
+            // 三角形の色
+            linePaint.color = triangle.color
+
+            val path = Path()
+            (0..2).forEach { i ->
+                // 始点
+                val ps = triangle.slst[i]
+                // 終点
+                val pe = triangle.elst[i]
+                // 移動後の点の位置
+                val p = ps.lerp(pe,ratio,1f-ratio)
+
+                if (i==0) {
+                    path.moveTo(p.x,p.y)
+                }
+                else {
+                    path.lineTo(p.x,p.y)
+                }
+            }
+            path.close()
+            canvas.drawPath(path,linePaint)
+
+            canvas.restore()
+        }
+        */
+
+
+        canvas.restore()
 
         // これまでの描画はテンポラリなので、実体にコピーする
         val matrix = Matrix()
@@ -349,9 +384,9 @@ class Triangle2Hexagon02Drawable: MyDrawable() {
     override fun getIntrinsicHeight(): Int = (side+margin*2).toInt()
 
     // --------------------------------------
-    // 描画点
+    // 三角形
     // --------------------------------------
-    private data class Vertex(
+    private data class Triangle(
         // 頂点の起点位置
         var slst: MutableList<MyPointF> = mutableListOf(),
         // 頂点の終端位置
