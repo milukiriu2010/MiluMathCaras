@@ -17,10 +17,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.lissajous.Lissajous01Drawa
 import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.limacon.Limacon01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.limacon.Limacon02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.limacon.Limacon03Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.mix.CausticCircle01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.mix.Cochleoid01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.mix.CyclicHarmonic01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.mix.TrefleHabenicht01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.mix.*
 import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.special.*
 import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.spiral.fermat.FermatSpiral01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.spiral.involute.InvoluteCurve01Drawable
@@ -148,6 +145,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000040_CURVE_CYCLIC_HARMONIC_01 -> CyclicHarmonic01Drawable()
                 // Fermat Spiral
                 DrawDataID.ID_000041_FERMAT_SPIRAL_01 -> FermatSpiral01Drawable()
+                // Littus
+                DrawDataID.ID_000042_LITUUS_01 -> Lituus01Drawable()
                 // サイン波
                 DrawDataID.ID_000200_SINE_WAVE -> SineWave01Drawable()
                 // 円の周りを回転するサイン波

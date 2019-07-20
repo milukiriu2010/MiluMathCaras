@@ -186,6 +186,9 @@ class DrawDataFactory {
                 }
                 // SIN/COSのミックスを描画するメニュー
                 MenuItem.MENU_CURVE_MIX_SINCOS -> {
+                    // Lituus
+                    drawDataLst.add(DrawData(DrawDataID.ID_000042_LITUUS_01,DrawFragmentType.FT_D2_04,resources.getString(R.string.draw_000042_curve_lituus_01),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_littus_01)) ))
                     // Fermat Spiral
                     drawDataLst.add(DrawData(DrawDataID.ID_000041_FERMAT_SPIRAL_01,DrawFragmentType.FT_D2_04,resources.getString(R.string.draw_000041_curve_fermat_spiral_01),
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_fermat_spiral_01)) ))

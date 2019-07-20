@@ -93,6 +93,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000040_CURVE_CYCLIC_HARMONIC_01(40),
     // Fermat's Spiral
     ID_000041_FERMAT_SPIRAL_01(41),
+    // Lituus
+    ID_000042_LITUUS_01(42),
     // リサージュ曲線(p:q=1:2)
     ID_000050_LISSAJOUS_CURVE_1_2(50),
     // リサージュ曲線(p:q=3:2)
