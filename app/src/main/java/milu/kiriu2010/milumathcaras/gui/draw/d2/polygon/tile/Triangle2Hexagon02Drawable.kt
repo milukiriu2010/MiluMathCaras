@@ -28,13 +28,16 @@ class Triangle2Hexagon02Drawable: MyDrawable() {
     // -------------------------------
     // 描画領域
     // -------------------------------
-    private val side = 900f
+    private val side = 960f
     private val margin = 0f
+
+    // レベル(最大)
+    private val lvMax = 6
 
     // -------------------------------
     // 描画領域の分割数
     // -------------------------------
-    private val split = 9f
+    private val split = 8f
     private val splitN = split.toInt()
     // -------------------------------
     // 三角形一辺の長さ
@@ -173,7 +176,7 @@ class Triangle2Hexagon02Drawable: MyDrawable() {
             // -------------------------------
             // 三角形の初期化
             // -------------------------------
-            (0..0).forEach {
+            (0..lvMax).forEach {
                 initPath(it)
             }
         }
@@ -216,7 +219,7 @@ class Triangle2Hexagon02Drawable: MyDrawable() {
             // 色
             triangle.color = if (i%2==0) 0xff19b5fe.toInt() else Color.WHITE
             // 移動比率の位置
-            triangle.ratioId = 5-lv
+            triangle.ratioId = lvMax-lv
 
             triangleLst.add(triangle)
         }
@@ -229,16 +232,90 @@ class Triangle2Hexagon02Drawable: MyDrawable() {
     private fun movePath() {
         triangleLst.forEachIndexed { id, triangle ->
             if (triangle.ratioId >= (ratios.size-1)) {
-                // モードを変更する＆三角形の始点・終点を変更
+                val ii = (id%6).toFloat()
 
-                // 暫定
-                triangle.ratioId = 0
+                // モードを変更する＆三角形の始点・終点を変更
+                when (triangle.mode) {
+                    Mode.TRI2HEX -> createHex2Tri(triangle,ii)
+                    Mode.HEX2TRI -> createTri2Hex(triangle,ii)
+                }
+
             }
             else {
                 // 移動比率の位置をインクリメントする
                 triangle.ratioId++
             }
         }
+    }
+
+    // ---------------------------------------
+    // 三角形再生成
+    // 三角形⇒六角形
+    // ---------------------------------------
+    private fun createTri2Hex(triangle: Triangle, ii: Float) {
+        triangle.slst.clear()
+        triangle.elst.clear()
+
+        // 三角形の頂点
+        (0..2).forEach { j ->
+            val jj = j.toFloat()
+
+            // 開始点
+            val s0 = if (j%2 == 0) a else sqrt(3f)*a
+            val ps = MyPointF().also {
+                it.x = s0 * MyMathUtil.cosf(60f*ii+30f*jj)
+                it.y = s0 * MyMathUtil.sinf(60f*ii+30f*jj)
+            }
+            triangle.slst.add(ps)
+
+            // 終了点
+            val e0 = if (j == 0) 0f else a
+            val pe = MyPointF().also {
+                it.x = e0 * MyMathUtil.cosf(60f*ii+60f*jj)
+                it.y = e0 * MyMathUtil.sinf(60f*ii+60f*jj)
+            }
+            triangle.elst.add(pe)
+        }
+
+        // 描画モード
+        triangle.mode = Mode.TRI2HEX
+        // 移動比率の位置を初期化
+        triangle.ratioId = 0
+    }
+
+    // ---------------------------------------
+    // 三角形再生成
+    // 六角形⇒三角形
+    // ---------------------------------------
+    private fun createHex2Tri(triangle: Triangle,ii: Float) {
+        triangle.slst.clear()
+        triangle.elst.clear()
+
+        // 三角形の頂点
+        (0..2).forEach { j ->
+            val jj = j.toFloat()
+
+            // 開始点
+            val s0 = if (j == 0) 0f else a
+            val ps = MyPointF().also {
+                it.x = s0 * MyMathUtil.cosf(60f*ii+60f*jj)
+                it.y = s0 * MyMathUtil.sinf(60f*ii+60f*jj)
+            }
+            triangle.slst.add(ps)
+
+            // 終了点
+            val e0 = if (j%2 == 0) a else sqrt(3f)*a
+            val pe = MyPointF().also {
+                it.x = e0 * MyMathUtil.cosf(60f*ii+30f*jj)
+                it.y = e0 * MyMathUtil.sinf(60f*ii+30f*jj)
+            }
+            triangle.elst.add(pe)
+        }
+
+        // 描画モード
+        triangle.mode = Mode.HEX2TRI
+        // 移動比率の位置を初期化
+        triangle.ratioId = 0
     }
 
     // -------------------------------
@@ -261,53 +338,79 @@ class Triangle2Hexagon02Drawable: MyDrawable() {
         canvas.translate(x0,y0)
 
         // レベル(最大)
-        val lvMax = triangleLst.size/6-1
+        //val lvMax = triangleLst.size/6-1
 
         // レベルごとに描画
         (0..lvMax).forEach { lv0 ->
             canvas.save()
 
-            // ６つずつ三角形を描画する
-            (0..5).forEach { lv1 ->
-                val triangle = triangleLst[lv0*6+lv1]
+            // レベル１以上
+            if (lv0 > 0) {
+                // 正六角形の座標シフト
+                (0..5).forEach { si0 ->
+                    // -----------------------------
+                    // 正六角形の座標シフト
+                    // 頂点
+                    // -----------------------------
+                    val sit0 = si0.toFloat()
+                    val sx0 = lv0*3f*a*MyMathUtil.cosf(60f*sit0)
+                    val sy0 = lv0*3f*a*MyMathUtil.sinf(60f*sit0)
 
-                // 移動比率
-                val ratio = ratios[triangle.ratioId]
-                // 三角形の色
-                linePaint.color = triangle.color
+                    canvas.save()
+                    canvas.translate(sx0,sy0)
 
-                val path = Path()
-                (0..2).forEach { i ->
-                    // 始点
-                    val ps = triangle.slst[i]
-                    // 終点
-                    val pe = triangle.elst[i]
-                    // 移動後の点の位置
-                    val p = ps.lerp(pe,ratio,1f-ratio)
+                    // ６つずつ三角形を描画する
+                    drawTriangle(canvas,lv0)
 
-                    if (i==0) {
-                        path.moveTo(p.x,p.y)
-                    }
-                    else {
-                        path.lineTo(p.x,p.y)
+                    canvas.restore()
+
+                    // -----------------------------
+                    // レベル２以上
+                    // -----------------------------
+                    // 正六角形の座標シフト
+                    // 頂点間の補間
+                    // -----------------------------
+                    val sit1 = (si0+1).toFloat()
+                    val sx1 = lv0*3f*a*MyMathUtil.cosf(60f*sit1)
+                    val sy1 = lv0*3f*a*MyMathUtil.sinf(60f*sit1)
+                    val nN = lv0
+                    val nNt = nN.toFloat()
+                    val p0 = MyPointF(sx0,sy0)
+                    val p1 = MyPointF(sx1,sy1)
+                    (1..(lv0-1)).forEach { nn ->
+                        val nnt = nn.toFloat()
+                        val p2 = p0.lerp(p1,nnt,nNt-nnt)
+                        canvas.save()
+                        canvas.translate(p2.x,p2.y)
+
+                        // ６つずつ三角形を描画する
+                        drawTriangle(canvas,lv0)
+
+                        canvas.restore()
                     }
                 }
-                path.close()
-                canvas.drawPath(path,linePaint)
             }
-
-
+            // レベル０
+            else {
+                // ６つずつ三角形を描画する
+                drawTriangle(canvas,lv0)
+            }
 
             canvas.restore()
         }
 
-        /*
-        triangleLst.forEachIndexed { id0, triangle ->
-            canvas.save()
-            // 中心から離れているレベル
-            val lv0 = id0/6
-            // 描画する三角形のID
-            val lv1 = id0%6
+        canvas.restore()
+
+        // これまでの描画はテンポラリなので、実体にコピーする
+        val matrix = Matrix()
+        matrix.setScale(1f,1f)
+        imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
+    }
+
+    // 三角形を描画
+    private fun drawTriangle(canvas: Canvas,lv0: Int) {
+        (0..5).forEach { lv1 ->
+            val triangle = triangleLst[lv0*6+lv1]
 
             // 移動比率
             val ratio = ratios[triangle.ratioId]
@@ -332,18 +435,7 @@ class Triangle2Hexagon02Drawable: MyDrawable() {
             }
             path.close()
             canvas.drawPath(path,linePaint)
-
-            canvas.restore()
         }
-        */
-
-
-        canvas.restore()
-
-        // これまでの描画はテンポラリなので、実体にコピーする
-        val matrix = Matrix()
-        matrix.setScale(1f,1f)
-        imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
     }
 
     // -------------------------------
