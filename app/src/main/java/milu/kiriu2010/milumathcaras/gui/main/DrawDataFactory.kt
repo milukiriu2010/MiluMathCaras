@@ -431,6 +431,8 @@ class DrawDataFactory {
                     // 正方形⇔十字01
                     drawDataLst.add(DrawData(DrawDataID.ID_000611_SQUARE_2_CROSS_01,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000611_polygon_square_2_cross_01),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/2222aaac0c1642796c14e59a59ec7486/tumblr_ocmkngaCFl1r2geqjo1_540.gif") ))
+                    // 六角形が波打つようにスケールを変更02
+                    drawDataLst.add(DrawData(DrawDataID.ID_000610_HEXAGON_SCALE_02,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000610_polygon_hexagon_scale_02) ))
                     // 回転しながら三角形を合体
                     drawDataLst.add(DrawData(DrawDataID.ID_000603_TRIANGLE_UNITE,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000603_polygon_triangle_unite),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/094d3547b2ba27003dff3eaae387a225/tumblr_n13h7v4Ov01r2geqjo1_500.gif") ))
@@ -445,8 +447,6 @@ class DrawDataFactory {
                     // 三角形⇔ひし形02
                     drawDataLst.add(DrawData(DrawDataID.ID_000614_TRIANGLE_2_HEXAGON_02,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000614_polygon_triangle_2_hexagon_02),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/9d2270db688ea684dd5e86b6c718e334/tumblr_oqhhibwGeV1r2geqjo1_540.gif") ))
-                    // 六角形が波打つようにスケールを変更02
-                    drawDataLst.add(DrawData(DrawDataID.ID_000610_HEXAGON_SCALE_02,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000610_polygon_hexagon_scale_02) ))
                     // 六角形が波打つようにスケールを変更01
                     drawDataLst.add(DrawData(DrawDataID.ID_000609_HEXAGON_SCALE_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000609_polygon_hexagon_scale_01) ))
                     // 正方形を×印で並べる
@@ -871,8 +871,10 @@ class DrawDataFactory {
                 }
                 // 球体に座標変換を施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_SPHERE_TRANSFORM -> {
-                    // 球体色シフト
-                    drawDataLst.add(DrawData(DrawDataID.ID_001302_GL_SPHERE_COLOR_SHIFT,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001302_gl_sphere_color_shift_01), drawViewType = DrawViewType.DVT_GL ))
+                    // 球体色シフト02
+                    drawDataLst.add(DrawData(DrawDataID.ID_001303_GL_SPHERE_COLOR_SHIFT_02,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001303_gl_sphere_color_shift_02), drawViewType = DrawViewType.DVT_GL ))
+                    // 球体色シフト01
+                    drawDataLst.add(DrawData(DrawDataID.ID_001302_GL_SPHERE_COLOR_SHIFT_01,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001302_gl_sphere_color_shift_01), drawViewType = DrawViewType.DVT_GL ))
                     // 球体座標変換02
                     drawDataLst.add(DrawData(DrawDataID.ID_001301_GL_SPHERE_TRANSFORM_02,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001301_gl_sphere_transform_02), drawViewType = DrawViewType.DVT_GL ))
                     // 球体座標変換01
