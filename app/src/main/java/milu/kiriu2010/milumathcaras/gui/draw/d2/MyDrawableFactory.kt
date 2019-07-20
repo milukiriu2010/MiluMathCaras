@@ -147,6 +147,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000041_FERMAT_SPIRAL_01 -> FermatSpiral01Drawable()
                 // Littus
                 DrawDataID.ID_000042_LITUUS_01 -> Lituus01Drawable()
+                // Hypotrochoid
+                DrawDataID.ID_000043_HYPOTROCHOID_01 -> Hypotrochoid01Drawable()
                 // サイン波
                 DrawDataID.ID_000200_SINE_WAVE -> SineWave01Drawable()
                 // 円の周りを回転するサイン波

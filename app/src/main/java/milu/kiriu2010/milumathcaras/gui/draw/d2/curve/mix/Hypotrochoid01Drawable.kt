@@ -11,15 +11,16 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.pow
 
 // -------------------------------------------------------------------------------------
-// Cyclic Harmonic Curve
+// Hypotrochoid Curve
 // -------------------------------------------------------------------------------------
-//   ρ = a*(1+e*cos(n*t))
+//   x = a((q-1)*cos(t)+k*cos((q-1)t))
+//   y = a((q-1)*sin(t)-k*sin((q-1)t))
 // -------------------------------------------------------------------------------------
-// https://www.mathcurve.com/courbes2d.gb/conchoidderosace/conchoidderosace.shtml
+// https://www.mathcurve.com/courbes2d.gb/hypotrochoid/hypotrochoid.shtml
 // -------------------------------------------------------------------------------------
-// 2019.06.29
+// 2019.07.20
 // -------------------------------------------------------------------------------------
-class CyclicHarmonic01Drawable: MyDrawable() {
+class Hypotrochoid01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -28,28 +29,28 @@ class CyclicHarmonic01Drawable: MyDrawable() {
     private val margin = 50f
 
     // ---------------------------------
-    // Cyclic Harmonicの変数a
+    // Hypotrochoidの変数a
     // ---------------------------------
-    private var a = 100f
+    private var a = 300f
 
     // ---------------------------------
-    // Cyclic Harmonicの変数n
+    // Hypotrochoidの変数q
     // ---------------------------------
-    private var n = 3f
+    private var q = 3f
 
     // ---------------------------------
-    // Cyclic Harmonicの変数e
+    // Hypotrochoidの変数k
     // ---------------------------------
-    private var e = 1f
+    private var k = 1f
 
     // ----------------------------------
-    // Cyclic Harmonicの位相(変数tに相当)
+    // Hypotrochoidの位相(変数tに相当)
     // ----------------------------------
     private var angle = 0f
     private var angleMax = 360f
 
     // -------------------------------
-    // Cyclic Harmonicの描画点リスト
+    // Hypotrochoidの描画点リスト
     // -------------------------------
     val pointLst = mutableListOf<MyPointF>()
 
@@ -79,7 +80,7 @@ class CyclicHarmonic01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // Cyclic Harmonicを描くペイント
+    // Hypotrochoidを描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
@@ -107,24 +108,24 @@ class CyclicHarmonic01Drawable: MyDrawable() {
     // 描画に使うデータを計算する
     // --------------------------------------
     // values
-    // 第１引数:変数n
-    // 第２引数:変数e
+    // 第１引数:変数q
+    // 第２引数:変数k
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
         values.forEachIndexed { index, fl ->
             //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
             when (index) {
-                // 変数n
-                0 -> n = fl
-                // 変数e
-                1 -> e = fl
+                // 変数q
+                0 -> q = fl
+                // 変数k
+                1 -> k = fl
             }
         }
 
         // 媒介変数の最大角度を求める
         calAngleMax()
 
-        // Cyclic Harmonicの描画点リストを生成
+        // Hypotrochoidの描画点リストを生成
         createPath()
         // ビットマップに描画
         drawBitmap()
@@ -136,7 +137,7 @@ class CyclicHarmonic01Drawable: MyDrawable() {
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
-                    // Cyclic Harmonicを回転する
+                    // Hypotrochoidを回転する
                     rotatePath()
                     // ビットマップに描画
                     drawBitmap()
@@ -183,7 +184,7 @@ class CyclicHarmonic01Drawable: MyDrawable() {
     // -----------------------------------------------------
     private fun calAngleMax() {
         // ハイポサイクロイド曲線描画に使う内円の係数の小数点以下の桁数
-        val numOfDecimals = MyMathUtil.getNumberOfDecimals(n)
+        val numOfDecimals = MyMathUtil.getNumberOfDecimals(q)
         //Log.d(javaClass.simpleName,"numOfDecimals[$numOfDecimals]")
 
         // "ハイポサイクロイド曲線描画に使う内円の係数"が整数となるよう補正する値(分母)
@@ -194,7 +195,7 @@ class CyclicHarmonic01Drawable: MyDrawable() {
 
         // "ハイポサイクロイド曲線描画に使う内円の係数"が整数となるよう補正された値(分子)
         // kが整数になるように掛けた値(10の倍数)
-        val kN = (n * kD).toInt()
+        val kN = (q * kD).toInt()
         // kNを"kDとkNの最大公約数"で割った値
         var kn = kN
 
@@ -233,7 +234,7 @@ class CyclicHarmonic01Drawable: MyDrawable() {
     }
 
     // -----------------------------------
-    // Cyclic Harmonicの描画点リストを生成
+    // Hypotrochoidの描画点リストを生成
     // -----------------------------------
     private fun createPath() {
         // 描画点リストをクリア
@@ -243,10 +244,11 @@ class CyclicHarmonic01Drawable: MyDrawable() {
         (0..angleMax.toInt() step 1).forEach {
             val t = it.toFloat()
             val cos1 = MyMathUtil.cosf(t)
-            val cosn = MyMathUtil.cosf(n.toFloat()*t)
+            val cosn = MyMathUtil.cosf((q-1f)*t)
             val sin1 = MyMathUtil.sinf(t)
-            val x = a*(1f+e*cosn)*cos1
-            val y = a*(1f+e*cosn)*sin1
+            val sinn = MyMathUtil.sinf((q-1f)*t)
+            val x = a*((q-1)*cos1+k*cosn)/q
+            val y = a*((q-1)*sin1-k*sinn)/q
             pointLst.add(MyPointF(x,y))
         }
 
@@ -254,7 +256,7 @@ class CyclicHarmonic01Drawable: MyDrawable() {
         notifyCallback?.receive(angle)
     }
 
-    // Cyclic Harmonicを回転する
+    // Hypotrochoidを回転する
     private fun rotatePath() {
         angle += 5f
 
@@ -294,14 +296,14 @@ class CyclicHarmonic01Drawable: MyDrawable() {
         canvas.drawLine(0f,0f,0f,intrinsicHeight.toFloat(), framePaint)
         canvas.restore()
 
-        // 原点(x0,y0)を中心にCyclic Harmonicを描く
+        // 原点(x0,y0)を中心にHypotrochoidを描く
         canvas.save()
         canvas.translate(x0,y0)
 
         // 色インスタンス作成
         val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
 
-        // Cyclic Harmonicを描く
+        // Hypotrochoidを描く
         // 1536色のグラデーション
         val bunchSize = pointLst.size
         var myPointF2: MyPointF? = null

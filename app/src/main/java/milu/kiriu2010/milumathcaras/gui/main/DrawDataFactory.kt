@@ -186,6 +186,11 @@ class DrawDataFactory {
                 }
                 // SIN/COSのミックスを描画するメニュー
                 MenuItem.MENU_CURVE_MIX_SINCOS -> {
+                    // Hypotrochoid
+                    drawDataLst.add(DrawData(DrawDataID.ID_000043_HYPOTROCHOID_01,DrawFragmentType.FT_D2_06,resources.getString(R.string.draw_000043_curve_hypotrochoid_01),
+                        stillImageParam = floatArrayOf(5f,1.6f), motionImageParam = floatArrayOf(5f,1.6f), editParam = floatArrayOf(2f,8f,0f,0f,3f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_hypotrochoid_01), "autoParam" to "t", "handParam1" to "q", "handParam2" to "k"),
+                        fragmentParamMap = mutableMapOf("maxA" to 30, "maxB" to 30) ))
                     // Lituus
                     drawDataLst.add(DrawData(DrawDataID.ID_000042_LITUUS_01,DrawFragmentType.FT_D2_04,resources.getString(R.string.draw_000042_curve_lituus_01),
                         funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_littus_01)) ))
