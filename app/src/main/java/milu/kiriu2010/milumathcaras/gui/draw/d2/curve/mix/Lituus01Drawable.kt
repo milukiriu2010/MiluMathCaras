@@ -9,6 +9,7 @@ import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.pow
+import kotlin.math.sqrt
 
 // -------------------------------------------------------------------------------------
 // Lituus
@@ -28,28 +29,18 @@ class Lituus01Drawable: MyDrawable() {
     private val margin = 50f
 
     // ---------------------------------
-    // Cyclic Harmonicの変数a
+    // Lituusの変数a
     // ---------------------------------
-    private var a = 200f
-
-    // ---------------------------------
-    // Cyclic Harmonicの変数n
-    // ---------------------------------
-    private var n = 3f
-
-    // ---------------------------------
-    // Cyclic Harmonicの変数e
-    // ---------------------------------
-    private var e = 1f
+    private var a = 1000f
 
     // ----------------------------------
-    // Cyclic Harmonicの位相(変数tに相当)
+    // Lituusの位相(変数tに相当)
     // ----------------------------------
     private var angle = 0f
     private var angleMax = 360f
 
     // -------------------------------
-    // Cyclic Harmonicの描画点リスト
+    // Lituusの描画点リスト
     // -------------------------------
     val pointLst = mutableListOf<MyPointF>()
 
@@ -79,7 +70,7 @@ class Lituus01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // Cyclic Harmonicを描くペイント
+    // Lituusを描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
@@ -107,24 +98,9 @@ class Lituus01Drawable: MyDrawable() {
     // 描画に使うデータを計算する
     // --------------------------------------
     // values
-    // 第１引数:変数n
-    // 第２引数:変数e
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
-        values.forEachIndexed { index, fl ->
-            //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
-            when (index) {
-                // 変数n
-                0 -> n = fl
-                // 変数e
-                1 -> e = fl
-            }
-        }
-
-        // 媒介変数の最大角度を求める
-        calAngleMax()
-
-        // Cyclic Harmonicの描画点リストを生成
+        // Lituusの描画点リストを生成
         createPath()
         // ビットマップに描画
         drawBitmap()
@@ -136,7 +112,7 @@ class Lituus01Drawable: MyDrawable() {
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
-                    // Cyclic Harmonicを回転する
+                    // Lituusを回転する
                     rotatePath()
                     // ビットマップに描画
                     drawBitmap()
@@ -178,83 +154,31 @@ class Lituus01Drawable: MyDrawable() {
         handler.removeCallbacks(runnable)
     }
 
-    // -----------------------------------------------------
-    // ハイポサイクロイド曲線の媒介変数(度)の最大値を求める
-    // -----------------------------------------------------
-    private fun calAngleMax() {
-        // ハイポサイクロイド曲線描画に使う内円の係数の小数点以下の桁数
-        val numOfDecimals = MyMathUtil.getNumberOfDecimals(n)
-        //Log.d(javaClass.simpleName,"numOfDecimals[$numOfDecimals]")
-
-        // "ハイポサイクロイド曲線描画に使う内円の係数"が整数となるよう補正する値(分母)
-        // kが整数になるように10の倍数を掛けた値
-        val kD = 10f.pow(numOfDecimals).toInt()
-        // kDを"kDとkNの最大公約数"で割った値
-        var kd = kD
-
-        // "ハイポサイクロイド曲線描画に使う内円の係数"が整数となるよう補正された値(分子)
-        // kが整数になるように掛けた値(10の倍数)
-        val kN = (n * kD).toInt()
-        // kNを"kDとkNの最大公約数"で割った値
-        var kn = kN
-
-        // ----------------------------------------------------------------------------
-        // k=3.0 => kD= 1,kN= 3 => kd= 1,kn= 3
-        // k=4.0 => kD= 1,kN= 4 => kd= 1,kn= 4
-        // k=2.1 => kD=10,kN=21 => kd=10,kn=21
-        // k=3.8 => kD=10,kN=38 => kd= 5,kn=19
-        // k=5.5 => kD=10,kN=55 => kd= 2,kn=11
-        // k=7.2 => kD=10,kN=72 => kd= 5,kn=36
-        //   kd:ハイポサイクロイド曲線を描く点が元の位置に戻るために外円を周回する回数
-        //   kn:ハイポサイクロイド曲線を描く点が外円と接する回数(内円が回転する回数)
-        // ----------------------------------------------------------------------------
-        // 少しわかりづらいので、書き直すと、
-        // k=3.0の場合、内円が外円内を1周する間に、内円自身は 3周自転している
-        // k=5.5の場合、内円が外円内を2周する間に、内円自身は11周自転している
-        // ----------------------------------------------------------------------------
-        // kdとknは、kDとkNそれぞれに10の倍数を掛けた値なので、
-        // 2 or 5で割り切れる可能性がある
-        // ----------------------------------------------------------------------------
-        (1..numOfDecimals).forEach {
-            // 分母・分子ともに2で割り切れれば、2で割る
-            if ( (kd%2 == 0) and (kn%2 == 0) ) {
-                kd=kd/2
-                kn=kn/2
-            }
-            // 分母・分子ともに5で割り切れれば、5で割る
-            if ( (kd%5 == 0) and (kn%5 == 0) ) {
-                kd=kd/5
-                kn=kn/5
-            }
-        }
-
-        angleMax = 360f * kd.toFloat()
-        //Log.d(javaClass.simpleName,"angleMax[$angleMax]")
-    }
-
     // -----------------------------------
-    // Cyclic Harmonicの描画点リストを生成
+    // Lituusの描画点リストを生成
     // -----------------------------------
     private fun createPath() {
         // 描画点リストをクリア
         pointLst.clear()
 
-
-        (0..angleMax.toInt() step 1).forEach {
-            val t = it.toFloat()
-            val cos1 = MyMathUtil.cosf(t)
-            val cosn = MyMathUtil.cosf(n.toFloat()*t)
-            val sin1 = MyMathUtil.sinf(t)
-            val x = a*(1f+e*cosn)*cos1
-            val y = a*(1f+e*cosn)*sin1
-            pointLst.add(MyPointF(x,y))
+        // 描画点をプロット
+        (-1..1 step 2).forEach { s ->
+            (1..1080).forEach {
+                val t = it.toFloat()
+                val sqrtt = 1f/sqrt(t)
+                val cos = MyMathUtil.cosf(t)
+                val sin = MyMathUtil.sinf(t)
+                val x = s*a*sqrtt*cos
+                val y = s*a*sqrtt*sin
+                pointLst.add(MyPointF(x,y))
+            }
         }
 
         // 描画中に呼び出すコールバックをキックし、現在の媒介変数の値を通知する
         notifyCallback?.receive(angle)
     }
 
-    // Cyclic Harmonicを回転する
+    // Lituusを回転する
     private fun rotatePath() {
         angle += 5f
 
@@ -294,26 +218,31 @@ class Lituus01Drawable: MyDrawable() {
         canvas.drawLine(0f,0f,0f,intrinsicHeight.toFloat(), framePaint)
         canvas.restore()
 
-        // 原点(x0,y0)を中心にCyclic Harmonicを描く
+        // 原点(x0,y0)を中心にLituusを描く
         canvas.save()
         canvas.translate(x0,y0)
 
         // 色インスタンス作成
         val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
 
-        // Cyclic Harmonicを描く
+        // Lituusを描く
         // 1536色のグラデーション
-        val bunchSize = pointLst.size
+        val bunchSize = pointLst.size/2
         var myPointF2: MyPointF? = null
-        pointLst.forEachIndexed { index, myPointF1 ->
+        pointLst.forEachIndexed { id, myPointF1 ->
             if ( myPointF2 != null ) {
-                val id = (index+angle.toInt())%bunchSize
+                val id = (id+angle.toInt())%bunchSize
                 val color = myColor.create(id,bunchSize)
                 linePaint.color = color.toInt()
                 canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaint)
             }
 
-            myPointF2 = myPointF1
+            if ( id == (bunchSize-1) ) {
+                myPointF2 = null
+            }
+            else {
+                myPointF2 = myPointF1
+            }
         }
 
         // 座標を元に戻す

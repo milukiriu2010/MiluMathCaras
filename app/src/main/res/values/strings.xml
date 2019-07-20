@@ -62,22 +62,22 @@
     <string name="func_curve_trochoid">x = r * (t - k * sin(t))\ny = r * (1 - k * cos(t))</string>
     <string name="func_curve_epicycloid">x = r*(1+1/k)*cos(t) - r/k*cos((k+1)*t)\ny = r*(1+1/k)*sin(t) - r/k*sin((k+1)*t)</string>
     <string name="func_curve_hypocycloid">x = r*(1-1/k)*cos(t) + r/k*cos((k-1)*t)\ny = r*(1-1/k)*sin(t) - r/k*sin((k-1)*t)</string>
-    <string name="func_curve_logarithmic_spiral">x = a * exp(b*t) * cos(t)\ny = a * exp(b*t) * sin(t)</string>
+    <string name="func_curve_logarithmic_spiral">ρ = a * exp(b*t)</string>
     <string name="func_curve_involute">x = a * (cos(t) + t * sin(t))\ny = a * (sin(t) - t * cos(t))</string>
     <string name="func_curve_lissajous">x = a * sin(p*t+d)\ny = b * sin(q*t)</string>
     <string name="func_curve_lemniscate">x = a * cos(t)/(1+sin(t)*sin(t))\ny = a * sin(t) * sin(t)/(1+sin(t)*sin(t))</string>
-    <string name="func_curve_cassinian_oval">x = a * sqrt(cos(2t)+sqrt((b/a)^4-sin(2t)^2) * cos(t)\na * sqrt(cos(2t)+sqrt((b/a)^4-sin(2t)^2) * sin(t)</string>
-    <string name="func_curve_cassinian">x = a * sqrt(cos(nt)±sqrt(((b/a)^2n-sin(nt)^2)) * cos(t)\ny = a * sqrt(cos(nt)±sqrt(((b/a)^2n-sin(nt)^2)) * sin(t)</string>
-    <string name="func_curve_limacon01">x = a * (1+b*cos(t)) * cos(t)\ny = a * (1+b*cos(t)) * sin(t)</string>
-    <string name="func_curve_limacon02">x = a / (1+b*cos(t)) * cos(t)\ny = a / (1+b*cos(t)) * sin(t)</string>
-    <string name="func_curve_limacon03">x = a*(cos(k*t)+b*cos(t)) * cos(t)\ny = a*(cos(k*t)+b*cos(t)) * sin(t)</string>
+    <string name="func_curve_cassinian_oval">ρ = a * sqrt(cos(2t)+sqrt((b/a)^4-sin(2t)^2)</string>
+    <string name="func_curve_cassinian">ρ = a * sqrt(cos(nt)±sqrt(((b/a)^2n-sin(nt)^2))</string>
+    <string name="func_curve_limacon01">ρ = a * (1+b*cos(t))</string>
+    <string name="func_curve_limacon02">ρ = a / (1+b*cos(t))</string>
+    <string name="func_curve_limacon03">ρ = a*(cos(k*t)+b*cos(t))</string>
     <string name="func_curve_heart_01">x = 16sin(t)^3\ny = 13cos(t) - 5cos(2t) - 2cos(3t) - cos(4t)</string>
-    <string name="func_curve_butterfly_sautereau_01">x = a*(sin(5t)±3*cos(t))*cos(t)\ny = a*(sin(5t)±3*cos(t))*sin(t)</string>
-    <string name="func_curve_butterfly_sautereau_02">x = a*(-3*cos(2t)+sin(7t)-1)*cos(t)\ny = a*(-3*cos(2t)+sin(7t)-1)*sin(t)</string>
-    <string name="func_curve_butterfly_fay_01">x = a*(exp(cos(t))-2*cos(4t)+sin(t/12)^5)*cos(t)\ny = a*(exp(cos(t))-2*cos(4t)+sin(t/12)^5)*sin(t)</string>
-    <string name="func_curve_ying_yang_01">x = ±a*sqrt(t*(360-t))*cos(t)\ny = ±a*sqrt(t*(360-t))*sin(t)\n 0 ≦ t ≦ 180\n plus, x=180a*cos(t) y= 180a*sin(t)</string>
-    <string name="func_curve_ying_yang_02">x = ±a*sqrt(t/(90/PI+t))*cos(t)\ny = ±a*sqrt(t/(90/PI+t))*sin(t)</string>
-    <string name="func_curve_trefle_habenicht_01">x = a*(1+cos(n*t)+sin(n*t)^2)*cos(t)\ny = a*(1+cos(n*t)+sin(n*t)^2)*sin(t)</string>
+    <string name="func_curve_butterfly_sautereau_01">ρ = a*(sin(5t)±3*cos(t))</string>
+    <string name="func_curve_butterfly_sautereau_02">ρ = a*(-3*cos(2t)+sin(7t)-1)</string>
+    <string name="func_curve_butterfly_fay_01">ρ = a*(exp(cos(t))-2*cos(4t)+sin(t/12)^5)</string>
+    <string name="func_curve_ying_yang_01">ρ^2 = a^2*(t*(360-t)\n 0 ≦ t ≦ 180 plus, ρ = 180a</string>
+    <string name="func_curve_ying_yang_02">ρ^2 = a^2*(t/(90/PI+t)</string>
+    <string name="func_curve_trefle_habenicht_01">ρ = a*(1+cos(n*t)+sin(n*t)^2)</string>
     <string name="func_curve_caustic_circle_01">x = ab*(b*cos(t)*(1+2*sin(t)^2)-a)/(a^2+2*b^2-3ab*cos(t))\ny = ab*(a*sin(t)^3)/(a^2+2*b^2-3ab*cos(t))</string>
     <string name="func_curve_cochleoid_01">ρ = a*sin(t)/t </string>
     <string name="func_curve_cyclic_harmonic_01">ρ = a*(1+e*cos(nt))</string>
