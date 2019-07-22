@@ -46,9 +46,6 @@ class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
     // 前回利用したシェーダ
     private var shaderSwitchOld = shaderSwitch
 
-    // テクスチャ配列
-    private val textures = IntArray(1)
-
     override fun onDrawFrame(gl: GL10) {
         // canvasを初期化
         GLES32.glClear(GLES32.GL_COLOR_BUFFER_BIT or GLES32.GL_DEPTH_BUFFER_BIT)

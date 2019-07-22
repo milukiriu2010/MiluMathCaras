@@ -536,6 +536,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_001302_GL_SPHERE_COLOR_SHIFT_01(1302),
     // 球体色シフト02
     ID_001303_GL_SPHERE_COLOR_SHIFT_02(1303),
+    // 球体:キューブ環境マップ01
+    ID_001304_GL_SPHERE_CUBEMAP_01(1304),
     // 立方体の中をコッホ雪片が回転
     ID_001400_GL_KOCH_SNOWFLAKE_01(1400),
     // 線でHelixを描画

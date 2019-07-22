@@ -22,6 +22,7 @@ import java.nio.IntBuffer
 // 2019.06.19 MRT用のフレームバッファを生成
 // 2019.06.20 プログラムオブジェクトの生成(TransformFeedback用)
 // 2019.06.27 キューブマップ用のフレームバッファ生成関数追加
+// 2019.07.22 キューブマップ生成関数追加
 // --------------------------------------------------------------------------
 class MyGLES32Func {
 
@@ -384,7 +385,58 @@ class MyGLES32Func {
             GLES32.glBindRenderbuffer(GLES32.GL_RENDERBUFFER,0)
             GLES32.glBindFramebuffer(GLES32.GL_FRAMEBUFFER,0)
         }
+
+        // -------------------------------------------------
+        // キューブマップ生成
+        // -------------------------------------------------
+        fun generateCubeMap(textures: IntArray, bmpArray: ArrayList<Bitmap>) {
+            // キューブマップ用のターゲットを格納する配列
+            val cubeTargets = intArrayOf(
+                GLES32.GL_TEXTURE_CUBE_MAP_POSITIVE_X,
+                GLES32.GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
+                GLES32.GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
+                GLES32.GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+                GLES32.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+                GLES32.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+            )
+
+            // テクスチャ作成し、idをtexturesに保存
+            GLES32.glGenTextures(1,textures,0)
+            checkGlError("glGenTextures")
+
+            // テクスチャをキューブマップ
+            GLES32.glBindTexture(GLES32.GL_TEXTURE_CUBE_MAP,textures[0])
+
+            // テクスチャへimageを適用
+            cubeTargets.forEachIndexed { id, cubeTarget ->
+                val bitmap = bmpArray[id]
+                //val buffer = ByteBuffer.allocate(bitmap.byteCount)
+                val bw = bitmap.width
+                val bh = bitmap.height
+                val buffer = ByteBuffer.allocateDirect(bw*bh*4)
+                bitmap.copyPixelsToBuffer(buffer)
+                buffer.position(0)
+
+                GLES32.glTexImage2D(cubeTarget,0,GLES32.GL_RGBA,
+                    bw,bh,0,GLES32.GL_RGBA,
+                    GLES32.GL_UNSIGNED_BYTE,buffer)
+                if ( bitmap.isRecycled == false ) {
+                    bitmap.recycle()
+                }
+            }
+
+            // ミニマップを生成
+            GLES32.glGenerateMipmap(GLES32.GL_TEXTURE_CUBE_MAP)
+
+            // テクスチャのパラメータを設定
+            GLES32.glTexParameteri(GLES32.GL_TEXTURE_CUBE_MAP, GLES32.GL_TEXTURE_MIN_FILTER, GLES32.GL_LINEAR)
+            GLES32.glTexParameteri(GLES32.GL_TEXTURE_CUBE_MAP, GLES32.GL_TEXTURE_MAG_FILTER, GLES32.GL_LINEAR)
+            GLES32.glTexParameteri(GLES32.GL_TEXTURE_CUBE_MAP, GLES32.GL_TEXTURE_WRAP_S, GLES32.GL_CLAMP_TO_EDGE)
+            GLES32.glTexParameteri(GLES32.GL_TEXTURE_CUBE_MAP, GLES32.GL_TEXTURE_WRAP_T, GLES32.GL_CLAMP_TO_EDGE)
+
+            // テクスチャのバインド無効化
+            GLES32.glBindTexture(GLES32.GL_TEXTURE_CUBE_MAP,0)
+        }
+
     }
-
-
 }

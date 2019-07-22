@@ -4,6 +4,7 @@ import android.content.Context
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
 import milu.kiriu2010.milumathcaras.gui.draw.d3.cube.*
+import milu.kiriu2010.milumathcaras.gui.draw.d3.cubemap.SphereCubemap01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.fractal.KochSnowflake01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.glsl.GLSL01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.net.cube.NetCube01Renderer
@@ -92,6 +93,8 @@ class MgRendererFactory {
                 DrawDataID.ID_001302_GL_SPHERE_COLOR_SHIFT_01 -> SphereColorShift01Renderer(context)
                 // 球体色シフト02
                 DrawDataID.ID_001303_GL_SPHERE_COLOR_SHIFT_02 -> SphereColorShift02Renderer(context)
+                // 球体:キューブ環境マップ01
+                DrawDataID.ID_001304_GL_SPHERE_CUBEMAP_01 -> SphereCubemap01Renderer(context)
                 // 立方体の中をコッホ雪片が回転
                 DrawDataID.ID_001400_GL_KOCH_SNOWFLAKE_01 -> KochSnowflake01Renderer(context)
                 // 線でHelixを描画

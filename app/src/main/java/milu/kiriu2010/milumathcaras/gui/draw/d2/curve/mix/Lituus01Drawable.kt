@@ -229,15 +229,15 @@ class Lituus01Drawable: MyDrawable() {
         // 1536色のグラデーション
         val bunchSize = pointLst.size/2
         var myPointF2: MyPointF? = null
-        pointLst.forEachIndexed { id, myPointF1 ->
+        pointLst.forEachIndexed { id0, myPointF1 ->
             if ( myPointF2 != null ) {
-                val id = (id+angle.toInt())%bunchSize
-                val color = myColor.create(id,bunchSize)
+                val id1 = (id0+angle.toInt())%bunchSize
+                val color = myColor.create(id1,bunchSize)
                 linePaint.color = color.toInt()
                 canvas.drawLine(myPointF1.x,myPointF1.y,myPointF2?.x!!,myPointF2?.y!!,linePaint)
             }
 
-            if ( id == (bunchSize-1) ) {
+            if ( id0 == (bunchSize-1) ) {
                 myPointF2 = null
             }
             else {

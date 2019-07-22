@@ -879,6 +879,8 @@ class DrawDataFactory {
                 }
                 // 球体に座標変換を施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_SPHERE_TRANSFORM -> {
+                    // 球体:キューブ環境マップ01
+                    drawDataLst.add(DrawData(DrawDataID.ID_001304_GL_SPHERE_CUBEMAP_01,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001304_gl_sphere_cubemap_01), drawViewType = DrawViewType.DVT_GL ))
                     // 球体色シフト02
                     drawDataLst.add(DrawData(DrawDataID.ID_001303_GL_SPHERE_COLOR_SHIFT_02,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001303_gl_sphere_color_shift_02), drawViewType = DrawViewType.DVT_GL ))
                     // 球体色シフト01

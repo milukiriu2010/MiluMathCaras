@@ -1,7 +1,8 @@
 package milu.kiriu2010.gui.renderer
 
 import android.content.Context
-import android.opengl.GLES20
+import android.graphics.Bitmap
+import android.opengl.GLES32
 import android.opengl.GLSurfaceView
 import android.view.MotionEvent
 import milu.kiriu2010.gui.basic.MyPointF
@@ -14,6 +15,7 @@ import kotlin.math.sqrt
 // --------------------------------------------
 // 2019.04.27 val => var
 // 2019.06.14 フレームバッファ用変数追加
+// 2019.06.18 GLES20削除/テクスチャ変数追加
 // --------------------------------------------
 abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
     // モデル変換行列
@@ -75,6 +77,12 @@ abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
     // 座標軸による回転ON/OFF
     val rotateAxis = booleanArrayOf(false,false,false)
 
+    // ビットマップ配列
+    val bmpArray = arrayListOf<Bitmap>()
+
+    // テクスチャ配列
+    lateinit var textures: IntArray
+
     // フレームバッファ
     lateinit var frameBuf : IntBuffer
     // 深度バッファ用レンダ―バッファ
@@ -119,6 +127,13 @@ abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
         val qtnTmp = MyQuaternion.rotate(r, floatArrayOf(y,x,0f))
         qtnNow = qtnTmp.multiply(qtnTouch)
     }
+
+
+    // 描画に利用するデータを設定する
+    abstract fun setMotionParam(motionParam: MutableMap<String,Float> )
+
+    // シェーダ終了処理
+    abstract fun closeShader()
 
     /*
     // 描画したものをビットマップにキャプチャする
@@ -214,10 +229,4 @@ abstract class MgRenderer(val context: Context): GLSurfaceView.Renderer {
         return Bitmap.createBitmap(bitmapSource, renderW, renderH, Bitmap.Config.ARGB_8888)
     }
     */
-
-    // 描画に利用するデータを設定する
-    abstract fun setMotionParam(motionParam: MutableMap<String,Float> )
-
-    // シェーダ終了処理
-    abstract fun closeShader()
 }
