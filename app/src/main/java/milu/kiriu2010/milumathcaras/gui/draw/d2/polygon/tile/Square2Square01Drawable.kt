@@ -11,14 +11,20 @@ import kotlin.math.sqrt
 // -----------------------------------------------------------------
 // 正方形⇔正方形
 // -----------------------------------------------------------------
-// https://twitter.com/i/status/1044920001646473216
+// https://twitter.com/beesandbombs/status/1044920001646473216
 // -----------------------------------------------------------------
 class Square2Square01Drawable: MyDrawable() {
 
     // 移動方向
     enum class ModePtrn {
-        // 黒(偶数:上/奇数:下)
-        BUD
+        // 黒(偶数列:上/奇数列:下)
+        BUD,
+        // 白(偶数列:下/奇数列:上)
+        WDU,
+        // 白(偶数行:左/奇数行:右)
+        WLR,
+        // 黒(偶数行:右/奇数行:左)
+        BRL
     }
 
     // -------------------------------
@@ -175,13 +181,19 @@ class Square2Square01Drawable: MyDrawable() {
         // 移動モードを変更
         if ( nCnt > 1 ) {
             modeNow = when (modeNow) {
-                ModePtrn.BUD -> ModePtrn.BUD
+                ModePtrn.BUD -> ModePtrn.WDU
+                ModePtrn.WDU -> ModePtrn.WLR
+                ModePtrn.WLR -> ModePtrn.BRL
+                ModePtrn.BRL -> ModePtrn.BUD
             }
         }
 
         // 描画点を設定
         when (modeNow) {
             ModePtrn.BUD -> createPathBUD()
+            ModePtrn.WDU -> createPathWDU()
+            ModePtrn.WLR -> createPathWLR()
+            ModePtrn.BRL -> createPathBRL()
         }
 
         nCnt++
@@ -189,12 +201,11 @@ class Square2Square01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画点を設定
-    // 黒(偶数:上/奇数:下)
+    // 黒(偶数列:上/奇数列:下)
     // -------------------------------
     private fun createPathBUD() {
-
         // 偶数:上
-        val su = Square()
+        val s1 = Square()
         (0..3).forEach { i ->
             val ii = i.toFloat()
             val cos1 = a*MyMathUtil.cosf(ii*90f+45f)
@@ -207,19 +218,19 @@ class Square2Square01Drawable: MyDrawable() {
                 it.x = cos1
                 it.y = sin1
             }
-            su.slst.add(ps)
+            s1.slst.add(ps)
 
             // 終了点
             val pe = MyPointF().also {
                 it.x = cos2
                 it.y = sin2 - a
             }
-            su.elst.add(pe)
+            s1.elst.add(pe)
         }
-        squareLst.add(su)
+        squareLst.add(s1)
 
-        // 奇数:下方向
-        val sd = Square()
+        // 奇数:下
+        val s2 = Square()
         (0..3).forEach { i ->
             val ii = i.toFloat()
             val cos1 = a*MyMathUtil.cosf(ii*90f+45f)
@@ -232,16 +243,184 @@ class Square2Square01Drawable: MyDrawable() {
                 it.x = cos1
                 it.y = sin1
             }
-            sd.slst.add(ps)
+            s2.slst.add(ps)
 
             // 終了点
             val pe = MyPointF().also {
                 it.x = cos2
                 it.y = sin2 + a
             }
-            sd.elst.add(pe)
+            s2.elst.add(pe)
         }
-        squareLst.add(sd)
+        squareLst.add(s2)
+    }
+
+    // -------------------------------
+    // 描画点を設定
+    // 白(偶数列:下/奇数列:上)
+    // -------------------------------
+    private fun createPathWDU() {
+        // 偶数:下
+        val s1 = Square()
+        (0..3).forEach { i ->
+            val ii = i.toFloat()
+            val cos1 = a*MyMathUtil.cosf(ii*90f)
+            val sin1 = a*MyMathUtil.sinf(ii*90f)
+            val cos2 = a*MyMathUtil.cosf(ii*90f+45f)
+            val sin2 = a*MyMathUtil.sinf(ii*90f+45f)
+
+            // 開始点
+            val ps = MyPointF().also {
+                it.x = cos1
+                it.y = sin1
+            }
+            s1.slst.add(ps)
+
+            // 終了点
+            val pe = MyPointF().also {
+                it.x = cos2
+                it.y = sin2 + a
+            }
+            s1.elst.add(pe)
+        }
+        squareLst.add(s1)
+
+        // 奇数:上
+        val s2 = Square()
+        (0..3).forEach { i ->
+            val ii = i.toFloat()
+            val cos1 = a*MyMathUtil.cosf(ii*90f+90f)
+            val sin1 = a*MyMathUtil.sinf(ii*90f+90f)
+            val cos2 = a*MyMathUtil.cosf(ii*90f+45f)
+            val sin2 = a*MyMathUtil.sinf(ii*90f+45f)
+
+            // 開始点
+            val ps = MyPointF().also {
+                it.x = cos1
+                it.y = sin1
+            }
+            s2.slst.add(ps)
+
+            // 終了点
+            val pe = MyPointF().also {
+                it.x = cos2
+                it.y = sin2 - a
+            }
+            s2.elst.add(pe)
+        }
+        squareLst.add(s2)
+    }
+
+    // -------------------------------
+    // 描画点を設定
+    // 白(偶数行:左/奇数行:右)
+    // -------------------------------
+    private fun createPathWLR() {
+        // 偶数:左
+        val s1 = Square()
+        (0..3).forEach { i ->
+            val ii = i.toFloat()
+            val cos1 = a*MyMathUtil.cosf(ii*90f+45f)
+            val sin1 = a*MyMathUtil.sinf(ii*90f+45f)
+            val cos2 = a*MyMathUtil.cosf(ii*90f)
+            val sin2 = a*MyMathUtil.sinf(ii*90f)
+
+            // 開始点
+            val ps = MyPointF().also {
+                it.x = cos1
+                it.y = sin1
+            }
+            s1.slst.add(ps)
+
+            // 終了点
+            val pe = MyPointF().also {
+                it.x = cos2 - a
+                it.y = sin2
+            }
+            s1.elst.add(pe)
+        }
+        squareLst.add(s1)
+
+        // 奇数:右
+        val s2 = Square()
+        (0..3).forEach { i ->
+            val ii = i.toFloat()
+            val cos1 = a*MyMathUtil.cosf(ii*90f+45f)
+            val sin1 = a*MyMathUtil.sinf(ii*90f+45f)
+            val cos2 = a*MyMathUtil.cosf(ii*90f+90f)
+            val sin2 = a*MyMathUtil.sinf(ii*90f+90f)
+
+            // 開始点
+            val ps = MyPointF().also {
+                it.x = cos1
+                it.y = sin1
+            }
+            s2.slst.add(ps)
+
+            // 終了点
+            val pe = MyPointF().also {
+                it.x = cos2 + a
+                it.y = sin2
+            }
+            s2.elst.add(pe)
+        }
+        squareLst.add(s2)
+    }
+
+    // -------------------------------
+    // 描画点を設定
+    // 黒(偶数行:右/奇数行:左)
+    // -------------------------------
+    private fun createPathBRL() {
+        // 偶数:右
+        val s1 = Square()
+        (0..3).forEach { i ->
+            val ii = i.toFloat()
+            val cos1 = a*MyMathUtil.cosf(ii*90f)
+            val sin1 = a*MyMathUtil.sinf(ii*90f)
+            val cos2 = a*MyMathUtil.cosf(ii*90f+45f)
+            val sin2 = a*MyMathUtil.sinf(ii*90f+45f)
+
+            // 開始点
+            val ps = MyPointF().also {
+                it.x = cos1
+                it.y = sin1
+            }
+            s1.slst.add(ps)
+
+            // 終了点
+            val pe = MyPointF().also {
+                it.x = cos2 + a
+                it.y = sin2
+            }
+            s1.elst.add(pe)
+        }
+        squareLst.add(s1)
+
+        // 奇数:左
+        val s2 = Square()
+        (0..3).forEach { i ->
+            val ii = i.toFloat()
+            val cos1 = a*MyMathUtil.cosf(ii*90f+90f)
+            val sin1 = a*MyMathUtil.sinf(ii*90f+90f)
+            val cos2 = a*MyMathUtil.cosf(ii*90f+45f)
+            val sin2 = a*MyMathUtil.sinf(ii*90f+45f)
+
+            // 開始点
+            val ps = MyPointF().also {
+                it.x = cos1
+                it.y = sin1
+            }
+            s2.slst.add(ps)
+
+            // 終了点
+            val pe = MyPointF().also {
+                it.x = cos2 - a
+                it.y = sin2
+            }
+            s2.elst.add(pe)
+        }
+        squareLst.add(s2)
     }
 
     // -------------------------------
@@ -256,8 +435,15 @@ class Square2Square01Drawable: MyDrawable() {
     // -------------------------------
     private fun drawBitmap() {
         val canvas = Canvas(tmpBitmap)
+
         // バックグランドを描画
-        canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),whitePaint)
+        val backPaint= when (modeNow) {
+            ModePtrn.BUD -> whitePaint
+            ModePtrn.WDU -> blackPaint
+            ModePtrn.WLR -> blackPaint
+            ModePtrn.BRL -> whitePaint
+        }
+        canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),backPaint)
 
         // 枠を描画
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
@@ -266,26 +452,15 @@ class Square2Square01Drawable: MyDrawable() {
         // = (マージン,マージン)
         canvas.save()
         canvas.translate(margin,margin)
-        canvas.translate(-2f*a,-2f*a)
 
         // 描画点を描く
-        (0..splitN+2).forEach { row ->
-            val rowf = row.toFloat()
-            canvas.save()
-            canvas.translate(0f,2f*a*rowf)
-            (0..splitN+2).forEach { col ->
-                val colf = col.toFloat()
-                canvas.save()
-                canvas.translate(2f*a*colf,0f)
-
-                when (modeNow) {
-                    ModePtrn.BUD -> drawBUD(canvas,col)
-                }
-
-                canvas.restore()
-            }
-            canvas.restore()
+        when (modeNow) {
+            ModePtrn.BUD -> drawBUD(canvas)
+            ModePtrn.WDU -> drawWDU(canvas)
+            ModePtrn.WLR -> drawWLR(canvas)
+            ModePtrn.BRL -> drawBRL(canvas)
         }
+
         // 座標を元に戻す
         canvas.restore()
 
@@ -297,27 +472,162 @@ class Square2Square01Drawable: MyDrawable() {
 
     // ---------------------------------
     // 描画
-    // 黒(奇数:上/偶数:下)
+    // 黒(偶数列:上/奇数列:下)
     // ---------------------------------
-    private fun drawBUD(canvas: Canvas,col: Int) {
-        val square = when (col%2) {
-            0    -> squareLst[0]
-            else -> squareLst[1]
-        }
-        val path = Path()
-        (0..3).forEach { i ->
-            val ps = square.slst[i]
-            val pe = square.elst[i]
-            val p = ps.lerp(pe,ratioNow,ratioMax-ratioNow)
-            if (i == 0) {
-                path.moveTo(p.x,p.y)
+    private fun drawBUD(canvas: Canvas) {
+        canvas.translate(-2f*a,-2f*a)
+        (0..splitN+2).forEach { row ->
+            val rowf = row.toFloat()
+            canvas.save()
+            canvas.translate(0f,2f*a*rowf)
+            (0..splitN+2).forEach { col ->
+                val colf = col.toFloat()
+                canvas.save()
+                canvas.translate(2f*a*colf,0f)
+
+                val square = when (col%2) {
+                    0    -> squareLst[0]
+                    else -> squareLst[1]
+                }
+                val path = Path()
+                (0..3).forEach { i ->
+                    val ps = square.slst[i]
+                    val pe = square.elst[i]
+                    val p = ps.lerp(pe,ratioNow,ratioMax-ratioNow)
+                    if (i == 0) {
+                        path.moveTo(p.x,p.y)
+                    }
+                    else {
+                        path.lineTo(p.x,p.y)
+                    }
+                }
+                path.close()
+                canvas.drawPath(path,blackPaint)
+
+                canvas.restore()
             }
-            else {
-                path.lineTo(p.x,p.y)
-            }
+            canvas.restore()
         }
-        path.close()
-        canvas.drawPath(path,blackPaint)
+    }
+
+    // ---------------------------------
+    // 描画
+    // 白(偶数列:下/奇数列:上)
+    // ---------------------------------
+    private fun drawWDU(canvas: Canvas) {
+        canvas.translate(-a,-a)
+        (0..splitN+2).forEach { row ->
+            val rowf = row.toFloat()
+            canvas.save()
+            canvas.translate(0f,2f*a*rowf)
+            (0..splitN+2).forEach { col ->
+                val colf = col.toFloat()
+                canvas.save()
+                canvas.translate(2f*a*colf,0f)
+
+                val square = when (col%2) {
+                    0    -> squareLst[0]
+                    else -> squareLst[1]
+                }
+                val path = Path()
+                (0..3).forEach { i ->
+                    val ps = square.slst[i]
+                    val pe = square.elst[i]
+                    val p = ps.lerp(pe,ratioNow,ratioMax-ratioNow)
+                    if (i == 0) {
+                        path.moveTo(p.x,p.y)
+                    }
+                    else {
+                        path.lineTo(p.x,p.y)
+                    }
+                }
+                path.close()
+                canvas.drawPath(path,whitePaint)
+
+                canvas.restore()
+            }
+            canvas.restore()
+        }
+    }
+
+    // ---------------------------------
+    // 描画
+    // 白(偶数行:左/奇数行:右)
+    // ---------------------------------
+    private fun drawWLR(canvas: Canvas) {
+        canvas.translate(-a,-a)
+        (0..splitN+2).forEach { row ->
+            val rowf = row.toFloat()
+            canvas.save()
+            canvas.translate(0f,2f*a*rowf)
+            val square = when (row%2) {
+                0    -> squareLst[0]
+                else -> squareLst[1]
+            }
+            (0..splitN+2).forEach { col ->
+                val colf = col.toFloat()
+                canvas.save()
+                canvas.translate(2f*a*colf,0f)
+
+                val path = Path()
+                (0..3).forEach { i ->
+                    val ps = square.slst[i]
+                    val pe = square.elst[i]
+                    val p = ps.lerp(pe,ratioNow,ratioMax-ratioNow)
+                    if (i == 0) {
+                        path.moveTo(p.x,p.y)
+                    }
+                    else {
+                        path.lineTo(p.x,p.y)
+                    }
+                }
+                path.close()
+                canvas.drawPath(path,whitePaint)
+
+                canvas.restore()
+            }
+            canvas.restore()
+        }
+    }
+
+    // ---------------------------------
+    // 描画
+    // 黒(偶数行:右/奇数行:左)
+    // ---------------------------------
+    private fun drawBRL(canvas: Canvas) {
+        canvas.translate(-2f*a,-2f*a)
+        (0..splitN+2).forEach { row ->
+            val rowf = row.toFloat()
+            canvas.save()
+            canvas.translate(0f,2f*a*rowf)
+            val square = when (row%2) {
+                0    -> squareLst[0]
+                else -> squareLst[1]
+            }
+            (0..splitN+2).forEach { col ->
+                val colf = col.toFloat()
+                canvas.save()
+                canvas.translate(2f*a*colf,0f)
+
+                val path = Path()
+                (0..3).forEach { i ->
+                    val ps = square.slst[i]
+                    val pe = square.elst[i]
+                    val p = ps.lerp(pe,ratioNow,ratioMax-ratioNow)
+                    if (i == 0) {
+                        path.moveTo(p.x,p.y)
+                    }
+                    else {
+                        path.lineTo(p.x,p.y)
+                    }
+                }
+                path.close()
+                canvas.drawPath(path,blackPaint)
+
+                canvas.restore()
+            }
+            canvas.restore()
+        }
     }
 
     // -------------------------------
