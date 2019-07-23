@@ -293,6 +293,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000613_SQUARE_IN_SQUARE_01(613),
     // 三角形⇔六角形02
     ID_000614_TRIANGLE_2_HEXAGON_02(614),
+    // 正方形⇔正方形
+    ID_000615_SQUARE_2_SQUARE_01(615),
     // 三角形out三角形
     ID_000701_3_OUT_3(701),
     // 三角形out四角形

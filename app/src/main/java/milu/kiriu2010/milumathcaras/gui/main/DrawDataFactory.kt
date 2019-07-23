@@ -452,6 +452,9 @@ class DrawDataFactory {
                 }
                 // 敷き詰めた多角形を描画するメニュー
                 MenuItem.MENU_POLYGON_TILE -> {
+                    // 正方形⇔正方形
+                    drawDataLst.add(DrawData(DrawDataID.ID_000615_SQUARE_2_SQUARE_01,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000615_polygon_square_2_square_01),
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://twitter.com/beesandbombs/status/1044920001646473216") ))
                     // 三角形⇔ひし形02
                     drawDataLst.add(DrawData(DrawDataID.ID_000614_TRIANGLE_2_HEXAGON_02,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000614_polygon_triangle_2_hexagon_02),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/9d2270db688ea684dd5e86b6c718e334/tumblr_oqhhibwGeV1r2geqjo1_540.gif") ))
