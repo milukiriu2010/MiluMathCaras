@@ -90,24 +90,39 @@ class KochSnowflakeCubemap01Renderer(ctx: Context): MgRenderer(ctx) {
     // 板ポリゴンの座標
     val objPos = floatArrayOf(
         // GL_TEXTURE_CUBE_MAP_POSITIVE_X
-         6f,  0f,  0f,
+         15f,  0f,  0f,
         // GL_TEXTURE_CUBE_MAP_POSITIVE_Y
-         0f,  6f,  0f,
+          0f, 15f,  0f,
         // GL_TEXTURE_CUBE_MAP_POSITIVE_Z
-         0f,  0f,  6f,
+          0f,  0f, 15f,
         // GL_TEXTURE_CUBE_MAP_NEGATIVE_X
-        -6f,  0f,  0f,
+        -15f,  0f,  0f,
         // GL_TEXTURE_CUBE_MAP_NEGATIVE_Y
-         0f, -6f,  0f,
+          0f,-15f,  0f,
         // GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
-         0f,  0f, -6f
+          0f,  0f,-15f
+    )
+    // 板ポリゴンの回転
+    val objRot = floatArrayOf(
+        // GL_TEXTURE_CUBE_MAP_POSITIVE_X
+        -90f, 0f,  1f, 0f,
+        // GL_TEXTURE_CUBE_MAP_POSITIVE_Y
+         90f, 1f,  0f, 0f,
+        // GL_TEXTURE_CUBE_MAP_POSITIVE_Z
+        180f, 0f,  0f, 1f,
+        // GL_TEXTURE_CUBE_MAP_NEGATIVE_X
+         90f, 0f,  1f, 0f,
+        // GL_TEXTURE_CUBE_MAP_NEGATIVE_Y
+        -90f, 1f,  0f, 0f,
+        // GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+          0f, 0f,  0f, 1f
     )
 
     // スケール(コッホ雪片)
     private var scaleMax = 1f
     private var scaleMin = 0f
     private var scaleNow = scaleMin
-    private var scaleDv = 0.1f
+    private var scaleDv = 0.01f
 
     // キューブマップ用のターゲットを格納する配列
     val targetArray = arrayListOf<Int>(
@@ -171,36 +186,6 @@ class KochSnowflakeCubemap01Renderer(ctx: Context): MgRenderer(ctx) {
 
         // デフォルトバッファへ描画
         drawDefault()
-
-        /*
-        // -----------------------------------------
-        // キューブ環境マッピング
-        // -----------------------------------------
-        // ビュー×プロジェクション
-        vecEye = qtnNow.toVecIII(floatArrayOf(0f,0f,20f))
-        vecEyeUp = qtnNow.toVecIII(floatArrayOf(0f,1f,0f))
-        Matrix.setLookAtM(matV, 0,
-            vecEye[0], vecEye[1], vecEye[2],
-            vecCenter[0], vecCenter[1], vecCenter[2],
-            vecEyeUp[0], vecEyeUp[1], vecEyeUp[2])
-        Matrix.perspectiveM(matP,0,45f,1f,0.1f,200f)
-        Matrix.multiplyMM(matVP,0,matP,0,matV,0)
-
-        // 背景用キューブをレンダリング
-        GLES32.glActiveTexture(GLES32.GL_TEXTURE0)
-        GLES32.glBindTexture(GLES32.GL_TEXTURE_CUBE_MAP,cubeTextures[0])
-        Matrix.setIdentityM(matM,0)
-        Matrix.scaleM(matM,0,100f,100f,100f)
-        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderCubemap.draw(vaoCube,matM,matMVP,vecEye,0,0)
-
-        // 球体をレンダリング
-        Matrix.setIdentityM(matM,0)
-        Matrix.rotateM(matM,0,t0,0f,0f,1f)
-        Matrix.translateM(matM,0,5f,0f,0f)
-        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderCubemap.draw(vaoSphere,matM,matMVP,vecEye,-1,1)
-        */
     }
 
     // 通常フレームバッファにコッホ雪片を描画
@@ -212,7 +197,7 @@ class KochSnowflakeCubemap01Renderer(ctx: Context): MgRenderer(ctx) {
             vecEye[0], vecEye[1], vecEye[2],
             vecCenter[0], vecCenter[1], vecCenter[2],
             vecEyeUp[0], vecEyeUp[1], vecEyeUp[2])
-        Matrix.orthoM(matP,0,-2f,2f,-2f,2f,0.1f,10f)
+        Matrix.orthoM(matP,0,-2f,2f,-2f,2f,0.1f,20f)
         Matrix.multiplyMM(matVP,0,matP,0,matV,0)
 
         // ------------------------------------
@@ -274,12 +259,14 @@ class KochSnowflakeCubemap01Renderer(ctx: Context): MgRenderer(ctx) {
             shaderCubemap.draw(vaoCube,matM,matMVP, floatArrayOf(0f,0f,0f),0,0)
 
             // コッホ雪片のテクスチャを板ポリゴンにレンダリング
-            GLES32.glActiveTexture(GLES32.GL_TEXTURE0)
+            GLES32.glActiveTexture(GLES32.GL_TEXTURE1)
             GLES32.glBindTexture(GLES32.GL_TEXTURE_2D, frameTex[1])
             Matrix.setIdentityM(matM,0)
             Matrix.translateM(matM,0,objPos[0+id*3],objPos[1+id*3],objPos[2+id*3])
+            Matrix.rotateM(matM,0,objRot[0+id*4],objRot[1+id*4],objRot[2+id*4],objRot[3+id*4])
+            Matrix.scaleM(matM,0,20f,20f,20f)
             Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-            shaderTexture.draw(vaoBoard,matMVP,0)
+            shaderTexture.draw(vaoBoard,matMVP,1)
         }
     }
 
@@ -300,7 +287,7 @@ class KochSnowflakeCubemap01Renderer(ctx: Context): MgRenderer(ctx) {
             vecEye[0], vecEye[1], vecEye[2],
             vecCenter[0], vecCenter[1], vecCenter[2],
             vecEyeUp[0], vecEyeUp[1], vecEyeUp[2])
-        Matrix.perspectiveM(matP,0,45f,1f,0.1f,80f)
+        Matrix.perspectiveM(matP,0,90f,1f,0.1f,200f)
         Matrix.multiplyMM(matVP,0,matP,0,matV,0)
 
         // キューブマップテクスチャで背景用キューブをレンダリング
@@ -309,17 +296,26 @@ class KochSnowflakeCubemap01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.setIdentityM(matM,0)
         Matrix.scaleM(matM,0,100f,100f,100f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderCubemap.draw(vaoCube,matM,matMVP, floatArrayOf(0f,0f,0f),0,0)
+        shaderCubemap.draw(vaoCube,matM,matMVP, vecEye,0,0)
 
         // コッホ雪片のテクスチャを板ポリゴンにレンダリング
+        GLES32.glActiveTexture(GLES32.GL_TEXTURE1)
+        GLES32.glBindTexture(GLES32.GL_TEXTURE_2D, frameTex[1])
         (0..5).forEach { id ->
-            GLES32.glActiveTexture(GLES32.GL_TEXTURE0)
-            GLES32.glBindTexture(GLES32.GL_TEXTURE_2D, frameTex[1])
             Matrix.setIdentityM(matM,0)
             Matrix.translateM(matM,0,objPos[0+id*3],objPos[1+id*3],objPos[2+id*3])
+            Matrix.rotateM(matM,0,objRot[0+id*4],objRot[1+id*4],objRot[2+id*4],objRot[3+id*4])
+            Matrix.scaleM(matM,0,20f,20f,20f)
             Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-            shaderTexture.draw(vaoBoard,matMVP,0)
+            shaderTexture.draw(vaoBoard,matMVP,1)
         }
+
+        // キューブマップテクスチャで球体をレンダリング
+        GLES32.glActiveTexture(GLES32.GL_TEXTURE2)
+        GLES32.glBindTexture(GLES32.GL_TEXTURE_CUBE_MAP,frameTex[0])
+        Matrix.setIdentityM(matM,0)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderCubemap.draw(vaoSphere,matM,matMVP,vecEye,2,1)
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
@@ -397,6 +393,11 @@ class KochSnowflakeCubemap01Renderer(ctx: Context): MgRenderer(ctx) {
 
         // キューブマップを生成
         MyGLES32Func.generateCubeMap(cubeTextures,bmpArray)
+
+        // 視点位置
+        vecEye[0] =  0f
+        vecEye[1] =  0f
+        vecEye[2] = 20f
     }
 
     override fun setMotionParam(motionParam: MutableMap<String, Float>) {

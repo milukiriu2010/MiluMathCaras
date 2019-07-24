@@ -9,6 +9,7 @@ import milu.kiriu2010.gui.model.MgModelAbs
 // 2019.06.30  ZX平面
 // 2019.07.02  パッケージ修正
 // 2019.07.14  位置/インデックス修正
+// 2019.07.24  テクスチャ座標追加
 // ----------------------------------------------
 class Board01Model: MgModelAbs() {
 
@@ -53,12 +54,18 @@ class Board01Model: MgModelAbs() {
             datNor.addAll(arrayListOf(0f,0f,1f))
             // 色
             if ( ( color[0] == -1f ) and ( color[1] == -1f ) and ( color[2] == -1f ) and ( color[3] == -1f ) ) {
-                datCol.addAll(arrayListOf<Float>(1f,1f,1f,1f))
+                datCol.addAll(arrayListOf(1f,1f,1f,1f))
             }
             else {
                 datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
             }
         }
+
+        // テクスチャ座標
+        datTxc.addAll(arrayListOf(0f,0f))
+        datTxc.addAll(arrayListOf(0f,1f))
+        datTxc.addAll(arrayListOf(1f,1f))
+        datTxc.addAll(arrayListOf(1f,0f))
 
         // インデックス
         datIdx.addAll(arrayListOf(0,3,1,2,1,3))
@@ -90,6 +97,12 @@ class Board01Model: MgModelAbs() {
                 datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
             }
         }
+
+        // テクスチャ座標
+        datTxc.addAll(arrayListOf(0f,0f))
+        datTxc.addAll(arrayListOf(0f,1f))
+        datTxc.addAll(arrayListOf(1f,1f))
+        datTxc.addAll(arrayListOf(1f,0f))
 
         // インデックス
         datIdx.addAll(arrayListOf(0,1,3,2,3,1))
