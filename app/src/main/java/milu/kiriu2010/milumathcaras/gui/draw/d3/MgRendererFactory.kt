@@ -6,6 +6,7 @@ import milu.kiriu2010.milumathcaras.entity.DrawDataID
 import milu.kiriu2010.milumathcaras.gui.draw.d3.cube.*
 import milu.kiriu2010.milumathcaras.gui.draw.d3.cubemap.SphereCubemap01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.fractal.KochSnowflake01Renderer
+import milu.kiriu2010.milumathcaras.gui.draw.d3.fractal.KochSnowflakeCubemap01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.glsl.GLSL01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.net.cube.NetCube01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.net.dodecahedron.NetDodecahedron01Renderer
@@ -97,6 +98,8 @@ class MgRendererFactory {
                 DrawDataID.ID_001304_GL_SPHERE_CUBEMAP_01 -> SphereCubemap01Renderer(context)
                 // 立方体の中をコッホ雪片が回転
                 DrawDataID.ID_001400_GL_KOCH_SNOWFLAKE_01 -> KochSnowflake01Renderer(context)
+                // コッホ雪片inキューブ環境マッピング
+                DrawDataID.ID_001401_GL_KOCH_SNOWFLAKE_CUBEMAP_01 -> KochSnowflakeCubemap01Renderer(context)
                 // 線でHelixを描画
                 DrawDataID.ID_001500_GL_HELIX_01 -> Helix01Renderer(context)
                 // 円の位相をずらして描画

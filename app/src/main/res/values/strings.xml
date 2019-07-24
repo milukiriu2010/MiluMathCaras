@@ -354,6 +354,7 @@
     <string name="draw_001303_gl_sphere_color_shift_02">Sphere Color \nShift 02</string>
     <string name="draw_001304_gl_sphere_cubemap_01">Sphere \nCubemap 01</string>
     <string name="draw_001400_gl_koch_snowflake_01">Koch Snowflake\n 01</string>
+    <string name="draw_001401_gl_koch_snowflake_cubemap_01">Koch Snowflake\nCubemap 01</string>
     <string name="draw_001500_gl_helix_01">Helix 01</string>
     <string name="draw_001501_gl_circle_phase_shift_01">Circle Phase\nShift 01</string>
     <string name="draw_001502_gl_wave_floor_01">Wave Floor 01</string>

@@ -542,6 +542,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_001304_GL_SPHERE_CUBEMAP_01(1304),
     // 立方体の中をコッホ雪片が回転
     ID_001400_GL_KOCH_SNOWFLAKE_01(1400),
+    // コッホ雪片inキューブ環境マッピング
+    ID_001401_GL_KOCH_SNOWFLAKE_CUBEMAP_01(1402),
     // 線でHelixを描画
     ID_001500_GL_HELIX_01(1500),
     // 円の位相をずらして描画

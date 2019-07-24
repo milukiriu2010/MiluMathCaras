@@ -908,6 +908,8 @@ class DrawDataFactory {
                 }
                 // 多面体内にフラクタルを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_FRACTAL -> {
+                    // コッホ雪片inキューブ環境マップ01
+                    drawDataLst.add(DrawData(DrawDataID.ID_001401_GL_KOCH_SNOWFLAKE_CUBEMAP_01,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001401_gl_koch_snowflake_cubemap_01), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体の中をコッホ雪片が回転
                     drawDataLst.add(DrawData(DrawDataID.ID_001400_GL_KOCH_SNOWFLAKE_01,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001400_gl_koch_snowflake_01), drawViewType = DrawViewType.DVT_GL ))
                 }
