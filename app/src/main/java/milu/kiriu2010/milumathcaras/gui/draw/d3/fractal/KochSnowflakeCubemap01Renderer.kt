@@ -168,13 +168,11 @@ class KochSnowflakeCubemap01Renderer(ctx: Context): MgRenderer(ctx) {
 
         // 回転角度
         if ( isRunning == true ) {
-            angle[0] =(angle[0]+1)%360
             scaleNow += scaleDv
             if ( scaleNow >= scaleMax ) {
                 scaleNow = scaleMin
             }
         }
-        val t0 = angle[0].toFloat()
 
         // -----------------------------------------
         // 通常フレームバッファにコッホ雪片を描画

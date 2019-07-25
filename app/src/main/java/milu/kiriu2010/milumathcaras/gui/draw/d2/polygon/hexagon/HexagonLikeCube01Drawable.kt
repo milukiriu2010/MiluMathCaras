@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.tile
+package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.hexagon
 
 import android.graphics.*
 import android.os.Handler
@@ -7,18 +7,23 @@ import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
-import kotlin.math.sqrt
 
 // -----------------------------------------------------------------
-// 六角形が波打つようにスケールを変更01
+// 立方体のような正六角形01
 // -----------------------------------------------------------------
-// 一面に敷き詰める
+// ピンク(上:Y軸)・緑(左:Z軸)・黒(右:X軸)の領域に分かれ４回回転
 // -----------------------------------------------------------------
-// https://66.media.tumblr.com/b7ed4a9b13d54c3469d9372dd662df70/tumblr_mviec26tSc1r2geqjo1_500.gif
+// https://twitter.com/InfinityLoopGIF/status/1149451600248868864
 // -----------------------------------------------------------------
-// 2019.06.22
+// 2019.07.25
 // -----------------------------------------------------------------
-class HexagonScale01Drawable: MyDrawable() {
+class HexagonLikeCube01Drawable: MyDrawable() {
+
+    // 描画モード
+    enum class ModePtr {
+        // Y軸(右⇒左)
+        YRL
+    }
 
     // -------------------------------
     // 描画領域
@@ -27,21 +32,26 @@ class HexagonScale01Drawable: MyDrawable() {
     private val margin = 0f
 
     // -------------------------------
-    // 描画領域の分割数
+    // 基準となる長さ
     // -------------------------------
-    private val splitN = 12
-    // -------------------------------
-    // 六角形を形成する半径の長さ
-    // -------------------------------
-    private val r = side/splitN.toFloat()*0.5f
-    private val r3 = r*sqrt(3f)
+    private val a1 = 50f
+    private val a2 = 2f*a1
+    private val a4 = 4f*a1
+    private val a8 = 8f*a1
 
-    // 基準となる六角形
-    private val hexagon = mutableListOf<MyPointF>()
+    // 描画する平行四辺形リスト(４つ)
+    private val parallels = mutableListOf<Parallelogram>()
 
-    // 1ターン内の移動比率
-    private var ratioN = 0
-    private val ratioLst = floatArrayOf(1f,0.9f,0.8f,0.7f,0.6f,0.5f,0.6f,0.7f,0.8f)
+    // 平行四辺形の移動比率
+    private var ratioPNow = 0f
+    private val ratioPDv = 0.1f
+
+    // 描画モード
+    private var modeNow = ModePtr.YRL
+
+    // "描画点の初期位置設定"回数
+    private var nCnt = 0
+
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -111,8 +121,10 @@ class HexagonScale01Drawable: MyDrawable() {
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
-                    // スケールを変更する
-                    shiftScale()
+                    // 描画点の初期位置設定
+                    createPath()
+                    // 描画オブジェクトを移動する
+                    movePath()
                     // ビットマップに描画
                     drawBitmap()
                     // 描画
@@ -150,23 +162,90 @@ class HexagonScale01Drawable: MyDrawable() {
     // 描画点の初期位置設定
     // -------------------------------
     private fun createPath() {
-        hexagon.clear()
+        if ( (ratioPNow > 0f) and (ratioPNow < 1f) ) return
+        ratioPNow = 0f
+        parallels.clear()
 
-        (0..5).forEach { i ->
-            val t = 30f + 60f * i.toFloat()
-            val p = MyPointF().also {
-                it.x = r * MyMathUtil.cosf(t)
-                it.y = r * MyMathUtil.sinf(t)
+        // モード変更
+        if ( nCnt > 1 ) {
+            modeNow = when (modeNow) {
+                ModePtr.YRL -> ModePtr.YRL
             }
-            hexagon.add(p)
+        }
+
+        // 描画パス初期化
+        when (modeNow) {
+            ModePtr.YRL -> {
+                createParallelYRL()
+            }
+        }
+
+        nCnt++
+    }
+
+    // -------------------------------
+    // 描画パス初期化(平行四辺形)
+    // 共通
+    // -------------------------------
+    private fun createParalle(prl: Parallelogram, agls:FloatArray, agle: FloatArray) {
+        (0..3).forEach { i ->
+            val ps = MyPointF().also {
+                it.x = agls[2*i+1] * MyMathUtil.cosf(agls[2*i])
+                it.y = agls[2*i+1] * MyMathUtil.sinf(agls[2*i])
+            }
+            //Log.d(javaClass.simpleName,"ps[$i][${ps.x}][${ps.y}]")
+            prl.slst.add(ps)
+
+            val pe = MyPointF().also {
+                it.x = agle[2*i+1] * MyMathUtil.cosf(agle[2*i])
+                it.y = agle[2*i+1] * MyMathUtil.sinf(agle[2*i])
+            }
+            prl.elst.add(pe)
         }
     }
 
     // -------------------------------
-    // スケールを変更する
+    // 描画パス初期化(平行四辺形)
+    // Y軸(右⇒左)
     // -------------------------------
-    private fun shiftScale() {
-        ratioN = (ratioN+1)%ratioLst.size
+    private fun createParallelYRL() {
+        // 角度,長さのペア
+        //val agl0s = floatArrayOf(30f,a4, 0f,0f,270f,a4,330f,a4)
+        //val agl0e = floatArrayOf(90f,a4,30f,a4,  0f,0f,330f,a4)
+        val agl0s = floatArrayOf( 0f,0f,30f,a4,330f,a4,270f,a4)
+        val agl0e = floatArrayOf(30f,a4,90f,a4,  0f,0f,330f,a4)
+        // 緑:裏右
+        Parallelogram().also { prl ->
+            /*
+            (0..3).forEach { i ->
+                val ps = MyPointF().also {
+                    it.x = agl0s[2*i+1] * MyMathUtil.cosf(agl0s[2*i])
+                    it.y = agl0s[2*i+1] * MyMathUtil.sinf(agl0s[2*i])
+                }
+                //Log.d(javaClass.simpleName,"ps[$i][${ps.x}][${ps.y}]")
+                prl.slst.add(ps)
+
+                val pe = MyPointF().also {
+                    it.x = agl0e[2*i+1] * MyMathUtil.cosf(agl0e[2*i])
+                    it.y = agl0e[2*i+1] * MyMathUtil.sinf(agl0e[2*i])
+                }
+                prl.elst.add(pe)
+            }
+            */
+            createParalle(prl,agl0s,agl0e)
+            prl.color = Color.GREEN
+            parallels.add(prl)
+        }
+
+
+
+    }
+
+    // -------------------------------
+    // 描画オブジェクトを移動する
+    // -------------------------------
+    private fun movePath() {
+        ratioPNow += ratioPDv
     }
 
     // -------------------------------
@@ -182,39 +261,30 @@ class HexagonScale01Drawable: MyDrawable() {
 
         // 座標を保存
         canvas.save()
-
         // 原点を移動
         canvas.translate(intrinsicWidth.toFloat()*0.5f,intrinsicHeight.toFloat()*0.5f)
 
-        (0..splitN).forEach { i ->
-            val ii = i.toFloat()
-            val ratioA = (i+ratioN)%ratioLst.size
-            val ratio = ratioLst[ratioA]
-            Log.d(javaClass.simpleName,"ratio[$ratio]hexagon[${hexagon.size}]")
-            (0..5).forEach { j ->
-                val jj = j.toFloat()
-                val rr = r3*ii
-                val cos = rr*MyMathUtil.cosf(60f * j)
-                val sin = rr*MyMathUtil.sinf(60f * j)
-
-                canvas.save()
-                canvas.translate(cos,sin)
-                drawHexagon(canvas,ratio)
-
-                // 途中のパスに六角形を描く
-                val kmax = if ( i <= 1 ) 0 else i-1
-                val cos1 = r3*MyMathUtil.cosf(120f+60f*jj)
-                val sin1 = r3*MyMathUtil.sinf(120f+60f*jj)
-                (1..kmax).forEach { _ ->
-                    canvas.translate(cos1,sin1)
-                    drawHexagon(canvas,ratio)
+        // 平行四辺形を描画
+        //Log.d(javaClass.simpleName,"paralles[${parallels.size}]")
+        //Log.d(javaClass.simpleName,"=============================")
+        parallels.forEachIndexed { id, prl ->
+            val path = Path()
+            (0..3).forEach { i ->
+                val ps = prl.slst[i]
+                val pe = prl.elst[i]
+                val p = ps.lerp(pe,ratioPNow,1f-ratioPNow)
+                //Log.d(javaClass.simpleName,"p[$i][${p.x}][${p.y}]")
+                if (i == 0) {
+                    path.moveTo(p.x,p.y)
                 }
-
-                canvas.restore()
+                else {
+                    path.lineTo(p.x,p.y)
+                }
             }
+            path.close()
+            linePaint.color = prl.color
+            canvas.drawPath(path,linePaint)
         }
-
-
 
         // 座標を元に戻す
         canvas.restore()
@@ -223,23 +293,6 @@ class HexagonScale01Drawable: MyDrawable() {
         val matrix = Matrix()
         matrix.setScale(1f,1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
-    }
-
-    private fun drawHexagon(canvas: Canvas, ratio: Float) {
-        val path = Path()
-        hexagon.forEachIndexed { id, myPointF ->
-            val x = myPointF.x*ratio
-            val y = myPointF.y*ratio
-            Log.d(javaClass.simpleName,"id[$id]x[$x]y[$y]")
-            if ( id == 0 ) {
-                path.moveTo(myPointF.x*ratio,myPointF.y*ratio)
-            }
-            else {
-                path.lineTo(myPointF.x*ratio,myPointF.y*ratio)
-            }
-        }
-        path.close()
-        canvas.drawPath(path,linePaint)
     }
 
     // -------------------------------
@@ -278,4 +331,14 @@ class HexagonScale01Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun getIntrinsicHeight(): Int = (side+margin*2).toInt()
+
+    // 平行四辺形
+    private data class Parallelogram(
+        // 開始点
+        val slst: MutableList<MyPointF> = mutableListOf(),
+        // 終了点
+        val elst: MutableList<MyPointF> = mutableListOf(),
+        // 色
+        var color: Int = Color.BLACK
+    )
 }

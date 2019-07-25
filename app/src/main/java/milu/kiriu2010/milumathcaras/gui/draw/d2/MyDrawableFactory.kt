@@ -1,6 +1,5 @@
 package milu.kiriu2010.milumathcaras.gui.draw.d2
 
-import milu.kiriu2010.milumathcaras.entity.DrawData
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
 import milu.kiriu2010.milumathcaras.gui.draw.d2.circle.circles.*
 import milu.kiriu2010.milumathcaras.gui.draw.d2.circle.morph.Circle2SqaureMorph01Drawable
@@ -50,6 +49,9 @@ import milu.kiriu2010.milumathcaras.gui.draw.d2.nature.vectors.AccelerateTowards
 import milu.kiriu2010.milumathcaras.gui.draw.d2.nature.vectors.Fountain01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.nature.vectors.RandomWalk01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.nature.vectors.UniformMotion01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.hexagon.HexagonLikeCube01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.hexagon.HexagonScale01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.hexagon.HexagonScale02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.polygon.*
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.square.Square2Cross01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.square.SquareInSquare01Drawable
@@ -346,8 +348,10 @@ class MyDrawableFactory {
                 DrawDataID.ID_000613_SQUARE_IN_SQUARE_01 -> SquareInSquare01Drawable()
                 // 三角形⇔六角形02
                 DrawDataID.ID_000614_TRIANGLE_2_HEXAGON_02 -> Triangle2Hexagon02Drawable()
-                // 正方形⇔正方形
+                // 正方形⇔正方形01
                 DrawDataID.ID_000615_SQUARE_2_SQUARE_01 -> Square2Square01Drawable()
+                // 立方体のような正六角形01
+                DrawDataID.ID_000616_HEXAGON_LIKE_CUBE_01 -> HexagonLikeCube01Drawable()
                 // 三角形out三角形
                 DrawDataID.ID_000701_3_OUT_3 -> PolygonOutPolygon01Drawable()
                 // 三角形out四角形

@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.tile
+package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.hexagon
 
 import android.graphics.*
 import android.os.Handler
@@ -190,7 +190,7 @@ class HexagonScale02Drawable: MyDrawable() {
             val ii = i.toFloat()
             val ratioA = (i+ratioN)%ratioLst.size
             val ratio = ratioLst[ratioA]
-            Log.d(javaClass.simpleName,"ratio[$ratio]hexagon[${hexagon.size}]")
+            //Log.d(javaClass.simpleName,"ratio[$ratio]hexagon[${hexagon.size}]")
             (0..5).forEach { j ->
                 val rr = r*ii
                 val cos = rr*MyMathUtil.cosf(60f * j)
@@ -232,7 +232,7 @@ class HexagonScale02Drawable: MyDrawable() {
         hexagon.forEachIndexed { id, myPointF ->
             val x = myPointF.x*ratio
             val y = myPointF.y*ratio
-            Log.d(javaClass.simpleName,"id[$id]x[$x]y[$y]")
+            //Log.d(javaClass.simpleName,"id[$id]x[$x]y[$y]")
             if ( id == 0 ) {
                 path.moveTo(myPointF.x*ratio,myPointF.y*ratio)
             }
