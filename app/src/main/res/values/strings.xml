@@ -344,6 +344,7 @@
     <string name="draw_001109_gl_cube_transform_10">Cube Transform\n 10</string>
     <string name="draw_001110_gl_cube_transform_11">Cube Transform\n 11</string>
     <string name="draw_001111_gl_cube_transform_12">Cube Transform\n 12</string>
+    <string name="draw_001112_gl_cube_like_hexagon_01">Cube like Hexagon01</string>
     <string name="draw_001201_gl_net_tetrahedron_02">Net of Tetrahedron</string>
     <string name="draw_001202_gl_net_cube_01">Net of Cube</string>
     <string name="draw_001203_gl_net_octahedron_01">Net of Octahedron</string>

@@ -4,6 +4,7 @@ import android.content.Context
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.milumathcaras.entity.DrawDataID
 import milu.kiriu2010.milumathcaras.gui.draw.d3.cube.*
+import milu.kiriu2010.milumathcaras.gui.draw.d3.cube.hexagon.CubeLikeHexagon01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.cubemap.SphereCubemap01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.fractal.KochSnowflake01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.fractal.KochSnowflakeCubemap01Renderer
@@ -76,6 +77,10 @@ class MgRendererFactory {
                 DrawDataID.ID_001110_GL_CUBE_TRANSFORM_11 -> CubeTransform11Renderer(context)
                 // 立方体座標変換13
                 DrawDataID.ID_001111_GL_CUBE_TRANSFORM_12 -> CubeTransform12Renderer(context)
+                // 六角形にみえる立方体01
+                DrawDataID.ID_001112_GL_CUBE_LIKE_HEXAGON_01 -> CubeLikeHexagon01Renderer(
+                    context
+                )
                 // 正四面体の展開図02
                 DrawDataID.ID_001201_GL_NET_TETRAHEDRON_02 -> NetTetrahedron02Renderer(context)
                 // 立方体の展開図01

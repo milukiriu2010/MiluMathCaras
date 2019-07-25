@@ -209,31 +209,43 @@ class HexagonLikeCube01Drawable: MyDrawable() {
     // Y軸(右⇒左)
     // -------------------------------
     private fun createParallelYRL() {
+        // 緑:裏右⇒表右
         // 角度,長さのペア
-        //val agl0s = floatArrayOf(30f,a4, 0f,0f,270f,a4,330f,a4)
-        //val agl0e = floatArrayOf(90f,a4,30f,a4,  0f,0f,330f,a4)
         val agl0s = floatArrayOf( 0f,0f,30f,a4,330f,a4,270f,a4)
         val agl0e = floatArrayOf(30f,a4,90f,a4,  0f,0f,330f,a4)
-        // 緑:裏右
         Parallelogram().also { prl ->
-            /*
-            (0..3).forEach { i ->
-                val ps = MyPointF().also {
-                    it.x = agl0s[2*i+1] * MyMathUtil.cosf(agl0s[2*i])
-                    it.y = agl0s[2*i+1] * MyMathUtil.sinf(agl0s[2*i])
-                }
-                //Log.d(javaClass.simpleName,"ps[$i][${ps.x}][${ps.y}]")
-                prl.slst.add(ps)
-
-                val pe = MyPointF().also {
-                    it.x = agl0e[2*i+1] * MyMathUtil.cosf(agl0e[2*i])
-                    it.y = agl0e[2*i+1] * MyMathUtil.sinf(agl0e[2*i])
-                }
-                prl.elst.add(pe)
-            }
-            */
             createParalle(prl,agl0s,agl0e)
             prl.color = Color.GREEN
+            parallels.add(prl)
+        }
+
+        // 緑:表左⇒裏左
+        // 角度,長さのペア
+        val agl1s = floatArrayOf( 90f,a4,150f,a4,210f,a4,  0f,0f)
+        val agl1e = floatArrayOf(150f,a4,  0f,0f,270f,a4,210f,a4)
+        Parallelogram().also { prl ->
+            createParalle(prl,agl1s,agl1e)
+            prl.color = Color.GREEN
+            parallels.add(prl)
+        }
+
+        // ピンク:表右⇒表左
+        // 角度,長さのペア
+        val agl2s = floatArrayOf(30f,a4, 90f,a4,  0f,0f,330f,a4)
+        val agl2e = floatArrayOf(90f,a4,150f,a4,210f,a4,  0f,0f)
+        Parallelogram().also { prl ->
+            createParalle(prl,agl2s,agl2e)
+            prl.color = 0xffffc0cb.toInt()
+            parallels.add(prl)
+        }
+
+        // 黒:表上⇒表右
+        // 角度,長さのペア
+        val agl3s = floatArrayOf(330f,a4,  0f,0f,210f,a4,270f,a4)
+        val agl3e = floatArrayOf(  0f,0f,210f,a4,270f,a4,330f,a4)
+        Parallelogram().also { prl ->
+            createParalle(prl,agl3s,agl3e)
+            prl.color = Color.BLACK
             parallels.add(prl)
         }
 

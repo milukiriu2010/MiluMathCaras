@@ -432,8 +432,8 @@ class DrawDataFactory {
                 // "多角形のMix"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_MIX -> {
                     // 立方体のような正六角形01
-                    drawDataLst.add(DrawData(DrawDataID.ID_000616_HEXAGON_LIKE_CUBE_01,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000616_polygon_hexagon_like_cube_01),
-                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://twitter.com/InfinityLoopGIF/status/1149451600248868864") ))
+                    //drawDataLst.add(DrawData(DrawDataID.ID_000616_HEXAGON_LIKE_CUBE_01,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000616_polygon_hexagon_like_cube_01),
+                    //    creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://twitter.com/InfinityLoopGIF/status/1149451600248868864") ))
                     // 正方形内を正方形が移動
                     drawDataLst.add(DrawData(DrawDataID.ID_000613_SQUARE_IN_SQUARE_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000613_polygon_square_in_square_01) ))
                     // 三角形内を線が移動
@@ -781,20 +781,6 @@ class DrawDataFactory {
                 }
                 // 多角形をずらして描画するデータの一覧
                 MenuItem.MENU_POLYGON_SLIDE -> {
-                    /*
-                    // 六角形をずらして描く
-                    drawDataLst.add(DrawData(DrawDataID.ID_000604_SLIDE_HEXAGON,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000604_polygon_slide_hexagon),
-                        stillImageParam = floatArrayOf(12f), motionImageParam = floatArrayOf(0f),
-                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/dMgxWRrj") ))
-                    // 三角形をずらして描く
-                    drawDataLst.add(DrawData(DrawDataID.ID_000781_SLIDE_3,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000781_polygon_slide_3),
-                        stillImageParam = floatArrayOf(3f), motionImageParam = floatArrayOf(3f),
-                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/dMgxWRrj") ))
-                    // 四角形をずらして描く
-                    drawDataLst.add(DrawData(DrawDataID.ID_000782_SLIDE_4,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000782_polygon_slide_4),
-                        stillImageParam = floatArrayOf(4f), motionImageParam = floatArrayOf(4f),
-                        creditMap = mutableMapOf<String,String>("name" to "papert", "url" to "http://logo.twentygototen.org/dMgxWRrj") ))
-                        */
                     // 五角形をずらして描く
                     drawDataLst.add(DrawData(DrawDataID.ID_000783_SLIDE_5,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000783_polygon_slide_5),
                         stillImageParam = floatArrayOf(5f), motionImageParam = floatArrayOf(5f),
@@ -858,6 +844,9 @@ class DrawDataFactory {
                 }
                 // 立方体に座標変換を施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_CUBE_TRANSFORM -> {
+                    // 正四面体
+                    drawDataLst.add(DrawData(DrawDataID.ID_001112_GL_CUBE_LIKE_HEXAGON_01,DrawFragmentType.FT_D3_ES32_CREDIT_01,resources.getString(R.string.draw_001112_gl_cube_like_hexagon_01), drawViewType = DrawViewType.DVT_GL,
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://twitter.com/InfinityLoopGIF/status/1149451600248868864") ))
                     // 立方体座標変換12
                     drawDataLst.add(DrawData(DrawDataID.ID_001111_GL_CUBE_TRANSFORM_12,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001111_gl_cube_transform_12), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体座標変換11
