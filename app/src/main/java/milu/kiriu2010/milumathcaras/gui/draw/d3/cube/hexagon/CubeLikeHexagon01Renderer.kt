@@ -7,7 +7,6 @@ import milu.kiriu2010.gui.model.d3.Cube01Model
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.shader.es32.ES32Simple01Shader
 import milu.kiriu2010.gui.vbo.es32.ES32VAOIpc
-import milu.kiriu2010.math.MyMathUtil
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -23,10 +22,14 @@ import javax.microedition.khronos.opengles.GL10
 class CubeLikeHexagon01Renderer(ctx: Context): MgRenderer(ctx) {
 
     // 描画モデル(立方体)
-    private val model = Cube01Model()
+    private val modelCube = Cube01Model()
+    // 描画モデル(台形リスト)
+    private val modelTrapezoids = mutableListOf<Trapezoid01Model>()
 
-    // VAO
-    private val vao = ES32VAOIpc()
+    // VAO(立方体)
+    private val vaoCube = ES32VAOIpc()
+    // VAO(台形)
+    private val vaoTrapezoids = mutableListOf<ES32VAOIpc>()
 
     // シェーダ(特殊効果なし)
     private val shaderSimple = ES32Simple01Shader(ctx)
@@ -70,8 +73,14 @@ class CubeLikeHexagon01Renderer(ctx: Context): MgRenderer(ctx) {
         //Matrix.translateM(matM,0,cos,sin,h)
         //Matrix.rotateM(matM,0,-t0,0f,1f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(vao,matMVP)
+        shaderSimple.draw(vaoCube,matMVP)
 
+
+        vaoTrapezoids.forEachIndexed { id, vao ->
+            Matrix.setIdentityM(matM,0)
+            Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+            shaderSimple.draw(vao,matMVP)
+        }
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
@@ -88,10 +97,24 @@ class CubeLikeHexagon01Renderer(ctx: Context): MgRenderer(ctx) {
         shaderSimple.loadShader()
 
         // 描画モデル(立方体)
-        model.createPath()
+        modelCube.createPath()
 
         // VAO
-        vao.makeVIBO(model)
+        vaoCube.makeVIBO(modelCube)
+
+        // 描画モデル(台形)
+        (1..2).forEach { i ->
+            val ii = i.toFloat()
+            val modelTrapezoid = Trapezoid01Model()
+            modelTrapezoid.createPath(mapOf(
+                "pattern" to ii
+            ))
+            modelTrapezoids.add(modelTrapezoid)
+
+            val vaoTrapezoid = ES32VAOIpc()
+            vaoTrapezoid.makeVIBO(modelTrapezoid)
+            vaoTrapezoids.add(vaoTrapezoid)
+        }
     }
 
     override fun setMotionParam(motionParam: MutableMap<String, Float>) {
@@ -100,7 +123,7 @@ class CubeLikeHexagon01Renderer(ctx: Context): MgRenderer(ctx) {
     // MgRenderer
     // シェーダ終了処理
     override fun closeShader() {
-        vao.deleteVIBO()
+        vaoCube.deleteVIBO()
         shaderSimple.deleteShader()
     }
 }
