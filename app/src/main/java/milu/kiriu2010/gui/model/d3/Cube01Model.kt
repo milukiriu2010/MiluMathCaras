@@ -1,5 +1,6 @@
 package milu.kiriu2010.gui.model.d3
 
+import android.util.Log
 import milu.kiriu2010.gui.color.MgColor
 import milu.kiriu2010.gui.model.MgModelAbs
 import milu.kiriu2010.math.MyMathUtil
@@ -15,6 +16,7 @@ import milu.kiriu2010.math.MyMathUtil
 // 2019.06.12  コメント追加
 // 2019.07.02  パッケージ修正
 // 2019.07.10  warningを消す
+// 2019.07.29  面ごとに色指定
 // ----------------------------------------------
 class Cube01Model: MgModelAbs() {
 
@@ -28,7 +30,7 @@ class Cube01Model: MgModelAbs() {
         val pattern = opt["pattern"]?.toInt() ?: 1
 
         when ( pattern ) {
-            // 面:自作
+            // 面:全体で色指定
             1 -> createPathPattern1(opt)
             // 面:wgld.org:テクスチャマップ
             2 -> createPathPattern2(opt)
@@ -43,7 +45,102 @@ class Cube01Model: MgModelAbs() {
         allocateBuffer()
     }
 
-    // 面
+    // 面ごとに色指定
+    public fun createPathFace( colors: FloatArray ) {
+        datPos.clear()
+        datNor.clear()
+        datCol.clear()
+        datTxc.clear()
+        datIdx.clear()
+
+        val scale = 1f
+
+        val va = arrayListOf(-scale,-scale, scale)
+        val vb = arrayListOf( scale,-scale, scale)
+        val vc = arrayListOf(-scale, scale, scale)
+        val vd = arrayListOf( scale, scale, scale)
+        val ve = arrayListOf( scale,-scale,-scale)
+        val vf = arrayListOf(-scale,-scale,-scale)
+        val vg = arrayListOf( scale, scale,-scale)
+        val vh = arrayListOf(-scale, scale,-scale)
+
+        // 頂点データ
+        datPos.addAll(ArrayList(va))   // v0
+        datPos.addAll(ArrayList(vb))   // v1
+        datPos.addAll(ArrayList(vc))   // v2
+        datPos.addAll(ArrayList(vd))   // v3
+        datPos.addAll(ArrayList(vb))   // v4,v1
+        datPos.addAll(ArrayList(ve))   // v5
+        datPos.addAll(ArrayList(vd))   // v6,v3
+        datPos.addAll(ArrayList(vg))   // v7
+        datPos.addAll(ArrayList(ve))   // v8,v5
+        datPos.addAll(ArrayList(vf))   // v9
+        datPos.addAll(ArrayList(vg))   // v10,v7
+        datPos.addAll(ArrayList(vh))   // v11
+        datPos.addAll(ArrayList(vf))   // v12,v9
+        datPos.addAll(ArrayList(va))   // v13,v0
+        datPos.addAll(ArrayList(vh))   // v14,v11
+        datPos.addAll(ArrayList(vc))   // v15,v2
+        datPos.addAll(ArrayList(vf))   // v16,v12,v9
+        datPos.addAll(ArrayList(ve))   // v17,v8,v5
+        datPos.addAll(ArrayList(va))   // v18,v13,v0
+        datPos.addAll(ArrayList(vb))   // v19,v4,v1
+        datPos.addAll(ArrayList(vc))   // v20,v15,v2
+        datPos.addAll(ArrayList(vd))   // v21,v6,v3
+        datPos.addAll(ArrayList(vh))   // v22,v14,v11
+        datPos.addAll(ArrayList(vg))   // v23,v10,v7
+
+        // 法線データ
+        (0..23).forEach {
+            val m = it/4
+            // (v1-v0) x (v2-v0)
+            datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*(4*m+1), 3*(4*m+2), 3*(4*m) ) )
+        }
+
+        // -----------------------------
+        // 色データ
+        // -----------------------------
+        // 面ごとに色指定
+        // -----------------------------
+        // 面
+        (0..5).forEach { faceId ->
+            // 頂点
+            (0..3).forEach {
+                // RGBA
+                (faceId*4..(faceId*4+3)).forEach { pid ->
+                    datCol.add(colors[pid])
+                }
+            }
+        }
+
+        // テクスチャ座標データ
+        // 立方体は６面あるので６回ループする
+        (0..5).forEach {
+            datTxc.addAll(arrayListOf(0f,1f)) // v0,v4, v8,v12,v16,v20
+            datTxc.addAll(arrayListOf(1f,1f)) // v1,v5, v9,v13,v17,v21
+            datTxc.addAll(arrayListOf(0f,0f)) // v2,v6,v10,v14,v18,v22
+            datTxc.addAll(arrayListOf(1f,0f)) // v3,v7,v11,v15,v19,v23
+        }
+
+        // インデックスデータ
+        datIdx.addAll(arrayListOf(0,1,2))
+        datIdx.addAll(arrayListOf(3,2,1))
+        datIdx.addAll(arrayListOf(4,5,6))
+        datIdx.addAll(arrayListOf(7,6,5))
+        datIdx.addAll(arrayListOf(8,9,10))
+        datIdx.addAll(arrayListOf(11,10,9))
+        datIdx.addAll(arrayListOf(12,13,14))
+        datIdx.addAll(arrayListOf(15,14,13))
+        datIdx.addAll(arrayListOf(16,17,18))
+        datIdx.addAll(arrayListOf(19,18,17))
+        datIdx.addAll(arrayListOf(20,21,22))
+        datIdx.addAll(arrayListOf(23,22,21))
+
+        // バッファ割り当て
+        allocateBuffer()
+    }
+
+    // 面:全体で色指定
     private fun createPathPattern1( opt: Map<String,Float> ) {
         var scale = opt["scale"] ?: 1f
         val color = FloatArray(4)
@@ -62,30 +159,30 @@ class Cube01Model: MgModelAbs() {
         val vh = arrayListOf(-scale, scale,-scale)
 
         // 頂点データ
-        datPos.addAll(ArrayList<Float>(va))   // v0
-        datPos.addAll(ArrayList<Float>(vb))   // v1
-        datPos.addAll(ArrayList<Float>(vc))   // v2
-        datPos.addAll(ArrayList<Float>(vd))   // v3
-        datPos.addAll(ArrayList<Float>(vb))   // v4,v1
-        datPos.addAll(ArrayList<Float>(ve))   // v5
-        datPos.addAll(ArrayList<Float>(vd))   // v6,v3
-        datPos.addAll(ArrayList<Float>(vg))   // v7
-        datPos.addAll(ArrayList<Float>(ve))   // v8,v5
-        datPos.addAll(ArrayList<Float>(vf))   // v9
-        datPos.addAll(ArrayList<Float>(vg))   // v10,v7
-        datPos.addAll(ArrayList<Float>(vh))   // v11
-        datPos.addAll(ArrayList<Float>(vf))   // v12,v9
-        datPos.addAll(ArrayList<Float>(va))   // v13,v0
-        datPos.addAll(ArrayList<Float>(vh))   // v14,v11
-        datPos.addAll(ArrayList<Float>(vc))   // v15,v2
-        datPos.addAll(ArrayList<Float>(vf))   // v16,v12,v9
-        datPos.addAll(ArrayList<Float>(ve))   // v17,v8,v5
-        datPos.addAll(ArrayList<Float>(va))   // v18,v13,v0
-        datPos.addAll(ArrayList<Float>(vb))   // v19,v4,v1
-        datPos.addAll(ArrayList<Float>(vc))   // v20,v15,v2
-        datPos.addAll(ArrayList<Float>(vd))   // v21,v6,v3
-        datPos.addAll(ArrayList<Float>(vh))   // v22,v14,v11
-        datPos.addAll(ArrayList<Float>(vg))   // v23,v10,v7
+        datPos.addAll(ArrayList(va))   // v0
+        datPos.addAll(ArrayList(vb))   // v1
+        datPos.addAll(ArrayList(vc))   // v2
+        datPos.addAll(ArrayList(vd))   // v3
+        datPos.addAll(ArrayList(vb))   // v4,v1
+        datPos.addAll(ArrayList(ve))   // v5
+        datPos.addAll(ArrayList(vd))   // v6,v3
+        datPos.addAll(ArrayList(vg))   // v7
+        datPos.addAll(ArrayList(ve))   // v8,v5
+        datPos.addAll(ArrayList(vf))   // v9
+        datPos.addAll(ArrayList(vg))   // v10,v7
+        datPos.addAll(ArrayList(vh))   // v11
+        datPos.addAll(ArrayList(vf))   // v12,v9
+        datPos.addAll(ArrayList(va))   // v13,v0
+        datPos.addAll(ArrayList(vh))   // v14,v11
+        datPos.addAll(ArrayList(vc))   // v15,v2
+        datPos.addAll(ArrayList(vf))   // v16,v12,v9
+        datPos.addAll(ArrayList(ve))   // v17,v8,v5
+        datPos.addAll(ArrayList(va))   // v18,v13,v0
+        datPos.addAll(ArrayList(vb))   // v19,v4,v1
+        datPos.addAll(ArrayList(vc))   // v20,v15,v2
+        datPos.addAll(ArrayList(vd))   // v21,v6,v3
+        datPos.addAll(ArrayList(vh))   // v22,v14,v11
+        datPos.addAll(ArrayList(vg))   // v23,v10,v7
 
         // 法線データ
         (0..23).forEach {
@@ -94,31 +191,35 @@ class Cube01Model: MgModelAbs() {
             datNor.addAll( MyMathUtil.crossProduct3Dv2( datPos, 3*(4*m+1), 3*(4*m+2), 3*(4*m) ) )
         }
 
+        // -----------------------------
         // 色データ
+        // -----------------------------
+        // 全体で色指定
+        // -----------------------------
         if ( ( color[0] == -1f ) and ( color[1] == -1f ) and ( color[2] == -1f ) and ( color[3] == -1f ) ) {
             // ABDC(赤)
             (0..3).forEach {
-                datCol.addAll(arrayListOf<Float>(1f,0f,0f,1f))
+                datCol.addAll(arrayListOf(1f,0f,0f,1f))
             }
             // BEGD(黄色)
             (4..7).forEach {
-                datCol.addAll(arrayListOf<Float>(1f,1f,0f,1f))
+                datCol.addAll(arrayListOf(1f,1f,0f,1f))
             }
             // EFGH(緑)
             (8..11).forEach {
-                datCol.addAll(arrayListOf<Float>(0f,1f,0f,1f))
+                datCol.addAll(arrayListOf(0f,1f,0f,1f))
             }
             // FACH(水色)
             (12..15).forEach {
-                datCol.addAll(arrayListOf<Float>(0f,1f,1f,1f))
+                datCol.addAll(arrayListOf(0f,1f,1f,1f))
             }
             // ABEF(青)
             (16..19).forEach {
-                datCol.addAll(arrayListOf<Float>(0f,0f,1f,1f))
+                datCol.addAll(arrayListOf(0f,0f,1f,1f))
             }
             // CDGH(紫)
             (20..23).forEach {
-                datCol.addAll(arrayListOf<Float>(1f,0f,1f,1f))
+                datCol.addAll(arrayListOf(1f,0f,1f,1f))
             }
         }
         else {

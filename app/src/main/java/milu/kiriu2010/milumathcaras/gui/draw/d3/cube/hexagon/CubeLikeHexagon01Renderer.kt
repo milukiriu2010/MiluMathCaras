@@ -68,6 +68,7 @@ class CubeLikeHexagon01Renderer(ctx: Context): MgRenderer(ctx) {
         //Matrix.perspectiveM(matP,0,45f,1f,0.1f,80f)
         Matrix.multiplyMM(matVP,0,matP,0,matV,0)
 
+        // 描画(立方体)
         Matrix.setIdentityM(matM,0)
         //Matrix.rotateM(matM,0,t,0f,0f,1f)
         //Matrix.translateM(matM,0,cos,sin,h)
@@ -76,6 +77,7 @@ class CubeLikeHexagon01Renderer(ctx: Context): MgRenderer(ctx) {
         shaderSimple.draw(vaoCube,matMVP)
 
 
+        // 描画(台形)
         vaoTrapezoids.forEachIndexed { id, vao ->
             Matrix.setIdentityM(matM,0)
             Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
@@ -97,13 +99,22 @@ class CubeLikeHexagon01Renderer(ctx: Context): MgRenderer(ctx) {
         shaderSimple.loadShader()
 
         // 描画モデル(立方体)
-        modelCube.createPath()
+        modelCube.createPathFace(
+            floatArrayOf(
+                0f,0.392157f,0f,1f,
+                0f,0f,0f,1f,
+                0f,0.392157f,0f,1f,
+                0f,0f,0f,1f,
+                1f,0.752941f,0.796078f,1f,
+                1f,0.752941f,0.796078f,1f
+            )
+        )
 
         // VAO
         vaoCube.makeVIBO(modelCube)
 
         // 描画モデル(台形)
-        (1..2).forEach { i ->
+        (1..6).forEach { i ->
             val ii = i.toFloat()
             val modelTrapezoid = Trapezoid01Model()
             modelTrapezoid.createPath(mapOf(
