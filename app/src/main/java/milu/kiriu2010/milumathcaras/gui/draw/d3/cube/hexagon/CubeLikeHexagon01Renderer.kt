@@ -34,12 +34,46 @@ class CubeLikeHexagon01Renderer(ctx: Context): MgRenderer(ctx) {
     // シェーダ(特殊効果なし)
     private val shaderSimple = ES32Simple01Shader(ctx)
 
-    val a = 5f
+    // 時間分割数
+    val splitN = 200f
 
-    val hMax = 30f
-    var hNow = hMax
-    val hDv1 = 0.1f
-    val hDv2 = 1f
+    // 立方体の回転
+    val rotS = 0f
+    val rotE = 90f
+    var rotN = rotS
+    val rotDv = (rotE-rotS)/(splitN*0.25f)
+    val rotSgn = floatArrayOf(
+        0f,-1f, 0f,
+        0f, 0f,-1f,
+        1f, 0f, 0f,
+        0f, 0f,-1f
+    )
+    var rotI = 0
+
+    // 立方体のスケール
+    val scaleS = 2f
+    val scaleE = 1f
+    var scaleN = scaleS
+    val scaleDv = (scaleE-scaleS)/splitN
+
+    // 台形の位置
+    val tpzS = 5f
+    val tpzE = 0f
+    var tpzN = tpzS
+    val tpzDv = (tpzE-tpzS)/splitN
+    val tpzSft = floatArrayOf(
+         1f, 1f,-1f,
+         1f,-1f,-1f,
+         1f,-1f, 1f,
+        -1f,-1f, 1f,
+        -1f, 1f, 1f,
+        -1f, 1f,-1f
+    )
+
+    // 時間停止
+    val timeS = 0
+    val timeE = 2
+    var timeN = timeS
 
     override fun onDrawFrame(gl: GL10?) {
         // canvasを初期化
@@ -49,13 +83,37 @@ class CubeLikeHexagon01Renderer(ctx: Context): MgRenderer(ctx) {
 
         // 回転角度
         if ( isRunning == true ) {
-            angle[0] =(angle[0]+2)%90
-            hNow -= hDv1
+            // 時間停止
+            if ( timeN < timeE ) {
+                timeN++
+            }
+            // 時間復活
+            else {
+                // 立方体の回転
+                rotN += rotDv
+                if ( rotN >= rotE ) {
+                    rotN = rotS
+                    rotI = (rotI+1)%4
+                    // 立方体が90度回転したら、時間停止させる
+                    timeN = timeS
+                }
+
+                // 立方体のスケール
+                scaleN += scaleDv
+                if ( scaleN <= scaleE ) {
+                    scaleN = scaleS
+                }
+
+                // 台形の位置
+                tpzN += tpzDv
+                if ( tpzN <= tpzE ) {
+                    tpzN = tpzS
+                    // 微妙な誤差があるので、
+                    // "立方体のスケール"と"台形の位置"関係を一致させる
+                    scaleN = scaleS
+                }
+            }
         }
-        if ( angle[0] == 0 ) {
-            hNow = hMax
-        }
-        val t0 = angle[0].toFloat()
 
         // ビュー×プロジェクション
         vecEye = qtnNow.toVecIII(floatArrayOf(6f,6f,6f))
@@ -65,21 +123,29 @@ class CubeLikeHexagon01Renderer(ctx: Context): MgRenderer(ctx) {
             vecCenter[0], vecCenter[1], vecCenter[2],
             vecEyeUp[0], vecEyeUp[1], vecEyeUp[2])
         Matrix.orthoM(matP,0,-6f,6f,-6f,6f,0.1f,80f)
-        //Matrix.perspectiveM(matP,0,45f,1f,0.1f,80f)
         Matrix.multiplyMM(matVP,0,matP,0,matV,0)
 
         // 描画(立方体)
         Matrix.setIdentityM(matM,0)
-        //Matrix.rotateM(matM,0,t,0f,0f,1f)
-        //Matrix.translateM(matM,0,cos,sin,h)
-        //Matrix.rotateM(matM,0,-t0,0f,1f,0f)
+        Matrix.scaleM(matM,0,scaleN,scaleN,scaleN)
+        (rotI downTo 0).forEach {
+            if (rotI == it) {
+                Matrix.rotateM(matM,0,rotN,rotSgn[3*it],rotSgn[3*it+1],rotSgn[3*it+2])
+            }
+            else {
+                Matrix.rotateM(matM,0,90f,rotSgn[3*it],rotSgn[3*it+1],rotSgn[3*it+2])
+            }
+        }
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
         shaderSimple.draw(vaoCube,matMVP)
-
 
         // 描画(台形)
         vaoTrapezoids.forEachIndexed { id, vao ->
             Matrix.setIdentityM(matM,0)
+            val x = tpzSft[id*3+0]*tpzN
+            val y = tpzSft[id*3+1]*tpzN
+            val z = tpzSft[id*3+2]*tpzN
+            Matrix.translateM(matM,0,x,y,z)
             Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
             shaderSimple.draw(vao,matMVP)
         }

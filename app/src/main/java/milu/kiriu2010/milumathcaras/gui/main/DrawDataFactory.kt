@@ -431,9 +431,6 @@ class DrawDataFactory {
                 }
                 // "多角形のMix"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_MIX -> {
-                    // 立方体のような正六角形01
-                    //drawDataLst.add(DrawData(DrawDataID.ID_000616_HEXAGON_LIKE_CUBE_01,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000616_polygon_hexagon_like_cube_01),
-                    //    creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://twitter.com/InfinityLoopGIF/status/1149451600248868864") ))
                     // 正方形内を正方形が移動
                     drawDataLst.add(DrawData(DrawDataID.ID_000613_SQUARE_IN_SQUARE_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000613_polygon_square_in_square_01) ))
                     // 三角形内を線が移動
