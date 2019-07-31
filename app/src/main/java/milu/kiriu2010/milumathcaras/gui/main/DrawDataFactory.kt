@@ -403,16 +403,18 @@ class DrawDataFactory {
                 // "変形する円"を選択したときの描画データの一覧
                 MenuItem.MENU_CIRCLE_MORPH -> {
                     // 太陽
-                    drawDataLst.add(DrawData(DrawDataID.ID_000812_CIRCLE_MORPH_SUN,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000812_circle_morph_sun),
+                    drawDataLst.add(DrawData(DrawDataID.ID_000812_CIRCLE_MORPH_SUN,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000812_circle_morph_sun),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/e915741f2047ea59304cd90240b92baa/tumblr_mji84mNDUm1r2geqjo1_500.gif") ))
                     // "円⇔正方形の変形"のタイリング
                     drawDataLst.add(DrawData(DrawDataID.ID_000811_CIRCLE_MORPH_CIRCLE2SQUARE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000811_circle_morph_circle2square),
                         stillImageParam = floatArrayOf(0.2f), motionImageParam = floatArrayOf(0f) ))
                     // 円⇔正方形の変形
-                    drawDataLst.add(DrawData(DrawDataID.ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000810_circle_morph_circle2square) ))
+                    drawDataLst.add(DrawData(DrawDataID.ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000810_circle_morph_circle2square) ))
                 }
                 // 敷き詰めた円を描画するメニュー
                 MenuItem.MENU_CIRCLE_TILE -> {
+                    // 日本の国旗⇔パラウの国旗
+                    drawDataLst.add(DrawData(DrawDataID.ID_000807_CIRCLE_JAPAN_2_PALAU_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000807_circle_japan_2_palau_01) ))
                     // 円弧のタイリング
                     drawDataLst.add(DrawData(DrawDataID.ID_000824_CIRCLE_TILE_ARC_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000824_circle_tile_arc_01) ))
                     // 円のタイリング(左右・左下右上・右下左上の順でスライド)
