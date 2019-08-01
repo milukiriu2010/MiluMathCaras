@@ -10,8 +10,8 @@ android {
         applicationId "milu.kiriu2010.milumathcaras"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 8
-        versionName "2019.08.01"
+        versionCode 9
+        versionName "2019.09.01"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }

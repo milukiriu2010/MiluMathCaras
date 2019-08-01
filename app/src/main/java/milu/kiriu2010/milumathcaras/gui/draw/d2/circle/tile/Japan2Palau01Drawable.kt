@@ -19,9 +19,9 @@ class Japan2Palau01Drawable: MyDrawable() {
     private val margin = 0f
 
     // 領域分割
-    private val splitW = 5f
+    private val splitW  = 5f
     private val splitWN = splitW.toInt()
-    private val splitH = 10f
+    private val splitH  = 10f
     private val splitHN = splitH.toInt()
 
     // ---------------------------------
@@ -29,6 +29,7 @@ class Japan2Palau01Drawable: MyDrawable() {
     // ---------------------------------
     private val flagW = side/splitW
     private val flagH = side/splitH
+    private val flagR = flagH*0.4f
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -180,11 +181,17 @@ class Japan2Palau01Drawable: MyDrawable() {
 
         // 国旗を描画
         (0..splitHN+1).forEach { h ->
+            val hh = h.toFloat()
             canvas.save()
-            canvas.translate(-flagW,flagH*(h-1).toFloat())
+            canvas.translate(-flagW,flagH*(hh-1f))
             (0..splitWN+1).forEach { w ->
+                val ww = w.toFloat()
                 canvas.save()
-                canvas.translate(flagW*w,0f)
+
+                // ------------------------------------
+                // 国旗の下地を描画
+                // ------------------------------------
+                canvas.translate(flagW*ww,0f)
 
                 backPaint.color = when ((h+w)%2) {
                     0 -> Color.WHITE
@@ -193,6 +200,26 @@ class Japan2Palau01Drawable: MyDrawable() {
                 }
 
                 canvas.drawRect(0f,0f,flagW,flagH,backPaint)
+
+                // ------------------------------------
+                // 国旗の円を描画
+                // ------------------------------------
+                canvas.translate(flagW*0.1f,flagH*0.5f)
+
+                frontPaint.color = when ((h+w)%2) {
+                    0 -> Color.RED
+                    1 -> Color.YELLOW
+                    else -> Color.RED
+                }
+
+                val useCenter = when(h%2) {
+                    0 -> true
+                    1 -> false
+                    else -> true
+                }
+
+                // useCenterはfalseが要求するもの
+                canvas.drawArc(-flagR,-flagR,flagR,flagR,ww*30f,(ww+2f)*30f,useCenter, frontPaint)
 
                 canvas.restore()
             }
