@@ -12,6 +12,14 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 // ---------------------------------------------
 class Japan2Palau01Drawable: MyDrawable() {
 
+    enum class Mode {
+        LR,
+        UD
+    }
+
+    // 現在のモード
+    private var modeNow = Mode.LR
+
     // -------------------------------
     // 描画領域
     // -------------------------------
@@ -31,6 +39,15 @@ class Japan2Palau01Drawable: MyDrawable() {
     private val flagH = side/splitH
     private val flagR = flagH*0.4f
 
+    // 国旗の円を描く位置
+    private val ratioMax = 1f
+    private val ratioMin = 0f
+    private var ratioNow = ratioMin
+    private val ratioDv = 0.1f
+
+    // パスの初期化を実施したかどうか
+    private var isInitialized = false
+
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
     // ---------------------------------------------------------------------
@@ -38,6 +55,9 @@ class Japan2Palau01Drawable: MyDrawable() {
     // ---------------------------------------------------------------------
     private lateinit var imageBitmap: Bitmap
     private val tmpBitmap = Bitmap.createBitmap(intrinsicWidth,intrinsicHeight, Bitmap.Config.ARGB_8888)
+
+    // 描画する国旗のビットマップリスト
+    private val bmpFlagLst = mutableListOf<Bitmap>()
 
     // -------------------------------
     // 枠に使うペイント
@@ -49,36 +69,34 @@ class Japan2Palau01Drawable: MyDrawable() {
     }
 
     // ---------------------------------
-    // 国旗の円を描くペイント
+    // 日本の国旗の円を描くペイント
     // ---------------------------------
-    private val frontPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.BLACK
+    private val frontJPN = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.RED
         style = Paint.Style.FILL
     }
 
     // -------------------------------
-    // 国旗の下地を描くペイント
+    // 日本の国旗の下地を描くペイント
     // -------------------------------
-    private val backPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    private val backJPN = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.WHITE
         style = Paint.Style.FILL
     }
 
-
-    // -------------------------------------
-    // 円の枠を描くペイント
-    // -------------------------------------
-    private val rimPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.WHITE
-        style = Paint.Style.STROKE
-        strokeWidth = 4f
+    // ---------------------------------
+    // パラウの国旗の円を描くペイント
+    // ---------------------------------
+    private val frontPLU = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.YELLOW
+        style = Paint.Style.FILL
     }
 
-    // -------------------------------------
-    // 正方形間の隙間を描くペイント
-    // -------------------------------------
-    private val gapPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.WHITE
+    // -------------------------------
+    // パラウの国旗の下地を描くペイント
+    // -------------------------------
+    private val backPLU = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.CYAN
         style = Paint.Style.FILL
     }
 
@@ -106,8 +124,8 @@ class Japan2Palau01Drawable: MyDrawable() {
     // 第１引数:初期状態の変形比率
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
-        // 正方形のリストを生成
-        createPolygon()
+        // パスの初期化
+        createPath()
         // ビットマップに描画
         drawBitmap()
         // 描画
@@ -115,9 +133,13 @@ class Japan2Palau01Drawable: MyDrawable() {
 
         // 描画に使うスレッド
         if ( isKickThread ) {
+            // パスの初期化を実施したかどうか
+            isInitialized = false
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
+                    // パスの初期化
+                    createPath()
                     // 移動する
                     movePath()
                     // ビットマップに描画
@@ -125,7 +147,12 @@ class Japan2Palau01Drawable: MyDrawable() {
                     // 描画
                     invalidateSelf()
 
-                    handler.postDelayed(runnable, 100)
+                    if (ratioNow >= ratioMax) {
+                        handler.postDelayed(runnable, 300)
+                    }
+                    else {
+                        handler.postDelayed(runnable, 100)
+                    }
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
@@ -154,15 +181,30 @@ class Japan2Palau01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // 初期状態の変形比率まで変形する
+    // パスの初期化
     // -------------------------------
-    private fun createPolygon() {
+    private fun createPath() {
+        if ( (ratioNow > ratioMin) and (ratioNow < ratioMax) ) return
+
+        ratioNow = ratioMin
+
+        // モードを設定
+        if (isInitialized) {
+            modeNow = when (modeNow) {
+                Mode.LR -> Mode.UD
+                Mode.UD -> Mode.LR
+            }
+        }
+
+        // パスの初期化を実施したかどうか
+        isInitialized = true
     }
 
     // -------------------------------
     // 国旗の〇部分を移動する
     // -------------------------------
     private fun movePath() {
+        ratioNow += ratioDv
     }
 
     // -------------------------------
@@ -170,6 +212,22 @@ class Japan2Palau01Drawable: MyDrawable() {
     // -------------------------------
     private fun drawBitmap() {
         val canvas = Canvas(tmpBitmap)
+
+        bmpFlagLst.clear()
+        // ----------------------------
+        // 日本の国旗のビットマップ
+        // ----------------------------
+        // L⇒R
+        // U⇒D
+        // ----------------------------
+        createBmpJPN1()
+        // ----------------------------
+        // パラオの国旗のビットマップ
+        // ----------------------------
+        // L⇒R
+        // U⇒D
+        // ----------------------------
+        createBmpPLU1()
 
         // 原点(0,0)の位置
         // = (マージン,マージン)
@@ -187,42 +245,20 @@ class Japan2Palau01Drawable: MyDrawable() {
             (0..splitWN+1).forEach { w ->
                 val ww = w.toFloat()
                 canvas.save()
-
-                // ------------------------------------
-                // 国旗の下地を描画
-                // ------------------------------------
                 canvas.translate(flagW*ww,0f)
 
-                backPaint.color = when ((h+w)%2) {
-                    0 -> Color.WHITE
-                    1 -> Color.CYAN
-                    else -> Color.WHITE
+                when ((h+w)%2) {
+                    0 -> {
+                        canvas.drawBitmap(bmpFlagLst[0],0f,0f,framePaint)
+                    }
+                    1 -> {
+                        canvas.drawBitmap(bmpFlagLst[1],0f,0f,framePaint)
+                    }
                 }
-
-                canvas.drawRect(0f,0f,flagW,flagH,backPaint)
-
-                // ------------------------------------
-                // 国旗の円を描画
-                // ------------------------------------
-                canvas.translate(flagW*0.1f,flagH*0.5f)
-
-                frontPaint.color = when ((h+w)%2) {
-                    0 -> Color.RED
-                    1 -> Color.YELLOW
-                    else -> Color.RED
-                }
-
-                val useCenter = when(h%2) {
-                    0 -> true
-                    1 -> false
-                    else -> true
-                }
-
-                // useCenterはfalseが要求するもの
-                canvas.drawArc(-flagR,-flagR,flagR,flagR,ww*30f,(ww+2f)*30f,useCenter, frontPaint)
 
                 canvas.restore()
             }
+
             canvas.restore()
         }
 
@@ -235,6 +271,78 @@ class Japan2Palau01Drawable: MyDrawable() {
         val matrix = Matrix()
         matrix.setScale(1f,1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
+    }
+
+    // ----------------------------
+    // 日本の国旗のビットマップ
+    // ----------------------------
+    // L⇒R
+    // U⇒D
+    // ----------------------------
+    private fun createBmpJPN1() {
+        val bmpJPN1 = Bitmap.createBitmap(flagW.toInt(),flagH.toInt(),Bitmap.Config.ARGB_8888)
+        val cvsJPN1 = Canvas(bmpJPN1)
+        cvsJPN1.drawColor(Color.TRANSPARENT,PorterDuff.Mode.CLEAR)
+        // 下地
+        cvsJPN1.drawRect(0f,0f,flagW,flagH,backJPN)
+        // 円
+        when (modeNow) {
+            Mode.LR -> {
+                cvsJPN1.save()
+                cvsJPN1.translate(-0.5f*flagW,0.5f*flagH)
+                (0..2).forEach { i ->
+                    cvsJPN1.drawCircle(flagW*ratioNow,0f,flagR,frontJPN)
+                    cvsJPN1.translate(flagW,0f)
+                }
+                cvsJPN1.restore()
+            }
+            Mode.UD -> {
+                cvsJPN1.save()
+                cvsJPN1.translate(0.5f*flagW,-0.5f*flagH)
+                (0..2).forEach { i ->
+                    cvsJPN1.drawCircle(0f,flagH*ratioNow,flagR,frontJPN)
+                    cvsJPN1.translate(0f,flagH)
+                }
+                cvsJPN1.restore()
+            }
+        }
+        bmpFlagLst.add(bmpJPN1)
+    }
+
+    // ----------------------------
+    // パラオの国旗のビットマップ
+    // ----------------------------
+    // L⇒R
+    // U⇒D
+    // ----------------------------
+    private fun createBmpPLU1() {
+        val bmpPLU1 = Bitmap.createBitmap(flagW.toInt(),flagH.toInt(),Bitmap.Config.ARGB_8888)
+        val cvsPLU1 = Canvas(bmpPLU1)
+        cvsPLU1.drawColor(Color.TRANSPARENT,PorterDuff.Mode.CLEAR)
+        // 下地
+        cvsPLU1.drawRect(0f,0f,flagW,flagH,backPLU)
+        // 円
+        when (modeNow) {
+            Mode.LR -> {
+                cvsPLU1.save()
+                cvsPLU1.translate(-0.5f*flagW,0.5f*flagH)
+                (0..2).forEach { i ->
+                    cvsPLU1.drawCircle(flagW*ratioNow,0f,flagR,frontPLU)
+                    cvsPLU1.translate(flagW,0f)
+                }
+                cvsPLU1.restore()
+            }
+            Mode.UD -> {
+                cvsPLU1.save()
+                cvsPLU1.translate(0.5f*flagW,-0.5f*flagH)
+                (0..2).forEach { i ->
+                    cvsPLU1.drawCircle(0f,flagH*ratioNow,flagR,frontPLU)
+                    cvsPLU1.translate(0f,flagH)
+                }
+                cvsPLU1.restore()
+            }
+        }
+        bmpFlagLst.add(bmpPLU1)
     }
 
     // -------------------------------
