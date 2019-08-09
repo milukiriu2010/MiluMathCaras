@@ -807,6 +807,9 @@ class DrawDataFactory {
                 }
                 // 多面体に様々なエフェクトを施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_VIEW -> {
+                    // トーラスの結び目
+                    drawDataLst.add(DrawData(DrawDataID.ID_001011_GL_TORUS_KNOT_01,DrawFragmentType.FT_D3_ES32_01,resources.getString(R.string.draw_001011_gl_torus_knot_01),
+                        drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 11f, "scale" to 1f) ))
                     // 円柱02
                     drawDataLst.add(DrawData(DrawDataID.ID_001010_GL_CYLINDER_02,DrawFragmentType.FT_D3_ES32_01,resources.getString(R.string.draw_001010_gl_cylinder_02),
                         drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 10f, "scale" to 1f) ))

@@ -53,6 +53,8 @@ class MgRendererFactory {
                 DrawDataID.ID_001009_GL_CONE_TRUNCATED_01 -> Polyhedron02Renderer(context)
                 // 円柱02
                 DrawDataID.ID_001010_GL_CYLINDER_02 -> Polyhedron02Renderer(context)
+                // トーラスの結び目
+                DrawDataID.ID_001011_GL_TORUS_KNOT_01 -> Polyhedron02Renderer(context)
                 // 立方体座標変換01
                 DrawDataID.ID_001100_GL_CUBE_TRANSFORM_01 -> CubeTransform01Renderer(context)
                 // 立方体座標変換02
@@ -78,9 +80,7 @@ class MgRendererFactory {
                 // 立方体座標変換13
                 DrawDataID.ID_001111_GL_CUBE_TRANSFORM_12 -> CubeTransform12Renderer(context)
                 // 六角形にみえる立方体01
-                DrawDataID.ID_001112_GL_CUBE_LIKE_HEXAGON_01 -> CubeLikeHexagon01Renderer(
-                    context
-                )
+                DrawDataID.ID_001112_GL_CUBE_LIKE_HEXAGON_01 -> CubeLikeHexagon01Renderer(context)
                 // 正四面体の展開図02
                 DrawDataID.ID_001201_GL_NET_TETRAHEDRON_02 -> NetTetrahedron02Renderer(context)
                 // 立方体の展開図01

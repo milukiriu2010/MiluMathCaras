@@ -230,6 +230,8 @@ class Polyhedron02Renderer(ctx: Context): MgRenderer(ctx) {
             9 -> ConeTruncated01Model()
             // 円柱02
             10 -> Cylinder02Model()
+            // トーラスの結び目
+            11 -> TorusKnot01Model()
             else -> Tetrahedron01Model()
         }
 
