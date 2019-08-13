@@ -154,6 +154,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000043_HYPOTROCHOID_01 -> Hypotrochoid01Drawable()
                 // Rose
                 DrawDataID.ID_000044_ROSE_01 -> Rose01Drawable()
+                // Torus Knot
+                DrawDataID.ID_000045_TORUS_KNOT_01 -> TorusKnot01Drawable()
                 // サイン波
                 DrawDataID.ID_000200_SINE_WAVE -> SineWave01Drawable()
                 // 円の周りを回転するサイン波

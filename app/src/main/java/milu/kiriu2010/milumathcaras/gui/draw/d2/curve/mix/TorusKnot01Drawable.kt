@@ -11,15 +11,16 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.pow
 
 // -------------------------------------------------------------------------------------
-// Rose
+// Torus Knot
 // -------------------------------------------------------------------------------------
-//   ρ = a*cos(nt)
+//   x = (a+b*cos(qt))*cos(pt)
+//   y = (a+b*cos(qt))*sin(pt)
 // -------------------------------------------------------------------------------------
-// http://www.mathcurve.com/courbes2d.gb/rosace/rosace.shtml
+// https://www.mathcurve.com/courbes3d.gb/solenoidtoric/solenoidtoric.shtml
 // -------------------------------------------------------------------------------------
 // 2019.08.13
 // -------------------------------------------------------------------------------------
-class Rose01Drawable: MyDrawable() {
+class TorusKnot01Drawable: MyDrawable() {
 
     // -------------------------------
     // 描画領域
@@ -28,23 +29,33 @@ class Rose01Drawable: MyDrawable() {
     private val margin = 50f
 
     // ---------------------------------
-    // Roseの変数a
+    // Torus Knotの変数a
     // ---------------------------------
     private var a = 300f
 
     // ---------------------------------
-    // Roseの変数n
+    // Torus Knotの変数b
     // ---------------------------------
-    private var n = 1f
+    private var b = 50f
+
+    // ---------------------------------
+    // Torus Knotの変数p
+    // ---------------------------------
+    private var p = 2f
+
+    // ---------------------------------
+    // Torus Knotの変数q
+    // ---------------------------------
+    private var q = 3f
 
     // ----------------------------------
-    // Roseの位相(変数tに相当)
+    // Torus Knotの位相(変数tに相当)
     // ----------------------------------
     private var angle = 0f
     private var angleMax = 360f
 
     // -------------------------------
-    // Roseの描画点リスト
+    // Torus Knotの描画点リスト
     // -------------------------------
     val pointLst = mutableListOf<MyPointF>()
 
@@ -74,7 +85,7 @@ class Rose01Drawable: MyDrawable() {
     }
 
     // -------------------------------
-    // Roseを描くペイント
+    // Torus Knotを描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
@@ -102,21 +113,24 @@ class Rose01Drawable: MyDrawable() {
     // 描画に使うデータを計算する
     // --------------------------------------
     // values
-    // 第１引数:変数n
+    // 第１引数:変数p
+    // 第２引数:変数q
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
         values.forEachIndexed { index, fl ->
             //Log.d(javaClass.simpleName,"index[$index]fl[$fl]")
             when (index) {
-                // 変数n
-                0 -> n = fl
+                // 変数p
+                0 -> p = fl
+                // 変数q
+                1 -> q = fl
             }
         }
 
         // 媒介変数の最大角度を求める
         calAngleMax()
 
-        // Roseの描画点リストを生成
+        // Torus Knotの描画点リストを生成
         createPath()
         // ビットマップに描画
         drawBitmap()
@@ -128,7 +142,7 @@ class Rose01Drawable: MyDrawable() {
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
-                    // Roseを回転する
+                    // Torus Knotを回転する
                     rotatePath()
                     // ビットマップに描画
                     drawBitmap()
@@ -171,14 +185,15 @@ class Rose01Drawable: MyDrawable() {
     }
 
     // -----------------------------------------------------
-    // Rose曲線の媒介変数(度)の最大値を求める
+    // Torus Knot曲線の媒介変数(度)の最大値を求める
     // -----------------------------------------------------
     private fun calAngleMax() {
         angleMax = 360f
+        //Log.d(javaClass.simpleName,"angleMax[$angleMax]")
     }
 
     // -----------------------------------
-    // Roseの描画点リストを生成
+    // Torus Knotの描画点リストを生成
     // -----------------------------------
     private fun createPath() {
         // 描画点リストをクリア
@@ -186,11 +201,11 @@ class Rose01Drawable: MyDrawable() {
 
         (0..angleMax.toInt() step 1).forEach {
             val t = it.toFloat()
-            val cosn = MyMathUtil.cosf(n*t)
-            val cos = MyMathUtil.cosf(t)
-            val sin = MyMathUtil.sinf(t)
-            val x = a*cosn*cos
-            val y = a*cosn*sin
+            val cosp = MyMathUtil.cosf(p*t)
+            val sinp = MyMathUtil.sinf(p*t)
+            val cosq = MyMathUtil.cosf(q*t)
+            val x = (a+b*cosq)*cosp
+            val y = (a+b*cosq)*sinp
             pointLst.add(MyPointF(x,y))
         }
 
@@ -199,7 +214,7 @@ class Rose01Drawable: MyDrawable() {
         notifyCallback?.receive(angle)
     }
 
-    // Roseを回転する
+    // Torus Knotを回転する
     private fun rotatePath() {
         angle += 5f
 
@@ -239,14 +254,14 @@ class Rose01Drawable: MyDrawable() {
         canvas.drawLine(0f,0f,0f,intrinsicHeight.toFloat(), framePaint)
         canvas.restore()
 
-        // 原点(x0,y0)を中心にRoseを描く
+        // 原点(x0,y0)を中心にTorus Knotを描く
         canvas.save()
         canvas.translate(x0,y0)
 
         // 色インスタンス作成
         val myColor = MyColorFactory.createInstance(ColorType.COLOR_1536)
 
-        // Roseを描く
+        // Torus Knotを描く
         // 1536色のグラデーション
         val bunchSize = pointLst.size
         var myPointF2: MyPointF? = null

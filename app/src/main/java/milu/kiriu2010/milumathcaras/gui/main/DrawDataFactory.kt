@@ -186,6 +186,11 @@ class DrawDataFactory {
                 }
                 // SIN/COSのミックスを描画するメニュー
                 MenuItem.MENU_CURVE_MIX_SINCOS -> {
+                    // Torus Knot
+                    drawDataLst.add(DrawData(DrawDataID.ID_000045_TORUS_KNOT_01,DrawFragmentType.FT_D2_06,resources.getString(R.string.draw_000045_curve_torus_knot_01),
+                        stillImageParam = floatArrayOf(2f,3f), motionImageParam = floatArrayOf(2f,3f), editParam = floatArrayOf(1f,8f,0f,1f,8f,1f),
+                        funcDescMap = mutableMapOf("funcDesc" to resources.getString(R.string.func_curve_torus_knot_01), "autoParam" to "t", "handParam1" to "p", "handParam2" to "q"),
+                        fragmentParamMap = mutableMapOf("maxA" to 7, "maxB" to 7) ))
                     // Rose
                     drawDataLst.add(DrawData(DrawDataID.ID_000044_ROSE_01,DrawFragmentType.FT_D2_05,resources.getString(R.string.draw_000044_curve_rose_01),
                         stillImageParam = floatArrayOf(3f), motionImageParam = floatArrayOf(3f), editParam = floatArrayOf(0f,8f,0f),
