@@ -84,6 +84,7 @@
     <string name="func_curve_fermat_spiral_01">ρ^2 = a^2*t</string>
     <string name="func_curve_littus_01">ρ^2 = a^2/t</string>
     <string name="func_curve_hypotrochoid_01">x = a((q-1)*cos(t)+k*cos((q-1)t))\ny = a((q-1)*sin(t)-k*sin((q-1)t))</string>
+    <string name="func_curve_rose_01">ρ = a*cos(nt)</string>
     <string name="func_triangle_center_of_gravity">G=(A+B+C)/3</string>
     <string name="func_triangle_circumcenter">O=(A*sin(2A)+B*sin(2B)+C*sin(2C))/(sin(2A)+sin(2B)+sin(2C))</string>
     <string name="func_triangle_incenter">I=(a*A+b*B+c*C)/(a+b+c)</string>
@@ -132,6 +133,7 @@
     <string name="draw_000041_curve_fermat_spiral_01">Fermat Spiral</string>
     <string name="draw_000042_curve_lituus_01">Lituus</string>
     <string name="draw_000043_curve_hypotrochoid_01">Hypotrochoid</string>
+    <string name="draw_000044_curve_rose_01">Rose</string>
     <string name="draw_000050_curve_lissajous_1_2">Lissajous(p:q=1:2)</string>
     <string name="draw_000051_curve_lissajous_3_2">Lissajous(p:q=3:2)</string>
     <string name="draw_000052_curve_lissajous_3_4">Lissajous(p:q=3:4)</string>

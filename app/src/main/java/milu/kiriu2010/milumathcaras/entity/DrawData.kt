@@ -97,6 +97,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000042_LITUUS_01(42),
     // Hypotrochoid
     ID_000043_HYPOTROCHOID_01(43),
+    // Rose
+    ID_000044_ROSE_01(44),
     // リサージュ曲線(p:q=1:2)
     ID_000050_LISSAJOUS_CURVE_1_2(50),
     // リサージュ曲線(p:q=3:2)
