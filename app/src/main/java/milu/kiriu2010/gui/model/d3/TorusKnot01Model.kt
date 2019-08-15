@@ -39,7 +39,7 @@ class TorusKnot01Model: MgModelAbs() {
 
         when ( pattern ) {
             1 -> createPathPattern1(opt)
-            2 -> createPathPatternX(opt)
+            2 -> createPathPatternX1(opt)
             else -> createPathPattern1(opt)
         }
 
@@ -47,7 +47,98 @@ class TorusKnot01Model: MgModelAbs() {
         allocateBuffer()
     }
 
+    // トーラス線の束を描画
     private fun createPathPattern1( opt: Map<String,Float> ) {
+        // トーラスの結び目変数a
+        var a = opt["a"] ?: 2f
+        // トーラスの結び目変数b
+        var b = opt["b"] ?: 0.5f
+        // トーラスの結び目変数p
+        var p = opt["p"] ?: 2f
+        // トーラスの結び目変数q
+        var q = opt["q"] ?: 3f
+
+        // パイプを形成する円の分割数
+        var row = opt["row"]?.toInt() ?: 32
+        // パイプを輪切りする数
+        var column = opt["column"]?.toInt() ?: 180
+        // パイプそのものの半径
+        var iradius = opt["iradius"] ?: 0.2f
+        var scale = opt["scale"] ?: 1f
+        var color = FloatArray(4)
+        color[0] = opt["colorR"] ?: -1f
+        color[1] = opt["colorG"] ?: -1f
+        color[2] = opt["colorB"] ?: -1f
+        color[3] = opt["colorA"] ?: -1f
+
+        var irad = iradius * scale
+        var columnS = PI.toFloat()*2f/column.toFloat()
+        var rowS = PI.toFloat()*2f/row.toFloat()
+
+        (0..row).forEach { i ->
+            var tr1 = rowS*i.toFloat()
+            var tx1 = irad * cos(tr1)
+            var ty1 = irad * sin(tr1)
+
+            (0..column).forEach { ii ->
+                var tc1 = columnS*ii.toFloat()
+                //var cosq1 = (a + b * (1f+tx1) * cos(q*tc1))*scale
+                //var sinq1 = (b * (1f+ty1) * sin(q*tc1))*scale
+
+                var cosq1 = (a + b * cos(q*tc1))*scale * (1f+tx1)
+                var sinq1 = (b * sin(q*tc1))*scale * (1f+ty1)
+
+                //var cosq1 = (a + b * cos(q*tc1))*scale * (1f+tx1)
+                //var sinq1 = (b * sin(q*tc1))*scale * (1f+tx1)
+
+                //var cosq1 = (a + b * cos(q*tc1)*tx1)*scale
+                //var sinq1 = (b * sin(q*tc1)*ty1)*scale * (1f+ty1)
+
+                var cosp1 = cos(p*tc1)
+                var sinp1 = sin(p*tc1)
+
+                // 中心線１
+                var x1 = cosq1 * cosp1
+                var y1 = sinq1
+                var z1 = cosq1 * sinp1
+
+                datPos.addAll(arrayListOf(x1,y1,z1))
+                datNor.addAll(arrayListOf(tx1*cosp1,sinq1,ty1*sinp1))
+                // RGBA全成分の指定あり
+                if ( ( color[0] != -1f ) and ( color[1] != -1f ) and ( color[2] != -1f ) and ( color[3] != -1f ) ) {
+                    datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
+                }
+                // A成分のみ指定あり
+                else if ( ( color[0] == -1f ) and ( color[1] == -1f ) and ( color[2] == -1f ) and ( color[3] != -1f ) ) {
+                    val tc = MgColor.hsva(360/column*ii,1f,1f,color[3])
+                    datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
+                }
+                // RGBA全成分の指定なし
+                else {
+                    val tc = MgColor.hsva(360/column*ii,1f,1f,1f)
+                    datCol.addAll(arrayListOf(tc[0],tc[1],tc[2],tc[3]))
+                }
+                val rs = 1f/column.toFloat()*i.toFloat()
+                var rt = 1f/row.toFloat()*ii.toFloat()+0.5f
+                if (rt>1f) {
+                    rt -= 1f
+                }
+                rt = 1f-rt
+                datTxc.addAll(arrayListOf(rs,rt))
+            }
+        }
+
+        (0 until row).forEach { i ->
+            (0 until column).forEach { ii ->
+                val r = (column+1)*i+ii
+                datIdx.addAll(arrayListOf(r.toShort(),(r+column+1).toShort(),(r+1).toShort()))
+                datIdx.addAll(arrayListOf((r+column+1).toShort(),(r+column+2).toShort(),(r+1).toShort()))
+            }
+        }
+    }
+
+    // 輪切りの円を基準に描画
+    private fun createPathPatternX2( opt: Map<String,Float> ) {
         // トーラスの結び目変数a
         var a = opt["a"] ?: 2f
         // トーラスの結び目変数b
@@ -158,7 +249,7 @@ class TorusKnot01Model: MgModelAbs() {
         }
     }
 
-    private fun createPathPatternX( opt: Map<String,Float> ) {
+    private fun createPathPatternX1(opt: Map<String,Float> ) {
         // トーラスの結び目変数a
         var a = opt["a"] ?: 2f
         // トーラスの結び目変数b
