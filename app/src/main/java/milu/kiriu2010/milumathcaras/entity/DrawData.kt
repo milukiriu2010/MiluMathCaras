@@ -458,8 +458,10 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000805_CIRCLE_TEST_ROTATE_01(805),
     // 花火01
     ID_000806_CIRCLE_FIREWORK_01(806),
-    // 日本の国旗⇔パラウの国旗
+    // 日本の国旗⇔パラウの国旗01
     ID_000807_CIRCLE_JAPAN_2_PALAU_01(807),
+    // 日本の国旗⇔パラウの国旗02
+    ID_000808_CIRCLE_JAPAN_2_PALAU_02(808),
     // 円⇔正方形の変形
     ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE(810),
     // "円⇔正方形の変形"のタイリング

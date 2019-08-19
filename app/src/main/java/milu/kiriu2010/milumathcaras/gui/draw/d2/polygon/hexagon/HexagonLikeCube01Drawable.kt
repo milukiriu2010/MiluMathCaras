@@ -279,7 +279,7 @@ class HexagonLikeCube01Drawable: MyDrawable() {
         // 平行四辺形を描画
         //Log.d(javaClass.simpleName,"paralles[${parallels.size}]")
         //Log.d(javaClass.simpleName,"=============================")
-        parallels.forEachIndexed { id, prl ->
+        parallels.forEachIndexed { _, prl ->
             val path = Path()
             (0..3).forEach { i ->
                 val ps = prl.slst[i]

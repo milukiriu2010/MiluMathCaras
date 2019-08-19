@@ -423,7 +423,9 @@ class DrawDataFactory {
                 }
                 // 敷き詰めた円を描画するメニュー
                 MenuItem.MENU_CIRCLE_TILE -> {
-                    // 日本の国旗⇔パラウの国旗
+                    // 日本の国旗⇔パラウの国旗02
+                    drawDataLst.add(DrawData(DrawDataID.ID_000808_CIRCLE_JAPAN_2_PALAU_02,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000808_circle_japan_2_palau_02) ))
+                    // 日本の国旗⇔パラウの国旗01
                     drawDataLst.add(DrawData(DrawDataID.ID_000807_CIRCLE_JAPAN_2_PALAU_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000807_circle_japan_2_palau_01) ))
                     // 円弧のタイリング
                     drawDataLst.add(DrawData(DrawDataID.ID_000824_CIRCLE_TILE_ARC_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000824_circle_tile_arc_01) ))

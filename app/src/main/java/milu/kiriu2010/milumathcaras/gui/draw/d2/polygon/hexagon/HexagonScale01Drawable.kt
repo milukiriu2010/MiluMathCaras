@@ -228,9 +228,6 @@ class HexagonScale01Drawable: MyDrawable() {
     private fun drawHexagon(canvas: Canvas, ratio: Float) {
         val path = Path()
         hexagon.forEachIndexed { id, myPointF ->
-            val x = myPointF.x*ratio
-            val y = myPointF.y*ratio
-            //Log.d(javaClass.simpleName,"id[$id]x[$x]y[$y]")
             if ( id == 0 ) {
                 path.moveTo(myPointF.x*ratio,myPointF.y*ratio)
             }

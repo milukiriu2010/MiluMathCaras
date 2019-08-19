@@ -6,15 +6,15 @@ import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 // ---------------------------------------------
-// 日本の国旗⇔パラウの国旗01
+// 日本の国旗⇔パラウの国旗02
 // ---------------------------------------------
-// 2019.07.31
+// 2019.08.19
 // ---------------------------------------------
-class Japan2Palau01Drawable: MyDrawable() {
+class Japan2Palau02Drawable: MyDrawable() {
 
     enum class Mode {
         LR,
-        UD
+        RL
     }
 
     // 現在のモード
@@ -191,8 +191,8 @@ class Japan2Palau01Drawable: MyDrawable() {
         // モードを設定
         if (isInitialized) {
             modeNow = when (modeNow) {
-                Mode.LR -> Mode.UD
-                Mode.UD -> Mode.LR
+                Mode.LR -> Mode.RL
+                Mode.RL -> Mode.LR
             }
         }
 
@@ -218,14 +218,14 @@ class Japan2Palau01Drawable: MyDrawable() {
         // 日本の国旗のビットマップ
         // ----------------------------
         // L⇒R
-        // U⇒D
+        // R⇒L
         // ----------------------------
         createBmpJPN1()
         // ----------------------------
         // パラオの国旗のビットマップ
         // ----------------------------
         // L⇒R
-        // U⇒D
+        // R⇒L
         // ----------------------------
         createBmpPLU1()
 
@@ -241,7 +241,7 @@ class Japan2Palau01Drawable: MyDrawable() {
         (0..splitHN+1).forEach { h ->
             val hh = h.toFloat()
             canvas.save()
-            canvas.translate(-flagW,flagH*(hh-1f))
+            canvas.translate(-1f*flagW,flagH*(hh-1f))
             (0..splitWN+1).forEach { w ->
                 val ww = w.toFloat()
                 canvas.save()
@@ -277,7 +277,7 @@ class Japan2Palau01Drawable: MyDrawable() {
     // 日本の国旗のビットマップ
     // ----------------------------
     // L⇒R
-    // U⇒D
+    // R⇒L
     // ----------------------------
     private fun createBmpJPN1() {
         val bmpJPN1 = Bitmap.createBitmap(flagW.toInt(),flagH.toInt(),Bitmap.Config.ARGB_8888)
@@ -289,19 +289,33 @@ class Japan2Palau01Drawable: MyDrawable() {
         when (modeNow) {
             Mode.LR -> {
                 cvsJPN1.save()
+                cvsJPN1.translate(-0.5f*flagW,-0.5f*flagH)
+                (0..2).forEach { _ ->
+                    cvsJPN1.drawCircle(flagW*ratioNow,flagH*ratioNow,flagR,frontJPN)
+                    cvsJPN1.translate(flagW,0f)
+                }
+                cvsJPN1.restore()
+                cvsJPN1.save()
                 cvsJPN1.translate(-0.5f*flagW,0.5f*flagH)
                 (0..2).forEach { _ ->
-                    cvsJPN1.drawCircle(flagW*ratioNow,0f,flagR,frontJPN)
+                    cvsJPN1.drawCircle(flagW*ratioNow,flagH*ratioNow,flagR,frontJPN)
                     cvsJPN1.translate(flagW,0f)
                 }
                 cvsJPN1.restore()
             }
-            Mode.UD -> {
+            Mode.RL -> {
                 cvsJPN1.save()
-                cvsJPN1.translate(0.5f*flagW,-0.5f*flagH)
+                cvsJPN1.translate(-0.5f*flagW,-0.5f*flagH)
                 (0..2).forEach { _ ->
-                    cvsJPN1.drawCircle(0f,flagH*ratioNow,flagR,frontJPN)
-                    cvsJPN1.translate(0f,flagH)
+                    cvsJPN1.drawCircle(-flagW*ratioNow,flagH*ratioNow,flagR,frontJPN)
+                    cvsJPN1.translate(flagW,0f)
+                }
+                cvsJPN1.restore()
+                cvsJPN1.save()
+                cvsJPN1.translate(-0.5f*flagW,0.5f*flagH)
+                (0..2).forEach { _ ->
+                    cvsJPN1.drawCircle(-flagW*ratioNow,flagH*ratioNow,flagR,frontJPN)
+                    cvsJPN1.translate(flagW,0f)
                 }
                 cvsJPN1.restore()
             }
@@ -313,7 +327,7 @@ class Japan2Palau01Drawable: MyDrawable() {
     // パラオの国旗のビットマップ
     // ----------------------------
     // L⇒R
-    // U⇒D
+    // R⇒L
     // ----------------------------
     private fun createBmpPLU1() {
         val bmpPLU1 = Bitmap.createBitmap(flagW.toInt(),flagH.toInt(),Bitmap.Config.ARGB_8888)
@@ -325,19 +339,33 @@ class Japan2Palau01Drawable: MyDrawable() {
         when (modeNow) {
             Mode.LR -> {
                 cvsPLU1.save()
+                cvsPLU1.translate(-0.5f*flagW,-0.5f*flagH)
+                (0..2).forEach { _ ->
+                    cvsPLU1.drawCircle(flagW*ratioNow,flagH*ratioNow,flagR,frontPLU)
+                    cvsPLU1.translate(flagW,0f)
+                }
+                cvsPLU1.restore()
+                cvsPLU1.save()
                 cvsPLU1.translate(-0.5f*flagW,0.5f*flagH)
                 (0..2).forEach { _ ->
-                    cvsPLU1.drawCircle(flagW*ratioNow,0f,flagR,frontPLU)
+                    cvsPLU1.drawCircle(flagW*ratioNow,flagH*ratioNow,flagR,frontPLU)
                     cvsPLU1.translate(flagW,0f)
                 }
                 cvsPLU1.restore()
             }
-            Mode.UD -> {
+            Mode.RL -> {
                 cvsPLU1.save()
-                cvsPLU1.translate(0.5f*flagW,-0.5f*flagH)
+                cvsPLU1.translate(-0.5f*flagW,-0.5f*flagH)
                 (0..2).forEach { _ ->
-                    cvsPLU1.drawCircle(0f,flagH*ratioNow,flagR,frontPLU)
-                    cvsPLU1.translate(0f,flagH)
+                    cvsPLU1.drawCircle(-flagW*ratioNow,flagH*ratioNow,flagR,frontPLU)
+                    cvsPLU1.translate(flagW,0f)
+                }
+                cvsPLU1.restore()
+                cvsPLU1.save()
+                cvsPLU1.translate(-0.5f*flagW,0.5f*flagH)
+                (0..2).forEach { _ ->
+                    cvsPLU1.drawCircle(-flagW*ratioNow,flagH*ratioNow,flagR,frontPLU)
+                    cvsPLU1.translate(flagW,0f)
                 }
                 cvsPLU1.restore()
             }
