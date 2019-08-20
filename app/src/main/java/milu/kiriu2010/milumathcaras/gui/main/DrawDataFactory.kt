@@ -901,6 +901,8 @@ class DrawDataFactory {
                 }
                 // 多面体の展開図を描画するメニュー
                 MenuItem.MENU_POLYHEDRON_NET -> {
+                    // 立方体の展開図02
+                    drawDataLst.add(DrawData(DrawDataID.ID_001200_GL_NET_CUBE_02,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001200_gl_net_cube_02), drawViewType = DrawViewType.DVT_GL ))
                     // 正二十面体の展開図01
                     drawDataLst.add(DrawData(DrawDataID.ID_001205_GL_NET_ICOSAHEDRON_01,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001205_gl_net_icosahedron_01), drawViewType = DrawViewType.DVT_GL ))
                     // 正十二面体の展開図01
