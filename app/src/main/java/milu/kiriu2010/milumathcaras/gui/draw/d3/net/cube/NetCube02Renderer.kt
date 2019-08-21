@@ -19,13 +19,36 @@ import javax.microedition.khronos.opengles.GL10
 // -------------------------------------
 // https://sugaku.fun/development-view-of-cube/
 // -------------------------------------
+// パターン１
+//   緑
+//   赤青紫水
+//   黄
+// -------------------------------------
+// パターン２
+//     紫
+//   水緑青黄
+//   赤
+// -------------------------------------
+// パターン３
+//       青
+//   黄紫緑赤
+//   水
+// -------------------------------------
 // 2019.08.20
 // -------------------------------------
 class NetCube02Renderer(ctx: Context): MgRenderer(ctx) {
 
     enum class ModePtn {
         // 展開図０１開
-        PTN01_01
+        PTN01_01,
+        // 展開図０１閉
+        PTN01_02,
+        // 展開図０２開
+        PTN02_01,
+        // 展開図０２閉
+        PTN02_02,
+        // 展開図０３開
+        PTN03_01,
     }
 
     // 描画モデル(三角形)
@@ -38,7 +61,7 @@ class NetCube02Renderer(ctx: Context): MgRenderer(ctx) {
     private val shaderSimple = ES32Simple01Shader(ctx)
 
     // 現在のモード
-    var modeNow = ModePtn.PTN01_01
+    var modeNow = ModePtn.PTN03_01
 
     var angleFDiv = 1f
     var cnt = 0
@@ -58,8 +81,6 @@ class NetCube02Renderer(ctx: Context): MgRenderer(ctx) {
             // stillが0のときだけ、
             // 展開図が開閉するようにする
             if ( still == 0 ) {
-                // 立方体を形成した場合、
-                // 回転する向きを変更する
                 if ( cnt >= cntMax ) {
                     still = 1
                 }
@@ -71,13 +92,21 @@ class NetCube02Renderer(ctx: Context): MgRenderer(ctx) {
                 still = (still+1)%30
                 if ( still == 0 ) {
                     cnt = cntMin
+                    // 次のモードへ遷移する
+                    modeNow = when (modeNow) {
+                        ModePtn.PTN01_01 -> ModePtn.PTN01_02
+                        ModePtn.PTN01_02 -> ModePtn.PTN02_01
+                        ModePtn.PTN02_01 -> ModePtn.PTN02_02
+                        ModePtn.PTN02_02 -> ModePtn.PTN03_01
+                        ModePtn.PTN03_01 -> ModePtn.PTN03_01
+                    }
                 }
             }
         }
         val t0 = angleFDiv * cnt.toFloat()
 
         // ビュー×プロジェクション
-        vecEye = qtnNow.toVecIII(floatArrayOf(10f,10f,10f))
+        vecEye = qtnNow.toVecIII(floatArrayOf(5f,5f,5f))
         vecEyeUp = qtnNow.toVecIII(floatArrayOf(0f,1f,0f))
         Matrix.setLookAtM(matV, 0,
             vecEye[0], vecEye[1], vecEye[2],
@@ -89,109 +118,566 @@ class NetCube02Renderer(ctx: Context): MgRenderer(ctx) {
         when (modeNow) {
             // 展開図０１開
             ModePtn.PTN01_01 -> doPtn01_01(t0)
+            // 展開図０１閉
+            ModePtn.PTN01_02 -> doPtn01_02(t0)
+            // 展開図０２開
+            ModePtn.PTN02_01 -> doPtn02_01(t0)
+            // 展開図０２閉
+            ModePtn.PTN02_02 -> doPtn02_02(t0)
+            // 展開図０３開
+            ModePtn.PTN03_01 -> doPtn03_01(t0)
         }
 
 
-        /*
-        // ----------------------------------------------
-        // 静止したモデルを描画
-        // ----------------------------------------------
-        Matrix.setIdentityM(matM,0)
-        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(vaoLst[0],matMVP)
-
-
-        // ----------------------------------------------
-        // 回転するモデルを描画(右)
-        // ----------------------------------------------
-        Matrix.setIdentityM(matM,0)
-        Matrix.translateM(matM,0,1f,0f,0f)
-        Matrix.rotateM(matM,0,-t0,0f,1f,0f)
-        Matrix.translateM(matM,0,1f,0f,0f)
-        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(vaoLst[1],matMVP)
-
-        // ----------------------------------------------
-        // 回転するモデルを描画(左)
-        // ----------------------------------------------
-        Matrix.setIdentityM(matM,0)
-        Matrix.translateM(matM,0,-1f,0f,0f)
-        Matrix.rotateM(matM,0,t0,0f,1f,0f)
-        Matrix.translateM(matM,0,-1f,0f,0f)
-        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(vaoLst[2],matMVP)
-
-        // ----------------------------------------------
-        // 回転するモデルを描画(上)
-        // ----------------------------------------------
-        Matrix.setIdentityM(matM,0)
-        Matrix.translateM(matM,0,0f,1f,0f)
-        Matrix.rotateM(matM,0,t0,1f, 0f,0f)
-        Matrix.translateM(matM,0,0f,1f,0f)
-        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(vaoLst[3],matMVP)
-
-        // ----------------------------------------------
-        // 回転するモデルを描画(下)
-        // ----------------------------------------------
-        Matrix.setIdentityM(matM,0)
-        Matrix.translateM(matM,0,0f,-1f,0f)
-        Matrix.rotateM(matM,0,-t0,1f, 0f,0f)
-        Matrix.translateM(matM,0,0f,-1f,0f)
-        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(vaoLst[4],matMVP)
-
-        // ----------------------------------------------
-        // 回転するモデルを描画(奥)
-        // ----------------------------------------------
-        Matrix.setIdentityM(matM,0)
-        Matrix.translateM(matM,0,1f,0f,0f)
-        // 公転
-        Matrix.rotateM(matM,0,-t0,0f,1f,0f)
-        Matrix.translateM(matM,0,2f,0f,0f)
-        // 自転
-        Matrix.rotateM(matM,0,-t0,0f,1f,0f)
-        Matrix.translateM(matM,0,1f,0f,0f)
-        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-        shaderSimple.draw(vaoLst[5],matMVP)
-        */
     }
 
     // 展開図０１開
     private fun doPtn01_01(t0: Float) {
         // ----------------------------------------------
-        // 0:赤
-        // (-2,-2)で静止
+        // (0)赤
+        // 1:(-2,-2)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
+        // 1:
         Matrix.translateM(matM,0,-2f,0f,-2f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
         shaderSimple.draw(vaoLst[0],matMVP)
 
         // ----------------------------------------------
-        // 1:緑
-        // Z軸90度回転+(-1,-2)
+        // (1)緑
+        // 1:Z軸-90度回転
+        // 2:(-1,-2)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
+        // 2:
         Matrix.translateM(matM,0,-1f,0f,-2f)
+        // 1:
         Matrix.rotateM(matM,0,90f,0f,0f,1f)
         Matrix.rotateM(matM,0,-t0,0f,0f,1f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
         shaderSimple.draw(vaoLst[1],matMVP)
 
-
-
         // ----------------------------------------------
-        // 3:黄
-        // X軸90度回転+(-2,-2)
+        // (2)青
+        // 1:X軸90度回転
+        // 2:(-2,-1)
         // ----------------------------------------------
         Matrix.setIdentityM(matM,0)
-        Matrix.translateM(matM,0,-2f,0f,-2f)
-        Matrix.rotateM(matM,0,90f,1f,0f,0f)
+        // 2:
+        Matrix.translateM(matM,0,-2f,0f,-1f)
+        // 1:
+        Matrix.rotateM(matM,0,-90f,1f,0f,0f)
         Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[2],matMVP)
+
+        // ----------------------------------------------
+        // (3)黄
+        // 1:(-1,0)+Z軸90度回転
+        // 2:(-2,-2)
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 2:
+        Matrix.translateM(matM,0,-2f,0f,-2f)
+        // 1:
+        Matrix.rotateM(matM,0,-90f,0f,0f,1f)
+        Matrix.rotateM(matM,0,t0,0f,0f,1f)
+        Matrix.translateM(matM,0,-1f,0f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
         shaderSimple.draw(vaoLst[3],matMVP)
 
+        // ----------------------------------------------
+        // (4)水
+        // 1:X軸90度回転
+        // 2:(0,1)+X軸90度回転
+        // 3:(0,1)+X軸90度回転
+        // 4:(-2,-1)
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 4:
+        Matrix.translateM(matM,0,-2f,0f,-1f)
+        // 3:
+        Matrix.rotateM(matM,0,-90f,1f,0f,0f)
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,1f)
+        // 2:
+        Matrix.rotateM(matM,0,-90f,1f,0f,0f)
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,1f)
+        // 1:
+        Matrix.rotateM(matM,0,-90f,1f,0f,0f)
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[4],matMVP)
+
+        // ----------------------------------------------
+        // (5)紫
+        // 1:X軸90度回転
+        // 2:(0,1)+X軸90度回転
+        // 3:(-2,-1)
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 3:
+        Matrix.translateM(matM,0,-2f,0f,-1f)
+        // 2:
+        Matrix.rotateM(matM,0,-90f,1f,0f,0f)
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,1f)
+        // 1:
+        Matrix.rotateM(matM,0,-90f,1f,0f,0f)
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[5],matMVP)
+    }
+
+    // 展開図０１閉
+    private fun doPtn01_02(t0: Float) {
+        // ----------------------------------------------
+        // (0)赤
+        // 1:(0,-1)+X軸90度回転
+        // 2:(0,-1)+X軸90度回転
+        // 3:(0,-1)+X軸90度回転
+        // 4:(-2,1)
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM, 0)
+        // 4:
+        Matrix.translateM(matM, 0, -2f, 0f, 1f)
+        // 3:
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        // 2:
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        // 1:
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        Matrix.multiplyMM(matMVP, 0, matVP, 0, matM, 0)
+        shaderSimple.draw(vaoLst[0], matMVP)
+
+        // ----------------------------------------------
+        // (1)緑
+        // 1:Z軸90度
+        // 2:(0,-1)+X軸90度回転
+        // 3:(0,-1)+X軸90度回転
+        // 4:(0,-1)+X軸90度回転
+        // 5:(-1,1)
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM, 0)
+        // 5:
+        Matrix.translateM(matM, 0, -1f, 0f, 1f)
+        // 4:
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        // 3:
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        // 2:
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        // 1:
+        Matrix.rotateM(matM,0,t0,0f,0f,1f)
+        Matrix.multiplyMM(matMVP, 0, matVP, 0, matM, 0)
+        shaderSimple.draw(vaoLst[1], matMVP)
+
+        // ----------------------------------------------
+        // (2)青
+        // 1:(0,-1)+X軸90度回転
+        // 2:(0,-1)+X軸90度回転
+        // 3:(-2,1)
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM, 0)
+        // 3:
+        Matrix.translateM(matM, 0, -2f, 0f, 1f)
+        // 2:
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        // 1:
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        Matrix.multiplyMM(matMVP, 0, matVP, 0, matM, 0)
+        shaderSimple.draw(vaoLst[2], matMVP)
+
+        // ----------------------------------------------
+        // (3)黄
+        // 1:(-1,0)+Z軸-90度
+        // 2:(0,-1)+X軸90度回転
+        // 3:(0,-1)+X軸90度回転
+        // 4:(0,-1)+X軸90度回転
+        // 5:(-2,1)
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM, 0)
+        // 5:
+        Matrix.translateM(matM, 0, -2f, 0f, 1f)
+        // 4:
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        // 3:
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        // 2:
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        // 1:
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.translateM(matM,0,-1f,0f,0f)
+        Matrix.multiplyMM(matMVP, 0, matVP, 0, matM, 0)
+        shaderSimple.draw(vaoLst[3], matMVP)
+
+        // ----------------------------------------------
+        // (4)水
+        // 1:(-2,1)
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM, 0)
+        // 1:
+        Matrix.translateM(matM, 0, -2f, 0f, 1f)
+        Matrix.multiplyMM(matMVP, 0, matVP, 0, matM, 0)
+        shaderSimple.draw(vaoLst[4], matMVP)
+
+        // ----------------------------------------------
+        // (5)紫
+        // 1:(0,-1)+X軸90度回転
+        // 2:(-2,1)
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM, 0)
+        // 2:
+        Matrix.translateM(matM, 0, -2f, 0f, 1f)
+        // 1:
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        Matrix.multiplyMM(matMVP, 0, matVP, 0, matM, 0)
+        shaderSimple.draw(vaoLst[5], matMVP)
+    }
+
+    // 展開図０２開
+    private fun doPtn02_01(t0: Float) {
+        // ----------------------------------------------
+        // (0)赤
+        // 1:(-2,2)
+        // 2:90度X軸
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 1:
+        Matrix.translateM(matM,0,-2f,0f,2f)
+        // 2:
+        Matrix.rotateM(matM,0,-90f,1f,0f,0f)
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[0],matMVP)
+
+        // ----------------------------------------------
+        // (1)緑
+        // 1:(-1,1)
+        // 2:-90度Z軸
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 1:
+        Matrix.translateM(matM,0,-1f,0f,1f)
+        // 2:
+        Matrix.rotateM(matM,0,90f,0f,0f,1f)
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[1],matMVP)
+
+        // ----------------------------------------------
+        // (2)青
+        // 1:(-1,1)
+        // 2:(1.0)-90度Z軸
+        // 3:-90度Z軸
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 1:
+        Matrix.translateM(matM,0,-1f,0f,1f)
+        // 2:
+        Matrix.rotateM(matM,0,90f,0f,0f,1f)
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.translateM(matM,0,1f,0f,0f)
+        // 3:
+        Matrix.rotateM(matM,0,90f,0f,0f,1f)
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[2],matMVP)
+
+        // ----------------------------------------------
+        // (3)黄
+        // 1:(-1,1)
+        // 2:(1.0)-90度Z軸
+        // 3:(1.0)-90度Z軸
+        // 4:-90度Z軸
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 1:
+        Matrix.translateM(matM,0,-1f,0f,1f)
+        // 2:
+        Matrix.rotateM(matM,0,90f,0f,0f,1f)
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.translateM(matM,0,1f,0f,0f)
+        // 3:
+        Matrix.rotateM(matM,0,90f,0f,0f,1f)
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.translateM(matM,0,1f,0f,0f)
+        // 4:
+        Matrix.rotateM(matM,0,90f,0f,0f,1f)
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[3],matMVP)
+
+        // ----------------------------------------------
+        // (4)水
+        // 1:(-2,1)
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 1:
+        Matrix.translateM(matM,0,-2f,0f,1f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[4],matMVP)
+
+        // ----------------------------------------------
+        // (5)紫
+        // 1:(-1,1)
+        // 2:-90度Z軸
+        // 3:(0,-1)-90度X軸
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 1:
+        Matrix.translateM(matM,0,-1f,0f,1f)
+        // 2:
+        Matrix.rotateM(matM,0,90f,0f,0f,1f)
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        // 3:
+        Matrix.rotateM(matM,0,90f,1f,0f,0f)
+        Matrix.rotateM(matM,0,-t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[5],matMVP)
+    }
+
+    // 展開図０２閉
+    private fun doPtn02_02(t0: Float) {
+
+        // ----------------------------------------------
+        // (0)赤
+        // 1:(1,1)
+        // 2:(-1,0)-90度Z軸
+        // 3:(-1,0)-90度Z軸
+        // 4:(-1,0)-90度Z軸
+        // 5:-90度X軸+(0,1)
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 1:
+        Matrix.translateM(matM,0,1f,0f,1f)
+        // 2:
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.translateM(matM,0,-1f,0f,0f)
+        // 3:
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.translateM(matM,0,-1f,0f,0f)
+        // 4:
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.translateM(matM,0,-1f,0f,0f)
+        // 5:
+        Matrix.translateM(matM,0,0f,0f,1f)
+        Matrix.rotateM(matM,0,-t0,1f,0f,0f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[0],matMVP)
+
+        // ----------------------------------------------
+        // (1)緑
+        // 1:(1,1)
+        // 2:(-1.0)-90度Z軸
+        // 3:(-1.0)-90度Z軸
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 1:
+        Matrix.translateM(matM,0,1f,0f,1f)
+        // 2:
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.translateM(matM,0,-1f,0f,0f)
+        // 3:
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.translateM(matM,0,-1f,0f,0f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[1],matMVP)
+
+        // ----------------------------------------------
+        // (2)青
+        // 1:(1,1)
+        // 2:(-1.0)-90度Z軸
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 1:
+        Matrix.translateM(matM,0,1f,0f,1f)
+        // 2:
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.translateM(matM,0,-1f,0f,0f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[2],matMVP)
+
+        // ----------------------------------------------
+        // (3)黄
+        // 1:(1,1)
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 1:
+        Matrix.translateM(matM,0,1f,0f,1f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[3],matMVP)
+
+        // ----------------------------------------------
+        // (4)水
+        // 1:(1,1)
+        // 2:(-1.0)-90度Z軸
+        // 3:(-1.0)-90度Z軸
+        // 4:(-1.0)-90度Z軸
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 1:
+        Matrix.translateM(matM,0,1f,0f,1f)
+        // 2:
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.translateM(matM,0,-1f,0f,0f)
+        // 3:
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.translateM(matM,0,-1f,0f,0f)
+        // 4:
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.translateM(matM,0,-1f,0f,0f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[4],matMVP)
+
+        // ----------------------------------------------
+        // (5)紫
+        // 1:(1,1)
+        // 2:(-1,0)-90度Z軸
+        // 3:(-1,0)-90度Z軸
+        // 4:(0,-1)+90度X軸
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 1:
+        Matrix.translateM(matM,0,1f,0f,1f)
+        // 2:
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.translateM(matM,0,-1f,0f,0f)
+        // 3:
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.translateM(matM,0,-1f,0f,0f)
+        // 4:
+        Matrix.rotateM(matM,0,t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[5],matMVP)
+    }
+
+    // 展開図０３開
+    private fun doPtn03_01(t0: Float) {
+
+        // ----------------------------------------------
+        // (0)赤
+        // 1:(1,1)
+        // 2:(0,-1)-90度X軸
+        // 3:(0,-1)-90度X軸
+        // 4:(0,-1)-90度X軸
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 1:
+        Matrix.translateM(matM,0,1f,0f,1f)
+        // 2:
+        Matrix.rotateM(matM,0,90f,1f,0f,0f)
+        Matrix.rotateM(matM,0,-t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        // 3:
+        Matrix.rotateM(matM,0,90f,1f,0f,0f)
+        Matrix.rotateM(matM,0,-t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        // 4:
+        Matrix.rotateM(matM,0,90f,1f,0f,0f)
+        Matrix.rotateM(matM,0,-t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[0],matMVP)
+
+        // ----------------------------------------------
+        // (1)緑
+        // 1:(1,1)
+        // 2:(0,-1)-90度X軸
+        // 3:(0,-1)-90度X軸
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 1:
+        Matrix.translateM(matM,0,1f,0f,1f)
+        // 2:
+        Matrix.rotateM(matM,0,90f,1f,0f,0f)
+        Matrix.rotateM(matM,0,-t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        // 3:
+        Matrix.rotateM(matM,0,90f,1f,0f,0f)
+        Matrix.rotateM(matM,0,-t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[1],matMVP)
+
+        // ----------------------------------------------
+        // (2)青
+        // 1:(1,1)
+        // 2:(0,-1)-90度X軸
+        // 3:(0,-1)-90度X軸
+        // 4:(-1,0)+90度Z軸
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 1:
+        Matrix.translateM(matM,0,1f,0f,1f)
+        // 2:
+        Matrix.rotateM(matM,0,90f,1f,0f,0f)
+        Matrix.rotateM(matM,0,-t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        // 3:
+        Matrix.rotateM(matM,0,90f,1f,0f,0f)
+        Matrix.rotateM(matM,0,-t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        // 4:
+        Matrix.rotateM(matM,0,-90f,0f,0f,1f)
+        Matrix.rotateM(matM,0,t0,0f,0f,1f)
+        Matrix.translateM(matM,0,-1f,0f,0f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[2],matMVP)
+
+        // ----------------------------------------------
+        // (3)黄
+        // 1:(1,1)
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 1:
+        Matrix.translateM(matM,0,1f,0f,1f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[3],matMVP)
+
+        // ----------------------------------------------
+        // (4)水
+        // 1:(2,1)
+        // 2:-90度Z軸
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 1:
+        Matrix.translateM(matM,0,2f,0f,1f)
+        // 2:
+        Matrix.rotateM(matM,0,90f,0f,0f,1f)
+        Matrix.rotateM(matM,0,-t0,0f,0f,1f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[4],matMVP)
+
+        // ----------------------------------------------
+        // (5)紫
+        // 1:(1,1)
+        // 2:(0,-1)-90度X軸
+        // ----------------------------------------------
+        Matrix.setIdentityM(matM,0)
+        // 1:
+        Matrix.translateM(matM,0,1f,0f,1f)
+        // 2:
+        Matrix.rotateM(matM,0,90f,1f,0f,0f)
+        Matrix.rotateM(matM,0,-t0,1f,0f,0f)
+        Matrix.translateM(matM,0,0f,0f,-1f)
+        Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+        shaderSimple.draw(vaoLst[5],matMVP)
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
@@ -208,74 +694,6 @@ class NetCube02Renderer(ctx: Context): MgRenderer(ctx) {
 
         // シェーダ(特殊効果なし)
         shaderSimple.loadShader()
-
-        /*
-        // 描画モデル(四角形)
-        val model1 = Triangle4Cube01Model()
-        model1.createPath(mapOf(
-            "colorR" to 1f,
-            "colorG" to 0f,
-            "colorB" to 0f,
-            "colorA" to 1f
-        ))
-        modelLst.add(model1)
-
-        // 描画モデル(四角形)
-        val model2 = Triangle4Cube01Model()
-        model2.createPath(mapOf(
-            "colorR" to 0f,
-            "colorG" to 1f,
-            "colorB" to 0f,
-            "colorA" to 1f
-        ))
-        modelLst.add(model2)
-
-        // 描画モデル(四角形)
-        val model3 = Triangle4Cube01Model()
-        model3.createPath(mapOf(
-            "colorR" to 0f,
-            "colorG" to 0f,
-            "colorB" to 1f,
-            "colorA" to 1f
-        ))
-        modelLst.add(model3)
-
-        // 描画モデル(四角形)
-        val model4 = Triangle4Cube01Model()
-        model4.createPath(mapOf(
-            "colorR" to 1f,
-            "colorG" to 1f,
-            "colorB" to 0f,
-            "colorA" to 1f
-        ))
-        modelLst.add(model4)
-
-        // 描画モデル(四角形)
-        val model5 = Triangle4Cube01Model()
-        model5.createPath(mapOf(
-            "colorR" to 0f,
-            "colorG" to 1f,
-            "colorB" to 1f,
-            "colorA" to 1f
-        ))
-        modelLst.add(model5)
-
-        // 描画モデル(四角形)
-        val model6 = Triangle4Cube01Model()
-        model6.createPath(mapOf(
-            "colorR" to 1f,
-            "colorG" to 0f,
-            "colorB" to 1f,
-            "colorA" to 1f
-        ))
-        modelLst.add(model6)
-
-        modelLst.forEach { model ->
-            val vao = ES32VAOIpc()
-            vao.makeVIBO(model)
-            vaoLst.add(vao)
-        }
-        */
 
         val colorLst =
             floatArrayOf(
@@ -309,6 +727,7 @@ class NetCube02Renderer(ctx: Context): MgRenderer(ctx) {
             vaoLst.add(vao)
         }
     }
+
 
     override fun setMotionParam(motionParam: MutableMap<String, Float>) {
     }
