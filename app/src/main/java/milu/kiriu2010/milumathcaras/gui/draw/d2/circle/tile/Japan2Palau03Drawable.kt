@@ -8,9 +8,9 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 // ---------------------------------------------
 // 日本の国旗⇔パラオの国旗01
 // ---------------------------------------------
-// 2019.07.31
+// 2019.08.26
 // ---------------------------------------------
-class Japan2Palau01Drawable: MyDrawable() {
+class Japan2Palau03Drawable: MyDrawable() {
 
     enum class Mode {
         LR,
@@ -66,6 +66,14 @@ class Japan2Palau01Drawable: MyDrawable() {
         color = Color.BLACK
         style = Paint.Style.STROKE
         strokeWidth = 10f
+    }
+
+    // -------------------------------
+    // ダミーペイント
+    // -------------------------------
+    private val dummyPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.BLACK
+        style = Paint.Style.FILL
     }
 
     // ---------------------------------
@@ -237,11 +245,62 @@ class Japan2Palau01Drawable: MyDrawable() {
         canvas.save()
         canvas.translate(x0,y0)
 
-        // 国旗を描画
+        // 国旗の下地を描画
         (0..splitHN+1).forEach { h ->
             val hh = h.toFloat()
             canvas.save()
             canvas.translate(-flagW,flagH*(hh-1f))
+            (0..splitWN+1).forEach { w ->
+                val ww = w.toFloat()
+                canvas.save()
+                canvas.translate(flagW*ww,0f)
+
+                when ((h+w)%2) {
+                    0 -> {
+                        // 下地(日本)
+                        canvas.drawRect(0f,0f,flagW,flagH,backJPN)
+                    }
+                    1 -> {
+                        // 下地(パラオ)
+                        canvas.drawRect(0f,0f,flagW,flagH,backPLU)
+                    }
+                }
+
+                canvas.restore()
+            }
+
+            canvas.restore()
+        }
+
+        // 国旗の円を描画
+        (0..splitHN+1).forEach { h ->
+            val hh = h.toFloat()
+            canvas.save()
+            canvas.translate(-2f*flagW,flagH*(hh-2f))
+            (0..splitWN+1 step 2).forEach { w ->
+                val ww = w.toFloat()
+                canvas.saveLayer(-flagW,-flagH,side+flagW,side+flagH,dummyPaint)
+                canvas.translate(flagW*ww,0f)
+
+                val hw1 = (h+w)%2
+                val hw2 = (hw1+1)%2
+
+                canvas.drawBitmap(bmpFlagLst[hw1],0f,0f,dummyPaint)
+                dummyPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DARKEN)
+
+                canvas.drawBitmap(bmpFlagLst[hw2],flagW,0f,dummyPaint)
+                dummyPaint.xfermode = null
+
+                canvas.restore()
+            }
+
+            canvas.restore()
+        }
+        /*
+        (0..splitHN+1).forEach { h ->
+            val hh = h.toFloat()
+            canvas.save()
+            canvas.translate(-2f*flagW,flagH*(hh-2f))
             (0..splitWN+1).forEach { w ->
                 val ww = w.toFloat()
                 canvas.save()
@@ -261,6 +320,7 @@ class Japan2Palau01Drawable: MyDrawable() {
 
             canvas.restore()
         }
+         */
 
         canvas.restore()
 
@@ -280,29 +340,21 @@ class Japan2Palau01Drawable: MyDrawable() {
     // U⇒D
     // ----------------------------
     private fun createBmpJPN1() {
-        val bmpJPN1 = Bitmap.createBitmap(flagW.toInt(),flagH.toInt(),Bitmap.Config.ARGB_8888)
+        val bmpJPN1 = Bitmap.createBitmap(3*flagW.toInt(),3*flagH.toInt(),Bitmap.Config.ARGB_8888)
         val cvsJPN1 = Canvas(bmpJPN1)
         cvsJPN1.drawColor(Color.TRANSPARENT,PorterDuff.Mode.CLEAR)
-        // 下地
-        cvsJPN1.drawRect(0f,0f,flagW,flagH,backJPN)
         // 円
         when (modeNow) {
             Mode.LR -> {
                 cvsJPN1.save()
-                cvsJPN1.translate(-0.5f*flagW,0.5f*flagH)
-                (0..2).forEach { _ ->
-                    cvsJPN1.drawCircle(flagW*ratioNow,0f,flagR,frontJPN)
-                    cvsJPN1.translate(flagW,0f)
-                }
+                cvsJPN1.translate(1.5f*flagW,1.5f*flagH)
+                cvsJPN1.drawCircle(flagW*ratioNow,0f,flagR,frontJPN)
                 cvsJPN1.restore()
             }
             Mode.UD -> {
                 cvsJPN1.save()
-                cvsJPN1.translate(0.5f*flagW,-0.5f*flagH)
-                (0..2).forEach { _ ->
-                    cvsJPN1.drawCircle(0f,flagH*ratioNow,flagR,frontJPN)
-                    cvsJPN1.translate(0f,flagH)
-                }
+                cvsJPN1.translate(2.5f*flagW,1.5f*flagH)
+                cvsJPN1.drawCircle(0f,flagH*ratioNow,flagR,frontJPN)
                 cvsJPN1.restore()
             }
         }
@@ -316,29 +368,21 @@ class Japan2Palau01Drawable: MyDrawable() {
     // U⇒D
     // ----------------------------
     private fun createBmpPLU1() {
-        val bmpPLU1 = Bitmap.createBitmap(flagW.toInt(),flagH.toInt(),Bitmap.Config.ARGB_8888)
+        val bmpPLU1 = Bitmap.createBitmap(3*flagW.toInt(),3*flagH.toInt(),Bitmap.Config.ARGB_8888)
         val cvsPLU1 = Canvas(bmpPLU1)
         cvsPLU1.drawColor(Color.TRANSPARENT,PorterDuff.Mode.CLEAR)
-        // 下地
-        cvsPLU1.drawRect(0f,0f,flagW,flagH,backPLU)
         // 円
         when (modeNow) {
             Mode.LR -> {
                 cvsPLU1.save()
-                cvsPLU1.translate(-0.5f*flagW,0.5f*flagH)
-                (0..2).forEach { _ ->
-                    cvsPLU1.drawCircle(flagW*ratioNow,0f,flagR,frontPLU)
-                    cvsPLU1.translate(flagW,0f)
-                }
+                cvsPLU1.translate(1.5f*flagW,1.5f*flagH)
+                cvsPLU1.drawCircle(-flagW*ratioNow,0f,flagR,frontPLU)
                 cvsPLU1.restore()
             }
             Mode.UD -> {
                 cvsPLU1.save()
-                cvsPLU1.translate(0.5f*flagW,-0.5f*flagH)
-                (0..2).forEach { _ ->
-                    cvsPLU1.drawCircle(0f,flagH*ratioNow,flagR,frontPLU)
-                    cvsPLU1.translate(0f,flagH)
-                }
+                cvsPLU1.translate(0.5f*flagW,1.5f*flagH)
+                cvsPLU1.drawCircle(0f,-flagH*ratioNow,flagR,frontPLU)
                 cvsPLU1.restore()
             }
         }

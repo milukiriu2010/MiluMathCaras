@@ -6,7 +6,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 // ---------------------------------------------
-// 日本の国旗⇔パラウの国旗02
+// 日本の国旗⇔パラオの国旗02
 // ---------------------------------------------
 // 2019.08.19
 // ---------------------------------------------
