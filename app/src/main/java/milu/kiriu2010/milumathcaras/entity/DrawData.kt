@@ -462,8 +462,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000807_CIRCLE_JAPAN_2_PALAU_01(807),
     // 日本の国旗⇔パラオの国旗02
     ID_000808_CIRCLE_JAPAN_2_PALAU_02(808),
-    // 日本の国旗⇔パラオの国旗03
-    ID_000809_CIRCLE_JAPAN_2_PALAU_03(809),
+    // PorterDuff"水色と紫色"の"DARKENとLIGHTEN"
+    ID_000809_CIRCLE_PORTERDUFF_DL_01(809),
     // 円⇔正方形の変形
     ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE(810),
     // "円⇔正方形の変形"のタイリング

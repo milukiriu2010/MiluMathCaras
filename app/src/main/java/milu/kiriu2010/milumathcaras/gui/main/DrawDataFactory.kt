@@ -423,8 +423,8 @@ class DrawDataFactory {
                 }
                 // 敷き詰めた円を描画するメニュー
                 MenuItem.MENU_CIRCLE_TILE -> {
-                    // 日本の国旗⇔パラオの国旗03
-                    drawDataLst.add(DrawData(DrawDataID.ID_000809_CIRCLE_JAPAN_2_PALAU_03,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000809_circle_japan_2_palau_03) ))
+                    // PorterDuff"水色と紫色"の"DARKENとLIGHTEN"
+                    drawDataLst.add(DrawData(DrawDataID.ID_000809_CIRCLE_PORTERDUFF_DL_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000809_circle_porterduff_dl_01) ))
                     // 日本の国旗⇔パラオの国旗02
                     drawDataLst.add(DrawData(DrawDataID.ID_000808_CIRCLE_JAPAN_2_PALAU_02,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000808_circle_japan_2_palau_02) ))
                     // 日本の国旗⇔パラオの国旗01
@@ -822,8 +822,8 @@ class DrawDataFactory {
                 // 多面体に様々なエフェクトを施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_VIEW -> {
                     // トーラスの結び目
-                    drawDataLst.add(DrawData(DrawDataID.ID_001011_GL_TORUS_KNOT_01,DrawFragmentType.FT_D3_ES32_01,resources.getString(R.string.draw_001011_gl_torus_knot_01),
-                        drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 11f, "scale" to 1f) ))
+                    //drawDataLst.add(DrawData(DrawDataID.ID_001011_GL_TORUS_KNOT_01,DrawFragmentType.FT_D3_ES32_01,resources.getString(R.string.draw_001011_gl_torus_knot_01),
+                    //    drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 11f, "scale" to 1f) ))
                     // 円柱02
                     drawDataLst.add(DrawData(DrawDataID.ID_001010_GL_CYLINDER_02,DrawFragmentType.FT_D3_ES32_01,resources.getString(R.string.draw_001010_gl_cylinder_02),
                         drawViewType = DrawViewType.DVT_GL, motionImageV2Param = mutableMapOf("modelType" to 10f, "scale" to 1f) ))

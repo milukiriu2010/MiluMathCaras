@@ -6,14 +6,11 @@ import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 // ---------------------------------------------
-// 日本の国旗⇔パラオの国旗01
-// ---------------------------------------------
-// 赤と黄だとPorterDuffモードの働きがわからないから
-// 橙(0xf8b500)とTurquoise(0x40e0d0)にした
+// PorterDuff"水色と紫色"の"DARKENとLIGHTEN"
 // ---------------------------------------------
 // 2019.08.26
 // ---------------------------------------------
-class Japan2Palau03Drawable: MyDrawable() {
+class PorterDuffDL01Drawable: MyDrawable() {
 
     enum class Mode {
         LR,
@@ -21,7 +18,7 @@ class Japan2Palau03Drawable: MyDrawable() {
     }
 
     // 現在のモード
-    private var modeNow = Mode.LR
+    private var modeNow = Mode.UD
 
     // -------------------------------
     // 描画領域
@@ -83,9 +80,9 @@ class Japan2Palau03Drawable: MyDrawable() {
     // 日本の国旗の円を描くペイント
     // ---------------------------------
     private val frontJPN = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = 0xfff8b500.toInt()
+        color = 0xffff00ff.toInt()
         style = Paint.Style.FILL
-        alpha = 128
+        //alpha = 128
     }
 
     // -------------------------------
@@ -100,9 +97,9 @@ class Japan2Palau03Drawable: MyDrawable() {
     // パラウの国旗の円を描くペイント
     // ---------------------------------
     private val frontPLU = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = 0xff40e0d0.toInt()
+        color = 0xff00ffff.toInt()
         style = Paint.Style.FILL
-        alpha = 128
+        //alpha = 128
     }
 
     // -------------------------------
@@ -161,10 +158,10 @@ class Japan2Palau03Drawable: MyDrawable() {
                     invalidateSelf()
 
                     if (ratioNow >= ratioMax) {
-                        handler.postDelayed(runnable, 500)
+                        handler.postDelayed(runnable, 50)
                     }
                     else {
-                        handler.postDelayed(runnable, 300)
+                        handler.postDelayed(runnable, 10)
                     }
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
@@ -250,134 +247,70 @@ class Japan2Palau03Drawable: MyDrawable() {
         canvas.save()
         canvas.translate(x0,y0)
 
-        /*
-        // 国旗の下地を描画
-        (0..splitHN+1).forEach { h ->
-            val hh = h.toFloat()
-            canvas.save()
-            canvas.translate(-flagW,flagH*(hh-1f))
-            (0..splitWN+1).forEach { w ->
-                val ww = w.toFloat()
-                canvas.save()
-                canvas.translate(flagW*ww,0f)
-
-                when ((h+w)%2) {
-                    0 -> {
-                        // 下地(日本)
-                        canvas.drawRect(0f,0f,flagW,flagH,backJPN)
-                    }
-                    1 -> {
-                        // 下地(パラオ)
-                        canvas.drawRect(0f,0f,flagW,flagH,backPLU)
-                    }
-                }
-
-                canvas.restore()
-            }
-
-            canvas.restore()
-        }
-         */
-
         canvas.drawColor(0xffffffff.toInt())
 
         // 国旗の円を描画
-        (0..splitHN+1).forEach { h ->
-            val hh = h.toFloat()
-            canvas.save()
-            canvas.translate(-2f*flagW,flagH*(hh-2f))
-            (0..splitWN+1 step 2).forEach { w ->
-                val ww = w.toFloat()
-                canvas.saveLayer(-2f*flagW,-2f*flagH,side+2f*flagW,side+2f*flagH,dummyPaint)
-                canvas.translate(flagW*ww,0f)
+        when (modeNow) {
+            Mode.LR -> {
+                (0..splitHN+3).forEach { h ->
+                    val hh = h.toFloat()
+                    canvas.save()
+                    canvas.translate(-2f*flagW,flagH*(hh-2f))
+                    val w0 = (h%2).toFloat()
+                    canvas.translate(w0*flagW,0f)
+                    (0..splitWN+5 step 2).forEach { w ->
+                        val ww = w.toFloat()
+                        // API level 21
+                        canvas.saveLayer(-2f*flagW,-2f*flagH,side+2f*flagW,side+2f*flagH,dummyPaint)
+                        canvas.translate(flagW*ww,0f)
 
-                val hw1 = (h+w)%2
-                val hw2 = (hw1+1)%2
+                        canvas.drawBitmap(bmpFlagLst[0],0f,0f,dummyPaint)
+                        val pdMode = when (h%2){
+                            0 -> PorterDuff.Mode.DARKEN
+                            1 -> PorterDuff.Mode.LIGHTEN
+                            else -> PorterDuff.Mode.SCREEN
+                        }
+                        dummyPaint.xfermode = PorterDuffXfermode(pdMode)
 
-                canvas.drawBitmap(bmpFlagLst[hw1],0f,0f,dummyPaint)
-                val pdMode = when {
-                    ( h%2 == 0 ) and (modeNow == Mode.LR) -> PorterDuff.Mode.DARKEN
-                    ( h%2 == 1 ) and (modeNow == Mode.LR) -> PorterDuff.Mode.LIGHTEN
-                    ( h%2 == 0 ) and (modeNow == Mode.UD) -> PorterDuff.Mode.SRC_ATOP
-                    ( h%2 == 1 ) and (modeNow == Mode.UD) -> PorterDuff.Mode.DST_ATOP
-                    else -> PorterDuff.Mode.SCREEN
-                }
-                dummyPaint.xfermode = PorterDuffXfermode(pdMode)
+                        canvas.drawBitmap(bmpFlagLst[1],flagW,0f,dummyPaint)
+                        dummyPaint.xfermode = null
 
-                when (modeNow) {
-                    Mode.LR -> canvas.drawBitmap(bmpFlagLst[hw2],flagW,0f,dummyPaint)
-                    Mode.UD -> canvas.drawBitmap(bmpFlagLst[hw2],0f,flagH,dummyPaint)
-                }
-
-                dummyPaint.xfermode = null
-
-                canvas.restore()
-            }
-
-            canvas.restore()
-        }
-        /*
-        // API level 21
-        canvas.saveLayer(0f,0f,3f*flagW,3f*flagH,dummyPaint)
-
-        canvas.drawBitmap(bmpFlagLst[0],0f,0f,dummyPaint)
-        dummyPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DARKEN)
-
-        canvas.drawBitmap(bmpFlagLst[1],0f,0f,dummyPaint)
-        dummyPaint.xfermode = null
-
-        canvas.restore()
-        */
-        /*
-        (0..splitHN+1).forEach { h ->
-            val hh = h.toFloat()
-            canvas.save()
-            canvas.translate(-2f*flagW,flagH*(hh-2f))
-            (0..splitWN+1 step 2).forEach { w ->
-                val ww = w.toFloat()
-                canvas.saveLayer(-flagW,-flagH,side+flagW,side+flagH,dummyPaint)
-                canvas.translate(flagW*ww,0f)
-
-                val hw1 = (h+w)%2
-                val hw2 = (hw1+1)%2
-
-                canvas.drawBitmap(bmpFlagLst[hw1],0f,0f,dummyPaint)
-                dummyPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DARKEN)
-
-                canvas.drawBitmap(bmpFlagLst[hw2],flagW,0f,dummyPaint)
-                dummyPaint.xfermode = null
-
-                canvas.restore()
-            }
-
-            canvas.restore()
-        }
-        */
-        /*
-        (0..splitHN+1).forEach { h ->
-            val hh = h.toFloat()
-            canvas.save()
-            canvas.translate(-2f*flagW,flagH*(hh-2f))
-            (0..splitWN+1).forEach { w ->
-                val ww = w.toFloat()
-                canvas.save()
-                canvas.translate(flagW*ww,0f)
-
-                when ((h+w)%2) {
-                    0 -> {
-                        canvas.drawBitmap(bmpFlagLst[0],0f,0f,framePaint)
+                        canvas.restore()
                     }
-                    1 -> {
-                        canvas.drawBitmap(bmpFlagLst[1],0f,0f,framePaint)
-                    }
+
+                    canvas.restore()
                 }
-
-                canvas.restore()
             }
+            Mode.UD -> {
+                (0..splitWN+3).forEach { w ->
+                    val ww = w.toFloat()
+                    canvas.save()
+                    canvas.translate((ww-2f)*flagW,-2f*flagH)
+                    val h0 = (w%2).toFloat()
+                    canvas.translate(0f,h0*flagH)
+                    (0..splitHN+5 step 2).forEach { h ->
+                        val hh = h.toFloat()
+                        canvas.saveLayer(-2f*flagW,-2f*flagH,side+2f*flagW,side+2f*flagH,dummyPaint)
+                        canvas.translate(0f,flagH*hh)
 
-            canvas.restore()
+                        canvas.drawBitmap(bmpFlagLst[0],0f,-flagH,dummyPaint)
+                        val pdMode = when (w%2){
+                            0 -> PorterDuff.Mode.DARKEN
+                            1 -> PorterDuff.Mode.LIGHTEN
+                            else -> PorterDuff.Mode.SCREEN
+                        }
+                        dummyPaint.xfermode = PorterDuffXfermode(pdMode)
+
+                        canvas.drawBitmap(bmpFlagLst[1],0f,0f,dummyPaint)
+                        dummyPaint.xfermode = null
+
+                        canvas.restore()
+                    }
+
+                    canvas.restore()
+                }
+            }
         }
-         */
 
         canvas.restore()
 
@@ -410,7 +343,7 @@ class Japan2Palau03Drawable: MyDrawable() {
             }
             Mode.UD -> {
                 cvsJPN1.save()
-                cvsJPN1.translate(2.5f*flagW,1.5f*flagH)
+                cvsJPN1.translate(1.5f*flagW,1.5f*flagH)
                 cvsJPN1.drawCircle(0f,flagH*ratioNow,flagR,frontJPN)
                 cvsJPN1.restore()
             }
@@ -438,7 +371,7 @@ class Japan2Palau03Drawable: MyDrawable() {
             }
             Mode.UD -> {
                 cvsPLU1.save()
-                cvsPLU1.translate(0.5f*flagW,1.5f*flagH)
+                cvsPLU1.translate(1.5f*flagW,1.5f*flagH)
                 cvsPLU1.drawCircle(0f,-flagH*ratioNow,flagR,frontPLU)
                 cvsPLU1.restore()
             }

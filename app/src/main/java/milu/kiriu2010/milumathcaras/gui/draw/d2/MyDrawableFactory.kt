@@ -49,7 +49,6 @@ import milu.kiriu2010.milumathcaras.gui.draw.d2.nature.vectors.AccelerateTowards
 import milu.kiriu2010.milumathcaras.gui.draw.d2.nature.vectors.Fountain01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.nature.vectors.RandomWalk01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.nature.vectors.UniformMotion01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.hexagon.HexagonLikeCube01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.hexagon.HexagonScale01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.hexagon.HexagonScale02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.polygon.*
@@ -516,8 +515,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000807_CIRCLE_JAPAN_2_PALAU_01 -> Japan2Palau01Drawable()
                 // 日本の国旗⇔パラオの国旗02
                 DrawDataID.ID_000808_CIRCLE_JAPAN_2_PALAU_02 -> Japan2Palau02Drawable()
-                // 日本の国旗⇔パラオの国旗03
-                DrawDataID.ID_000809_CIRCLE_JAPAN_2_PALAU_03 -> Japan2Palau03Drawable()
+                // PorterDuff"水色と紫色"の"DARKENとLIGHTEN"
+                DrawDataID.ID_000809_CIRCLE_PORTERDUFF_DL_01 -> PorterDuffDL01Drawable()
                 // 円⇔正方形の変形
                 DrawDataID.ID_000810_CIRCLE_MORPH_CIRCLE2SQUARE -> Circle2SqaureMorph01Drawable()
                 // "円⇔正方形の変形"のタイリング
