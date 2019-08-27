@@ -8,6 +8,9 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 // ---------------------------------------------
 // 日本の国旗⇔パラオの国旗01
 // ---------------------------------------------
+// 赤と黄だとPorterDuffモードの働きがわからないから
+// 橙(0xf8b500)とTurquoise(0x40e0d0)にした
+// ---------------------------------------------
 // 2019.08.26
 // ---------------------------------------------
 class Japan2Palau03Drawable: MyDrawable() {
@@ -80,8 +83,9 @@ class Japan2Palau03Drawable: MyDrawable() {
     // 日本の国旗の円を描くペイント
     // ---------------------------------
     private val frontJPN = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.RED
+        color = 0xfff8b500.toInt()
         style = Paint.Style.FILL
+        alpha = 128
     }
 
     // -------------------------------
@@ -96,8 +100,9 @@ class Japan2Palau03Drawable: MyDrawable() {
     // パラウの国旗の円を描くペイント
     // ---------------------------------
     private val frontPLU = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.YELLOW
+        color = 0xff40e0d0.toInt()
         style = Paint.Style.FILL
+        alpha = 128
     }
 
     // -------------------------------
@@ -156,10 +161,10 @@ class Japan2Palau03Drawable: MyDrawable() {
                     invalidateSelf()
 
                     if (ratioNow >= ratioMax) {
-                        handler.postDelayed(runnable, 300)
+                        handler.postDelayed(runnable, 500)
                     }
                     else {
-                        handler.postDelayed(runnable, 100)
+                        handler.postDelayed(runnable, 300)
                     }
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
@@ -245,6 +250,7 @@ class Japan2Palau03Drawable: MyDrawable() {
         canvas.save()
         canvas.translate(x0,y0)
 
+        /*
         // 国旗の下地を描画
         (0..splitHN+1).forEach { h ->
             val hh = h.toFloat()
@@ -271,8 +277,58 @@ class Japan2Palau03Drawable: MyDrawable() {
 
             canvas.restore()
         }
+         */
+
+        canvas.drawColor(0xffffffff.toInt())
 
         // 国旗の円を描画
+        (0..splitHN+1).forEach { h ->
+            val hh = h.toFloat()
+            canvas.save()
+            canvas.translate(-2f*flagW,flagH*(hh-2f))
+            (0..splitWN+1 step 2).forEach { w ->
+                val ww = w.toFloat()
+                canvas.saveLayer(-2f*flagW,-2f*flagH,side+2f*flagW,side+2f*flagH,dummyPaint)
+                canvas.translate(flagW*ww,0f)
+
+                val hw1 = (h+w)%2
+                val hw2 = (hw1+1)%2
+
+                canvas.drawBitmap(bmpFlagLst[hw1],0f,0f,dummyPaint)
+                val pdMode = when {
+                    ( h%2 == 0 ) and (modeNow == Mode.LR) -> PorterDuff.Mode.DARKEN
+                    ( h%2 == 1 ) and (modeNow == Mode.LR) -> PorterDuff.Mode.LIGHTEN
+                    ( h%2 == 0 ) and (modeNow == Mode.UD) -> PorterDuff.Mode.SRC_ATOP
+                    ( h%2 == 1 ) and (modeNow == Mode.UD) -> PorterDuff.Mode.DST_ATOP
+                    else -> PorterDuff.Mode.SCREEN
+                }
+                dummyPaint.xfermode = PorterDuffXfermode(pdMode)
+
+                when (modeNow) {
+                    Mode.LR -> canvas.drawBitmap(bmpFlagLst[hw2],flagW,0f,dummyPaint)
+                    Mode.UD -> canvas.drawBitmap(bmpFlagLst[hw2],0f,flagH,dummyPaint)
+                }
+
+                dummyPaint.xfermode = null
+
+                canvas.restore()
+            }
+
+            canvas.restore()
+        }
+        /*
+        // API level 21
+        canvas.saveLayer(0f,0f,3f*flagW,3f*flagH,dummyPaint)
+
+        canvas.drawBitmap(bmpFlagLst[0],0f,0f,dummyPaint)
+        dummyPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DARKEN)
+
+        canvas.drawBitmap(bmpFlagLst[1],0f,0f,dummyPaint)
+        dummyPaint.xfermode = null
+
+        canvas.restore()
+        */
+        /*
         (0..splitHN+1).forEach { h ->
             val hh = h.toFloat()
             canvas.save()
@@ -296,6 +352,7 @@ class Japan2Palau03Drawable: MyDrawable() {
 
             canvas.restore()
         }
+        */
         /*
         (0..splitHN+1).forEach { h ->
             val hh = h.toFloat()
