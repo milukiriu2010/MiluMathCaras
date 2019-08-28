@@ -235,6 +235,7 @@
     <string name="draw_000613_polygon_square_in_square_01">Square in \nSquare 01</string>
     <string name="draw_000614_polygon_triangle_2_hexagon_02">Triangle ⇔ \nHexagon 02</string>
     <string name="draw_000615_polygon_square_2_square_01">Square ⇔ \nSquare 01</string>
+    <string name="draw_000616_polygon_guinea_2_mali_01">Cameroon ⇔ \nSenegal 01</string>
     <string name="draw_000701_polygon_3_out_3">3 out 3</string>
     <string name="draw_000702_polygon_3_out_4">3 out 4</string>
     <string name="draw_000703_polygon_3_out_5">3 out 5</string>
@@ -358,6 +359,7 @@
     <string name="draw_001203_gl_net_octahedron_01">Net of Octahedron</string>
     <string name="draw_001204_gl_net_dodecahedron_01">Net of Dodecahedron</string>
     <string name="draw_001205_gl_net_icosahedron_01">Net of Icosahedron</string>
+    <string name="draw_001206_gl_net_cube_03">11 Nets of Cube</string>
     <string name="draw_001300_gl_sphere_transform_01">Sphere Transform\n 01</string>
     <string name="draw_001301_gl_sphere_transform_02">Sphere Transform\n 02</string>
     <string name="draw_001302_gl_sphere_color_shift_01">Sphere Color \nShift 01</string>

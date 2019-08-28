@@ -468,6 +468,8 @@ class DrawDataFactory {
                 }
                 // 敷き詰めた多角形を描画するメニュー
                 MenuItem.MENU_POLYGON_TILE -> {
+                    // ギニアの国旗⇔マリの国旗01
+                    drawDataLst.add(DrawData(DrawDataID.ID_000616_GUINEA_2_MALI_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000616_polygon_guinea_2_mali_01) ))
                     // 正方形⇔正方形
                     drawDataLst.add(DrawData(DrawDataID.ID_000615_SQUARE_2_SQUARE_01,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000615_polygon_square_2_square_01),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://twitter.com/beesandbombs/status/1044920001646473216") ))
@@ -903,6 +905,8 @@ class DrawDataFactory {
                 }
                 // 多面体の展開図を描画するメニュー
                 MenuItem.MENU_POLYHEDRON_NET -> {
+                    // 立方体の展開図03
+                    drawDataLst.add(DrawData(DrawDataID.ID_001206_GL_NET_CUBE_03,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001206_gl_net_cube_03), drawViewType = DrawViewType.DVT_GL ))
                     // 立方体の展開図02
                     drawDataLst.add(DrawData(DrawDataID.ID_001200_GL_NET_CUBE_02,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001200_gl_net_cube_02), drawViewType = DrawViewType.DVT_GL ))
                     // 正二十面体の展開図01

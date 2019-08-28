@@ -299,6 +299,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000614_TRIANGLE_2_HEXAGON_02(614),
     // 正方形⇔正方形
     ID_000615_SQUARE_2_SQUARE_01(615),
+    // ギニアの国旗⇔マリの国旗01
+    ID_000616_GUINEA_2_MALI_01(616),
     // 三角形out三角形
     ID_000701_3_OUT_3(701),
     // 三角形out四角形
@@ -535,7 +537,7 @@ enum class DrawDataID(val id: Int): Parcelable {
     // 六角形にみえる立方体01
     ID_001112_GL_CUBE_LIKE_HEXAGON_01(1112),
     // 立方体の展開図02
-    ID_001200_GL_NET_CUBE_02(1206),
+    ID_001200_GL_NET_CUBE_02(1200),
     // 正四面体の展開図02
     ID_001201_GL_NET_TETRAHEDRON_02(1201),
     // 立方体の展開図01
@@ -546,6 +548,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_001204_GL_NET_DODECAHEDRON_01(1204),
     // 正二十面体の展開図
     ID_001205_GL_NET_ICOSAHEDRON_01(1205),
+    // 立方体の展開図03
+    ID_001206_GL_NET_CUBE_03(1207),
     // 球体座標変換01
     ID_001300_GL_SPHERE_TRANSFORM_01(1300),
     // 球体座標変換02

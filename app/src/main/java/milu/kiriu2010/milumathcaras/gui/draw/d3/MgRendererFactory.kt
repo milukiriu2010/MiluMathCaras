@@ -11,6 +11,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.d3.fractal.KochSnowflakeCubemap01Re
 import milu.kiriu2010.milumathcaras.gui.draw.d3.glsl.GLSL01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.net.cube.NetCube01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.net.cube.NetCube02Renderer
+import milu.kiriu2010.milumathcaras.gui.draw.d3.net.cube.NetCube03Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.net.dodecahedron.NetDodecahedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.net.icosahedron.NetIcosahedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.net.octahedron.NetOctahedron01Renderer
@@ -94,6 +95,8 @@ class MgRendererFactory {
                 DrawDataID.ID_001204_GL_NET_DODECAHEDRON_01 -> NetDodecahedron01Renderer(context)
                 // 正二十面体の展開図01
                 DrawDataID.ID_001205_GL_NET_ICOSAHEDRON_01 -> NetIcosahedron01Renderer(context)
+                // 立方体の展開図03
+                DrawDataID.ID_001206_GL_NET_CUBE_03 -> NetCube03Renderer(context)
                 // 球体座標変換01
                 DrawDataID.ID_001300_GL_SPHERE_TRANSFORM_01 -> SphereTransform01Renderer(context)
                 // 球体座標変換02

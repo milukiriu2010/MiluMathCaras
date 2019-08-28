@@ -353,6 +353,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000614_TRIANGLE_2_HEXAGON_02 -> Triangle2Hexagon02Drawable()
                 // 正方形⇔正方形01
                 DrawDataID.ID_000615_SQUARE_2_SQUARE_01 -> Square2Square01Drawable()
+                // ギニアの国旗⇔マリの国旗01
+                DrawDataID.ID_000616_GUINEA_2_MALI_01 -> Guinea2Mali01Drawable()
                 // 三角形out三角形
                 DrawDataID.ID_000701_3_OUT_3 -> PolygonOutPolygon01Drawable()
                 // 三角形out四角形
