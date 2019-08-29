@@ -2,6 +2,7 @@ package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.tile
 
 import android.graphics.*
 import android.os.Handler
+import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
@@ -13,12 +14,13 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 class Guinea2Mali01Drawable: MyDrawable() {
 
     enum class Mode {
-        LR,
-        UD
+        PH1,
+        PH2,
+        PH3
     }
 
     // 現在のモード
-    private var modeNow = Mode.LR
+    private var modeNow = Mode.PH1
 
     // -------------------------------
     // 描画領域
@@ -36,8 +38,11 @@ class Guinea2Mali01Drawable: MyDrawable() {
     // 国旗
     // ---------------------------------
     private val flagW = side/splitW
-    private val flagW0 = flagW/3f
+    private val flagW2 = flagW*0.5f
+    private val flagW3 = flagW/3f
+    private val flagW6 = flagW/6f
     private val flagH = side/splitH
+    private val flagH2 = flagH*0.5f
 
     // 国旗の移動比率
     private val ratioMax = 1f
@@ -48,6 +53,13 @@ class Guinea2Mali01Drawable: MyDrawable() {
     // パスの初期化を実施したかどうか
     private var isInitialized = false
 
+    // ギニア国旗の四角形リスト
+    private val square0Lst = mutableListOf<Square>()
+
+    // マリ国旗の四角形リスト
+    private val square1Lst = mutableListOf<Square>()
+
+
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
     // ---------------------------------------------------------------------
@@ -55,9 +67,6 @@ class Guinea2Mali01Drawable: MyDrawable() {
     // ---------------------------------------------------------------------
     private lateinit var imageBitmap: Bitmap
     private val tmpBitmap = Bitmap.createBitmap(intrinsicWidth,intrinsicHeight, Bitmap.Config.ARGB_8888)
-
-    // 描画する国旗のビットマップリスト
-    private val bmpFlagLst = mutableListOf<Bitmap>()
 
     // -------------------------------
     // 枠に使うペイント
@@ -183,13 +192,75 @@ class Guinea2Mali01Drawable: MyDrawable() {
         // モードを設定
         if (isInitialized) {
             modeNow = when (modeNow) {
-                Mode.LR -> Mode.UD
-                Mode.UD -> Mode.LR
+                Mode.PH1 -> Mode.PH1
+                Mode.PH2 -> Mode.PH3
+                Mode.PH3 -> Mode.PH1
             }
         }
 
+        // パス生成
+        when (modeNow) {
+            Mode.PH1 -> createPathPH1()
+        }
+
+
         // パスの初期化を実施したかどうか
         isInitialized = true
+    }
+
+    // パス生成(PH1)
+    private fun createPathPH1() {
+        // 右上
+        val square0 = Square().also { square ->
+            square.ps.add(MyPointF(flagW6,0f))
+            square.ps.add(MyPointF(flagW2,0f))
+            square.ps.add(MyPointF(flagW2,flagH2))
+            square.ps.add(MyPointF(flagW6,flagH2))
+            square.paint = greenPaint
+        }
+        square0Lst.add(square0)
+        square1Lst.add(square0.copy().also {
+            it.paint = redPaint
+        })
+
+        // 右下
+        val square1 = Square().also { square ->
+            square.ps.add(MyPointF(flagW6,0f))
+            square.ps.add(MyPointF(flagW6,-flagH2))
+            square.ps.add(MyPointF(flagW2,-flagH2))
+            square.ps.add(MyPointF(flagW2,0f))
+            square.paint = greenPaint
+        }
+        square0Lst.add(square1)
+        square1Lst.add(square1.copy().also {
+            it.paint = redPaint
+        })
+
+        // 左下
+        val square2 = Square().also { square ->
+            square.ps.add(MyPointF(-flagW6,0f))
+            square.ps.add(MyPointF(-flagW6,-flagH2))
+            square.ps.add(MyPointF(-flagW2,-flagH2))
+            square.ps.add(MyPointF(-flagW2,0f))
+            square.paint = redPaint
+        }
+        square0Lst.add(square2)
+        square1Lst.add(square2.copy().also {
+            it.paint = greenPaint
+        })
+
+        // 左上
+        val square3 = Square().also { square ->
+            square.ps.add(MyPointF(-flagW6,0f))
+            square.ps.add(MyPointF(-flagW6,flagH2))
+            square.ps.add(MyPointF(-flagW2,flagH2))
+            square.ps.add(MyPointF(-flagW2,0f))
+            square.paint = redPaint
+        }
+        square0Lst.add(square3)
+        square1Lst.add(square3.copy().also {
+            it.paint = greenPaint
+        })
     }
 
     // -------------------------------
@@ -205,21 +276,8 @@ class Guinea2Mali01Drawable: MyDrawable() {
     private fun drawBitmap() {
         val canvas = Canvas(tmpBitmap)
 
-        bmpFlagLst.clear()
-        // ----------------------------
-        // 日本の国旗のビットマップ
-        // ----------------------------
-        // L⇒R
-        // U⇒D
-        // ----------------------------
-        createBmpJPN1()
-        // ----------------------------
-        // パラオの国旗のビットマップ
-        // ----------------------------
-        // L⇒R
-        // U⇒D
-        // ----------------------------
-        createBmpPLU1()
+        // バックグランドを描画
+        canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),yellowPaint)
 
         // 原点(0,0)の位置
         // = (マージン,マージン)
@@ -229,6 +287,29 @@ class Guinea2Mali01Drawable: MyDrawable() {
         canvas.save()
         canvas.translate(x0,y0)
 
+        canvas.saveLayer(0f,0f,flagW,flagH,null)
+
+        canvas.translate(flagW2,flagH2)
+
+        (0..3).forEach { i ->
+            val square0 = square0Lst[i]
+            val path0 = Path()
+            square0.ps.forEachIndexed { id, p ->
+                if (id == 0) {
+                    path0.moveTo(p.x,p.y)
+                }
+                else {
+                    path0.lineTo(p.x,p.y)
+                }
+            }
+            path0.close()
+            canvas.drawPath(path0,square0.paint)
+        }
+
+
+
+
+        /*
         // 国旗を描画
         (0..splitHN+1).forEach { h ->
             val hh = h.toFloat()
@@ -253,6 +334,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
 
             canvas.restore()
         }
+         */
 
         canvas.restore()
 
@@ -263,78 +345,6 @@ class Guinea2Mali01Drawable: MyDrawable() {
         val matrix = Matrix()
         matrix.setScale(1f,1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
-    }
-
-    // ----------------------------
-    // 日本の国旗のビットマップ
-    // ----------------------------
-    // L⇒R
-    // U⇒D
-    // ----------------------------
-    private fun createBmpJPN1() {
-        val bmpJPN1 = Bitmap.createBitmap(flagW.toInt(),flagH.toInt(),Bitmap.Config.ARGB_8888)
-        val cvsJPN1 = Canvas(bmpJPN1)
-        cvsJPN1.drawColor(Color.TRANSPARENT,PorterDuff.Mode.CLEAR)
-        // 下地
-        cvsJPN1.drawRect(0f,0f,flagW,flagH,yellowPaint)
-        // 円
-        when (modeNow) {
-            Mode.LR -> {
-                cvsJPN1.save()
-                cvsJPN1.translate(-0.5f*flagW,0.5f*flagH)
-                (0..2).forEach { _ ->
-                    //cvsJPN1.drawCircle(flagW*ratioNow,0f,flagR,redPaint)
-                    cvsJPN1.translate(flagW,0f)
-                }
-                cvsJPN1.restore()
-            }
-            Mode.UD -> {
-                cvsJPN1.save()
-                cvsJPN1.translate(0.5f*flagW,-0.5f*flagH)
-                (0..2).forEach { _ ->
-                    //cvsJPN1.drawCircle(0f,flagH*ratioNow,flagR,redPaint)
-                    cvsJPN1.translate(0f,flagH)
-                }
-                cvsJPN1.restore()
-            }
-        }
-        bmpFlagLst.add(bmpJPN1)
-    }
-
-    // ----------------------------
-    // パラオの国旗のビットマップ
-    // ----------------------------
-    // L⇒R
-    // U⇒D
-    // ----------------------------
-    private fun createBmpPLU1() {
-        val bmpPLU1 = Bitmap.createBitmap(flagW.toInt(),flagH.toInt(),Bitmap.Config.ARGB_8888)
-        val cvsPLU1 = Canvas(bmpPLU1)
-        cvsPLU1.drawColor(Color.TRANSPARENT,PorterDuff.Mode.CLEAR)
-        // 下地
-        //cvsPLU1.drawRect(0f,0f,flagW,flagH,backPLU)
-        // 円
-        when (modeNow) {
-            Mode.LR -> {
-                cvsPLU1.save()
-                cvsPLU1.translate(-0.5f*flagW,0.5f*flagH)
-                (0..2).forEach { _ ->
-                    //cvsPLU1.drawCircle(flagW*ratioNow,0f,flagR,greenPaint)
-                    cvsPLU1.translate(flagW,0f)
-                }
-                cvsPLU1.restore()
-            }
-            Mode.UD -> {
-                cvsPLU1.save()
-                cvsPLU1.translate(0.5f*flagW,-0.5f*flagH)
-                (0..2).forEach { _ ->
-                    //cvsPLU1.drawCircle(0f,flagH*ratioNow,flagR,greenPaint)
-                    cvsPLU1.translate(0f,flagH)
-                }
-                cvsPLU1.restore()
-            }
-        }
-        bmpFlagLst.add(bmpPLU1)
     }
 
     // -------------------------------
@@ -373,4 +383,11 @@ class Guinea2Mali01Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun getIntrinsicHeight(): Int = (side+margin*2).toInt()
+
+    private data class Square(
+        // 頂点リスト
+        val ps: MutableList<MyPointF> = mutableListOf(),
+        // ペイント
+        var paint: Paint = Paint()
+    )
 }
