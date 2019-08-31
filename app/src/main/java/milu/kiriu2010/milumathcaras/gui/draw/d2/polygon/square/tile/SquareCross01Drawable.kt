@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.tile
+package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.square.tile
 
 import android.graphics.*
 import android.os.Handler
@@ -148,7 +148,8 @@ class SquareCross01Drawable: MyDrawable() {
         (-4..4).forEach { y ->
             (-4..4).forEach { x ->
                 if ( abs(x) == abs(y) ) {
-                    val square = Square().also {
+                    val square = Square()
+                        .also {
                         it.s = x
                         it.t = y
                         it.l = abs(x)
@@ -181,7 +182,8 @@ class SquareCross01Drawable: MyDrawable() {
                     }
                     // 下へ向きを変える
                     else {
-                        square.d = MoveDir.DOWN
+                        square.d =
+                            MoveDir.DOWN
                         square.t++
                     }
                 }
@@ -192,7 +194,8 @@ class SquareCross01Drawable: MyDrawable() {
                     }
                     // 上へ向きを変える
                     else {
-                        square.d = MoveDir.UP
+                        square.d =
+                            MoveDir.UP
                         square.t--
                     }
                 }
@@ -203,7 +206,8 @@ class SquareCross01Drawable: MyDrawable() {
                     }
                     // 左へ向きを変える
                     else {
-                        square.d = MoveDir.LEFT
+                        square.d =
+                            MoveDir.LEFT
                         square.s--
                     }
                 }
@@ -214,7 +218,8 @@ class SquareCross01Drawable: MyDrawable() {
                     }
                     // 右へ向きを変える
                     else {
-                        square.d = MoveDir.RIGHT
+                        square.d =
+                            MoveDir.RIGHT
                         square.s++
                     }
                 }

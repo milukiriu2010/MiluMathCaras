@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.tile
+package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.square.tile
 
 import android.graphics.*
 import android.os.Handler
@@ -46,7 +46,8 @@ class Square2Diamond01Drawable: MyDrawable() {
     private val sideE = side/split
 
     // 分裂モード
-    private var dirSplit = ModeSplit.HORIZONTAL
+    private var dirSplit =
+        ModeSplit.HORIZONTAL
 
     // 1ターン内の移動比率
     private var ratioNow = 0f
@@ -185,28 +186,40 @@ class Square2Diamond01Drawable: MyDrawable() {
                 // ---------------------------------------------
                 // 右半分
                 // ---------------------------------------------
-                val vertex0 = Vertex().also {
-                    it.d = Direction.RIGHT
+                val vertex0 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.RIGHT
                     it.p = MyPointF(sideE*0.5f,0f)
                 }
-                val vertex1 = Vertex().also {
-                    it.d = Direction.STILL
+                val vertex1 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.STILL
                     it.p = MyPointF(sideE*0.5f,sideE*0.5f)
                 }
-                val vertex2 = Vertex().also {
-                    it.d = Direction.DOWN
+                val vertex2 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.DOWN
                     it.p = MyPointF(0f,sideE*0.5f)
                 }
-                val vertex3 = Vertex().also {
-                    it.d = Direction.UP
+                val vertex3 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.UP
                     it.p = MyPointF(0f,-sideE*0.5f)
                 }
-                val vertex4 = Vertex().also {
-                    it.d = Direction.STILL
+                val vertex4 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.STILL
                     it.p = MyPointF(sideE*0.5f,-sideE*0.5f)
                 }
-                val vertex5 = Vertex().also {
-                    it.d = Direction.RIGHT
+                val vertex5 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.RIGHT
                     it.p = MyPointF(sideE*0.5f,0f)
                 }
 
@@ -220,28 +233,40 @@ class Square2Diamond01Drawable: MyDrawable() {
                 // ---------------------------------------------
                 // 左半分
                 // ---------------------------------------------
-                val vertex6 = Vertex().also {
-                    it.d = Direction.LEFT
+                val vertex6 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.LEFT
                     it.p = MyPointF(-sideE*0.5f,0f)
                 }
-                val vertex7 = Vertex().also {
-                    it.d = Direction.STILL
+                val vertex7 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.STILL
                     it.p = MyPointF(-sideE*0.5f,-sideE*0.5f)
                 }
-                val vertex8 = Vertex().also {
-                    it.d = Direction.UP
+                val vertex8 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.UP
                     it.p = MyPointF(0f,-sideE*0.5f)
                 }
-                val vertex9 = Vertex().also {
-                    it.d = Direction.DOWN
+                val vertex9 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.DOWN
                     it.p = MyPointF(0f,sideE*0.5f)
                 }
-                val vertex10 = Vertex().also {
-                    it.d = Direction.STILL
+                val vertex10 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.STILL
                     it.p = MyPointF(-sideE*0.5f,sideE*0.5f)
                 }
-                val vertex11 = Vertex().also {
-                    it.d = Direction.LEFT
+                val vertex11 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.LEFT
                     it.p = MyPointF(-sideE*0.5f,0f)
                 }
 
@@ -256,28 +281,40 @@ class Square2Diamond01Drawable: MyDrawable() {
                 // ---------------------------------------------
                 // 上半分
                 // ---------------------------------------------
-                val vertex0 = Vertex().also {
-                    it.d = Direction.UP
+                val vertex0 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.UP
                     it.p = MyPointF(0f, sideE*0.5f)
                 }
-                val vertex1 = Vertex().also {
-                    it.d = Direction.STILL
+                val vertex1 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.STILL
                     it.p = MyPointF(-sideE*0.5f,sideE*0.5f)
                 }
-                val vertex2 = Vertex().also {
-                    it.d = Direction.RIGHT
+                val vertex2 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.RIGHT
                     it.p = MyPointF(-sideE*0.5f,0f)
                 }
-                val vertex3 = Vertex().also {
-                    it.d = Direction.LEFT
+                val vertex3 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.LEFT
                     it.p = MyPointF(sideE*0.5f,0f)
                 }
-                val vertex4 = Vertex().also {
-                    it.d = Direction.STILL
+                val vertex4 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.STILL
                     it.p = MyPointF(sideE*0.5f,sideE*0.5f)
                 }
-                val vertex5 = Vertex().also {
-                    it.d = Direction.UP
+                val vertex5 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.UP
                     it.p = MyPointF(0f, sideE*0.5f)
                 }
 
@@ -291,28 +328,40 @@ class Square2Diamond01Drawable: MyDrawable() {
                 // ---------------------------------------------
                 // 下半分
                 // ---------------------------------------------
-                val vertex6 = Vertex().also {
-                    it.d = Direction.DOWN
+                val vertex6 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.DOWN
                     it.p = MyPointF(0f,-sideE*0.5f)
                 }
-                val vertex7 = Vertex().also {
-                    it.d = Direction.STILL
+                val vertex7 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.STILL
                     it.p = MyPointF(sideE*0.5f,-sideE*0.5f)
                 }
-                val vertex8 = Vertex().also {
-                    it.d = Direction.LEFT
+                val vertex8 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.LEFT
                     it.p = MyPointF(sideE*0.5f,0f)
                 }
-                val vertex9 = Vertex().also {
-                    it.d = Direction.RIGHT
+                val vertex9 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.RIGHT
                     it.p = MyPointF(-sideE*0.5f,0f)
                 }
-                val vertex10 = Vertex().also {
-                    it.d = Direction.STILL
+                val vertex10 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.STILL
                     it.p = MyPointF(-sideE*0.5f,-sideE*0.5f)
                 }
-                val vertex11 = Vertex().also {
-                    it.d = Direction.DOWN
+                val vertex11 = Vertex()
+                    .also {
+                    it.d =
+                        Direction.DOWN
                     it.p = MyPointF(0f,-sideE*0.5f)
                 }
 
@@ -338,9 +387,9 @@ class Square2Diamond01Drawable: MyDrawable() {
             vertexLst.forEach {  vertex ->
                 when (vertex.d) {
                     Direction.RIGHT -> vertex.p.x += sideE*ratioDiv
-                    Direction.LEFT  -> vertex.p.x -= sideE*ratioDiv
-                    Direction.UP    -> vertex.p.y += sideE*ratioDiv
-                    Direction.DOWN  -> vertex.p.y -= sideE*ratioDiv
+                    Direction.LEFT -> vertex.p.x -= sideE*ratioDiv
+                    Direction.UP -> vertex.p.y += sideE*ratioDiv
+                    Direction.DOWN -> vertex.p.y -= sideE*ratioDiv
                     else -> {}
                 }
             }

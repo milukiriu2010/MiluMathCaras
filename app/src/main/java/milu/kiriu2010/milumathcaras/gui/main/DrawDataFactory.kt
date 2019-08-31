@@ -468,6 +468,8 @@ class DrawDataFactory {
                 }
                 // 敷き詰めた多角形を描画するメニュー
                 MenuItem.MENU_POLYGON_TILE -> {
+                    // カメルーンの国旗⇔セネガルの国旗01
+                    drawDataLst.add(DrawData(DrawDataID.ID_000617_CAMEROON_2_SENEGAL_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000617_polygon_cameroon_2_senegal_01) ))
                     // ギニアの国旗⇔マリの国旗01
                     drawDataLst.add(DrawData(DrawDataID.ID_000616_GUINEA_2_MALI_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000616_polygon_guinea_2_mali_01) ))
                     // 正方形⇔正方形

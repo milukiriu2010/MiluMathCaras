@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.tile
+package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.square.tile
 
 import android.graphics.*
 import android.os.Handler
@@ -48,7 +48,8 @@ class Square2Square01Drawable: MyDrawable() {
     private val b = a*sqrt(2f)
 
     // 現在の移動方向
-    private var modeNow = ModePtrn.BUD
+    private var modeNow =
+        ModePtrn.BUD
 
     // 1ターン内の移動比率
     private var ratioNow = 0f
@@ -205,7 +206,8 @@ class Square2Square01Drawable: MyDrawable() {
     // -------------------------------
     private fun createPathBUD() {
         // 偶数:上
-        val s1 = Square()
+        val s1 =
+            Square()
         (0..3).forEach { i ->
             val ii = i.toFloat()
             val cos1 = a*MyMathUtil.cosf(ii*90f+45f)
@@ -230,7 +232,8 @@ class Square2Square01Drawable: MyDrawable() {
         squareLst.add(s1)
 
         // 奇数:下
-        val s2 = Square()
+        val s2 =
+            Square()
         (0..3).forEach { i ->
             val ii = i.toFloat()
             val cos1 = a*MyMathUtil.cosf(ii*90f+45f)
@@ -261,7 +264,8 @@ class Square2Square01Drawable: MyDrawable() {
     // -------------------------------
     private fun createPathWDU() {
         // 偶数:下
-        val s1 = Square()
+        val s1 =
+            Square()
         (0..3).forEach { i ->
             val ii = i.toFloat()
             val cos1 = a*MyMathUtil.cosf(ii*90f)
@@ -286,7 +290,8 @@ class Square2Square01Drawable: MyDrawable() {
         squareLst.add(s1)
 
         // 奇数:上
-        val s2 = Square()
+        val s2 =
+            Square()
         (0..3).forEach { i ->
             val ii = i.toFloat()
             val cos1 = a*MyMathUtil.cosf(ii*90f+90f)
@@ -317,7 +322,8 @@ class Square2Square01Drawable: MyDrawable() {
     // -------------------------------
     private fun createPathWLR() {
         // 偶数:左
-        val s1 = Square()
+        val s1 =
+            Square()
         (0..3).forEach { i ->
             val ii = i.toFloat()
             val cos1 = a*MyMathUtil.cosf(ii*90f+45f)
@@ -342,7 +348,8 @@ class Square2Square01Drawable: MyDrawable() {
         squareLst.add(s1)
 
         // 奇数:右
-        val s2 = Square()
+        val s2 =
+            Square()
         (0..3).forEach { i ->
             val ii = i.toFloat()
             val cos1 = a*MyMathUtil.cosf(ii*90f+45f)
@@ -373,7 +380,8 @@ class Square2Square01Drawable: MyDrawable() {
     // -------------------------------
     private fun createPathBRL() {
         // 偶数:右
-        val s1 = Square()
+        val s1 =
+            Square()
         (0..3).forEach { i ->
             val ii = i.toFloat()
             val cos1 = a*MyMathUtil.cosf(ii*90f)
@@ -398,7 +406,8 @@ class Square2Square01Drawable: MyDrawable() {
         squareLst.add(s1)
 
         // 奇数:左
-        val s2 = Square()
+        val s2 =
+            Square()
         (0..3).forEach { i ->
             val ii = i.toFloat()
             val cos1 = a*MyMathUtil.cosf(ii*90f+90f)

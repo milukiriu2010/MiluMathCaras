@@ -54,9 +54,16 @@ import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.hexagon.HexagonScale02Dr
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.polygon.*
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.square.Square2Cross01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.square.SquareInSquare01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.square.tile.Square2Diamond01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.square.tile.Square2Diamond02Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.square.tile.Square2Square01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.square.tile.SquareCross01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.tile.*
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.triangle.*
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.triangle.center.*
+import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.triangle.tile.Triangle2Diamond01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.triangle.tile.Triangle2Hexagon01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.triangle.tile.Triangle2Hexagon02Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.wave.color.RgbWeaveWave01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.wave.sine.*
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
@@ -355,6 +362,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000615_SQUARE_2_SQUARE_01 -> Square2Square01Drawable()
                 // ギニアの国旗⇔マリの国旗01
                 DrawDataID.ID_000616_GUINEA_2_MALI_01 -> Guinea2Mali01Drawable()
+                // カメルーンの国旗⇔セネガルの国旗01
+                DrawDataID.ID_000617_CAMEROON_2_SENEGAL_01 -> Cameroon2Senegal01Drawable()
                 // 三角形out三角形
                 DrawDataID.ID_000701_3_OUT_3 -> PolygonOutPolygon01Drawable()
                 // 三角形out四角形

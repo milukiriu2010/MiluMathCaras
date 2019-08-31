@@ -7,11 +7,11 @@ import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 
 // ---------------------------------------------
-// ギニアの国旗⇔マリの国旗01
+// カメルーンの国旗⇔セネガルの国旗01
 // ---------------------------------------------
-// 2019.08.28
+// 2019.08.30
 // ---------------------------------------------
-class Guinea2Mali01Drawable: MyDrawable() {
+class Cameroon2Senegal01Drawable: MyDrawable() {
 
     enum class Mode {
         PH1,
@@ -65,10 +65,10 @@ class Guinea2Mali01Drawable: MyDrawable() {
     // パスの初期化を実施したかどうか
     private var isInitialized = false
 
-    // ギニア国旗の四角形リスト
+    // カメルーン国旗の四角形リスト
     private val square0Lst = mutableListOf<Square>()
 
-    // マリ国旗の四角形リスト
+    // セネガル国旗の四角形リスト
     private val square1Lst = mutableListOf<Square>()
 
 
@@ -93,7 +93,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
     // ペイント赤
     // ---------------------------------
     private val redPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = 0xff880000.toInt()
+        color = Color.RED
         style = Paint.Style.FILL
     }
 
@@ -614,6 +614,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
         canvas.save()
         canvas.translate(x0,y0)
 
+        /*
         // 国旗を描く
         (0..splitHN-1).forEach { h ->
             val hh = h.toFloat()
@@ -628,9 +629,9 @@ class Guinea2Mali01Drawable: MyDrawable() {
                 val hw1 = (h+w)%2
 
                 when (hw1) {
-                    // ギニア国旗を描画
+                    // カメルーン国旗を描画
                     0 -> drawGuinea(canvas)
-                    // マリ国旗を描画
+                    // セネガル国旗を描画
                     1 -> drawMali(canvas)
                 }
             }
@@ -655,11 +656,11 @@ class Guinea2Mali01Drawable: MyDrawable() {
             canvas.restore()
         }
 
-
         canvas.restore()
 
+         */
 
-        /*
+
         canvas.saveLayer(0f,0f,flagW,flagH,null)
 
         canvas.translate(flagW2,flagH2)
@@ -681,8 +682,35 @@ class Guinea2Mali01Drawable: MyDrawable() {
             path0.close()
             canvas.drawPath(path0,square0.paint)
         }
-         */
 
+        canvas.restore()
+
+        canvas.saveLayer(flagW,0f,2f*flagW,flagH,null)
+
+        canvas.translate(flagW+flagW2,flagH2)
+
+        (0..3).forEach { i ->
+            val square0 = square1Lst[i]
+            val path0 = Path()
+            var p0 = square0.ps[0]
+            square0.ps.forEachIndexed { id, p ->
+                if (id == 0) {
+                    path0.moveTo(p.x,p.y)
+                }
+                else {
+                    val p1 = p.copy()
+                    p1.rotate(-ratioNow*angle,p0)
+                    path0.lineTo(p1.x,p1.y)
+                }
+            }
+            path0.close()
+            canvas.drawPath(path0,square0.paint)
+        }
+
+        canvas.restore()
+
+
+        canvas.restore()
 
 
         // 枠を描画
@@ -694,7 +722,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
     }
 
-    // ギニア国旗を描画
+    // カメルーン国旗を描画
     private fun drawGuinea(canvas: Canvas) {
         (0..3).forEach { i ->
             val square0 = square0Lst[i]
@@ -715,7 +743,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
         }
     }
 
-    // マリ国旗を描画
+    // セネガル国旗を描画
     private fun drawMali(canvas: Canvas) {
         (0..3).forEach { i ->
             val square0 = square1Lst[i]

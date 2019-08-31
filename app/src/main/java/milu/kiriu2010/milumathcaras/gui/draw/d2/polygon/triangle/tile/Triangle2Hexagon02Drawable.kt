@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.tile
+package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.triangle.tile
 
 import android.graphics.*
 import android.os.Handler
@@ -192,7 +192,8 @@ class Triangle2Hexagon02Drawable: MyDrawable() {
         (0..5).forEach { i ->
             val ii = i.toFloat()
 
-            val triangle = Triangle()
+            val triangle =
+                Triangle()
             // 三角形の頂点
             (0..2).forEach { j ->
                 val jj = j.toFloat()
@@ -215,7 +216,8 @@ class Triangle2Hexagon02Drawable: MyDrawable() {
             }
 
             // 描画モード
-            triangle.mode = Mode.TRI2HEX
+            triangle.mode =
+                Mode.TRI2HEX
             // 色
             triangle.color = if (i%2==0) 0xff19b5fe.toInt() else Color.WHITE
             // 移動比率の位置
@@ -278,7 +280,8 @@ class Triangle2Hexagon02Drawable: MyDrawable() {
         }
 
         // 描画モード
-        triangle.mode = Mode.TRI2HEX
+        triangle.mode =
+            Mode.TRI2HEX
         // 移動比率の位置を初期化
         triangle.ratioId = 0
     }
@@ -287,7 +290,7 @@ class Triangle2Hexagon02Drawable: MyDrawable() {
     // 三角形再生成
     // 六角形⇒三角形
     // ---------------------------------------
-    private fun createHex2Tri(triangle: Triangle,ii: Float) {
+    private fun createHex2Tri(triangle: Triangle, ii: Float) {
         triangle.slst.clear()
         triangle.elst.clear()
 
@@ -313,7 +316,8 @@ class Triangle2Hexagon02Drawable: MyDrawable() {
         }
 
         // 描画モード
-        triangle.mode = Mode.HEX2TRI
+        triangle.mode =
+            Mode.HEX2TRI
         // 移動比率の位置を初期化
         triangle.ratioId = 0
     }

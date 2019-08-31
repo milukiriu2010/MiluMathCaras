@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.tile
+package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.triangle.tile
 
 import android.graphics.*
 import android.os.Handler
@@ -232,7 +232,8 @@ class Triangle2Diamond01Drawable: MyDrawable() {
 
 
     // 現在の三角形の向き
-    private var modeDirNow = ModeDir.DOWN1
+    private var modeDirNow =
+        ModeDir.DOWN1
 
     // 1ターン内の移動比率
     private var ratioNow = 0f
@@ -392,8 +393,8 @@ class Triangle2Diamond01Drawable: MyDrawable() {
         when (modeDirNow) {
             ModeDir.DOWN1 -> createPathDOWN1()
             ModeDir.DOWN2 -> createPathDOWN2()
-            ModeDir.UP1   -> createPathUP1()
-            ModeDir.UP2   -> createPathUP2()
+            ModeDir.UP1 -> createPathUP1()
+            ModeDir.UP2 -> createPathUP2()
         }
 
         nCnt++
@@ -409,8 +410,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
         // -----------------------------------------------
 
         // パターン０―１つ目
-        val v01 = Vertex().also {
-            it.ms = ModeSplit.UP
+        val v01 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.UP
             // 起点位置
             it.slst.add(b0.copy())  // 0
             it.slst.add(a1.copy())  // 1
@@ -425,8 +428,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(c0.copy())  // 4
         }
         // パターン０―２つ目
-        val v02 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v02 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(b2.copy())  // 0
             it.slst.add(a0.copy())  // 1
@@ -441,8 +446,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(c2.copy())  // 4
         }
         // パターン０―３つ目
-        val v03 = Vertex().also {
-            it.ms = ModeSplit.UP
+        val v03 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.UP
             // 起点位置
             it.slst.add(b0.copy())  // 0
             it.slst.add(a1.copy())  // 1
@@ -457,8 +464,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(c0.copy())  // 4
         }
         // パターン０―４つ目
-        val v04 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v04 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(b2.copy())  // 0
             it.slst.add(a0.copy())  // 1
@@ -473,8 +482,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(c2.copy())  // 4
         }
         // パターン０―５つ目
-        val v05 = Vertex().also {
-            it.ms = ModeSplit.UP
+        val v05 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.UP
             // 起点位置
             it.slst.add(b0.copy())  // 0
             it.slst.add(a1.copy())  // 1
@@ -489,8 +500,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(c0.copy())  // 4
         }
         // パターン０―６つ目
-        val v06 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v06 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(b1.copy())  // 0
             it.slst.add(a2.copy())  // 1
@@ -517,8 +530,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
         // -----------------------------------------------
 
         // パターン１―１つ目
-        val v11 = Vertex().also {
-            it.ms = ModeSplit.UP
+        val v11 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.UP
             // 起点位置
             it.slst.add(b0.copy())  // 0
             it.slst.add(a1.copy())  // 1
@@ -533,8 +548,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(c0.copy())  // 4
         }
         // パターン１―２つ目
-        val v12 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v12 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(b1.copy())  // 0
             it.slst.add(a2.copy())  // 1
@@ -549,8 +566,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(c1.copy())  // 4
         }
         // パターン１―３つ目
-        val v13 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v13 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(b1.copy())  // 0
             it.slst.add(a2.copy())  // 1
@@ -565,8 +584,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(c1.copy())  // 4
         }
         // パターン１―４つ目
-        val v14 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v14 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(b2.copy())  // 0
             it.slst.add(a0.copy())  // 1
@@ -581,8 +602,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(c2.copy())  // 4
         }
         // パターン１―５つ目
-        val v15 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v15 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(b2.copy())  // 0
             it.slst.add(a0.copy())  // 1
@@ -597,8 +620,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(c2.copy())  // 4
         }
         // パターン１―６つ目
-        val v16 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v16 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(b2.copy())  // 0
             it.slst.add(a0.copy())  // 1
@@ -625,8 +650,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
         // -----------------------------------------------
 
         // パターン２―１つ目
-        val v21 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v21 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(b1.copy())  // 0
             it.slst.add(a2.copy())  // 1
@@ -641,8 +668,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(c1.copy())  // 4
         }
         // パターン２―２つ目
-        val v22 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v22 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(b2.copy())  // 0
             it.slst.add(a0.copy())  // 1
@@ -657,8 +686,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(c2.copy())  // 4
         }
         // パターン２―３つ目
-        val v23 = Vertex().also {
-            it.ms = ModeSplit.UP
+        val v23 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.UP
             // 起点位置
             it.slst.add(b0.copy())  // 0
             it.slst.add(a1.copy())  // 1
@@ -673,8 +704,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(c0.copy())  // 0
         }
         // パターン２―４つ目
-        val v24 = Vertex().also {
-            it.ms = ModeSplit.UP
+        val v24 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.UP
             // 起点位置
             it.slst.add(b0.copy())  // 0
             it.slst.add(a1.copy())  // 1
@@ -689,8 +722,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(c0.copy())  // 0
         }
         // パターン２―５つ目
-        val v25 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v25 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(b1.copy())  // 0
             it.slst.add(a2.copy())  // 1
@@ -705,8 +740,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(c1.copy())  // 4
         }
         // パターン２―６つ目
-        val v26 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v26 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(b1.copy())  // 0
             it.slst.add(a2.copy())  // 1
@@ -739,8 +776,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
         // -----------------------------------------------
 
         // パターン０―１つ目
-        val v01 = Vertex().also {
-            it.ms = ModeSplit.UP
+        val v01 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.UP
             // 起点位置
             it.slst.add(d0.copy())  // 0
             it.slst.add(c0.copy())  // 1
@@ -759,8 +798,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(d0.copy())  // 6
         }
         // パターン０―２つ目
-        val v02 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v02 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(d6.copy())  // 0
             it.slst.add(c2.copy())  // 1
@@ -779,8 +820,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(d6.copy())  // 6
         }
         // パターン０―３つ目
-        val v03 = Vertex().also {
-            it.ms = ModeSplit.UP
+        val v03 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.UP
             // 起点位置
             it.slst.add(d0.copy())  // 0
             it.slst.add(c0.copy())  // 1
@@ -799,8 +842,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(d0.copy())  // 6
         }
         // パターン０―４つ目
-        val v04 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v04 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(d6.copy())  // 0
             it.slst.add(c2.copy())  // 1
@@ -819,8 +864,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(d6.copy())  // 6
         }
         // パターン０―５つ目
-        val v05 = Vertex().also {
-            it.ms = ModeSplit.UP
+        val v05 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.UP
             // 起点位置
             it.slst.add(d0.copy())  // 0
             it.slst.add(c0.copy())  // 1
@@ -839,8 +886,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(d0.copy())  // 6
         }
         // パターン０―６つ目
-        val v06 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v06 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(d3.copy())  // 0
             it.slst.add(c1.copy())  // 1
@@ -871,8 +920,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
         // -----------------------------------------------
 
         // パターン１―１つ目
-        val v11 = Vertex().also {
-            it.ms = ModeSplit.UP
+        val v11 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.UP
             // 起点位置
             it.slst.add(d0.copy())  // 0
             it.slst.add(c0.copy())  // 1
@@ -891,8 +942,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(d0.copy())  // 6
         }
         // パターン１―２つ目
-        val v12 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v12 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(d3.copy())  // 0
             it.slst.add(c1.copy())  // 1
@@ -911,8 +964,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(d3.copy())  // 6
         }
         // パターン１―３つ目
-        val v13 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v13 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(d3.copy())  // 0
             it.slst.add(c1.copy())  // 1
@@ -931,8 +986,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(d3.copy())  // 6
         }
         // パターン１―４つ目
-        val v14 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v14 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(d6.copy())  // 0
             it.slst.add(c2.copy())  // 1
@@ -951,8 +1008,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(d6.copy())  // 6
         }
         // パターン１―５つ目
-        val v15 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v15 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(d6.copy())  // 0
             it.slst.add(c2.copy())  // 1
@@ -971,8 +1030,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(d6.copy())  // 6
         }
         // パターン１―６つ目
-        val v16 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v16 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(d6.copy())  // 0
             it.slst.add(c2.copy())  // 1
@@ -1003,8 +1064,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
         // -----------------------------------------------
 
         // パターン２―１つ目
-        val v21 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v21 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(d3.copy())  // 0
             it.slst.add(c1.copy())  // 1
@@ -1023,8 +1086,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(d3.copy())  // 6
         }
         // パターン２―２つ目
-        val v22 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v22 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(d6.copy())  // 0
             it.slst.add(c2.copy())  // 1
@@ -1043,8 +1108,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(d6.copy())  // 6
         }
         // パターン２―３つ目
-        val v23 = Vertex().also {
-            it.ms = ModeSplit.UP
+        val v23 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.UP
             // 起点位置
             it.slst.add(d0.copy())  // 0
             it.slst.add(c0.copy())  // 1
@@ -1063,8 +1130,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(d0.copy())  // 6
         }
         // パターン２―４つ目
-        val v24 = Vertex().also {
-            it.ms = ModeSplit.UP
+        val v24 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.UP
             // 起点位置
             it.slst.add(d0.copy())  // 0
             it.slst.add(c0.copy())  // 1
@@ -1083,8 +1152,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(d0.copy())  // 6
         }
         // パターン２―５つ目
-        val v25 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v25 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(d3.copy())  // 0
             it.slst.add(c1.copy())  // 1
@@ -1103,8 +1174,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(d3.copy())  // 6
         }
         // パターン２―６つ目
-        val v26 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v26 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(d3.copy())  // 0
             it.slst.add(c1.copy())  // 1
@@ -1141,8 +1214,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
         // -----------------------------------------------
 
         // パターン０―１つ目
-        val v01 = Vertex().also {
-            it.ms = ModeSplit.DOWN
+        val v01 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.DOWN
             // 起点位置
             it.slst.add(l0.copy())  // 0
             it.slst.add(k2.copy())  // 1
@@ -1157,8 +1232,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(m0.copy())  // 4
         }
         // パターン０―２つ目
-        val v02 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v02 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(l1.copy())  // 0
             it.slst.add(k0.copy())  // 1
@@ -1173,8 +1250,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(m1.copy())  // 4
         }
         // パターン０―３つ目
-        val v03 = Vertex().also {
-            it.ms = ModeSplit.DOWN
+        val v03 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.DOWN
             // 起点位置
             it.slst.add(l0.copy())  // 0
             it.slst.add(k2.copy())  // 1
@@ -1189,8 +1268,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(m0.copy())  // 4
         }
         // パターン０―４つ目
-        val v04 = Vertex().also {
-            it.ms = ModeSplit.DOWN
+        val v04 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.DOWN
             // 起点位置
             it.slst.add(l0.copy())  // 0
             it.slst.add(k2.copy())  // 1
@@ -1205,8 +1286,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(m0.copy())  // 4
         }
         // パターン０―５つ目
-        val v05 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v05 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(l2.copy())  // 0
             it.slst.add(k1.copy())  // 1
@@ -1221,8 +1304,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(m2.copy())  // 4
         }
         // パターン０―６つ目
-        val v06 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v06 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(l1.copy())  // 0
             it.slst.add(k0.copy())  // 1
@@ -1249,8 +1334,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
         // -----------------------------------------------
 
         // パターン１―１つ目
-        val v11 = Vertex().also {
-            it.ms = ModeSplit.DOWN
+        val v11 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.DOWN
             // 起点位置
             it.slst.add(l0.copy())  // 0
             it.slst.add(k2.copy())  // 1
@@ -1265,8 +1352,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(m0.copy())  // 4
         }
         // パターン１―２つ目
-        val v12 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v12 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(l2.copy())  // 0
             it.slst.add(k1.copy())  // 1
@@ -1281,8 +1370,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(m2.copy())  // 4
         }
         // パターン１―３つ目
-        val v13 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v13 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(l1.copy())  // 0
             it.slst.add(k0.copy())  // 1
@@ -1297,8 +1388,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(m1.copy())  // 4
         }
         // パターン１―４つ目
-        val v14 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v14 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(l1.copy())  // 0
             it.slst.add(k0.copy())  // 1
@@ -1313,8 +1406,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(m1.copy())  // 4
         }
         // パターン１―５つ目
-        val v15 = Vertex().also {
-            it.ms = ModeSplit.DOWN
+        val v15 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.DOWN
             // 起点位置
             it.slst.add(l0.copy())  // 0
             it.slst.add(k2.copy())  // 1
@@ -1329,8 +1424,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(m0.copy())  // 4
         }
         // パターン１―６つ目
-        val v16 = Vertex().also {
-            it.ms = ModeSplit.DOWN
+        val v16 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.DOWN
             // 起点位置
             it.slst.add(l0.copy())  // 0
             it.slst.add(k2.copy())  // 1
@@ -1358,8 +1455,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
         // -----------------------------------------------
 
         // パターン２―１つ目
-        val v21 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v21 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(l1.copy())  // 0
             it.slst.add(k0.copy())  // 1
@@ -1374,8 +1473,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(m1.copy())  // 4
         }
         // パターン２―２つ目
-        val v22 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v22 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(l1.copy())  // 0
             it.slst.add(k0.copy())  // 1
@@ -1390,8 +1491,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(m1.copy())  // 4
         }
         // パターン２―３つ目
-        val v23 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v23 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(l2.copy())  // 0
             it.slst.add(k1.copy())  // 1
@@ -1406,8 +1509,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(m2.copy())  // 4
         }
         // パターン２―４つ目
-        val v24 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v24 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(l2.copy())  // 0
             it.slst.add(k1.copy())  // 1
@@ -1422,8 +1527,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(m2.copy())  // 4
         }
         // パターン２―５つ目
-        val v25 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v25 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(l2.copy())  // 0
             it.slst.add(k1.copy())  // 1
@@ -1438,8 +1545,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(m2.copy())  // 4
         }
         // パターン２―６つ目
-        val v26 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v26 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(l2.copy())  // 0
             it.slst.add(k1.copy())  // 1
@@ -1473,8 +1582,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
         // -----------------------------------------------
 
         // パターン０―１つ目
-        val v01 = Vertex().also {
-            it.ms = ModeSplit.DOWN
+        val v01 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.DOWN
             // 起点位置
             it.slst.add(n0.copy())  // 0
             it.slst.add(m0.copy())  // 1
@@ -1493,8 +1604,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(n0.copy())  // 6
         }
         // パターン０―２つ目
-        val v02 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v02 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(n3.copy())  // 0
             it.slst.add(m1.copy())  // 1
@@ -1513,8 +1626,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(n3.copy())  // 6
         }
         // パターン０―３つ目
-        val v03 = Vertex().also {
-            it.ms = ModeSplit.DOWN
+        val v03 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.DOWN
             // 起点位置
             it.slst.add(n0.copy())  // 0
             it.slst.add(m0.copy())  // 1
@@ -1533,8 +1648,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(n0.copy())  // 6
         }
         // パターン０―４つ目
-        val v04 = Vertex().also {
-            it.ms = ModeSplit.DOWN
+        val v04 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.DOWN
             // 起点位置
             it.slst.add(n0.copy())  // 0
             it.slst.add(m0.copy())  // 1
@@ -1553,8 +1670,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(n0.copy())  // 6
         }
         // パターン０―５つ目
-        val v05 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v05 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(n6.copy())  // 0
             it.slst.add(m2.copy())  // 1
@@ -1573,8 +1692,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(n6.copy())  // 6
         }
         // パターン０―６つ目
-        val v06 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v06 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(n3.copy())  // 0
             it.slst.add(m1.copy())  // 1
@@ -1605,8 +1726,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
         // -----------------------------------------------
 
         // パターン１―１つ目
-        val v11 = Vertex().also {
-            it.ms = ModeSplit.DOWN
+        val v11 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.DOWN
             // 起点位置
             it.slst.add(n0.copy())  // 0
             it.slst.add(m0.copy())  // 1
@@ -1625,8 +1748,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(n0.copy())  // 6
         }
         // パターン１―２つ目
-        val v12 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v12 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(n6.copy())  // 0
             it.slst.add(m2.copy())  // 1
@@ -1645,8 +1770,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(n6.copy())  // 6
         }
         // パターン１―３つ目
-        val v13 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v13 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(n3.copy())  // 0
             it.slst.add(m1.copy())  // 1
@@ -1665,8 +1792,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(n3.copy())  // 6
         }
         // パターン１―４つ目
-        val v14 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v14 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(n3.copy())  // 0
             it.slst.add(m1.copy())  // 1
@@ -1685,8 +1814,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(n3.copy())  // 6
         }
         // パターン１―５つ目
-        val v15 = Vertex().also {
-            it.ms = ModeSplit.DOWN
+        val v15 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.DOWN
             // 起点位置
             it.slst.add(n0.copy())  // 0
             it.slst.add(m0.copy())  // 1
@@ -1705,8 +1836,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(n0.copy())  // 6
         }
         // パターン１―６つ目
-        val v16 = Vertex().also {
-            it.ms = ModeSplit.DOWN
+        val v16 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.DOWN
             // 起点位置
             it.slst.add(n0.copy())  // 0
             it.slst.add(m0.copy())  // 1
@@ -1737,8 +1870,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
         // -----------------------------------------------
 
         // パターン２―１つ目
-        val v21 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v21 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(n3.copy())  // 0
             it.slst.add(m1.copy())  // 1
@@ -1757,8 +1892,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(n3.copy())  // 6
         }
         // パターン２―２つ目
-        val v22 = Vertex().also {
-            it.ms = ModeSplit.RIGHT
+        val v22 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.RIGHT
             // 起点位置
             it.slst.add(n3.copy())  // 0
             it.slst.add(m1.copy())  // 1
@@ -1777,8 +1914,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(n3.copy())  // 6
         }
         // パターン２―３つ目
-        val v23 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v23 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(n6.copy())  // 0
             it.slst.add(m2.copy())  // 1
@@ -1797,8 +1936,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(n6.copy())  // 6
         }
         // パターン２―４つ目
-        val v24 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v24 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(n6.copy())  // 0
             it.slst.add(m2.copy())  // 1
@@ -1817,8 +1958,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(n6.copy())  // 6
         }
         // パターン２―５つ目
-        val v25 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v25 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(n6.copy())  // 0
             it.slst.add(m2.copy())  // 1
@@ -1837,8 +1980,10 @@ class Triangle2Diamond01Drawable: MyDrawable() {
             it.elst.add(n6.copy())  // 6
         }
         // パターン２―６つ目
-        val v26 = Vertex().also {
-            it.ms = ModeSplit.LEFT
+        val v26 = Vertex()
+            .also {
+            it.ms =
+                ModeSplit.LEFT
             // 起点位置
             it.slst.add(n6.copy())  // 0
             it.slst.add(m2.copy())  // 1

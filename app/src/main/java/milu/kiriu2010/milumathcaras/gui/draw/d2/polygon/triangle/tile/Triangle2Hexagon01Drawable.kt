@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.tile
+package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.triangle.tile
 
 import android.graphics.*
 import android.os.Handler
@@ -183,7 +183,8 @@ class Triangle2Hexagon01Drawable: MyDrawable() {
     }
 
     // 現在の描画パターン
-    private var modePtrnNow = ModePtrn.PTRN1
+    private var modePtrnNow =
+        ModePtrn.PTRN1
 
     // 1ターン内の移動比率
     private var ratioNow = 0f
@@ -357,7 +358,8 @@ class Triangle2Hexagon01Drawable: MyDrawable() {
     // -------------------------------
     private fun createPathPtrn1(color1: Int = Color.RED, color2: Int = Color.GREEN, color3: Int = Color.BLUE ) {
         // R(DOWN)
-        val v0 = Vertex().also {
+        val v0 = Vertex()
+            .also {
             // 起点位置
             it.slst.add(a0.copy())
             it.slst.add(a0.copy())
@@ -380,7 +382,8 @@ class Triangle2Hexagon01Drawable: MyDrawable() {
             it.shv = 0f
         }
         // G(UP_RIGHT)
-        val v1 = Vertex().also {
+        val v1 = Vertex()
+            .also {
             // 起点位置
             it.slst.add(e0.copy())
             it.slst.add(e0.copy())
@@ -403,7 +406,8 @@ class Triangle2Hexagon01Drawable: MyDrawable() {
             it.shv = -h
         }
         // B(UP_LEFT)
-        val v2 = Vertex().also {
+        val v2 = Vertex()
+            .also {
             // 起点位置
             it.slst.add(f0.copy())
             it.slst.add(f0.copy())
@@ -450,7 +454,8 @@ class Triangle2Hexagon01Drawable: MyDrawable() {
     // -------------------------------
     private fun createPathPtrn2(color1: Int = Color.BLUE, color2: Int = Color.GREEN, color3: Int = Color.RED ) {
         // B(DOWN_LEFT)
-        val v0 = Vertex().also {
+        val v0 = Vertex()
+            .also {
             // 起点位置
             it.slst.add(c0.copy())
             it.slst.add(c0.copy())
@@ -473,7 +478,8 @@ class Triangle2Hexagon01Drawable: MyDrawable() {
             it.shv = 0f
         }
         // G(UP)
-        val v1 = Vertex().also {
+        val v1 = Vertex()
+            .also {
             // 起点位置
             it.slst.add(d0.copy())
             it.slst.add(d0.copy())
@@ -496,7 +502,8 @@ class Triangle2Hexagon01Drawable: MyDrawable() {
             it.shv = -h
         }
         // R(DOWN_RIGHT)
-        val v2 = Vertex().also {
+        val v2 = Vertex()
+            .also {
             // 起点位置
             it.slst.add(b0.copy())
             it.slst.add(b0.copy())

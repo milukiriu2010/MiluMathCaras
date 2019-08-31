@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.tile
+package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.square.tile
 
 import android.graphics.*
 import android.os.Handler
@@ -41,7 +41,8 @@ class Square2Diamond02Drawable: MyDrawable() {
     private val d = a*sqrt(2f)
 
     // 現在の分裂モード
-    private var modeSplitNow = ModeSplit.HORIZONTAL
+    private var modeSplitNow =
+        ModeSplit.HORIZONTAL
 
     // 1ターン内の移動比率
     private var ratioNow = 0f
@@ -181,7 +182,7 @@ class Square2Diamond02Drawable: MyDrawable() {
         // 分裂方向に合わせて、描画点の初期位置・移動方向を決定
         when (modeSplitNow) {
             ModeSplit.HORIZONTAL -> createPathHORIZONTAL()
-            ModeSplit.VERTICAL   -> createPathVERTICAL()
+            ModeSplit.VERTICAL -> createPathVERTICAL()
         }
 
         nCnt++
@@ -191,7 +192,8 @@ class Square2Diamond02Drawable: MyDrawable() {
     // 描画点のパス設定(HORIZONTAL)
     // -------------------------------
     private fun createPathHORIZONTAL() {
-        val v0 = Vertex().also {
+        val v0 = Vertex()
+            .also {
             // 起点位置
             it.slst.add(MyPointF(a,0f))
             it.slst.add(MyPointF(0f,0f))
@@ -204,7 +206,8 @@ class Square2Diamond02Drawable: MyDrawable() {
             it.elst.add(MyPointF(2f*a,a))
         }
 
-        val v1 = Vertex().also {
+        val v1 = Vertex()
+            .also {
             // 起点位置
             it.slst.add(MyPointF(0f,a))
             it.slst.add(MyPointF(a,a))
@@ -226,7 +229,8 @@ class Square2Diamond02Drawable: MyDrawable() {
     // 描画点のパス設定(VERTICAL)
     // -------------------------------
     private fun createPathVERTICAL() {
-        val v0 = Vertex().also {
+        val v0 = Vertex()
+            .also {
             // 起点位置
             it.slst.add(MyPointF(a,a))
             it.slst.add(MyPointF(a,0f))
@@ -239,7 +243,8 @@ class Square2Diamond02Drawable: MyDrawable() {
             it.elst.add(MyPointF(0f,2f*a))
         }
 
-        val v1 = Vertex().also {
+        val v1 = Vertex()
+            .also {
             // 起点位置
             it.slst.add(MyPointF(0f,0f))
             it.slst.add(MyPointF(0f,a))
