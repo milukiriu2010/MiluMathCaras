@@ -93,7 +93,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
     // ペイント赤
     // ---------------------------------
     private val redPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = 0xff880000.toInt()
+        color = 0xffcc0000.toInt()
         style = Paint.Style.FILL
     }
 
