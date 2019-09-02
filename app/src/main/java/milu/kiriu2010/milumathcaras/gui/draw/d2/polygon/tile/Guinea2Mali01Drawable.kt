@@ -23,7 +23,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
     }
 
     // 現在のモード
-    private var modeNow = Mode.PH1
+    private var modeNow = Mode.PH4
 
     // -------------------------------
     // 描画領域
@@ -60,7 +60,6 @@ class Guinea2Mali01Drawable: MyDrawable() {
     private val ratioMin = 0f
     private var ratioNow = ratioMin
     private val ratioDv = 0.1f
-    private val angle = 90f
 
     // パスの初期化を実施したかどうか
     private var isInitialized = false
@@ -71,6 +70,9 @@ class Guinea2Mali01Drawable: MyDrawable() {
     // マリ国旗の四角形リスト
     private val square1Lst = mutableListOf<Square>()
 
+    // squareXLstから利用するインデックスのリスト
+    private val ids0 = intArrayOf(0,3)
+    private val ids1 = intArrayOf(4,7)
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -214,7 +216,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
             modeNow = when (modeNow) {
                 Mode.PH1 -> Mode.PH2
                 Mode.PH2 -> Mode.PH3
-                Mode.PH3 -> Mode.PH4
+                Mode.PH3 -> Mode.PH3
                 Mode.PH4 -> Mode.PH5
                 Mode.PH5 -> Mode.PH6
                 Mode.PH6 -> Mode.PH1
@@ -235,14 +237,23 @@ class Guinea2Mali01Drawable: MyDrawable() {
         // パスの初期化を実施したかどうか
         isInitialized = true
     }
-
-    // パス生成(PH1)
+    // パス生成
     private fun createPathPH1() {
         square0Lst.clear()
         square1Lst.clear()
 
-        // 右下
-        val square0 = Square().also { square ->
+        // パス生成(PH1:左回り)
+        createPathPH1_1()
+
+        // パス生成(PH1:右回り)
+        createPathPH1_2()
+    }
+
+    // パス生成(PH1:左回り)
+    private fun createPathPH1_1() {
+
+        // 右下(左回り)
+        val square0 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(flagW6,0f))
             square.ps.add(MyPointF(flagW2,0f))
             square.ps.add(MyPointF(flagW2,flagH2))
@@ -254,8 +265,8 @@ class Guinea2Mali01Drawable: MyDrawable() {
             it.paint = redPaint
         })
 
-        // 右上
-        val square1 = Square().also { square ->
+        // 右上(左回り)
+        val square1 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(flagW6,0f))
             square.ps.add(MyPointF(flagW6,-flagH2))
             square.ps.add(MyPointF(flagW2,-flagH2))
@@ -267,8 +278,8 @@ class Guinea2Mali01Drawable: MyDrawable() {
             it.paint = redPaint
         })
 
-        // 左上
-        val square2 = Square().also { square ->
+        // 左上(左回り)
+        val square2 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(-flagW6,0f))
             square.ps.add(MyPointF(-flagW6,-flagH2))
             square.ps.add(MyPointF(-flagW2,-flagH2))
@@ -280,8 +291,64 @@ class Guinea2Mali01Drawable: MyDrawable() {
             it.paint = greenPaint
         })
 
-        // 左下
-        val square3 = Square().also { square ->
+        // 左下(左回り)
+        val square3 = Square(angle = -90f).also { square ->
+            square.ps.add(MyPointF(-flagW6,0f))
+            square.ps.add(MyPointF(-flagW6,flagH2))
+            square.ps.add(MyPointF(-flagW2,flagH2))
+            square.ps.add(MyPointF(-flagW2,0f))
+            square.paint = redPaint
+        }
+        square0Lst.add(square3)
+        square1Lst.add(square3.copy().also {
+            it.paint = greenPaint
+        })
+    }
+
+    // パス生成(PH1:右回り)
+    private fun createPathPH1_2() {
+
+        // 右下(右回り)
+        val square0 = Square(angle = 90f).also { square ->
+            square.ps.add(MyPointF(flagW6,0f))
+            square.ps.add(MyPointF(flagW2,0f))
+            square.ps.add(MyPointF(flagW2,flagH2))
+            square.ps.add(MyPointF(flagW6,flagH2))
+            square.paint = greenPaint
+        }
+        square0Lst.add(square0)
+        square1Lst.add(square0.copy().also {
+            it.paint = redPaint
+        })
+
+        // 右上(右回り)
+        val square1 = Square(angle = 90f).also { square ->
+            square.ps.add(MyPointF(flagW6,0f))
+            square.ps.add(MyPointF(flagW6,-flagH2))
+            square.ps.add(MyPointF(flagW2,-flagH2))
+            square.ps.add(MyPointF(flagW2,0f))
+            square.paint = greenPaint
+        }
+        square0Lst.add(square1)
+        square1Lst.add(square1.copy().also {
+            it.paint = redPaint
+        })
+
+        // 左上(右回り)
+        val square2 = Square(angle = 90f).also { square ->
+            square.ps.add(MyPointF(-flagW6,0f))
+            square.ps.add(MyPointF(-flagW6,-flagH2))
+            square.ps.add(MyPointF(-flagW2,-flagH2))
+            square.ps.add(MyPointF(-flagW2,0f))
+            square.paint = redPaint
+        }
+        square0Lst.add(square2)
+        square1Lst.add(square2.copy().also {
+            it.paint = greenPaint
+        })
+
+        // 左下(右回り)
+        val square3 = Square(angle = 90f).also { square ->
             square.ps.add(MyPointF(-flagW6,0f))
             square.ps.add(MyPointF(-flagW6,flagH2))
             square.ps.add(MyPointF(-flagW2,flagH2))
@@ -299,8 +366,17 @@ class Guinea2Mali01Drawable: MyDrawable() {
         square0Lst.clear()
         square1Lst.clear()
 
-        // 右上
-        val square0 = Square().also { square ->
+        // パス生成(PH2:左回り)
+        createPathPH2_1()
+
+        // パス生成(PH2:右回り)
+        createPathPH2_2()
+    }
+
+    // パス生成(PH2:左回り)
+    private fun createPathPH2_1() {
+        // 右上(左回り)
+        val square0 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(flagW6,0f))
             square.ps.add(MyPointF(flagW6,-flagH2))
             square.ps.add(MyPointF(flagW2,-flagH2))
@@ -312,8 +388,8 @@ class Guinea2Mali01Drawable: MyDrawable() {
             it.paint = redPaint
         })
 
-        // 上
-        val square1 = Square().also { square ->
+        // 上(左回り)
+        val square1 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(-flagW6,0f))
             square.ps.add(MyPointF(flagW6,0f))
             square.ps.add(MyPointF(flagW6,-flagH2))
@@ -325,8 +401,8 @@ class Guinea2Mali01Drawable: MyDrawable() {
             it.paint = redPaint
         })
 
-        // 左下
-        val square2 = Square().also { square ->
+        // 左下(左回り)
+        val square2 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(-flagW6,0f))
             square.ps.add(MyPointF(-flagW6,flagH2))
             square.ps.add(MyPointF(-flagW2,flagH2))
@@ -339,8 +415,8 @@ class Guinea2Mali01Drawable: MyDrawable() {
         })
 
 
-        // 下
-        val square3 = Square().also { square ->
+        // 下(左回り)
+        val square3 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(flagW6,0f))
             square.ps.add(MyPointF(-flagW6,0f))
             square.ps.add(MyPointF(-flagW6,flagH2))
@@ -353,13 +429,79 @@ class Guinea2Mali01Drawable: MyDrawable() {
         })
     }
 
+
+    // パス生成(PH2:右回り)
+    private fun createPathPH2_2() {
+        // 上(右回り)
+        val square0 = Square(angle = 90f).also { square ->
+            square.ps.add(MyPointF(flagW6,0f))
+            square.ps.add(MyPointF(-flagW6,0f))
+            square.ps.add(MyPointF(-flagW6,-flagH2))
+            square.ps.add(MyPointF(flagW6,-flagH2))
+            square.paint = redPaint
+        }
+        square0Lst.add(square0)
+        square1Lst.add(square0.copy().also {
+            it.paint = greenPaint
+        })
+
+        // 左上(右回り)
+        val square1 = Square(angle = 90f).also { square ->
+            square.ps.add(MyPointF(-flagW6,0f))
+            square.ps.add(MyPointF(-flagW6,-flagH2))
+            square.ps.add(MyPointF(-flagW2,-flagH2))
+            square.ps.add(MyPointF(-flagW2,0f))
+            square.paint = redPaint
+        }
+        square0Lst.add(square1)
+        square1Lst.add(square1.copy().also {
+            it.paint = greenPaint
+        })
+
+        // 下(右回り)
+        val square2 = Square(angle = 90f).also { square ->
+            square.ps.add(MyPointF(-flagW6,0f))
+            square.ps.add(MyPointF(flagW6,0f))
+            square.ps.add(MyPointF(flagW6,flagH2))
+            square.ps.add(MyPointF(-flagW6,flagH2))
+            square.paint = greenPaint
+        }
+        square0Lst.add(square2)
+        square1Lst.add(square2.copy().also {
+            it.paint = redPaint
+        })
+
+        // 右下(右回り)
+        val square3 = Square(angle = 90f).also { square ->
+            square.ps.add(MyPointF(flagW6,0f))
+            square.ps.add(MyPointF(flagW6,flagH2))
+            square.ps.add(MyPointF(flagW2,flagH2))
+            square.ps.add(MyPointF(flagW2,0f))
+            square.paint = greenPaint
+        }
+        square0Lst.add(square3)
+        square1Lst.add(square3.copy().also {
+            it.paint = redPaint
+        })
+    }
+
     // パス生成(PH3)
     private fun createPathPH3() {
         square0Lst.clear()
         square1Lst.clear()
 
+        // パス生成(PH3:左回り)
+        createPathPH3_1()
+
+        // パス生成(PH3:右回り)
+        createPathPH3_2()
+    }
+
+    // パス生成(PH3:左回り)
+    private fun createPathPH3_1() {
+
         // 上
-        val square0 = Square().also { square ->
+        val square0 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(-flagW6,0f))
             square.ps.add(MyPointF(flagW6,0f))
             square.ps.add(MyPointF(flagW6,-flagH2))
@@ -372,7 +514,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
         })
 
         // 左上
-        val square1 = Square().also { square ->
+        val square1 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(-flagW6,0f))
             square.ps.add(MyPointF(-flagW6,-flagH2))
             square.ps.add(MyPointF(-flagW2,-flagH2))
@@ -385,7 +527,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
         })
 
         // 下
-        val square2 = Square().also { square ->
+        val square2 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(flagW6,0f))
             square.ps.add(MyPointF(-flagW6,0f))
             square.ps.add(MyPointF(-flagW6,flagH2))
@@ -398,7 +540,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
         })
 
         // 右下
-        val square3 = Square().also { square ->
+        val square3 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(flagW6,0f))
             square.ps.add(MyPointF(flagW6,flagH2))
             square.ps.add(MyPointF(flagW2,flagH2))
@@ -412,13 +554,71 @@ class Guinea2Mali01Drawable: MyDrawable() {
 
     }
 
+
+    // パス生成(PH3:右回り)
+    private fun createPathPH3_2() {
+
+        // 上
+        val square0 = Square(angle = 90f).also { square ->
+            square.ps.add(MyPointF(flagW6,0f))
+            square.ps.add(MyPointF(flagW6,-flagH2))
+            square.ps.add(MyPointF(-flagW6,-flagH2))
+            square.ps.add(MyPointF(-flagW6,0f))
+            square.paint = redPaint
+        }
+        square0Lst.add(square0)
+        square1Lst.add(square0.copy().also {
+            it.paint = greenPaint
+        })
+
+        // 右上
+        val square1 = Square(angle = 90f).also { square ->
+            square.ps.add(MyPointF(flagW6,0f))
+            square.ps.add(MyPointF(flagW6,-flagH2))
+            square.ps.add(MyPointF(flagW2,-flagH2))
+            square.ps.add(MyPointF(flagW2,0f))
+            square.paint = redPaint
+        }
+        square0Lst.add(square1)
+        square1Lst.add(square1.copy().also {
+            it.paint = greenPaint
+        })
+
+        // 下
+        val square2 = Square(angle = 90f).also { square ->
+            square.ps.add(MyPointF(-flagW6,0f))
+            square.ps.add(MyPointF(flagW6,0f))
+            square.ps.add(MyPointF(flagW6,flagH2))
+            square.ps.add(MyPointF(-flagW6,flagH2))
+            square.paint = greenPaint
+        }
+        square0Lst.add(square2)
+        square1Lst.add(square2.copy().also {
+            it.paint = redPaint
+        })
+
+        // 左下
+        val square3 = Square(angle = 90f).also { square ->
+            square.ps.add(MyPointF(-flagW6,0f))
+            square.ps.add(MyPointF(-flagW6,flagH2))
+            square.ps.add(MyPointF(-flagW2,flagH2))
+            square.ps.add(MyPointF(-flagW2,0f))
+            square.paint = greenPaint
+        }
+        square0Lst.add(square3)
+        square1Lst.add(square3.copy().also {
+            it.paint = redPaint
+        })
+
+    }
+
     // パス生成(PH4)
     private fun createPathPH4() {
         square0Lst.clear()
         square1Lst.clear()
 
         // 左上
-        val square0 = Square().also { square ->
+        val square0 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(-flagW6,0f))
             square.ps.add(MyPointF(-flagW6,-flagH2))
             square.ps.add(MyPointF(-flagW2,-flagH2))
@@ -431,7 +631,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
         })
 
         // 左下
-        val square1 = Square().also { square ->
+        val square1 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(-flagW6,0f))
             square.ps.add(MyPointF(-flagW2,0f))
             square.ps.add(MyPointF(-flagW2,flagH2))
@@ -444,7 +644,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
         })
 
         // 右下
-        val square2 = Square().also { square ->
+        val square2 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(flagW6,0f))
             square.ps.add(MyPointF(flagW6,flagH2))
             square.ps.add(MyPointF(flagW2,flagH2))
@@ -457,7 +657,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
         })
 
         // 右上
-        val square3 = Square().also { square ->
+        val square3 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(flagW6,0f))
             square.ps.add(MyPointF(flagW2,0f))
             square.ps.add(MyPointF(flagW2,-flagH2))
@@ -477,7 +677,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
         square1Lst.clear()
 
         // 左下
-        val square0 = Square().also { square ->
+        val square0 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(-flagW6,0f))
             square.ps.add(MyPointF(-flagW2,0f))
             square.ps.add(MyPointF(-flagW2,flagH2))
@@ -490,7 +690,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
         })
 
         // 下
-        val square1 = Square().also { square ->
+        val square1 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(flagW6,0f))
             square.ps.add(MyPointF(-flagW6,0f))
             square.ps.add(MyPointF(-flagW6,flagH2))
@@ -503,7 +703,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
         })
 
         // 右上
-        val square2 = Square().also { square ->
+        val square2 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(flagW6,0f))
             square.ps.add(MyPointF(flagW2,0f))
             square.ps.add(MyPointF(flagW2,-flagH2))
@@ -516,7 +716,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
         })
 
         // 上
-        val square3 = Square().also { square ->
+        val square3 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(-flagW6,0f))
             square.ps.add(MyPointF(flagW6,0f))
             square.ps.add(MyPointF(flagW6,-flagH2))
@@ -536,7 +736,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
         square1Lst.clear()
 
         // 下
-        val square0 = Square().also { square ->
+        val square0 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(flagW6,0f))
             square.ps.add(MyPointF(-flagW6,0f))
             square.ps.add(MyPointF(-flagW6,flagH2))
@@ -549,7 +749,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
         })
 
         // 右下
-        val square1 = Square().also { square ->
+        val square1 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(flagW6,0f))
             square.ps.add(MyPointF(flagW6,flagH2))
             square.ps.add(MyPointF(flagW2,flagH2))
@@ -562,7 +762,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
         })
 
         // 上
-        val square2 = Square().also { square ->
+        val square2 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(-flagW6,0f))
             square.ps.add(MyPointF(flagW6,0f))
             square.ps.add(MyPointF(flagW6,-flagH2))
@@ -575,7 +775,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
         })
 
         // 左上
-        val square3 = Square().also { square ->
+        val square3 = Square(angle = -90f).also { square ->
             square.ps.add(MyPointF(-flagW6,0f))
             square.ps.add(MyPointF(-flagW6,-flagH2))
             square.ps.add(MyPointF(-flagW2,-flagH2))
@@ -629,9 +829,9 @@ class Guinea2Mali01Drawable: MyDrawable() {
 
                 when (hw1) {
                     // ギニア国旗を描画
-                    0 -> drawGuinea(canvas)
+                    0 -> drawGuinea(canvas,h%2)
                     // マリ国旗を描画
-                    1 -> drawMali(canvas)
+                    1 -> drawMali(canvas,h%2)
                 }
             }
             canvas.restore()
@@ -658,33 +858,6 @@ class Guinea2Mali01Drawable: MyDrawable() {
 
         canvas.restore()
 
-
-        /*
-        canvas.saveLayer(0f,0f,flagW,flagH,null)
-
-        canvas.translate(flagW2,flagH2)
-
-        (0..3).forEach { i ->
-            val square0 = square0Lst[i]
-            val path0 = Path()
-            var p0 = square0.ps[0]
-            square0.ps.forEachIndexed { id, p ->
-                if (id == 0) {
-                    path0.moveTo(p.x,p.y)
-                }
-                else {
-                    val p1 = p.copy()
-                    p1.rotate(-ratioNow*angle,p0)
-                    path0.lineTo(p1.x,p1.y)
-                }
-            }
-            path0.close()
-            canvas.drawPath(path0,square0.paint)
-        }
-         */
-
-
-
         // 枠を描画
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
@@ -695,8 +868,15 @@ class Guinea2Mali01Drawable: MyDrawable() {
     }
 
     // ギニア国旗を描画
-    private fun drawGuinea(canvas: Canvas) {
-        (0..3).forEach { i ->
+    private fun drawGuinea(canvas: Canvas,idsWhich: Int) {
+        val ids = when (idsWhich) {
+            0 -> ids0
+            1 -> ids1
+            else -> ids0
+        }
+
+
+        (ids[0]..ids[1]).forEach { i ->
             val square0 = square0Lst[i]
             val path0 = Path()
             var p0 = square0.ps[0]
@@ -706,7 +886,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
                 }
                 else {
                     val p1 = p.copy()
-                    p1.rotate(-ratioNow*angle,p0)
+                    p1.rotate(ratioNow*square0.angle,p0)
                     path0.lineTo(p1.x,p1.y)
                 }
             }
@@ -716,8 +896,14 @@ class Guinea2Mali01Drawable: MyDrawable() {
     }
 
     // マリ国旗を描画
-    private fun drawMali(canvas: Canvas) {
-        (0..3).forEach { i ->
+    private fun drawMali(canvas: Canvas,idsWhich: Int) {
+        val ids = when (idsWhich) {
+            0 -> ids0
+            1 -> ids1
+            else -> ids0
+        }
+
+        (ids[0]..ids[1]).forEach { i ->
             val square0 = square1Lst[i]
             val path0 = Path()
             var p0 = square0.ps[0]
@@ -727,7 +913,7 @@ class Guinea2Mali01Drawable: MyDrawable() {
                 }
                 else {
                     val p1 = p.copy()
-                    p1.rotate(-ratioNow*angle,p0)
+                    p1.rotate(ratioNow*square0.angle,p0)
                     path0.lineTo(p1.x,p1.y)
                 }
             }
@@ -776,6 +962,8 @@ class Guinea2Mali01Drawable: MyDrawable() {
     private data class Square(
         // 頂点リスト
         val ps: MutableList<MyPointF> = mutableListOf(),
+        // 回転角度
+        var angle: Float = 90f,
         // ペイント
         var paint: Paint = Paint()
     )
