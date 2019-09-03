@@ -51,6 +51,7 @@ class Cameroon2Senegal01Drawable: MyDrawable() {
     private val flagHX = flagH*0.5f
     private val flagH1 = 200f
     private val flagH2 = flagH1*0.5f
+    private val flagH4 = flagH1*0.25f
 
     // 境界
     private val bw = 36f
@@ -219,33 +220,6 @@ class Cameroon2Senegal01Drawable: MyDrawable() {
         // モードがPH1になった回数
         cnt = 0
 
-        // ☆を生成
-        createPathStar()
-    }
-
-    // ☆を生成
-    private fun createPathStar() {
-        starLst.clear()
-
-        val ang0 = floatArrayOf(18f,90f,162f,234f,306f)
-        val ang1 = floatArrayOf(54f,126f,198f,270f,342f)
-
-        val star0 = Star().also { star ->
-            (0..4).forEach { id ->
-                star.ps.add(MyPointF().also {
-                    it.x = flagW20 * MyMathUtil.cosf(ang0[id])
-                    it.y = flagW20 * MyMathUtil.sinf(ang0[id])
-                })
-                star.ps.add(MyPointF().also {
-                    it.x = flagW10 * MyMathUtil.cosf(ang1[id])
-                    it.y = flagW10 * MyMathUtil.sinf(ang1[id])
-                })
-            }
-            star.paint = starPaint
-        }
-        starLst.add(star0)
-        starLst.add(star0.copy())
-
     }
 
     // -------------------------------
@@ -309,6 +283,35 @@ class Cameroon2Senegal01Drawable: MyDrawable() {
             it.paint = redPaint
         })
 
+        // ☆を生成
+        createPathStarPH1()
+    }
+
+    // ☆を生成(PH1)
+    private fun createPathStarPH1() {
+        starLst.clear()
+
+        val ang0 = floatArrayOf(18f,90f,162f,234f,306f)
+        val ang1 = floatArrayOf(54f,126f,198f,270f,342f)
+
+        val star0 = Star(angle = -90f).also { star ->
+            (0..4).forEach { id ->
+                star.ps.add(MyPointF().also {
+                    it.x = flagW20 * MyMathUtil.cosf(ang0[id])
+                    it.y = flagW20 * MyMathUtil.sinf(ang0[id])
+                })
+                star.ps.add(MyPointF().also {
+                    it.x = flagW10 * MyMathUtil.cosf(ang1[id])
+                    it.y = flagW10 * MyMathUtil.sinf(ang1[id])
+                })
+            }
+            star.paint = yellowPaint
+        }
+        starLst.add(star0)
+        starLst.add(star0.copy().also{
+            it.paint = greenPaint
+        })
+
     }
 
     // パス生成(PH2)
@@ -340,6 +343,35 @@ class Cameroon2Senegal01Drawable: MyDrawable() {
         square0Lst.add(square1)
         square1Lst.add(square1.copy().also {
             it.paint = redPaint
+        })
+
+        // ☆を生成(PH2)
+        createPathStarPH2()
+    }
+
+    // ☆を生成(PH2)
+    private fun createPathStarPH2() {
+        starLst.clear()
+
+        val ang0 = floatArrayOf(18f,90f,162f,234f,306f)
+        val ang1 = floatArrayOf(54f,126f,198f,270f,342f)
+
+        val star0 = Star(angle = -90f).also { star ->
+            (0..4).forEach { id ->
+                star.ps.add(MyPointF().also {
+                    it.x = flagW20 * MyMathUtil.cosf(ang0[id]) + flagW2
+                    it.y = flagW20 * MyMathUtil.sinf(ang0[id]) - flagH4
+                })
+                star.ps.add(MyPointF().also {
+                    it.x = flagW10 * MyMathUtil.cosf(ang1[id]) + flagW2
+                    it.y = flagW10 * MyMathUtil.sinf(ang1[id]) - flagH4
+                })
+            }
+            star.paint = yellowPaint
+        }
+        starLst.add(star0)
+        starLst.add(star0.copy().also{
+            it.paint = greenPaint
         })
     }
 
@@ -418,6 +450,7 @@ class Cameroon2Senegal01Drawable: MyDrawable() {
             else -> ids0
         }
 
+        // 長方形描画
         (0..1).forEach { i ->
             val square0 = square0Lst[i]
             val path0 = Path()
@@ -437,14 +470,20 @@ class Cameroon2Senegal01Drawable: MyDrawable() {
             canvas.drawPath(path0,square0.paint)
         }
 
+        // ☆描画
+        var p0 = square0Lst[0].ps[base]
         val star = starLst[0]
         val path = Path()
         star.ps.forEachIndexed { id, p ->
+            val p1 = p.copy()
+            p1.rotate(ratioNow*star.angle*sign,p0)
             if (id == 0) {
-                path.moveTo(p.x,p.y)
+                //path.moveTo(p.x,p.y)
+                path.moveTo(p1.x,p1.y)
             }
             else {
-                path.lineTo(p.x,p.y)
+                //path.lineTo(p.x,p.y)
+                path.lineTo(p1.x,p1.y)
             }
         }
         path.close()
@@ -459,6 +498,7 @@ class Cameroon2Senegal01Drawable: MyDrawable() {
             else -> ids0
         }
 
+        // 長方形描画
         (0..1).forEach { i ->
             val square0 = square1Lst[i]
             val path0 = Path()
@@ -477,6 +517,23 @@ class Cameroon2Senegal01Drawable: MyDrawable() {
             path0.close()
             canvas.drawPath(path0,square0.paint)
         }
+
+        // ☆描画
+        var p0 = square1Lst[0].ps[base]
+        val star = starLst[1]
+        val path = Path()
+        star.ps.forEachIndexed { id, p ->
+            val p1 = p.copy()
+            p1.rotate(ratioNow*star.angle*sign,p0)
+            if (id == 0) {
+                path.moveTo(p1.x,p1.y)
+            }
+            else {
+                path.lineTo(p1.x,p1.y)
+            }
+        }
+        path.close()
+        canvas.drawPath(path,star.paint)
     }
 
     // -------------------------------
@@ -528,6 +585,8 @@ class Cameroon2Senegal01Drawable: MyDrawable() {
     private data class Star(
         // 頂点リスト
         val ps: MutableList<MyPointF> = mutableListOf(),
+        // 回転角度
+        var angle: Float = 90f,
         // ペイント
         var paint: Paint = Paint()
     )
