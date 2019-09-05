@@ -2,6 +2,7 @@ package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.tile
 
 import android.graphics.*
 import android.os.Handler
+import android.util.Log
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
@@ -63,6 +64,8 @@ class Guinea2Mali01Drawable: MyDrawable() {
 
     // パスの初期化を実施したかどうか
     private var isInitialized = false
+    // ratioNow=0にステイするかどうか
+    private var isStay = true
 
     // ギニア国旗の四角形リスト
     private val square0Lst = mutableListOf<Square>()
@@ -156,8 +159,8 @@ class Guinea2Mali01Drawable: MyDrawable() {
 
         // 描画に使うスレッド
         if ( isKickThread ) {
-            // パスの初期化を実施したかどうか
-            isInitialized = false
+            // 初期化
+            myinit()
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
@@ -170,7 +173,9 @@ class Guinea2Mali01Drawable: MyDrawable() {
                     // 描画
                     invalidateSelf()
 
-                    if (ratioNow >= ratioMax) {
+                    //if ((ratioNow <= ratioMin) or (ratioNow >= ratioMax)) {
+                    if ((ratioNow <= ratioMin) and (isStay == false)) {
+                        //Log.d(javaClass.simpleName,"ratioNow=${ratioNow}")
                         handler.postDelayed(runnable, 300)
                     }
                     else {
@@ -204,10 +209,21 @@ class Guinea2Mali01Drawable: MyDrawable() {
     }
 
     // -------------------------------
+    // 初期化
+    // -------------------------------
+    private fun myinit() {
+        // パスの初期化を実施したかどうか
+        isInitialized = false
+        // ratioNow=0にステイするかどうか
+        isStay = true
+    }
+
+    // -------------------------------
     // パスの初期化
     // -------------------------------
     private fun createPath() {
         if ( (ratioNow > ratioMin) and (ratioNow < ratioMax) ) return
+        if ( (ratioNow == 0f) and (isStay == false) ) return
 
         ratioNow = ratioMin
 
@@ -233,10 +249,12 @@ class Guinea2Mali01Drawable: MyDrawable() {
             Mode.PH6 -> createPathPH6()
         }
 
-
         // パスの初期化を実施したかどうか
         isInitialized = true
+        // ratioNow=0にステイするかどうか
+        isStay = true
     }
+
     // パス生成
     private fun createPathPH1() {
         square0Lst.clear()
@@ -688,11 +706,11 @@ class Guinea2Mali01Drawable: MyDrawable() {
             square.ps.add(MyPointF(-flagW6,-flagH2))
             square.ps.add(MyPointF(-flagW2,-flagH2))
             square.ps.add(MyPointF(-flagW2,0f))
-            square.paint = redPaint
+            square.paint = greenPaint
         }
         square0Lst.add(square0)
         square1Lst.add(square0.copy().also {
-            it.paint = greenPaint
+            it.paint = redPaint
         })
 
         // 左下
@@ -701,11 +719,11 @@ class Guinea2Mali01Drawable: MyDrawable() {
             square.ps.add(MyPointF(-flagW2,0f))
             square.ps.add(MyPointF(-flagW2,flagH2))
             square.ps.add(MyPointF(-flagW6,flagH2))
-            square.paint = redPaint
+            square.paint = greenPaint
         }
         square0Lst.add(square1)
         square1Lst.add(square1.copy().also {
-            it.paint = greenPaint
+            it.paint = redPaint
         })
 
         // 右下
@@ -714,11 +732,11 @@ class Guinea2Mali01Drawable: MyDrawable() {
             square.ps.add(MyPointF(flagW6,flagH2))
             square.ps.add(MyPointF(flagW2,flagH2))
             square.ps.add(MyPointF(flagW2,0f))
-            square.paint = greenPaint
+            square.paint = redPaint
         }
         square0Lst.add(square2)
         square1Lst.add(square2.copy().also {
-            it.paint = redPaint
+            it.paint = greenPaint
         })
 
         // 右上
@@ -727,11 +745,11 @@ class Guinea2Mali01Drawable: MyDrawable() {
             square.ps.add(MyPointF(flagW2,0f))
             square.ps.add(MyPointF(flagW2,-flagH2))
             square.ps.add(MyPointF(flagW6,-flagH2))
-            square.paint = greenPaint
+            square.paint = redPaint
         }
         square0Lst.add(square3)
         square1Lst.add(square3.copy().also {
-            it.paint = redPaint
+            it.paint = greenPaint
         })
 
     }
@@ -992,7 +1010,13 @@ class Guinea2Mali01Drawable: MyDrawable() {
     // 国旗を移動する
     // -------------------------------
     private fun movePath() {
-        ratioNow += ratioDv
+        if ( isStay == false ) {
+            ratioNow += ratioDv
+        }
+        else {
+            // ratioNow=0にステイするかどうか
+            isStay = false
+        }
     }
 
     // -------------------------------
