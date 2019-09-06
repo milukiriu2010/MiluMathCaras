@@ -576,6 +576,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_001503_GL_WAVE_FLOOR_02(1503),
     // 円が床を境に円運動
     ID_001504_GL_WAVE_CIRCLE_01(1504),
+    // サイン波
+    ID_001505_GL_WAVE_SIN_01(1505),
     // 同心円を描画
     ID_001600_GLSL_CONCENTRIC_CIRCLE(1600),
     // オーブを描画

@@ -47,6 +47,8 @@ class Japan2Palau02Drawable: MyDrawable() {
 
     // パスの初期化を実施したかどうか
     private var isInitialized = false
+    // ratioNow=0にステイするかどうか
+    private var isStay = true
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -133,8 +135,8 @@ class Japan2Palau02Drawable: MyDrawable() {
 
         // 描画に使うスレッド
         if ( isKickThread ) {
-            // パスの初期化を実施したかどうか
-            isInitialized = false
+            // 初期化
+            myinit()
             runnable = Runnable {
                 // "更新"状態
                 if ( isPaused == false ) {
@@ -147,7 +149,8 @@ class Japan2Palau02Drawable: MyDrawable() {
                     // 描画
                     invalidateSelf()
 
-                    if (ratioNow >= ratioMax) {
+                    //if ((ratioNow <= ratioMin) or (ratioNow >= ratioMax)) {
+                    if ((ratioNow <= ratioMin) and (isStay == false)) {
                         handler.postDelayed(runnable, 300)
                     }
                     else {
@@ -181,10 +184,21 @@ class Japan2Palau02Drawable: MyDrawable() {
     }
 
     // -------------------------------
+    // 初期化
+    // -------------------------------
+    private fun myinit() {
+        // パスの初期化を実施したかどうか
+        isInitialized = false
+        // ratioNow=0にステイするかどうか
+        isStay = true
+    }
+
+    // -------------------------------
     // パスの初期化
     // -------------------------------
     private fun createPath() {
         if ( (ratioNow > ratioMin) and (ratioNow < ratioMax) ) return
+        if ( (ratioNow == 0f) and (isStay == false) ) return
 
         ratioNow = ratioMin
 
@@ -198,13 +212,21 @@ class Japan2Palau02Drawable: MyDrawable() {
 
         // パスの初期化を実施したかどうか
         isInitialized = true
+        // ratioNow=0にステイするかどうか
+        isStay = true
     }
 
     // -------------------------------
     // 国旗の〇部分を移動する
     // -------------------------------
     private fun movePath() {
-        ratioNow += ratioDv
+        if ( isStay == false ) {
+            ratioNow += ratioDv
+        }
+        else {
+            // ratioNow=0にステイするかどうか
+            isStay = false
+        }
     }
 
     // -------------------------------

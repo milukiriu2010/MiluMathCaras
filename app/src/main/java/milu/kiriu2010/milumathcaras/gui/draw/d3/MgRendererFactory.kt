@@ -24,6 +24,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.d3.view.Polyhedron02Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.wave.CirclePhaseShift01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.wave.Helix01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.wave.WaveCircle01Renderer
+import milu.kiriu2010.milumathcaras.gui.draw.d3.wave.WaveSin01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.wave.floor.WaveFloor01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.wave.floor.WaveFloor02Renderer
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
@@ -121,6 +122,8 @@ class MgRendererFactory {
                 DrawDataID.ID_001503_GL_WAVE_FLOOR_02 -> WaveFloor02Renderer(context)
                 // 円が床を境に円運動
                 DrawDataID.ID_001504_GL_WAVE_CIRCLE_01 -> WaveCircle01Renderer(context)
+                // サイン波01
+                DrawDataID.ID_001505_GL_WAVE_SIN_01 -> WaveSin01Renderer(context)
                 // 同心円を描画
                 DrawDataID.ID_001600_GLSL_CONCENTRIC_CIRCLE -> GLSL01Renderer(context)
                 // オーブを描画

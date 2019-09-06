@@ -396,8 +396,8 @@ class Cameroon2Senegal01Drawable: MyDrawable() {
             canvas.saveLayer(-flagW,hh*flagH,side,(hh+1f)*flagH,null)
             //canvas.save()
             canvas.translate(-2f*flagW-flagW2,hh*flagH+flagH2)
-            (-1..splitWN).forEach { w ->
-                val ww = w.toFloat()
+            (-1..splitWN+1).forEach { w ->
+                //val ww = w.toFloat()
                 canvas.translate(flagW,0f)
 
                 val hw1 = (h+w)%2

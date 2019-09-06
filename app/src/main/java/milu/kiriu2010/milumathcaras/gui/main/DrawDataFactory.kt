@@ -931,6 +931,9 @@ class DrawDataFactory {
                 }
                 // ３次元波を描画するメニュー
                 MenuItem.MENU_POLYHEDRON_WAVE -> {
+                    // サイン波01
+                    drawDataLst.add(DrawData(DrawDataID.ID_001505_GL_WAVE_SIN_01,DrawFragmentType.FT_D3_ES32_CREDIT_01,resources.getString(R.string.draw_001505_gl_wave_sin_01), drawViewType = DrawViewType.DVT_GL,
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/e89579738684834b107dd3d26fbf02ac/tumblr_ms52ec6PHY1r2geqjo1_500.gif") ))
                     // 円が床を境に円運動
                     drawDataLst.add(DrawData(DrawDataID.ID_001504_GL_WAVE_CIRCLE_01,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001504_gl_wave_circle_01), drawViewType = DrawViewType.DVT_GL ))
                     // 波うつ床02
