@@ -68,6 +68,8 @@ class Cameroon2Senegal01Drawable: MyDrawable() {
 
     // パスの初期化を実施したかどうか
     private var isInitialized = false
+    // ratioNow=0にステイするかどうか
+    private var isStay = true
     // モードがPH1になった回数
     private var cnt = 0
 
@@ -178,7 +180,8 @@ class Cameroon2Senegal01Drawable: MyDrawable() {
                     // 描画
                     invalidateSelf()
 
-                    if (ratioNow >= ratioMax) {
+                    //if (ratioNow >= ratioMax) {
+                    if ((ratioNow <= ratioMin) and (isStay == false)) {
                         handler.postDelayed(runnable, 300)
                     }
                     else {
@@ -217,6 +220,8 @@ class Cameroon2Senegal01Drawable: MyDrawable() {
     private fun myinit() {
         // パスの初期化を実施したかどうか
         isInitialized = false
+        // ratioNow=0にステイするかどうか
+        isStay = true
         // モードがPH1になった回数
         cnt = 0
 
@@ -227,6 +232,7 @@ class Cameroon2Senegal01Drawable: MyDrawable() {
     // -------------------------------
     private fun createPath() {
         if ( (ratioNow > ratioMin) and (ratioNow < ratioMax) ) return
+        if ( (ratioNow == 0f) and (isStay == false) ) return
 
         ratioNow = ratioMin
 
@@ -250,6 +256,8 @@ class Cameroon2Senegal01Drawable: MyDrawable() {
 
         // パスの初期化を実施したかどうか
         isInitialized = true
+        // ratioNow=0にステイするかどうか
+        isStay = true
     }
 
     // パス生成(PH1)
@@ -379,7 +387,13 @@ class Cameroon2Senegal01Drawable: MyDrawable() {
     // 国旗を移動する
     // -------------------------------
     private fun movePath() {
-        ratioNow += ratioDv
+        if ( isStay == false ) {
+            ratioNow += ratioDv
+        }
+        else {
+            // ratioNow=0にステイするかどうか
+            isStay = false
+        }
     }
 
     // -------------------------------
