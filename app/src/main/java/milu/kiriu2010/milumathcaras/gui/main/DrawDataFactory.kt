@@ -864,7 +864,10 @@ class DrawDataFactory {
                 }
                 // 立方体に座標変換を施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_CUBE_TRANSFORM -> {
-                    // 正四面体
+                    // 六角形にみえる立方体02
+                    drawDataLst.add(DrawData(DrawDataID.ID_001113_GL_CUBE_LIKE_HEXAGON_02,DrawFragmentType.FT_D3_ES32_CREDIT_01,resources.getString(R.string.draw_001113_gl_cube_like_hexagon_02), drawViewType = DrawViewType.DVT_GL,
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/53d72090e13f53ecf74bbd317c684383/tumblr_on53m1dLCm1r2geqjo1_540.gif") ))
+                    // 六角形にみえる立方体01
                     drawDataLst.add(DrawData(DrawDataID.ID_001112_GL_CUBE_LIKE_HEXAGON_01,DrawFragmentType.FT_D3_ES32_CREDIT_01,resources.getString(R.string.draw_001112_gl_cube_like_hexagon_01), drawViewType = DrawViewType.DVT_GL,
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://twitter.com/InfinityLoopGIF/status/1149451600248868864") ))
                     // 立方体座標変換12
