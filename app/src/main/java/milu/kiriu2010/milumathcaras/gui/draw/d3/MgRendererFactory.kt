@@ -17,10 +17,8 @@ import milu.kiriu2010.milumathcaras.gui.draw.d3.net.dodecahedron.NetDodecahedron
 import milu.kiriu2010.milumathcaras.gui.draw.d3.net.icosahedron.NetIcosahedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.net.octahedron.NetOctahedron01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.net.tetrahedron.NetTetrahedron02Renderer
-import milu.kiriu2010.milumathcaras.gui.draw.d3.sphere.SphereColorShift01Renderer
-import milu.kiriu2010.milumathcaras.gui.draw.d3.sphere.SphereColorShift02Renderer
-import milu.kiriu2010.milumathcaras.gui.draw.d3.sphere.SphereTransform01Renderer
-import milu.kiriu2010.milumathcaras.gui.draw.d3.sphere.SphereTransform02Renderer
+import milu.kiriu2010.milumathcaras.gui.draw.d3.sphere.*
+import milu.kiriu2010.milumathcaras.gui.draw.d3.sphere.flag.Japan2Bangladesh01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.view.Polyhedron02Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.wave.CirclePhaseShift01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.wave.Helix01Renderer
@@ -111,6 +109,10 @@ class MgRendererFactory {
                 DrawDataID.ID_001303_GL_SPHERE_COLOR_SHIFT_02 -> SphereColorShift02Renderer(context)
                 // 球体:キューブ環境マップ01
                 DrawDataID.ID_001304_GL_SPHERE_CUBEMAP_01 -> SphereCubemap01Renderer(context)
+                // 日本⇔バングラディッシュ01
+                DrawDataID.ID_001305_GL_JAPAN_2_BANGLADESH_01 -> Japan2Bangladesh01Renderer(
+                    context
+                )
                 // 立方体の中をコッホ雪片が回転
                 DrawDataID.ID_001400_GL_KOCH_SNOWFLAKE_01 -> KochSnowflake01Renderer(context)
                 // コッホ雪片inキューブ環境マッピング

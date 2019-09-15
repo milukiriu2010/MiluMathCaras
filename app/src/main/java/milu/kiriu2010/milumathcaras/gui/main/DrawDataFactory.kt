@@ -897,6 +897,8 @@ class DrawDataFactory {
                 }
                 // 球体に座標変換を施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_SPHERE_TRANSFORM -> {
+                    // 日本⇔バングラディッシュ01
+                    drawDataLst.add(DrawData(DrawDataID.ID_001305_GL_JAPAN_2_BANGLADESH_01,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001305_gl_japan_2_bangladesh_01), drawViewType = DrawViewType.DVT_GL ))
                     // 球体:キューブ環境マップ01
                     drawDataLst.add(DrawData(DrawDataID.ID_001304_GL_SPHERE_CUBEMAP_01,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001304_gl_sphere_cubemap_01), drawViewType = DrawViewType.DVT_GL ))
                     // 球体色シフト02

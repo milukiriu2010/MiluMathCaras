@@ -564,6 +564,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_001303_GL_SPHERE_COLOR_SHIFT_02(1303),
     // 球体:キューブ環境マップ01
     ID_001304_GL_SPHERE_CUBEMAP_01(1304),
+    // 日本⇔バングラディッシュ01
+    ID_001305_GL_JAPAN_2_BANGLADESH_01(1304),
     // 立方体の中をコッホ雪片が回転
     ID_001400_GL_KOCH_SNOWFLAKE_01(1400),
     // コッホ雪片inキューブ環境マッピング
