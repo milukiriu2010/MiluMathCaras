@@ -77,6 +77,6 @@ class Rectangle01Model: MgModelAbs() {
         vc = arrayListOf( a,-a*0.5f,0f)
         vd = arrayListOf( a, a*0.5f,0f)
 
-        color = arrayListOf(0f,0.8f,0f,1f)
+        color = arrayListOf(0f,0.6f,0f,1f)
     }
 }

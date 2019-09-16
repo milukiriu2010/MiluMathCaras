@@ -76,9 +76,6 @@ class Japan2Bangladesh01Renderer(ctx: Context): MgRenderer(ctx) {
     }
 
     private fun transformPtn1(t0: Float) {
-        val cos0 = MyMathUtil.cosf(t0)
-        val sin0 = MyMathUtil.sinf(t0)
-
         val bbi = (b+1).toFloat()*0.5f
         val bbj = b.toFloat()
         (0..2*b).forEach { j ->
@@ -104,26 +101,35 @@ class Japan2Bangladesh01Renderer(ctx: Context): MgRenderer(ctx) {
                 1 -> -1f
                 else -> 1f
             }
-            (0..b).forEach { i ->
+
+            (0..b+2).forEach { i ->
                 val ii = i.toFloat()
                 val k = (i+j)%2
+                val sha: Float
                 val kk = when(k) {
-                    0 -> -1f
-                    1 -> 1f
-                    else -> -1f
+                    0 -> {
+                        sha = 2f*a
+                        -1f
+                    }
+                    1 -> {
+                        sha = 0f
+                        1f
+                    }
+                    else -> {
+                        sha = 2f*a
+                        -1f
+                    }
                 }
 
                 // 球体を描画
                 Matrix.setIdentityM(matM,0)
-                Matrix.translateM(matM,0,2f*a*ii-bbi*2f*a,a*jj-bbj*a,0f)
+                Matrix.translateM(matM,0,2f*a*ii-bbi*2f*a+sha,a*jj-bbj*a,0f)
                 Matrix.rotateM(matM,0,ll*t0,0f,1f,0f)
                 Matrix.translateM(matM,0,kk*a,0f,0f)
                 Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
                 shaderSimple.draw(vaoSphere,matMVP)
-
             }
         }
-
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
