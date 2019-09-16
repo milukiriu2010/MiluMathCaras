@@ -7,7 +7,6 @@ import milu.kiriu2010.gui.model.d3.Sphere01Model
 import milu.kiriu2010.gui.renderer.MgRenderer
 import milu.kiriu2010.gui.shader.es32.ES32Simple01Shader
 import milu.kiriu2010.gui.vbo.es32.ES32VAOIpc
-import milu.kiriu2010.math.MyMathUtil
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -22,11 +21,13 @@ import javax.microedition.khronos.opengles.GL10
 class Japan2Bangladesh01Renderer(ctx: Context): MgRenderer(ctx) {
 
     private enum class ModePtn {
-        PTN1
+        PTN1,
+        PTN2,
+        PTN3
     }
 
     // 現在の描画パターン
-    private var ptnNow = ModePtn.PTN1
+    private var ptnNow = ModePtn.PTN3
 
     // 描画モデル(長方形)
     private val modelRectangles = mutableListOf<Rectangle01Model>()
@@ -45,22 +46,53 @@ class Japan2Bangladesh01Renderer(ctx: Context): MgRenderer(ctx) {
     // モデルのサイズ係数
     private val a = 1f
     // 縦横ループ
-    val b = 3
+    val b = 5
+    val c = b
+
+    // 時間停止
+    val timeS = 0
+    val timeE = 10
+    var timeN = timeS
+
+    // 回転角度
+    val rot1 = 180
+    val rot2 = 90
+    var rot = rot2
 
     override fun onDrawFrame(gl: GL10?) {
         // canvasを初期化
         GLES32.glClearColor(0f, 0f, 0f, 1f)
+        //GLES32.glClearColor(1f, 1f, 1f, 1f)
         GLES32.glClearDepthf(1f)
         GLES32.glClear(GLES32.GL_COLOR_BUFFER_BIT or GLES32.GL_DEPTH_BUFFER_BIT)
 
         // 回転角度
         if ( isRunning == true ) {
-            angle[0] =(angle[0]+1)%360
+            // 時間停止
+            if ( timeN < timeE ) {
+                timeN++
+            }
+            // 時間復活
+            else {
+
+                angle[0] =(angle[0]+1)%rot
+                if ( angle[0] == 0 ) {
+                    ptnNow = when (ptnNow) {
+                        ModePtn.PTN1 -> ModePtn.PTN2
+                        ModePtn.PTN2 -> ModePtn.PTN1
+                        ModePtn.PTN3 -> {
+                            rot = rot2
+                            ModePtn.PTN3
+                        }
+                    }
+                    timeN = timeS
+                }
+            }
         }
         val t0 = angle[0].toFloat()
 
         // ビュー×プロジェクション
-        vecEye = qtnNow.toVecIII(floatArrayOf(0f,0f,10f))
+        vecEye = qtnNow.toVecIII(floatArrayOf(0f,0f,12f))
         vecEyeUp = qtnNow.toVecIII(floatArrayOf(0f,1f,0f))
         Matrix.setLookAtM(matV, 0,
             vecEye[0], vecEye[1], vecEye[2],
@@ -71,10 +103,13 @@ class Japan2Bangladesh01Renderer(ctx: Context): MgRenderer(ctx) {
 
         when (ptnNow) {
             ModePtn.PTN1 -> transformPtn1(t0)
+            ModePtn.PTN2 -> transformPtn2(t0)
+            ModePtn.PTN3 -> transformPtn3(t0)
         }
 
     }
 
+    // 旗の境を中心に球体が180度回転
     private fun transformPtn1(t0: Float) {
         val bbi = (b+1).toFloat()*0.5f
         val bbj = b.toFloat()
@@ -130,6 +165,82 @@ class Japan2Bangladesh01Renderer(ctx: Context): MgRenderer(ctx) {
                 shaderSimple.draw(vaoSphere,matMVP)
             }
         }
+    }
+
+    // 旗の中央を中心に旗が180度回転
+    private fun transformPtn2(t0: Float) {
+        val bbi = (b+1).toFloat()*0.5f
+        val bbj = b.toFloat()
+        (0..2*b).forEach { j ->
+            val jj = j.toFloat()
+            (0..b).forEach { i ->
+                val ii = i.toFloat()
+                val p = (i+j)%2
+                val q = when (i%2) {
+                    0 -> 1f
+                    1 -> -1f
+                    else -> 1f
+                }
+
+                (0..c).forEach { k ->
+                    val kk = k.toFloat()
+
+                    // 長方形を描画
+                    //   ⇒ その場で回転
+                    // 球体を描画
+                    //  ⇒ 静止
+                    Matrix.setIdentityM(matM,0)
+                    Matrix.translateM(matM,0,2f*a*ii-bbi*2f*a+a,a*jj-bbj*a,-kk*2f*a)
+                    Matrix.rotateM(matM,0,q*t0,0f,1f,0f)
+                    Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+                    val vaoRectangle = vaoRectangles[p]
+                    shaderSimple.draw(vaoRectangle,matMVP)
+                    shaderSimple.draw(vaoSphere,matMVP)
+                }
+
+            }
+        }
+
+    }
+
+    // 旗の中央を中心に旗が90度回転
+    // 奥に新たな白地の旗が登場
+    private fun transformPtn3(t0: Float) {
+        val bbi = (b+1).toFloat()*0.5f
+        val bbj = b.toFloat()
+        (0..2*b).forEach { j ->
+            val jj = j.toFloat()
+            (0..b).forEach { i ->
+                val ii = i.toFloat()
+                val p = (i+j)%2
+                val q = when (i%2) {
+                    0 -> 1f
+                    1 -> -1f
+                    else -> 1f
+                }
+
+                val vaoRectangle = vaoRectangles[p]
+
+                // 長方形を描画
+                //   ⇒ その場で回転
+                // 球体を描画
+                //  ⇒ 静止
+                Matrix.setIdentityM(matM,0)
+                Matrix.translateM(matM,0,2f*a*ii-bbi*2f*a+a,a*jj-bbj*a,0f)
+                Matrix.rotateM(matM,0,q*t0,0f,1f,0f)
+                //Matrix.rotateM(matM,0,90f,0f,1f,0f)
+                Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+                shaderSimple.draw(vaoRectangle,matMVP)
+                shaderSimple.draw(vaoSphere,matMVP)
+
+                // Z軸方向に１段下がったところに描画
+                Matrix.setIdentityM(matM,0)
+                Matrix.translateM(matM,0,2f*a*ii-bbi*2f*a+2f*a,a*jj-bbj*a,-a)
+                Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+                shaderSimple.draw(vaoRectangle,matMVP)
+            }
+        }
+
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
