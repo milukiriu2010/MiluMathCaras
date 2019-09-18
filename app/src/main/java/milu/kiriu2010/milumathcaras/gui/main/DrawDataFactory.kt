@@ -104,6 +104,9 @@ class DrawDataFactory {
                 }
                 // 対数螺旋を選択したときの描画データの一覧
                 MenuItem.MENU_CURVE_SPIRAL_LOGARITHMIC -> {
+                    // 対数螺旋間に四角形を描く
+                    drawDataLst.add(DrawData(DrawDataID.ID_000046_LOGARITHMIC_SPIRAL_FRIENDS_01,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000046_curve_logarithmic_spiral_friends01),
+                        creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/f1f28291bf2eacdac80c62b3a92283ad/tumblr_oocpijI2bh1r2geqjo1_540.gif") ))
                     // 対数螺旋間に三角形を描く
                     drawDataLst.add(DrawData(DrawDataID.ID_000014_LOGARITHMIC_SPIRAL_TRIANGLE_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000014_curve_logarithmic_spiral_triangle01) ))
                     // 対数螺旋上に円を描く

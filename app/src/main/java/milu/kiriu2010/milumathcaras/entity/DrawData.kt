@@ -101,6 +101,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000044_ROSE_01(44),
     // Torus Knot
     ID_000045_TORUS_KNOT_01(45),
+    // 対数螺旋間に四角形を描く
+    ID_000046_LOGARITHMIC_SPIRAL_FRIENDS_01(46),
     // リサージュ曲線(p:q=1:2)
     ID_000050_LISSAJOUS_CURVE_1_2(50),
     // リサージュ曲線(p:q=3:2)

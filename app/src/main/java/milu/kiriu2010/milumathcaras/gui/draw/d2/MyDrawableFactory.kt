@@ -22,10 +22,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.special.*
 import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.spiral.fermat.FermatSpiral01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.spiral.involute.InvoluteCurve01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.spiral.involute.InvoluteCurve02Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.spiral.logarithmic.LogarithmicSpiral01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.spiral.logarithmic.LogarithmicSpiralCircle01Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.spiral.logarithmic.LogarithmicSpiralCircle02Drawable
-import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.spiral.logarithmic.LogarithmicSpiralTriangle01Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.spiral.logarithmic.*
 import milu.kiriu2010.milumathcaras.gui.draw.d2.curve.trochoid.Trochoid01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.fractal.complex.mandelbrot.Mandelbrot00Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.fractal.recursion.dragon.DragonCurve01Drawable
@@ -162,22 +159,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000044_ROSE_01 -> Rose01Drawable()
                 // Torus Knot
                 DrawDataID.ID_000045_TORUS_KNOT_01 -> TorusKnot01Drawable()
-                // サイン波
-                DrawDataID.ID_000200_SINE_WAVE -> SineWave01Drawable()
-                // 円の周りを回転するサイン波
-                DrawDataID.ID_000201_SINE_WAVE_CIRCLE -> SineWaveCircle01Drawable()
-                // 円の周りを回転するサイン波
-                DrawDataID.ID_000202_SINE_WAVE_CIRCLE -> SineWaveCircle02Drawable()
-                // 隣同士の点がサイン波を描く
-                DrawDataID.ID_000203_SINE_WAVE_POINT_01 -> SineWavePoint01Drawable()
-                // 隣同士の点がサイン波を描く
-                DrawDataID.ID_000204_SINE_WAVE_POINT_02 -> SineWavePoint02Drawable()
-                // 1536色
-                DrawDataID.ID_000205_COLOR_1536 -> Color1536Drawable()
-                // 768色(暗色)
-                DrawDataID.ID_000206_COLOR_768_DARK -> Color768DarkDrawable()
-                // RGBの棒線で紡ぐ
-                DrawDataID.ID_000207_WAVE_RGB_WEAVE_01 -> RgbWeaveWave01Drawable()
+                // 対数螺旋間に四角形を描く
+                DrawDataID.ID_000046_LOGARITHMIC_SPIRAL_FRIENDS_01 -> LogarithmicSpiralFriends01Drawable()
                 // リサージュ曲線(p:q=1:2)
                 DrawDataID.ID_000050_LISSAJOUS_CURVE_1_2 -> Lissajous01Drawable()
                 // リサージュ曲線(p:q=3:2)
@@ -250,6 +233,22 @@ class MyDrawableFactory {
                 DrawDataID.ID_000143_MANDELBRO_SET -> Mandelbrot01Drawable()
                 // ジュリア集合
                 DrawDataID.ID_000144_JULIA_SET -> Julia01Drawable()
+                // サイン波
+                DrawDataID.ID_000200_SINE_WAVE -> SineWave01Drawable()
+                // 円の周りを回転するサイン波
+                DrawDataID.ID_000201_SINE_WAVE_CIRCLE -> SineWaveCircle01Drawable()
+                // 円の周りを回転するサイン波
+                DrawDataID.ID_000202_SINE_WAVE_CIRCLE -> SineWaveCircle02Drawable()
+                // 隣同士の点がサイン波を描く
+                DrawDataID.ID_000203_SINE_WAVE_POINT_01 -> SineWavePoint01Drawable()
+                // 隣同士の点がサイン波を描く
+                DrawDataID.ID_000204_SINE_WAVE_POINT_02 -> SineWavePoint02Drawable()
+                // 1536色
+                DrawDataID.ID_000205_COLOR_1536 -> Color1536Drawable()
+                // 768色(暗色)
+                DrawDataID.ID_000206_COLOR_768_DARK -> Color768DarkDrawable()
+                // RGBの棒線で紡ぐ
+                DrawDataID.ID_000207_WAVE_RGB_WEAVE_01 -> RgbWeaveWave01Drawable()
                 // 三角形in四角形
                 DrawDataID.ID_000300_3_IN_4 -> PolygonInPolygon01Drawable()
                 // 三角形in五角形

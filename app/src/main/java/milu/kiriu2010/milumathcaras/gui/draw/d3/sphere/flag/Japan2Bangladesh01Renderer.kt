@@ -23,11 +23,14 @@ class Japan2Bangladesh01Renderer(ctx: Context): MgRenderer(ctx) {
     private enum class ModePtn {
         PTN1,
         PTN2,
-        PTN3
+        PTN3,
+        PTN4,
+        PTN5,
+        PTN6
     }
 
     // 現在の描画パターン
-    private var ptnNow = ModePtn.PTN3
+    private var ptnNow = ModePtn.PTN1
 
     // 描画モデル(長方形)
     private val modelRectangles = mutableListOf<Rectangle01Model>()
@@ -57,7 +60,7 @@ class Japan2Bangladesh01Renderer(ctx: Context): MgRenderer(ctx) {
     // 回転角度
     val rot1 = 180
     val rot2 = 90
-    var rot = rot2
+    var rot = rot1
 
     override fun onDrawFrame(gl: GL10?) {
         // canvasを初期化
@@ -78,12 +81,28 @@ class Japan2Bangladesh01Renderer(ctx: Context): MgRenderer(ctx) {
                 angle[0] =(angle[0]+1)%rot
                 if ( angle[0] == 0 ) {
                     ptnNow = when (ptnNow) {
-                        ModePtn.PTN1 -> ModePtn.PTN2
-                        ModePtn.PTN2 -> ModePtn.PTN1
-                        ModePtn.PTN3 -> {
+                        ModePtn.PTN1 -> {
                             rot = rot2
                             ModePtn.PTN3
                         }
+                        ModePtn.PTN3 -> {
+                            rot = rot2
+                            ModePtn.PTN4
+                        }
+                        ModePtn.PTN4 -> {
+                            rot = rot2
+                            ModePtn.PTN5
+                        }
+                        ModePtn.PTN5 -> {
+                            rot = rot2
+                            ModePtn.PTN6
+                        }
+                        ModePtn.PTN6 -> {
+                            rot = rot1
+                            ModePtn.PTN1
+                        }
+                        // 2は使ってない
+                        ModePtn.PTN2 -> ModePtn.PTN2
                     }
                     timeN = timeS
                 }
@@ -105,6 +124,9 @@ class Japan2Bangladesh01Renderer(ctx: Context): MgRenderer(ctx) {
             ModePtn.PTN1 -> transformPtn1(t0)
             ModePtn.PTN2 -> transformPtn2(t0)
             ModePtn.PTN3 -> transformPtn3(t0)
+            ModePtn.PTN4 -> transformPtn4(t0)
+            ModePtn.PTN5 -> transformPtn5(t0)
+            ModePtn.PTN6 -> transformPtn6(t0)
         }
 
     }
@@ -168,6 +190,7 @@ class Japan2Bangladesh01Renderer(ctx: Context): MgRenderer(ctx) {
     }
 
     // 旗の中央を中心に旗が180度回転
+    // 使わないことにした
     private fun transformPtn2(t0: Float) {
         val bbi = (b+1).toFloat()*0.5f
         val bbj = b.toFloat()
@@ -233,6 +256,147 @@ class Japan2Bangladesh01Renderer(ctx: Context): MgRenderer(ctx) {
                 shaderSimple.draw(vaoRectangle,matMVP)
                 shaderSimple.draw(vaoSphere,matMVP)
 
+                // 長方形を描画
+                // Z軸方向に１段下がったところに描画
+                Matrix.setIdentityM(matM,0)
+                Matrix.translateM(matM,0,2f*a*ii-bbi*2f*a+2f*a,a*jj-bbj*a,-a)
+                Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+                shaderSimple.draw(vaoRectangle,matMVP)
+            }
+        }
+
+    }
+
+    // "手前の旗⇒奥の旗"へ球体が90度回転することで移動
+    private fun transformPtn4(t0: Float) {
+        val bbi = (b+1).toFloat()*0.5f
+        val bbj = b.toFloat()
+        (0..2*b).forEach { j ->
+            val jj = j.toFloat()
+            val ll = when (j%2) {
+                0 -> 1f
+                1 -> -1f
+                else -> 1f
+            }
+            (0..b).forEach { i ->
+                val ii = i.toFloat()
+                val p = (i+j)%2
+                val q = when (i%2) {
+                    0 -> 1f
+                    1 -> -1f
+                    else -> 1f
+                }
+
+                val vaoRectangle = vaoRectangles[p]
+
+                // 長方形を描画
+                //   ⇒ 90度回転した状態
+                Matrix.setIdentityM(matM,0)
+                Matrix.translateM(matM,0,2f*a*ii-bbi*2f*a+a,a*jj-bbj*a,0f)
+                Matrix.rotateM(matM,0,90f,0f,1f,0f)
+                Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+                shaderSimple.draw(vaoRectangle,matMVP)
+
+                // Z軸方向に１段下がったところに描画
+                Matrix.setIdentityM(matM,0)
+                Matrix.translateM(matM,0,2f*a*ii-bbi*2f*a+2f*a,a*jj-bbj*a,-a)
+                Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+                shaderSimple.draw(vaoRectangle,matMVP)
+
+                // 球体を描画
+                //  "手前の旗⇒奥の旗"
+                Matrix.setIdentityM(matM,0)
+                Matrix.translateM(matM,0,2f*a*ii-bbi*2f*a+a,a*jj-bbj*a,-a)
+                Matrix.rotateM(matM,0,ll*t0,0f,1f,0f)
+                Matrix.translateM(matM,0,0f,0f,a)
+                Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+                shaderSimple.draw(vaoSphere,matMVP)
+            }
+        }
+
+    }
+
+
+    // 手前の旗⇒ 90度回転することで移動
+    // 奥の旗  ⇒270度回転することで移動
+    private fun transformPtn5(t0: Float) {
+        val bbi = (b+1).toFloat()*0.5f
+        val bbj = b.toFloat()
+        (0..2*b).forEach { j ->
+            val jj = j.toFloat()
+            val ll = when (j%2) {
+                0 -> 1f
+                1 -> -1f
+                else -> 1f
+            }
+            (0..b).forEach { i ->
+                val ii = i.toFloat()
+                val p = (i+j)%2
+                val q = when (i%2) {
+                    0 -> 1f
+                    1 -> -1f
+                    else -> 1f
+                }
+
+                val vaoRectangle = vaoRectangles[p]
+
+                // 手前の旗を描画
+                //   ⇒ 90度回転した状態
+                //   ⇒ 90度回転して奥に移動
+                Matrix.setIdentityM(matM,0)
+                Matrix.translateM(matM,0,2f*a*ii-bbi*2f*a+a,a*jj-bbj*a,-a)
+                Matrix.rotateM(matM,0,ll*t0,0f,1f,0f)
+                Matrix.translateM(matM,0,0f,0f,a)
+                Matrix.rotateM(matM,0,90f,0f,1f,0f)
+                Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+                shaderSimple.draw(vaoRectangle,matMVP)
+
+                // 奥の旗+球体を描画
+                Matrix.setIdentityM(matM,0)
+                //Matrix.translateM(matM,0,2f*a*ii-bbi*2f*a+2f*a,a*jj-bbj*a,-a)
+                Matrix.translateM(matM,0,2f*a*ii-bbi*2f*a+a,a*jj-bbj*a,-a)
+                Matrix.rotateM(matM,0,3f*ll*t0,0f,1f,0f)
+                Matrix.translateM(matM,0,a,0f,0f)
+                Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+                shaderSimple.draw(vaoRectangle,matMVP)
+                shaderSimple.draw(vaoSphere,matMVP)
+            }
+        }
+
+    }
+
+    // 旗の中央を中心に旗が90度回転
+    // 奥に新たな白地の旗が登場
+    private fun transformPtn6(t0: Float) {
+        val bbi = (b+1).toFloat()*0.5f
+        val bbj = b.toFloat()
+        (0..2*b).forEach { j ->
+            val jj = j.toFloat()
+            (0..b).forEach { i ->
+                val ii = i.toFloat()
+                val p = (i+j)%2
+                val q = when (i%2) {
+                    0 -> 1f
+                    1 -> -1f
+                    else -> 1f
+                }
+
+                val vaoRectangle = vaoRectangles[p]
+
+                // 長方形を描画
+                //   ⇒ 90度回転
+                //   ⇒ その場で90度回転
+                // 球体を描画
+                //  ⇒ 静止
+                Matrix.setIdentityM(matM,0)
+                Matrix.translateM(matM,0,2f*a*ii-bbi*2f*a+a,a*jj-bbj*a,0f)
+                Matrix.rotateM(matM,0,q*t0,0f,1f,0f)
+                Matrix.rotateM(matM,0,90f,0f,1f,0f)
+                Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+                shaderSimple.draw(vaoRectangle,matMVP)
+                shaderSimple.draw(vaoSphere,matMVP)
+
+                // 長方形を描画
                 // Z軸方向に１段下がったところに描画
                 Matrix.setIdentityM(matM,0)
                 Matrix.translateM(matM,0,2f*a*ii-bbi*2f*a+2f*a,a*jj-bbj*a,-a)
