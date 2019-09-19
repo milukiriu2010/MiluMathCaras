@@ -9,6 +9,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.*
 
+// 現状の実装だと、塗りつぶし部分が"曲線の四角"でなく"直線の四角"になってしまう
 // -------------------------------------------------------------------------------------
 // 対数螺旋間に四角形を描く
 // -------------------------------------------------------------------------------------
@@ -27,7 +28,7 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
     // 描画領域
     // -------------------------------
     private val side = 1000f
-    private val margin = 50f
+    private val margin = 0f
 
     // ---------------------------------
     // 対数螺旋の変数a
@@ -39,19 +40,10 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
     private var b = 1f
 
     // -------------------------------
-    // 対数螺旋の回転方向
-    // -------------------------------
-    // +1:内に収束するようにみえる
-    // -1:外に広がるようにみえる
-    // -------------------------------
-    private var sign = +1f
-
-    // -------------------------------
     // 対数螺旋の回転角度(変数tに相当)
     // -------------------------------
-    private var angle = 0f
     private var angleMax = 360f
-    private var angleDv = 5f
+    private var angleDv = 12f
     private var angleN = (angleMax/angleDv).toInt()
 
     // -------------------------------
@@ -88,7 +80,7 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
     // 対数螺旋を描くペイント
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.RED
+        color = Color.BLACK
         style = Paint.Style.FILL
     }
 
@@ -161,18 +153,6 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
         handler.removeCallbacks(runnable)
     }
 
-    // -------------------------------------
-    // タッチしたポイントを受け取る
-    // -------------------------------------
-    override fun receiveTouchPoint(event: MotionEvent) {
-        //Log.d(javaClass.simpleName,"Touch:x[${x}]y[${y}]" )
-
-        // タッチすると、回転方向を変更する
-        if ( event.action == MotionEvent.ACTION_DOWN ) {
-            sign = -sign
-        }
-    }
-
     // -------------------------------
     // 対数螺旋の描画点リストを生成
     // -------------------------------
@@ -181,8 +161,10 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
         pointLst.clear()
 
         val d = 15
+        // 螺旋の回転
         (0 until 360 step d).forEach { id1 ->
             val t1 = id1.toFloat()
+            // 螺旋の分割
             (0 until 360 step angleDv.toInt()).forEach { id2 ->
                 val t2 = id2.toFloat()
                 val aA = a*exp(t2*PI/180f).toFloat()
@@ -197,14 +179,6 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
 
     // 対数螺旋を回転する
     private fun rotatePath() {
-        angle += 20f
-
-        // ３周したら、
-        // ・元の角度に戻す
-        // ・回転方向を変更する
-        if ( angle > angleMax ) {
-            angle = 0f
-        }
     }
 
     // -------------------------------
@@ -220,8 +194,8 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
 
         // 原点(0,0)の位置
         // = (左右中央,上下中央)
-        val x0 = intrinsicWidth/2f
-        val y0 = intrinsicHeight/2f
+        val x0 = intrinsicWidth * 0.5f
+        val y0 = intrinsicHeight * 0.5f
 
         // 原点(x0,y0)を中心に対数螺旋を描く
         canvas.save()
@@ -235,14 +209,14 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
                 // ----------------------------------------
                 // 現在の描画点
                 // ----------------------------------------
-                val p1x = p1.x * MyMathUtil.cosf(sign*angle) - p1.y * MyMathUtil.sinf(sign*angle)
-                val p1y = p1.x * MyMathUtil.sinf(sign*angle) + p1.y * MyMathUtil.cosf(sign*angle)
+                val p1x = p1.x
+                val p1y = p1.y
 
                 // ----------------------------------------
                 // １つ前の描画点
                 // ----------------------------------------
-                val p2x = p2!!.x * MyMathUtil.cosf(sign*angle) - p2!!.y * MyMathUtil.sinf(sign*angle)
-                val p2y = p2!!.x * MyMathUtil.sinf(sign*angle) + p2!!.y * MyMathUtil.cosf(sign*angle)
+                val p2x = p2!!.x
+                val p2y = p2!!.y
 
                 // ----------------------------------------
                 // 前列の描画点
@@ -252,17 +226,52 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
                     else -> idA-angleN
                 }
                 val p3 = pointLst[idB]
-                val p3x = p3.x * MyMathUtil.cosf(sign*angle) - p3.y * MyMathUtil.sinf(sign*angle)
-                val p3y = p3.x * MyMathUtil.sinf(sign*angle) + p3.y * MyMathUtil.cosf(sign*angle)
+                val p3x = p3.x
+                val p3y = p3.y
 
+                val p4 = pointLst[idB-1]
+                val p4x = p4.x
+                val p4y = p4.y
+
+                /*
                 linePaint.color = when ((idA/angleN)%2) {
                     0 -> Color.RED
                     else -> Color.BLUE
                 }
 
+                 */
+
+
+                linePaint.color = when ((idA/angleN)%2) {
+                    // 奇数番目の螺旋
+                    0 -> {
+                        when (idA%2) {
+                            0 -> Color.BLACK
+                            else -> Color.WHITE
+                        }
+                    }
+                    // 偶数番目の螺旋
+                    else -> {
+                        when (idA%2) {
+                            1 -> Color.BLACK
+                            else -> Color.WHITE
+                        }
+                    }
+                }
+
+                /* 花みたい
+                linePaint.color =
+                    when (idA%2) {
+                        0 -> Color.BLACK
+                        else -> Color.WHITE
+                    }
+
+                 */
+
                 val path = Path()
                 path.moveTo(p1x,p1y)
                 path.lineTo(p2x,p2y)
+                path.lineTo(p4x,p4y)
                 path.lineTo(p3x,p3y)
                 path.close()
                 canvas.drawPath(path,linePaint)
@@ -280,18 +289,6 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
         val matrix = Matrix()
         matrix.postScale(1f,-1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
-
-        /*
-        // 描画点を回転させるのではなく、
-        // 画像を回転させてみる方法
-        val matrix = Matrix()        matrix.postRotate(sign*angle,x0,y0)
-        imageBitmap = Bitmap.createBitmap(intrinsicWidth,intrinsicHeight, Bitmap.Config.ARGB_8888)
-        val canvas2 = Canvas(imageBitmap)
-        canvas2.drawBitmap(tmpBitmap,matrix,backPaint)
-
-        // 枠を描画(画像を回転させるので、回転してから枠を描くこととした
-        canvas2.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
-         */
     }
 
     // -------------------------------
@@ -332,16 +329,4 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun getIntrinsicHeight(): Int = (side+margin*2).toInt()
-
-    /*
-    // 円
-    data class Circle(
-        // 中心
-        val c: MyPointF = MyPointF(),
-        // 半径
-        val r: Float = 10f,
-        // 色
-        var color: Int = Color.RED
-    )
-    */
 }
