@@ -2,7 +2,6 @@ package milu.kiriu2010.milumathcaras.gui.draw.d2.curve.spiral.logarithmic
 
 import android.graphics.*
 import android.os.Handler
-import android.view.MotionEvent
 import milu.kiriu2010.gui.basic.MyPointF
 import milu.kiriu2010.math.MyMathUtil
 import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawable
@@ -24,6 +23,14 @@ import kotlin.math.*
 // -------------------------------------------------------------------------------------
 class LogarithmicSpiralFriends01Drawable: MyDrawable() {
 
+    private enum class ModePtr {
+        PTN1,
+        PTN2
+    }
+
+    // 現在のモード
+    private var modeNow = ModePtr.PTN2
+
     // -------------------------------
     // 描画領域
     // -------------------------------
@@ -33,7 +40,7 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
     // ---------------------------------
     // 対数螺旋の変数a
     // ---------------------------------
-    private var a = 75f
+    private var a = 10f
     // ---------------------------------
     // 対数螺旋の変数b
     // ---------------------------------
@@ -42,9 +49,11 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
     // -------------------------------
     // 対数螺旋の回転角度(変数tに相当)
     // -------------------------------
-    private var angleMax = 360f
-    private var angleDv = 12f
-    private var angleN = (angleMax/angleDv).toInt()
+    private var angleNow = 0
+    private var angleDv = 12
+
+    // 螺旋の数
+    private var spiralN = 24
 
     // -------------------------------
     // 対数螺旋上の描画点リスト
@@ -160,14 +169,14 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
         // 描画点リストをクリア
         pointLst.clear()
 
-        val d = 15
+        val d = 360/spiralN
         // 螺旋の回転
         (0 until 360 step d).forEach { id1 ->
             val t1 = id1.toFloat()
             // 螺旋の分割
-            (0 until 360 step angleDv.toInt()).forEach { id2 ->
+            (0 until 360).forEach { id2 ->
                 val t2 = id2.toFloat()
-                val aA = a*exp(t2*PI/180f).toFloat()
+                val aA = a*exp(b*t2*PI/180f).toFloat()
                 val p = MyPointF().apply {
                     x = aA * MyMathUtil.cosf(t1+t2)
                     y = aA * MyMathUtil.sinf(t1+t2)
@@ -179,6 +188,10 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
 
     // 対数螺旋を回転する
     private fun rotatePath() {
+        angleNow++
+        if ( angleNow == angleDv) {
+            angleNow = 0
+        }
     }
 
     // -------------------------------
@@ -202,84 +215,9 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
         canvas.translate(x0,y0)
 
         // 対数螺旋を描く
-        var p2: MyPointF? = null
-        val pSize = pointLst.size
-        pointLst.forEachIndexed { idA, p1 ->
-            if ( p2 != null ) {
-                // ----------------------------------------
-                // 現在の描画点
-                // ----------------------------------------
-                val p1x = p1.x
-                val p1y = p1.y
-
-                // ----------------------------------------
-                // １つ前の描画点
-                // ----------------------------------------
-                val p2x = p2!!.x
-                val p2y = p2!!.y
-
-                // ----------------------------------------
-                // 前列の描画点
-                // ----------------------------------------
-                val idB = when {
-                    (idA < angleN) -> pSize-angleN+idA
-                    else -> idA-angleN
-                }
-                val p3 = pointLst[idB]
-                val p3x = p3.x
-                val p3y = p3.y
-
-                val p4 = pointLst[idB-1]
-                val p4x = p4.x
-                val p4y = p4.y
-
-                /*
-                linePaint.color = when ((idA/angleN)%2) {
-                    0 -> Color.RED
-                    else -> Color.BLUE
-                }
-
-                 */
-
-
-                linePaint.color = when ((idA/angleN)%2) {
-                    // 奇数番目の螺旋
-                    0 -> {
-                        when (idA%2) {
-                            0 -> Color.BLACK
-                            else -> Color.WHITE
-                        }
-                    }
-                    // 偶数番目の螺旋
-                    else -> {
-                        when (idA%2) {
-                            1 -> Color.BLACK
-                            else -> Color.WHITE
-                        }
-                    }
-                }
-
-                /* 花みたい
-                linePaint.color =
-                    when (idA%2) {
-                        0 -> Color.BLACK
-                        else -> Color.WHITE
-                    }
-
-                 */
-
-                val path = Path()
-                path.moveTo(p1x,p1y)
-                path.lineTo(p2x,p2y)
-                path.lineTo(p4x,p4y)
-                path.lineTo(p3x,p3y)
-                path.close()
-                canvas.drawPath(path,linePaint)
-            }
-            p2 = when (idA%angleN) {
-                angleN-1 -> null
-                else -> p1
-            }
+        when (modeNow) {
+            ModePtr.PTN1 -> drawPTN1(canvas)
+            ModePtr.PTN2 -> drawPTN2(canvas)
         }
 
         // 座標を元に戻す
@@ -289,6 +227,100 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
         val matrix = Matrix()
         matrix.postScale(1f,-1f)
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
+    }
+
+    // -------------------------------
+    // 螺旋を描くパターン１
+    // -------------------------------
+    private fun drawPTN1(canvas: Canvas) {
+        var bw = 0
+        (0 until spiralN).forEach loopA@{ i ->
+            val k = i*360
+            val l = if (i == (spiralN-1)) -360 else k
+
+            val s = when (i%2) {
+                0 -> angleNow
+                else -> {
+                    bw--
+                    angleDv - angleNow
+                }
+            }
+
+            (s until 360 step angleDv).forEach loopB@{ j ->
+                if ((j+angleDv) >= 360) {
+                    return@loopB
+                }
+
+                val p1 = pointLst[k+j]
+                val p2 = pointLst[k+j+angleDv]
+                val p3 = pointLst[l+j+angleDv+360]
+                val p4 = pointLst[l+j+360]
+
+                linePaint.color = when (bw%2) {
+                    0     -> Color.BLACK
+                    else -> Color.WHITE
+                }
+
+                val path = Path()
+                path.moveTo(p1.x,p1.y)
+                path.lineTo(p2.x,p2.y)
+                path.lineTo(p3.x,p3.y)
+                path.lineTo(p4.x,p4.y)
+                path.close()
+                canvas.drawPath(path,linePaint)
+
+                bw++
+            }
+        }
+    }
+
+    // -------------------------------
+    // 螺旋を描くパターン２
+    // -------------------------------
+    private fun drawPTN2(canvas: Canvas) {
+        var bw = 0
+        (0 until spiralN).forEach loopA@{ i ->
+            val k1 = i*360
+            val k2 = (i+1)*360
+            val l1 = if (i == (spiralN-1)) -360 else k1
+            val l2 = if (i >= (spiralN-2)) -360 else k1
+
+            (0 until 360 step angleDv).forEach loopB@{ j ->
+                if ((j+angleDv) >= 360) {
+                    return@loopB
+                }
+
+                val p11 = pointLst[k1+j]
+                val p12 = pointLst[k1+j+angleDv]
+                val p13 = pointLst[l1+j+angleDv+360]
+                val p14 = pointLst[l1+j+360]
+
+                val p21 = pointLst[l1+j+360]
+                val p22 = pointLst[l1+j+angleDv+360]
+                val p23 = pointLst[l2+j+angleDv+720]
+                val p24 = pointLst[l2+j+720]
+
+                val p01 = p11.lerp(p21,angleNow.toFloat(),angleDv.toFloat())
+                val p02 = p12.lerp(p22,angleNow.toFloat(),angleDv.toFloat())
+                val p03 = p13.lerp(p23,angleNow.toFloat(),angleDv.toFloat())
+                val p04 = p14.lerp(p24,angleNow.toFloat(),angleDv.toFloat())
+
+                linePaint.color = when (bw%2) {
+                    0     -> Color.WHITE
+                    else -> Color.BLACK
+                }
+
+                val path = Path()
+                path.moveTo(p01.x,p01.y)
+                path.lineTo(p02.x,p02.y)
+                path.lineTo(p03.x,p03.y)
+                path.lineTo(p04.x,p04.y)
+                path.close()
+                canvas.drawPath(path,linePaint)
+
+                bw++
+            }
+        }
     }
 
     // -------------------------------
@@ -305,7 +337,6 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun setAlpha(alpha: Int) {
-        linePaint.alpha = alpha
     }
 
     // -------------------------------
@@ -317,7 +348,6 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
     // Drawable
     // -------------------------------
     override fun setColorFilter(colorFilter: ColorFilter?) {
-        linePaint.colorFilter = colorFilter
     }
 
     // -------------------------------
