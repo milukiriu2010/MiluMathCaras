@@ -160,7 +160,7 @@ class MyDrawableFactory {
                 // Torus Knot
                 DrawDataID.ID_000045_TORUS_KNOT_01 -> TorusKnot01Drawable()
                 // 対数螺旋間に四角形を描く
-                DrawDataID.ID_000046_LOGARITHMIC_SPIRAL_FRIENDS_01 -> LogarithmicSpiralFriends01Drawable()
+                DrawDataID.ID_000046_LOGARITHMIC_SPIRAL_SQUARE_01 -> LogarithmicSpiralSquare01Drawable()
                 // リサージュ曲線(p:q=1:2)
                 DrawDataID.ID_000050_LISSAJOUS_CURVE_1_2 -> Lissajous01Drawable()
                 // リサージュ曲線(p:q=3:2)

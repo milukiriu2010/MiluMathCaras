@@ -8,7 +8,6 @@ import milu.kiriu2010.milumathcaras.gui.draw.d2.MyDrawable
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.*
 
-// 現状の実装だと、塗りつぶし部分が"曲線の四角"でなく"直線の四角"になってしまう
 // -------------------------------------------------------------------------------------
 // 対数螺旋間に四角形を描く
 // -------------------------------------------------------------------------------------
@@ -21,7 +20,7 @@ import kotlin.math.*
 // -------------------------------------------------------------------------------------
 // 2019.09.18
 // -------------------------------------------------------------------------------------
-class LogarithmicSpiralFriends01Drawable: MyDrawable() {
+class LogarithmicSpiralSquare01Drawable: MyDrawable() {
 
     private enum class ModePtr {
         PTN1,
@@ -29,7 +28,7 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
     }
 
     // 現在のモード
-    private var modeNow = ModePtr.PTN2
+    private var modeNow = ModePtr.PTN1
 
     // -------------------------------
     // 描画領域
@@ -191,6 +190,10 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
         angleNow++
         if ( angleNow == angleDv) {
             angleNow = 0
+            modeNow = when (modeNow) {
+                ModePtr.PTN1 -> ModePtr.PTN2
+                ModePtr.PTN2 -> ModePtr.PTN1
+            }
         }
     }
 
@@ -279,6 +282,126 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
     // -------------------------------
     private fun drawPTN2(canvas: Canvas) {
         var bw = 0
+        linePaint.color = Color.BLACK
+        (0 until spiralN).forEach loopA@{ i ->
+            val k0 = i*360
+            val k1 = (i+1)*360
+            val k2 = (i+2)*360
+
+            val l1 = if (i == (spiralN-1)) 0 else k1
+            val l2 = when (i) {
+                spiralN - 2 -> 0
+                spiralN - 1 -> 1
+                else -> k2
+            }
+
+            val m1 = (i-1)*360
+
+            val n3 = when (i) {
+                0 -> (spiralN-1)*360
+                else -> m1
+            }
+            /*
+            if ((i%2)==1) {
+                bw--
+            }
+             */
+
+            (0 until 360 step angleDv).forEach loopB@{ j ->
+                if ((j+angleDv) >= 360) {
+                    return@loopB
+                }
+                if ((bw%2) == 0) {
+                    bw++
+                    return@loopB
+                }
+
+                val p11: MyPointF
+                val p12: MyPointF
+                val p13: MyPointF
+                val p14: MyPointF
+                val p21: MyPointF
+                val p22: MyPointF
+                val p23: MyPointF
+                val p24: MyPointF
+                when (i%2) {
+                    0 -> {
+                        p11 = pointLst[k0+j]
+                        p12 = pointLst[k0+j+angleDv]
+                        p13 = pointLst[l1+j+angleDv]
+                        p14 = pointLst[l1+j]
+
+                        p21 = pointLst[n3+j]
+                        p22 = pointLst[n3+j+angleDv]
+                        p23 = pointLst[k0+j+angleDv]
+                        p24 = pointLst[k0+j]
+
+                        /*
+                        p11 = MyPointF()
+                        p12 = MyPointF()
+                        p13 = MyPointF()
+                        p14 = MyPointF()
+
+                        p21 = MyPointF()
+                        p22 = MyPointF()
+                        p23 = MyPointF()
+                        p24 = MyPointF()
+
+                         */
+                    }
+                    else -> {
+                        p11 = pointLst[k0+j]
+                        p12 = pointLst[k0+j+angleDv]
+                        p13 = pointLst[l1+j+angleDv]
+                        p14 = pointLst[l1+j]
+
+                        p21 = pointLst[l1+j]
+                        p22 = pointLst[l1+j+angleDv]
+                        p23 = pointLst[l2+j+angleDv]
+                        p24 = pointLst[l2+j]
+
+                        /*
+                        p11 = MyPointF()
+                        p12 = MyPointF()
+                        p13 = MyPointF()
+                        p14 = MyPointF()
+
+                        p21 = MyPointF()
+                        p22 = MyPointF()
+                        p23 = MyPointF()
+                        p24 = MyPointF()
+
+                         */
+                    }
+                }
+
+                val p01 = p11.lerp(p21,angleNow.toFloat(),angleDv.toFloat())
+                val p02 = p12.lerp(p22,angleNow.toFloat(),angleDv.toFloat())
+                val p03 = p13.lerp(p23,angleNow.toFloat(),angleDv.toFloat())
+                val p04 = p14.lerp(p24,angleNow.toFloat(),angleDv.toFloat())
+
+                /*
+                linePaint.color = when (bw%2) {
+                    0     -> Color.WHITE
+                    else -> Color.BLACK
+                }
+                 */
+
+                val path = Path()
+                path.moveTo(p01.x,p01.y)
+                path.lineTo(p02.x,p02.y)
+                path.lineTo(p03.x,p03.y)
+                path.lineTo(p04.x,p04.y)
+                path.close()
+                canvas.drawPath(path,linePaint)
+
+                bw++
+            }
+        }
+    }
+    /*
+    private fun drawPTN2(canvas: Canvas) {
+        var bw = 0
         (0 until spiralN).forEach loopA@{ i ->
             val k1 = i*360
             val k2 = (i+1)*360
@@ -322,6 +445,8 @@ class LogarithmicSpiralFriends01Drawable: MyDrawable() {
             }
         }
     }
+
+     */
 
     // -------------------------------
     // Drawable

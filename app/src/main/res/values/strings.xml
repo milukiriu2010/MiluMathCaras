@@ -136,7 +136,7 @@
     <string name="draw_000043_curve_hypotrochoid_01">Hypotrochoid</string>
     <string name="draw_000044_curve_rose_01">Rose</string>
     <string name="draw_000045_curve_torus_knot_01">Torus Knot</string>
-    <string name="draw_000046_curve_logarithmic_spiral_friends01">Spiral Friends\n 01</string>
+    <string name="draw_000046_curve_logarithmic_spiral_square01">Spiral Square\n 01</string>
     <string name="draw_000050_curve_lissajous_1_2">Lissajous(p:q=1:2)</string>
     <string name="draw_000051_curve_lissajous_3_2">Lissajous(p:q=3:2)</string>
     <string name="draw_000052_curve_lissajous_3_4">Lissajous(p:q=3:4)</string>
