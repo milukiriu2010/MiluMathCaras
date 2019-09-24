@@ -54,7 +54,7 @@ class Circle01Model: MgModelAbs() {
             datNor.addAll(arrayListOf(0f,0f,1f))
             // 色
             if ( ( color[0] == -1f ) and ( color[1] == -1f ) and ( color[2] == -1f ) and ( color[3] == -1f ) ) {
-                datCol.addAll(arrayListOf<Float>(1f,1f,1f,1f))
+                datCol.addAll(arrayListOf(1f,1f,1f,1f))
             }
             else {
                 datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))

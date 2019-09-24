@@ -110,9 +110,9 @@ class MgRendererFactory {
                 // 球体:キューブ環境マップ01
                 DrawDataID.ID_001304_GL_SPHERE_CUBEMAP_01 -> SphereCubemap01Renderer(context)
                 // 日本⇔バングラディッシュ01
-                DrawDataID.ID_001305_GL_JAPAN_2_BANGLADESH_01 -> Japan2Bangladesh01Renderer(
-                    context
-                )
+                DrawDataID.ID_001305_GL_JAPAN_2_BANGLADESH_01 -> Japan2Bangladesh01Renderer(context)
+                // 円のエピサイクロイド01
+                DrawDataID.ID_001306_GL_CIRCLE_EPICYCLOID_01 -> CircleEpicycloid01Renderer(context)
                 // 立方体の中をコッホ雪片が回転
                 DrawDataID.ID_001400_GL_KOCH_SNOWFLAKE_01 -> KochSnowflake01Renderer(context)
                 // コッホ雪片inキューブ環境マッピング
