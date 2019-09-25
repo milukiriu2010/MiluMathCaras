@@ -9,6 +9,7 @@ import milu.kiriu2010.math.MyMathUtil
 // -------------------------------------------
 // 2019.05.15  初回
 // 2019.07.02  パッケージ修正
+// 2019.09.25  上面・底面の色を変更可とした
 // -------------------------------------------
 class Cylinder01Model: MgModelAbs() {
 
@@ -40,11 +41,22 @@ class Cylinder01Model: MgModelAbs() {
         // 円柱の高さ
         var height = opt["height"] ?: 1f
         var scale  = opt["scale"] ?: 1f
-        var color  = FloatArray(4)
+        var color  = FloatArray(12)
+        // 側面
         color[0] = opt["colorR"] ?: -1f
         color[1] = opt["colorG"] ?: -1f
         color[2] = opt["colorB"] ?: -1f
         color[3] = opt["colorA"] ?: -1f
+        // 上面
+        color[4] = opt["colorRT"] ?: color[0]
+        color[5] = opt["colorGT"] ?: color[1]
+        color[6] = opt["colorBT"] ?: color[2]
+        color[7] = opt["colorAT"] ?: color[3]
+        // 底面
+        color[8] = opt["colorRB"] ?: color[0]
+        color[9] = opt["colorGB"] ?: color[1]
+        color[10] = opt["colorBB"] ?: color[2]
+        color[11] = opt["colorAB"] ?: color[3]
 
         // 円の半径(スケーリング後)
         val r = radius * scale
@@ -113,10 +125,10 @@ class Cylinder01Model: MgModelAbs() {
             datNor.addAll(arrayListOf(0f,1f,0f))
             datNor.addAll(arrayListOf(0f,1f,0f))
 
-            if ( ( color[0] != -1f ) and ( color[1] != -1f ) and ( color[2] != -1f ) and ( color[3] != -1f ) ) {
-                datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
-                datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
-                datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
+            if ( ( color[4] != -1f ) and ( color[5] != -1f ) and ( color[6] != -1f ) and ( color[7] != -1f ) ) {
+                datCol.addAll(arrayListOf(color[4],color[5],color[6],color[7]))
+                datCol.addAll(arrayListOf(color[4],color[5],color[6],color[7]))
+                datCol.addAll(arrayListOf(color[4],color[5],color[6],color[7]))
             }
             else {
                 var tc = MgColor.hsva(360/column*i,1f,1f,1f)
@@ -159,10 +171,10 @@ class Cylinder01Model: MgModelAbs() {
             datNor.addAll(arrayListOf(0f,-1f,0f))
             datNor.addAll(arrayListOf(0f,-1f,0f))
 
-            if ( ( color[0] != -1f ) and ( color[1] != -1f ) and ( color[2] != -1f ) and ( color[3] != -1f ) ) {
-                datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
-                datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
-                datCol.addAll(arrayListOf(color[0],color[1],color[2],color[3]))
+            if ( ( color[8] != -1f ) and ( color[9] != -1f ) and ( color[10] != -1f ) and ( color[11] != -1f ) ) {
+                datCol.addAll(arrayListOf(color[8],color[9],color[10],color[11]))
+                datCol.addAll(arrayListOf(color[8],color[9],color[10],color[11]))
+                datCol.addAll(arrayListOf(color[8],color[9],color[10],color[11]))
             }
             else {
                 var tc = MgColor.hsva(360/column*i,1f,1f,1f)
