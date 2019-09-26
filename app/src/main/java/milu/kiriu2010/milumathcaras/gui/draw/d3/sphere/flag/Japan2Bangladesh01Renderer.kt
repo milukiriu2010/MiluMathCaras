@@ -281,11 +281,6 @@ class Japan2Bangladesh01Renderer(ctx: Context): MgRenderer(ctx) {
             (0..b).forEach { i ->
                 val ii = i.toFloat()
                 val p = (i+j)%2
-                val q = when (i%2) {
-                    0 -> 1f
-                    1 -> -1f
-                    else -> 1f
-                }
 
                 val vaoRectangle = vaoRectangles[p]
 
@@ -332,11 +327,6 @@ class Japan2Bangladesh01Renderer(ctx: Context): MgRenderer(ctx) {
             (0..b).forEach { i ->
                 val ii = i.toFloat()
                 val p = (i+j)%2
-                val q = when (i%2) {
-                    0 -> 1f
-                    1 -> -1f
-                    else -> 1f
-                }
 
                 val vaoRectangle = vaoRectangles[p]
 

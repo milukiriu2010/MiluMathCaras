@@ -48,6 +48,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.d2.nature.vectors.RandomWalk01Drawa
 import milu.kiriu2010.milumathcaras.gui.draw.d2.nature.vectors.UniformMotion01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.hexagon.HexagonScale01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.hexagon.HexagonScale02Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.hexagon.HexagonScale03Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.polygon.*
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.square.Square2Cross01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.square.SquareInSquare01Drawable
@@ -363,6 +364,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000616_GUINEA_2_MALI_01 -> Guinea2Mali01Drawable()
                 // カメルーンの国旗⇔セネガルの国旗01
                 DrawDataID.ID_000617_CAMEROON_2_SENEGAL_01 -> Cameroon2Senegal01Drawable()
+                // 六角形の頂点から六角形が現れる01
+                DrawDataID.ID_000618_HEXAGON_SCALE_03 -> HexagonScale03Drawable()
                 // 三角形out三角形
                 DrawDataID.ID_000701_3_OUT_3 -> PolygonOutPolygon01Drawable()
                 // 三角形out四角形

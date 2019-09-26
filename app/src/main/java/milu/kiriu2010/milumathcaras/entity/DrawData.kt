@@ -305,6 +305,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_000616_GUINEA_2_MALI_01(616),
     // カメルーンの国旗⇔セネガルの国旗01
     ID_000617_CAMEROON_2_SENEGAL_01(617),
+    // 六角形の頂点から六角形が現れる01
+    ID_000618_HEXAGON_SCALE_03(618),
     // 三角形out三角形
     ID_000701_3_OUT_3(701),
     // 三角形out四角形

@@ -470,6 +470,8 @@ class DrawDataFactory {
                 }
                 // 敷き詰めた多角形を描画するメニュー
                 MenuItem.MENU_POLYGON_TILE -> {
+                    // 六角形の頂点から六角形が現れる01
+                    drawDataLst.add(DrawData(DrawDataID.ID_000618_HEXAGON_SCALE_03,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000618_polygon_hexagon_scale_03) ))
                     // カメルーンの国旗⇔セネガルの国旗01
                     drawDataLst.add(DrawData(DrawDataID.ID_000617_CAMEROON_2_SENEGAL_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000617_polygon_cameroon_2_senegal_01) ))
                     // ギニアの国旗⇔マリの国旗01

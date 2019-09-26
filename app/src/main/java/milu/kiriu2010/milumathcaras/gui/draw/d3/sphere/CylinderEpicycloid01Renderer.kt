@@ -49,8 +49,6 @@ class CylinderEpicycloid01Renderer(ctx: Context): MgRenderer(ctx) {
             angle[0] =(angle[0]+2)%360
         }
         val t0 = angle[0].toFloat()
-        val cos0 = MyMathUtil.cosf(t0)
-        val sin0 = MyMathUtil.sinf(t0)
 
         // ビュー×プロジェクション
         vecEye = qtnNow.toVecIII(floatArrayOf(0f,3f,6f))

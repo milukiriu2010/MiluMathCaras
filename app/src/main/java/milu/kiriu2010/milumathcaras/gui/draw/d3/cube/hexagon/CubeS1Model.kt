@@ -22,15 +22,15 @@ class CubeS1Model: MgModelAbs() {
         val pattern = opt["pattern"]?.toInt() ?: 1
 
         when ( pattern ) {
-            1 -> createPathPattern1(opt)
-            else -> createPathPattern1(opt)
+            1 -> createPathPattern1()
+            else -> createPathPattern1()
         }
 
         // バッファ割り当て
         allocateBuffer()
     }
 
-    private fun createPathPattern1( opt: Map<String,Float> ) {
+    private fun createPathPattern1() {
         datPos.clear()
         datNor.clear()
         datCol.clear()
@@ -75,12 +75,6 @@ class CubeS1Model: MgModelAbs() {
         datPos.addAll(ArrayList(vh))   // v22,v14,v11
         datPos.addAll(ArrayList(vg))   // v23,v10,v7
 
-        /*
-        datPos.addAll(ArrayList(vb))   // v4,v1
-        datPos.addAll(ArrayList(ve))   // v5
-        datPos.addAll(ArrayList(vd))   // v6,v3
-        datPos.addAll(ArrayList(vg))   // v7
-         */
         datPos.addAll(vi)
         datPos.addAll(vb)
         datPos.addAll(vj)
@@ -111,7 +105,7 @@ class CubeS1Model: MgModelAbs() {
         // 面ごとに色指定
         // -----------------------------
         // 面
-        (0..4).forEach { faceId ->
+        (0..4).forEach { _ ->
             // 頂点
             (0..3).forEach {
                 datCol.addAll(arrayListOf(0f,0f,0f,1f))
