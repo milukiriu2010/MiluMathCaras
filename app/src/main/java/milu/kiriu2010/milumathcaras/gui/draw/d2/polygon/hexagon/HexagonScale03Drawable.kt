@@ -16,10 +16,18 @@ import kotlin.math.sqrt
 // -----------------------------------------------------------------
 class HexagonScale03Drawable: MyDrawable() {
 
+    private enum class ModePtn {
+        PTN1,
+        PTN2
+    }
+
+    // 現在のモード
+    private var modeNow = ModePtn.PTN1
+
     // -------------------------------
     // 描画領域
     // -------------------------------
-    private val side = 960f
+    private val side = 720f
     private val margin = 0f
 
     // -------------------------------
@@ -29,15 +37,19 @@ class HexagonScale03Drawable: MyDrawable() {
     // -------------------------------
     // 六角形を形成する半径の長さ
     // -------------------------------
-    private val r = side/splitN.toFloat()*0.5f
-    private val r3 = r*sqrt(3f)
+    private val a = side/splitN.toFloat()
+    // 六角形の半径の半分の長さ
+    private val b = a * 0.5f
+    // 六角形の中心と辺との距離
+    private val c = b*sqrt(3f)
 
     // 基準となる六角形
     private val hexagon = mutableListOf<MyPointF>()
 
     // 1ターン内の移動比率
-    private var ratioN = 0
-    private val ratioLst = floatArrayOf(1f,0.9f,0.8f,0.7f,0.6f,0.5f,0.6f,0.7f,0.8f)
+    private var ratioDv = 0.1f
+    private val ratio1Lst = floatArrayOf(0f,-1f,-2f)
+    private val ratioLst = ratio1Lst.copyOf()
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -69,7 +81,8 @@ class HexagonScale03Drawable: MyDrawable() {
     // -------------------------------
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLACK
-        style = Paint.Style.FILL
+        style = Paint.Style.STROKE
+        strokeWidth = 5f
     }
 
     // -------------------------------------
@@ -151,8 +164,8 @@ class HexagonScale03Drawable: MyDrawable() {
         (0..5).forEach { i ->
             val t = 30f + 60f * i.toFloat()
             val p = MyPointF().also {
-                it.x = r * MyMathUtil.cosf(t)
-                it.y = r * MyMathUtil.sinf(t)
+                it.x = a * MyMathUtil.cosf(t)
+                it.y = a * MyMathUtil.sinf(t)
             }
             hexagon.add(p)
         }
@@ -162,7 +175,16 @@ class HexagonScale03Drawable: MyDrawable() {
     // スケールを変更する
     // -------------------------------
     private fun shiftScale() {
-        ratioN = (ratioN+1)%ratioLst.size
+        when (modeNow) {
+            ModePtn.PTN1 -> shiftScale1()
+        }
+    }
+
+    // スケールを変更する(パターン１)
+    private fun shiftScale1() {
+        ratioLst.forEachIndexed { id, ratio ->
+            ratioLst[id] = ratio + ratioDv
+        }
     }
 
     // -------------------------------
@@ -176,46 +198,16 @@ class HexagonScale03Drawable: MyDrawable() {
         // 枠を描画
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
-        // 座標を保存
-        canvas.save()
-
-        // 原点を移動
-        canvas.translate(intrinsicWidth.toFloat()*0.5f,intrinsicHeight.toFloat()*0.5f)
-
-        (0..splitN).forEach { i ->
-            val ii = i.toFloat()
-            val ratioA = (i+ratioN)%ratioLst.size
-            val ratio = ratioLst[ratioA]
-            //Log.d(javaClass.simpleName,"ratio[$ratio]hexagon[${hexagon.size}]")
-            (0..5).forEach { j ->
-                val rr = r*ii
-                val cos = rr*MyMathUtil.cosf(60f * j)
-                val sin = rr*MyMathUtil.sinf(60f * j)
-
-                canvas.save()
-                canvas.translate(cos,sin)
-                drawHexagon(canvas,ratio)
-
-                /*
-                // 途中のパスに六角形を描く
-                val kmax = if ( i <= 1 ) 0 else i-1
-                val cos1 = r3*MyMathUtil.cosf(120f+60f*jj)
-                val sin1 = r3*MyMathUtil.sinf(120f+60f*jj)
-                (1..kmax).forEach { k ->
-                    val kk = k.toFloat()
-                    canvas.translate(cos1,sin1)
-                    drawHexagon(canvas,ratio)
-                }
-                */
-
-                canvas.restore()
-            }
+        // ベース描画
+        when (modeNow) {
+            ModePtn.PTN1 -> drawBasePtn1(canvas)
+            ModePtn.PTN2 -> drawBasePtn2(canvas)
         }
 
-
-
-        // 座標を元に戻す
-        canvas.restore()
+        // アニメ描画
+        when (modeNow) {
+            ModePtn.PTN1 -> drawAnimPtn1(canvas)
+        }
 
         // これまでの描画はテンポラリなので、実体にコピーする
         val matrix = Matrix()
@@ -223,17 +215,90 @@ class HexagonScale03Drawable: MyDrawable() {
         imageBitmap = Bitmap.createBitmap(tmpBitmap,0,0,intrinsicWidth,intrinsicHeight,matrix,true)
     }
 
-    private fun drawHexagon(canvas: Canvas, ratio: Float) {
+    // ベース描画(パターン１)
+    private fun drawBasePtn1(canvas: Canvas) {
+        (0..splitN).forEach { i ->
+            val ii = i.toFloat()
+
+            val shx = when (i%2) {
+                0 -> 0f
+                1 -> -c
+                else -> 0f
+            }
+
+            // 座標を保存
+            canvas.save()
+            canvas.translate(shx,ii*3f*b-a+b)
+
+            (0..splitN).forEach { _ ->
+                drawHexagon(canvas,1f)
+                canvas.translate(2f*c,0f)
+            }
+            // 座標を元に戻す
+            canvas.restore()
+        }
+    }
+
+    // アニメ描画(パターン１)
+    private fun drawAnimPtn1(canvas: Canvas) {
+        // 座標を保存
+        canvas.save()
+
+        canvas.translate(intrinsicWidth.toFloat()*0.5f,intrinsicHeight.toFloat()*0.5f)
+
+        (0..0).forEach { i ->
+            val ii = i.toFloat()
+            val ratio = ratioLst[i]
+            drawHexagon(canvas,ratio,true)
+        }
+
+        // 座標を元に戻す
+        canvas.restore()
+    }
+
+    // ベース描画(パターン２)
+    private fun drawBasePtn2(canvas: Canvas) {
+        (0..splitN).forEach { i ->
+            val ii = i.toFloat()
+
+            val shx = when (i%2) {
+                0 -> 0f
+                1 -> -c
+                else -> 0f
+            }
+
+            // 座標を保存
+            canvas.save()
+            canvas.translate(shx,ii*3f*b-a-b)
+
+            (0..splitN).forEach { _ ->
+                drawHexagon(canvas,1f)
+                canvas.translate(2f*c,0f)
+            }
+            // 座標を元に戻す
+            canvas.restore()
+        }
+    }
+
+    // 六角形を描画
+    private fun drawHexagon(canvas: Canvas, ratio: Float, backFlg: Boolean = false ) {
+        val ratioA = when {
+            ratio < 0f -> 0f
+            ratio > 1f -> 1f
+            else -> ratio
+        }
+
         val path = Path()
         hexagon.forEachIndexed { id, myPointF ->
             if ( id == 0 ) {
-                path.moveTo(myPointF.x*ratio,myPointF.y*ratio)
+                path.moveTo(myPointF.x*ratioA,myPointF.y*ratioA)
             }
             else {
-                path.lineTo(myPointF.x*ratio,myPointF.y*ratio)
+                path.lineTo(myPointF.x*ratioA,myPointF.y*ratioA)
             }
         }
         path.close()
+        if (backFlg) canvas.drawPath(path,backPaint)
         canvas.drawPath(path,linePaint)
     }
 
