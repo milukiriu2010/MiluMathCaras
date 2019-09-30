@@ -48,8 +48,8 @@ class HexagonScale03Drawable: MyDrawable() {
 
     // 1ターン内の移動比率
     private var ratioDv = 0.1f
-    private val ratio1Lst = floatArrayOf(0f,-1f,-2f)
-    private val ratioLst = ratio1Lst.copyOf()
+    private val ratio1Lst = floatArrayOf(0f,-1f,-2f,-3f,-4f,-5f,-6f)
+    private var ratioLst = ratio1Lst.copyOf()
 
     // ---------------------------------------------------------------------
     // 描画領域として使うビットマップ
@@ -169,6 +169,11 @@ class HexagonScale03Drawable: MyDrawable() {
             }
             hexagon.add(p)
         }
+
+        ratioLst = when (modeNow) {
+            ModePtn.PTN1 -> ratio1Lst.copyOf()
+            ModePtn.PTN2 -> ratio1Lst.copyOf()
+        }
     }
 
     // -------------------------------
@@ -195,9 +200,6 @@ class HexagonScale03Drawable: MyDrawable() {
         // バックグランドを描画
         canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),backPaint)
 
-        // 枠を描画
-        canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
-
         // ベース描画
         when (modeNow) {
             ModePtn.PTN1 -> drawBasePtn1(canvas)
@@ -208,6 +210,10 @@ class HexagonScale03Drawable: MyDrawable() {
         when (modeNow) {
             ModePtn.PTN1 -> drawAnimPtn1(canvas)
         }
+
+
+        // 枠を描画
+        canvas.drawRect(RectF(0f,0f,intrinsicWidth.toFloat(),intrinsicHeight.toFloat()),framePaint)
 
         // これまでの描画はテンポラリなので、実体にコピーする
         val matrix = Matrix()
@@ -246,10 +252,39 @@ class HexagonScale03Drawable: MyDrawable() {
 
         canvas.translate(intrinsicWidth.toFloat()*0.5f,intrinsicHeight.toFloat()*0.5f)
 
-        (0..0).forEach { i ->
-            val ii = i.toFloat()
+        (0..(splitN/2)).forEach { i ->
+            val cc = i.toFloat() * 2f *c
             val ratio = ratioLst[i]
-            drawHexagon(canvas,ratio,true)
+
+            (0..5).forEach { j ->
+                val jj1 = j.toFloat()*60f
+                val cos1 = cc*MyMathUtil.cosf(jj1)
+                val sin1 = cc*MyMathUtil.sinf(jj1)
+                val jj2 = (j+1).toFloat()*60f
+                val cos2 = cc*MyMathUtil.cosf(jj2)
+                val sin2 = cc*MyMathUtil.sinf(jj2)
+
+                // 六角形を描く(六角形の頂点上)
+                canvas.save()
+                canvas.translate(cos1,sin1)
+                drawHexagon(canvas,ratio,true)
+                canvas.restore()
+
+                // 六角形を描く(六角形の頂点間)
+                val n = i-1
+                val nn = n.toFloat()
+                val m = n+1
+                val mm = m.toFloat()
+                (1..n).forEach { k ->
+                    val kk = k.toFloat()
+                    canvas.save()
+                    val x = ((mm-kk)*cos1+kk*cos2)/mm
+                    val y = ((mm-kk)*sin1+kk*sin2)/mm
+                    canvas.translate(x,y)
+                    drawHexagon(canvas,ratio,true)
+                    canvas.restore()
+                }
+            }
         }
 
         // 座標を元に戻す
