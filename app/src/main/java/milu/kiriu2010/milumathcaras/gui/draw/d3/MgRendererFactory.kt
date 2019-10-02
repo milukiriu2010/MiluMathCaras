@@ -19,6 +19,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.d3.net.octahedron.NetOctahedron01Re
 import milu.kiriu2010.milumathcaras.gui.draw.d3.net.tetrahedron.NetTetrahedron02Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.sphere.*
 import milu.kiriu2010.milumathcaras.gui.draw.d3.sphere.flag.Japan2Bangladesh01Renderer
+import milu.kiriu2010.milumathcaras.gui.draw.d3.sphere.flag.Japan2Greenland01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.view.Polyhedron02Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.wave.CirclePhaseShift01Renderer
 import milu.kiriu2010.milumathcaras.gui.draw.d3.wave.Helix01Renderer
@@ -113,6 +114,8 @@ class MgRendererFactory {
                 DrawDataID.ID_001305_GL_JAPAN_2_BANGLADESH_01 -> Japan2Bangladesh01Renderer(context)
                 // 円柱のエピサイクロイド01
                 DrawDataID.ID_001306_GL_CYLINDER_EPICYCLOID_01 -> CylinderEpicycloid01Renderer(context)
+                // 日本⇔グリーンランド01
+                DrawDataID.ID_001307_GL_JAPAN2_GREENLAND_01 -> Japan2Greenland01Renderer(context)
                 // 立方体の中をコッホ雪片が回転
                 DrawDataID.ID_001400_GL_KOCH_SNOWFLAKE_01 -> KochSnowflake01Renderer(context)
                 // コッホ雪片inキューブ環境マッピング

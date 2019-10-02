@@ -901,6 +901,8 @@ class DrawDataFactory {
                 }
                 // 球体に座標変換を施したものを描画するメニュー
                 MenuItem.MENU_POLYHEDRON_SPHERE_TRANSFORM -> {
+                    // 日本⇔グリーンランド01
+                    drawDataLst.add(DrawData(DrawDataID.ID_001307_GL_JAPAN2_GREENLAND_01,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001307_gl_japan_2_greenland_01), drawViewType = DrawViewType.DVT_GL ))
                     // 円柱のエピサイクロイド01
                     drawDataLst.add(DrawData(DrawDataID.ID_001306_GL_CYLINDER_EPICYCLOID_01,DrawFragmentType.FT_D3_ES32_02,resources.getString(R.string.draw_001306_gl_cylinder_epicycloid_01), drawViewType = DrawViewType.DVT_GL ))
                     // 日本⇔バングラディッシュ01

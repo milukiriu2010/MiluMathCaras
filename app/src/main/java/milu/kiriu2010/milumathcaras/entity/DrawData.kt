@@ -572,6 +572,8 @@ enum class DrawDataID(val id: Int): Parcelable {
     ID_001305_GL_JAPAN_2_BANGLADESH_01(1305),
     // 円柱のエピサイクロイド01
     ID_001306_GL_CYLINDER_EPICYCLOID_01(1306),
+    // 日本⇔グリーンランド01
+    ID_001307_GL_JAPAN2_GREENLAND_01(1307),
     // 立方体の中をコッホ雪片が回転
     ID_001400_GL_KOCH_SNOWFLAKE_01(1400),
     // コッホ雪片inキューブ環境マッピング
