@@ -10,6 +10,7 @@ import milu.kiriu2010.math.MyMathUtil
 // 縦：横=１：２
 // (1) 日本
 // (2) バングラディッシュ
+// (3) 上半分(白)
 // ----------------------------------------------
 // 2019.09.15
 // ----------------------------------------------
@@ -39,6 +40,8 @@ class Rectangle01Model: MgModelAbs() {
             1 -> createPathPattern1()
             // バングラディッシュ
             2 -> createPathPattern2()
+            // 上半分(白)
+            3 -> createPathPattern3()
             else -> createPathPattern1()
         }
 
@@ -82,5 +85,15 @@ class Rectangle01Model: MgModelAbs() {
         vd = arrayListOf( a, a*0.5f,0f)
 
         color = arrayListOf(0f,0.6f,0f,1f)
+    }
+
+    // 上半分(白)
+    private fun createPathPattern3() {
+        va = arrayListOf(-a, a*0.5f,0f)
+        vb = arrayListOf(-a,     0f,0f)
+        vc = arrayListOf( a,     0f,0f)
+        vd = arrayListOf( a, a*0.5f,0f)
+
+        color = arrayListOf(1f,1f,1f,1f)
     }
 }

@@ -83,7 +83,8 @@ class Japan2Greenland01Renderer(ctx: Context): MgRenderer(ctx) {
                     ptnNow = when (ptnNow) {
                         ModePtn.PTN1 -> {
                             rot = rot2
-                            ModePtn.PTN3
+                            ModePtn.PTN1
+                            //ModePtn.PTN3
                         }
                         ModePtn.PTN3 -> {
                             rot = rot2
@@ -111,8 +112,8 @@ class Japan2Greenland01Renderer(ctx: Context): MgRenderer(ctx) {
         val t0 = angle[0].toFloat()
 
         // ビュー×プロジェクション
-        //vecEye = qtnNow.toVecIII(floatArrayOf(0f,0f,12f))
-        vecEye = qtnNow.toVecIII(floatArrayOf(0f,0f,5f))
+        vecEye = qtnNow.toVecIII(floatArrayOf(0f,0f,12f))
+        //vecEye = qtnNow.toVecIII(floatArrayOf(0f,0f,5f))
         vecEyeUp = qtnNow.toVecIII(floatArrayOf(0f,1f,0f))
         Matrix.setLookAtM(matV, 0,
             vecEye[0], vecEye[1], vecEye[2],
@@ -121,85 +122,76 @@ class Japan2Greenland01Renderer(ctx: Context): MgRenderer(ctx) {
         Matrix.perspectiveM(matP,0,45f,1f,0.1f,60f)
         Matrix.multiplyMM(matVP,0,matP,0,matV,0)
 
-        /*
         when (ptnNow) {
             ModePtn.PTN1 -> transformPtn1(t0)
+            /*
             ModePtn.PTN2 -> transformPtn2(t0)
             ModePtn.PTN3 -> transformPtn3(t0)
             ModePtn.PTN4 -> transformPtn4(t0)
             ModePtn.PTN5 -> transformPtn5(t0)
             ModePtn.PTN6 -> transformPtn6(t0)
+             */
         }
 
-         */
-
-
+        /*
         Matrix.setIdentityM(matM,0)
         Matrix.rotateM(matM,0,t0,0f,1f,0f)
         Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
         shaderSimple.draw(vaoSphere,matMVP)
-
+        */
     }
 
-    /*
     // 旗の境を中心に球体が180度回転
     private fun transformPtn1(t0: Float) {
         val bbi = (b+1).toFloat()*0.5f
         val bbj = b.toFloat()
-        (0..2*b).forEach { j ->
+        (0..2*b).forEach { j->
             val jj = j.toFloat()
             (0..b).forEach { i ->
                 val ii = i.toFloat()
-                val k = (i+j)%2
 
-                // 長方形を描画
+                val m = (i+j)%4
+
+                // 長方形(上)
                 Matrix.setIdentityM(matM,0)
-                Matrix.translateM(matM,0,2f*a*ii-bbi*2f*a+a,a*jj-bbj*a,0f)
+                Matrix.translateM(matM,0,ii*2f*a-bbi*2f*a,jj*a-bbj*a,0f)
                 Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
-                val vaoRectangle = vaoRectangles[k]
-                shaderSimple.draw(vaoRectangle,matMVP)
-
-            }
-        }
-
-        (0..2*b).forEach { j ->
-            val jj = j.toFloat()
-            val ll = when (j%2) {
-                0 -> 1f
-                1 -> -1f
-                else -> 1f
-            }
-
-            (0..b+2).forEach { i ->
-                val ii = i.toFloat()
-                val k = (i+j)%2
-                val sha: Float
-                val kk = when(k) {
-                    0 -> {
-                        sha = 2f*a
-                        -1f
-                    }
-                    1 -> {
-                        sha = 0f
-                        1f
-                    }
-                    else -> {
-                        sha = 2f*a
-                        -1f
-                    }
+                val vaoRectangleU = when (m) {
+                    0 -> vaoRectangles[0]
+                    else -> vaoRectangles[0]
                 }
+                shaderSimple.draw(vaoRectangleU,matMVP)
 
-                // 球体を描画
+                // 長方形(下)
                 Matrix.setIdentityM(matM,0)
-                Matrix.translateM(matM,0,2f*a*ii-bbi*2f*a+sha,a*jj-bbj*a,0f)
-                Matrix.rotateM(matM,0,ll*t0,0f,1f,0f)
-                Matrix.translateM(matM,0,kk*a,0f,0f)
+                Matrix.translateM(matM,0,ii*2f*a-bbi*2f*a,jj*a-bbj*a,0f)
+                when (m) {
+                    // 日本
+                    0 -> Matrix.translateM(matM,0,0f,-a*0.5f,0f)
+                }
+                Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
+                val vaoRectangleD = when (m) {
+                    0 -> vaoRectangles[0]
+                    else -> vaoRectangles[0]
+                }
+                shaderSimple.draw(vaoRectangleD,matMVP)
+
+                // 球体
+                Matrix.setIdentityM(matM,0)
+                //Matrix.rotateM(matM,0,t0,0f,1f,0f)
+                Matrix.translateM(matM,0,ii*2f*a-bbi*2f*a,jj*a-bbj*a,0f)
+                when (m) {
+                    // 日本
+                    0 -> Matrix.rotateM(matM,0,90f,1f,0f,0f)
+                }
                 Matrix.multiplyMM(matMVP,0,matVP,0,matM,0)
                 shaderSimple.draw(vaoSphere,matMVP)
             }
         }
+
     }
 
+    /*
     // 旗の中央を中心に旗が180度回転
     // 使わないことにした
     private fun transformPtn2(t0: Float) {
@@ -429,7 +421,7 @@ class Japan2Greenland01Renderer(ctx: Context): MgRenderer(ctx) {
         }
         vaoRectangles.clear()
 
-        (1..2).forEach {
+        (3..3).forEach {
             // 描画モデル(長方形)
             val modelRectangle = Rectangle01Model()
             modelRectangle.createPath(mapOf(
