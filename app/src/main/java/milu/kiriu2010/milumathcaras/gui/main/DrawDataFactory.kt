@@ -470,6 +470,8 @@ class DrawDataFactory {
                 }
                 // 敷き詰めた多角形を描画するメニュー
                 MenuItem.MENU_POLYGON_TILE -> {
+                    // 三角形⇔六角形03
+                    drawDataLst.add(DrawData(DrawDataID.ID_000619_TRIANGLE_2_HEXAGON_03,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000619_polygon_triangle_2_hexagon_03) ))
                     // 六角形の頂点から六角形が現れる01
                     drawDataLst.add(DrawData(DrawDataID.ID_000618_HEXAGON_SCALE_03,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000618_polygon_hexagon_scale_03) ))
                     // カメルーンの国旗⇔セネガルの国旗01
@@ -479,7 +481,7 @@ class DrawDataFactory {
                     // 正方形⇔正方形
                     drawDataLst.add(DrawData(DrawDataID.ID_000615_SQUARE_2_SQUARE_01,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000615_polygon_square_2_square_01),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://twitter.com/beesandbombs/status/1044920001646473216") ))
-                    // 三角形⇔ひし形02
+                    // 三角形⇔六角形02
                     drawDataLst.add(DrawData(DrawDataID.ID_000614_TRIANGLE_2_HEXAGON_02,DrawFragmentType.FT_D2_CREDIT_01,resources.getString(R.string.draw_000614_polygon_triangle_2_hexagon_02),
                         creditMap = mutableMapOf<String,String>("name" to "beesandbombs", "url" to "https://66.media.tumblr.com/9d2270db688ea684dd5e86b6c718e334/tumblr_oqhhibwGeV1r2geqjo1_540.gif") ))
                     // 六角形が波打つようにスケールを変更01

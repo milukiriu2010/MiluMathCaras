@@ -62,6 +62,7 @@ import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.triangle.center.*
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.triangle.tile.Triangle2Diamond01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.triangle.tile.Triangle2Hexagon01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.triangle.tile.Triangle2Hexagon02Drawable
+import milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.triangle.tile.Triangle2Hexagon03Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.wave.color.RgbWeaveWave01Drawable
 import milu.kiriu2010.milumathcaras.gui.draw.d2.wave.sine.*
 import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
@@ -366,6 +367,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000617_CAMEROON_2_SENEGAL_01 -> Cameroon2Senegal01Drawable()
                 // 六角形の頂点から六角形が現れる01
                 DrawDataID.ID_000618_HEXAGON_SCALE_03 -> HexagonScale03Drawable()
+                // 三角形⇔六角形03
+                DrawDataID.ID_000619_TRIANGLE_2_HEXAGON_03 -> Triangle2Hexagon03Drawable()
                 // 三角形out三角形
                 DrawDataID.ID_000701_3_OUT_3 -> PolygonOutPolygon01Drawable()
                 // 三角形out四角形
