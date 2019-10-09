@@ -449,6 +449,8 @@ class DrawDataFactory {
                 }
                 // "多角形のMix"を選択したときの描画データの一覧
                 MenuItem.MENU_POLYGON_MIX -> {
+                    // 回転する三角形01
+                    drawDataLst.add(DrawData(DrawDataID.ID_000620_TRIANGLE_ROTATE_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000620_polygon_triangle_rotate_01) ))
                     // 正方形内を正方形が移動
                     drawDataLst.add(DrawData(DrawDataID.ID_000613_SQUARE_IN_SQUARE_01,DrawFragmentType.FT_D2_01,resources.getString(R.string.draw_000613_polygon_square_in_square_01) ))
                     // 三角形内を線が移動

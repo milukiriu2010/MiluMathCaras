@@ -369,6 +369,8 @@ class MyDrawableFactory {
                 DrawDataID.ID_000618_HEXAGON_SCALE_03 -> HexagonScale03Drawable()
                 // 三角形⇔六角形03
                 DrawDataID.ID_000619_TRIANGLE_2_HEXAGON_03 -> Triangle2Hexagon03Drawable()
+                // 回転する三角形01
+                DrawDataID.ID_000620_TRIANGLE_ROTATE_01 -> TriangleRotate01Drawable()
                 // 三角形out三角形
                 DrawDataID.ID_000701_3_OUT_3 -> PolygonOutPolygon01Drawable()
                 // 三角形out四角形

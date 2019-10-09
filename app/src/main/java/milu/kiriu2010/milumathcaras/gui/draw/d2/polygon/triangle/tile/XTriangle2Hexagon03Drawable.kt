@@ -22,7 +22,7 @@ import kotlin.math.sqrt
 // -----------------------------------------------------------------
 // 2019.10.08
 // -----------------------------------------------------------------
-class Triangle2Hexagon03Drawable: MyDrawable() {
+class XTriangle2Hexagon03Drawable: MyDrawable() {
 
     // 描画パターン
     enum class ModePtn {
@@ -41,7 +41,7 @@ class Triangle2Hexagon03Drawable: MyDrawable() {
     // -------------------------------
     // 描画領域
     // -------------------------------
-    private val side = a1a*4f
+    private val side = a1a*10f
     private val margin = 0f
 
     // 描画数
@@ -51,8 +51,8 @@ class Triangle2Hexagon03Drawable: MyDrawable() {
     private val ratioMax = 1f
     private val ratioMin = 0f
     private var ratioNow = ratioMin
-    private var ratioDv = 0.05f
-    private val ratios = floatArrayOf(0.2f,0.4f,0.6f,0.8f,1f)
+    private var ratioDv = 0.1f
+    private val ratios = floatArrayOf(0f,-0.5f,-1f,-1.5f,-2f,-2.5f)
 
     // 描画する多角形リスト
     private val polygons = mutableListOf<Polygon>()
@@ -91,7 +91,7 @@ class Triangle2Hexagon03Drawable: MyDrawable() {
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLACK
         style = Paint.Style.STROKE
-        strokeWidth = 4f
+        strokeWidth = 10f
     }
 
     // -------------------------------------
@@ -140,20 +140,11 @@ class Triangle2Hexagon03Drawable: MyDrawable() {
                     // 描画
                     invalidateSelf()
 
-                    handler.postDelayed(runnable, 300)
-                    /*
-                    if ( ratios.contains(ratioNow) ) {
-                        handler.postDelayed(runnable, 800)
-                    }
-                    else {
-                        handler.postDelayed(runnable, 200)
-                    }
-
-                     */
+                    handler.postDelayed(runnable, 100)
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
-                    handler.postDelayed(runnable, 200)
+                    handler.postDelayed(runnable, 100)
                 }
             }
             handler.postDelayed(runnable, 1000)
@@ -182,8 +173,6 @@ class Triangle2Hexagon03Drawable: MyDrawable() {
     // -------------------------------
     private fun createPath() {
         if ( ( isInitialized ) and ( ratioNow < ratioMax ) ) return
-
-        ratioNow = ratioMin
 
         // 現在のモードを変更
         modeNow = when (modeNow) {
@@ -217,7 +206,7 @@ class Triangle2Hexagon03Drawable: MyDrawable() {
 
         (0..splitN).forEach { i ->
             val polygon1 = polygon0.copy()
-            //polygon1.ratio = ratios[i]
+            polygon1.ratio = ratios[i]
             polygons.add(polygon1)
         }
     }
@@ -226,7 +215,6 @@ class Triangle2Hexagon03Drawable: MyDrawable() {
     // 三角形を移動する
     // -------------------------------
     private fun movePath() {
-        ratioNow += ratioDv
     }
 
     // -------------------------------
@@ -271,21 +259,19 @@ class Triangle2Hexagon03Drawable: MyDrawable() {
 
             (0..5).forEach { j ->
                 val jj = j.toFloat() * 60f
-                val x0 = ii * a1r * MyMathUtil.cosf(jj+360f*ratioNow)
-                val y0 = ii * a1r * MyMathUtil.sinf(jj+360f*ratioNow)
+                val x0 = ii * a1r * MyMathUtil.cosf(jj)
+                val y0 = ii * a1r * MyMathUtil.sinf(jj)
 
                 canvas.save()
                 canvas.translate(x0,y0)
 
                 val path = Path()
-                polygon.ps.reversed().forEachIndexed { id, p1 ->
-                    val p2 = p1.copy().rotate(-120f*ratioNow)
-
+                polygon.ps.reversed().forEachIndexed { id, p ->
                     if (id == 0) {
-                        path.moveTo(p2.x,p2.y)
+                        path.moveTo(p.x,p.y)
                     }
                     else {
-                        path.lineTo(p2.x,p2.y)
+                        path.lineTo(p.x,p.y)
                     }
                 }
                 path.close()

@@ -1,4 +1,4 @@
-package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.triangle.tile
+package milu.kiriu2010.milumathcaras.gui.draw.d2.polygon.triangle
 
 import android.graphics.*
 import android.os.Handler
@@ -9,30 +9,14 @@ import milu.kiriu2010.milumathcaras.gui.main.NotifyCallback
 import kotlin.math.sqrt
 
 // -----------------------------------------------------------------
-// 三角形⇔六角形03
-// -----------------------------------------------------------------
-// (1) 三角形
-// (2) 三角形＋台形
-// (3) 六角形＋平行四辺形
-// (4) 六角形
-// ⇒ (1)
+// 回転する三角形03
 // -----------------------------------------------------------------
 // (1) 三角形の一辺 = 2*sqrt(3)*a
 //     三角形の半径 = 2*a
 // -----------------------------------------------------------------
 // 2019.10.08
 // -----------------------------------------------------------------
-class Triangle2Hexagon03Drawable: MyDrawable() {
-
-    // 描画パターン
-    enum class ModePtn {
-        PTN1,
-        PTN2
-    }
-
-    // 現在の描画パターン
-    private var modeNow = ModePtn.PTN1
-
+class TriangleRotate01Drawable: MyDrawable() {
     // (1) 三角形の一辺
     private val a1a = 50f*sqrt(3f)
     // (1) 三角形の半径
@@ -52,7 +36,6 @@ class Triangle2Hexagon03Drawable: MyDrawable() {
     private val ratioMin = 0f
     private var ratioNow = ratioMin
     private var ratioDv = 0.05f
-    private val ratios = floatArrayOf(0.2f,0.4f,0.6f,0.8f,1f)
 
     // 描画する多角形リスト
     private val polygons = mutableListOf<Polygon>()
@@ -117,8 +100,6 @@ class Triangle2Hexagon03Drawable: MyDrawable() {
     //
     // --------------------------------------
     override fun calStart(isKickThread: Boolean, vararg values: Float) {
-        // "描画点の初期位置設定"をしたかどうか
-        isInitialized = false
         // 描画点の初期位置設定
         createPath()
         // ビットマップに描画
@@ -141,15 +122,6 @@ class Triangle2Hexagon03Drawable: MyDrawable() {
                     invalidateSelf()
 
                     handler.postDelayed(runnable, 300)
-                    /*
-                    if ( ratios.contains(ratioNow) ) {
-                        handler.postDelayed(runnable, 800)
-                    }
-                    else {
-                        handler.postDelayed(runnable, 200)
-                    }
-
-                     */
                 }
                 // "停止"状態のときは、更新されないよう処理をスキップする
                 else {
@@ -185,19 +157,11 @@ class Triangle2Hexagon03Drawable: MyDrawable() {
 
         ratioNow = ratioMin
 
-        // 現在のモードを変更
-        modeNow = when (modeNow) {
-            ModePtn.PTN1 -> ModePtn.PTN1
-            else -> ModePtn.PTN1
+        if ( isInitialized == false ) {
+            initPathPtn1()
         }
 
-        // 多角形のパスを初期化
-        when (modeNow) {
-            ModePtn.PTN1 -> initPathPtn1()
-        }
-
-
-        if ( isInitialized == false ) isInitialized = true
+        isInitialized = true
     }
 
     // -------------------------------
@@ -215,9 +179,8 @@ class Triangle2Hexagon03Drawable: MyDrawable() {
             }
         }
 
-        (0..splitN).forEach { i ->
+        (0..splitN).forEach { _ ->
             val polygon1 = polygon0.copy()
-            //polygon1.ratio = ratios[i]
             polygons.add(polygon1)
         }
     }
@@ -249,9 +212,7 @@ class Triangle2Hexagon03Drawable: MyDrawable() {
         canvas.translate(x0,y0)
 
         // 描画
-        when (modeNow) {
-            ModePtn.PTN1 -> drawPtn1(canvas)
-        }
+        drawPtn1(canvas)
 
         canvas.restore()
 
@@ -339,8 +300,6 @@ class Triangle2Hexagon03Drawable: MyDrawable() {
     // --------------------------------------
     private data class Polygon(
         // 頂点の位置
-        var ps: MutableList<MyPointF> = mutableListOf(),
-        // 移動比率
-        var ratio: Float = 0f
+        var ps: MutableList<MyPointF> = mutableListOf()
     )
 }
