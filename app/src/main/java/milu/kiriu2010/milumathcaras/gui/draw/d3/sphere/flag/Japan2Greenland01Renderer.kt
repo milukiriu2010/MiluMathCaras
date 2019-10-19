@@ -46,7 +46,7 @@ class Japan2Greenland01Renderer(ctx: Context): MgRenderer(ctx) {
 
     // 時間停止
     val timeS = 0
-    val timeE = 10
+    val timeE = 20
     var timeN = timeS
 
     // 回転角度
@@ -68,7 +68,7 @@ class Japan2Greenland01Renderer(ctx: Context): MgRenderer(ctx) {
             // 時間復活
             else {
 
-                angle[0] =(angle[0]+1)%rot
+                angle[0] =(angle[0]+2)%rot
                 if ( angle[0] == 0 ) {
                     ptnNow = (ptnNow+1)%4
                     timeN = timeS
