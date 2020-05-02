@@ -2,7 +2,7 @@ package milu.kiriu2010.milumathcaras.gui.drawfragment
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
@@ -32,7 +32,7 @@ private const val ARG_PARAM1 = "drawdata"
 // ・媒介変数を変更するSeekBar ２つ
 // ・変更した媒介変数の値を表示するTextView ２つ
 // -------------------------------------------------
-class D2x06Fragment : Fragment()
+class D2x06Fragment : androidx.fragment.app.Fragment()
     , NotifyCallback {
 
     // 描画データ
@@ -281,12 +281,12 @@ class D2x06Fragment : Fragment()
     // ----------------------------------------------------
     // アクションバーにメニューを表示
     // ----------------------------------------------------
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_basic,menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_basic,menu)
         // メニュー(再開)
-        menuItemResume = menu?.findItem(R.id.menuItemResume)
+        menuItemResume = menu.findItem(R.id.menuItemResume)
         // メニュー(停止)
-        menuItemPause  = menu?.findItem(R.id.menuItemPause)
+        menuItemPause  = menu.findItem(R.id.menuItemPause)
         menuItemVisible(false,true)
         super.onCreateOptionsMenu(menu, inflater)
     }

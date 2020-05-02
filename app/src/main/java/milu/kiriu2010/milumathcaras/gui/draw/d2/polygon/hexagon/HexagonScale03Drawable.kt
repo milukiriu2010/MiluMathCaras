@@ -293,7 +293,7 @@ class HexagonScale03Drawable: MyDrawable() {
 
                 // 六角形を描く(六角形の頂点間)
                 val n = i-1
-                val nn = n.toFloat()
+                //val nn = n.toFloat()
                 val m = n+1
                 val mm = m.toFloat()
                 (1..n).forEach { k ->

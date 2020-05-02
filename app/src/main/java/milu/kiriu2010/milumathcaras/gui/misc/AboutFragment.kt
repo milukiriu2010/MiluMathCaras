@@ -4,7 +4,7 @@ package milu.kiriu2010.milucal.gui.misc
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +13,7 @@ import android.widget.TextView
 import milu.kiriu2010.milumathcaras.R
 
 
-class AboutFragment : Fragment() {
+class AboutFragment : androidx.fragment.app.Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +32,7 @@ class AboutFragment : Fragment() {
 
         // バージョンを表示
         val textViewVer = view.findViewById<TextView>(R.id.textViewVer)
-        val packageInfo = ctx.packageManager?.getPackageInfo(context?.packageName, 0)
+        val packageInfo = ctx.packageManager?.getPackageInfo(context?.packageName!!, 0)
         textViewVer.text = "ver %s".format(packageInfo?.versionName)
 
         // "Rate Me"ボタン

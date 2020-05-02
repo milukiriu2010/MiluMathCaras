@@ -3,10 +3,10 @@ package milu.kiriu2010.milumathcaras.gui.main
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,13 +22,13 @@ private const val ARG_PARAM1 = "menudata"
 // ----------------------------------------
 // 描画データの一覧を表示するフラグメント
 // ----------------------------------------
-class DrawLst01Fragment : Fragment() {
+class DrawLst01Fragment : androidx.fragment.app.Fragment() {
 
     // メニューデータ
     private lateinit var menuData: MenuData
 
     // 描画データのリサイクラービュー
-    private lateinit var recyclerViewDrawData: RecyclerView
+    private lateinit var recyclerViewDrawData: androidx.recyclerview.widget.RecyclerView
 
     // 描画データのリサイクラービューのアダプタ
     private lateinit var adapter: DrawDataV2Adapter
@@ -56,7 +56,11 @@ class DrawLst01Fragment : Fragment() {
         recyclerViewDrawData = view.findViewById(R.id.recyclerViewDrawData)
 
         // 描画データのリサイクラービューのレイアウトマネージャ
-        val layoutManager = LinearLayoutManager(ctx,LinearLayoutManager.VERTICAL,false)
+        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(
+            ctx,
+            androidx.recyclerview.widget.LinearLayoutManager.VERTICAL,
+            false
+        )
         recyclerViewDrawData.layoutManager = layoutManager
 
         /*
@@ -81,13 +85,16 @@ class DrawLst01Fragment : Fragment() {
         recyclerViewDrawData.adapter = adapter
 
         // 描画データのリサイクラービューの区切り線
-        val itemDecoration = DividerItemDecoration(ctx,DividerItemDecoration.VERTICAL)
+        val itemDecoration = androidx.recyclerview.widget.DividerItemDecoration(
+            ctx,
+            androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
+        )
         recyclerViewDrawData.addItemDecoration(itemDecoration)
 
         return view
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         // 描画データを描画するコールバック
         if ( context is DrawDataCallback ) {

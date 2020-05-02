@@ -1,8 +1,8 @@
 package milu.kiriu2010.milumathcaras.gui.main
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.view.GravityCompat
+import androidx.fragment.app.Fragment
+import androidx.core.view.GravityCompat
 import android.view.WindowManager
 import kotlinx.android.synthetic.main.activity_main.*
 import milu.kiriu2010.gui.common.ExceptionFragment
@@ -21,13 +21,13 @@ class MainActivity : DrawerActivity()
     , DrawDataCallback {
 
     // ドロワーレイアウトを表示するフラグメント
-    private lateinit var fragmentDrawer: Fragment
+    private lateinit var fragmentDrawer: androidx.fragment.app.Fragment
 
     // 選択されたメニューデータ
     private lateinit var selectedMenuData: MenuData
 
     // メニューとして表示するフラグメントのスタック
-    private val menuFragmentStack: Stack<Fragment> = Stack()
+    private val menuFragmentStack: Stack<androidx.fragment.app.Fragment> = Stack()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

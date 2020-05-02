@@ -2,7 +2,7 @@ package milu.kiriu2010.milumathcaras.gui.drawfragment
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -31,7 +31,7 @@ private const val ARG_PARAM1 = "drawdata"
 // ・媒介変数を変更するSeekBar ２つ
 // ・変更した媒介変数の値を表示するTextView ２つ
 // -------------------------------------------------
-class D2x03Fragment : Fragment()
+class D2x03Fragment : androidx.fragment.app.Fragment()
     , NotifyCallback {
 
     // 描画データ

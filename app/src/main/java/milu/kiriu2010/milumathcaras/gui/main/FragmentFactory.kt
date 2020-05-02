@@ -1,6 +1,6 @@
 package milu.kiriu2010.milumathcaras.gui.main
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import milu.kiriu2010.milucal.gui.misc.AboutFragment
 import milu.kiriu2010.milumathcaras.entity.DrawData
 import milu.kiriu2010.milumathcaras.entity.DrawFragmentType
@@ -14,7 +14,7 @@ class FragmentFactory {
         // ------------------------------------------------
         // メニューデータに対応するフラグメントを生成する
         // ------------------------------------------------
-        fun createFragment(menuData: MenuData): Fragment {
+        fun createFragment(menuData: MenuData): androidx.fragment.app.Fragment {
             return when (menuData.fragmentID) {
                 // 描画データ一覧を表示するフラグメントを生成
                 FragmentID.ID_DRAW_LST -> DrawLst01Fragment.newInstance(menuData)
@@ -27,7 +27,7 @@ class FragmentFactory {
         // ------------------------------------------------
         // 描画データに対応するフラグメントを生成する
         // ------------------------------------------------
-        fun createFragment(drawData: DrawData): Fragment {
+        fun createFragment(drawData: DrawData): androidx.fragment.app.Fragment {
             return when (drawData.drawFragmentType) {
                 // Drawableを使った描画を実施するフラグメントを生成(製作者名を表示)
                 DrawFragmentType.FT_D2_CREDIT_01 -> D2xCredit01Fragment.newInstance(drawData)

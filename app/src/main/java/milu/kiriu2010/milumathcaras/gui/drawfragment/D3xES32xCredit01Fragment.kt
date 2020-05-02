@@ -2,7 +2,7 @@ package milu.kiriu2010.milumathcaras.gui.drawfragment
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.*
 import android.widget.TextView
 import milu.kiriu2010.gui.view.MyGLES32View
@@ -22,7 +22,7 @@ private const val ARG_PARAM1 = "drawdata"
 // ----------------------------------------
 // 製作者名を表示
 // ----------------------------------------
-class D3xES32xCredit01Fragment : Fragment()
+class D3xES32xCredit01Fragment : androidx.fragment.app.Fragment()
     , NotifyCallback {
 
     // 描画データ
@@ -143,12 +143,12 @@ class D3xES32xCredit01Fragment : Fragment()
     // ----------------------------------------------------
     // アクションバーにメニューを表示
     // ----------------------------------------------------
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_basic,menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_basic,menu)
         // メニュー(再開)
-        menuItemResume = menu?.findItem(R.id.menuItemResume)
+        menuItemResume = menu.findItem(R.id.menuItemResume)
         // メニュー(停止)
-        menuItemPause  = menu?.findItem(R.id.menuItemPause)
+        menuItemPause  = menu.findItem(R.id.menuItemPause)
         menuItemVisible(false,true)
         super.onCreateOptionsMenu(menu, inflater)
     }

@@ -1,7 +1,7 @@
 package milu.kiriu2010.milumathcaras.gui.main
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,13 +19,13 @@ class DrawDataV2Adapter(
     val drawDataLst: MutableList<DrawData> = mutableListOf(),
     // "描画データ"クリック時に呼び出されるコールバック
     private val onItemClicked: (DrawData) -> Unit )
-    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
 
     private val inflater = LayoutInflater.from(context)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
         val view: View
-        val viewHolder: RecyclerView.ViewHolder
+        val viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder
 
         when (viewType) {
             // 2D用のセル
@@ -67,7 +67,7 @@ class DrawDataV2Adapter(
 
     override fun getItemCount(): Int = drawDataLst.size
 
-    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, pos: Int) {
+    override fun onBindViewHolder(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, pos: Int) {
         // 描画データ
         val drawData = drawDataLst[pos]
         when (viewHolder) {
@@ -116,7 +116,7 @@ class DrawDataV2Adapter(
     }
 
     // 2Dセル用
-    class DrawDataD2ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class DrawDataD2ViewHolder(view: View): androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         // タイトル
         val dataTitle = view.findViewById<TextView>(R.id.dataTitle)
         // サムネイル
@@ -124,7 +124,7 @@ class DrawDataV2Adapter(
     }
 
     // GLセル用
-    class DrawDataGLViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class DrawDataGLViewHolder(view: View): androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         // タイトル
         val dataTitle = view.findViewById<TextView>(R.id.dataTitle)
         // サムネイル

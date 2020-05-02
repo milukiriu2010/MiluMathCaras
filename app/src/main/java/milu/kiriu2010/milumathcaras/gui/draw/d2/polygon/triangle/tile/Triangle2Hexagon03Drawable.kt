@@ -192,8 +192,8 @@ class Triangle2Hexagon03Drawable: MyDrawable() {
         }
 
         // 多角形のパスを初期化
-        when (modeNow) {
-            ModePtn.PTN1 -> initPathPtn1()
+        if (modeNow == ModePtn.PTN1) {
+             initPathPtn1()
         }
 
 
@@ -215,7 +215,7 @@ class Triangle2Hexagon03Drawable: MyDrawable() {
             }
         }
 
-        (0..splitN).forEach { i ->
+        (0..splitN).forEach { _ ->
             val polygon1 = polygon0.copy()
             //polygon1.ratio = ratios[i]
             polygons.add(polygon1)
@@ -249,8 +249,8 @@ class Triangle2Hexagon03Drawable: MyDrawable() {
         canvas.translate(x0,y0)
 
         // 描画
-        when (modeNow) {
-            ModePtn.PTN1 -> drawPtn1(canvas)
+        if (modeNow == ModePtn.PTN1) {
+            drawPtn1(canvas)
         }
 
         canvas.restore()

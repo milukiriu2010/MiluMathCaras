@@ -2,7 +2,7 @@ package milu.kiriu2010.gui.common
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.*
 import android.widget.Button
@@ -16,7 +16,7 @@ private const val ARG_PARAM2 = "exp"
 
 // Exceptionを表示するフラグメント
 // 2018.09.04 ピンチイン・アウト
-class ExceptionFragment: Fragment(), View.OnTouchListener {
+class ExceptionFragment: androidx.fragment.app.Fragment(), View.OnTouchListener {
 
     // エラーメッセージ
     private lateinit var strMsg: String

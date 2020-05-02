@@ -118,10 +118,10 @@ class MyTool {
         fun rfc3339date(str: String): Date {
             try {
                 val formatterRFC3339_1 = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz", Locale.US)
-                return formatterRFC3339_1.parse(str)
+                return formatterRFC3339_1.parse(str)!!
             } catch ( parseEx: ParseException) {
                 val formatterRFC3339_2 = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
-                return formatterRFC3339_2.parse(str)
+                return formatterRFC3339_2.parse(str)!!
             }
         }
 
