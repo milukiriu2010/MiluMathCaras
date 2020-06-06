@@ -21,14 +21,14 @@ import milu.kiriu2010.milumathcaras.id.FragmentID
 
 private const val ARG_PARAM1 = "MenuData"
 
-class MenuFragment : androidx.fragment.app.Fragment() {
+class MenuFragment : Fragment() {
     // 表示するメニューリスト
     private lateinit var menuDataLst: MutableList<MenuData>
     // 親メニュー
     private var menuDataParent: MenuData? = null
 
     // メニューを表示するリサイクラービュー
-    private lateinit var recyclerViewMenu: androidx.recyclerview.widget.RecyclerView
+    private lateinit var recyclerViewMenu: RecyclerView
 
     // メニューを表示するリサイクラービューのアダプタ
     private lateinit var adapter: MenuAdapter
@@ -56,9 +56,9 @@ class MenuFragment : androidx.fragment.app.Fragment() {
         recyclerViewMenu = view.findViewById(R.id.recyclerViewMenu)
 
         // メニューを表示するリサイクラービューのレイアウトマネージャ
-        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(
+        val layoutManager = LinearLayoutManager(
             ctx,
-            androidx.recyclerview.widget.LinearLayoutManager.VERTICAL,
+            LinearLayoutManager.VERTICAL,
             false
         )
         recyclerViewMenu.layoutManager = layoutManager
@@ -67,16 +67,16 @@ class MenuFragment : androidx.fragment.app.Fragment() {
         menuDataLst = createMenuDataLst(resources,menuDataParent)
 
         // メニューを表示するリサイクラービューのアダプタ
-        adapter = MenuAdapter(menuDataLst ) {
+        adapter = MenuAdapter(menuDataLst) {
             // 描画データ一覧を表示する
             drawDataCallback?.showLst(it)
         }
         recyclerViewMenu.adapter = adapter
 
         // 描画データのリサイクラービューの区切り線
-        val itemDecoration = androidx.recyclerview.widget.DividerItemDecoration(
+        val itemDecoration = DividerItemDecoration(
             ctx,
-            androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
+            DividerItemDecoration.VERTICAL
         )
         recyclerViewMenu.addItemDecoration(itemDecoration)
 
@@ -115,7 +115,7 @@ class MenuFragment : androidx.fragment.app.Fragment() {
         // ------------------------------------------------------
         // ドロワーレイアウトに表示するメニューの一覧
         // ------------------------------------------------------
-        public fun createMenuDataLst(resources: Resources, menuDataParent: MenuData? = null): MutableList<MenuData> {
+        fun createMenuDataLst(resources: Resources, menuDataParent: MenuData? = null): MutableList<MenuData> {
             val menuDataLst = mutableListOf<MenuData>()
 
             when (menuDataParent?.menuItem){

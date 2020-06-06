@@ -16,11 +16,11 @@ class MenuAdapter(
     private val menuDataLst: MutableList<MenuData> = mutableListOf(),
     // メニューをクリックしたとき呼び出されるコールバック
     private val onItemClick: (MenuData) -> Unit )
-    : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view: View
-        val viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder
+        val viewHolder: RecyclerView.ViewHolder
 
         when (viewType) {
             // メインメニュー
@@ -42,7 +42,7 @@ class MenuAdapter(
                     onItemClick(menuData)
                 }
             }
-            // サブメニュー
+            // 戻るメニュー
             MenuType.TYPE_BACK.viewType -> {
                 //Log.d(javaClass.simpleName,"onCreateViewHolder:MenuBackViewHolder")
                 view = LayoutInflater.from(parent.context).inflate(R.layout.list_row_menu_back,parent,false)
@@ -66,7 +66,7 @@ class MenuAdapter(
 
     override fun getItemCount(): Int = menuDataLst.size
 
-    override fun onBindViewHolder(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, pos: Int) {
+    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, pos: Int) {
         val menuData = menuDataLst[pos]
         when (viewHolder) {
             // メインメニュー
@@ -100,19 +100,19 @@ class MenuAdapter(
     }
 
     // メインメニュー
-    class MenuMainViewHolder(view: View): androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
+    class MenuMainViewHolder(view: View): RecyclerView.ViewHolder(view) {
         // タイトル
         val textViewMenuMain = view.findViewById<TextView>(R.id.textViewMenuMain)
     }
 
     // サブメニュー
-    class MenuSubViewHolder(view: View): androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
+    class MenuSubViewHolder(view: View): RecyclerView.ViewHolder(view) {
         // タイトル
         val textViewMenuSub = view.findViewById<TextView>(R.id.textViewMenuSub)
     }
 
     // 戻るメニュー
-    class MenuBackViewHolder(view: View): androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
+    class MenuBackViewHolder(view: View): RecyclerView.ViewHolder(view) {
         // タイトル
         val textViewMenuBack = view.findViewById<TextView>(R.id.textViewMenuBack)
     }
