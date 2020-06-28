@@ -37,7 +37,7 @@
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="9dp"
             app:layout_constraintTop_toBottomOf="@+id/seekTextAD2x02"/>
     <TextView
-            android:text="1.0"
+            android:text="@string/SB_TEXT_A_D2X02"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/seekTextAD2x02" android:layout_marginBottom="8dp"

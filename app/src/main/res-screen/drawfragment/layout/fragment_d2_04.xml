@@ -27,7 +27,8 @@
             android:layout_marginRight="8dp" app:layout_constraintHorizontal_bias="0.0"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/textViewFuncDescD2x04" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView1D2x04"/>
+            app:layout_constraintBottom_toTopOf="@+id/textView1D2x04"
+            tools:ignore="ContentDescription" />
     <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"

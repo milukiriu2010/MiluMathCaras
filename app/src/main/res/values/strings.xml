@@ -409,4 +409,28 @@
         <item>@string/shader_texture</item>
     </string-array>
 
+
+    <!-- fragment_d2_02.xml -->
+    <string name="SB_TEXT_A_D2X02">1.0</string>
+
+    <!-- fragment_d2_03.xml -->
+    <string name="SB_TEXT_A_D2X03">1.0</string>
+    <string name="SB_TEXT_B_D2X03">1.0</string>
+
+    <!-- fragment_d2_05.xml -->
+    <string name="SB_TEXT_A_D2X05">1.0</string>
+
+    <!-- fragment_d2_06.xml -->
+    <string name="SB_TEXT_A_D2X06">1.0</string>
+    <string name="SB_TEXT_B_D2X06">1.0</string>
+
+    <!-- fragment_d3_es32_01.xml -->
+    <string name="SW_AXIS_D3X03">Axis</string>
+    <string name="TV_ROTATE_D3X01">Rotate</string>
+    <string name="CB_X_D3X01">X</string>
+    <string name="CB_Y_D3X01">Y</string>
+    <string name="CB_Z_D3X01">Z</string>
+
+
+
 </resources>

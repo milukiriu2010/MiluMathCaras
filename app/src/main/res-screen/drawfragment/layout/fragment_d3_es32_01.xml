@@ -23,42 +23,42 @@
             android:entries="@array/shaderlist" android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
             android:layout_marginRight="8dp" android:layout_marginEnd="8dp" android:spinnerMode="dialog"/>
     <Switch
-            android:text="Axis"
+            android:text="@string/SW_AXIS_D3X03"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/switchAxisD3x01"
             app:layout_constraintTop_toBottomOf="@+id/spinnerShaderD3x01" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp" android:layout_marginTop="8dp"
             android:checked="true"/>
     <TextView
-            android:text="Rotate"
+            android:text="@string/TV_ROTATE_D3X01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textViewRotateD3x01" app:layout_constraintStart_toEndOf="@+id/switchAxisD3x01"
-            android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintTop_toTopOf="@+id/switchAxisD3x01"
             app:layout_constraintBottom_toBottomOf="@+id/switchAxisD3x01"/>
     <CheckBox
-            android:text="X"
+            android:text="@string/CB_X_D3X01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/checkBoxXD3x01" app:layout_constraintStart_toEndOf="@+id/textViewRotateD3x01"
-            android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintTop_toTopOf="@+id/textViewRotateD3x01"
             app:layout_constraintBottom_toBottomOf="@+id/textViewRotateD3x01"/>
     <CheckBox
-            android:text="Y"
+            android:text="@string/CB_Y_D3X01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/checkBoxYD3x01"
-            app:layout_constraintStart_toEndOf="@+id/checkBoxXD3x01" android:layout_marginLeft="8dp"
+            app:layout_constraintStart_toEndOf="@+id/checkBoxXD3x01"
             android:layout_marginStart="8dp"
             app:layout_constraintTop_toTopOf="@+id/checkBoxXD3x01"
             app:layout_constraintBottom_toBottomOf="@+id/checkBoxXD3x01"/>
     <CheckBox
-            android:text="Z"
+            android:text="@string/CB_Z_D3X01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/checkBoxZD3x01"
-            app:layout_constraintStart_toEndOf="@+id/checkBoxYD3x01" android:layout_marginLeft="8dp"
+            app:layout_constraintStart_toEndOf="@+id/checkBoxYD3x01"
             android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/checkBoxYD3x01"
             app:layout_constraintTop_toTopOf="@+id/checkBoxYD3x01"/>
