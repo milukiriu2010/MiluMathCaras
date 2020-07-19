@@ -1,6 +1,5 @@
 package milu.kiriu2010.milumathcaras.gui.menu
 
-import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
